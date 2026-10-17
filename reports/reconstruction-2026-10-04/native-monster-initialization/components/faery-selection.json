@@ -1,0 +1,90 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 12,
+    "source": "Character::GetCharFaery"
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 5,
+    "mismatches": 0,
+    "results": [
+      {
+        "case": "valid_explicit",
+        "matched": true,
+        "row_index": 5,
+        "constant_queries": 2,
+        "returned_counts": [
+          7,
+          7
+        ]
+      },
+      {
+        "case": "invalid_list_fallback",
+        "matched": true,
+        "row_index": 3,
+        "constant_queries": 2,
+        "returned_counts": [
+          7,
+          7
+        ]
+      },
+      {
+        "case": "first_count_small",
+        "matched": true,
+        "row_index": 3,
+        "constant_queries": 2,
+        "returned_counts": [
+          2,
+          7
+        ]
+      },
+      {
+        "case": "type_mismatch",
+        "matched": true,
+        "row_index": 5,
+        "constant_queries": 2,
+        "returned_counts": [
+          7,
+          7
+        ]
+      },
+      {
+        "case": "list_size_mismatch",
+        "matched": true,
+        "row_index": 5,
+        "constant_queries": 2,
+        "returned_counts": [
+          7,
+          6
+        ]
+      }
+    ],
+    "executed_scope": "The original 540-byte Character::GetCharFaery body and its 60-byte GetCharFaeryListId leaf execute as ARM. Each PyDataConstants::getConstant callee is intercepted with controlled COUNT results; all list fallback, assert-level-zero continuation, member lookup and row selection instructions execute from the original image. Diagnostics are outside the fixture scope.",
+    "native_wired": false
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_faery_selection.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_faery_selection.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-faery-selection-parent\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_faery_selection.cpp": "3eefe1e3dc4312363cf4dec1fca4fd31af5f8b5cb8c97c4cabf733f220bb7764",
+    "port/level-world/tests/character_faery_selection.cpp": "5e580fe75f08f63ce203af802ed656072443a0710e70394c33f49eeafd67f84b",
+    "port/level-world/character_faery_selection.hpp": "351ca88b792c1eacdc5f0358b4b1245c96d1c4937ce4c97efc1949368d23a27d",
+    "port/level-world/tests/run_character_faery_selection_host.py": "c154765c9e3b9c0af045d7d002be7b558c5d1924402ce890cfd54cdac90dbb48",
+    "port/level-world/reference/character-faery-selection/original-functions.json": "88dab58f095cf57ccb2d379809471ca62fce82d786d4d97d9e4288930a97e8cc",
+    "port/level-world/reference/character-faery-selection/NOTES.md": "922bbaf31f3daef9b28916b1a80f7c09311c9cf061904205108e3cd3b172f7c1"
+  },
+  "native_wired": false
+}

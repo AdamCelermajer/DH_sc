@@ -1,0 +1,34 @@
+{
+  "validation": "PASS",
+  "cases": 670,
+  "original_words": 74,
+  "native_policy_checks": 116,
+  "compared_projection_bytes": 341888,
+  "implementation": "selected library",
+  "scope": "Complete _InitLevelStates316B initializes six arrays in the sole PlayerSavegame owner. Source LevelList stride0x48/default+28 and WorldMap stride0x14/default+8; allocationtag0, pointer-presence guards, publication-before-fill and fresh count/default reads match. CustomAlloc and live table globals are explicit providers. Native bounds, provider failure/reentry and defined allocation residues are additional policies. WorldMap decoding, SG_Load2 orchestration and live gameplay binding are not proven here.",
+  "source_sha256": {
+    "player_save_level_states_v1.cpp": "b0213f808967681c6e5f1a2ffaea598dde141f252c19ea5b7b2b8454ab4bbcee",
+    "player_save_level_states_v1.hpp": "4a2ab822cde7da7ed9df5abef0bf0b02b807e52412b8dea6de2c7ea48be4a10a",
+    "player_savegame_v1.hpp": "ba0557acd403f3fc78f2f52179d51e07e5ae1a1380861a59ea0dc60ac37ec601",
+    "tests/player_save_level_states_v1_host.cpp": "54fa0448961893e86ee56f7261cb0c9096f572832757f5d0cfd87126378272c9",
+    "tests/run_player_save_level_states_v1.py": "b44b42c01096190accf52f18ee516dc750c4c110b8c3d82ed06a1079ad801063",
+    "reference/player-save-level-states-v1/original-functions.json": "ed548c1e43fd6e3ba15a28073dea94524b5d0a782307242c46d8f33370318c70"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_save_level_states_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_save_level_states_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_save_level_states_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/player_save_level_states_v1.cpp.obj"
+    }
+  ],
+  "binary_sha256": {
+    "player_save_level_states_v1_host.exe": "7b7b9fc0b9b62050533ca0281540a1718ef395d7fad9de850baba002c6b4ba03",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "773ab53364bf58683e029c1507d9319cb48a32c9692c6d3099cfba40130af8ee",
+    "libdh2_level_world.dll": "79b8bfc554e630a3e0c957c8cc90ca412395479edcbe641e801149679fd058ae"
+  }
+}

@@ -1,0 +1,456 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI29ObjectiveTemplate_KillEnemiesIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyEEP9Objectivev",
+      "elf_address": "0x47d02c",
+      "size": 92,
+      "ordinary_words": 21,
+      "sha256": "77cdaaa3f04aafc4e7def5dcd1e7f9c45ee3eb85a14e53fbe9224b71ec56c967"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyEEP9Objectivev",
+      "elf_address": "0x47cfd0",
+      "size": 92,
+      "ordinary_words": 21,
+      "sha256": "6be7c5a3d5a37eda4c8e52bac91ba3a5729b306ab1c0ff4fc81408b461b985a3"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateEEP9Objectivev",
+      "elf_address": "0x47cf78",
+      "size": 88,
+      "ordinary_words": 20,
+      "sha256": "fbf4c8e343a705526a1ca119a3e25419e393e53cc1c89264f80fdfa7284b08e6"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectEEP9Objectivev",
+      "elf_address": "0x47cf20",
+      "size": 88,
+      "ordinary_words": 20,
+      "sha256": "cd4ee905ae8671e594e078e0d99a6baa2d8d280889c4f111d04b0638d9746b12"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI20Objective_MoveInZoneEP9Objectivev",
+      "elf_address": "0x47bf20",
+      "size": 80,
+      "ordinary_words": 18,
+      "sha256": "37ff3f4f0b68e02a2ed590a05085cf109b16bbf007e0aecb2e8024cf2b9f259d"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI19Objective_TalkToNPCEP9Objectivev",
+      "elf_address": "0x47cec4",
+      "size": 92,
+      "ordinary_words": 21,
+      "sha256": "0e02b0e727ed8118e73eb39c34fc7fb8832599a35e22da9df88a49a5d17fd228"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI19Objective_AutomaticEP9Objectivev",
+      "elf_address": "0x47bf70",
+      "size": 92,
+      "ordinary_words": 21,
+      "sha256": "8a2690ec2af175c10451b3306bf030f1a19949a66b5e9c401556505fe72627a1"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectEEP9Objectivev",
+      "elf_address": "0x47d194",
+      "size": 88,
+      "ordinary_words": 20,
+      "sha256": "5a3727902a1738befeec65ef6622e83815a73b74bf8ba4dbff35e19dd840cbd9"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnEEP9Objectivev",
+      "elf_address": "0x47d13c",
+      "size": 88,
+      "ordinary_words": 20,
+      "sha256": "a6cf87b6598d5e941e9416cc46339be7221dbf5d1c2152e5bdd53acb6d8ad5ad"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableEEP9Objectivev",
+      "elf_address": "0x47d0e4",
+      "size": 88,
+      "ordinary_words": 20,
+      "sha256": "648427098daa6e1d54fe462b034d01ba1cfe4b3729bc53128e3b11710dd84ac1"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI29ObjectiveTemplate_KillEnemiesIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyEEP9Objectivev",
+      "elf_address": "0x47d088",
+      "size": 92,
+      "ordinary_words": 21,
+      "sha256": "d2621d29313ccbee6efd81720b31bf6981b2674e6eeac5202ffabcbe3c1cc762"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyEEP9Objectivev",
+      "elf_address": "0x47bec4",
+      "size": 92,
+      "ordinary_words": 21,
+      "sha256": "3221fab9a789fc719d8641023e0ed5909b591950520bb3304b161fd96ba93bb5"
+    },
+    {
+      "original_symbol": "_Z24GetObjectiveImplInstanceI20Objective_GatherLootEP9Objectivev",
+      "elf_address": "0x47be74",
+      "size": 80,
+      "ordinary_words": 18,
+      "sha256": "8850c9987d3577356715eedd08f10a69ab00662aa35c5ba1f91ee0b4907ccdbb"
+    },
+    {
+      "original_symbol": "_ZN9ObjectiveC1Ev",
+      "elf_address": "0x47bd8c",
+      "size": 116,
+      "ordinary_words": 24,
+      "sha256": "581b46038e0bdd4162f02dd32bada5886dc0e74daba7e17d32ac84b083defcdd"
+    },
+    {
+      "original_symbol": "_ZN9ObjectiveC2Ev",
+      "elf_address": "0x47be00",
+      "size": 116,
+      "ordinary_words": 24,
+      "sha256": "159725271d0d62b40d756727d9eb3b64f199b2df1839e3d1224a643f6fc1e93e"
+    },
+    {
+      "original_symbol": "_ZN29ObjectiveTemplate_KillEnemiesIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyED1Ev",
+      "elf_address": "0x47d2e4",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "06f53fbf6867788920ad14fb6f6fbbf4ebec0a84417b2e5c025bdea5f6171a81"
+    },
+    {
+      "original_symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyED1Ev",
+      "elf_address": "0x47d5b4",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "fd53589f937882e4ff1634f0657e53d7a91cf1dfe6964879aadc884c3ff03618"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateED1Ev",
+      "elf_address": "0x47d564",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "08ad5e3a9e931d44333698349509055e6315f0f05afcd76b0fe9a919b15bf29e"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectED1Ev",
+      "elf_address": "0x47d514",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "459aa9744811592f1cce1ba017127e420df3dfa508e2ecc4dddbe2eb215d9218"
+    },
+    {
+      "original_symbol": "_ZN20Objective_MoveInZoneD1Ev",
+      "elf_address": "0x47a2e0",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "f268f860ce07a43889922f05f453d8b23dc77988f4ffb587ebbc29cb0cf2a2c4"
+    },
+    {
+      "original_symbol": "_ZN19Objective_TalkToNPCD1Ev",
+      "elf_address": "0x47d474",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "cc442f00cce8c68f4fb2b94d62e1e1cc746f5cc5b1299222ac67dee9918e3427"
+    },
+    {
+      "original_symbol": "_ZN19Objective_AutomaticD1Ev",
+      "elf_address": "0x47a864",
+      "size": 52,
+      "ordinary_words": 11,
+      "sha256": "9aa65da4b96d7919701296b1efce4b4e6e04afa67a8b819c4c8b42aa63338800"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectED1Ev",
+      "elf_address": "0x47d424",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "b2ca07f5d65304b40da92778322fe973969a5e4375e9a0356df2f4f909d6ade2"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnED1Ev",
+      "elf_address": "0x47d3d4",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "937b8f64c594625acdb07c43bd6dd0fbcac4e75ece9e51c8410b4c067b2eaa06"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableED1Ev",
+      "elf_address": "0x47d384",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "838518f300e5dfa0b0e415b34e1ffba319b00914685ffeeb9877a87cce216846"
+    },
+    {
+      "original_symbol": "_ZN29ObjectiveTemplate_KillEnemiesIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyED1Ev",
+      "elf_address": "0x47d1f4",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "b46c1b1686287376c01fb9e154f1de324e7ea6179c0b2be77a90ef3b7266fd66"
+    },
+    {
+      "original_symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyED1Ev",
+      "elf_address": "0x47d294",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "5afef467c5eb340569a7e6c05f89194c41959fa779c253fc58a0e18240091dc1"
+    },
+    {
+      "original_symbol": "_ZN20Objective_GatherLootD1Ev",
+      "elf_address": "0x47a1f0",
+      "size": 72,
+      "ordinary_words": 15,
+      "sha256": "7bb682b557ee309ee98c7188a18714a0bb9fad65343491e06d66d50d5db76eb2"
+    },
+    {
+      "original_symbol": "_ZN9ObjectiveD1Ev",
+      "elf_address": "0x47a378",
+      "size": 4,
+      "ordinary_words": 1,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN29ObjectiveTemplate_KillEnemiesIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyED0Ev",
+      "elf_address": "0x47e83c",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "52cbbb96ba8c4b2594b412e58036ebf8667896513929e533ac574407cde85dcf"
+    },
+    {
+      "original_symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyED0Ev",
+      "elf_address": "0x47d840",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "7492b21c79e7cff64bb4b7aea1b39e55c62e23a368aa02f98f0137a98976fe17"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateED0Ev",
+      "elf_address": "0x47dcb4",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "88a0f5598bfc68d17afce140cbf8bb61d3f719403fcf5f6824560ddd6c642c50"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectED0Ev",
+      "elf_address": "0x47d898",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "49ab988b4145041bea703c5aba75f36c8b0998c712896307e8dff43e79a354e7"
+    },
+    {
+      "original_symbol": "_ZN20Objective_MoveInZoneD0Ev",
+      "elf_address": "0x47cdc4",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "74025e8c4b4f03ff448b58d189c82e4b5ef69ff0fb39e84e96d87bec054b7e3c"
+    },
+    {
+      "original_symbol": "_ZN19Objective_TalkToNPCD0Ev",
+      "elf_address": "0x47cd14",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "0b04d87279cde79c1b8a4e677b1ebbae5eaca4fbd98b8fc2254f7c771fe1fff1"
+    },
+    {
+      "original_symbol": "_ZN19Objective_AutomaticD0Ev",
+      "elf_address": "0x47c6b4",
+      "size": 60,
+      "ordinary_words": 13,
+      "sha256": "19a414c530a53f4db611b376db06e3564a2e1c255a77eb32f85cf5b3a887fd13"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectED0Ev",
+      "elf_address": "0x47dc5c",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "d57e0ce79c6074ba7854b509762186ea9e38a301147fce8b0380a7298ebc0bda"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnED0Ev",
+      "elf_address": "0x47d790",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "fda47b41d084a0c91d883e7891aabd40c5f8056b44c0d776e27c33eccec6d3c6"
+    },
+    {
+      "original_symbol": "_ZN30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableED0Ev",
+      "elf_address": "0x47d738",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "55d1660a9c814e72c26c0c78f12ba3417f8c1668eeb262755ce84d7a614b1d35"
+    },
+    {
+      "original_symbol": "_ZN29ObjectiveTemplate_KillEnemiesIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyED0Ev",
+      "elf_address": "0x47e894",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "9ebfe3ab7dda7721ca9d43147bb818fe299fc02b1b40d300d23e712a6a921e3b"
+    },
+    {
+      "original_symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyED0Ev",
+      "elf_address": "0x47d7e8",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "2cf429802ee53de4ce3265fcc26e03e3a4f64f4489ee10f55bd2c0b009cae6a0"
+    },
+    {
+      "original_symbol": "_ZN20Objective_GatherLootD0Ev",
+      "elf_address": "0x47ce1c",
+      "size": 80,
+      "ordinary_words": 17,
+      "sha256": "87da069066290db8802c39a70997d71f3a491238cf2290ce68886056fceebceb"
+    },
+    {
+      "original_symbol": "_ZN9ObjectiveD0Ev",
+      "elf_address": "0x47a8b0",
+      "size": 28,
+      "ordinary_words": 7,
+      "sha256": "8494dd632b0816dea2bc3bb8fa209cdcd16f3549d03c292cd16e898a0a91e704"
+    },
+    {
+      "original_symbol": "_ZN9ObjectiveD2Ev",
+      "elf_address": "0x47a1e4",
+      "size": 4,
+      "ordinary_words": 1,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    }
+  ],
+  "constant_dependency": {
+    "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+    "elf_address": "0x4c4bdc",
+    "size": 84,
+    "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794"
+  },
+  "vtables": [
+    {
+      "original_symbol": "_ZTV9Objective",
+      "elf_address": "0x969940",
+      "size": 60,
+      "sha256": "9887161a21b11b8c939ac5e3beaa722b9cc40b07cd0a86b91cbcb5a46f1eadeb"
+    },
+    {
+      "original_symbol": "_ZTV23Objective_EventReceiver",
+      "elf_address": "0x9692f0",
+      "size": 88,
+      "sha256": "c1f2df3530175edfe3cb298f9b688b0a633576462a025f7f5c3e246d1d159b84"
+    },
+    {
+      "original_symbol": "_ZTV29ObjectiveTemplate_KillEnemiesIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyE",
+      "elf_address": "0x969858",
+      "size": 88,
+      "sha256": "c08af5c7b35cd32bbe726e351db89972f349cfc97a0421f0c06f6e513044570d"
+    },
+    {
+      "original_symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyE",
+      "elf_address": "0x969800",
+      "size": 88,
+      "sha256": "2d1955f9df1d5f67f729319dfc3d121147b97439fba4bbcbcee478e616248dc5"
+    },
+    {
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateE",
+      "elf_address": "0x9697a8",
+      "size": 88,
+      "sha256": "fd4162b7d3173a87cb99af80183aecb67712b99bb465674251d6448422510ca6"
+    },
+    {
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectE",
+      "elf_address": "0x969750",
+      "size": 88,
+      "sha256": "07b54e68b09e57050e9395c27c7d2b24153f4038876f3b800ac5b6a5a47ea28d"
+    },
+    {
+      "original_symbol": "_ZTV20Objective_MoveInZone",
+      "elf_address": "0x9696f8",
+      "size": 88,
+      "sha256": "24e5bf89fcec865374e22e9b0f328064a5cd38a79f15309863ba13d6aaa6ddf0"
+    },
+    {
+      "original_symbol": "_ZTV19Objective_TalkToNPC",
+      "elf_address": "0x969648",
+      "size": 88,
+      "sha256": "df6a4c083de6e0b539994884dc676f07dc3de7b05d7095b4884ecd17740c9fa4"
+    },
+    {
+      "original_symbol": "_ZTV19Objective_Automatic",
+      "elf_address": "0x969608",
+      "size": 60,
+      "sha256": "f38f6a253b9a87d97197b928d20d0a148b0d9fbf1922fb088c54cf1b38d6e5a2"
+    },
+    {
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectE",
+      "elf_address": "0x9695b0",
+      "size": 88,
+      "sha256": "1690035e6a7c50f5fd36f6707a664d43cf7d86d8c9a6f3f2852d74a398ef83cb"
+    },
+    {
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnE",
+      "elf_address": "0x969558",
+      "size": 88,
+      "sha256": "85d8d99e7ddf410472e4a8f94711d5fed174085f9068b4c4646d2dc43ec28d53"
+    },
+    {
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE",
+      "elf_address": "0x969500",
+      "size": 88,
+      "sha256": "db2c9815543c8debf9b8c85712e35f670ea29fe4a1571e9ed0885325f553b843"
+    },
+    {
+      "original_symbol": "_ZTV29ObjectiveTemplate_KillEnemiesIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyE",
+      "elf_address": "0x969450",
+      "size": 88,
+      "sha256": "08ab3922b2e7776b24db2a5c8d38f37561309ce8056f94003a7317b51de094fc"
+    },
+    {
+      "original_symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyE",
+      "elf_address": "0x969348",
+      "size": 88,
+      "sha256": "332ab878d642b85b4848bf2f52b7faf6e2da07a45494251223fd1b77ce254e2c"
+    },
+    {
+      "original_symbol": "_ZTV20Objective_GatherLoot",
+      "elf_address": "0x969298",
+      "size": 88,
+      "sha256": "44e9683fe71b847efb729f6f9fecafa4164a9dd7cf007cf40e4f8a359741c7db"
+    },
+    {
+      "original_symbol": "_ZTV14IEventReceiver",
+      "elf_address": "0x95c328",
+      "size": 20,
+      "sha256": "504b7dad1ff619c4b975fa838b528f7faa6d1a1bc92e2150c3ebbd5f97c2917e"
+    }
+  ],
+  "lookup_names": [
+    {
+      "elf_address": "0x8c2970",
+      "text": "v2QuestObjectiveType",
+      "sha256": "7f71d30e09d24fb355c8624eeba2eb208952b689a2526c944bfc76dec3d0e957"
+    },
+    {
+      "elf_address": "0x8da6a8",
+      "text": "Invalid",
+      "sha256": "4bb80964c486dda104bf298294467ed9250c54974cf898fa55d34d2e6538616a"
+    }
+  ],
+  "factory_dispatch": {
+    "elf_address": "0x969908",
+    "size": 56,
+    "entries": [
+      4706348,
+      4706256,
+      4706168,
+      4706080,
+      4701984,
+      4705988,
+      4702064,
+      4706708,
+      4706620,
+      4706532,
+      4706440,
+      4701892,
+      4701812,
+      0
+    ],
+    "sha256": "abd21f3d88b3ad5636d8b8fb0fe3a53a90f166c3af3ccaa8f1994cb6be695626"
+  },
+  "remaining_external": {
+    "allocate": "0x310570",
+    "free_heap": "0x310440",
+    "get_constant": "0x4c4bdc fresh GameScript+2c owner query"
+  },
+  "scope": "Whole13 Objective factories, baseC1/C2 and base/derivedD1/D0 versus ARM.\n\nAll constructor/destructor instructions execute, including the original empty\nbaseD1/D2 bodies. Only allocation/free and fresh PyDataConstants.getConstant\nare declared observing providers. Every owned source field and untouched\npadding is compared, including failures/exceptions after provider prefixes.\nNative actual64-row composition also calls the selected ObjectiveList with\nthe retained QuestTable View and typed shared constants view, creating194\nactual source-selected objectives/actions and closing list/object lifetimes.\nThis does not execute Compile/events/success predicates or live gameplay.\n"
+}

@@ -1,0 +1,151 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad",
+      "executable_bytes": 48,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAIFactionIdEv",
+      "elf_address": "0x3a3180",
+      "size": 56,
+      "sha256": "2a53a61c549259bea3a75c1fdfcf3a86b4777279f92ea7bdb9df76cf334ac3c6",
+      "executable_bytes": 48,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9",
+      "executable_bytes": 40,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69",
+      "executable_bytes": 16,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98",
+      "executable_bytes": 24,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsFollowerEv",
+      "elf_address": "0x3a307c",
+      "size": 24,
+      "sha256": "58a4e95c6ea102b9992c0c39ce6539574f727e45fe525c8a1041e67f4816456d",
+      "executable_bytes": 24,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4",
+      "executable_bytes": 24,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsSummonedEv",
+      "elf_address": "0x3a30ac",
+      "size": 24,
+      "sha256": "19f7355baa1349fa90bde5e8f047f3f87c201683f3572a6906f96e4983b03599",
+      "executable_bytes": 24,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMerchantEv",
+      "elf_address": "0x3a30c4",
+      "size": 24,
+      "sha256": "cd67635d1bb9fc3c66dd5f4389a88dc243ed18421674eaf1a93d636ad390f84b",
+      "executable_bytes": 24,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character14IsInvisibleManEv",
+      "elf_address": "0x3a30dc",
+      "size": 24,
+      "sha256": "3b7cd6d4437958319574a9d79cdb98f59b897d10c94d4310b98686db13bcb249",
+      "executable_bytes": 24,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsCleanerEv",
+      "elf_address": "0x3a30f4",
+      "size": 24,
+      "sha256": "4c81db21229551c76f1661daf22ba1dc037620ef62cac07a164d8632db514c72",
+      "executable_bytes": 24,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character5IsNPCEv",
+      "elf_address": "0x3a310c",
+      "size": 56,
+      "sha256": "3f9f4129efbf914bdd7fd662b0e9a7b9b949ecb50da2b6f6895752bd811ebdab",
+      "executable_bytes": 56,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a",
+      "executable_bytes": 72,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMiniBossEv",
+      "elf_address": "0x3a3144",
+      "size": 20,
+      "sha256": "887f3c9a46ed9d58834953160dbb85182b6da61c83a6a010ef607ae3f6f45138",
+      "executable_bytes": 20,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsBossEv",
+      "elf_address": "0x3a3158",
+      "size": 20,
+      "sha256": "02e178fdcedb17debeafd7894aa32f915c55b8c8d8feb2c786ac6d2936356a0f",
+      "executable_bytes": 20,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character13IsCharSittingEv",
+      "elf_address": "0x3a316c",
+      "size": 20,
+      "sha256": "6177c9e39f79bae9ebb4494a7134da1d1211a143c409b0642a8ab2744d3f5515",
+      "executable_bytes": 20,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b",
+      "executable_bytes": 12,
+      "scope": "complete bounded source body; owning reads/libc remain explicit"
+    }
+  ],
+  "implementation": {
+    "source": [
+      "port/level-world/character_ai_classification.hpp",
+      "port/level-world/character_ai_classification.cpp"
+    ],
+    "new_complete_callers": 17,
+    "native_wiring_scope": "Native Ghost cached-ID/monster selection and diagnostic predicates consume loaded typed rows; other Character producers and autonomous frames remain pending. Exact runtime state is recorded by checkpoint artifact evidence."
+  },
+  "scope": "Cached signed ID/count fallback, captured AI table row, fresh type/flag predicates, exact PlayerCharacter name-prefix pointer check, ordered NPC type rereads, raw dead byte; not complete Character ownership or frame scheduler."
+}

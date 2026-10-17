@@ -1,0 +1,178 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Objective9_loadDataEP11IStreamBase",
+      "elf_address": "0x47ab3c",
+      "size": 24,
+      "sha256": "053047fb5593f62d38ac4ee9c056b9753814b7083cc8f53ff8e4e3c84c230496"
+    },
+    {
+      "original_symbol": "_ZN18Objective_SavedQty9_loadDataEP11IStreamBase",
+      "elf_address": "0x47ab54",
+      "size": 32,
+      "sha256": "57508be2035da0749a1d4ada3cd06eadafcd6b19955df7854b8f89f7bc2d52da"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIbEET_P11IStreamBase",
+      "elf_address": "0x429c1c",
+      "size": 184,
+      "sha256": "79493236f1f9ddb9fc57eed08abce55ece620b06461f8147fdfb23e126ed1b5e"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEET_P11IStreamBase",
+      "elf_address": "0x3364ec",
+      "size": 184,
+      "sha256": "461597c8f50bde14e013316c8820011152d5a9dc2b785302426839031690cc5b"
+    }
+  ],
+  "vtables": [
+    {
+      "source_type": 0,
+      "original_symbol": "_ZTV29ObjectiveTemplate_KillEnemiesIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyE",
+      "elf_address": "0x969860",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 1,
+      "original_symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyE",
+      "elf_address": "0x969808",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 2,
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs19v2QuestTriggerPlateE15QE_TriggerPlateE",
+      "elf_address": "0x9697b0",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 3,
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectE",
+      "elf_address": "0x969758",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 4,
+      "original_symbol": "_ZTV20Objective_MoveInZone",
+      "elf_address": "0x969700",
+      "slot28": "0x47ab3c"
+    },
+    {
+      "source_type": 5,
+      "original_symbol": "_ZTV19Objective_TalkToNPC",
+      "elf_address": "0x969650",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 6,
+      "original_symbol": "_ZTV19Objective_Automatic",
+      "elf_address": "0x969610",
+      "slot28": "0x47ab3c"
+    },
+    {
+      "source_type": 7,
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectE",
+      "elf_address": "0x9695b8",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 8,
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnE",
+      "elf_address": "0x969560",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 9,
+      "original_symbol": "_ZTV30ObjectiveTemplate_InteractWithIN7Structs23v2QuestPickedUpLiftableE19QE_PickedUpLiftableE",
+      "elf_address": "0x969508",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 10,
+      "original_symbol": "_ZTV29ObjectiveTemplate_KillEnemiesIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyE",
+      "elf_address": "0x969458",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 11,
+      "original_symbol": "_ZTV31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyE",
+      "elf_address": "0x969350",
+      "slot28": "0x47ab54"
+    },
+    {
+      "source_type": 12,
+      "original_symbol": "_ZTV20Objective_GatherLoot",
+      "elf_address": "0x9692a0",
+      "slot28": "0x47ab3c"
+    }
+  ],
+  "assert_global": "0x99f914",
+  "source_strings": [
+    {
+      "elf_address": "0x8be3e0",
+      "text": "ASSERT(%s) FAILED: %s:%d\n",
+      "sha256": "7f8f723d266aaa6b69681095b9704f2e8a67629c01f3e95476b3cd350ea2c0d3"
+    },
+    {
+      "elf_address": "0x8be508",
+      "text": "bytesRead == sizeof(T)",
+      "sha256": "274d49de78a860eb8cb5fc18fb2921c6056c65dc5bca44d0c7a5477f5d9d7849"
+    },
+    {
+      "elf_address": "0x8bfd48",
+      "text": "..\\..\\project_vs2005\\Game/..\\..\\sources/Utils/StreamReader.h",
+      "sha256": "3e54fe6b5e818e31a7845ae960db7168e50ea9e8dde12e5ad1b0a80d53b7bec1"
+    }
+  ],
+  "cache": {
+    "v2quests_pycst.bin": {
+      "bytes": 805,
+      "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a"
+    }
+  },
+  "shipped": {
+    "list": {
+      "0": 29,
+      "4": 25,
+      "5": 4,
+      "7": 3,
+      "10": 5
+    },
+    "accept": {
+      "6": 36,
+      "4": 14,
+      "5": 14
+    },
+    "end": {
+      "6": 64
+    }
+  },
+  "scope": {
+    "implemented": [
+      "Whole base Objective::_loadData24B",
+      "Whole Objective_SavedQty::_loadData32B",
+      "Whole returned-value StreamReader::readAs<bool>184B",
+      "Whole returned-value StreamReader::readAs<int>184B"
+    ],
+    "original_execution": "All executable caller/reader words. Actual source vtable+28 selects inherited loader. Only StreamBase virtual+18 read and printf logger are declared external leaves; assertion mode global reads execute with declared value-delivery observation. Provider failure stops before source continuation; the native status is not an original exception ABI.",
+    "native_composition": "Actual selected ObjectiveFactory/ObjectiveList/QuestTable/decoder/constants; all194 source-selected objects/actions over64 rows load through one borrowed stream identity/cursor. Scratch is explicit transient caller residue, not source fields.",
+    "not_claimed": [
+      "Native QEST wiring",
+      "Android compilation",
+      "Live gameplay",
+      "Original undefined stack residue values without an explicit bounded fixture"
+    ],
+    "native_guards": [
+      "Aliased outputs/controls/scratch, reentry, projection/stream-identity changes, callback errors/throws and missing providers stop with their reached effects retained."
+    ]
+  },
+  "source_policies": [
+    "Base calls returned-value bool reader then stores raw low8 done14, including noncanonical2/128/255.",
+    "SavedQty calls complete base first, then returned-value signed reader and stores all32 bits quantity20. Failed second reader retains done14 publication and cursor/scratch effects.",
+    "The read64 return count must equal1 or4 exactly. Nonzero high32 count also reaches assertion mode.",
+    "Assertion mode2 stops before original null store; mode1 calls mandatory actual logger with original condition/file/line68, then reads current scratch; other modes read current scratch directly.",
+    "Read scratch is loaded after logger return, so provider changes are freshly visible. Objective fields are never direct primitive-reader destinations.",
+    "Source dispatch is captured at load entry; provider vtable changes cannot change already reached base/SavedQty continuation.",
+    "No extra objective fields, definition tables, Save, player registry, property/inventory/timer store or VM. One actual stream remains shared with QEST."
+  ]
+}

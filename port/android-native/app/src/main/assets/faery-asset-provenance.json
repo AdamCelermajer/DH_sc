@@ -1,0 +1,274 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "character": {
+    "name": "DefaultFairy",
+    "character_table_id": 97,
+    "ai_id": 20,
+    "animation_table_id": 23,
+    "model_dictionary_id": 34,
+    "authored_faery_list_id": -1,
+    "fallback_faery_list": "DEFAULT"
+  },
+  "selected_faeries": [
+    {
+      "save_slot_type": 0,
+      "faery_table_row": 2,
+      "faery_table_name": "Fake_Celest",
+      "display_name": "Celest",
+      "model_dictionary_id": 34,
+      "source_path": "data/3d/characters/faeries/faeries_02_celeste.bdae"
+    },
+    {
+      "save_slot_type": 1,
+      "faery_table_row": 4,
+      "faery_table_name": "Fake_Rocky",
+      "display_name": "Rocky",
+      "model_dictionary_id": 35,
+      "source_path": "data/3d/characters/faeries/faeries_03_rocky.bdae"
+    },
+    {
+      "save_slot_type": 2,
+      "faery_table_row": 5,
+      "faery_table_name": "Fake_Wetty",
+      "display_name": "Wetty",
+      "model_dictionary_id": 33,
+      "source_path": "data/3d/characters/faeries/faeries_01_wetty.bdae"
+    },
+    {
+      "save_slot_type": 3,
+      "faery_table_row": 6,
+      "faery_table_name": "Fake_Windy",
+      "display_name": "Windy",
+      "model_dictionary_id": 36,
+      "source_path": "data/3d/characters/faeries/faeries_04_windy.bdae"
+    },
+    {
+      "save_slot_type": 4,
+      "faery_table_row": 3,
+      "faery_table_name": "Fake_Hotty",
+      "display_name": "Hotty",
+      "model_dictionary_id": 32,
+      "source_path": "data/3d/characters/faeries/faeries_00_hotty.bdae"
+    }
+  ],
+  "reachable_animation_sequences": [
+    {
+      "sequence_id": 195,
+      "sequence_name": "Faeries_Attack1H"
+    },
+    {
+      "sequence_id": 196,
+      "sequence_name": "Faeries_Idle"
+    },
+    {
+      "sequence_id": 197,
+      "sequence_name": "Faeries_Template"
+    },
+    {
+      "sequence_id": 198,
+      "sequence_name": "Faeries_Walk"
+    }
+  ],
+  "reachable_animation_clips": [
+    "data/3d/characters/faeries/animations/faeries_celeste_idle.bdae",
+    "data/3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae",
+    "data/3d/characters/faeries/animations/faeries_celeste_walk.bdae",
+    "data/3d/characters/faeries/animations/faeries_template_anim.bdae"
+  ],
+  "inputs": [
+    {
+      "asset": "original-cache/data/3d/characters/faeries/animations/faeries_celeste_idle.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_celeste_idle.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_celeste_idle.bdae",
+      "bytes": 27104,
+      "sha256": "f993bfb319bf50c2166773f70abd27dc834e6792bd2ad9dda90efaf16311ec10"
+    },
+    {
+      "asset": "actors/faeries_celeste_idle.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_celeste_idle.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_celeste_idle.bdae",
+      "bytes": 27104,
+      "sha256": "f993bfb319bf50c2166773f70abd27dc834e6792bd2ad9dda90efaf16311ec10"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae",
+      "bytes": 25564,
+      "sha256": "f1e20ce7e87def7e99b03e66a8011f4420846549c50f1e334f9bc5198e63d16f"
+    },
+    {
+      "asset": "actors/faeries_celeste_spell_cast.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_celeste_spell_cast.bdae",
+      "bytes": 25564,
+      "sha256": "f1e20ce7e87def7e99b03e66a8011f4420846549c50f1e334f9bc5198e63d16f"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/animations/faeries_celeste_walk.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_celeste_walk.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_celeste_walk.bdae",
+      "bytes": 35816,
+      "sha256": "e28cf3f0333decaedfccf7aba7d0e39e0dbd1b9d5e212c3bf69357a400e24c55"
+    },
+    {
+      "asset": "actors/faeries_celeste_walk.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_celeste_walk.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_celeste_walk.bdae",
+      "bytes": 35816,
+      "sha256": "e28cf3f0333decaedfccf7aba7d0e39e0dbd1b9d5e212c3bf69357a400e24c55"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/animations/faeries_template_anim.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_template_anim.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_template_anim.bdae",
+      "bytes": 36124,
+      "sha256": "158c70e424ba14fd0ba73dc7fe83f35e3c7758e6455166341a6fc174af0f4204"
+    },
+    {
+      "asset": "actors/faeries_template_anim.bdae",
+      "role": "animation_clip",
+      "source_path": "data/3d/characters/faeries/animations/faeries_template_anim.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/animations/faeries_template_anim.bdae",
+      "bytes": 36124,
+      "sha256": "158c70e424ba14fd0ba73dc7fe83f35e3c7758e6455166341a6fc174af0f4204"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/faeries_00_hotty.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_00_hotty.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_00_hotty.bdae",
+      "bytes": 57856,
+      "sha256": "d06162de1931f805559c49629e3556b5a83080773312b5a94c5f8dcd4d0047c7"
+    },
+    {
+      "asset": "actors/faeries_00_hotty.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_00_hotty.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_00_hotty.bdae",
+      "bytes": 57856,
+      "sha256": "d06162de1931f805559c49629e3556b5a83080773312b5a94c5f8dcd4d0047c7"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/faeries_01_wetty.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_01_wetty.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_01_wetty.bdae",
+      "bytes": 59152,
+      "sha256": "55d1229457653e1d0017d38ac8e23b55a81d129323cbff41f066a58fee20d433"
+    },
+    {
+      "asset": "actors/faeries_01_wetty.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_01_wetty.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_01_wetty.bdae",
+      "bytes": 59152,
+      "sha256": "55d1229457653e1d0017d38ac8e23b55a81d129323cbff41f066a58fee20d433"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/faeries_02_celeste.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_02_celeste.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_02_celeste.bdae",
+      "bytes": 59684,
+      "sha256": "841531e0cba192d00898309e7dc53b0b56445c9e72e71d22163178ae3f6ebe22"
+    },
+    {
+      "asset": "actors/faeries_02_celeste.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_02_celeste.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_02_celeste.bdae",
+      "bytes": 59684,
+      "sha256": "841531e0cba192d00898309e7dc53b0b56445c9e72e71d22163178ae3f6ebe22"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/faeries_03_rocky.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_03_rocky.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_03_rocky.bdae",
+      "bytes": 63000,
+      "sha256": "686891182eb2161d1c0282d189f13ea243b9734254488de052fc9a8df3d7e308"
+    },
+    {
+      "asset": "actors/faeries_03_rocky.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_03_rocky.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_03_rocky.bdae",
+      "bytes": 63000,
+      "sha256": "686891182eb2161d1c0282d189f13ea243b9734254488de052fc9a8df3d7e308"
+    },
+    {
+      "asset": "original-cache/data/3d/characters/faeries/faeries_04_windy.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_04_windy.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_04_windy.bdae",
+      "bytes": 63492,
+      "sha256": "4e905bcbf61f6cd2aab558cbb1c35456ca513d4a716e180c64c44a69b2a8cd74"
+    },
+    {
+      "asset": "actors/faeries_04_windy.bdae",
+      "role": "faery_model",
+      "source_path": "data/3d/characters/faeries/faeries_04_windy.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/faeries/faeries_04_windy.bdae",
+      "bytes": 63492,
+      "sha256": "4e905bcbf61f6cd2aab558cbb1c35456ca513d4a716e180c64c44a69b2a8cd74"
+    },
+    {
+      "asset": "textures/fx_blood_bloodstain_bw_15.tga",
+      "role": "model_texture",
+      "source_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_blood_bloodstain_bw_15.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_blood_bloodstain_bw_15.tga",
+      "bytes": 2108,
+      "sha256": "29d9a5636fe4145a1b547718ed5e17ae768c9727d1ec07e7a2aa8608f8651093"
+    },
+    {
+      "asset": "textures/fx_smoke_03.tga",
+      "role": "model_texture",
+      "source_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "role": "model_texture",
+      "source_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"
+    },
+    {
+      "asset": "textures/atlas_fx_particles_001.tga",
+      "role": "model_texture",
+      "source_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    {
+      "asset": "textures/fx_magic_lenz_flares_004.tga",
+      "role": "model_texture",
+      "source_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_004.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_004.tga",
+      "bytes": 8252,
+      "sha256": "5d17d5987362bff65b3f8d352cbbc43d30f94abbaaf73d5c822d6ecac8e2eb14"
+    },
+    {
+      "asset": "textures/fx_spell_lightning_sparks.tga",
+      "role": "model_texture",
+      "source_path": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_sparks.tga",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spell_lightning_sparks.tga",
+      "bytes": 2108,
+      "sha256": "b46b3d33adfdce43e8bdf28df4764057aba1ac9f0c96133944ece7eb05cb170f"
+    }
+  ],
+  "runtime_binding": "OPEN: assets are staged only; no live Faery Character/ObjectManager factory or autonomous Character lifecycle is installed.",
+  "loader_note": "actors/<basename> aliases use the existing BDAE resource reader. original-cache paths preserve source directories in lowercase; runtime fallback call-site/case normalization remains a separate integration task."
+}

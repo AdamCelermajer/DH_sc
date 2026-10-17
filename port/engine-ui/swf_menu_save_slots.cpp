@@ -7,35 +7,6 @@
 #include <string>
 #include <sys/stat.h>
 namespace dh2::ui {
-bool swf_front_pending_start_v1(const gameswf::fn_call& fn,std::int32_t& difficulty,std::string& error){
-    if(fn.nargs!=1||!fn.arg(0).is_number()){error="Malformed authored launch difficulty";return false;}
-    const double value=fn.arg(0).to_number();
-    if(!std::isfinite(value)||value<0||value>2){error="Unsafe authored launch difficulty";return false;}
-    difficulty=static_cast<std::int32_t>(value);error.clear();return true;
-}
-
-bool swf_front_create_save_slot_v1(const gameswf::fn_call& fn,void* context,
-    bool (*create)(void*,const char*,const char*,std::uint32_t&,std::string&),std::string& error){
-    if(fn.nargs!=2){error.clear();return true;}
-    if(!fn.env||!fn.result||!create){error="Malformed persona creation call";return false;}
-    const std::string name=fn.arg(0).to_tu_string().c_str();
-    const std::string character=fn.arg(1).to_tu_string().c_str();
-    if(character!="KnightPlayerBase"&&character!="RoguePlayerBase"&&character!="MagePlayerBase"){error.clear();return true;}
-    std::uint32_t slot{};
-    if(!create(context,name.c_str(),character.c_str(),slot,error))return false;
-    fn.result->set_double(double(slot));error.clear();return true;
-}
-bool swf_front_erase_save_slot_v1(const gameswf::fn_call& fn,const SwfFrontEraseSlotServicesV1& services,std::string& error){
-    if(fn.nargs<1||!fn.env){error="Malformed erase-slot AS call";return false;}
-    const double number=fn.arg(0).to_number();
-    if(!std::isfinite(number)||number<-2147483648.0||number>=2147483648.0){error="Unsafe erase-slot number";return false;}
-    const auto slot=static_cast<std::int32_t>(number);
-    if(slot<0){error.clear();return true;}
-    if(slot>=4){error="Unsafe erase-slot index";return false;}
-    if(!services.flush_jobs||!services.erase_files){error="Campaign erase services unavailable";return false;}
-    if(!services.flush_jobs(services.context,error))return false;
-    return services.erase_files(services.context,static_cast<std::uint32_t>(slot),error);
-}
 void swf_front_write_save_slot_details_v1(gameswf::as_object* object,const SwfFrontSaveSlotDetailsV1& details){
     if(!object)return;
     const bool used=details.in_use;

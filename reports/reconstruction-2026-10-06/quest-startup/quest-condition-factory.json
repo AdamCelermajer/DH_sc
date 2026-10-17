@@ -1,0 +1,91 @@
+{
+  "status": "PASS",
+  "arm_comparisons": 412,
+  "executed_pinned_words": 402,
+  "native_checks": 27,
+  "shipped_types": {
+    "0": 44,
+    "1": 3,
+    "2": 1,
+    "3": 32
+  },
+  "composed_shipped_rows": 64,
+  "mismatches": [],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache": {
+    "v2quests_pyarray.bin": {
+      "bytes": 21817,
+      "sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36"
+    },
+    "v2quests_pyarraynames.bin": {
+      "bytes": 1357,
+      "sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4"
+    }
+  },
+  "source_sha256": {
+    "quest_condition_factory_v1.cpp": "d985cc5444c1f0b4d8f2ee00f1a67b536700b2f8d85b3aaca6f687ab732e8235",
+    "quest_condition_factory_v1.hpp": "751f8ef80205b73db024e276f249a8b9526e85b259586dd9d81872bc96e06f97",
+    "tests/quest_condition_factory_v1_host.cpp": "2ca1c70358d67c530b9223e83f05c1c4fbff0cff84d3ac393a644e7ad62c563c",
+    "tests/run_quest_condition_factory_v1.py": "0bddd05d16505ff71e356eb88064b7674029e2a38fce5d7e2fe2748108645a01",
+    "reference/quest-condition-factory-v1/original-functions.json": "cdc4268f21ee6fd0b86f227620000d1bce4e1efa1aae8535f890370cfd3ff644",
+    "quest_condition_list_v1.cpp": "b50b0956dcabaf9b61ab36f98cba3771444aabfe400a79a5e3694cc3b4c1d214",
+    "quest_condition_list_v1.hpp": "da4e90407ea8e1d53934f337c7aaeb5926b3665fbb01d85204af9c5e8bdb8d30",
+    "quest_table_bindings_v1.cpp": "da344dfc5cae14c0f2121f12418248b250704806cf4690aa43786bfb273e8adc",
+    "quest_table_bindings_v1.hpp": "07e109bfd77f1f6e755899b9b41cec61ce4c117ac1160c1d72dfa83aaac59266",
+    "port/quest-data/quests.c": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "port/quest-data/quests.h": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2",
+    "port/game-data/tests/quest_table_bindings_v1_original.py": "2ef19dac7edae2b40a66028d02961c267f56b7491748a1588e0f1a22a01c8caa",
+    "port/player-info-level/tests/player_locality_v1_original.py": "8b913f371459673f85b29f55dd9215d4ffa1992e02e007571f8b8d506d35f7bc"
+  },
+  "selected_kernel": true,
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_condition_factory_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_condition_factory_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_condition_factory_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_condition_factory_v1.cpp.obj"
+    }
+  ],
+  "selected_dependencies": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_table_bindings_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_table_bindings_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_table_bindings_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_table_bindings_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_condition_list_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_condition_list_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_condition_list_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_condition_list_v1.cpp.obj"
+    }
+  ],
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "selected_library_sha256": "0979e00b3fce6c309a570cff90d2a98f442d97c60edc0eef4f176af161aeab4e",
+  "binary_sha256": {
+    "host.exe": "6d90f0563422d9c9eeea5b973245ba84b2f45e02f5f19553126b8a39a44c9179",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1bff274e1c39d3e4b4727920693c51873492adeaebd4be0f62b2eae11f426d86",
+    "libdh2_level_world.dll": "3ba3e5ba9fe7dcd44e5b636786a7eab3a796155312bf7cf550136663c1fac884"
+  },
+  "scope": "Full7 type factory templates, base C1/C2/D1/D2/D0 and all7 derived plus generic D1/D0 leaves, including full original ConditionList composition over shipped64 rows. Actual pointer/Record allocation and deallocation are declared platform leaves. No Compile/Eval body, Android compilation or live gameplay is inferred.",
+  "source_policies": [
+    "ConditionFields definition borrow is the sole +4 store; all records reuse ConditionList projections.",
+    "Source allocation is12/tag0 for quest state types0..2 and8/tag0 for types3..6; native Record storage may be larger.",
+    "Source C2 clears definition+4 and stores base dispatch; three quest comparators then store0/1/2+8.",
+    "Quest-state derived D1/D0 publish Generic dispatch, not their previous derived dispatch or base dispatch; other derived destructors retain their class dispatch.",
+    "Deleting destructors publish dispatch before reaching actual deallocation; failed free retains that reached source prefix.",
+    "No extra quest/condition dataset, VM, properties or timer owner is introduced."
+  ],
+  "android_compilation": false,
+  "live_gameplay": false
+}

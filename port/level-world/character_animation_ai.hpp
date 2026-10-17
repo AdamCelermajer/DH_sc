@@ -14,7 +14,11 @@ struct AnimationAIState96 {
  std::int32_t owner_byte14a8;
  std::uint32_t reserved0;
  float owner_position[3];
- std::uint32_t reserved1;
+ // Validity metadata for the existing CharAI+0x79 byte, which aliases
+ // Character+0x441. CharAI::C2 does not initialize it; the Attack-step writer
+ // below makes it known. This occupies the previous trailing reserved word,
+ // so the borrowed projection stays 96 bytes.
+ std::uint32_t attack_last_79_available;
 };
 enum AnimationAIService : std::uint32_t {
  ai_animation_state=0,ai_animation_step_index,ai_animation_step_count,
@@ -24,6 +28,14 @@ enum AnimationAIService : std::uint32_t {
  ai_animation_set_step,ai_animation_skip_next_step,ai_animation_stop_loop,
  ai_character_event
 };
+// Exact predicates used by the reached CharAI attack-step target virtuals:
+// base GameObject::IsDead returns 0; Container::IsDead reads +0x394 and tests
+// the unsigned range [3,4]. The renderer must first resolve the canonical
+// runtime class before choosing either predicate.
+constexpr bool source_game_object_is_dead() noexcept { return false; }
+constexpr bool source_container_is_dead(std::int32_t state_394) noexcept {
+ return static_cast<std::uint32_t>(state_394)-3u<=1u;
+}
 struct AnimationAIRequest32 {
  std::uint32_t service,argument,reserved0,reserved1;
  std::uintptr_t subject,payload;
@@ -36,7 +48,9 @@ struct AnimationAIServices16 {
  void* context;
  // Invoke synchronously. Queries return word (including float radius bits)
  // or XYZ. Callbacks may refresh live state; captured source locals stay local.
- void(*invoke)(void*,AnimationAIState96*,const AnimationAIRequest32*,AnimationAIResponse16*);
+ // Return zero when the requested provider operation completed. A failure
+ // stops the source consumer before it can issue dependent follow-up calls.
+ std::int32_t(*invoke)(void*,AnimationAIState96*,const AnimationAIRequest32*,AnimationAIResponse16*);
 };
 enum AnimationAIOperation : std::uint32_t {
  ai_step_begin=0,ai_step_end,ai_move_begin,ai_attack_begin,ai_attack_end,

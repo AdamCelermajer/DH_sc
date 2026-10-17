@@ -1,0 +1,14 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x3fd5d0,"SortByEquipability::operator()(ItemInventory::Item const&,ItemInventory::Item const&)",port/decomp-reconstruction/game-ui/src/g1-game-ui-pack4-0efacf-0.cpp,209,medium,field,"v10 = 1;
+if ( !v31 )
+  goto LABEL_10;
+LABEL_25:
+  Constant = PyDataConstants::getConstant(..., ""EquipmentSlots"", ""LeftHand"");
+  ... if ( v15 ) return !v22 || *a2 == GetEquippedItem(..., Constant);","    if (aInSlots) {
+        return !bInSlots || a.m_item == equipped(slot);
+    }","The final tie-break compares a's item with the wrong slot on the hand and ring paths. In the original each path re-reads its own slot id: the hand path (m_equipSlot == LeftHand or RightHand) compares against GetEquippedItem(LeftHand) and the ring path against GetEquippedItem(LeftHandRingFinger) (recovered/native/hexrays-all/chunk_011.c:11898 and :11937, used at :11925 and :11945), while the reconstruction compares against equipped(slot), i.e. the m_equipSlot that happens to be current. For m_equipSlot == RightHand the reconstruction returns ""already equipped"" for an item in the right hand where the original asks about the left hand, so the inventory sort order of equippable items changes. severity medium: m_equipSlot is the slot being compared, often LeftHand, and only the tie-break differs."
+0x4761cc,AnimSetManager::GetSynchronizedAnimator(int),port/decomp-reconstruction/game-anim/src/g1-game-anim-AnimSetManager-d3d27a-0.cpp,105,low,side-effect,"v6 = (_BYTE *)v5[8];
+if ( v6[112] )
+  (*(void (__fastcall **)(_DWORD))(*(_DWORD *)v6 + 56))(v5[8]);","    if (set.m_animSet->dirty) {
+        set.m_animSet->compile();
+    }","The dirty-set compile is guarded differently. The original tests the engine-set pointer for null before reading its dirty byte (+112) and calling compile (recovered/native/hexrays-all/chunk_016.c:366), so an entry whose m_animSet is null is skipped; the reconstruction dereferences set.m_animSet unconditionally. Every path that registers a set calls CreateAnimSet (0x47653c, 0x476398), so this is a robustness gap rather than a reachable crash today: severity low. The same pattern appears in GetAnimator (chunk_016.c:404) and is not reported twice."

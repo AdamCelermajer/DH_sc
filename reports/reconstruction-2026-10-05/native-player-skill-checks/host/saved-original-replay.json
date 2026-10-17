@@ -1,0 +1,36 @@
+{
+  "validation": "PASS",
+  "source_gold_cases": 64,
+  "source_state_comparisons": 1536,
+  "query_checks": 58824,
+  "guards": 36,
+  "total_assertions": 57137,
+  "mismatches": 0,
+  "compile_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-fast-math",
+    "-IC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\tests\\player_savegame_v1.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_savegame_v1.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\skill_tables.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\build\\player-savegame-v1-host\\player_savegame_v1_host.exe"
+  ],
+  "compiler": "g++.exe (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r7) 15.2.0",
+  "input_sha256": {
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\tests\\player_savegame_v1.cpp": "8de433c862ba37919258e7e8009c0303d05cfbcffef33afe03f753d009dc7128",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_savegame_v1.cpp": "e9088a632d74ee276e2157a32130ade41a2f566ef20fb0082e7ad5709c021483",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\skill_tables.cpp": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\.local-inputs\\skill-tables\\skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\.local-inputs\\skill-tables\\skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\.local-inputs\\skill-tables\\skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\player-savegame-v1\\fixtures.bin": "b59991c83ab64c3f2987ffeda12797339085211a4f044278f3edccee5098a92a"
+  },
+  "executable_sha256": "4f14e38278e7aa407dd6bc968984168ccf37101cacf6627c5b16587bf24a1d31",
+  "source_scope": "host-owned save fields and source PGS1 saved-skill operations; no profile lifecycle or starter skill grant"
+}

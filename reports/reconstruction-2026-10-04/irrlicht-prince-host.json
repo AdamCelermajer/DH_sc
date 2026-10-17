@@ -1,0 +1,81 @@
+{
+  "pass": true,
+  "scope": "Host source check for four Prince default-warrior controllers, source per-primitive streams, owner/helper/source-graph composition, idle/walk bounds, idle release, and one-time owner translation; does not validate Irrlicht rendering or Android integration.",
+  "compiler": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+  "compiler_version": "g++.exe (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r7) 15.2.0",
+  "compile_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-Wno-misleading-indentation",
+    "-Wno-unused-parameter",
+    "-fexceptions",
+    "-fno-rtti",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\game",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\upstream\\include",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\game\\tests\\prince_actor_host.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\game\\prince_actor.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\visual_motion.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\physical_controls.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-skinning\\skinning.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-materials\\scene.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-resources\\resources.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\asset-payloads\\payloads.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-math\\math.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\animation.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\angle_interpreter.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\events.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\event_track.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\animation-values\\values.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\build\\prince-host-checks\\prince-actor-host.exe"
+  ],
+  "test_output": "Prince Irrlicht adapter source check: controllers=4 joints=27 vertices=487 triangles=586 atlas_materials=4 source_alpha_maps=0 idle=[0,1066] walk=[0,800] pose_delta=30.0656 development_idle_anchor_bounds=(-68.10,-85.54,0.00)-(68.10,85.54,344.56) walk_bounds=(-57.48,-69.33,-8.37)-(96.91,110.87,319.80) semantic_streams=source_equivalent source_visual_binding=owner_helper_graph owner_translation=single idle_release=pass full_character_playback=not_implemented",
+  "asset_inputs": {
+    "models/prince_modular.bdae": {
+      "source": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\models\\prince_modular.bdae",
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    "animations/prince_idle_shield.bdae": {
+      "source": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\animations\\prince_idle_shield.bdae",
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    "animations/prince_walk_1hand.bdae": {
+      "source": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\assets\\animations\\prince_walk_1hand.bdae",
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    }
+  },
+  "source_sha256": {
+    "port/irrlicht-android/game/tests/prince_actor_host.cpp": "ba1faaa72a6dbc9037f71e735928e4d457d97b237bf13e1e5ff9b819778b86bd",
+    "port/irrlicht-android/game/prince_actor.cpp": "cf3d604178879e1aab6744e587a1360941afa9aa4579b59c3470e456582b7edf",
+    "port/level-world/visual_motion.cpp": "f2e5efbfcf4263c73b8a9cbeca9efb87340906966df41f7cdc41613e49d6464f",
+    "port/level-world/physical_controls.cpp": "4b9f11b6de5d8145dfc697e745bab5c8dbf8cabd801922bd4c16eb63878dd20a",
+    "port/engine-skinning/skinning.cpp": "e887fa5f9ae1b8774e795d451d30869bee4331eb87170ea2245e15977c8197b1",
+    "port/scene-materials/scene.cpp": "2e9b93fa4fb414731c5729e8280b02b6f26be66af37f2cf36fb6b425bfa26ada",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-animation/animation.cpp": "c1ffcca1fd140744e5587251a8fde8a6392da1d169c4879730ea78f35c2a6903",
+    "port/engine-animation/angle_interpreter.cpp": "5b509d60a4d0800742b14f67a979df6a24c9dc194f5be1016ae60ee20c692787",
+    "port/engine-animation/events.cpp": "e53937ac01560ddef84f1304cb0a848669604d3cf7c6ebb5cd82b72f49dc9c74",
+    "port/engine-animation/event_track.cpp": "1cc2528d615a85123695cf9717cc3eb04add55d474ab4aa467915371dacec863",
+    "port/animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c"
+  },
+  "executable": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\build\\prince-host-checks\\prince-actor-host.exe",
+    "bytes": 333747,
+    "sha256": "eccc642389a7371958cb0cc1334688499ce613330c07a566d2299c3b5adf5139"
+  }
+}

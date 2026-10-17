@@ -1,0 +1,20 @@
+{
+  "validation": "PASS",
+  "reviewer": "crypt_script_review",
+  "original_arm_cases": 9,
+  "guard_cases": 8,
+  "mismatches": 0,
+  "source_hashes_current": true,
+  "checked": [
+    "Captured AI identity for HasAggro then IsAggroed",
+    "Fresh Character owner at each Attacking, UsingSkill, Casting source load",
+    "Truthy first four returns canonical 1; Casting tail preserves raw source word",
+    "Top alignment/range/alias checks precede typed reads and service effects",
+    "Taken-branch missing/error/throw behavior preserves completed provider mutations",
+    "Borrowed owner/context retention and independent nested output contract"
+  ],
+  "production_blockers": [],
+  "evidence": "Original AI_IsInCombat 0x3d4bc4,112B,SHA7e917c97faa26805e240a111a5719d87b9d14946aa3acd7b08657116d00c3ce3; manifest six ranges verified by independent replay",
+  "scope": "One complete normal caller orchestration; concrete aggro/FSM dependency services and current Android behavior excluded",
+  "reference_notes_present": false
+}

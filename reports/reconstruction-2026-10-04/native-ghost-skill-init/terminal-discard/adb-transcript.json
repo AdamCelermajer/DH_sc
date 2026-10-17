@@ -1,0 +1,4334 @@
+[
+  {
+    "args": [
+      "shell",
+      "getprop",
+      "ro.build.version.sdk"
+    ],
+    "returncode": 0,
+    "stdout": "37\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "getconf",
+      "PAGE_SIZE"
+    ],
+    "returncode": 0,
+    "stdout": "16384\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "getprop",
+      "ro.product.cpu.abi"
+    ],
+    "returncode": 0,
+    "stdout": "x86_64\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pm",
+      "path",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "package:/data/app/~~hKeDGFzhLV4tE0aguooH8A==/com.example.dh2-sqsTmfBC5heX33J529p2Og==/base.apk\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "sha256sum",
+      "/data/app/~~hKeDGFzhLV4tE0aguooH8A==/com.example.dh2-sqsTmfBC5heX33J529p2Og==/base.apk"
+    ],
+    "returncode": 0,
+    "stdout": "0dbb44c703d1768a36f2186b05c2f8ca9d9c787f5ddf3426e3c842edcd4d04ff  /data/app/~~hKeDGFzhLV4tE0aguooH8A==/com.example.dh2-sqsTmfBC5heX33J529p2Og==/base.apk\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "uiautomator",
+      "dump",
+      "/sdcard/dh2-terminal-discard.xml"
+    ],
+    "returncode": 0,
+    "stdout": "UI hierchary dumped to: /sdcard/dh2-terminal-discard.xml\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cat",
+      "/sdcard/dh2-terminal-discard.xml"
+    ],
+    "returncode": 0,
+    "stdout": "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><hierarchy rotation=\"0\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"0\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"android:id/content\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"Dungeon Hunter 2 \u00e2\u20ac\u201d Native 3D source\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,142][1080,225]\" drawing-order=\"1\" hint=\"\" /><node index=\"1\" text=\"\" resource-id=\"\" class=\"android.widget.Spinner\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"true\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"true\" long-clickable=\"true\" password=\"false\" selected=\"false\" bounds=\"[0,225][1080,288]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"worlds/crypt01.dwld\" resource-id=\"android:id/text1\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,228][954,285]\" drawing-order=\"1\" hint=\"\" /></node><node index=\"2\" text=\"worlds/crypt01.dwld&#10;Crypt | 8 rooms | 13 monsters | 84 scenery objects&#10;21612 triangles. Drag the movement control to walk.\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,288][1080,441]\" drawing-order=\"3\" hint=\"\" /><node index=\"3\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"4\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.view.SurfaceView\" package=\"com.example.dh2\" content-desc=\"DH2 native texture viewport\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"1\" hint=\"\" /><node index=\"1\" text=\"HP 165.1 / 165.1   MP 27.3 / 27.3\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"Player health and mana\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][558,506]\" drawing-order=\"2\" hint=\"\" /><node index=\"2\" text=\"\" resource-id=\"\" class=\"android.view.View\" package=\"com.example.dh2\" content-desc=\"Movement control\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[42,1846][462,2266]\" drawing-order=\"3\" hint=\"\" /><node index=\"3\" text=\"ATTACK\" resource-id=\"\" class=\"android.widget.Button\" package=\"com.example.dh2\" content-desc=\"Attack nearby enemy\" checkable=\"false\" checked=\"false\" clickable=\"true\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[723,2077][1017,2245]\" drawing-order=\"4\" hint=\"\" /></node><node index=\"4\" text=\"Dungeon Hunter 2 \u00c2\u00a9 Gameloft SE. Published by GOAT Games Company Limited.\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,2308][1080,2361]\" drawing-order=\"5\" hint=\"\" /></node></node></node></node></hierarchy>",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stdout": "1791140511.527360945\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_CHARACTER_HIT",
+      "--es",
+      "character_name",
+      "_prim_Monster_SURPRISE_01",
+      "--ei",
+      "raw_damage",
+      "256"
+    ],
+    "returncode": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_CHARACTER_HIT flg=0x400000 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140511.527360945",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stdout": "1791140511.908270013\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_RELOAD_WORLD"
+    ],
+    "returncode": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_RELOAD_WORLD flg=0x400000 }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140511.908270013",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140511.908270013",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140511.908270013",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140511.908270013",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stdout": "1791140515.239780221\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "uiautomator",
+      "dump",
+      "/sdcard/dh2-terminal-discard.xml"
+    ],
+    "returncode": 0,
+    "stdout": "UI hierchary dumped to: /sdcard/dh2-terminal-discard.xml\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cat",
+      "/sdcard/dh2-terminal-discard.xml"
+    ],
+    "returncode": 0,
+    "stdout": "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><hierarchy rotation=\"0\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"0\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"android:id/content\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"Dungeon Hunter 2 \u00e2\u20ac\u201d Native 3D source\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,142][1080,225]\" drawing-order=\"1\" hint=\"\" /><node index=\"1\" text=\"\" resource-id=\"\" class=\"android.widget.Spinner\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"true\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"true\" long-clickable=\"true\" password=\"false\" selected=\"false\" bounds=\"[0,225][1080,288]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"worlds/crypt01.dwld\" resource-id=\"android:id/text1\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,228][954,285]\" drawing-order=\"1\" hint=\"\" /></node><node index=\"2\" text=\"worlds/crypt01.dwld&#10;Crypt | 8 rooms | 13 monsters | 84 scenery objects&#10;21612 triangles. Drag the movement control to walk.\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,288][1080,441]\" drawing-order=\"3\" hint=\"\" /><node index=\"3\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"4\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.view.SurfaceView\" package=\"com.example.dh2\" content-desc=\"DH2 native texture viewport\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"1\" hint=\"\" /><node index=\"1\" text=\"HP 165.1 / 165.1   MP 27.3 / 27.3\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"Player health and mana\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][558,506]\" drawing-order=\"2\" hint=\"\" /><node index=\"2\" text=\"\" resource-id=\"\" class=\"android.view.View\" package=\"com.example.dh2\" content-desc=\"Movement control\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[42,1846][462,2266]\" drawing-order=\"3\" hint=\"\" /><node index=\"3\" text=\"ATTACK\" resource-id=\"\" class=\"android.widget.Button\" package=\"com.example.dh2\" content-desc=\"Attack nearby enemy\" checkable=\"false\" checked=\"false\" clickable=\"true\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[723,2077][1017,2245]\" drawing-order=\"4\" hint=\"\" /></node><node index=\"4\" text=\"Dungeon Hunter 2 \u00c2\u00a9 Gameloft SE. Published by GOAT Games Company Limited.\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,2308][1080,2361]\" drawing-order=\"5\" hint=\"\" /></node></node></node></node></hierarchy>",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "wm",
+      "size"
+    ],
+    "returncode": 0,
+    "stdout": "Physical size: 1080x2424\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "wm",
+      "density"
+    ],
+    "returncode": 0,
+    "stdout": "Physical density: 420\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "tap",
+      "540",
+      "256"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "tap",
+      "540",
+      "760"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140515.239780221",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140515.239780221",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stdout": "1791140520.945771486\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "uiautomator",
+      "dump",
+      "/sdcard/dh2-terminal-discard.xml"
+    ],
+    "returncode": 0,
+    "stdout": "UI hierchary dumped to: /sdcard/dh2-terminal-discard.xml\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cat",
+      "/sdcard/dh2-terminal-discard.xml"
+    ],
+    "returncode": 0,
+    "stdout": "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><hierarchy rotation=\"0\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"0\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"android:id/content\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"Dungeon Hunter 2 \u00e2\u20ac\u201d Native 3D source\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,142][1080,225]\" drawing-order=\"1\" hint=\"\" /><node index=\"1\" text=\"\" resource-id=\"\" class=\"android.widget.Spinner\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"true\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"true\" long-clickable=\"true\" password=\"false\" selected=\"false\" bounds=\"[0,225][1080,288]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"textures/atlas_dh2_game_objects_001.tga\" resource-id=\"android:id/text1\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,228][954,285]\" drawing-order=\"1\" hint=\"\" /></node><node index=\"2\" text=\"textures/atlas_dh2_game_objects_001.tga&#10;1024 x 1024 | format 1 | alpha 0 | RGBA upload OK&#10;Aspect ratio preserved\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,288][1080,441]\" drawing-order=\"3\" hint=\"\" /><node index=\"3\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"4\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.view.SurfaceView\" package=\"com.example.dh2\" content-desc=\"DH2 native texture viewport\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"1\" hint=\"\" /></node><node index=\"4\" text=\"Dungeon Hunter 2 \u00c2\u00a9 Gameloft SE. Published by GOAT Games Company Limited.\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,2308][1080,2361]\" drawing-order=\"5\" hint=\"\" /></node></node></node></node></hierarchy>",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "wm",
+      "size"
+    ],
+    "returncode": 0,
+    "stdout": "Physical size: 1080x2424\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "wm",
+      "density"
+    ],
+    "returncode": 0,
+    "stdout": "Physical density: 420\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "tap",
+      "540",
+      "256"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "swipe",
+      "540",
+      "550",
+      "540",
+      "2204",
+      "350"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "swipe",
+      "540",
+      "550",
+      "540",
+      "2204",
+      "350"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "swipe",
+      "540",
+      "550",
+      "540",
+      "2204",
+      "350"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "swipe",
+      "540",
+      "550",
+      "540",
+      "2204",
+      "350"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "tap",
+      "540",
+      "256"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791140520.945771486",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "6711\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "--pid=6711",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[captured separately]",
+    "stderr": ""
+  }
+]

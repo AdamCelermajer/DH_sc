@@ -1,0 +1,63 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ConditionListC1Ev",
+      "elf_address": "0x4786f0",
+      "size": 20,
+      "sha256": "9448dc4c8e2d0453cdbef676eba4b5322852c33e65e1691a7da41e8bd20e21d9"
+    },
+    {
+      "original_symbol": "_ZN13ConditionListC2Ev",
+      "elf_address": "0x4786dc",
+      "size": 20,
+      "sha256": "9448dc4c8e2d0453cdbef676eba4b5322852c33e65e1691a7da41e8bd20e21d9"
+    },
+    {
+      "original_symbol": "_ZN13ConditionList12AssignPyDataEPN7Structs15v2ConditionStubEi",
+      "elf_address": "0x478914",
+      "size": 136,
+      "sha256": "8c51b8af8ef8bcc684bb90e5634dd05583669aca2121391cf8477857ab2e9d22"
+    },
+    {
+      "original_symbol": "_ZN13ConditionListD1Ev",
+      "elf_address": "0x478eac",
+      "size": 116,
+      "sha256": "d0fcfe636de7ec3f562af2dc55aa6bc5f14d73e7f56040ae132f0980bd1f1378"
+    },
+    {
+      "original_symbol": "_ZN13ConditionListD2Ev",
+      "elf_address": "0x478f20",
+      "size": 116,
+      "sha256": "8356b6d2e41bd82e19eaa91463795df2e16b389e6ceaf5bfef76b784a697f182"
+    },
+    {
+      "original_symbol": "_ZN13ConditionList4EvalEv",
+      "elf_address": "0x478704",
+      "size": 88,
+      "sha256": "cc98fd960cb7abc4dfe40a8beaeedaa87aea68050b876b6199ced53dba1c0322"
+    }
+  ],
+  "factory_dispatch": {
+    "elf_address": "0x969258",
+    "entries": [
+      "0x478b5c",
+      "0x478b14",
+      "0x478acc",
+      "0x478a80",
+      "0x478a34",
+      "0x4789e8",
+      "0x47899c"
+    ],
+    "sha256": "360412140ac9462b6c99d4df3f9e6e5a466a64d3de637c22617eed5d9eb4822f"
+  },
+  "scope": "Whole ConditionList C1/C2, AssignPyData, D1/D2 and Eval callers. Type factories, pointer-array allocator/deallocator and condition virtual Eval/deleting destructor remain declared providers. Definition borrows resolve through the selected actual retained QuestTable; native bounds/overflow guards stop undefined source accesses explicitly. No condition compiler, Android compilation or live gameplay is claimed.",
+  "source_policies": [
+    "Source signed count and definition pointer publish before allocation; nonpositive counts retain old child-array pointer.",
+    "Positive reassign overwrites the child-array without deleting the displaced array. The real allocator/factory arena retains all allocations until terminal cleanup.",
+    "Factory result publishes into the captured array; Condition+4 binds through the freshly read published array.",
+    "Destructor clears each pointer only after virtual deleting destructor success. Null slots do not trigger the source count/array reread.",
+    "Eval short-circuits false and rereads live count/array after each successful true result."
+  ],
+  "attribution": "No ConditionList implementation exists in the reviewed Adam checkpoint c3ae797332a82a30a586b9156cddc25445e36a4c or our prior modules. Immutable definitions reuse the existing attributed quest-data decoder via QuestTable View."
+}

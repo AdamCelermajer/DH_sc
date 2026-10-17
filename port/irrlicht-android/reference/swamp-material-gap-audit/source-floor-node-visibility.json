@@ -1,0 +1,45 @@
+{
+  "scope": "raw source BRES scene-node visibility word and user-property string; no engine execution",
+  "source": "data/3d/modules/swamp/swamp.bdae",
+  "floor_named_node_count": 29,
+  "floor_named_nodes_all_have_visible_word_one": true,
+  "module_zero_parent": "_module_obj_4of4_brdwalk_sw_00",
+  "module_zero_floor_nodes": [
+    {
+      "visual": "swamp.max",
+      "node_id": "_floor_obj_4of4_brdwalk_sw_-node",
+      "node_name": "_floor_obj_4of4_brdwalk_sw_",
+      "source_record_offset": 1778620,
+      "depth": 1,
+      "ancestor_names": [
+        "_module_obj_4of4_brdwalk_sw_00"
+      ],
+      "source_visible_word": 1,
+      "user_properties": "floortypes = %22wood%22",
+      "instances": [
+        {
+          "type": 3,
+          "geometry_url": "#_floor_obj_4of4_brdwalk_sw_-mesh"
+        }
+      ]
+    },
+    {
+      "visual": "swamp.max",
+      "node_id": "_floor_water_obj_4of4_brdwalk_sw_-node",
+      "node_name": "_floor_water_obj_4of4_brdwalk_sw_",
+      "source_record_offset": 1778700,
+      "depth": 1,
+      "ancestor_names": [
+        "_module_obj_4of4_brdwalk_sw_00"
+      ],
+      "source_visible_word": 1,
+      "user_properties": "floortypes = %22water%22",
+      "instances": [
+        {
+          "type": 3,
+          "geometry_url": "#_floor_water_obj_4of4_brdwalk_sw_-mesh"
+        }
+      ]
+    }
+  ]
+}

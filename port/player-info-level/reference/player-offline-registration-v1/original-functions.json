@@ -1,0 +1,155 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager18IsPlayerInLocalMapEi",
+      "elf_address": "0x36d280",
+      "size": 100,
+      "sha256": "906b27436ae61d7ebab3211523342cda334d58b4b6a8c3cc64b2007854de6c2e"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager10_AddPlayerEiiib",
+      "elf_address": "0x378a40",
+      "size": 340,
+      "sha256": "997afe7079b97090766a0bab0a755ba6dcae4024a8632bb35d68eabe7baf070a"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager20_UpdatePlayerNumbersEv",
+      "elf_address": "0x36ed0c",
+      "size": 412,
+      "sha256": "37bb41cd53b9494591fa918e378e6e54bdf25ff75a18c02ce089fd2c91ccdac8"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager22_CheckLocalControllersEv",
+      "elf_address": "0x378c80",
+      "size": 820,
+      "sha256": "ff40c836c8779b73b5a516da5833901ab1a5cefc0afe232ce4b36e65f830abeb"
+    }
+  ],
+  "declared_callee_dependencies": [
+    {
+      "original_symbol": "_ZN10PlayerInfoC1Ev",
+      "elf_address": "0x37418c",
+      "size": 2460,
+      "sha256": "13d8ca15844ca9c10cd95116a9014af7c30d2ed759da55a2035b51c697eff580"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoC1ERKS_",
+      "elf_address": "0x3777d0",
+      "size": 1892,
+      "sha256": "351d5ee8165eacf079f65770fa27d7a10d7844c76bc2a328168e360791222815"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoaSERKS_",
+      "elf_address": "0x378808",
+      "size": 568,
+      "sha256": "e1a554fc8a218db2701a973c0d7f96c129196a2c707fb07ff8094df6aab35fd9"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoD1Ev",
+      "elf_address": "0x371294",
+      "size": 404,
+      "sha256": "aa21ce1dcf2e3a70013d664776cab1e3c9f8eaa726c69931a77160993fea2e07"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo5ResetEv",
+      "elf_address": "0x373bdc",
+      "size": 1456,
+      "sha256": "66bb927ada569788c7fb97e9255f0a791d83b342837f62ab225417919f30eeb0"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "elf_address": "0x36e478",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager24_UpdateJoiningControllerEii",
+      "elf_address": "0x36f4b4",
+      "size": 1944,
+      "sha256": "58cb54dec6a18d7517a3f60513a0e419f64382a40f2ac313854eb8c6680575ac"
+    },
+    {
+      "original_symbol": "_ZNK12InputManager14GetNumGamepadsEv",
+      "elf_address": "0x34d754",
+      "size": 8,
+      "sha256": "687b83fbb1b1084c4b61325547b5f8fadfb354f0d8aa39fcef5ecb6ba6b86ed1"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo8SetStateEc",
+      "elf_address": "0x36f40c",
+      "size": 168,
+      "sha256": "c952599d808edb1d6eddaec2ffcc8e738013ab5f9b434b90a694a5d86acd0341"
+    },
+    {
+      "original_symbol": "_ZN9NetStruct10SetEnabledEb",
+      "elf_address": "0x81366c",
+      "size": 152,
+      "sha256": "9d81f2484ccd9238af4a71ab3e4c1eb9249a650931667db1dc8008e193107ba0"
+    },
+    {
+      "original_symbol": "_ZN7gameswf8as_value9drop_refsEv",
+      "elf_address": "0x797124",
+      "size": 216,
+      "sha256": "89ac325c001cbdaa4717fde7ca246bb5d04b09424c9e2dff47c3c04fac02f775"
+    }
+  ],
+  "scope": "Offline membership/AddPlayer/renumber/CheckLocalControllers callers tested with declared lifecycle/map/input/joining/HUD providers. Native full-record/input/map/slot composition has a separate selected-library test. Online branches, joining/HUD bodies and Character/gameplay registration are not validated by this gate.",
+  "source_fields": {
+    "map_key": "PlayerRegistry projection internal_id; distinct from PlayerInfo+670",
+    "save_slot": "PlayerInfo+664",
+    "controller": "PlayerInfo+668",
+    "local": "PlayerInfo+66c",
+    "internal_id": "PlayerInfo+670",
+    "member_id": "PlayerInfo+674",
+    "all_player_number": "PlayerInfo+678",
+    "local_or_nonlocal_number": "PlayerInfo+67c",
+    "constructor_Character": "PlayerInfo+660=0",
+    "constructor_slot": "PlayerInfo+664=-1",
+    "constructor_local": "PlayerInfo.Reset+66c=1 at0x373c18",
+    "constructor_metadata": "PlayerInfo+680=0",
+    "check_gamepad_presence": "InputDevice+758; controller0 forced present only after the source read",
+    "check_join_threshold": "binary32 ((InputDevice+1e0 + InputDevice+1e4)+1.0)*0.5; __aeabi_fcmpge(InputDevice+1d8, threshold)",
+    "check_join_edge": "InputDevice+1e8",
+    "check_join_state": "PlayerInfo+240",
+    "join_callback": [
+      "menu_HUD_0",
+      "onNewPlayerLocal",
+      "number(PlayerInfo+67c)"
+    ]
+  },
+  "port_failure_boundary": "Reached absent/failed providers stop with explicit status and retain every preceding source write and provider effect. No manufactured cleanup, retry, fallback-slot inheritance or Character association.",
+  "source_audited_map_dependencies": [
+    {
+      "original_symbol": "_ZNSt3mapIi10PlayerInfoSt4lessIiESaISt4pairIKiS0_EEEixIiEERS0_RKT_",
+      "elf_address": "0x378544",
+      "size": 284,
+      "sha256": "376c762eeff90ae50eb4d8ced4446ed177b9fab39c533d8c5fd51e6118d0549b"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE13insert_uniqueENS_17_Rb_tree_iteratorIS6_SA_EERKS6_",
+      "elf_address": "0x3781d0",
+      "size": 884,
+      "sha256": "329f0de66165da8b8c18a43a2147d46c2ec03bd162130486e585149fd005cdcd"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE9_M_insertEPNS_18_Rb_tree_node_baseERKS6_SE_SE_",
+      "elf_address": "0x377f70",
+      "size": 216,
+      "sha256": "0abed4c010e5684a53c51391fd23cbc3b8ec9c06b7365acf63e964b04e6a8a77"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKi10PlayerInfoENS_10_Select1stIS6_EENS_11_MapTraitsTIS6_EESaIS6_EE14_M_create_nodeERKS6_",
+      "elf_address": "0x377f34",
+      "size": 60,
+      "sha256": "2efb1f8ca4bc0b3781795eb13e533f0762d0ee9b85b0f5e9bc83124e71370a54"
+    }
+  ],
+  "native_map_adaptation": "Portable stable std::map records; default C1, pair copy, node copy, pair/default D1, then outer assignment/D1. Source-audited map dependencies are not part of the 440-case ARM caller execution. Native retained retired storage prevents dangling diagnostic pointer-table access; payloads retire in source order. No network/serialization delivery through retired aliases."
+}

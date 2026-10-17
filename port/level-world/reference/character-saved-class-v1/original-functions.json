@@ -1,0 +1,66 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character18SafeGetCharPropsIdEv",
+      "elf_address": "0x3b3d38",
+      "size": 728,
+      "sha256": "81064f2b90877e862e4956c7502ecab84f6802b5d207a5daeb3dcade373c82cd"
+    },
+    {
+      "original_symbol": "_ZN9Character26SafeGetCharPropsTemplateIdEv",
+      "elf_address": "0x3b36ec",
+      "size": 176,
+      "sha256": "27abbdde0a88b75da2eef918445b914d28cbdd4bdb52072614c85882c78a40f6"
+    },
+    {
+      "original_symbol": "_ZN9Character7SG_LoadEi",
+      "elf_address": "0x3bc4d0",
+      "size": 20,
+      "sha256": "090c17df20995459a533229a6cf3d5b18684597dbb50ee4cfeddb77be3e048cb"
+    },
+    {
+      "original_symbol": "_ZNK9Character17SG_GetPlayerClassEv",
+      "elf_address": "0x3bb7fc",
+      "size": 24,
+      "sha256": "4054b834dd2f40952673b44b1cefeaf5f49f34fcaa331611ee3bbbfa6e7ddf22"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_SetPlayerClassEi",
+      "elf_address": "0x3bb814",
+      "size": 20,
+      "sha256": "500a94c81b0967927454deaee2244d90e7d9dae2e07bfb04dcb3d88a95b7e54b"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame16__LoadPropertiesEP11IStreamBasePv",
+      "elf_address": "0x46932c",
+      "size": 296,
+      "sha256": "e282e4df5c7eeec6535cd1537584b1d728c5c472da63f5c9a71d3ad3afecce31"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties8_GetTypeEi",
+      "elf_address": "0x3deed8",
+      "size": 56,
+      "sha256": "2767da71c9c875e51ac9db94b0947e106cac232f998cba6be36d4fd5a4b945bb"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsIiEEvRT_",
+      "elf_address": "0x38b758",
+      "size": 176,
+      "sha256": "fdc7ce31f9488e01d4d4fb98a44f11d8d4308a220a7ee4215c0eec128c60c822"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsIbEEvRT_",
+      "elf_address": "0x33e040",
+      "size": 176,
+      "sha256": "d42bfe3c01089d8737c2923dd2ecfd1369f8625445cc60b2960f58645a7aed4e"
+    }
+  ],
+  "scope": "Whole original SafeGetCharPropsId/template helper and PROP reader replay.\nIsPlayer, SG_Load's external body, strcmp, integer division and stream virtual\nare declared fixtures. SG pointer wrappers, getters/setter, RNG inline, _GetType\nand valid-id _GetProperty execute their original ARM instructions. No private\ncampaign bytes enter public fixtures.\n"
+}

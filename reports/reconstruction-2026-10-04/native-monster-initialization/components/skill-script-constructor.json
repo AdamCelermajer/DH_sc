@@ -1,0 +1,84 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 9,
+    "source": "CharAISkillScript constructor"
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 4,
+    "mismatches": 0,
+    "results": [
+      {
+        "case": "valid",
+        "matched": true,
+        "owner_is_null": false,
+        "name_is_null": false,
+        "call_order": [
+          "construct",
+          "push_string",
+          "push_integer"
+        ]
+      },
+      {
+        "case": "null_owner",
+        "matched": true,
+        "owner_is_null": true,
+        "name_is_null": false,
+        "call_order": [
+          "construct",
+          "push_string",
+          "push_integer"
+        ]
+      },
+      {
+        "case": "null_name",
+        "matched": true,
+        "owner_is_null": false,
+        "name_is_null": true,
+        "call_order": [
+          "construct",
+          "push_string",
+          "push_integer"
+        ]
+      },
+      {
+        "case": "both_null",
+        "matched": true,
+        "owner_is_null": true,
+        "name_is_null": true,
+        "call_order": [
+          "construct",
+          "push_string",
+          "push_integer"
+        ]
+      }
+    ],
+    "executed_scope": "The original 336-byte CharAISkillScript constructor executes. Its embedded Arguments constructor, pushString and pushInteger callees are intercepted at their original call addresses and recorded; assertion diagnostics are outside this valid/assert-level-zero fixture scope.",
+    "native_wired": false
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_skill_script_constructor.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_skill_script_constructor.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-ai-skill-script-constructor-parent\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_ai_skill_script_constructor.cpp": "ed5b38d079f1cba7f0692ec675c7755572823c4a1f35a3059dd3a55f3a1510fb",
+    "port/level-world/tests/character_ai_skill_script_constructor.cpp": "d64a31c03192bf2c557e45acefd561692bba0f5663d97b0ca77b847fe39e5a34",
+    "port/level-world/character_ai_skill_script_constructor.hpp": "1a1f10d29b5bba0fabb05a9069982a38de384e2100efef6fe40fd2e6bb956a5c",
+    "port/level-world/tests/run_character_ai_skill_script_constructor_host.py": "022095dcbc32d88988b7b28b4e8569fe9b1dd7f0413fc75c7ca68cae024b85c0",
+    "port/level-world/reference/character-ai-skill-script-constructor/original-functions.json": "fe2ecc900fc55934f257cb46510e29c7c9b43b96588da193e18f29e76f72e5b2",
+    "port/level-world/reference/character-ai-skill-script-constructor/NOTES.md": "c33800dfe08e8c606afb8414f77e73535c0efcb3019272649f185f8b30cdd423"
+  },
+  "native_wired": false
+}

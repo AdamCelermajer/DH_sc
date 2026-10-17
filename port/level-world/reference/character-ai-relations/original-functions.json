@@ -1,0 +1,140 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "three bounded normal source relationship query orchestrations; handle/player/interaction providers external; invalid-faction diagnostics excluded; existing enemy faction leaf reused; no native wiring",
+  "implementation": {
+    "source": [
+      "port/level-world/character_ai_relations.hpp",
+      "port/level-world/character_ai_relations.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_ai_relations.cpp",
+      "port/level-world/tests/run_character_ai_relations_host.py"
+    ],
+    "existing_leaf_reused": "port/game-data/ai.cpp::dh2_ai_enemy",
+    "new_bounded_query_orchestrations": 3,
+    "new_full_native_body_claims": 0,
+    "native_wired": false
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI11AI_IsFriendEPK10GameObject",
+      "elf_address": "0x3d511c",
+      "size": 720,
+      "sha256": "5b7cc3cd157969e3301a40fbec86806e68de7ed8cc453fff3fab3f3f7500f81c",
+      "scope": "bounded query orchestration"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject13IsInteractiveEPS_",
+      "elf_address": "0x3883b0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877",
+      "scope": "dependency evidence only; not an additional new source body"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAIFactionIdEv",
+      "elf_address": "0x3a3180",
+      "size": 56,
+      "sha256": "2a53a61c549259bea3a75c1fdfcf3a86b4777279f92ea7bdb9df76cf334ac3c6",
+      "scope": "dependency evidence only; not an additional new source body"
+    },
+    {
+      "original_symbol": "_ZNK12ObjectHandle9GetObjectEb",
+      "elf_address": "0x33ff8c",
+      "size": 4,
+      "sha256": "bbe541507356f02d76d32afb005cbfd21cac1ec8ea70548cacca670dd2c8cdbb",
+      "scope": "dependency evidence only; not an additional new source body"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a",
+      "scope": "dependency evidence only; not an additional new source body"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase9GetHandleEv",
+      "elf_address": "0x33dd70",
+      "size": 68,
+      "sha256": "7de6502f60d2e644ee0d7efb50026ebfd509ff7f16a7a187fffe7bcb04d8236d",
+      "scope": "dependency evidence only; not an additional new source body"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject",
+      "elf_address": "0x3d574c",
+      "size": 844,
+      "sha256": "e99c62ec437b85a44ef4162fb17029fd851e01f66a92d226dc2d92b785713f4d",
+      "scope": "bounded query orchestration"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject18GetInteractionTypeEPS_",
+      "elf_address": "0x38ad74",
+      "size": 8,
+      "sha256": "6143299c415a779d14d46483b05772d81c6b595bc189b4499503e30275041932",
+      "scope": "dependency evidence only; not an additional new source body"
+    },
+    {
+      "original_symbol": "_ZN12ObjectHandle9GetObjectEb",
+      "elf_address": "0x33fdc0",
+      "size": 236,
+      "sha256": "f22dda22778448e6107a4b76c786d49995db280bbb148206c3e4e95a58f2a7ec",
+      "scope": "dependency evidence only; not an additional new source body"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsNeutralEPK10GameObject",
+      "elf_address": "0x3d5a98",
+      "size": 716,
+      "sha256": "74786171724a9d77960d71dc9c700a58aa03287ef6f9d8ea07992b0b2ed85a40",
+      "scope": "bounded query orchestration"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "original_symbol": "_ZTV10GameObject",
+      "elf_address": "0x964748",
+      "size": 244,
+      "sha256": "20946008a7c25972ba6ed28270cea7513d89965fdf2373e27fe4effabae3b68b",
+      "address_point": "0x964750",
+      "slots": [
+        {
+          "byte_offset": "0x88",
+          "target": "0x3883b0"
+        },
+        {
+          "byte_offset": "0x90",
+          "target": "0x38ad74"
+        }
+      ]
+    },
+    {
+      "original_symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 812,
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "address_point": "0x965f38",
+      "slots": [
+        {
+          "byte_offset": "0x88",
+          "target": "0x3a4870"
+        },
+        {
+          "byte_offset": "0x90",
+          "target": "0x3a47e8"
+        }
+      ]
+    }
+  ],
+  "source_facts": {
+    "null_candidate": "fallback current AI+0x40; none means enemy/friend false, neutral true",
+    "handle_resolution": "const ObjectBase::GetHandle 0x33dd70 then const ObjectHandle::GetObject(false) 0x33ff8c; not RTTI",
+    "word_f4": "resolved object+0xf4==0 takes Character path; otherwise generic/default",
+    "enemy_generic": "original candidate IsInteractive virtual+0x88 then GetInteractionType virtual+0x90 with separately fresh owner; type==8",
+    "faction_getters": "two fixed target getters and two separately fresh owner getters with separate global-count reads; then third captured-owner and fixed-target getters",
+    "table_capture": "owner captured BEFORE global table load; row addressed after owner getter; count/entry pointer read AFTER target getter",
+    "predicates": {
+      "enemy": "first matching signed value<0; empty/missing false; both players false",
+      "friend": "first matching signed value>0; empty/missing false; no player override",
+      "neutral": "first matching signed value==0; empty/missing true; no player override"
+    },
+    "no_group_design_float_gates": true
+  }
+}

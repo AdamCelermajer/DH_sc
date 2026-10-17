@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "actual_APK_inputs": 609,
+  "exact": 301,
+  "CRLF_only": 308,
+  "private_payload_fingerprints_absent": true,
+  "metadata_PNAM_fields_independently_reviewed_no_private_label": true,
+  "public_PCLS_suffix_byte_coincidence_preserved": true,
+  "staged_whitelist_files": 85
+}

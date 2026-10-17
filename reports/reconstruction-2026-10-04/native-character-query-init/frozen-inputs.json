@@ -1,0 +1,72 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "88fd31818f6edeee68a7685ac90786015b483d4ae67aa0beeb0b25f116c4e59f",
+  "apk_bytes": 24305912,
+  "compiled_source_archive_sha256": "8ddc3d19c68d752cf642cdeede50fe0243fd94532f5cfbbbd5b5351e11701303",
+  "compiled_source_archive_bytes": 846188,
+  "actual_repository_compiler_inputs": 440,
+  "component_source_hash_checks": 380,
+  "components": {
+    "native-ghost-owner": {
+      "report_sha256": "47e78e2134eacb045a34b494897894258186218ac0ebc088007d4281db5ecb99",
+      "source_hashes_verified": true,
+      "scope": "host-only search/Lua/path owner; not autonomous Android AI"
+    },
+    "ghost-session": {
+      "report_sha256": "316dc61abb0a88d54d758556c88c772fb381216d9cf6c26c26bb60de21b0b334",
+      "source_hashes_verified": true,
+      "scope": "host-only same-VM search/event/path composition"
+    },
+    "character-list": {
+      "report_sha256": "25bc4e50fd448835a84e52ec9705ebe6ef4f5dd200acce0313469dcbd34cafa0",
+      "source_hashes_verified": true,
+      "scope": "14 native owned nodes in Android; autonomous query not invoked"
+    },
+    "manager-character-list": {
+      "report_sha256": "4e23eeae2e5340477edd7cb4bcc155930cfc87f358387b5c42c3675a48f801b4",
+      "source_hashes_verified": true,
+      "scope": "node/cursor helpers compiled; no full ObjectManager factory"
+    },
+    "ais-init-callbacks": {
+      "report_sha256": "61c4cb4feefc70c87410f78be36944ef952fb69aef48820cdce67301c88af32d",
+      "source_hashes_verified": true,
+      "scope": "OnInit live; Post/Final provider compiled but uninvoked"
+    },
+    "monster-session": {
+      "report_sha256": "853f4b7380374b1982191799108290a783dbc52bb99e42fee9146746792c4d5c",
+      "source_hashes_verified": true,
+      "scope": "OnInit live; Post/Final dispatch host-tested and production uninvoked"
+    },
+    "init-hp-mp": {
+      "report_sha256": "006ec5c0425acf8448ec61f1dda9596ec29fde3393628a357c724040c94d1c24",
+      "source_hashes_verified": true,
+      "scope": "source caller compiled; initialization phase production uninvoked"
+    },
+    "character-level-runtime": {
+      "report_sha256": "00b15f59ae35e9daa1ea3d13e45047ce8545937edcb8a8735f23d43d761834f8",
+      "source_hashes_verified": true,
+      "scope": "SetLevel live; InitHpMp adapter compiled and production uninvoked"
+    },
+    "dot-attack": {
+      "report_sha256": "7ef241bbd57a2ad00f34b3af3b96cf58d005be8d96d985d9404dbe20749f9bc8",
+      "source_hashes_verified": true,
+      "scope": "source-only bounded caller; unlinked"
+    },
+    "apply-result": {
+      "report_sha256": "f08d5255859519a223935306c587395a563697c80be871482b08f910c52ac824",
+      "source_hashes_verified": true,
+      "scope": "source-only bounded offline nonplayer caller; unlinked"
+    },
+    "skill-state-queries": {
+      "report_sha256": "8d03a8dd7ce33c032e8d81126bc7174d57a9e1473957361d285013abe239f3a2",
+      "source_hashes_verified": true,
+      "scope": "source-only predicates; unlinked"
+    },
+    "point-query-original": {
+      "report_sha256": "04e63e3e5f0ca3c70f0000835ace47f4faba3d958574785a77d7a11850b261e4",
+      "source_hashes_verified": true,
+      "scope": "5 original ARM/host cases; linked query callback-order fix; no active debug override"
+    }
+  },
+  "scope": "Exact APK compiler/build inputs frozen separately as raw source archive; real API37/16KiB tests exercise original trigger/spawn/monster OnInit and retention. Independent original/host proofs validate additional bounded callers, not complete gameplay."
+}

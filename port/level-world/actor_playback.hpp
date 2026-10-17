@@ -7,10 +7,12 @@
 namespace dh2::actor {
 using ClipBank=std::map<int,animation::Player>;
 // Original triggered-event word0 is lag; word4 is the authored string pointer.
-// The native ABI widens that immutable payload pointer. Sequence closure has
-// event_id0x22 and null payload; it is not an authored trigger record.
+// The native ABI widens that immutable payload pointer. Authored triggers carry
+// their string; ANIM_Stop carries null, while finite Update closure carries the
+// stable address of the owning animator's +0x48 close latch.
 struct EventHandoff {std::uint32_t event_id;std::int32_t lag_ms;const char* payload;};
-enum EventPhase : std::uint32_t {scene_event=1,replay_event=2,sequence_event=3};
+enum EventPhase : std::uint32_t {scene_event=1,replay_event=2,sequence_event=3,
+                                playback_animator_event=4,playback_selection_event=5};
 struct PlaybackEvent {
  EventHandoff handoff;std::int32_t clip;std::uint32_t timestamp,phase,reserved;
 };
@@ -26,6 +28,7 @@ class Playback {
  float pending_speed=1;
  bool apply_selection(const ClipBank&,visual::SceneBinding&,scene::Scene&,
                       float global_speed,std::string& error);
+ void scheduler_event(std::uint32_t event);
  bool animate(std::uint32_t,bool,std::uint32_t,const ClipBank&,
               visual::SceneBinding&,scene::Scene&,std::string&);
 public:

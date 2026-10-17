@@ -1,0 +1,6469 @@
+[
+{
+"id": "r2a-game-anim-AnimController-83ef73-0",
+"category": "game-anim",
+"owner": "AnimController",
+"owners": [
+"AnimController"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x4746c8",
+"bytes": 60,
+"owner": "AnimController",
+"demangled": "AnimController::~AnimController()"
+},
+{
+"address": "0x474770",
+"bytes": 104,
+"owner": "AnimController",
+"demangled": "AnimController::GetAnim(unsigned int) const"
+},
+{
+"address": "0x474814",
+"bytes": 104,
+"owner": "AnimController",
+"demangled": "AnimController::HasClip(char const*, unsigned int) const"
+},
+{
+"address": "0x47487c",
+"bytes": 60,
+"owner": "AnimController",
+"demangled": "AnimController::GetNumClip(unsigned int) const"
+},
+{
+"address": "0x4748b8",
+"bytes": 104,
+"owner": "AnimController",
+"demangled": "AnimController::GetAnim(unsigned int)"
+},
+{
+"address": "0x474920",
+"bytes": 96,
+"owner": "AnimController",
+"demangled": "AnimController::SetScale(float, unsigned int)"
+},
+{
+"address": "0x474988",
+"bytes": 108,
+"owner": "AnimController",
+"demangled": "AnimController::StopClip(bool, unsigned int)"
+},
+{
+"address": "0x474b50",
+"bytes": 296,
+"owner": "AnimController",
+"demangled": "AnimController::PlayClip(unsigned int, bool, int, unsigned int)"
+},
+{
+"address": "0x474cac",
+"bytes": 100,
+"owner": "AnimController",
+"demangled": "AnimController::SetCallbacksOnAll(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)"
+},
+{
+"address": "0x474d30",
+"bytes": 240,
+"owner": "AnimController",
+"demangled": "AnimController::AnimController(RootSceneNode*, bool)"
+}
+],
+"bytes": 1272
+},
+{
+"id": "r2a-game-anim-AnimationSet-4fa4a6-0",
+"category": "game-anim",
+"owner": "AnimationSet",
+"owners": [
+"AnimationSet"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3649e0",
+"bytes": 244,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::_FindCacheCandidate()"
+},
+{
+"address": "0x364af4",
+"bytes": 140,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::_UpdateAnimationIndices()"
+},
+{
+"address": "0x364bf4",
+"bytes": 164,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::GetAnimationBySetIndex(int)"
+},
+{
+"address": "0x364ca0",
+"bytes": 88,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::CreateAnimSet()"
+},
+{
+"address": "0x364ecc",
+"bytes": 84,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::FreeAll()"
+},
+{
+"address": "0x364f20",
+"bytes": 92,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::~AnimationSet()"
+},
+{
+"address": "0x364fa0",
+"bytes": 92,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::~AnimationSet()"
+},
+{
+"address": "0x36504c",
+"bytes": 104,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::_RemoveAnimation(std::priv::_Rb_tree_iterator<std::pair<int const, Animation>, std::priv::_MapTraitsT<std::pair<int const, Animation> > >, bool)"
+},
+{
+"address": "0x3650b4",
+"bytes": 164,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::UnloadAnimation(int, bool)"
+},
+{
+"address": "0x3659ec",
+"bytes": 248,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::LoadAnimation(int)"
+},
+{
+"address": "0x365d38",
+"bytes": 352,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::ReplaceAnimation(int, int)"
+},
+{
+"address": "0x3660f4",
+"bytes": 244,
+"owner": "AnimationSet",
+"demangled": "AnimationSet::GetAnimation(int)"
+}
+],
+"bytes": 2016
+},
+{
+"id": "r2a-game-anim-AnimatorSynchronizedBlender-e23b0b-0",
+"category": "game-anim",
+"owner": "AnimatorSynchronizedBlender",
+"owners": [
+"AnimatorSynchronizedBlender"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x367c38",
+"bytes": 108,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::SetScale(float)"
+},
+{
+"address": "0x367ca4",
+"bytes": 136,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::BlendPost()"
+},
+{
+"address": "0x367d94",
+"bytes": 272,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::ApplyValues(unsigned int, unsigned int)"
+},
+{
+"address": "0x367ec8",
+"bytes": 700,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::AnimateNode(unsigned int)"
+},
+{
+"address": "0x36820c",
+"bytes": 332,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::animateNode(glitch::scene::ISceneNode*, unsigned int)"
+},
+{
+"address": "0x3683bc",
+"bytes": 260,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::CustomResetDelta()"
+},
+{
+"address": "0x3684d8",
+"bytes": 216,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::Blend(int)"
+},
+{
+"address": "0x3685cc",
+"bytes": 356,
+"owner": "AnimatorSynchronizedBlender",
+"demangled": "AnimatorSynchronizedBlender::SynchronizedBlenderApplicator::SetRefNode(glitch::scene::ISceneNode*)"
+}
+],
+"bytes": 2380
+},
+{
+"id": "r2a-game-anim-CharAnimator-2af513-0",
+"category": "game-anim",
+"owner": "CharAnimator",
+"owners": [
+"CharAnimator"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3c91c8",
+"bytes": 96,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::DecAnimSetUsers()"
+},
+{
+"address": "0x3c94b8",
+"bytes": 156,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::_PlayItemSwooshSFX(ItemInstance*)"
+},
+{
+"address": "0x3c955c",
+"bytes": 156,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::_PlayItemSwooshFX(ItemInstance*, bool)"
+},
+{
+"address": "0x3c9600",
+"bytes": 192,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::ANIM_IsSequence(unsigned int) const"
+},
+{
+"address": "0x3c96dc",
+"bytes": 192,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::ANIM_IsRandom(unsigned int) const"
+},
+{
+"address": "0x3c97b8",
+"bytes": 188,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::ANIM_IsUnique(unsigned int) const"
+},
+{
+"address": "0x3c99a0",
+"bytes": 256,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::ANIM_AddSetToRenderObject()"
+},
+{
+"address": "0x3c9b14",
+"bytes": 96,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::ANIM_AddAnimDictToSet(int)"
+},
+{
+"address": "0x3c9b7c",
+"bytes": 236,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::_CompileAnimSet()"
+},
+{
+"address": "0x3c9c7c",
+"bytes": 224,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::_AddTemplateAnimTable(int, int, unsigned int)"
+},
+{
+"address": "0x3c9d80",
+"bytes": 216,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::_AddAnimTable(int, int, unsigned int, unsigned int, unsigned int)"
+},
+{
+"address": "0x3c9f4c",
+"bytes": 1476,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::SetAnimationSet()"
+},
+{
+"address": "0x3ca79c",
+"bytes": 872,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::_SetAnimStep(unsigned int)"
+},
+{
+"address": "0x3cab38",
+"bytes": 212,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::_SetAnim(int, unsigned int)"
+},
+{
+"address": "0x3caccc",
+"bytes": 572,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::ANIM_Swap(int, int)"
+},
+{
+"address": "0x3caf3c",
+"bytes": 712,
+"owner": "CharAnimator",
+"demangled": "CharAnimator::Update()"
+}
+],
+"bytes": 5852
+},
+{
+"id": "r2a-game-anim-pack0-392f84-0",
+"category": "game-anim",
+"owner": "AnimApplicator | AnimSetController | AnimSetManager | AnimatedDecor | AnimatedFX | Animation | Animator",
+"owners": [
+"AnimApplicator",
+"AnimSetController",
+"AnimSetManager",
+"AnimatedDecor",
+"AnimatedFX",
+"Animation",
+"Animator"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x364838",
+"bytes": 48,
+"owner": "AnimApplicator",
+"demangled": "AnimApplicator::~AnimApplicator()"
+},
+{
+"address": "0x364870",
+"bytes": 48,
+"owner": "AnimApplicator",
+"demangled": "AnimApplicator::~AnimApplicator()"
+},
+{
+"address": "0x475248",
+"bytes": 136,
+"owner": "AnimSetController",
+"demangled": "AnimSetController::AnimSetController(RootSceneNode*, int)"
+},
+{
+"address": "0x47559c",
+"bytes": 136,
+"owner": "AnimSetManager",
+"demangled": "AnimSetManager::GetClipId(int, int)"
+},
+{
+"address": "0x4761cc",
+"bytes": 248,
+"owner": "AnimSetManager",
+"demangled": "AnimSetManager::GetSynchronizedAnimator(int)"
+},
+{
+"address": "0x476398",
+"bytes": 192,
+"owner": "AnimSetManager",
+"demangled": "AnimSetManager::AddTemplateAnim(int, int)"
+},
+{
+"address": "0x476464",
+"bytes": 188,
+"owner": "AnimSetManager",
+"demangled": "AnimSetManager::Create()"
+},
+{
+"address": "0x47653c",
+"bytes": 300,
+"owner": "AnimSetManager",
+"demangled": "AnimSetManager::AddAnim(int, int)"
+},
+{
+"address": "0x389128",
+"bytes": 512,
+"owner": "AnimatedDecor",
+"demangled": "AnimatedDecor::InitPost()"
+},
+{
+"address": "0x4924e0",
+"bytes": 104,
+"owner": "AnimatedFX",
+"demangled": "AnimatedFX::HasCompleted() const"
+},
+{
+"address": "0x492560",
+"bytes": 72,
+"owner": "AnimatedFX",
+"demangled": "AnimatedFX::SetEndPoint(Point3D<float> const&)"
+},
+{
+"address": "0x4926e4",
+"bytes": 96,
+"owner": "AnimatedFX",
+"demangled": "AnimatedFX::SetEnd()"
+},
+{
+"address": "0x492744",
+"bytes": 96,
+"owner": "AnimatedFX",
+"demangled": "AnimatedFX::SetStart()"
+},
+{
+"address": "0x4927a4",
+"bytes": 256,
+"owner": "AnimatedFX",
+"demangled": "AnimatedFX::_HandleLoopEnd()"
+},
+{
+"address": "0x492ef0",
+"bytes": 76,
+"owner": "AnimatedFX",
+"demangled": "AnimatedFX::SetVisible(bool)"
+},
+{
+"address": "0x492f68",
+"bytes": 432,
+"owner": "AnimatedFX",
+"demangled": "AnimatedFX::Update()"
+},
+{
+"address": "0x364ad4",
+"bytes": 24,
+"owner": "Animation",
+"demangled": "Animation::~Animation()"
+},
+{
+"address": "0x366330",
+"bytes": 112,
+"owner": "Animator",
+"demangled": "Animator::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)"
+}
+],
+"bytes": 3076
+},
+{
+"id": "r2a-game-anim-pack1-10a921-0",
+"category": "game-anim",
+"owner": "AnimatorBlender | AnimatorSet | AnimatorSynchronizedSet | BlendedAnimSetController | v2Controllable",
+"owners": [
+"AnimatorBlender",
+"AnimatorSet",
+"AnimatorSynchronizedSet",
+"BlendedAnimSetController",
+"v2Controllable"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3666d8",
+"bytes": 104,
+"owner": "AnimatorBlender",
+"demangled": "AnimatorBlender::SetScale(float)"
+},
+{
+"address": "0x366888",
+"bytes": 356,
+"owner": "AnimatorBlender",
+"demangled": "AnimatorBlender::BlenderApplicator::AnimateNode(unsigned int)"
+},
+{
+"address": "0x366a68",
+"bytes": 256,
+"owner": "AnimatorBlender",
+"demangled": "AnimatorBlender::BlenderApplicator::ResetDelta(unsigned int)"
+},
+{
+"address": "0x366b80",
+"bytes": 244,
+"owner": "AnimatorBlender",
+"demangled": "AnimatorBlender::BlenderApplicator::SetRefNode(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x366cb4",
+"bytes": 180,
+"owner": "AnimatorBlender",
+"demangled": "AnimatorBlender::animateNode(glitch::scene::ISceneNode*, unsigned int)"
+},
+{
+"address": "0x366eb8",
+"bytes": 188,
+"owner": "AnimatorBlender",
+"demangled": "AnimatorBlender::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)"
+},
+{
+"address": "0x367420",
+"bytes": 100,
+"owner": "AnimatorSet",
+"demangled": "AnimatorSet::setCurrentAnimation(int)"
+},
+{
+"address": "0x3674ac",
+"bytes": 100,
+"owner": "AnimatorSet",
+"demangled": "AnimatorSet::SetCurrentAnimation(int)"
+},
+{
+"address": "0x367510",
+"bytes": 112,
+"owner": "AnimatorSet",
+"demangled": "AnimatorSet::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)"
+},
+{
+"address": "0x367638",
+"bytes": 120,
+"owner": "AnimatorSet",
+"demangled": "AnimatorSet::~AnimatorSet()"
+},
+{
+"address": "0x367790",
+"bytes": 176,
+"owner": "AnimatorSet",
+"demangled": "AnimatorSet::AnimatorSet(boost::intrusive_ptr<AnimationSet> const&)"
+},
+{
+"address": "0x368fe8",
+"bytes": 92,
+"owner": "AnimatorSynchronizedSet",
+"demangled": "AnimatorSynchronizedSet::~AnimatorSynchronizedSet()"
+},
+{
+"address": "0x3690dc",
+"bytes": 92,
+"owner": "AnimatorSynchronizedSet",
+"demangled": "AnimatorSynchronizedSet::AnimatorSynchronizedSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&, std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, glitch::core::SAllocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, (glitch::memory::E_MEMORY_HINT)0> > const&)"
+},
+{
+"address": "0x476ddc",
+"bytes": 624,
+"owner": "BlendedAnimSetController",
+"demangled": "BlendedAnimSetController::BlendedAnimSetController(RootSceneNode*, int)"
+},
+{
+"address": "0x404e50",
+"bytes": 64,
+"owner": "v2Controllable",
+"demangled": "v2Controllable::Ctrl_ResetZoom()"
+},
+{
+"address": "0x404e98",
+"bytes": 100,
+"owner": "v2Controllable",
+"demangled": "v2Controllable::Ctrl_Zoom(float)"
+},
+{
+"address": "0x404fec",
+"bytes": 84,
+"owner": "v2Controllable",
+"demangled": "v2Controllable::Ctrl_TranslateMapCam(float, float)"
+}
+],
+"bytes": 2992
+},
+{
+"id": "r2a-game-anim-pack2-aa7d76-0",
+"category": "game-anim",
+"owner": "v2Controller | v2EmuController | v2GamepadController | v2HudController | v2MixedController | v2NetController",
+"owners": [
+"v2Controller",
+"v2EmuController",
+"v2GamepadController",
+"v2HudController",
+"v2MixedController",
+"v2NetController"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x4057fc",
+"bytes": 332,
+"owner": "v2Controller",
+"demangled": "v2Controller::Cmd_UseOOI(GameObject*)"
+},
+{
+"address": "0x405954",
+"bytes": 192,
+"owner": "v2Controller",
+"demangled": "v2Controller::Cmd_EndSkill(unsigned int)"
+},
+{
+"address": "0x405a20",
+"bytes": 216,
+"owner": "v2Controller",
+"demangled": "v2Controller::Cmd_BeginSkill(unsigned int)"
+},
+{
+"address": "0x405b04",
+"bytes": 428,
+"owner": "v2Controller",
+"demangled": "v2Controller::Cmd_Attack(GameObject*)"
+},
+{
+"address": "0x4060c0",
+"bytes": 892,
+"owner": "v2EmuController",
+"demangled": "v2EmuController::_onEvent(EvKeyboard const*, EventManager const*)"
+},
+{
+"address": "0x406450",
+"bytes": 96,
+"owner": "v2EmuController",
+"demangled": "v2EmuController::onEvent(IEvent const*, EventManager const*)"
+},
+{
+"address": "0x4064b8",
+"bytes": 92,
+"owner": "v2EmuController",
+"demangled": "v2EmuController::~v2EmuController()"
+},
+{
+"address": "0x406544",
+"bytes": 92,
+"owner": "v2EmuController",
+"demangled": "v2EmuController::~v2EmuController()"
+},
+{
+"address": "0x4065ac",
+"bytes": 252,
+"owner": "v2EmuController",
+"demangled": "v2EmuController::v2EmuController(v2Controllable*)"
+},
+{
+"address": "0x4066cc",
+"bytes": 252,
+"owner": "v2EmuController",
+"demangled": "v2EmuController::v2EmuController(v2Controllable*)"
+},
+{
+"address": "0x406978",
+"bytes": 204,
+"owner": "v2GamepadController",
+"demangled": "v2GamepadController::v2GamepadController(v2Controllable*, int)"
+},
+{
+"address": "0x406a64",
+"bytes": 204,
+"owner": "v2GamepadController",
+"demangled": "v2GamepadController::v2GamepadController(v2Controllable*, int)"
+},
+{
+"address": "0x408930",
+"bytes": 180,
+"owner": "v2HudController",
+"demangled": "v2HudController::v2HudController(v2Controllable*)"
+},
+{
+"address": "0x408a04",
+"bytes": 180,
+"owner": "v2HudController",
+"demangled": "v2HudController::v2HudController(v2Controllable*)"
+},
+{
+"address": "0x408dd8",
+"bytes": 212,
+"owner": "v2MixedController",
+"demangled": "v2MixedController::v2MixedController(v2Controllable*)"
+},
+{
+"address": "0x408ecc",
+"bytes": 212,
+"owner": "v2MixedController",
+"demangled": "v2MixedController::v2MixedController(v2Controllable*)"
+},
+{
+"address": "0x4091f4",
+"bytes": 180,
+"owner": "v2NetController",
+"demangled": "v2NetController::v2NetController(v2Controllable*)"
+},
+{
+"address": "0x4092c8",
+"bytes": 180,
+"owner": "v2NetController",
+"demangled": "v2NetController::v2NetController(v2Controllable*)"
+},
+{
+"address": "0x40939c",
+"bytes": 612,
+"owner": "v2NetController",
+"demangled": "v2NetController::Update()"
+}
+],
+"bytes": 5008
+},
+{
+"id": "r2a-game-anim-pack3-a632de-0",
+"category": "game-anim",
+"owner": "v2PS3MoveController",
+"owners": [
+"v2PS3MoveController"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x4098d0",
+"bytes": 204,
+"owner": "v2PS3MoveController",
+"demangled": "v2PS3MoveController::v2PS3MoveController(v2Controllable*, int)"
+},
+{
+"address": "0x4099bc",
+"bytes": 204,
+"owner": "v2PS3MoveController",
+"demangled": "v2PS3MoveController::v2PS3MoveController(v2Controllable*, int)"
+},
+{
+"address": "0x409bd8",
+"bytes": 160,
+"owner": "v2PS3MoveController",
+"demangled": "v2PS3MoveController::Update()"
+}
+],
+"bytes": 568
+},
+{
+"id": "r2a-game-app-global-f216b6-0",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 0,
+"parts": 8,
+"functions": [
+{
+"address": "0x328afc",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgMenuReady>(bool)"
+},
+{
+"address": "0x328b6c",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgAttackResult>(bool)"
+},
+{
+"address": "0x328d30",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgAskResendAttributes>(bool)"
+},
+{
+"address": "0x328da8",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgIsHost>(bool)"
+},
+{
+"address": "0x329298",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgGlobalDeath>(bool)"
+},
+{
+"address": "0x3296ac",
+"bytes": 40,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgRaisedEvent>(bool)"
+},
+{
+"address": "0x32a140",
+"bytes": 112,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgStartGame>(bool)"
+},
+{
+"address": "0x32a710",
+"bytes": 112,
+"owner": "<global>",
+"demangled": "CMessage* GetNewInstance<CMsgScriptCmd>(bool)"
+},
+{
+"address": "0x33933c",
+"bytes": 284,
+"owner": "<global>",
+"demangled": "GetSubtitleTextToSet"
+},
+{
+"address": "0x340ca8",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<LevelConfig>()"
+},
+{
+"address": "0x340ccc",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<SoundEmitter>()"
+},
+{
+"address": "0x340cf0",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<LaserTypeProjectile>()"
+},
+{
+"address": "0x340d38",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<ItemObject>()"
+},
+{
+"address": "0x340d5c",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<DestructibleContainer>()"
+},
+{
+"address": "0x340d80",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<SlotContainer>()"
+},
+{
+"address": "0x340da4",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<OpenableContainer>()"
+},
+{
+"address": "0x340dc8",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<LiftableObject>()"
+},
+{
+"address": "0x340dec",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<SpawnSpot>()"
+},
+{
+"address": "0x340e10",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<SpawnPoint>()"
+},
+{
+"address": "0x340e34",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<ProjectileTrap>()"
+}
+],
+"bytes": 1476
+},
+{
+"id": "r2a-game-app-global-f216b6-1",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 1,
+"parts": 8,
+"functions": [
+{
+"address": "0x340e58",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<TimerTrap>()"
+},
+{
+"address": "0x340e7c",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<TriggerTrap>()"
+},
+{
+"address": "0x340ea0",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<TriggerZoneExitLevel>()"
+},
+{
+"address": "0x340ec4",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<TriggerZone>()"
+},
+{
+"address": "0x340ee8",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<TriggerPlate>()"
+},
+{
+"address": "0x340f0c",
+"bytes": 32,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<TriggerObject>()"
+},
+{
+"address": "0x340f2c",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<CheckpointZone>()"
+},
+{
+"address": "0x340f50",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<QuestMoveInZone>()"
+},
+{
+"address": "0x340f74",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<RoomZone>()"
+},
+{
+"address": "0x340f98",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<Module>()"
+},
+{
+"address": "0x340fbc",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<Billboard>()"
+},
+{
+"address": "0x340fe0",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<ColBox>()"
+},
+{
+"address": "0x34104c",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<Floor>()"
+},
+{
+"address": "0x3410a4",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<Dummy>()"
+},
+{
+"address": "0x3410fc",
+"bytes": 88,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<Decor>()"
+},
+{
+"address": "0x34115c",
+"bytes": 32,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<LightPoint>()"
+},
+{
+"address": "0x342600",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "ObjectBase* GetNewInstance<AnimatedDecor>()"
+},
+{
+"address": "0x3c0454",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSLimbus>()"
+},
+{
+"address": "0x3c0470",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSSpawn>()"
+},
+{
+"address": "0x3c048c",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSDespawn>()"
+}
+],
+"bytes": 940
+},
+{
+"id": "r2a-game-app-global-f216b6-2",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 2,
+"parts": 8,
+"functions": [
+{
+"address": "0x3c04a8",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSIdle>()"
+},
+{
+"address": "0x3c04c4",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSMove>()"
+},
+{
+"address": "0x3c04e0",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSAttack>()"
+},
+{
+"address": "0x3c04fc",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSSkill>()"
+},
+{
+"address": "0x3c0518",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSCast>()"
+},
+{
+"address": "0x3c0534",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSScared>()"
+},
+{
+"address": "0x3c0550",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSStunned>()"
+},
+{
+"address": "0x3c056c",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSKnockedBack>()"
+},
+{
+"address": "0x3c0588",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSInjured>()"
+},
+{
+"address": "0x3c05a4",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSDead>()"
+},
+{
+"address": "0x3c05c0",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSInteract>()"
+},
+{
+"address": "0x3c05dc",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSAnim>()"
+},
+{
+"address": "0x3c05f8",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSReviving>()"
+},
+{
+"address": "0x3c0614",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSRevived>()"
+},
+{
+"address": "0x3c0630",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSPreSpawn>()"
+},
+{
+"address": "0x3c064c",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSLiftingIdle>()"
+},
+{
+"address": "0x3c0668",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "CharState* GetNewState<CSLiftingMove>()"
+},
+{
+"address": "0x3fc6e8",
+"bytes": 164,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetDecay(ItemInventory*)"
+},
+{
+"address": "0x3fc790",
+"bytes": 168,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetPhantasm(ItemInventory*)"
+},
+{
+"address": "0x3fc83c",
+"bytes": 168,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetShadow(ItemInventory*)"
+}
+],
+"bytes": 840
+},
+{
+"id": "r2a-game-app-global-f216b6-3",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 3,
+"parts": 8,
+"functions": [
+{
+"address": "0x3fc8e8",
+"bytes": 168,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetMarksman(ItemInventory*)"
+},
+{
+"address": "0x3fc994",
+"bytes": 168,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetAngelic(ItemInventory*)"
+},
+{
+"address": "0x3fca40",
+"bytes": 168,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetRage(ItemInventory*)"
+},
+{
+"address": "0x3fcaec",
+"bytes": 424,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetArchmage(ItemInventory*)"
+},
+{
+"address": "0x3fcc98",
+"bytes": 428,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetJester(ItemInventory*)"
+},
+{
+"address": "0x3fce48",
+"bytes": 428,
+"owner": "<global>",
+"demangled": "TrophyCheckArmorSetLordly(ItemInventory*)"
+},
+{
+"address": "0x439c68",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "NativeSetLockZoom(bool)"
+},
+{
+"address": "0x439c94",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "NativeUnlockZoom(gameswf::fn_call const&)"
+},
+{
+"address": "0x439c9c",
+"bytes": 8,
+"owner": "<global>",
+"demangled": "NativeLockZoom(gameswf::fn_call const&)"
+},
+{
+"address": "0x439dd8",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "NativePopAllMenus(gameswf::fn_call const&)"
+},
+{
+"address": "0x439ec8",
+"bytes": 48,
+"owner": "<global>",
+"demangled": "NativeIsJapaneseVersion(gameswf::fn_call const&)"
+},
+{
+"address": "0x439fa4",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "NativeScreenIsBlack(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a0cc",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "NativeSendRoomSearchRequest(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a0fc",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "NativeOnlineSanityCheck(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a110",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "NativeCreateMultiplayerLobby(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a1e4",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "NativeAddFriend(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a248",
+"bytes": 100,
+"owner": "<global>",
+"demangled": "NativeSendGLInvite(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a3dc",
+"bytes": 116,
+"owner": "<global>",
+"demangled": "NativeMultiplayerBack(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a450",
+"bytes": 556,
+"owner": "<global>",
+"demangled": "NativeShowLeaderboard(gameswf::fn_call const&)"
+},
+{
+"address": "0x43a6a4",
+"bytes": 24,
+"owner": "<global>",
+"demangled": "NativeLaunchTwitter(gameswf::fn_call const&)"
+}
+],
+"bytes": 2936
+},
+{
+"id": "r2a-game-app-global-f216b6-4",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 4,
+"parts": 8,
+"functions": [
+{
+"address": "0x43a6c4",
+"bytes": 140,
+"owner": "<global>",
+"demangled": "NativeGCAchievements(gameswf::fn_call const&)"
+},
+{
+"address": "0x43aa84",
+"bytes": 16,
+"owner": "<global>",
+"demangled": "NativeResetMapZoom(gameswf::fn_call const&)"
+},
+{
+"address": "0x43aa94",
+"bytes": 24,
+"owner": "<global>",
+"demangled": "NativeHideMinimap(gameswf::fn_call const&)"
+},
+{
+"address": "0x43aaac",
+"bytes": 24,
+"owner": "<global>",
+"demangled": "NativeShowMinimap(gameswf::fn_call const&)"
+},
+{
+"address": "0x43aac4",
+"bytes": 52,
+"owner": "<global>",
+"demangled": "AssignSaveSlotToPlayer(int, int)"
+},
+{
+"address": "0x43ab98",
+"bytes": 72,
+"owner": "<global>",
+"demangled": "NativeAwayFromHud(gameswf::fn_call const&)"
+},
+{
+"address": "0x43abe8",
+"bytes": 56,
+"owner": "<global>",
+"demangled": "NativeDebugConsole(gameswf::fn_call const&)"
+},
+{
+"address": "0x43acdc",
+"bytes": 32,
+"owner": "<global>",
+"demangled": "NativePauseAllSounds(gameswf::fn_call const&)"
+},
+{
+"address": "0x43ad04",
+"bytes": 32,
+"owner": "<global>",
+"demangled": "NativePauseMusic(gameswf::fn_call const&)"
+},
+{
+"address": "0x43ad2c",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "NativeStopMusic(gameswf::fn_call const&)"
+},
+{
+"address": "0x43ad58",
+"bytes": 36,
+"owner": "<global>",
+"demangled": "NativePlayPreviousMusic(gameswf::fn_call const&)"
+},
+{
+"address": "0x43b1e4",
+"bytes": 132,
+"owner": "<global>",
+"demangled": "NativeReviveAllPlayers(gameswf::fn_call const&)"
+},
+{
+"address": "0x43b278",
+"bytes": 88,
+"owner": "<global>",
+"demangled": "NativeSaveSettings(gameswf::fn_call const&)"
+},
+{
+"address": "0x43b2d8",
+"bytes": 164,
+"owner": "<global>",
+"demangled": "NativeLoadSettings(gameswf::fn_call const&)"
+},
+{
+"address": "0x43b4b8",
+"bytes": 28,
+"owner": "<global>",
+"demangled": "NativeEnterOptionMenu(gameswf::fn_call const&)"
+},
+{
+"address": "0x43c388",
+"bytes": 116,
+"owner": "<global>",
+"demangled": "NativeGetPlayerChar(int, bool)"
+},
+{
+"address": "0x43cabc",
+"bytes": 96,
+"owner": "<global>",
+"demangled": "NativeHUDSpell(gameswf::fn_call const&)"
+},
+{
+"address": "0x43d3b4",
+"bytes": 136,
+"owner": "<global>",
+"demangled": "NativeSetCurrentQuest(gameswf::fn_call const&)"
+},
+{
+"address": "0x43d43c",
+"bytes": 268,
+"owner": "<global>",
+"demangled": "NativeStatsRemoveAssign(gameswf::fn_call const&)"
+},
+{
+"address": "0x43d548",
+"bytes": 244,
+"owner": "<global>",
+"demangled": "NativeSkillsTrainSkill(gameswf::fn_call const&)"
+}
+],
+"bytes": 1792
+},
+{
+"id": "r2a-game-app-global-f216b6-5",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 5,
+"parts": 8,
+"functions": [
+{
+"address": "0x43d63c",
+"bytes": 188,
+"owner": "<global>",
+"demangled": "NativeEquipSkill(gameswf::fn_call const&)"
+},
+{
+"address": "0x43d6f8",
+"bytes": 124,
+"owner": "<global>",
+"demangled": "NativePinchZoom(gameswf::fn_call const&)"
+},
+{
+"address": "0x43da2c",
+"bytes": 208,
+"owner": "<global>",
+"demangled": "NativeInvAutoEquipSlot(gameswf::fn_call const&)"
+},
+{
+"address": "0x43dafc",
+"bytes": 180,
+"owner": "<global>",
+"demangled": "NativeOnHUDOpenEvent(gameswf::fn_call const&)"
+},
+{
+"address": "0x43dbb8",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "NativeReloadSkills(gameswf::fn_call const&)"
+},
+{
+"address": "0x43dc08",
+"bytes": 512,
+"owner": "<global>",
+"demangled": "NativeSaveGame(gameswf::fn_call const&)"
+},
+{
+"address": "0x43e0d0",
+"bytes": 544,
+"owner": "<global>",
+"demangled": "NativeStartGame(gameswf::fn_call const&)"
+},
+{
+"address": "0x43e308",
+"bytes": 92,
+"owner": "<global>",
+"demangled": "NativeStartMultiplayerGame(gameswf::fn_call const&)"
+},
+{
+"address": "0x43e494",
+"bytes": 348,
+"owner": "<global>",
+"demangled": "NativeStatsReset(gameswf::fn_call const&)"
+},
+{
+"address": "0x43e600",
+"bytes": 308,
+"owner": "<global>",
+"demangled": "NativeInvEquipItem(gameswf::fn_call const&)"
+},
+{
+"address": "0x43e734",
+"bytes": 244,
+"owner": "<global>",
+"demangled": "NativeHUDSkill(gameswf::fn_call const&)"
+},
+{
+"address": "0x43ea0c",
+"bytes": 180,
+"owner": "<global>",
+"demangled": "NativeUnlockCharacter(gameswf::fn_call const&)"
+},
+{
+"address": "0x43eac0",
+"bytes": 188,
+"owner": "<global>",
+"demangled": "NativeLockCharacter(gameswf::fn_call const&)"
+},
+{
+"address": "0x43f5c8",
+"bytes": 104,
+"owner": "<global>",
+"demangled": "NativeGetSaveIDsListSize(gameswf::fn_call const&)"
+},
+{
+"address": "0x43fa58",
+"bytes": 120,
+"owner": "<global>",
+"demangled": "NativeGetLoadingProgress(gameswf::fn_call const&)"
+},
+{
+"address": "0x440c84",
+"bytes": 164,
+"owner": "<global>",
+"demangled": "NativeHasPushNotification(gameswf::fn_call const&)"
+},
+{
+"address": "0x441b60",
+"bytes": 488,
+"owner": "<global>",
+"demangled": "NativeKickPlayerOut(gameswf::fn_call const&)"
+},
+{
+"address": "0x4425a0",
+"bytes": 404,
+"owner": "<global>",
+"demangled": "NativeSkillGetEquipedSkillsIDs(gameswf::fn_call const&)"
+},
+{
+"address": "0x442ea4",
+"bytes": 1052,
+"owner": "<global>",
+"demangled": "NativeStopMessage(gameswf::fn_call const&)"
+},
+{
+"address": "0x44344c",
+"bytes": 312,
+"owner": "<global>",
+"demangled": "NativeGetPlayerRanking(gameswf::fn_call const&)"
+}
+],
+"bytes": 5840
+},
+{
+"id": "r2a-game-app-global-f216b6-6",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 6,
+"parts": 8,
+"functions": [
+{
+"address": "0x443b18",
+"bytes": 1564,
+"owner": "<global>",
+"demangled": "NativeGetQuestIDsInRange(gameswf::fn_call const&)"
+},
+{
+"address": "0x444168",
+"bytes": 2012,
+"owner": "<global>",
+"demangled": "NativeMerchantGetItemsListForSlot(gameswf::fn_call const&)"
+},
+{
+"address": "0x444ae0",
+"bytes": 364,
+"owner": "<global>",
+"demangled": "NativeLoginInfos(gameswf::fn_call const&)"
+},
+{
+"address": "0x444c68",
+"bytes": 360,
+"owner": "<global>",
+"demangled": "NativeGetMapIcons(gameswf::fn_call const&)"
+},
+{
+"address": "0x444dec",
+"bytes": 160,
+"owner": "<global>",
+"demangled": "NativeGetIPodPlaylistName(gameswf::fn_call const&)"
+},
+{
+"address": "0x444ebc",
+"bytes": 216,
+"owner": "<global>",
+"demangled": "NativeGetStringFromSymbol(gameswf::fn_call const&)"
+},
+{
+"address": "0x44506c",
+"bytes": 116,
+"owner": "<global>",
+"demangled": "NativeGetStringFromID(gameswf::fn_call const&)"
+},
+{
+"address": "0x4451ac",
+"bytes": 872,
+"owner": "<global>",
+"demangled": "NativeGetMultiplayerGameRooms(gameswf::fn_call const&)"
+},
+{
+"address": "0x445a10",
+"bytes": 376,
+"owner": "<global>",
+"demangled": "NativeGetSkillDetails(gameswf::fn_call const&)"
+},
+{
+"address": "0x45775c",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DoTutorial>()"
+},
+{
+"address": "0x457cb4",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateTriggerPlate>()"
+},
+{
+"address": "0x457d4c",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DeactivateProjectileTrap>()"
+},
+{
+"address": "0x457d98",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>()"
+},
+{
+"address": "0x457de4",
+"bytes": 72,
+"owner": "<global>",
+"demangled": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_CloseDoor>()"
+},
+{
+"address": "0x457fec",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_DropLoot>()"
+},
+{
+"address": "0x458ab8",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EmptyImpl>()"
+},
+{
+"address": "0x4594a8",
+"bytes": 156,
+"owner": "<global>",
+"demangled": "Script_CharacterState_Callback(char const*, int, void (*)(ObjectBase*))"
+},
+{
+"address": "0x478a80",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "Condition* GetConditionImplInstance<Condition_IsPlayerInLevel>()"
+},
+{
+"address": "0x478acc",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "Condition* GetConditionImplInstance<Condition_IsQuestStateHigher>()"
+},
+{
+"address": "0x478b14",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "Condition* GetConditionImplInstance<Condition_IsQuestStateLower>()"
+}
+],
+"bytes": 6860
+},
+{
+"id": "r2a-game-app-global-f216b6-7",
+"category": "game-app",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 7,
+"parts": 8,
+"functions": [
+{
+"address": "0x478b5c",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "Condition* GetConditionImplInstance<Condition_IsQuestInState>()"
+},
+{
+"address": "0x47a3ac",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "GetPosition()"
+},
+{
+"address": "0x50e830",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "GetScreenPosFromWorldPos(glitch::core::vector3d<float> const&, glitch::core::position2d<int>&)"
+},
+{
+"address": "0x50ed8c",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "GetWorldPosFromScreenPos(Point2D<float> const&, Point3D<float>&, float)"
+},
+{
+"address": "0x50f780",
+"bytes": 124,
+"owner": "<global>",
+"demangled": "findSceneNodeRef(glitch::scene::ISceneNode*, char const*)"
+},
+{
+"address": "0x50f89c",
+"bytes": 308,
+"owner": "<global>",
+"demangled": "CopyMeshSceneNode(glitch::scene::IMeshSceneNode*)"
+},
+{
+"address": "0x530b5c",
+"bytes": 28,
+"owner": "<global>",
+"demangled": "SetDisplayString"
+},
+{
+"address": "0x53226c",
+"bytes": 216,
+"owner": "<global>",
+"demangled": "GetNativeResourceFull"
+},
+{
+"address": "0x532350",
+"bytes": 124,
+"owner": "<global>",
+"demangled": "GetNativeResourceLength"
+},
+{
+"address": "0x5323d8",
+"bytes": 220,
+"owner": "<global>",
+"demangled": "GetNativeResourceBytes"
+},
+{
+"address": "0x532f14",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "GetAccelerometerParams"
+},
+{
+"address": "0x7dc1ec",
+"bytes": 40,
+"owner": "<global>",
+"demangled": "KillVertex(GLUvertex*, GLUvertex*)"
+}
+],
+"bytes": 1428
+},
+{
+"id": "r2a-game-app-Application-b291be-0",
+"category": "game-app",
+"owner": "Application",
+"owners": [
+"Application"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x31f504",
+"bytes": 72,
+"owner": "Application",
+"demangled": "Application::IsInitFinish()"
+},
+{
+"address": "0x31f594",
+"bytes": 24,
+"owner": "Application",
+"demangled": "Application::GetCurrentLevel() const"
+},
+{
+"address": "0x31f5fc",
+"bytes": 100,
+"owner": "Application",
+"demangled": "Application::IsInActionPhase() const"
+},
+{
+"address": "0x320590",
+"bytes": 20,
+"owner": "Application",
+"demangled": "Application::IsInternetAccessEnabled()"
+},
+{
+"address": "0x320654",
+"bytes": 20,
+"owner": "Application",
+"demangled": "Application::IsWifiEnabled()"
+},
+{
+"address": "0x320668",
+"bytes": 16,
+"owner": "Application",
+"demangled": "Application::IsOnlineGame()"
+},
+{
+"address": "0x320678",
+"bytes": 84,
+"owner": "Application",
+"demangled": "Application::IsUsingUncompiledData(char const*) const"
+},
+{
+"address": "0x320774",
+"bytes": 140,
+"owner": "Application",
+"demangled": "Application::GetVersionBuild()"
+},
+{
+"address": "0x320f5c",
+"bytes": 140,
+"owner": "Application",
+"demangled": "Application::IsLevelRunning()"
+},
+{
+"address": "0x321000",
+"bytes": 288,
+"owner": "Application",
+"demangled": "Application::IsLevelPaused(bool)"
+},
+{
+"address": "0x321164",
+"bytes": 96,
+"owner": "Application",
+"demangled": "Application::_CheckGamepad()"
+},
+{
+"address": "0x322924",
+"bytes": 440,
+"owner": "Application",
+"demangled": "Application::Pause()"
+},
+{
+"address": "0x322afc",
+"bytes": 48,
+"owner": "Application",
+"demangled": "Application::InitPS3(glitch::IDevice*)"
+},
+{
+"address": "0x324210",
+"bytes": 60,
+"owner": "Application",
+"demangled": "Application::OnInterruptPause()"
+},
+{
+"address": "0x3270c8",
+"bytes": 16,
+"owner": "Application",
+"demangled": "Application::AddUnderlayNode(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x328f40",
+"bytes": 160,
+"owner": "Application",
+"demangled": "Application::ResetTouch()"
+},
+{
+"address": "0x32bdc8",
+"bytes": 984,
+"owner": "Application",
+"demangled": "Application::LoadLevel(char const*, int, unsigned int, bool, bool, int, bool, unsigned int, unsigned int)"
+},
+{
+"address": "0x32c1f4",
+"bytes": 532,
+"owner": "Application",
+"demangled": "Application::GoToMainMenu(GoToMainMenuEvent)"
+},
+{
+"address": "0x32ccc4",
+"bytes": 360,
+"owner": "Application",
+"demangled": "Application::Update()"
+},
+{
+"address": "0x32d79c",
+"bytes": 228,
+"owner": "Application",
+"demangled": "Application::Application()"
+}
+],
+"bytes": 3828
+},
+{
+"id": "r2a-game-app-Application-b291be-1",
+"category": "game-app",
+"owner": "Application",
+"owners": [
+"Application"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x32d980",
+"bytes": 228,
+"owner": "Application",
+"demangled": "Application::Application()"
+}
+],
+"bytes": 228
+},
+{
+"id": "r2a-game-app-LuaScript-5015a8-0",
+"category": "game-app",
+"owner": "LuaScript",
+"owners": [
+"LuaScript"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x37b5a0",
+"bytes": 984,
+"owner": "LuaScript",
+"demangled": "LuaScript::BindFunction()"
+},
+{
+"address": "0x37bec0",
+"bytes": 308,
+"owner": "LuaScript",
+"demangled": "LuaScript::~LuaScript()"
+},
+{
+"address": "0x37c004",
+"bytes": 308,
+"owner": "LuaScript",
+"demangled": "LuaScript::~LuaScript()"
+},
+{
+"address": "0x37c390",
+"bytes": 132,
+"owner": "LuaScript",
+"demangled": "LuaScript::Call(char const*, sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)"
+},
+{
+"address": "0x37c41c",
+"bytes": 112,
+"owner": "LuaScript",
+"demangled": "LuaScript::Call(char const*, sfc::script::lua::Arguments const&)"
+},
+{
+"address": "0x37c494",
+"bytes": 120,
+"owner": "LuaScript",
+"demangled": "LuaScript::Call(char const*, sfc::script::lua::ReturnValues&)"
+},
+{
+"address": "0x37c514",
+"bytes": 104,
+"owner": "LuaScript",
+"demangled": "LuaScript::Call(char const*)"
+},
+{
+"address": "0x37c584",
+"bytes": 172,
+"owner": "LuaScript",
+"demangled": "LuaScript::LuaScript(bool)"
+},
+{
+"address": "0x37c674",
+"bytes": 172,
+"owner": "LuaScript",
+"demangled": "LuaScript::LuaScript(bool)"
+},
+{
+"address": "0x37c934",
+"bytes": 60,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetGameScript(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37ca60",
+"bytes": 52,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37cb8c",
+"bytes": 68,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetHostPlayerDifficulty(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37cbd8",
+"bytes": 32,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetNumPlayers(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37cc00",
+"bytes": 52,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetHostPlayerLevel(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37ddc8",
+"bytes": 136,
+"owner": "LuaScript",
+"demangled": "LuaScript::_IsPlayerCharacter(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37de5c",
+"bytes": 204,
+"owner": "LuaScript",
+"demangled": "LuaScript::_SetInt(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37df30",
+"bytes": 300,
+"owner": "LuaScript",
+"demangled": "LuaScript::_Rand(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37e068",
+"bytes": 288,
+"owner": "LuaScript",
+"demangled": "LuaScript::_DivFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37e1a4",
+"bytes": 296,
+"owner": "LuaScript",
+"demangled": "LuaScript::_MulFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37e2d8",
+"bytes": 276,
+"owner": "LuaScript",
+"demangled": "LuaScript::_RandF(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 4176
+},
+{
+"id": "r2a-game-app-LuaScript-5015a8-1",
+"category": "game-app",
+"owner": "LuaScript",
+"owners": [
+"LuaScript"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x37e420",
+"bytes": 316,
+"owner": "LuaScript",
+"demangled": "LuaScript::_PlayMusic(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37e578",
+"bytes": 416,
+"owner": "LuaScript",
+"demangled": "LuaScript::_PlaySound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37e730",
+"bytes": 212,
+"owner": "LuaScript",
+"demangled": "LuaScript::_StopSound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37e814",
+"bytes": 460,
+"owner": "LuaScript",
+"demangled": "LuaScript::_BitOr(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37e9ec",
+"bytes": 460,
+"owner": "LuaScript",
+"demangled": "LuaScript::_BitAnd(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37ebc4",
+"bytes": 80,
+"owner": "LuaScript",
+"demangled": "LuaScript::_ToFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37ec14",
+"bytes": 92,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetInt(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37ec70",
+"bytes": 496,
+"owner": "LuaScript",
+"demangled": "LuaScript::_AddToVFTable(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37ee84",
+"bytes": 164,
+"owner": "LuaScript",
+"demangled": "LuaScript::_FromFixed(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37ef3c",
+"bytes": 160,
+"owner": "LuaScript",
+"demangled": "LuaScript::_CallPyScript(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37efe4",
+"bytes": 88,
+"owner": "LuaScript",
+"demangled": "LuaScript::_Include(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f03c",
+"bytes": 428,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetGameObjectsByType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f1f0",
+"bytes": 344,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetCurrentLevelRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f354",
+"bytes": 320,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetPyCst(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f4a8",
+"bytes": 320,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetPyStruct(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f5fc",
+"bytes": 320,
+"owner": "LuaScript",
+"demangled": "LuaScript::_GetPyOID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f750",
+"bytes": 192,
+"owner": "LuaScript",
+"demangled": "LuaScript::_BitXOr(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f814",
+"bytes": 100,
+"owner": "LuaScript",
+"demangled": "LuaScript::_BitNot(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x37f878",
+"bytes": 308,
+"owner": "LuaScript",
+"demangled": "LuaScript::_SetGameType(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 5276
+},
+{
+"id": "r2a-game-app-pack0-e3ab88-0",
+"category": "game-app",
+"owner": "DataReloaderManager | DebugSwitches | GSConsole | GSEndGame | GSFlashMenu | GSInit | GSTest",
+"owners": [
+"DataReloaderManager",
+"DebugSwitches",
+"GSConsole",
+"GSEndGame",
+"GSFlashMenu",
+"GSInit",
+"GSTest"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x339124",
+"bytes": 112,
+"owner": "DataReloaderManager",
+"demangled": "DataReloaderManager::_MonitoredFiles::~_MonitoredFiles()"
+},
+{
+"address": "0x3391a0",
+"bytes": 140,
+"owner": "DataReloaderManager",
+"demangled": "DataReloaderManager::~DataReloaderManager()"
+},
+{
+"address": "0x33925c",
+"bytes": 140,
+"owner": "DataReloaderManager",
+"demangled": "DataReloaderManager::~DataReloaderManager()"
+},
+{
+"address": "0x337404",
+"bytes": 208,
+"owner": "DebugSwitches",
+"demangled": "DebugSwitches::SetModule(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)"
+},
+{
+"address": "0x337d54",
+"bytes": 124,
+"owner": "DebugSwitches",
+"demangled": "DebugSwitches::save()"
+},
+{
+"address": "0x337ddc",
+"bytes": 220,
+"owner": "DebugSwitches",
+"demangled": "DebugSwitches::SetSwitch(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)"
+},
+{
+"address": "0x383304",
+"bytes": 32,
+"owner": "GSConsole",
+"demangled": "GSConsole::Update(StateMachine*, double)"
+},
+{
+"address": "0x38332c",
+"bytes": 44,
+"owner": "GSConsole",
+"demangled": "GSConsole::Dtor(StateMachine const*)"
+},
+{
+"address": "0x383360",
+"bytes": 44,
+"owner": "GSConsole",
+"demangled": "GSConsole::Ctor(StateMachine const*)"
+},
+{
+"address": "0x3833e4",
+"bytes": 208,
+"owner": "GSConsole",
+"demangled": "GSConsole::Toggle()"
+},
+{
+"address": "0x383fbc",
+"bytes": 456,
+"owner": "GSEndGame",
+"demangled": "GSEndGame::Update(StateMachine*, double)"
+},
+{
+"address": "0x3841b4",
+"bytes": 72,
+"owner": "GSFlashMenu",
+"demangled": "GSFlashMenu::GSFlashMenu()"
+},
+{
+"address": "0x38421c",
+"bytes": 72,
+"owner": "GSFlashMenu",
+"demangled": "GSFlashMenu::GSFlashMenu()"
+},
+{
+"address": "0x384284",
+"bytes": 36,
+"owner": "GSFlashMenu",
+"demangled": "GSFlashMenu::~GSFlashMenu()"
+},
+{
+"address": "0x3842b8",
+"bytes": 36,
+"owner": "GSFlashMenu",
+"demangled": "GSFlashMenu::~GSFlashMenu()"
+},
+{
+"address": "0x384460",
+"bytes": 356,
+"owner": "GSFlashMenu",
+"demangled": "GSFlashMenu::Update(StateMachine*, double)"
+},
+{
+"address": "0x3845f8",
+"bytes": 104,
+"owner": "GSFlashMenu",
+"demangled": "GSFlashMenu::Dtor(StateMachine const*)"
+},
+{
+"address": "0x3846fc",
+"bytes": 104,
+"owner": "GSFlashMenu",
+"demangled": "GSFlashMenu::Ctor(StateMachine const*)"
+},
+{
+"address": "0x3850c8",
+"bytes": 1964,
+"owner": "GSInit",
+"demangled": "GSInit::Update(StateMachine*, double)"
+},
+{
+"address": "0x386f90",
+"bytes": 92,
+"owner": "GSTest",
+"demangled": "GSTest::Update(StateMachine*, double)"
+}
+],
+"bytes": 4564
+},
+{
+"id": "r2a-game-app-pack1-e4281c-0",
+"category": "game-app",
+"owner": "GSViewer | GS_InterruptLoading | GameEvent | GameEventManager | IStreamBase | POProjectile | POVillager | PlayerLightTweaker | ScriptCmdImpl | ScriptManager | Script_AISetInt | Script_ActivateTriggerPlate | Script_AutoEquip",
+"owners": [
+"GSViewer",
+"GS_InterruptLoading",
+"GameEvent",
+"GameEventManager",
+"IStreamBase",
+"POProjectile",
+"POVillager",
+"PlayerLightTweaker",
+"ScriptCmdImpl",
+"ScriptManager",
+"Script_AISetInt",
+"Script_ActivateTriggerPlate",
+"Script_AutoEquip"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3871c8",
+"bytes": 160,
+"owner": "GSViewer",
+"demangled": "GSViewer::Dtor(StateMachine const*)"
+},
+{
+"address": "0x387270",
+"bytes": 68,
+"owner": "GSViewer",
+"demangled": "GSViewer::Update(StateMachine*, double)"
+},
+{
+"address": "0x417454",
+"bytes": 504,
+"owner": "GS_InterruptLoading",
+"demangled": "GS_InterruptLoading::Draw(StateMachine const*)"
+},
+{
+"address": "0x4179c8",
+"bytes": 1428,
+"owner": "GS_InterruptLoading",
+"demangled": "GS_InterruptLoading::Update(StateMachine*, double)"
+},
+{
+"address": "0x417fe8",
+"bytes": 536,
+"owner": "GS_InterruptLoading",
+"demangled": "GS_InterruptLoading::Dtor(StateMachine const*)"
+},
+{
+"address": "0x479544",
+"bytes": 28,
+"owner": "GameEvent",
+"demangled": "GameEvent::DBG_TraceDetailedInformation() const"
+},
+{
+"address": "0x479568",
+"bytes": 20,
+"owner": "GameEvent",
+"demangled": "GameEvent::AssignPyData(Structs::v2Event*)"
+},
+{
+"address": "0x479848",
+"bytes": 116,
+"owner": "GameEventManager",
+"demangled": "GameEventManager::GetEventByName(char const*) const"
+},
+{
+"address": "0x479e5c",
+"bytes": 200,
+"owner": "GameEventManager",
+"demangled": "GameEventManager::Load()"
+},
+{
+"address": "0x3a3ad0",
+"bytes": 152,
+"owner": "IStreamBase",
+"demangled": "void IStreamBase::writeAs<Structs::CharacterProperties>(Structs::CharacterProperties const&)"
+},
+{
+"address": "0x470520",
+"bytes": 240,
+"owner": "POProjectile",
+"demangled": "POProjectile::onCollisionTest(PhysicalBaseObject*, short, unsigned short, unsigned short, short, unsigned short, unsigned short)"
+},
+{
+"address": "0x3b3824",
+"bytes": 44,
+"owner": "POVillager",
+"demangled": "POVillager::~POVillager()"
+},
+{
+"address": "0x40dd7c",
+"bytes": 20,
+"owner": "PlayerLightTweaker",
+"demangled": "PlayerLightTweaker::GetIdsFromName(char const*)"
+},
+{
+"address": "0x4559f8",
+"bytes": 104,
+"owner": "ScriptCmdImpl",
+"demangled": "ScriptCmdImpl::~ScriptCmdImpl()"
+},
+{
+"address": "0x455a68",
+"bytes": 104,
+"owner": "ScriptCmdImpl",
+"demangled": "ScriptCmdImpl::~ScriptCmdImpl()"
+},
+{
+"address": "0x4604c0",
+"bytes": 236,
+"owner": "ScriptManager",
+"demangled": "ScriptManager::SkipScript(int, bool)"
+},
+{
+"address": "0x4605c0",
+"bytes": 536,
+"owner": "ScriptManager",
+"demangled": "ScriptManager::StartScript(int, int, bool)"
+},
+{
+"address": "0x45f2fc",
+"bytes": 240,
+"owner": "Script_AISetInt",
+"demangled": "Script_AISetInt::Execute(bool, int)"
+},
+{
+"address": "0x45d1d8",
+"bytes": 232,
+"owner": "Script_ActivateTriggerPlate",
+"demangled": "Script_ActivateTriggerPlate::Execute(bool, int)"
+},
+{
+"address": "0x45db88",
+"bytes": 228,
+"owner": "Script_AutoEquip",
+"demangled": "Script_AutoEquip::Execute(bool, int)"
+}
+],
+"bytes": 5196
+},
+{
+"id": "r2a-game-app-pack2-5b248a-0",
+"category": "game-app",
+"owner": "Script_AwardEndGameTrophies | Script_AwardTrophy | Script_CONSOLE | Script_ChangeLevel | Script_CloseDoor | Script_DeactivateTriggerPlate | Script_DoTutorial | Script_DropLoot | Script_IncFaeryLevel | Script_LeaveSafeZone | Script_LockTutorial | Script_LookActor | Script_MoveActor | Script_OpenDoor | Script_PlayActorAnim | Script_PlayAnimById | Script_PlayAnimByName",
+"owners": [
+"Script_AwardEndGameTrophies",
+"Script_AwardTrophy",
+"Script_CONSOLE",
+"Script_ChangeLevel",
+"Script_CloseDoor",
+"Script_DeactivateTriggerPlate",
+"Script_DoTutorial",
+"Script_DropLoot",
+"Script_IncFaeryLevel",
+"Script_LeaveSafeZone",
+"Script_LockTutorial",
+"Script_LookActor",
+"Script_MoveActor",
+"Script_OpenDoor",
+"Script_PlayActorAnim",
+"Script_PlayAnimById",
+"Script_PlayAnimByName"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x459b04",
+"bytes": 1028,
+"owner": "Script_AwardEndGameTrophies",
+"demangled": "Script_AwardEndGameTrophies::Execute(bool, int)"
+},
+{
+"address": "0x4593c4",
+"bytes": 40,
+"owner": "Script_AwardTrophy",
+"demangled": "Script_AwardTrophy::Execute(bool, int)"
+},
+{
+"address": "0x460e68",
+"bytes": 348,
+"owner": "Script_CONSOLE",
+"demangled": "Script_CONSOLE::Execute(bool, int)"
+},
+{
+"address": "0x45cba0",
+"bytes": 528,
+"owner": "Script_ChangeLevel",
+"demangled": "Script_ChangeLevel::Execute(bool, int)"
+},
+{
+"address": "0x45d650",
+"bytes": 248,
+"owner": "Script_CloseDoor",
+"demangled": "Script_CloseDoor::Execute(bool, int)"
+},
+{
+"address": "0x45d0e0",
+"bytes": 228,
+"owner": "Script_DeactivateTriggerPlate",
+"demangled": "Script_DeactivateTriggerPlate::Execute(bool, int)"
+},
+{
+"address": "0x460950",
+"bytes": 244,
+"owner": "Script_DoTutorial",
+"demangled": "Script_DoTutorial::Execute(bool, int)"
+},
+{
+"address": "0x45e374",
+"bytes": 304,
+"owner": "Script_DropLoot",
+"demangled": "Script_DropLoot::Execute(bool, int)"
+},
+{
+"address": "0x45f5cc",
+"bytes": 232,
+"owner": "Script_IncFaeryLevel",
+"demangled": "Script_IncFaeryLevel::Execute(bool, int)"
+},
+{
+"address": "0x45fbe0",
+"bytes": 140,
+"owner": "Script_LeaveSafeZone",
+"demangled": "Script_LeaveSafeZone::Execute(bool, int)"
+},
+{
+"address": "0x45925c",
+"bytes": 96,
+"owner": "Script_LockTutorial",
+"demangled": "Script_LockTutorial::Execute(bool, int)"
+},
+{
+"address": "0x45ec50",
+"bytes": 600,
+"owner": "Script_LookActor",
+"demangled": "Script_LookActor::Execute(bool, int)"
+},
+{
+"address": "0x45f0a8",
+"bytes": 576,
+"owner": "Script_MoveActor",
+"demangled": "Script_MoveActor::Execute(bool, int)"
+},
+{
+"address": "0x45d75c",
+"bytes": 248,
+"owner": "Script_OpenDoor",
+"demangled": "Script_OpenDoor::Execute(bool, int)"
+},
+{
+"address": "0x459628",
+"bytes": 112,
+"owner": "Script_PlayActorAnim",
+"demangled": "Script_PlayActorAnim::IsBlocking() const"
+},
+{
+"address": "0x45a2ec",
+"bytes": 144,
+"owner": "Script_PlayActorAnim",
+"demangled": "Script_PlayActorAnim::Init()"
+},
+{
+"address": "0x45e890",
+"bytes": 348,
+"owner": "Script_PlayActorAnim",
+"demangled": "Script_PlayActorAnim::Execute(bool, int)"
+},
+{
+"address": "0x45e24c",
+"bytes": 276,
+"owner": "Script_PlayAnimById",
+"demangled": "Script_PlayAnimById::Execute(bool, int)"
+},
+{
+"address": "0x45e124",
+"bytes": 276,
+"owner": "Script_PlayAnimByName",
+"demangled": "Script_PlayAnimByName::Execute(bool, int)"
+}
+],
+"bytes": 6016
+},
+{
+"id": "r2a-game-app-pack3-5356ec-0",
+"category": "game-app",
+"owner": "Script_PlayCamera | Script_PlayEffect | Script_PlayLevelMusic | Script_PlaySound | Script_SaveGame | Script_SetActorPosition | Script_SetCameraClip | Script_SetCameraTarget | Script_SkipAllCharMenuTutorialMessages | Script_SkipAllTutorialMessages | Script_SkipCharMenuTutorialMessage | Script_SkipTutorialMessage | Script_SpawnCharacter | Script_SpawnContainer | Script_StartDialog | Script_StartDialogID | Script_StopActor",
+"owners": [
+"Script_PlayCamera",
+"Script_PlayEffect",
+"Script_PlayLevelMusic",
+"Script_PlaySound",
+"Script_SaveGame",
+"Script_SetActorPosition",
+"Script_SetCameraClip",
+"Script_SetCameraTarget",
+"Script_SkipAllCharMenuTutorialMessages",
+"Script_SkipAllTutorialMessages",
+"Script_SkipCharMenuTutorialMessage",
+"Script_SkipTutorialMessage",
+"Script_SpawnCharacter",
+"Script_SpawnContainer",
+"Script_StartDialog",
+"Script_StartDialogID",
+"Script_StopActor"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x459370",
+"bytes": 76,
+"owner": "Script_PlayCamera",
+"demangled": "Script_PlayCamera::IsBlocking() const"
+},
+{
+"address": "0x460110",
+"bytes": 220,
+"owner": "Script_PlayCamera",
+"demangled": "Script_PlayCamera::Execute(bool, int)"
+},
+{
+"address": "0x4598b4",
+"bytes": 28,
+"owner": "Script_PlayEffect",
+"demangled": "Script_PlayEffect::Init()"
+},
+{
+"address": "0x45fa9c",
+"bytes": 300,
+"owner": "Script_PlayEffect",
+"demangled": "Script_PlayEffect::Execute(bool, int)"
+},
+{
+"address": "0x45fd20",
+"bytes": 236,
+"owner": "Script_PlayLevelMusic",
+"demangled": "Script_PlayLevelMusic::Execute(bool, int)"
+},
+{
+"address": "0x45fefc",
+"bytes": 244,
+"owner": "Script_PlaySound",
+"demangled": "Script_PlaySound::Execute(bool, int)"
+},
+{
+"address": "0x45c994",
+"bytes": 216,
+"owner": "Script_SaveGame",
+"demangled": "Script_SaveGame::Execute(bool, int)"
+},
+{
+"address": "0x45e5c8",
+"bytes": 476,
+"owner": "Script_SetActorPosition",
+"demangled": "Script_SetActorPosition::Execute(bool, int)"
+},
+{
+"address": "0x45c670",
+"bytes": 540,
+"owner": "Script_SetCameraClip",
+"demangled": "Script_SetCameraClip::Execute(bool, int)"
+},
+{
+"address": "0x4592cc",
+"bytes": 88,
+"owner": "Script_SetCameraTarget",
+"demangled": "Script_SetCameraTarget::IsBlocking() const"
+},
+{
+"address": "0x460428",
+"bytes": 68,
+"owner": "Script_SkipAllCharMenuTutorialMessages",
+"demangled": "Script_SkipAllCharMenuTutorialMessages::Execute(bool, int)"
+},
+{
+"address": "0x46033c",
+"bytes": 140,
+"owner": "Script_SkipAllTutorialMessages",
+"demangled": "Script_SkipAllTutorialMessages::Execute(bool, int)"
+},
+{
+"address": "0x4603d0",
+"bytes": 76,
+"owner": "Script_SkipCharMenuTutorialMessage",
+"demangled": "Script_SkipCharMenuTutorialMessage::Execute(bool, int)"
+},
+{
+"address": "0x460338",
+"bytes": 4,
+"owner": "Script_SkipTutorialMessage",
+"demangled": "Script_SkipTutorialMessage::Execute(bool, int)"
+},
+{
+"address": "0x45f400",
+"bytes": 212,
+"owner": "Script_SpawnCharacter",
+"demangled": "Script_SpawnCharacter::Execute(bool, int)"
+},
+{
+"address": "0x45d008",
+"bytes": 196,
+"owner": "Script_SpawnContainer",
+"demangled": "Script_SpawnContainer::Execute(bool, int)"
+},
+{
+"address": "0x459034",
+"bytes": 76,
+"owner": "Script_StartDialog",
+"demangled": "Script_StartDialog::Init()"
+},
+{
+"address": "0x460fe8",
+"bytes": 268,
+"owner": "Script_StartDialog",
+"demangled": "Script_StartDialog::Execute(bool, int)"
+},
+{
+"address": "0x461114",
+"bytes": 288,
+"owner": "Script_StartDialogID",
+"demangled": "Script_StartDialogID::Execute(bool, int)"
+},
+{
+"address": "0x45eec0",
+"bytes": 464,
+"owner": "Script_StopActor",
+"demangled": "Script_StopActor::Execute(bool, int)"
+}
+],
+"bytes": 4216
+},
+{
+"id": "r2a-game-app-pack4-6ec4b8-0",
+"category": "game-app",
+"owner": "Script_StopEffect | Script_StopSound | Script_UnEquipHands | Script_UnEquipItemFromSlot | Script_UnlockCharacter | Script_Wait | StreamReader | ZoomHandler | rnd | sfc",
+"owners": [
+"Script_StopEffect",
+"Script_StopSound",
+"Script_UnEquipHands",
+"Script_UnEquipItemFromSlot",
+"Script_UnlockCharacter",
+"Script_Wait",
+"StreamReader",
+"ZoomHandler",
+"rnd",
+"sfc"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x459890",
+"bytes": 28,
+"owner": "Script_StopEffect",
+"demangled": "Script_StopEffect::Execute(bool, int)"
+},
+{
+"address": "0x45fe2c",
+"bytes": 188,
+"owner": "Script_StopSound",
+"demangled": "Script_StopSound::Execute(bool, int)"
+},
+{
+"address": "0x45ded0",
+"bytes": 324,
+"owner": "Script_UnEquipHands",
+"demangled": "Script_UnEquipHands::Execute(bool, int)"
+},
+{
+"address": "0x45da8c",
+"bytes": 232,
+"owner": "Script_UnEquipItemFromSlot",
+"demangled": "Script_UnEquipItemFromSlot::Execute(bool, int)"
+},
+{
+"address": "0x45dc80",
+"bytes": 260,
+"owner": "Script_UnlockCharacter",
+"demangled": "Script_UnlockCharacter::Execute(bool, int)"
+},
+{
+"address": "0x45c438",
+"bytes": 144,
+"owner": "Script_Wait",
+"demangled": "Script_Wait::Execute(bool, int)"
+},
+{
+"address": "0x317548",
+"bytes": 188,
+"owner": "StreamReader",
+"demangled": "StreamReader::writeString(IStreamBase*, wchar_t const*, unsigned long long)"
+},
+{
+"address": "0x31763c",
+"bytes": 248,
+"owner": "StreamReader",
+"demangled": "StreamReader::readString(IStreamBase*, wchar_t*, unsigned long long)"
+},
+{
+"address": "0x381fb0",
+"bytes": 92,
+"owner": "ZoomHandler",
+"demangled": "ZoomHandler::setCamera(CameraLevel*)"
+},
+{
+"address": "0x382204",
+"bytes": 156,
+"owner": "ZoomHandler",
+"demangled": "ZoomHandler::ZoomHandler()"
+},
+{
+"address": "0x382bdc",
+"bytes": 872,
+"owner": "ZoomHandler",
+"demangled": "ZoomHandler::onEvent(IEvent const*, EventManager const*)"
+},
+{
+"address": "0x48aa84",
+"bytes": 172,
+"owner": "rnd",
+"demangled": "rnd::MgxBlock::LoadFromXmlStream(IFileStream*)"
+},
+{
+"address": "0x48ab34",
+"bytes": 56,
+"owner": "rnd",
+"demangled": "rnd::Block::Block()"
+},
+{
+"address": "0x48ac24",
+"bytes": 56,
+"owner": "rnd",
+"demangled": "rnd::Block::Block()"
+},
+{
+"address": "0x522f70",
+"bytes": 400,
+"owner": "sfc",
+"demangled": "sfc::math::graph::GraphSparse<PFGOuterEdge>::clear()"
+},
+{
+"address": "0x5231d4",
+"bytes": 92,
+"owner": "sfc",
+"demangled": "sfc::math::graph::GraphSparse<PFGOuterEdge>::~GraphSparse()"
+}
+],
+"bytes": 3508
+},
+{
+"id": "r2a-game-character-CharAI-2ae0f1-0",
+"category": "game-character",
+"owner": "CharAI",
+"owners": [
+"CharAI"
+],
+"part": 0,
+"parts": 3,
+"functions": [
+{
+"address": "0x3cb314",
+"bytes": 56,
+"owner": "CharAI",
+"demangled": "CharAI::StepInitScript()"
+},
+{
+"address": "0x3cb77c",
+"bytes": 68,
+"owner": "CharAI",
+"demangled": "CharAI::_UpdateRegen()"
+},
+{
+"address": "0x3cbb34",
+"bytes": 1756,
+"owner": "CharAI",
+"demangled": "CharAI::RaiseAIEvent(int, void*)"
+},
+{
+"address": "0x3cc218",
+"bytes": 28,
+"owner": "CharAI",
+"demangled": "CharAI::StepLoadCommon()"
+},
+{
+"address": "0x3cc26c",
+"bytes": 12,
+"owner": "CharAI",
+"demangled": "CharAI::StepSetCharacter()"
+},
+{
+"address": "0x3cc278",
+"bytes": 8,
+"owner": "CharAI",
+"demangled": "CharAI::StepBindFunction()"
+},
+{
+"address": "0x3cc9dc",
+"bytes": 280,
+"owner": "CharAI",
+"demangled": "CharAI::AIUnLoadScriptProcess(bool)"
+},
+{
+"address": "0x3ccaf4",
+"bytes": 216,
+"owner": "CharAI",
+"demangled": "void CharAI::SetScript<AISExternal>()"
+},
+{
+"address": "0x3ccbe4",
+"bytes": 248,
+"owner": "CharAI",
+"demangled": "void CharAI::SetScript<AISMonster>()"
+},
+{
+"address": "0x3cccf8",
+"bytes": 256,
+"owner": "CharAI",
+"demangled": "void CharAI::SetScript<AISFaery>()"
+},
+{
+"address": "0x3cce14",
+"bytes": 248,
+"owner": "CharAI",
+"demangled": "void CharAI::SetScript<AISDefault>()"
+},
+{
+"address": "0x3ccfe4",
+"bytes": 280,
+"owner": "CharAI",
+"demangled": "void CharAI::SetScript<AISPlayerIPhone>()"
+},
+{
+"address": "0x3cd11c",
+"bytes": 264,
+"owner": "CharAI",
+"demangled": "void CharAI::SetScript<AISPlayer>()"
+},
+{
+"address": "0x3cd384",
+"bytes": 448,
+"owner": "CharAI",
+"demangled": "CharAI::ClearAllAggro()"
+},
+{
+"address": "0x3ce044",
+"bytes": 1812,
+"owner": "CharAI",
+"demangled": "CharAI::SetSkillsAndSpells()"
+},
+{
+"address": "0x3cf04c",
+"bytes": 384,
+"owner": "CharAI",
+"demangled": "CharAI::StepCreateScript()"
+},
+{
+"address": "0x3cf3f0",
+"bytes": 1864,
+"owner": "CharAI",
+"demangled": "CharAI::_UpdateAggro()"
+},
+{
+"address": "0x3cfbf4",
+"bytes": 336,
+"owner": "CharAI",
+"demangled": "CharAI::Update()"
+},
+{
+"address": "0x3cfd7c",
+"bytes": 104,
+"owner": "CharAI",
+"demangled": "CharAI::AI_ScriptCleanUp()"
+},
+{
+"address": "0x3cfde4",
+"bytes": 312,
+"owner": "CharAI",
+"demangled": "CharAI::AI_ScriptInit()"
+}
+],
+"bytes": 8980
+},
+{
+"id": "r2a-game-character-CharAI-2ae0f1-1",
+"category": "game-character",
+"owner": "CharAI",
+"owners": [
+"CharAI"
+],
+"part": 1,
+"parts": 3,
+"functions": [
+{
+"address": "0x3d01ac",
+"bytes": 1380,
+"owner": "CharAI",
+"demangled": "CharAI::AI_DoMeleeAttack(GameObject*, bool)"
+},
+{
+"address": "0x3d076c",
+"bytes": 964,
+"owner": "CharAI",
+"demangled": "CharAI::AI_DoRangeAttack(GameObject*, bool)"
+},
+{
+"address": "0x3d0b80",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnInitPost()"
+},
+{
+"address": "0x3d0ba4",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnInitFinal()"
+},
+{
+"address": "0x3d0bc8",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnMsg(int, void const*)"
+},
+{
+"address": "0x3d0bec",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnStateChanged(int, int)"
+},
+{
+"address": "0x3d0c10",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnTimer(void*)"
+},
+{
+"address": "0x3d0c34",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnStunExpired()"
+},
+{
+"address": "0x3d0c58",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnFearExpired()"
+},
+{
+"address": "0x3d0c7c",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnAttackDelayExpired()"
+},
+{
+"address": "0x3d0ca0",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnScriptTimer(unsigned int)"
+},
+{
+"address": "0x3d0cc4",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnAnimEvent(char const*)"
+},
+{
+"address": "0x3d0ce8",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnEndOfAnim()"
+},
+{
+"address": "0x3d0d0c",
+"bytes": 44,
+"owner": "CharAI",
+"demangled": "CharAI::OnPreInteract()"
+},
+{
+"address": "0x3d0d38",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnInteract()"
+},
+{
+"address": "0x3d0d5c",
+"bytes": 36,
+"owner": "CharAI",
+"demangled": "CharAI::OnProjectileHit(GameObject*)"
+},
+{
+"address": "0x3d14b4",
+"bytes": 100,
+"owner": "CharAI",
+"demangled": "CharAI::OnEnemySpotted(Character*)"
+},
+{
+"address": "0x3d22e4",
+"bytes": 96,
+"owner": "CharAI",
+"demangled": "CharAI::OnTargetInSight()"
+},
+{
+"address": "0x3d3af4",
+"bytes": 540,
+"owner": "CharAI",
+"demangled": "CharAI::_ParseObjectAnimEvent(char const*)"
+},
+{
+"address": "0x3d3d68",
+"bytes": 108,
+"owner": "CharAI",
+"demangled": "CharAI::_OnAnimStepEnd_SkillSpell()"
+}
+],
+"bytes": 3700
+},
+{
+"id": "r2a-game-character-CharAI-2ae0f1-2",
+"category": "game-character",
+"owner": "CharAI",
+"owners": [
+"CharAI"
+],
+"part": 2,
+"parts": 3,
+"functions": [
+{
+"address": "0x3d3dd4",
+"bytes": 112,
+"owner": "CharAI",
+"demangled": "CharAI::_OnAnimStepBegin_SkillSpell()"
+},
+{
+"address": "0x3d3e44",
+"bytes": 436,
+"owner": "CharAI",
+"demangled": "CharAI::_OnAnimStepEnd_Attack()"
+},
+{
+"address": "0x3d4044",
+"bytes": 220,
+"owner": "CharAI",
+"demangled": "CharAI::_OnAnimStepBegin_Attack()"
+},
+{
+"address": "0x3d4434",
+"bytes": 1168,
+"owner": "CharAI",
+"demangled": "CharAI::_OnAnimEvent(char const*)"
+},
+{
+"address": "0x3d49d0",
+"bytes": 32,
+"owner": "CharAI",
+"demangled": "CharAI::AI_IsTargetSeeking() const"
+},
+{
+"address": "0x3d7da8",
+"bytes": 200,
+"owner": "CharAI",
+"demangled": "CharAI::AI_SpellInfo(float&) const"
+},
+{
+"address": "0x3d7e88",
+"bytes": 192,
+"owner": "CharAI",
+"demangled": "CharAI::AI_SkillInfo(unsigned int, unsigned int, float&) const"
+},
+{
+"address": "0x3d7f60",
+"bytes": 212,
+"owner": "CharAI",
+"demangled": "CharAI::AI_EndSpell(bool)"
+},
+{
+"address": "0x3d81c0",
+"bytes": 356,
+"owner": "CharAI",
+"demangled": "CharAI::AI_BeginSpell(bool)"
+},
+{
+"address": "0x3d8358",
+"bytes": 260,
+"owner": "CharAI",
+"demangled": "CharAI::AI_IsSkillUsable(unsigned int) const"
+}
+],
+"bytes": 3188
+},
+{
+"id": "r2a-game-character-CharProperties-53ed14-0",
+"category": "game-character",
+"owner": "CharProperties",
+"owners": [
+"CharProperties"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3af76c",
+"bytes": 16,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_Get(int, bool) const"
+},
+{
+"address": "0x3bd130",
+"bytes": 16,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_Get(int, bool) const"
+},
+{
+"address": "0x3de848",
+"bytes": 32,
+"owner": "CharProperties",
+"demangled": "CharProperties::DBG_PROPS_GetName(int) const"
+},
+{
+"address": "0x3deed8",
+"bytes": 48,
+"owner": "CharProperties",
+"demangled": "CharProperties::_GetType(int) const"
+},
+{
+"address": "0x3def10",
+"bytes": 28,
+"owner": "CharProperties",
+"demangled": "CharProperties::_GetDefault(int) const"
+},
+{
+"address": "0x3def34",
+"bytes": 72,
+"owner": "CharProperties",
+"demangled": "CharProperties::_ResetProperties(Structs::CharacterProperties&)"
+},
+{
+"address": "0x3def84",
+"bytes": 32,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_ResetSheet(Structs::CharacterProperties*)"
+},
+{
+"address": "0x3e0af8",
+"bytes": 356,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_RemoveAllBuffs()"
+},
+{
+"address": "0x3e0c6c",
+"bytes": 408,
+"owner": "CharProperties",
+"demangled": "CharProperties::~CharProperties()"
+},
+{
+"address": "0x3e0e2c",
+"bytes": 408,
+"owner": "CharProperties",
+"demangled": "CharProperties::~CharProperties()"
+},
+{
+"address": "0x3e101c",
+"bytes": 484,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_DelBuff(int, Structs::CharacterProperties*)"
+},
+{
+"address": "0x3e123c",
+"bytes": 276,
+"owner": "CharProperties",
+"demangled": "CharProperties::BuffExpired(CharTimers::Timer*)"
+},
+{
+"address": "0x3e232c",
+"bytes": 760,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_AddBuff(int, unsigned int, int, unsigned int, int, char const*)"
+},
+{
+"address": "0x3e2720",
+"bytes": 720,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_AddDot(int, int, int)"
+},
+{
+"address": "0x3e2a5c",
+"bytes": 336,
+"owner": "CharProperties",
+"demangled": "CharProperties::PROPS_DebuffSlow(unsigned int)"
+}
+],
+"bytes": 3992
+},
+{
+"id": "r2a-game-character-CharStateMachine-33fc5a-0",
+"category": "game-character",
+"owner": "CharStateMachine",
+"owners": [
+"CharStateMachine"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3c1694",
+"bytes": 404,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::_GetEvent(int, int) const"
+},
+{
+"address": "0x3c184c",
+"bytes": 212,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::_GetState(int)"
+},
+{
+"address": "0x3c1938",
+"bytes": 200,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::_SetState(int, int, void*)"
+},
+{
+"address": "0x3c5684",
+"bytes": 492,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::RaiseStateEvent(int, void*)"
+},
+{
+"address": "0x3c5880",
+"bytes": 36,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetRevivedState(void*, bool)"
+},
+{
+"address": "0x3c58a4",
+"bytes": 36,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetRevivingState(void*, bool)"
+},
+{
+"address": "0x3c58c8",
+"bytes": 440,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetDeadState(bool, void*, bool)"
+},
+{
+"address": "0x3c5b3c",
+"bytes": 36,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetDodgingState(void*, bool)"
+},
+{
+"address": "0x3c5c60",
+"bytes": 36,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetBlockingState(void*, bool)"
+},
+{
+"address": "0x3c5d84",
+"bytes": 36,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetInjureState(void*, bool)"
+},
+{
+"address": "0x3c5ea0",
+"bytes": 316,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetKnockBackState(bool, void*, bool)"
+},
+{
+"address": "0x3c5ffc",
+"bytes": 304,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetStunState(unsigned int, bool, void*, bool)"
+},
+{
+"address": "0x3c6144",
+"bytes": 304,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetScareState(unsigned int, bool, void*, bool)"
+},
+{
+"address": "0x3c628c",
+"bytes": 248,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::Update()"
+},
+{
+"address": "0x3c6394",
+"bytes": 220,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetCastState(unsigned int, void*, bool)"
+},
+{
+"address": "0x3c64ac",
+"bytes": 324,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetInteractState(int, bool, void*, bool)"
+},
+{
+"address": "0x3c6670",
+"bytes": 164,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::SM_SetSkillState(unsigned int, bool, void*, bool)"
+},
+{
+"address": "0x3c7318",
+"bytes": 388,
+"owner": "CharStateMachine",
+"demangled": "CharStateMachine::RegisterState(int)"
+}
+],
+"bytes": 4196
+},
+{
+"id": "r2a-game-character-Character-ee9946-0",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 0,
+"parts": 10,
+"functions": [
+{
+"address": "0x3a2e24",
+"bytes": 8,
+"owner": "Character",
+"demangled": "Character::GetFocusObject() const"
+},
+{
+"address": "0x3a2e2c",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::IsUpdatingPath() const"
+},
+{
+"address": "0x3a2e38",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::IsUpdatingPositionFromVisual() const"
+},
+{
+"address": "0x3a2e44",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::IsUpdatingPositionFromPhysics() const"
+},
+{
+"address": "0x3a2e50",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::IsUpdatingRotationFromVisual() const"
+},
+{
+"address": "0x3a2e5c",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::IsUpdatingRotationFromPhysics() const"
+},
+{
+"address": "0x3a2e68",
+"bytes": 16,
+"owner": "Character",
+"demangled": "Character::IsUpdatingVisualWithRotation() const"
+},
+{
+"address": "0x3a2e78",
+"bytes": 16,
+"owner": "Character",
+"demangled": "Character::IsValidatingFloorPosition() const"
+},
+{
+"address": "0x3a2e9c",
+"bytes": 28,
+"owner": "Character",
+"demangled": "Character::GetFXScale() const"
+},
+{
+"address": "0x3a2ecc",
+"bytes": 8,
+"owner": "Character",
+"demangled": "Character::GetFXScaleValue() const"
+},
+{
+"address": "0x3a2fcc",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::GetLoot() const"
+},
+{
+"address": "0x3a2fd8",
+"bytes": 20,
+"owner": "Character",
+"demangled": "Character::HasLoot() const"
+},
+{
+"address": "0x3a31e8",
+"bytes": 56,
+"owner": "Character",
+"demangled": "Character::GetCharModelId() const"
+},
+{
+"address": "0x3a3294",
+"bytes": 52,
+"owner": "Character",
+"demangled": "Character::GetCharSoundsId() const"
+},
+{
+"address": "0x3a32d0",
+"bytes": 40,
+"owner": "Character",
+"demangled": "Character::GetCharSounds() const"
+},
+{
+"address": "0x3a3300",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::GetFXFootprint() const"
+},
+{
+"address": "0x3a3368",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::GetFXBloodDeath() const"
+},
+{
+"address": "0x3a33d0",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::GetFXBlood() const"
+},
+{
+"address": "0x3a3438",
+"bytes": 44,
+"owner": "Character",
+"demangled": "Character::GetAttackDelay() const"
+},
+{
+"address": "0x3a346c",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::HasComboAttack() const"
+}
+],
+"bytes": 752
+},
+{
+"id": "r2a-game-character-Character-ee9946-1",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 1,
+"parts": 10,
+"functions": [
+{
+"address": "0x3a34f0",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::GetNumComboAttack() const"
+},
+{
+"address": "0x3a372c",
+"bytes": 32,
+"owner": "Character",
+"demangled": "Character::GetRotationSpeed() const"
+},
+{
+"address": "0x3a3fe4",
+"bytes": 120,
+"owner": "Character",
+"demangled": "Character::CheckForAllQuestsTrophy()"
+},
+{
+"address": "0x3a4068",
+"bytes": 64,
+"owner": "Character",
+"demangled": "Character::RemoveMultiplayerHighlight()"
+},
+{
+"address": "0x3a40b0",
+"bytes": 44,
+"owner": "Character",
+"demangled": "Character::DisableSelfFX()"
+},
+{
+"address": "0x3a40e4",
+"bytes": 44,
+"owner": "Character",
+"demangled": "Character::DisableStateFX()"
+},
+{
+"address": "0x3a4398",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::SetRelativeAABB(aabb<float> const&, bool)"
+},
+{
+"address": "0x3a4870",
+"bytes": 192,
+"owner": "Character",
+"demangled": "Character::IsInteractive(GameObject*) const"
+},
+{
+"address": "0x3a4930",
+"bytes": 192,
+"owner": "Character",
+"demangled": "Character::INV_DoesMeetRequirements(ItemInstance*)"
+},
+{
+"address": "0x3a49f0",
+"bytes": 72,
+"owner": "Character",
+"demangled": "Character::IsPlayer() const"
+},
+{
+"address": "0x3a4cd0",
+"bytes": 100,
+"owner": "Character",
+"demangled": "Character::CanRangeAttack(int&, int&, int&) const"
+},
+{
+"address": "0x3a4d3c",
+"bytes": 32,
+"owner": "Character",
+"demangled": "Character::CanRangeAttack() const"
+},
+{
+"address": "0x3a4d5c",
+"bytes": 28,
+"owner": "Character",
+"demangled": "Character::RaiseEvent(int, void*)"
+},
+{
+"address": "0x3a5184",
+"bytes": 172,
+"owner": "Character",
+"demangled": "Character::GetImmunityTimer(int)"
+},
+{
+"address": "0x3a5248",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::CanRespawn() const"
+},
+{
+"address": "0x3a52a4",
+"bytes": 308,
+"owner": "Character",
+"demangled": "Character::CanUpdate()"
+},
+{
+"address": "0x3a56a4",
+"bytes": 112,
+"owner": "Character",
+"demangled": "Character::GetClassName() const"
+},
+{
+"address": "0x3a5784",
+"bytes": 104,
+"owner": "Character",
+"demangled": "Character::GetPreSetAIState() const"
+},
+{
+"address": "0x3a58f4",
+"bytes": 120,
+"owner": "Character",
+"demangled": "Character::SetInitialPosition(Point3D<float> const&)"
+},
+{
+"address": "0x3a59ac",
+"bytes": 304,
+"owner": "Character",
+"demangled": "Character::Revive(GameObject*, bool)"
+}
+],
+"bytes": 2364
+},
+{
+"id": "r2a-game-character-Character-ee9946-2",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 2,
+"parts": 10,
+"functions": [
+{
+"address": "0x3a5b18",
+"bytes": 1676,
+"owner": "Character",
+"demangled": "Character::Kill(GameObject*, bool)"
+},
+{
+"address": "0x3a66f8",
+"bytes": 276,
+"owner": "Character",
+"demangled": "Character::Clean()"
+},
+{
+"address": "0x3a6a24",
+"bytes": 1216,
+"owner": "Character",
+"demangled": "Character::NetStructCharacter::NetStructCharacter()"
+},
+{
+"address": "0x3a6f0c",
+"bytes": 2548,
+"owner": "Character",
+"demangled": "Character::PopulateOutgoingNetStruct(bool)"
+},
+{
+"address": "0x3a7f10",
+"bytes": 1484,
+"owner": "Character",
+"demangled": "Character::InterpretIncomingNetStruct(bool)"
+},
+{
+"address": "0x3a84f4",
+"bytes": 1444,
+"owner": "Character",
+"demangled": "Character::Draw() const"
+},
+{
+"address": "0x3a8bc4",
+"bytes": 1596,
+"owner": "Character",
+"demangled": "Character::HitFor(unsigned int, GameObject*)"
+},
+{
+"address": "0x3a9340",
+"bytes": 352,
+"owner": "Character",
+"demangled": "Character::Character(ObjectBase::GO_IDS)"
+},
+{
+"address": "0x3a999c",
+"bytes": 68,
+"owner": "Character",
+"demangled": "Character::INV_UpdateSkin()"
+},
+{
+"address": "0x3a9fe4",
+"bytes": 408,
+"owner": "Character",
+"demangled": "Character::DeclareProperties()"
+},
+{
+"address": "0x3aa1b4",
+"bytes": 352,
+"owner": "Character",
+"demangled": "Character::Character(ObjectBase::GO_IDS)"
+},
+{
+"address": "0x3ab674",
+"bytes": 1284,
+"owner": "Character",
+"demangled": "Character::AddCharOIDToCache(int, unsigned int)"
+},
+{
+"address": "0x3abb9c",
+"bytes": 736,
+"owner": "Character",
+"demangled": "Character::UpdateObjectOfInterest()"
+},
+{
+"address": "0x3acd58",
+"bytes": 216,
+"owner": "Character",
+"demangled": "Character::CreatePlayer(Character*, unsigned int, unsigned int, char const*)"
+},
+{
+"address": "0x3ad064",
+"bytes": 284,
+"owner": "Character",
+"demangled": "Character::CreateNPC(char const*, char const*, bool, bool)"
+},
+{
+"address": "0x3ad1f8",
+"bytes": 44,
+"owner": "Character",
+"demangled": "Character::CreateNPC(int, char const*, bool)"
+},
+{
+"address": "0x3ad22c",
+"bytes": 16,
+"owner": "Character",
+"demangled": "Character::CSM_Attack(int, void*, int, int&)"
+},
+{
+"address": "0x3ad244",
+"bytes": 60,
+"owner": "Character",
+"demangled": "Character::CSM_Interrupted(int, void*, int, int&)"
+},
+{
+"address": "0x3ad280",
+"bytes": 16,
+"owner": "Character",
+"demangled": "Character::CSM_StoppedAttacking(int, void*, int, int&)"
+},
+{
+"address": "0x3ad290",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::CSM_StopSkill(int, void*, int, int&)"
+}
+],
+"bytes": 14088
+},
+{
+"id": "r2a-game-character-Character-ee9946-3",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 3,
+"parts": 10,
+"functions": [
+{
+"address": "0x3ad29c",
+"bytes": 40,
+"owner": "Character",
+"demangled": "Character::CSM_CanStopInteraction(int, void*, int, int&)"
+},
+{
+"address": "0x3ad2c8",
+"bytes": 28,
+"owner": "Character",
+"demangled": "Character::CSM_AfterInteraction(int, void*, int, int&)"
+},
+{
+"address": "0x3ad2e4",
+"bytes": 80,
+"owner": "Character",
+"demangled": "Character::CSM_Spawn(int, void*, int, int&)"
+},
+{
+"address": "0x3ad5ac",
+"bytes": 104,
+"owner": "Character",
+"demangled": "Character::ForceUseOOI(GameObject*)"
+},
+{
+"address": "0x3ad614",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::UseOOI()"
+},
+{
+"address": "0x3adcf4",
+"bytes": 184,
+"owner": "Character",
+"demangled": "Character::Ctrl_WarpTo(Point3D<float> const&)"
+},
+{
+"address": "0x3addc8",
+"bytes": 1056,
+"owner": "Character",
+"demangled": "Character::Ctrl_Click(Point3D<float> const&, bool)"
+},
+{
+"address": "0x3ae5a0",
+"bytes": 52,
+"owner": "Character",
+"demangled": "Character::GetCharFaeryListId() const"
+},
+{
+"address": "0x3ae5dc",
+"bytes": 40,
+"owner": "Character",
+"demangled": "Character::GetCharFaeryList() const"
+},
+{
+"address": "0x3ae60c",
+"bytes": 8,
+"owner": "Character",
+"demangled": "Character::GetFaeryCharacter()"
+},
+{
+"address": "0x3ae614",
+"bytes": 8,
+"owner": "Character",
+"demangled": "Character::GetFaeryCharacter() const"
+},
+{
+"address": "0x3ae7d4",
+"bytes": 340,
+"owner": "Character",
+"demangled": "Character::SetFaeryState(unsigned int, int)"
+},
+{
+"address": "0x3ae99c",
+"bytes": 232,
+"owner": "Character",
+"demangled": "Character::ChangeFaery(unsigned int)"
+},
+{
+"address": "0x3aeac0",
+"bytes": 464,
+"owner": "Character",
+"demangled": "Character::GetCharFaery(int) const"
+},
+{
+"address": "0x3aef68",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::F_ApplyScrollingCombatTextGold(Character*, int)"
+},
+{
+"address": "0x3af0c8",
+"bytes": 100,
+"owner": "Character",
+"demangled": "Character::F_ApplyScrollingCombatTextXP(Character*, int, int, int)"
+},
+{
+"address": "0x3af1fc",
+"bytes": 96,
+"owner": "Character",
+"demangled": "Character::F_ApplyScrollingCombatText(Character::AttackResult const&, GameObject*, Character*)"
+},
+{
+"address": "0x3af77c",
+"bytes": 100,
+"owner": "Character",
+"demangled": "Character::F_ApplyScrollingCombatText(Character::AttackResult const&, Character*, Character*)"
+},
+{
+"address": "0x3afd38",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::F_ApplyCombatSound(Character::AttackResult const&, GameObject*, Character*)"
+},
+{
+"address": "0x3afee0",
+"bytes": 128,
+"owner": "Character",
+"demangled": "Character::F_ApplyCombatSound(Character::AttackResult const&, Character*, Character*)"
+}
+],
+"bytes": 3384
+},
+{
+"id": "r2a-game-character-Character-ee9946-4",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 4,
+"parts": 10,
+"functions": [
+{
+"address": "0x3b01b8",
+"bytes": 524,
+"owner": "Character",
+"demangled": "Character::F_ApplyResult(Character::AttackResult const&, GameObject*, Character*, bool)"
+},
+{
+"address": "0x3b061c",
+"bytes": 288,
+"owner": "Character",
+"demangled": "Character::F_GOAttack(Character::AttackResult&, GameObject*, Character*, int, int)"
+},
+{
+"address": "0x3b10b4",
+"bytes": 652,
+"owner": "Character",
+"demangled": "Character::F_ApplyResult(Character::AttackResult const&, Character*, Character*, bool)"
+},
+{
+"address": "0x3b3004",
+"bytes": 288,
+"owner": "Character",
+"demangled": "Character::F_SpellAttack(Character::AttackResult&, Character*, Character*, int, int)"
+},
+{
+"address": "0x3b31a4",
+"bytes": 292,
+"owner": "Character",
+"demangled": "Character::F_SkillAttack(Character::AttackResult&, Character*, Character*, int, int)"
+},
+{
+"address": "0x3b36ec",
+"bytes": 164,
+"owner": "Character",
+"demangled": "Character::SafeGetCharPropsTemplateId()"
+},
+{
+"address": "0x3b3b00",
+"bytes": 256,
+"owner": "Character",
+"demangled": "Character::_InitSounds()"
+},
+{
+"address": "0x3b3d38",
+"bytes": 680,
+"owner": "Character",
+"demangled": "Character::SafeGetCharPropsId()"
+},
+{
+"address": "0x3b4088",
+"bytes": 824,
+"owner": "Character",
+"demangled": "Character::InitPhysicalObject()"
+},
+{
+"address": "0x3b4738",
+"bytes": 232,
+"owner": "Character",
+"demangled": "Character::RegisterCharacterFXTable()"
+},
+{
+"address": "0x3b4834",
+"bytes": 304,
+"owner": "Character",
+"demangled": "Character::InitLightSetAndMaterial()"
+},
+{
+"address": "0x3b4bc4",
+"bytes": 328,
+"owner": "Character",
+"demangled": "Character::InitCam()"
+},
+{
+"address": "0x3b4d60",
+"bytes": 484,
+"owner": "Character",
+"demangled": "Character::InitPost()"
+},
+{
+"address": "0x3b5684",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::_LookAtTarget(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b56bc",
+"bytes": 4640,
+"owner": "Character",
+"demangled": "Character::createBindings(sfc::script::lua::Binder&)"
+},
+{
+"address": "0x3b6c70",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::_GetMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6c7c",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::_GetTarget(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6c88",
+"bytes": 64,
+"owner": "Character",
+"demangled": "Character::_GetSpotTarget(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6cc8",
+"bytes": 16,
+"owner": "Character",
+"demangled": "Character::_GetHitCount(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6cd8",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::_GetPropHP(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 10188
+},
+{
+"id": "r2a-game-character-Character-ee9946-5",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 5,
+"parts": 10,
+"functions": [
+{
+"address": "0x3b6d5c",
+"bytes": 16,
+"owner": "Character",
+"demangled": "Character::_GetCharID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6d6c",
+"bytes": 12,
+"owner": "Character",
+"demangled": "Character::_GetStateTime(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6d78",
+"bytes": 40,
+"owner": "Character",
+"demangled": "Character::_GetState(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6da0",
+"bytes": 36,
+"owner": "Character",
+"demangled": "Character::_GetCurrentEquippedFaeryId(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6dc4",
+"bytes": 52,
+"owner": "Character",
+"demangled": "Character::_GetEquippedFaeryElement(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6df8",
+"bytes": 56,
+"owner": "Character",
+"demangled": "Character::_GetCurrentEquippedFaeryLevel(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6e30",
+"bytes": 80,
+"owner": "Character",
+"demangled": "Character::_GetCurrentSpellInfo(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6e80",
+"bytes": 60,
+"owner": "Character",
+"demangled": "Character::_GetCharAIFlags(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6f10",
+"bytes": 44,
+"owner": "Character",
+"demangled": "Character::_CanAttackFromRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6f3c",
+"bytes": 20,
+"owner": "Character",
+"demangled": "Character::_HasMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6f50",
+"bytes": 20,
+"owner": "Character",
+"demangled": "Character::_HasTarget(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6f64",
+"bytes": 32,
+"owner": "Character",
+"demangled": "Character::_CanAttackInMelee(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6f84",
+"bytes": 32,
+"owner": "Character",
+"demangled": "Character::_HasBow(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6fa4",
+"bytes": 32,
+"owner": "Character",
+"demangled": "Character::_HasShield(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b6fc4",
+"bytes": 84,
+"owner": "Character",
+"demangled": "Character::_IsMasterHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7020",
+"bytes": 36,
+"owner": "Character",
+"demangled": "Character::_TargetInMeleeRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7044",
+"bytes": 32,
+"owner": "Character",
+"demangled": "Character::_HasAggro(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7064",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::_StopTimer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b70d8",
+"bytes": 108,
+"owner": "Character",
+"demangled": "Character::_RegisterAnim(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7144",
+"bytes": 600,
+"owner": "Character",
+"demangled": "Character::_EnableSpotTargeting(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 1508
+},
+{
+"id": "r2a-game-character-Character-ee9946-6",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 6,
+"parts": 10,
+"functions": [
+{
+"address": "0x3b73a4",
+"bytes": 244,
+"owner": "Character",
+"demangled": "Character::_SetLevel(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b74a8",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::_ResumeTimer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b751c",
+"bytes": 116,
+"owner": "Character",
+"demangled": "Character::_PauseTimer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7590",
+"bytes": 240,
+"owner": "Character",
+"demangled": "Character::_StartTimer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7680",
+"bytes": 132,
+"owner": "Character",
+"demangled": "Character::_SetKnockBackState(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7704",
+"bytes": 96,
+"owner": "Character",
+"demangled": "Character::_RotateBy(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7774",
+"bytes": 120,
+"owner": "Character",
+"demangled": "Character::_RegenMP(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b77ec",
+"bytes": 120,
+"owner": "Character",
+"demangled": "Character::_RegenHP(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7864",
+"bytes": 136,
+"owner": "Character",
+"demangled": "Character::_UseMana(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b78ec",
+"bytes": 136,
+"owner": "Character",
+"demangled": "Character::_HasMana(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7974",
+"bytes": 120,
+"owner": "Character",
+"demangled": "Character::_AllowSkillBreak(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b79ec",
+"bytes": 120,
+"owner": "Character",
+"demangled": "Character::_AllowRotation(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7a64",
+"bytes": 104,
+"owner": "Character",
+"demangled": "Character::_SetIsTargetable(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7acc",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::_GetPropBonusDamage(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7b28",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::_GetPropBonusCritRating(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7b84",
+"bytes": 92,
+"owner": "Character",
+"demangled": "Character::_GetPropBonusAttackRating(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7be0",
+"bytes": 472,
+"owner": "Character",
+"demangled": "Character::_RemoveDots(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7dbc",
+"bytes": 128,
+"owner": "Character",
+"demangled": "Character::_DBG_DumpProps(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7e40",
+"bytes": 108,
+"owner": "Character",
+"demangled": "Character::_Kill(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b7eac",
+"bytes": 484,
+"owner": "Character",
+"demangled": "Character::_SetProp(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 3268
+},
+{
+"id": "r2a-game-character-Character-ee9946-7",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 7,
+"parts": 10,
+"functions": [
+{
+"address": "0x3b8098",
+"bytes": 412,
+"owner": "Character",
+"demangled": "Character::_AddAggro(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b82e4",
+"bytes": 324,
+"owner": "Character",
+"demangled": "Character::_ClearProps(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b842c",
+"bytes": 312,
+"owner": "Character",
+"demangled": "Character::_RemoveBuff(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b856c",
+"bytes": 208,
+"owner": "Character",
+"demangled": "Character::_GetSkillIDFromOID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b8648",
+"bytes": 96,
+"owner": "Character",
+"demangled": "Character::_ClearAggro(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b86a8",
+"bytes": 1304,
+"owner": "Character",
+"demangled": "Character::_CreateBuff(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b8bd8",
+"bytes": 220,
+"owner": "Character",
+"demangled": "Character::_DoSkill(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b8cb8",
+"bytes": 220,
+"owner": "Character",
+"demangled": "Character::_BeginSkill(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b8d98",
+"bytes": 180,
+"owner": "Character",
+"demangled": "Character::_WarpBehind(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b8ed8",
+"bytes": 96,
+"owner": "Character",
+"demangled": "Character::_LookAt(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b8f38",
+"bytes": 100,
+"owner": "Character",
+"demangled": "Character::_SetTarget(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b8f9c",
+"bytes": 228,
+"owner": "Character",
+"demangled": "Character::_GetCurrentSkillInfo(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b9084",
+"bytes": 96,
+"owner": "Character",
+"demangled": "Character::_SetMaster(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b90e4",
+"bytes": 188,
+"owner": "Character",
+"demangled": "Character::_SetSpellCooldownTimerId(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b91a0",
+"bytes": 136,
+"owner": "Character",
+"demangled": "Character::_Flee(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b92a4",
+"bytes": 296,
+"owner": "Character",
+"demangled": "Character::_SpellCombatRoll(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b93cc",
+"bytes": 220,
+"owner": "Character",
+"demangled": "Character::_EndSkill(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b94ac",
+"bytes": 208,
+"owner": "Character",
+"demangled": "Character::_StopSkill(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b9580",
+"bytes": 300,
+"owner": "Character",
+"demangled": "Character::_SetStunState(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b96b0",
+"bytes": 300,
+"owner": "Character",
+"demangled": "Character::_SetScareState(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 5444
+},
+{
+"id": "r2a-game-character-Character-ee9946-8",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 8,
+"parts": 10,
+"functions": [
+{
+"address": "0x3b97e0",
+"bytes": 480,
+"owner": "Character",
+"demangled": "Character::_SetSkillCooldownTimerId(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b99d0",
+"bytes": 920,
+"owner": "Character",
+"demangled": "Character::_SpawnSkillProjectile(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b9d8c",
+"bytes": 432,
+"owner": "Character",
+"demangled": "Character::_GetProp(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b9f44",
+"bytes": 120,
+"owner": "Character",
+"demangled": "Character::_Attack(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3b9fbc",
+"bytes": 720,
+"owner": "Character",
+"demangled": "Character::_SkillCombatRoll(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3ba298",
+"bytes": 232,
+"owner": "Character",
+"demangled": "Character::_SetProjectileTarget(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3ba388",
+"bytes": 856,
+"owner": "Character",
+"demangled": "Character::_PlayAnim(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3babdc",
+"bytes": 448,
+"owner": "Character",
+"demangled": "Character::_ApplyPropClass(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3bada8",
+"bytes": 784,
+"owner": "Character",
+"demangled": "Character::_MoveTo(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3bb268",
+"bytes": 784,
+"owner": "Character",
+"demangled": "Character::_WarpTo(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3bc6b8",
+"bytes": 196,
+"owner": "Character",
+"demangled": "Character::CancelSneaking()"
+},
+{
+"address": "0x3bc784",
+"bytes": 188,
+"owner": "Character",
+"demangled": "Character::GetCharSkill(int) const"
+},
+{
+"address": "0x3bc860",
+"bytes": 368,
+"owner": "Character",
+"demangled": "Character::ResetSkills()"
+},
+{
+"address": "0x3bc9ec",
+"bytes": 100,
+"owner": "Character",
+"demangled": "Character::CanIncrementSkill(int)"
+},
+{
+"address": "0x3bca50",
+"bytes": 52,
+"owner": "Character",
+"demangled": "Character::IsSkillAvailable(int) const"
+},
+{
+"address": "0x3bca84",
+"bytes": 84,
+"owner": "Character",
+"demangled": "Character::IsSkillEquippable(int) const"
+},
+{
+"address": "0x3bcc58",
+"bytes": 736,
+"owner": "Character",
+"demangled": "Character::IncSkill(int, bool)"
+},
+{
+"address": "0x3bd140",
+"bytes": 140,
+"owner": "Character",
+"demangled": "Character::ValidateHPMP()"
+},
+{
+"address": "0x3bd26c",
+"bytes": 112,
+"owner": "Character",
+"demangled": "Character::ResetStats()"
+},
+{
+"address": "0x3bd40c",
+"bytes": 212,
+"owner": "Character",
+"demangled": "Character::HasMana(int) const"
+}
+],
+"bytes": 7964
+},
+{
+"id": "r2a-game-character-Character-ee9946-9",
+"category": "game-character",
+"owner": "Character",
+"owners": [
+"Character"
+],
+"part": 9,
+"parts": 10,
+"functions": [
+{
+"address": "0x3bda74",
+"bytes": 288,
+"owner": "Character",
+"demangled": "Character::ModifyCharProps(int, int)"
+},
+{
+"address": "0x3bdbb8",
+"bytes": 220,
+"owner": "Character",
+"demangled": "Character::RegenMP(int)"
+},
+{
+"address": "0x3bdca4",
+"bytes": 220,
+"owner": "Character",
+"demangled": "Character::RegenHP(int)"
+},
+{
+"address": "0x3bdd90",
+"bytes": 336,
+"owner": "Character",
+"demangled": "Character::RegenTick(bool)"
+},
+{
+"address": "0x3bdef4",
+"bytes": 432,
+"owner": "Character",
+"demangled": "Character::UseMana(int)"
+}
+],
+"bytes": 1496
+},
+{
+"id": "r2a-game-character-pack0-a32a82-0",
+"category": "game-character",
+"owner": "CSLimbus | CSMove | CSPreSpawn | CharTimers",
+"owners": [
+"CSLimbus",
+"CSMove",
+"CSPreSpawn",
+"CharTimers"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3c2be4",
+"bytes": 328,
+"owner": "CSLimbus",
+"demangled": "CSLimbus::OnBlur(int, Character*, CharStateMachine*, int)"
+},
+{
+"address": "0x3c2e58",
+"bytes": 272,
+"owner": "CSLimbus",
+"demangled": "CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)"
+},
+{
+"address": "0x3c0f18",
+"bytes": 216,
+"owner": "CSMove",
+"demangled": "CSMove::UpdateType(Character*, CharStateMachine*)"
+},
+{
+"address": "0x3c1184",
+"bytes": 208,
+"owner": "CSMove",
+"demangled": "CSMove::OnUpdate(int, Character*, CharStateMachine*)"
+},
+{
+"address": "0x3c3bf8",
+"bytes": 184,
+"owner": "CSMove",
+"demangled": "CSMove::OnFocus(int, Character*, CharStateMachine*, int, int, void*)"
+},
+{
+"address": "0x3c2810",
+"bytes": 284,
+"owner": "CSPreSpawn",
+"demangled": "CSPreSpawn::OnEvent(int, Character*, CharStateMachine*, int, void*)"
+},
+{
+"address": "0x3c688c",
+"bytes": 372,
+"owner": "CSPreSpawn",
+"demangled": "CSPreSpawn::OnFocus(int, Character*, CharStateMachine*, int, int, void*)"
+},
+{
+"address": "0x3db480",
+"bytes": 124,
+"owner": "CharTimers",
+"demangled": "CharTimers::SetCharacter(Character*)"
+},
+{
+"address": "0x3db640",
+"bytes": 576,
+"owner": "CharTimers",
+"demangled": "CharTimers::Update()"
+}
+],
+"bytes": 2564
+},
+{
+"id": "r2a-game-items-save-ItemInventory-cf6f6b-0",
+"category": "game-items-save",
+"owner": "ItemInventory",
+"owners": [
+"ItemInventory"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3fc690",
+"bytes": 16,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::GetNumPotions() const"
+},
+{
+"address": "0x3fcff8",
+"bytes": 348,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::TrophyCheckArmorSet()"
+},
+{
+"address": "0x3fd15c",
+"bytes": 128,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::FindItem(int)"
+},
+{
+"address": "0x3fdaf0",
+"bytes": 240,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::IsItemEquipped(unsigned int) const"
+},
+{
+"address": "0x3fdcbc",
+"bytes": 524,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::IsItemEquippable(unsigned int, unsigned int) const"
+},
+{
+"address": "0x3fdeec",
+"bytes": 156,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::IsItemEquippable(unsigned int) const"
+},
+{
+"address": "0x3fdfa0",
+"bytes": 56,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::UpdateLocalizationForItems()"
+},
+{
+"address": "0x3fdfd8",
+"bytes": 352,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::SetGold(int)"
+},
+{
+"address": "0x3fe1cc",
+"bytes": 136,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::_HasItemInstanceLike(ItemInstance const*, unsigned int&)"
+},
+{
+"address": "0x3ff5d4",
+"bytes": 628,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::_AddItemInstance(ItemInstance*, bool, bool)"
+},
+{
+"address": "0x3ffa68",
+"bytes": 416,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::TransferInventoryTo(ItemInventory&, bool, bool)"
+},
+{
+"address": "0x3ffc40",
+"bytes": 204,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::SetPotionQty(int)"
+},
+{
+"address": "0x4001a0",
+"bytes": 140,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::HasTwoHander(bool) const"
+},
+{
+"address": "0x400510",
+"bytes": 264,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::_UnEquipItemAuto(unsigned int)"
+},
+{
+"address": "0x400634",
+"bytes": 908,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::_EquipItemToSlot(unsigned int, unsigned int, bool)"
+},
+{
+"address": "0x4009f8",
+"bytes": 628,
+"owner": "ItemInventory",
+"demangled": "ItemInventory::_EquipItemAuto(unsigned int)"
+}
+],
+"bytes": 5144
+},
+{
+"id": "r2a-game-items-save-pack0-ab4ea6-0",
+"category": "game-items-save",
+"owner": "PropertyMap",
+"owners": [
+"PropertyMap"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5134f0",
+"bytes": 376,
+"owner": "PropertyMap",
+"demangled": "PropertyMap::SavePropertiesToXML(TiXmlElement*, char const*)"
+},
+{
+"address": "0x513a00",
+"bytes": 168,
+"owner": "PropertyMap",
+"demangled": "PropertyMap::LoadOverridesFromXML(TiXmlElement*)"
+}
+],
+"bytes": 544
+},
+{
+"id": "r2a-game-ui-MenuBase-8948cc-0",
+"category": "game-ui",
+"owner": "MenuBase",
+"owners": [
+"MenuBase"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x41f578",
+"bytes": 180,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_LoadLevel2(char const*, char const*, void*)"
+},
+{
+"address": "0x41f640",
+"bytes": 120,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_SetPlayerClass(char const*, char const*, void*)"
+},
+{
+"address": "0x4202a8",
+"bytes": 140,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_UnlockCharacter(char const*, char const*, void*)"
+},
+{
+"address": "0x420344",
+"bytes": 144,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_LockCharacter(char const*, char const*, void*)"
+},
+{
+"address": "0x4203e4",
+"bytes": 40,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_PopAllMenu(char const*, char const*, void*)"
+},
+{
+"address": "0x4204bc",
+"bytes": 56,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_LoadOptions(char const*, char const*, void*)"
+},
+{
+"address": "0x4204fc",
+"bytes": 56,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_SaveOptions(char const*, char const*, void*)"
+},
+{
+"address": "0x42053c",
+"bytes": 56,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_SetSaveSlot(char const*, char const*, void*)"
+},
+{
+"address": "0x42057c",
+"bytes": 92,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_SetLanguage(char const*, char const*, void*)"
+},
+{
+"address": "0x4205e0",
+"bytes": 60,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_SetOption(char const*, char const*, void*)"
+},
+{
+"address": "0x4208e4",
+"bytes": 48,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_ResetDraggablePosition(char const*, char const*, void*)"
+},
+{
+"address": "0x420b48",
+"bytes": 60,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_EndLoading(char const*, char const*, void*)"
+},
+{
+"address": "0x420b8c",
+"bytes": 36,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_LoadWorldMap(char const*, char const*, void*)"
+},
+{
+"address": "0x420bb8",
+"bytes": 120,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_LoadLevel(char const*, char const*, void*)"
+},
+{
+"address": "0x420c3c",
+"bytes": 36,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_GoToMainMenu(char const*, char const*, void*)"
+},
+{
+"address": "0x420c68",
+"bytes": 40,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_SkipScript(char const*, char const*, void*)"
+},
+{
+"address": "0x420c98",
+"bytes": 92,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_ResetSaveFile(char const*, char const*, void*)"
+},
+{
+"address": "0x420e64",
+"bytes": 300,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_ContinueGame(char const*, char const*, void*)"
+},
+{
+"address": "0x420fac",
+"bytes": 232,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_ReturnToGame(char const*, char const*, void*)"
+},
+{
+"address": "0x4210a8",
+"bytes": 172,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_PlayMusic(char const*, char const*, void*)"
+}
+],
+"bytes": 2080
+},
+{
+"id": "r2a-game-ui-MenuBase-8948cc-1",
+"category": "game-ui",
+"owner": "MenuBase",
+"owners": [
+"MenuBase"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x421164",
+"bytes": 168,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_PlaySoundFX(char const*, char const*, void*)"
+},
+{
+"address": "0x421234",
+"bytes": 172,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_PushState(char const*, char const*, void*)"
+},
+{
+"address": "0x4212f8",
+"bytes": 60,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_SwitchMenu(char const*, char const*, void*)"
+},
+{
+"address": "0x421350",
+"bytes": 156,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_PopAllAbove(char const*, char const*, void*)"
+},
+{
+"address": "0x4215ec",
+"bytes": 136,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_GetHasMainHandWeapon(char const*, char const*, void*)"
+},
+{
+"address": "0x421684",
+"bytes": 140,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_GetHasTwoHandWeapon(char const*, char const*, void*)"
+},
+{
+"address": "0x421720",
+"bytes": 204,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_GetPlayerClass(char const*, char const*, void*)"
+},
+{
+"address": "0x421808",
+"bytes": 196,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_GetCharProperty(char const*, char const*, void*)"
+},
+{
+"address": "0x421ce0",
+"bytes": 192,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_IncSkill(char const*, char const*, void*)"
+},
+{
+"address": "0x42204c",
+"bytes": 84,
+"owner": "MenuBase",
+"demangled": "MenuBase::GetCurrentMenuContext() const"
+},
+{
+"address": "0x4220a0",
+"bytes": 188,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_StartGame(char const*, char const*, void*)"
+},
+{
+"address": "0x422304",
+"bytes": 172,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_StopMusic(char const*, char const*, void*)"
+},
+{
+"address": "0x422824",
+"bytes": 284,
+"owner": "MenuBase",
+"demangled": "MenuBase::~MenuBase()"
+},
+{
+"address": "0x422974",
+"bytes": 284,
+"owner": "MenuBase",
+"demangled": "MenuBase::~MenuBase()"
+},
+{
+"address": "0x427b08",
+"bytes": 112,
+"owner": "MenuBase",
+"demangled": "MenuBase::FS_StopDialog(char const*, char const*, void*)"
+}
+],
+"bytes": 2548
+},
+{
+"id": "r2a-game-ui-MenuManager-a5622d-0",
+"category": "game-ui",
+"owner": "MenuManager",
+"owners": [
+"MenuManager"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x42cb80",
+"bytes": 12,
+"owner": "MenuManager",
+"demangled": "MenuManager::GetRoot()"
+},
+{
+"address": "0x42cb8c",
+"bytes": 12,
+"owner": "MenuManager",
+"demangled": "MenuManager::GetHUDRoot()"
+},
+{
+"address": "0x42cb98",
+"bytes": 12,
+"owner": "MenuManager",
+"demangled": "MenuManager::GetRootCamera()"
+},
+{
+"address": "0x42cba4",
+"bytes": 12,
+"owner": "MenuManager",
+"demangled": "MenuManager::GetHUDRootCamera()"
+},
+{
+"address": "0x42cbb0",
+"bytes": 12,
+"owner": "MenuManager",
+"demangled": "MenuManager::GetRootCamera2()"
+},
+{
+"address": "0x42cbbc",
+"bytes": 120,
+"owner": "MenuManager",
+"demangled": "MenuManager::GetRawCurrentEventPosition(int&, int&) const"
+},
+{
+"address": "0x42d19c",
+"bytes": 84,
+"owner": "MenuManager",
+"demangled": "MenuManager::GetMenuBelow(char const*)"
+},
+{
+"address": "0x42d4bc",
+"bytes": 216,
+"owner": "MenuManager",
+"demangled": "MenuManager::UnloadMenu(int)"
+},
+{
+"address": "0x42d72c",
+"bytes": 8,
+"owner": "MenuManager",
+"demangled": "MenuManager::ResetFonts()"
+},
+{
+"address": "0x42d73c",
+"bytes": 152,
+"owner": "MenuManager",
+"demangled": "MenuManager::Reset()"
+},
+{
+"address": "0x42dd38",
+"bytes": 332,
+"owner": "MenuManager",
+"demangled": "MenuManager::~MenuManager()"
+},
+{
+"address": "0x42e208",
+"bytes": 160,
+"owner": "MenuManager",
+"demangled": "MenuManager::PopMenu(MenuBase*)"
+},
+{
+"address": "0x42ea04",
+"bytes": 1084,
+"owner": "MenuManager",
+"demangled": "MenuManager::Update(bool)"
+},
+{
+"address": "0x4317e8",
+"bytes": 296,
+"owner": "MenuManager",
+"demangled": "MenuManager::PushMenu(MenuBase*)"
+},
+{
+"address": "0x431c38",
+"bytes": 580,
+"owner": "MenuManager",
+"demangled": "MenuManager::MenuManager()"
+}
+],
+"bytes": 3092
+},
+{
+"id": "r2a-game-ui-pack0-65b527-0",
+"category": "game-ui",
+"owner": "MenuFX",
+"owners": [
+"MenuFX"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7ac444",
+"bytes": 80,
+"owner": "MenuFX",
+"demangled": "MenuFX::SetFocusDefault()"
+},
+{
+"address": "0x7addb0",
+"bytes": 296,
+"owner": "MenuFX",
+"demangled": "MenuFX::GetStateHandler(gameswf::character*)"
+},
+{
+"address": "0x7adff0",
+"bytes": 456,
+"owner": "MenuFX",
+"demangled": "MenuFX::RegisterStates(MenuFX::State**, int)"
+},
+{
+"address": "0x7ae284",
+"bytes": 1036,
+"owner": "MenuFX",
+"demangled": "MenuFX::SetMenu(char const*, bool)"
+},
+{
+"address": "0x7ae808",
+"bytes": 1316,
+"owner": "MenuFX",
+"demangled": "MenuFX::PopMenu()"
+}
+],
+"bytes": 3184
+},
+{
+"id": "r2a-game-world-Container-e6443a-0",
+"category": "game-world",
+"owner": "Container",
+"owners": [
+"Container"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x39f910",
+"bytes": 524,
+"owner": "Container",
+"demangled": "Container::InitPost()"
+},
+{
+"address": "0x39fc98",
+"bytes": 152,
+"owner": "Container",
+"demangled": "Container::InitFinal()"
+},
+{
+"address": "0x39fd38",
+"bytes": 524,
+"owner": "Container",
+"demangled": "Container::InterpretIncomingNetStruct(bool)"
+},
+{
+"address": "0x39ff58",
+"bytes": 412,
+"owner": "Container",
+"demangled": "Container::NetStructContainer::NetStructContainer()"
+},
+{
+"address": "0x3a0110",
+"bytes": 500,
+"owner": "Container",
+"demangled": "Container::PopulateOutgoingNetStruct(bool)"
+},
+{
+"address": "0x3a06dc",
+"bytes": 76,
+"owner": "Container",
+"demangled": "Container::Container(ObjectBase::GO_IDS)"
+},
+{
+"address": "0x3a0788",
+"bytes": 76,
+"owner": "Container",
+"demangled": "Container::Container(ObjectBase::GO_IDS)"
+},
+{
+"address": "0x3a0a98",
+"bytes": 156,
+"owner": "Container",
+"demangled": "Container::DoOpen()"
+},
+{
+"address": "0x3a0b38",
+"bytes": 288,
+"owner": "Container",
+"demangled": "Container::Interact(GameObject*)"
+}
+],
+"bytes": 2708
+},
+{
+"id": "r2a-game-world-Door-478d47-0",
+"category": "game-world",
+"owner": "Door",
+"owners": [
+"Door"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3e74c8",
+"bytes": 132,
+"owner": "Door",
+"demangled": "Door::createBindings(sfc::script::lua::Binder&)"
+},
+{
+"address": "0x3e7598",
+"bytes": 152,
+"owner": "Door",
+"demangled": "Door::Closed(bool)"
+},
+{
+"address": "0x3e763c",
+"bytes": 304,
+"owner": "Door",
+"demangled": "Door::Close(bool)"
+},
+{
+"address": "0x3e7788",
+"bytes": 148,
+"owner": "Door",
+"demangled": "Door::Opened(bool)"
+},
+{
+"address": "0x3e786c",
+"bytes": 300,
+"owner": "Door",
+"demangled": "Door::Open(bool)"
+},
+{
+"address": "0x3e7b94",
+"bytes": 60,
+"owner": "Door",
+"demangled": "Door::Disabled()"
+},
+{
+"address": "0x3e7bd8",
+"bytes": 60,
+"owner": "Door",
+"demangled": "Door::Enabled()"
+},
+{
+"address": "0x3e7da8",
+"bytes": 540,
+"owner": "Door",
+"demangled": "Door::InitPost()"
+},
+{
+"address": "0x3e80d4",
+"bytes": 400,
+"owner": "Door",
+"demangled": "Door::NetStructDoor::NetStructDoor()"
+},
+{
+"address": "0x3e8274",
+"bytes": 84,
+"owner": "Door",
+"demangled": "Door::Door(ObjectBase::GO_IDS)"
+},
+{
+"address": "0x3e8324",
+"bytes": 84,
+"owner": "Door",
+"demangled": "Door::Door(ObjectBase::GO_IDS)"
+}
+],
+"bytes": 2264
+},
+{
+"id": "r2a-game-world-GameObject-5d2019-0",
+"category": "game-world",
+"owner": "GameObject",
+"owners": [
+"GameObject"
+],
+"part": 0,
+"parts": 4,
+"functions": [
+{
+"address": "0x38b110",
+"bytes": 68,
+"owner": "GameObject",
+"demangled": "GameObject::SetRelativeAABB(aabb<float> const&, bool)"
+},
+{
+"address": "0x38b630",
+"bytes": 156,
+"owner": "GameObject",
+"demangled": "GameObject::IsHostTouching() const"
+},
+{
+"address": "0x38b6d4",
+"bytes": 124,
+"owner": "GameObject",
+"demangled": "GameObject::GetNumPlayerTouching() const"
+},
+{
+"address": "0x38b8b8",
+"bytes": 92,
+"owner": "GameObject",
+"demangled": "GameObject::RequireOnlineUpdate()"
+},
+{
+"address": "0x38c600",
+"bytes": 148,
+"owner": "GameObject",
+"demangled": "GameObject::DisableZoning()"
+},
+{
+"address": "0x38c790",
+"bytes": 228,
+"owner": "GameObject",
+"demangled": "GameObject::EnableZoning()"
+},
+{
+"address": "0x38cee8",
+"bytes": 532,
+"owner": "GameObject",
+"demangled": "GameObject::DeclareProperties()"
+},
+{
+"address": "0x38d228",
+"bytes": 288,
+"owner": "GameObject",
+"demangled": "GameObject::~GameObject()"
+},
+{
+"address": "0x38d378",
+"bytes": 288,
+"owner": "GameObject",
+"demangled": "GameObject::~GameObject()"
+},
+{
+"address": "0x38d7ec",
+"bytes": 2268,
+"owner": "GameObject",
+"demangled": "GameObject::createBindings(sfc::script::lua::Binder&)"
+},
+{
+"address": "0x38e700",
+"bytes": 52,
+"owner": "GameObject",
+"demangled": "GameObject::_GetPosition(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38e930",
+"bytes": 64,
+"owner": "GameObject",
+"demangled": "GameObject::_GetTargetListSize(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38e970",
+"bytes": 28,
+"owner": "GameObject",
+"demangled": "GameObject::_IsTargetListEmpty(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38e98c",
+"bytes": 52,
+"owner": "GameObject",
+"demangled": "GameObject::_HasPath(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38e9c0",
+"bytes": 24,
+"owner": "GameObject",
+"demangled": "GameObject::_IsDecor(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38e9d8",
+"bytes": 24,
+"owner": "GameObject",
+"demangled": "GameObject::_IsDoor(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38e9f0",
+"bytes": 44,
+"owner": "GameObject",
+"demangled": "GameObject::_IsPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38ea1c",
+"bytes": 44,
+"owner": "GameObject",
+"demangled": "GameObject::_IsCharacter(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38ea48",
+"bytes": 44,
+"owner": "GameObject",
+"demangled": "GameObject::_IsDead(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38ea74",
+"bytes": 32,
+"owner": "GameObject",
+"demangled": "GameObject::_IsSwimming(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 4600
+},
+{
+"id": "r2a-game-world-GameObject-5d2019-1",
+"category": "game-world",
+"owner": "GameObject",
+"owners": [
+"GameObject"
+],
+"part": 1,
+"parts": 4,
+"functions": [
+{
+"address": "0x38ea94",
+"bytes": 32,
+"owner": "GameObject",
+"demangled": "GameObject::_IsFlying(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38eab4",
+"bytes": 32,
+"owner": "GameObject",
+"demangled": "GameObject::_IsInWater(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38ead4",
+"bytes": 32,
+"owner": "GameObject",
+"demangled": "GameObject::_IsOverAHole(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38eaf4",
+"bytes": 12,
+"owner": "GameObject",
+"demangled": "GameObject::_GetSelf(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38eb68",
+"bytes": 80,
+"owner": "GameObject",
+"demangled": "GameObject::_GetTargetListTop(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38ebe4",
+"bytes": 12,
+"owner": "GameObject",
+"demangled": "GameObject::_GetID(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38ebf0",
+"bytes": 12,
+"owner": "GameObject",
+"demangled": "GameObject::_GetName(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38ef60",
+"bytes": 196,
+"owner": "GameObject",
+"demangled": "GameObject::LoadExternalScript(char const*, char const*)"
+},
+{
+"address": "0x38fbf8",
+"bytes": 124,
+"owner": "GameObject",
+"demangled": "GameObject::_TargetListResort(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38fc74",
+"bytes": 116,
+"owner": "GameObject",
+"demangled": "GameObject::_DropFX(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x38fcf0",
+"bytes": 1328,
+"owner": "GameObject",
+"demangled": "GameObject::_TargetListSearch(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x39040c",
+"bytes": 316,
+"owner": "GameObject",
+"demangled": "GameObject::_EnableCollisions(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390548",
+"bytes": 204,
+"owner": "GameObject",
+"demangled": "GameObject::_SetTargetListSorting(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390624",
+"bytes": 108,
+"owner": "GameObject",
+"demangled": "GameObject::_SetTargetListObjectFilter(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390690",
+"bytes": 108,
+"owner": "GameObject",
+"demangled": "GameObject::_SetTargetListCharacterFilter(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3906fc",
+"bytes": 388,
+"owner": "GameObject",
+"demangled": "GameObject::_DealDamages(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x39088c",
+"bytes": 116,
+"owner": "GameObject",
+"demangled": "GameObject::_MarkAsSwimming(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390900",
+"bytes": 116,
+"owner": "GameObject",
+"demangled": "GameObject::_MarkAsFlying(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390974",
+"bytes": 456,
+"owner": "GameObject",
+"demangled": "GameObject::_SetFXEndPoint(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390b3c",
+"bytes": 152,
+"owner": "GameObject",
+"demangled": "GameObject::_SetMaxPath(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+}
+],
+"bytes": 3940
+},
+{
+"id": "r2a-game-world-GameObject-5d2019-2",
+"category": "game-world",
+"owner": "GameObject",
+"owners": [
+"GameObject"
+],
+"part": 2,
+"parts": 4,
+"functions": [
+{
+"address": "0x390bd4",
+"bytes": 120,
+"owner": "GameObject",
+"demangled": "GameObject::_TargetListBackup(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390c50",
+"bytes": 696,
+"owner": "GameObject",
+"demangled": "GameObject::_SummonTimerTrap(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x390f1c",
+"bytes": 588,
+"owner": "GameObject",
+"demangled": "GameObject::_IsInRange(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x391438",
+"bytes": 440,
+"owner": "GameObject",
+"demangled": "GameObject::_GetDistanceBetween(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x391670",
+"bytes": 696,
+"owner": "GameObject",
+"demangled": "GameObject::_SummonTriggerTrap(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x39193c",
+"bytes": 1556,
+"owner": "GameObject",
+"demangled": "GameObject::_Summon(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x39212c",
+"bytes": 640,
+"owner": "GameObject",
+"demangled": "GameObject::_PlaySound3D(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3923cc",
+"bytes": 576,
+"owner": "GameObject",
+"demangled": "GameObject::_PlayFX(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x392620",
+"bytes": 228,
+"owner": "GameObject",
+"demangled": "GameObject::_GrabFX(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x392714",
+"bytes": 296,
+"owner": "GameObject",
+"demangled": "GameObject::_RegisterSummon(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x392848",
+"bytes": 160,
+"owner": "GameObject",
+"demangled": "GameObject::_GetObjectByName(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3928f0",
+"bytes": 648,
+"owner": "GameObject",
+"demangled": "GameObject::_SetPosition(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x392b80",
+"bytes": 1472,
+"owner": "GameObject",
+"demangled": "GameObject::_TargetListSearchRect(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x393310",
+"bytes": 300,
+"owner": "GameObject",
+"demangled": "GameObject::_Rand(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x393444",
+"bytes": 288,
+"owner": "GameObject",
+"demangled": "GameObject::_GetDistanceFrom(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)"
+},
+{
+"address": "0x3938f8",
+"bytes": 236,
+"owner": "GameObject",
+"demangled": "GameObject::Stop()"
+},
+{
+"address": "0x3939f0",
+"bytes": 112,
+"owner": "GameObject",
+"demangled": "GameObject::PathTo(Point3D<float> const&)"
+},
+{
+"address": "0x393ea0",
+"bytes": 172,
+"owner": "GameObject",
+"demangled": "GameObject::UpdatePFObject()"
+},
+{
+"address": "0x3940c0",
+"bytes": 352,
+"owner": "GameObject",
+"demangled": "GameObject::UpdatePath()"
+},
+{
+"address": "0x3949b0",
+"bytes": 132,
+"owner": "GameObject",
+"demangled": "GameObject::DisableCollisions()"
+}
+],
+"bytes": 9708
+},
+{
+"id": "r2a-game-world-GameObject-5d2019-3",
+"category": "game-world",
+"owner": "GameObject",
+"owners": [
+"GameObject"
+],
+"part": 3,
+"parts": 4,
+"functions": [
+{
+"address": "0x394a3c",
+"bytes": 132,
+"owner": "GameObject",
+"demangled": "GameObject::EnableCollisions()"
+}
+],
+"bytes": 132
+},
+{
+"id": "r2a-game-world-Level-7c7f5d-0",
+"category": "game-world",
+"owner": "Level",
+"owners": [
+"Level"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x3ef238",
+"bytes": 16,
+"owner": "Level",
+"demangled": "Level::SG_BlockLevel(bool)"
+},
+{
+"address": "0x3ef24c",
+"bytes": 36,
+"owner": "Level",
+"demangled": "Level::hasActiveDialog() const"
+},
+{
+"address": "0x3ef3fc",
+"bytes": 88,
+"owner": "Level",
+"demangled": "Level::CleanUpAllSkills()"
+},
+{
+"address": "0x3ef460",
+"bytes": 64,
+"owner": "Level",
+"demangled": "Level::UnlockAllObjects()"
+},
+{
+"address": "0x3ef540",
+"bytes": 128,
+"owner": "Level",
+"demangled": "Level::GetMPReferee() const"
+},
+{
+"address": "0x3ef614",
+"bytes": 268,
+"owner": "Level",
+"demangled": "Level::GetSpawnPoint()"
+},
+{
+"address": "0x3efaec",
+"bytes": 300,
+"owner": "Level",
+"demangled": "Level::SG_SavePlayer(int, bool)"
+},
+{
+"address": "0x3efca4",
+"bytes": 200,
+"owner": "Level",
+"demangled": "Level::_LoadFinalInit()"
+},
+{
+"address": "0x3efd74",
+"bytes": 220,
+"owner": "Level",
+"demangled": "Level::ResetSkinning()"
+},
+{
+"address": "0x3f01c8",
+"bytes": 192,
+"owner": "Level",
+"demangled": "Level::_LoadFromXML(TiXmlElement*)"
+},
+{
+"address": "0x3f07b0",
+"bytes": 64,
+"owner": "Level",
+"demangled": "Level::SG_SaveLocalPlayer(bool)"
+},
+{
+"address": "0x3f07f8",
+"bytes": 144,
+"owner": "Level",
+"demangled": "Level::GenerateRandomLevel(StreamBuffer&, unsigned int)"
+},
+{
+"address": "0x3f0ae0",
+"bytes": 1248,
+"owner": "Level",
+"demangled": "Level::UpdateListener()"
+},
+{
+"address": "0x3f1008",
+"bytes": 832,
+"owner": "Level",
+"demangled": "Level::_LoadCamera()"
+},
+{
+"address": "0x3f1394",
+"bytes": 132,
+"owner": "Level",
+"demangled": "Level::GetMPGameScript() const"
+},
+{
+"address": "0x3f1430",
+"bytes": 192,
+"owner": "Level",
+"demangled": "Level::EnableFog(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x3f150c",
+"bytes": 388,
+"owner": "Level",
+"demangled": "Level::SetLevelConfig(LevelConfig*)"
+},
+{
+"address": "0x3f16c0",
+"bytes": 340,
+"owner": "Level",
+"demangled": "Level::UpdateDynamicFog()"
+},
+{
+"address": "0x3f2304",
+"bytes": 216,
+"owner": "Level",
+"demangled": "Level::UpdateFog(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x3f240c",
+"bytes": 140,
+"owner": "Level",
+"demangled": "Level::_LoadBatchInit()"
+}
+],
+"bytes": 5208
+},
+{
+"id": "r2a-game-world-Level-7c7f5d-1",
+"category": "game-world",
+"owner": "Level",
+"owners": [
+"Level"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x3f254c",
+"bytes": 156,
+"owner": "Level",
+"demangled": "Level::Draw() const"
+},
+{
+"address": "0x3f2ae4",
+"bytes": 100,
+"owner": "Level",
+"demangled": "Level::_LoadBatching()"
+},
+{
+"address": "0x3f2d38",
+"bytes": 100,
+"owner": "Level",
+"demangled": "Level::_LoadBatchList()"
+},
+{
+"address": "0x3f3128",
+"bytes": 876,
+"owner": "Level",
+"demangled": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+},
+{
+"address": "0x3f34c0",
+"bytes": 876,
+"owner": "Level",
+"demangled": "Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)"
+},
+{
+"address": "0x3f3a58",
+"bytes": 196,
+"owner": "Level",
+"demangled": "Level::_LoadScripts()"
+},
+{
+"address": "0x3f3b40",
+"bytes": 604,
+"owner": "Level",
+"demangled": "Level::LoadFile(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x3f4154",
+"bytes": 196,
+"owner": "Level",
+"demangled": "Level::LoadTile(rnd::Tile*, int)"
+},
+{
+"address": "0x3f55a4",
+"bytes": 472,
+"owner": "Level",
+"demangled": "Level::_FlushMeshes()"
+},
+{
+"address": "0x3f82d8",
+"bytes": 308,
+"owner": "Level",
+"demangled": "Level::Update(bool)"
+},
+{
+"address": "0x3f92c4",
+"bytes": 444,
+"owner": "Level",
+"demangled": "Level::~Level()"
+},
+{
+"address": "0x3f94f4",
+"bytes": 96,
+"owner": "Level",
+"demangled": "Level::CanMoveTowards(Point3D<float> const&, Point3D<float> const&)"
+},
+{
+"address": "0x3f9870",
+"bytes": 532,
+"owner": "Level",
+"demangled": "Level::UpdateCameraZoom()"
+}
+],
+"bytes": 4956
+},
+{
+"id": "r2a-game-world-LightBase-85fa51-0",
+"category": "game-world",
+"owner": "LightBase",
+"owners": [
+"LightBase"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x40a728",
+"bytes": 56,
+"owner": "LightBase",
+"demangled": "LightBase::TurnOn()"
+},
+{
+"address": "0x40aaa0",
+"bytes": 88,
+"owner": "LightBase",
+"demangled": "LightBase::~LightBase()"
+},
+{
+"address": "0x40b0c0",
+"bytes": 84,
+"owner": "LightBase",
+"demangled": "LightBase::InitPost()"
+},
+{
+"address": "0x40b3c8",
+"bytes": 80,
+"owner": "LightBase",
+"demangled": "LightBase::SetAttenuation(Point3D<float>)"
+},
+{
+"address": "0x40b498",
+"bytes": 296,
+"owner": "LightBase",
+"demangled": "LightBase::setLightNode(glitch::scene::CLightSceneNode*)"
+},
+{
+"address": "0x40b5c8",
+"bytes": 164,
+"owner": "LightBase",
+"demangled": "LightBase::SetSpecularColor(Point3D<float>)"
+},
+{
+"address": "0x40b674",
+"bytes": 164,
+"owner": "LightBase",
+"demangled": "LightBase::SetDiffuseColor(Point3D<float>)"
+},
+{
+"address": "0x40b720",
+"bytes": 164,
+"owner": "LightBase",
+"demangled": "LightBase::SetAmbientColor(Point3D<float>)"
+}
+],
+"bytes": 1096
+},
+{
+"id": "r2a-game-world-VisualObject-0654b6-0",
+"category": "game-world",
+"owner": "VisualObject",
+"owners": [
+"VisualObject"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x4709dc",
+"bytes": 52,
+"owner": "VisualObject",
+"demangled": "VisualObject::GetSpecificNode(int) const"
+},
+{
+"address": "0x470a18",
+"bytes": 52,
+"owner": "VisualObject",
+"demangled": "VisualObject::GetSpecificNode(char const*) const"
+},
+{
+"address": "0x470ac4",
+"bytes": 20,
+"owner": "VisualObject",
+"demangled": "VisualObject::IsVisible() const"
+},
+{
+"address": "0x470ad8",
+"bytes": 160,
+"owner": "VisualObject",
+"demangled": "VisualObject::SetShadowSkinnedMeshVisible(bool)"
+},
+{
+"address": "0x470b78",
+"bytes": 88,
+"owner": "VisualObject",
+"demangled": "VisualObject::SetXraySkinnedMeshVisible(bool)"
+},
+{
+"address": "0x470bd0",
+"bytes": 20,
+"owner": "VisualObject",
+"demangled": "VisualObject::ForceUpdatePosition()"
+},
+{
+"address": "0x470be4",
+"bytes": 64,
+"owner": "VisualObject",
+"demangled": "VisualObject::GetPosition(Point3D<float>&)"
+},
+{
+"address": "0x470c24",
+"bytes": 96,
+"owner": "VisualObject",
+"demangled": "VisualObject::SetPosition(Point3D<float> const&)"
+},
+{
+"address": "0x470eb4",
+"bytes": 36,
+"owner": "VisualObject",
+"demangled": "VisualObject::ApplyShadowProjectionMaterialEffect(glitch::core::vector3d<float>, float, float)"
+},
+{
+"address": "0x4710f0",
+"bytes": 284,
+"owner": "VisualObject",
+"demangled": "VisualObject::ApplyShadowMaterial()"
+},
+{
+"address": "0x471214",
+"bytes": 48,
+"owner": "VisualObject",
+"demangled": "VisualObject::ApplyLightSet()"
+},
+{
+"address": "0x47124c",
+"bytes": 76,
+"owner": "VisualObject",
+"demangled": "VisualObject::ApplyPosition()"
+},
+{
+"address": "0x471368",
+"bytes": 96,
+"owner": "VisualObject",
+"demangled": "VisualObject::SetVisible(bool)"
+},
+{
+"address": "0x4718f0",
+"bytes": 256,
+"owner": "VisualObject",
+"demangled": "VisualObject::_FindModularSkinnedMeshNode()"
+},
+{
+"address": "0x471a0c",
+"bytes": 340,
+"owner": "VisualObject",
+"demangled": "VisualObject::ResetSkinning()"
+},
+{
+"address": "0x4727ac",
+"bytes": 180,
+"owner": "VisualObject",
+"demangled": "VisualObject::SetScaling(Point3D<float> const&)"
+},
+{
+"address": "0x472a0c",
+"bytes": 576,
+"owner": "VisualObject",
+"demangled": "VisualObject::VisualObject(GameObject*, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x472c5c",
+"bytes": 576,
+"owner": "VisualObject",
+"demangled": "VisualObject::VisualObject(GameObject*, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x4732ac",
+"bytes": 728,
+"owner": "VisualObject",
+"demangled": "VisualObject::CreateShadowMesh()"
+},
+{
+"address": "0x4736e4",
+"bytes": 408,
+"owner": "VisualObject",
+"demangled": "VisualObject::CreateXrayMesh()"
+}
+],
+"bytes": 4156
+},
+{
+"id": "r2a-game-world-VisualObject-0654b6-1",
+"category": "game-world",
+"owner": "VisualObject",
+"owners": [
+"VisualObject"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x473abc",
+"bytes": 508,
+"owner": "VisualObject",
+"demangled": "VisualObject::~VisualObject()"
+},
+{
+"address": "0x473ea0",
+"bytes": 652,
+"owner": "VisualObject",
+"demangled": "VisualObject::ApplyXrayMaterial()"
+},
+{
+"address": "0x474140",
+"bytes": 280,
+"owner": "VisualObject",
+"demangled": "VisualObject::FlushMeshes()"
+}
+],
+"bytes": 1440
+},
+{
+"id": "r2a-game-world-pack0-bf2a66-0",
+"category": "game-world",
+"owner": "CameraBase | ObjectBase | ObjectHandle | ObjectSearcher | PFObject",
+"owners": [
+"CameraBase",
+"ObjectBase",
+"ObjectHandle",
+"ObjectSearcher",
+"PFObject"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x40e814",
+"bytes": 136,
+"owner": "CameraBase",
+"demangled": "CameraBase::~CameraBase()"
+},
+{
+"address": "0x40f2f0",
+"bytes": 120,
+"owner": "CameraBase",
+"demangled": "CameraBase::GetWorldCoord(Point2D<int> const&, Point3D<float>&, float)"
+},
+{
+"address": "0x40f394",
+"bytes": 76,
+"owner": "CameraBase",
+"demangled": "CameraBase::GetWorldCoord(Point2D<float> const&, Point3D<float>&, float)"
+},
+{
+"address": "0x40f45c",
+"bytes": 116,
+"owner": "CameraBase",
+"demangled": "CameraBase::SetActive()"
+},
+{
+"address": "0x40f714",
+"bytes": 212,
+"owner": "CameraBase",
+"demangled": "CameraBase::GetScreenCoord(Point3D<float> const&, Point2D<float>&)"
+},
+{
+"address": "0x33de90",
+"bytes": 316,
+"owner": "ObjectBase",
+"demangled": "ObjectBase::TestCullingBeforeUpdate(aabb<float> const&)"
+},
+{
+"address": "0x33e61c",
+"bytes": 176,
+"owner": "ObjectBase",
+"demangled": "ObjectBase::TestDisableCondition(bool)"
+},
+{
+"address": "0x34ac18",
+"bytes": 20,
+"owner": "ObjectBase",
+"demangled": "ObjectBase::SetName(char const*)"
+},
+{
+"address": "0x33fdc0",
+"bytes": 208,
+"owner": "ObjectHandle",
+"demangled": "ObjectHandle::GetObject(bool)"
+},
+{
+"address": "0x38d7d4",
+"bytes": 24,
+"owner": "ObjectSearcher",
+"demangled": "ObjectSearcher::PlayerList::Get()"
+},
+{
+"address": "0x3d0020",
+"bytes": 84,
+"owner": "ObjectSearcher",
+"demangled": "ObjectSearcher::TargetList::Search(float, float)"
+},
+{
+"address": "0x3d015c",
+"bytes": 72,
+"owner": "ObjectSearcher",
+"demangled": "ObjectSearcher::TargetList::SetSortType(int)"
+},
+{
+"address": "0x4a1ab8",
+"bytes": 528,
+"owner": "ObjectSearcher",
+"demangled": "ObjectSearcher::TargetList::_IsCharacterValid(Character*)"
+},
+{
+"address": "0x524264",
+"bytes": 96,
+"owner": "PFObject",
+"demangled": "PFObject::GetPathLengthSQ() const"
+},
+{
+"address": "0x524538",
+"bytes": 252,
+"owner": "PFObject",
+"demangled": "PFObject::PFObject()"
+},
+{
+"address": "0x524644",
+"bytes": 252,
+"owner": "PFObject",
+"demangled": "PFObject::PFObject()"
+},
+{
+"address": "0x524750",
+"bytes": 200,
+"owner": "PFObject",
+"demangled": "PFObject::~PFObject()"
+},
+{
+"address": "0x524828",
+"bytes": 296,
+"owner": "PFObject",
+"demangled": "PFObject::DBG_DrawPath() const"
+},
+{
+"address": "0x524b30",
+"bytes": 256,
+"owner": "PFObject",
+"demangled": "PFObject::DBG_DrawObstacle() const"
+},
+{
+"address": "0x524f50",
+"bytes": 200,
+"owner": "PFObject",
+"demangled": "PFObject::~PFObject()"
+}
+],
+"bytes": 3640
+},
+{
+"id": "r2a-game-world-pack1-657cf3-0",
+"category": "game-world",
+"owner": "Projectile | Trigger | Zone",
+"owners": [
+"Projectile",
+"Trigger",
+"Zone"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3e4db0",
+"bytes": 300,
+"owner": "Projectile",
+"demangled": "Projectile::HandleImpactFX(Projectile::ImpactType, Point3D<float> const&)"
+},
+{
+"address": "0x3e5078",
+"bytes": 300,
+"owner": "Projectile",
+"demangled": "Projectile::OnExpire(Projectile::ImpactType)"
+},
+{
+"address": "0x398bd8",
+"bytes": 444,
+"owner": "Trigger",
+"demangled": "Trigger::PopulateOutgoingNetStruct(bool)"
+},
+{
+"address": "0x398da4",
+"bytes": 400,
+"owner": "Trigger",
+"demangled": "Trigger::NetStructTrigger::NetStructTrigger()"
+},
+{
+"address": "0x398f44",
+"bytes": 136,
+"owner": "Trigger",
+"demangled": "Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)"
+},
+{
+"address": "0x398fd4",
+"bytes": 136,
+"owner": "Trigger",
+"demangled": "Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)"
+},
+{
+"address": "0x3970c8",
+"bytes": 304,
+"owner": "Zone",
+"demangled": "Zone::IsInside(GameObject*)"
+},
+{
+"address": "0x397594",
+"bytes": 28,
+"owner": "Zone",
+"demangled": "Zone::InitWithBoundingBox(glitch::core::aabbox3d<float> const&)"
+},
+{
+"address": "0x397bc4",
+"bytes": 96,
+"owner": "Zone",
+"demangled": "Zone::~Zone()"
+}
+],
+"bytes": 2144
+}
+]

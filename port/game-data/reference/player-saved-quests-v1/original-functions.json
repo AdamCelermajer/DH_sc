@@ -1,0 +1,81 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegame12__LoadQuestsEP11IStreamBasePv",
+      "elf_address": "0x469478",
+      "size": 80,
+      "sha256": "e1fb1ddcbb1169766384b2ccd645d675d3eef10ed4925dbb430e46b959d4df0c"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegame10LoadQuestsEP11IStreamBase",
+      "elf_address": "0x46c550",
+      "size": 52,
+      "sha256": "1f89f831ebeb529a80daacece6c151a299f0516b5a3354ad1329284d3d070ef4"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegame12UnpackQuestsEiP11IStreamBaseb",
+      "elf_address": "0x46c48c",
+      "size": 196,
+      "sha256": "1339b03d28102aadc156db10c3308df51d3bc7c78492deb87b9a9094320fabc4"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegame11UnpackQuestEiiP11IStreamBaseb",
+      "elf_address": "0x46c344",
+      "size": 328,
+      "sha256": "3e8033573b5c66cf0fba9d220e8592a3d04e3bcc8f2dd710d9efc364028020be"
+    },
+    {
+      "original_symbol": "_ZN5Quest14_loadQuestDataEP11IStreamBaseb",
+      "elf_address": "0x47f78c",
+      "size": 112,
+      "sha256": "9eac33a991fb207a1b28ddf91a7af41cd2e29d45af34b6f8b4eea7a3a5fe696a"
+    },
+    {
+      "original_symbol": "_ZNK5Quest15IsVolatileStateEi",
+      "elf_address": "0x47f70c",
+      "size": 40,
+      "sha256": "b3fafff7d6267bb582e6750b2c89675edb85d007cf8573235b1ddb5db2e8c321"
+    }
+  ],
+  "assert_global": "0x99f914",
+  "source_spans": [
+    {
+      "elf_address": "0x46be68",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "elf_address": "0x8cdf24",
+      "size": 10,
+      "sha256": "f5216c6b35aba987bd3dc9fd704504e9ff7a74da668f2e234bd9bca4cbc30f84"
+    }
+  ],
+  "scope": "Whole QEST, LoadQuests, UnpackQuests and UnpackQuest versus original ARM.\n\nThe composed gate also executes the complete Quest::_loadQuestData112B and\nIsVolatileState40B on the same factory Record and stream. Signed/unsigned stream\nprimitives, action virtual+28, ObjectiveList payload and assertion logging are\nexplicit observing providers. They do not validate the still missing native\nchild/VM implementation. Direct writes, read-failure prefixes, actual streamed\nindices, live vector lookup, count capture, canonical acts and tell64/seek64\ntruncation are compared. Invalid vector reads and hard null assertion stores\nstop at their original fault boundaries; native bounds/reentry/alias policies\nare separate. No Android compilation, native wiring or live gameplay is inferred.\n",
+  "remaining_external_bodies": {
+    "unsigned_reader": "0x313b48",
+    "signed_reader": "0x38b758",
+    "quest_signed_reader": "0x459090",
+    "ObjectiveList_Load": "0x47a798",
+    "logger": "0x30e004",
+    "action_virtual_slot": "0x28",
+    "stream_tell_slot": "0x24",
+    "stream_absolute_seek64_slot": "0x20"
+  },
+  "unreached_source_words": {
+    "unused_inline_string_heap_cleanup": [
+      "0x46c3d8",
+      "0x46c3dc",
+      "0x46c3e0",
+      "0x46c3e4",
+      "0x46c3e8",
+      "0x46c3ec",
+      "0x46c3f0",
+      "0x46c410",
+      "0x46c414"
+    ],
+    "canary_failure": [
+      "0x46c46c"
+    ]
+  }
+}

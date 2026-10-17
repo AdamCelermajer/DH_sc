@@ -1,0 +1,273 @@
+{
+  "functions": [
+    {
+      "original_symbol": "_ZN14CNetPlayerInfoC1Ev",
+      "elf_address": "0x80f7b4",
+      "size": 1140,
+      "sha256": "60c350733da5dab8b39506e1ebdc3b506f33ca3c574eab035d195a7d02740a1d"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfoC2Ev",
+      "elf_address": "0x80fc28",
+      "size": 1140,
+      "sha256": "5aeaff07322104a702856e702b7cddfbd54a77eda062f485093613d27a28401a"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo5ResetEv",
+      "elf_address": "0x80f27c",
+      "size": 100,
+      "sha256": "d0e26aa361dac5f63dec4c3be5d1826a180a3bda716de52cbd71ee130841ad72"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfoC2ERKS_",
+      "elf_address": "0x377448",
+      "size": 904,
+      "sha256": "bc2a1fddfc76a31d74b00c437d7e69989f9cc2aa05e073e58f594a4dec9e7550"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfoC1ERKS_",
+      "elf_address": "0x4417d8",
+      "size": 904,
+      "sha256": "f910ac4236ff795bee64a2829659b9eeabd9281d022c5d1481e8822db4ba99f7"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfoaSERKS_",
+      "elf_address": "0x378708",
+      "size": 256,
+      "sha256": "66d6b4c9b04fec389c89c8e8c568ec3c84fad0b5c196f34eb46fe600e811ae8f"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfoD1Ev",
+      "elf_address": "0x80f618",
+      "size": 192,
+      "sha256": "0ef2b998a1610508e4a40df6e36ea97237ab4e68a1c65562befc652c94ec990b"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfoD2Ev",
+      "elf_address": "0x80f6f4",
+      "size": 192,
+      "sha256": "24f67b44e585799124e8de73d01b0086d7c0e3e2623fb2a681d0d6894cd28772"
+    },
+    {
+      "original_symbol": "_ZN9NetStructC1Ev",
+      "elf_address": "0x81388c",
+      "size": 104,
+      "sha256": "c076b30dd7daff541c87502344972007baadd7f6b26c2d01c67b608d3ccbed16"
+    },
+    {
+      "original_symbol": "_ZN9NetStructC2Ev",
+      "elf_address": "0x8138f4",
+      "size": 104,
+      "sha256": "717f5256196ac2869aceee7cde85cfc35622ab7a93dfe7cf0d385f547f42d285"
+    },
+    {
+      "original_symbol": "_ZN9NetStruct13DeclareMemberEP15NetStructMember",
+      "elf_address": "0x81324c",
+      "size": 24,
+      "sha256": "8abd96df74acfef6d4022428a682b14c8246cbd0f8025c0415682df24a3577f8"
+    },
+    {
+      "original_symbol": "_ZN9NetStructD1Ev",
+      "elf_address": "0x81395c",
+      "size": 96,
+      "sha256": "f72f591b157f6bef4523ffa9067930579384874a696edc3cf7a32d91d2cf40a7"
+    },
+    {
+      "original_symbol": "_ZN15NetStructMember10SetChangedEv",
+      "elf_address": "0x814f84",
+      "size": 84,
+      "sha256": "ddacc87a84eb0f36f9d942ea144e2ad519f0955780a322eddaf033e107c4d8f9"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIiE8SetValueERKi",
+      "elf_address": "0x36d9f0",
+      "size": 24,
+      "sha256": "a84fa4e587f1e7b3469b0cd15e2a2b473b5888a585a108db2b64e0f41f29ed3f"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeISsE8SetValueERKSs",
+      "elf_address": "0x36fc4c",
+      "size": 100,
+      "sha256": "0303b405958bf4c0d1b2b707e226c921089bd746168fd1e5a58dd109f409ce42"
+    },
+    {
+      "original_symbol": "_ZN15NetStructStringILj32EEC1ESs",
+      "elf_address": "0x371bec",
+      "size": 224,
+      "sha256": "75f40b565c0f31d570475290cd6e57b2774bd4a05ade09628defcdb7d910d085"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EEC1ERKSH_",
+      "elf_address": "0x3773d0",
+      "size": 120,
+      "sha256": "9529704f8d2b5bfe8f1e9171d2e42cf4ffec97c722bd1e195ea0578b75c835ee"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeIiSt4lessIiESt4pairIKiSt3mapIiN9NetStruct14tPacketHistoryES2_SaIS3_IS4_S7_EEEENS_10_Select1stISB_EENS_11_MapTraitsTISB_EESaISB_EEaSERKSH_",
+      "elf_address": "0x378660",
+      "size": 168,
+      "sha256": "1bf531443c1cc6f8f1e2e54627403313c424c3c3993eacab2979774231094e3b"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIjE8SetValueERKj",
+      "elf_address": "0x36da08",
+      "size": 24,
+      "sha256": "1f59d6e0cee2013ddea420ff35f13a9be2dc0ac67f6cab903bd4c8db9fecdf6d"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIbE8SetValueERKb",
+      "elf_address": "0x36da20",
+      "size": 24,
+      "sha256": "7a5bc5d3ec094888592c7700df720ba5453465400824c0dba6ed7f810c2ee7ad"
+    },
+    {
+      "original_symbol": "_ZN9ByteArray9SetBufferEPKvi",
+      "elf_address": "0x36ddac",
+      "size": 124,
+      "sha256": "ac9912a61003de1831e8beb08b5bbf3d513213eab51144202d96f0b01a3fbcbf"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeI9ByteArrayE8SetValueERKS0_",
+      "elf_address": "0x36f264",
+      "size": 88,
+      "sha256": "59b16a6f1ea7caa4a6b5ffe31c10a12c312aac446960e1a3272bf4c3fce17d90"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj36EEC1E9ByteArray",
+      "elf_address": "0x370550",
+      "size": 184,
+      "sha256": "51c714e9eef178906d6d253855db5c6b4055645a08ee632ef1beb8571416fe19"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj3EEC1E9ByteArray",
+      "elf_address": "0x370608",
+      "size": 184,
+      "sha256": "3cb4ee67d66e85d4c06125a239d773b6ac09ee6cd48579c899473d101766bf65"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj30EEC1E9ByteArray",
+      "elf_address": "0x3706c0",
+      "size": 184,
+      "sha256": "9d3d26dbecdc15705a9d6a54524174c5d332e404e1adc6e4d9337ea858239f9b"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj36EE9SetBufferEPKvi",
+      "elf_address": "0x36ffd0",
+      "size": 80,
+      "sha256": "35a59e9c88015ee9cb95f76a211493a390a77983a4dbb56ce149b3c7d8d55ab4"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj3EE9SetBufferEPKvi",
+      "elf_address": "0x370258",
+      "size": 80,
+      "sha256": "a8a0431481ddd22affe4d85e24f89a5ce49242ecf94dc0897012f7ec9ff71bdd"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj30EE9SetBufferEPKvi",
+      "elf_address": "0x3702a8",
+      "size": 80,
+      "sha256": "76b7a5b34f901759a2650fdd7a46b8661d721df5411dc4e6ac2c2cc33095b037"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoC1Ev",
+      "elf_address": "0x37418c",
+      "size": 2460,
+      "sha256": "13d8ca15844ca9c10cd95116a9014af7c30d2ed759da55a2035b51c697eff580"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoC2Ev",
+      "elf_address": "0x374cc0",
+      "size": 2460,
+      "sha256": "a5ee090f24d93aa7dda5eaf7a69e2a18d4ae102d6f8e0c73605532249a3935d1"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo5ResetEv",
+      "elf_address": "0x373bdc",
+      "size": 1456,
+      "sha256": "66bb927ada569788c7fb97e9255f0a791d83b342837f62ab225417919f30eeb0"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoC1ERKS_",
+      "elf_address": "0x3777d0",
+      "size": 1892,
+      "sha256": "351d5ee8165eacf079f65770fa27d7a10d7844c76bc2a328168e360791222815"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoaSERKS_",
+      "elf_address": "0x378808",
+      "size": 568,
+      "sha256": "e1a554fc8a218db2701a973c0d7f96c129196a2c707fb07ff8094df6aab35fd9"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoD1Ev",
+      "elf_address": "0x371294",
+      "size": 404,
+      "sha256": "aa21ce1dcf2e3a70013d664776cab1e3c9f8eaa726c69931a77160993fea2e07"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoD2Ev",
+      "elf_address": "0x37168c",
+      "size": 404,
+      "sha256": "0da6fb626f38fd9e4170f19b0b9fcfc32a5d8de447d437893c52dd71b75eda40"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo16SetCharacterNameESs",
+      "elf_address": "0x371ccc",
+      "size": 180,
+      "sha256": "718537843cd64c17fe31f6faf7768435dfd75ddb72e50aad66dfe8a441ce1e15"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo17SetCharacterLevelEi",
+      "elf_address": "0x370e48",
+      "size": 168,
+      "sha256": "8f7da2a903e351f20a16438937583cb58b6fb219bd4677c48fd9b1b0808ce506"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo22SetCharacterNumPotionsEi",
+      "elf_address": "0x36fcb0",
+      "size": 168,
+      "sha256": "a273b8a6a9c53c01b1d55bcbbefde438fa5288246128e93edbf2576ec97decc4"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo17SetCharacterClassEi",
+      "elf_address": "0x370ef0",
+      "size": 168,
+      "sha256": "28d9401fe154728c00023f21d9eb8c2e17629e25f587cc36908c0ab3ccc9f108"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo22SetCharacterDeathTimerEi",
+      "elf_address": "0x370bf4",
+      "size": 168,
+      "sha256": "329515e27f09a3486f2d0fbf89591f522716f0058246865569f989eed9a094c9"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo14SetCharacterXPEi",
+      "elf_address": "0x36fd58",
+      "size": 172,
+      "sha256": "7d188e0ab243f9b5f11c20b6a4dce83ffe1a2ce42811df8b0a72bfad5444fab3"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo16SetCharacterGoldEi",
+      "elf_address": "0x36fe04",
+      "size": 172,
+      "sha256": "55751f55606096e6c2b720fa4c79451ff9e7883969789cb5f2e9b5a41ee81e45"
+    },
+    {
+      "original_symbol": "_ZN17CNetPlayerManager27RegisterPlayerInfoFunctionsEPFP14CNetPlayerInfovEPFvS1_E",
+      "elf_address": "0x8102c0",
+      "size": 48,
+      "sha256": "f858b3a740fcb69e9592c16ae53241b269b36eb8a1f6ae1b2834e7932d38e24b"
+    },
+    {
+      "original_symbol": "_ZN12NetStructIntILj16EED1Ev",
+      "elf_address": "0x36d278",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    }
+  ],
+  "scope": "Full PlayerInfo C1/C2, Reset, copy construction, assignment, D1/D2, name and six scalar setters. Original member/header/plain-field state, shared serial and byte allocation/free order compared. String representation, allocator/memory primitives, guard functions and the loading-info deleting boundary are declared providers; factory registration stores execute in ARM. Empty packet history only. Network packets, startup registration, saves and live gameplay are outside this proof.",
+  "global_serial_symbol": "_ZN9NetStruct15s_changeCounterE",
+  "global_serial_address": "0xa33530",
+  "player_vtable_address": "0x963938",
+  "source_size": 1672
+}

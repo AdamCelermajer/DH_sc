@@ -35,6 +35,21 @@ bool item_update_requirements_v5(ItemInstanceV1& i,const ItemTextServicesV5& s,s
 }
 const std::vector<ItemPowerInstanceV5>* ItemPresentationOwnerV5::powers(const ItemInstanceV1& i)const noexcept{auto it=powers_.find(const_cast<ItemInstanceV1*>(&i));return it==powers_.end()?nullptr:&it->second;}
 bool ItemPresentationOwnerV5::forget(ItemInstanceV1& i,std::string& e)noexcept{if(running_){e="Destructive ItemPower reentry unsupported";return false;}powers_.erase(&i);return true;}
+bool ItemPresentationOwnerV5::update_localization(ItemInstanceV1& i,const ItemTextServicesV5& s,std::string& e){
+ e.clear();if(running_)return fail(e,"Reentrant ItemPower/localization mutation unsupported");if(!tables_)return fail(e,"Required ItemPower tables unavailable");
+ for(const auto id:i.powers)if(id<0||std::size_t(id)>=tables_.rows().size())return fail(e,"Source invalid ItemPower assertion domain unsupported");
+ struct Guard{bool& b;explicit Guard(bool& x):b(x){b=true;}~Guard(){b=false;}}guard(running_);
+ if(!item_update_name_v5(i,s,e)||!item_update_stats_v5(i,s,e)||!item_update_requirements_v5(i,s,e))return false;
+ // Source clears PowerInfo after the text fields, then calls AddPower for
+ // every saved ID. The ID vector remains Item-owned and is never rewritten.
+ auto& state=powers_[&i];state.clear();
+ for(const auto id:i.powers){const auto& row=tables_.rows()[std::size_t(id)];state.push_back({id,row.scalars.sorting_order,{}});std::string text;
+  if(!string(s,i,row.scalars.description,text,e))return false;
+  if(row.properties.empty())state.back().description=std::move(text);else{std::vector<ItemTextArgumentV5> args;args.reserve(row.properties.size());for(const auto& p:row.properties)args.push_back({static_cast<float>(p.value)*0.00390625f,asr8(p.value),nullptr});if(!parse(s,i,text,args.data(),std::uint32_t(args.size()),state.back().description,e,ItemTextOperationV5::parse_ex))return false;}
+  for(std::size_t j=state.size()-1;j>0&&state[j-1].sorting_order>state[j].sorting_order;--j)std::swap(state[j-1],state[j]);
+ }
+ return true;
+}
 bool ItemPresentationOwnerV5::add_power(ItemInstanceV1& i,std::int32_t id,std::int32_t mode,const ItemTextServicesV5& s,std::string& e){
  e.clear();if(running_)return fail(e,"Reentrant ItemPower mutation unsupported");if(!tables_||id<0||std::size_t(id)>=tables_.rows().size())return fail(e,"Source invalid ItemPower assertion domain unsupported");auto& state=powers_[&i];if(state.size()!=i.powers.size())return fail(e,"ItemPower owner not synchronized to actual item IDs");for(std::size_t j=0;j<state.size();++j)if(state[j].id!=i.powers[j])return fail(e,"ItemPower item IDs were changed outside owner");
  struct Guard{bool& b;Guard(bool& x):b(x){b=true;}~Guard(){b=false;}}guard(running_);

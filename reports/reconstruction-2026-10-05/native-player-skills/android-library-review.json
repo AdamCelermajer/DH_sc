@@ -1,0 +1,529 @@
+{
+  "validation": "PASS",
+  "scope": "Static native bridge/packaged export audit plus the supplied live runtime receipt; no source or APK was edited and no device commands were run.",
+  "artifact": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-player-skills-2026-10-05\\crypt-native-player-skills.apk",
+    "sha256": "39c2d07204ce9cd87c334bb8ad54c1f11395c913996b37927b70e8c8348f391a",
+    "bytes": 30422074,
+    "capture_sha256": "83c3093f1850ba7371f6e960d5ad4fc75e8684e793b37da823455ee6bca78052",
+    "capture_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\captures\\native-player-skills-2026-10-05.zip",
+    "capture_zip_crc": "PASS"
+  },
+  "source_freeze_comparison": {
+    "captured_source_entries": 534,
+    "prebuild_freeze_entries": 865,
+    "matched_capture_vs_prefreeze": 532,
+    "mismatches": 0,
+    "capture_paths_not_in_prefreeze": [
+      "port/pydata-names/names.c",
+      "port/pydata-names/names.h"
+    ],
+    "names_c_h_independent_hashes": {
+      "port/pydata-names/names.c": "4786464afc0428fa2540da7954247e52b93294420e2059ed6d0956792734b659",
+      "port/pydata-names/names.h": "91e3597cf9c6c32093c225d937279eceed0b89c5a85f58f403ed53d2091d5e90"
+    },
+    "all_532_common_inputs_identical": true
+  },
+  "captured_player_skill_inputs": {
+    "port/level-world/player_skill_tables_adapter.cpp": {
+      "sha256": "57dfec1ed0d8b9c90d9011ec6f9b57e9f7facf83878f5bb2be05ffda2fa53838",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/level-world/character_player_skills_preparation_v3.cpp": {
+      "sha256": "64976cdb79acb35551f01b8d2a46a5f1afb2a2959cde158ae8009b6b200e2754",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/level-world/character_ai_skill_script_update.cpp": {
+      "sha256": "e745312a3dc2f902ad4a6e0198feb6a22fc0da45c3bd297721f6884b8c9ad658",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/level-world/player_skill_session_v1.cpp": {
+      "sha256": "288c592673139f24b4570b9095adc087de41978bd0f0f9d658003813485c0f5b",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/level-world/player_skill_update_session_v1.cpp": {
+      "sha256": "7949397a01156fcc95e7f583e02b5b09751e9406c3edb2df123552fe0dba702a",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/level-world/character_skill_cooldown_services.cpp": {
+      "sha256": "12cd73f290f4dd2754b4cafcf6258f9c53152ae7d677c7fe61315603b99df393",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/level-world/ais_player_init_vcb.cpp": {
+      "sha256": "69de158e86ff88cd52a56072c68f2f2f69b7d9d2ee32bb7ea187c185e1be6cb0",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/android-native/app/src/main/cpp/native_player_skills.cpp": {
+      "sha256": "d8b98b1923e6089270d10b83be3abad07982e4b72b2b802489f18043446a0156",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/android-native/app/src/main/cpp/native_player_skills.hpp": {
+      "sha256": "13484760c08dad0418ac6ec0c4c59e454c6b9f47dea34686f49ab3404a987b97",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": {
+      "sha256": "a7b568f2325f398e05efb59480b7145fc0359e0d2805fb9e4b391b1ea6057100",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/level-world/CMakeLists.txt": {
+      "sha256": "549927e8e802417cb304f30ea9167844e0b00f2ac10673c8f1a4014ddc4f50a9",
+      "matches_current": true,
+      "matches_prefreeze": true,
+      "prefreeze_basis": "source freeze"
+    },
+    "port/pydata-names/names.c": {
+      "sha256": "4786464afc0428fa2540da7954247e52b93294420e2059ed6d0956792734b659",
+      "matches_current": true,
+      "matches_prefreeze": false,
+      "prefreeze_basis": "independently pinned names.c/names.h host-frozen inputs"
+    },
+    "port/pydata-names/names.h": {
+      "sha256": "91e3597cf9c6c32093c225d937279eceed0b89c5a85f58f403ed53d2091d5e90",
+      "matches_current": true,
+      "matches_prefreeze": false,
+      "prefreeze_basis": "independently pinned names.c/names.h host-frozen inputs"
+    }
+  },
+  "per_abi_compilation": {
+    "arm64-v8a": {
+      "compile_commands": 253,
+      "five_skill_world_tus": [
+        "port/level-world/player_skill_tables_adapter.cpp",
+        "port/level-world/character_player_skills_preparation_v3.cpp",
+        "port/level-world/character_ai_skill_script_update.cpp",
+        "port/level-world/player_skill_session_v1.cpp",
+        "port/level-world/player_skill_update_session_v1.cpp"
+      ],
+      "additional_player_lifecycle_support_tus": [
+        "port/level-world/character_skill_cooldown_services.cpp",
+        "port/level-world/ais_player_init_vcb.cpp"
+      ],
+      "native_translation_units": [
+        "port/android-native/app/src/main/cpp/native_player_skills.cpp",
+        "port/pydata-names/names.c"
+      ],
+      "all_present_once": true,
+      "obsolete_player_skill_vm_services_compiled_or_captured": false,
+      "ninja_repository_inputs": 500
+    },
+    "x86_64": {
+      "compile_commands": 253,
+      "five_skill_world_tus": [
+        "port/level-world/player_skill_tables_adapter.cpp",
+        "port/level-world/character_player_skills_preparation_v3.cpp",
+        "port/level-world/character_ai_skill_script_update.cpp",
+        "port/level-world/player_skill_session_v1.cpp",
+        "port/level-world/player_skill_update_session_v1.cpp"
+      ],
+      "additional_player_lifecycle_support_tus": [
+        "port/level-world/character_skill_cooldown_services.cpp",
+        "port/level-world/ais_player_init_vcb.cpp"
+      ],
+      "native_translation_units": [
+        "port/android-native/app/src/main/cpp/native_player_skills.cpp",
+        "port/pydata-names/names.c"
+      ],
+      "all_present_once": true,
+      "obsolete_player_skill_vm_services_compiled_or_captured": false,
+      "ninja_repository_inputs": 500
+    }
+  },
+  "packaged_exports": {
+    "arm64-v8a": {
+      "exports": {
+        "libdh2_native.so": [
+          {
+            "requested": "dh2::native::player_skills::Runtime::create",
+            "symbols": [
+              "0000000000170890 T dh2::native::player_skills::Runtime::create(dh2::native::player_skills::Bindings, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::update",
+            "symbols": [
+              "0000000000171d88 T dh2::native::player_skills::Runtime::update()"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::timer",
+            "symbols": [
+              "0000000000171ee0 T dh2::native::player_skills::Runtime::timer(unsigned int)"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::restore",
+            "symbols": [
+              "0000000000172190 T dh2::native::player_skills::Runtime::restore(AAssetManager*, void const*, void const*)"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::cooldown_probe",
+            "symbols": [
+              "0000000000170284 T dh2::native::player_skills::Runtime::cooldown_probe(unsigned int)"
+            ]
+          }
+        ],
+        "libdh2_level_world.so": [
+          {
+            "requested": "dh2::player_skill_session_v1::Session::adopt",
+            "symbols": [
+              "0000000000175100 T dh2::player_skill_session_v1::Session::adopt(std::__ndk1::unique_ptr<dh2_script_vm, dh2::player_skill_session_v1::VmDeleter>, dh2::player_skill_session_v1::Configuration, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::bind_ais_functions",
+            "symbols": [
+              "0000000000175768 T dh2::player_skill_session_v1::Session::bind_ais_functions(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::bind_character_functions",
+            "symbols": [
+              "0000000000175a8c T dh2::player_skill_session_v1::Session::bind_character_functions(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::load_resolved",
+            "symbols": [
+              "0000000000176c04 T dh2::player_skill_session_v1::Session::load_resolved(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>> const&, dh2::lua_script_load_once::Result*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::call",
+            "symbols": [
+              "00000000001774e0 T dh2::player_skill_session_v1::Session::call(char const*, dh2_script_value const*, unsigned int, unsigned int, int (*)(void*, dh2_script_first_return_v1 const*, char*, unsigned long), void*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::initialize_vcb",
+            "symbols": [
+              "00000000001778a0 T dh2::player_skill_session_v1::Session::initialize_vcb(dh2::ais_external_init_vcb::Result*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_update_session_v1::Runtime::update",
+            "symbols": [
+              "000000000017c2ac T dh2::player_skill_update_session_v1::Runtime::update(dh2::player_skill_update_session_v1::Result&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::create",
+            "symbols": [
+              "0000000000167c9c T dh2::character_player_skills_preparation_v3::Owner::create(std::__ndk1::shared_ptr<dh2::player_skill_tables_adapter::Tables const>, dh2::character_player_skills_preparation_v3::Inputs const&, dh2::character_player_skills_preparation_v3::Services const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::prepare",
+            "symbols": [
+              "00000000001682bc T dh2::character_player_skills_preparation_v3::Owner::prepare(dh2::character_ai_set_skills_and_spells::Result*)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::lease_timer_fields",
+            "symbols": [
+              "0000000000167a70 T dh2::character_player_skills_preparation_v3::Owner::lease_timer_fields(unsigned long)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::TimerFieldLease::slot",
+            "symbols": [
+              "00000000001670e0 T dh2::character_player_skills_preparation_v3::Owner::TimerFieldLease::slot(unsigned long, dh2::character_ai_set_skills_and_spells::List, unsigned int, dh2::character_player_skills_preparation_v3::Owner::TimerFieldSlot&) const"
+            ]
+          },
+          {
+            "requested": "dh2::character_ai_skill_script_update::update",
+            "symbols": [
+              "0000000000173fe8 T dh2::character_ai_skill_script_update::update(dh2::character_ai_skill_script_update::State*, dh2::character_ai_skill_script_update::Services const*, dh2::character_ai_skill_script_update::Result*)"
+            ]
+          }
+        ],
+        "libdh2_script_runtime.so": [
+          {
+            "requested": "dh2_script_vm_create_deferred",
+            "symbols": [
+              "0000000000033d2c T dh2_script_vm_create_deferred"
+            ]
+          }
+        ]
+      },
+      "needed": {
+        "libdh2_native.so": [
+          "libdh2_engine_textures.so",
+          "libdh2_engine_camera.so",
+          "libdh2_level_world.so",
+          "libdh2_script_runtime.so",
+          "libandroid.so",
+          "liblog.so",
+          "libGLESv2.so",
+          "libdh2_engine_skinning.so",
+          "libdh2_engine_animation.so",
+          "libdh2_scene_materials.so",
+          "libdh2_game_data.so",
+          "libm.so",
+          "libdl.so",
+          "libc.so"
+        ],
+        "libdh2_level_world.so": [
+          "libdh2_engine_skinning.so",
+          "libdh2_game_data.so",
+          "libdh2_script_runtime.so",
+          "libdh2_engine_animation.so",
+          "libdh2_scene_materials.so",
+          "libm.so",
+          "libdl.so",
+          "libc.so"
+        ],
+        "libdh2_script_runtime.so": [
+          "libm.so",
+          "libdl.so",
+          "libc.so"
+        ]
+      },
+      "one_shared_lua_runtime_dso": true,
+      "deferred_vm_entrypoint_owner": "libdh2_script_runtime.so"
+    },
+    "x86_64": {
+      "exports": {
+        "libdh2_native.so": [
+          {
+            "requested": "dh2::native::player_skills::Runtime::create",
+            "symbols": [
+              "0000000000161540 T dh2::native::player_skills::Runtime::create(dh2::native::player_skills::Bindings, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::update",
+            "symbols": [
+              "0000000000162dc0 T dh2::native::player_skills::Runtime::update()"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::timer",
+            "symbols": [
+              "0000000000162f20 T dh2::native::player_skills::Runtime::timer(unsigned int)"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::restore",
+            "symbols": [
+              "0000000000163200 T dh2::native::player_skills::Runtime::restore(AAssetManager*, void const*, void const*)"
+            ]
+          },
+          {
+            "requested": "dh2::native::player_skills::Runtime::cooldown_probe",
+            "symbols": [
+              "0000000000160e90 T dh2::native::player_skills::Runtime::cooldown_probe(unsigned int)"
+            ]
+          }
+        ],
+        "libdh2_level_world.so": [
+          {
+            "requested": "dh2::player_skill_session_v1::Session::adopt",
+            "symbols": [
+              "0000000000160d80 T dh2::player_skill_session_v1::Session::adopt(std::__ndk1::unique_ptr<dh2_script_vm, dh2::player_skill_session_v1::VmDeleter>, dh2::player_skill_session_v1::Configuration, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::bind_ais_functions",
+            "symbols": [
+              "00000000001613d0 T dh2::player_skill_session_v1::Session::bind_ais_functions(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::bind_character_functions",
+            "symbols": [
+              "00000000001616f0 T dh2::player_skill_session_v1::Session::bind_character_functions(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::load_resolved",
+            "symbols": [
+              "0000000000162940 T dh2::player_skill_session_v1::Session::load_resolved(std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>> const&, dh2::lua_script_load_once::Result*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::call",
+            "symbols": [
+              "0000000000163220 T dh2::player_skill_session_v1::Session::call(char const*, dh2_script_value const*, unsigned int, unsigned int, int (*)(void*, dh2_script_first_return_v1 const*, char*, unsigned long), void*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_session_v1::Session::initialize_vcb",
+            "symbols": [
+              "00000000001635d0 T dh2::player_skill_session_v1::Session::initialize_vcb(dh2::ais_external_init_vcb::Result*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::player_skill_update_session_v1::Runtime::update",
+            "symbols": [
+              "0000000000167ca0 T dh2::player_skill_update_session_v1::Runtime::update(dh2::player_skill_update_session_v1::Result&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::create",
+            "symbols": [
+              "0000000000154130 T dh2::character_player_skills_preparation_v3::Owner::create(std::__ndk1::shared_ptr<dh2::player_skill_tables_adapter::Tables const>, dh2::character_player_skills_preparation_v3::Inputs const&, dh2::character_player_skills_preparation_v3::Services const&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::prepare",
+            "symbols": [
+              "00000000001546d0 T dh2::character_player_skills_preparation_v3::Owner::prepare(dh2::character_ai_set_skills_and_spells::Result*)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::lease_timer_fields",
+            "symbols": [
+              "0000000000153f30 T dh2::character_player_skills_preparation_v3::Owner::lease_timer_fields(unsigned long)"
+            ]
+          },
+          {
+            "requested": "dh2::character_player_skills_preparation_v3::Owner::TimerFieldLease::slot",
+            "symbols": [
+              "0000000000153650 T dh2::character_player_skills_preparation_v3::Owner::TimerFieldLease::slot(unsigned long, dh2::character_ai_set_skills_and_spells::List, unsigned int, dh2::character_player_skills_preparation_v3::Owner::TimerFieldSlot&) const"
+            ]
+          },
+          {
+            "requested": "dh2::character_ai_skill_script_update::update",
+            "symbols": [
+              "000000000015fc90 T dh2::character_ai_skill_script_update::update(dh2::character_ai_skill_script_update::State*, dh2::character_ai_skill_script_update::Services const*, dh2::character_ai_skill_script_update::Result*)"
+            ]
+          }
+        ],
+        "libdh2_script_runtime.so": [
+          {
+            "requested": "dh2_script_vm_create_deferred",
+            "symbols": [
+              "0000000000030fb0 T dh2_script_vm_create_deferred"
+            ]
+          }
+        ]
+      },
+      "needed": {
+        "libdh2_native.so": [
+          "libdh2_engine_textures.so",
+          "libdh2_engine_camera.so",
+          "libdh2_level_world.so",
+          "libdh2_script_runtime.so",
+          "libandroid.so",
+          "liblog.so",
+          "libGLESv2.so",
+          "libdh2_engine_skinning.so",
+          "libdh2_engine_animation.so",
+          "libdh2_scene_materials.so",
+          "libdh2_game_data.so",
+          "libm.so",
+          "libdl.so",
+          "libc.so"
+        ],
+        "libdh2_level_world.so": [
+          "libdh2_engine_skinning.so",
+          "libdh2_game_data.so",
+          "libdh2_script_runtime.so",
+          "libdh2_engine_animation.so",
+          "libdh2_scene_materials.so",
+          "libm.so",
+          "libdl.so",
+          "libc.so"
+        ],
+        "libdh2_script_runtime.so": [
+          "libm.so",
+          "libdl.so",
+          "libc.so"
+        ]
+      },
+      "one_shared_lua_runtime_dso": true,
+      "deferred_vm_entrypoint_owner": "libdh2_script_runtime.so"
+    }
+  },
+  "packaged_original_skills": {
+    "provenance_entries": 33,
+    "packaged_skill_luac_files": 30,
+    "file_names": [
+      "scripts/skills/_commons.luac",
+      "scripts/skills/faerie_celest.luac",
+      "scripts/skills/faerie_hotty.luac",
+      "scripts/skills/faerie_rocky.luac",
+      "scripts/skills/faerie_wetty.luac",
+      "scripts/skills/faerie_windy.luac",
+      "scripts/skills/prince_mage_chain_lightning.luac",
+      "scripts/skills/prince_mage_coldray.luac",
+      "scripts/skills/prince_mage_cyclone.luac",
+      "scripts/skills/prince_mage_elemental_mastery.luac",
+      "scripts/skills/prince_mage_faeryblood.luac",
+      "scripts/skills/prince_mage_magi_shielding.luac",
+      "scripts/skills/prince_mage_staffmaster.luac",
+      "scripts/skills/prince_mage_stone_escape.luac",
+      "scripts/skills/prince_rogue_acrobat.luac",
+      "scripts/skills/prince_rogue_ambidextrous.luac",
+      "scripts/skills/prince_rogue_combomaster.luac",
+      "scripts/skills/prince_rogue_findweakness.luac",
+      "scripts/skills/prince_rogue_jump_kick.luac",
+      "scripts/skills/prince_rogue_quickness.luac",
+      "scripts/skills/prince_rogue_roundhouse.luac",
+      "scripts/skills/prince_rogue_vicious_strike.luac",
+      "scripts/skills/prince_warrior_bashdown.luac",
+      "scripts/skills/prince_warrior_charge.luac",
+      "scripts/skills/prince_warrior_combat_master.luac",
+      "scripts/skills/prince_warrior_fast_metabolism.luac",
+      "scripts/skills/prince_warrior_ground_slam.luac",
+      "scripts/skills/prince_warrior_hardiness.luac",
+      "scripts/skills/prince_warrior_leadership.luac",
+      "scripts/skills/prince_warrior_potion_addict.luac"
+    ],
+    "runtime_verified_original_resources": 33
+  },
+  "live_runtime_receipt": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-player-skills-2026-10-05\\runtime-pass\\player-skills-smoke.json",
+    "serial": "emulator-5558",
+    "api": 37,
+    "page_size": 16384,
+    "abi": "x86_64",
+    "same_process": "28661",
+    "same_vm_identity_across_restore": "0x71e3f8235a10",
+    "preparation_count": 1,
+    "source_skill_slots": 16,
+    "source_faery_slots": 5,
+    "nonnull_instances": 13,
+    "source_declaration_calls": 26,
+    "update_boundary": "GetCurrentSkillInfo__",
+    "update_vm_status": -5,
+    "full_skill_update_complete": false,
+    "blocked_update_attempts": 1,
+    "cooldown_probe": {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "field18": 0,
+      "native_timer_id": 0,
+      "duration_ms": 12000,
+      "full_skill_use": false
+    },
+    "cooldown_expiry": {
+      "callback_count": 1,
+      "slot0_field18": -1,
+      "same_native_timer_id": 0
+    },
+    "cooldown_rearmed": true
+  },
+  "explicit_limit": "Player preparation and cooldown callback are live. UpdateAllSkills is intentionally stopped at required GetCurrentSkillInfo__ provider failure; no Player AIS/savegame/skill-use/combat completion claim."
+}

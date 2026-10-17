@@ -1,0 +1,88 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "CSLimbus::OnFocus normal-flow prefix, respawn-delay/online-host decision, one-shot timer request, and normal-flow AI_ClearAllAggro convergence. The port adapts source-owned property/manager/visibility services and calls the existing Character Coordinator timer store; no native GameObject or PlayerManager layout is overlaid.",
+  "caller_facts": [
+    "OnFocus first writes zero to Character+0x520, then calls GameObject::SetVisible(false) through the Character vtable slot at +0x40. It reads the distinct Character+0x530 gate only after these two operations.",
+    "When Character+0x530 is zero, OnFocus skips delay, InitSpawned, property, online, hosting and timer reads, then normally calls CharAI::AI_ClearAllAggro once.",
+    "For nonzero +0x530, OnFocus calls Character::GetRespawnDelay once and requires a signed positive result before reading PlayerManager online byte+5. A zero online byte schedules without a hosting query; a nonzero byte calls PlayerManager::IsLocalPlayerHosting and uses nonzero truthiness.",
+    "When the source schedule branch is taken, it calls GetRespawnDelay a second time after the online/hosting decision and passes the second result's raw 32-bit bits to CharTimers::TMR_Start(duration, 0, 0x2f, nullptr). It ignores the timer ID and does not recheck the second delay.",
+    "Both GetRespawnDelay calls independently read the Character+0x1481 InitSpawned suppression byte. If that byte is nonzero, the getter returns zero without reading property 11; otherwise it reads RespawnTime property ID 11 and applies signed ASR 8 followed by signed 32-bit MUL 1000 wrap.",
+    "All normal OnFocus branches converge on AI_ClearAllAggro once at the end. Adapter errors/exceptions are a port protocol and return/propagate before synthetic extra source actions; they do not trigger a fabricated cleanup call.",
+    "PlayerManager::IsLocalPlayerHosting remains an opaque source-service callback. Its internal second online read, OnlineGameState mode 3/4 selection, matching host check and local-player host fallback are distinct from OnFocus's outer byte+5 decision and are not duplicated by this kernel."
+  ],
+  "unsupported": [
+    "The host kernel is not wired into the current Android actor/state native path; integration must supply live Character+0x520/+0x530/+0x1481, resolved property 11, PlayerManager policy and AI cleanup services.",
+    "PlayerManager::IsLocalPlayerHosting internals and native PlayerManager/OnlineGameState ownership remain outside the adapter.",
+    "The existing Character Coordinator owns the native timer slots, but event 0x2f delivery back into the game's revive/respawn state and source UI/effects are not proven by this kernel.",
+    "Original callbacks do not return adapter failure codes. Port-only callback failures preserve completed prior effects, do not roll back, and do not invoke the normal-path AI cleanup artificially."
+  ],
+  "source_files": [
+    "port/level-world/character_limbus_respawn.hpp",
+    "port/level-world/character_limbus_respawn.cpp",
+    "port/level-world/tests/character_limbus_respawn.cpp",
+    "port/level-world/tests/run_character_limbus_respawn_host.py"
+  ],
+  "reused_source": [
+    "port/level-world/character_respawn_outer.hpp",
+    "port/level-world/character_respawn_outer.cpp",
+    "port/level-world/character_group_respawn.cpp",
+    "port/level-world/character_coordinator.hpp",
+    "port/level-world/character_coordinator.cpp",
+    "port/level-world/character_state.cpp",
+    "port/level-world/character_timers.cpp",
+    "port/level-world/reference/character-respawn-outer/original-functions.json",
+    "port/level-world/reference/character-timer-discovery/original-functions.json",
+    "port/level-world/reference/character-aggro-cleanup/original-functions.json"
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZN8CSLimbus7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "demangled": "CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)",
+      "elf_address": "0x3c2e58",
+      "size": 292,
+      "sha256": "8e29e9bed96add4ce42ccaf3d9ad2b51ec9850bca6064f9e74924405f50d1bc7",
+      "scope": "complete normal-flow call ordering and branch policy reconstructed as injected source services; timer and aggro storage delegated"
+    },
+    {
+      "original_symbol": "_ZNK9Character15GetRespawnDelayEv",
+      "demangled": "Character::GetRespawnDelay() const",
+      "elf_address": "0x3a4bac",
+      "size": 64,
+      "sha256": "33c33d2c8d084d66c92c6087b380099e9cc9fa7a1db41db3ef5d62a638194557",
+      "scope": "called independently twice by the new producer; its recovered suppression/property/arithmetic kernel is reused"
+    },
+    {
+      "original_symbol": "_ZN10GameObject10SetVisibleEb",
+      "demangled": "GameObject::SetVisible(bool)",
+      "elf_address": "0x38b0f0",
+      "size": 32,
+      "sha256": "2a8fb1ffd94aced95272d222e42a98747dff5c52f79256153b51fd6678d9e431",
+      "scope": "exact Character vtable +0x40 target; OnFocus invokes it with false before reading Character+0x530"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager20IsLocalPlayerHostingEv",
+      "demangled": "PlayerManager::IsLocalPlayerHosting()",
+      "elf_address": "0x36f074",
+      "size": 104,
+      "sha256": "58f5e18507c3a03922ee1fa6799a0dac1100efbed60acc2416d12b00873081a5",
+      "scope": "opaque exact source service called only when the outer online byte+5 is nonzero"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "demangled": "CharTimers::TMR_Start(unsigned int, int, int, void*)",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6",
+      "scope": "existing timer source leaf; adapter reuses the native Character Coordinator's timer store and verifies arguments/event ownership"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_ClearAllAggroEv",
+      "demangled": "CharAI::AI_ClearAllAggro()",
+      "elf_address": "0x3d5fa8",
+      "size": 480,
+      "sha256": "9cf1065d84a6b5f84f26ef7debd8bec0bc834a646ccd8c9f6f29a5c38eb101a3",
+      "scope": "normal-flow terminal service reused from the separate character_aggro_cleanup kernel; no duplicate implementation"
+    }
+  ]
+}

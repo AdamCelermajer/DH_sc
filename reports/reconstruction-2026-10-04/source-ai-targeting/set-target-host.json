@@ -1,0 +1,93 @@
+{
+  "status": "passed",
+  "original": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\test_strategy\\libDungeonHunter2.so",
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "verified_ranges": [
+      {
+        "kind": "function",
+        "symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+        "elf_address": "0x3d6890",
+        "size": 556,
+        "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK9Character11GetCharAIIdEv",
+        "elf_address": "0x3a2fec",
+        "size": 56,
+        "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK9Character6IsDeadEv",
+        "elf_address": "0x3a2ed4",
+        "size": 12,
+        "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK10GameObject6IsDeadEv",
+        "elf_address": "0x3400ac",
+        "size": 8,
+        "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK6CharAI12AI_IsInSightEPK10GameObject",
+        "elf_address": "0x3d4ed8",
+        "size": 192,
+        "sha256": "0c2044d083ae7973c74d3b18a8c13279cffa62ef96c03289cce95b8d2571d667"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN13DebugSwitches4loadEv",
+        "elf_address": "0x337888",
+        "size": 512,
+        "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+        "elf_address": "0x337a88",
+        "size": 196,
+        "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK10GameObject17GetTargetPositionEv",
+        "elf_address": "0x3935dc",
+        "size": 36,
+        "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f"
+      },
+      {
+        "kind": "vtable",
+        "symbol": "_ZTV9Character",
+        "elf_address": "0x965f30",
+        "size": 812,
+        "sha256": "f70c64efb22ede0466b05d4a5888896153d0ff20575aabb1143b4400b27652b7"
+      },
+      {
+        "kind": "vtable",
+        "symbol": "_ZTV10GameObject",
+        "elf_address": "0x964748",
+        "size": 244,
+        "sha256": "04aca56769967aba543bc567f95a4cde4793c8617f517f11f77a989714b80c63"
+      }
+    ]
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_set_target.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_set_target.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-ai-set-target-root\\host.exe"
+  ],
+  "test_output": "character AI set target host checks passed: 7 suites; force, null, duplicate, tracing, fresh reads, virtual class dispatch, partial failure",
+  "scope": "Host checks for the source AI_SetTarget body: force/nonforce, null, duplicate, trace branches, source-time target rereads, virtual boundary and partial adapter failure. Debug manager, IsDead dynamic dispatch and AI_IsInSight are synchronous fixtures. No ARM differential or Android wiring is claimed."
+}

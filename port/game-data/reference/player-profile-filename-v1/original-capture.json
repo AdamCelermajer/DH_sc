@@ -1,0 +1,1954 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN14PlayerSavegame14SG_GetFilenameEjRSsbb",
+      "address": "0x463c84",
+      "size": 232,
+      "sha256": "86a1e0208f4b11a502191c0c4ee3c370628a8253fc96e70907f68e0919e8f276"
+    },
+    {
+      "symbol": "_ZN14PlayerSavegame20SG_GetFilenamePrefixEv",
+      "address": "0x4634e4",
+      "size": 16,
+      "sha256": "58031d4fcf99bb87b75efee4f2924ea4ff90002814c6e3ce99b13d982c93efa6"
+    },
+    {
+      "symbol": "_ZN14PlayerSavegame23SG_GetFilenameExtensionEv",
+      "address": "0x4634f4",
+      "size": 16,
+      "sha256": "68a0240577a07850cae9a334359c926c67b9ab52ee4400060d1b1e35e0da00ce"
+    },
+    {
+      "symbol": "_ZN14PlayerSavegame33SG_GetCheckpointFilenameExtensionEv",
+      "address": "0x463504",
+      "size": 16,
+      "sha256": "d54ba6d6e5946d86696281a97556176d98001a1c2c8caafa28acaf9aec01dd3a"
+    }
+  ],
+  "cases": [
+    {
+      "slot": 0,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 0,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 0,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 0,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 0,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_000_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 0,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 0,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_000_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 0,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_001.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_001.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_001_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_001_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_002.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_002.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_002_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_002_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 9,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_009.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 9,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 9,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_009.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 9,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 9,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_009_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 9,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 9,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_009_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 9,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 10,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_010.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 10,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 10,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_010.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 10,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 10,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_010_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 10,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 10,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_010_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 10,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 41,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_041.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 41,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 41,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_041.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 41,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 41,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_041_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 41,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 41,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_041_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 41,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 99,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_099.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 99,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_099.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 99,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_099_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 99,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_099_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 100,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_100.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 100,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_100.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 100,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_100_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 100,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_100_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 255,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_255.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 255,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 255,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_255.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 255,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 255,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_255_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 255,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 255,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_255_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 255,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 256,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_256.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 256,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 256,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_256.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 256,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 256,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_256_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 256,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 256,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_256_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 256,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 998,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_998.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 998,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 998,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_998.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 998,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 998,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_998_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 998,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 998,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_998_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 998,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 999,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_999.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 999,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_999.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 999,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_999_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 999,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_999_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_1000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_1000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_1000_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1000,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_1000_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1001,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_1001.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1001,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1001,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_1001.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1001,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1001,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_1001_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1001,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1001,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_1001_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1001,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4095,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_4095.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4095,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4095,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_4095.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4095,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4095,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_4095_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4095,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4095,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_4095_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4095,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4096,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_4096.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4096,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4096,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_4096.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4096,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4096,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_4096_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4096,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4096,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_4096_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4096,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 32767,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_32767.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32767,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 32767,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_32767.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32767,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 32767,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_32767_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32767,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 32767,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_32767_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32767,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 32768,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_32768.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32768,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 32768,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_32768.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32768,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 32768,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_32768_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32768,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 32768,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_32768_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 32768,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 65535,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_65535.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65535,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 65535,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_65535.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65535,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 65535,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_65535_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65535,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 65535,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_65535_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65535,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 65536,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_65536.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65536,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 65536,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_65536.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65536,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 65536,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_65536_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65536,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 65536,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_65536_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 65536,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 99999,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_99999.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99999,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 99999,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_99999.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99999,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 99999,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_99999_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99999,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 99999,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_99999_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 99999,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 100000,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_100000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100000,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 100000,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_100000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100000,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 100000,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_100000_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100000,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 100000,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_100000_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 100000,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 999999,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_999999.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999999,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 999999,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_999999.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999999,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 999999,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_999999_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999999,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 999999,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_999999_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 999999,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1000000,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_1000000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000000,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1000000,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_1000000.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000000,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 1000000,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_1000000_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000000,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 1000000,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_1000000_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 1000000,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 16777215,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_16777215.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777215,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 16777215,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_16777215.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777215,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 16777215,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_16777215_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777215,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 16777215,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_16777215_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777215,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 16777216,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_16777216.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777216,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 16777216,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_16777216.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777216,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 16777216,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_16777216_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777216,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 16777216,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_16777216_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 16777216,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2147483646,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_2147483646.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483646,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2147483646,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_2147483646.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483646,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2147483646,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_2147483646_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483646,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2147483646,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_2147483646_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483646,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2147483647,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_2147483647.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483647,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2147483647,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_2147483647.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483647,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2147483647,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_2147483647_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483647,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2147483647,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_2147483647_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483647,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2147483648,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_2147483648.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483648,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2147483648,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_2147483648.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483648,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 2147483648,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_2147483648_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483648,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 2147483648,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_2147483648_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 2147483648,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4294967293,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_4294967293.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967293,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4294967293,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_4294967293.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967293,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4294967293,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_4294967293_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967293,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4294967293,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_4294967293_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967293,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4294967294,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_4294967294.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967294,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4294967294,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_4294967294.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967294,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4294967294,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_4294967294_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967294,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4294967294,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_4294967294_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967294,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 0,
+      "multiplayer": 0,
+      "filename": "dh2_4294967295.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967295,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 0,
+      "multiplayer": 1,
+      "filename": "dh2_4294967295.savegame",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967295,
+          "checkpoint_suffix": "",
+          "extension": ".savegame"
+        }
+      ]
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 1,
+      "multiplayer": 0,
+      "filename": "dh2_4294967295_single.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967295,
+          "checkpoint_suffix": "_single",
+          "extension": ".checkpoint"
+        }
+      ]
+    },
+    {
+      "slot": 4294967295,
+      "checkpoint": 1,
+      "multiplayer": 1,
+      "filename": "dh2_4294967295_multi.checkpoint",
+      "source_trace": [
+        {
+          "leaf": "sprintf",
+          "format": "%s%03u%s%s",
+          "slot": 4294967295,
+          "checkpoint_suffix": "_multi",
+          "extension": ".checkpoint"
+        }
+      ]
+    }
+  ],
+  "case_count": 128,
+  "scope": "Whole original filename caller and literal getters executed. sprintf/strlen/std::string range assignment are declared libc/string leaves. No filesystem, backup recovery or campaign loading claimed."
+}

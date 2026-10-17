@@ -1,0 +1,80 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 3,
+    "new_callback_bodies": 3,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/lua_script_level_queries.hpp",
+      "port/level-world/lua_script_level_queries.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/lua_script_level_queries.cpp",
+      "port/level-world/tests/run_lua_script_level_queries_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript19_GetHostPlayerLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37cc00",
+      "size": 60,
+      "sha256": "0e8d9eb81a822929624f7f3a95ec99fff4a4d744d7a0ae6d462e80e30e7d3220",
+      "scope": "Complete source callback caller; hosting PlayerInfo query and ReturnValues push are typed services"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript24_GetHostPlayerDifficultyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37cb8c",
+      "size": 76,
+      "sha256": "b0b7426eca797f16e33effebdf019e1fb3bf1cd81e79f9b65f5c30cf9f665300",
+      "scope": "Complete source callback caller; current Level query and ReturnValues push are typed services"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript21_GetCurrentLevelRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37f1f0",
+      "size": 356,
+      "sha256": "9af8bee09940520ff80f69ed4f456adb93e278b88f2dd6d0080dd8ad4cb6a411",
+      "scope": "Complete source callback caller; Value conversion, LevelTable object capture/backing reads, and pushes are typed services"
+    },
+    {
+      "original_symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "elf_address": "0x31f594",
+      "size": 32,
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1",
+      "scope": "Original dependency executes in ARM oracle; native binding remains an external provider"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager16GetHostingPlayerEv",
+      "elf_address": "0x36e09c",
+      "size": 112,
+      "sha256": "e00e77f9a58281185b7840208afbc95fb217efbdd0201f57ab830829b2da9be1",
+      "scope": "Original dependency executes in ARM oracle; host-player record producer remains unresolved"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de",
+      "scope": "Original Value conversion executes in ARM oracle for numeric test cases"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68",
+      "scope": "Original push body is replaced by the oracle boundary hook; native binding remains an external provider"
+    }
+  ],
+  "validation": {
+    "host_cases": 17,
+    "original_arm_comparisons": 15,
+    "mismatches": 0,
+    "report": "port/level-world/build/lua-script-level-queries/validation.json"
+  },
+  "excluded_claims": [
+    "No complete LuaScript VM or monster OnInit execution claim",
+    "No native wiring claim",
+    "No resolved producer claim for PlayerInfo+0x330"
+  ]
+}

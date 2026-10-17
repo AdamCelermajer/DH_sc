@@ -28,13 +28,14 @@ def main():
  for row in actor['inputs']:add(row['asset'],row,row['entry'])
  for name,expected in (('worlds/crypt01.dwld',level['compiled_descriptor_sha256']),('worlds/crypt01.dact',actor['descriptor_sha256'])):
   file=assets_root/name;assert digest(file)==expected;assets[name]={'bytes':file.stat().st_size,'sha256':digest(file)}
+ file=assets_root/'worlds/crypt01.spwn';assert digest(file)==level['compiled_entrypoints_sha256'];assets['worlds/crypt01.spwn']={'bytes':file.stat().st_size,'sha256':digest(file)}
  for name in ('texture-provenance.json','actor-provenance.json','worlds/crypt01-provenance.json'):
   file=assets_root/name;assets[name]={'bytes':file.stat().st_size,'sha256':digest(file)}
  with zipfile.ZipFile(apk) as archive:
   actual={n.removeprefix('assets/') for n in archive.namelist() if n.startswith('assets/') and not n.endswith('/')};assert actual==set(assets),(actual-set(assets),set(assets)-actual)
   for name,row in assets.items():
    raw=archive.read('assets/'+name);assert raw==(assets_root/name).read_bytes()==(a.studio/'app/src/main/assets'/name).read_bytes(),name;assert len(raw)==row['bytes'] and __import__('hashlib').sha256(raw).hexdigest()==row['sha256'],name
- assert len(assets)==72 and len(entries)==66,(len(assets),len(entries))
+ assert len(assets)==73 and len(entries)==66,(len(assets),len(entries))
  host=read(local/'objects-host-audit.json');data=read(local/'game-data-host-audit.json');oracle=read(local/'actors-arm64-differential.json');prince=read(local/'actors-prince-host-audit.json');locomotion=read(local/'actors-locomotion-audit.json');animation=read(local/'actors-animation-audit.txt')
  assert host['sampled_poses']==44769 and host['descriptor_mutations']==3000 and host['unbound_tracks']==3 and host['unsupported_tracks']==3 and host['strict_missing_target_rejected'] and host['malformed_unbound_key_rejected']
  assert (data['characters'],data['fields'],data['models'],data['mutations_and_truncations'])==(448,224,116,2000)

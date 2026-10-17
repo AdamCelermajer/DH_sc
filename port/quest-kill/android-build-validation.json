@@ -1,0 +1,26 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "quest-arm64.so": {
+      "sha256": "5de1310c1f5b84adbbda16bbb345b4fc2c94582d9c160bda4f0cbe040888fb5c",
+      "layout": {
+        "machine": 183,
+        "pt_load": [
+          {
+            "offset": 0,
+            "alignment": 16384
+          },
+          {
+            "offset": 1888,
+            "alignment": 16384
+          }
+        ]
+      }
+    }
+  },
+  "source_sha256": {
+    "quest.c": "1e5258d0d10d57bd4384ace6d813eb07b1f144941d616854e837e1c250bfd1a1",
+    "quest.h": "34e140475fb50238fe20b217623f9d83e78a63985666817470c30809c5cd2bd6"
+  },
+  "build_tool_sha256": "e49a2d3cd8cb7693caba9005945089f685c3de2a7070338036dbe63cb8418a76"
+}

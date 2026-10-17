@@ -1,0 +1,41 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK13ItemInventory20IsEquipmentSlotTakenEj",
+      "elf_address": "0x4002d8",
+      "size": 204,
+      "sha256": "3d70cd66b261a98fa7198f9074098cbd5d223d7cd91b1600b19cf6106c32a28b"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_EquipItemToSlotEjjb",
+      "elf_address": "0x400634",
+      "size": 956,
+      "sha256": "193c3880f5be84860f5070e7aa40d3a675e878b89ddbc9639741811dc97eae48"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory12HasTwoHanderEb",
+      "elf_address": "0x4001a0",
+      "size": 140,
+      "sha256": "fb30a48a8275d5caad1d79ae0e981d1a0fa436a46318967b373d04427aae3189"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory20_UnEquipItemFromSlotEji",
+      "elf_address": "0x4003a4",
+      "size": 360,
+      "sha256": "bdf061e4b10c7947faab8e3602ebe480d07b442c94d77c4253e28e85a262144d"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance12_UpdateStatsEv",
+      "elf_address": "0x3fb290",
+      "size": 528,
+      "sha256": "e263ef49d748a23b9c71852c089e4adf0f526cca27ba61f350fe23a09eb25c7d"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance11_UpdateReqsEv",
+      "elf_address": "0x3facdc",
+      "size": 1460,
+      "sha256": "c7394e2df3710fc43eb75a60ef6e1ab0e8b0c6ef9b11a1e4984d5c558379cc33"
+    }
+  ]
+}

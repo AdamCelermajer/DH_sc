@@ -1,143 +1,166 @@
 #include <jni.h>
-#include "frame_perf_v35.hpp"
-#include "native_resource_budget_v38.hpp"
 #include <android/log.h>
 #include <GLES2/gl2.h>
 #include "textures.hpp"
 #include "model_renderer.hpp"
-#include "authored_shader_program.hpp"
 #include "original_ui_session.hpp"
-#include "front_ui_session_v87.hpp"
-#include "character_panel_session_v1.hpp"
-#include "gameplay_hud.hpp"
-#include "gameplay_icons.hpp"
-#include "authored_character_panel_platform_v4.hpp"
-#include "authored_shared_menu_roster_v27.hpp"
-#include "authored_menu_character_projection_v4.hpp"
-#include "authored_menu_native_drm_v4.hpp"
-#include "authored_character_application_v1.hpp"
-#include "character_panel_runtime_v3.hpp"
-#include "character_design_services.hpp"
-#include "menu_rollover_input_v1.hpp"
-#include "character_menu_application_v4.hpp"
-#include "character_menu_potions_v4.hpp"
-#include <chrono>
+#include "original_menu_viewport_v1.hpp"
+#include "menu_start_commit_gate_v1.hpp"
+#include "player_gameplay_audio.hpp"
 #include <cmath>
-#include <cstring>
+#include <climits>
 #include <android/asset_manager_jni.h>
 #include <vector>
 #include <algorithm>
 #include <string>
 #include <cstdio>
 #include <exception>
-#include <stdexcept>
-#include "gameplay_camera_device_v9.hpp"
 
 namespace {
 constexpr const char* tag="DH2Native";
-dh2::android_ui::Program ui_program{};
-dh2::android_ui::OriginalUiSession original_ui;
-dh2::android_ui::FrontUiSessionV87 front_ui;
-std::shared_ptr<dh2::application::ApplicationServicesOwnerV5> application_services_v5;
-std::string front_directory,front_launch_report;
-std::string android_manufacturer_v20;
-bool android_device_configured_v20{};
-std::unique_ptr<dh2::android_ui::CharacterPanelSessionV1> character_panel;
-AAssetManager* gameplay_assets=nullptr;
-std::string original_ui_error;
-GLuint texture=0;
+GLuint program=0,texture=0;
+GLint position=-1,uv=-1,scale=-1;
 int surface_width=1,surface_height=1,texture_width=1,texture_height=1;
 bool report_model_frame=true;
-bool report_texture_frame=true;
-struct MusicPlatformV1 {
- JavaVM* vm{};jclass receiver{};jmethodID method{};
- ~MusicPlatformV1(){JNIEnv* env{};if(receiver&&vm&&vm->GetEnv(reinterpret_cast<void**>(&env),JNI_VERSION_1_6)==JNI_OK)env->DeleteGlobalRef(receiver);}
- bool query(std::int32_t& value,std::string& error){
-  JNIEnv* env{};
-  if(!vm||!receiver||!method||vm->GetEnv(reinterpret_cast<void**>(&env),JNI_VERSION_1_6)!=JNI_OK){error="Required attached Android music JNI owner";return false;}
-  value=env->CallStaticIntMethod(receiver,method);
-  if(env->ExceptionCheck()){env->ExceptionClear();error="Original Android isSupportMM JNI call failed";return false;}
-  __android_log_print(ANDROID_LOG_INFO,tag,"Original Android music support | JNI integer %d",value);return true;
- }
-};
-#include "native_character_menu_v4.inc"
+dh2::android_ui::OriginalUiSession original_ui;
+AAssetManager* menu_assets=nullptr;
+bool ui_frame_failed=false;
+std::string menu_directory;
+bool difficulty_count(void*,std::uint32_t* count,std::string& error){return count&&original_ui.game_difficulty_count(*count,error);}
+void bind_menu_runtime(){
+ dh2::android_ui::FrontRuntimeServices services{};
+ services.create_save_slot=[](void*,const std::string& name,const std::string& character,std::int32_t& slot,bool& published,std::string& error){return model_renderer::create_menu_save_slot(menu_assets,name,character,slot,published,error,nullptr,difficulty_count);};
+ services.assign_save_slot=[](void*,std::int32_t slot,std::int32_t ordinal,std::string& error){return model_renderer::assign_menu_save_slot(slot,ordinal,error);};
+ services.eabi_integer=[](void*,double number,std::int32_t& value,std::string& error){if(!std::isfinite(number)||number<double(INT32_MIN)||number>double(INT32_MAX)){error="Menu integer outside native conversion boundary";return false;}value=static_cast<std::int32_t>(number);return true;};
+ services.request_start_game=[](void*,bool numeric,std::int32_t requested,std::int32_t& slot,std::string& error){return model_renderer::request_menu_start(numeric,requested,slot,error);};
+ services.request_continue_game=[](void*,std::int32_t& slot,std::string& error){return model_renderer::request_menu_continue(slot,error);};
+ services.change_preview_slot=[](void*,std::int32_t slot,bool force,std::string& error){return model_renderer::select_menu_preview_slot(slot,force,error);};
+ services.debug_load=[](void*,std::string& error){return model_renderer::menu_debug_load(menu_assets,error);};
+ services.debug_query=[](void*,const char* key,std::string& error){return model_renderer::menu_debug_query(menu_assets,key,error);};
+ services.save_game=[](void*,std::uintptr_t character,std::string& error){return model_renderer::ui_player_save_game(character,error);};
+ services.revive_local_players=[](void*,std::string& error){return model_renderer::ui_revive_local_players(error);};
+ services.camera_zoom_lock=[](void*,bool locked){model_renderer::camera_zoom_lock(locked);};
+ original_ui.bind_front_runtime(services);
+ const auto design=original_ui.design_settings_table();
+ model_renderer::bind_xp_design_settings(design.data,design.size);
+ model_renderer::bind_item_text_services(&original_ui,
+  [](void* context,const dh2::data::ItemTable& items,const dh2::data::CharacterTable& characters){
+   return static_cast<dh2::android_ui::OriginalUiSession*>(context)->item_text_services(items,characters);
+  });
+ model_renderer::bind_source_dialog_services({&original_ui,
+  [](void* context,std::int32_t actor,std::int32_t style,std::int32_t text){
+   std::string error;
+   const bool ok=static_cast<dh2::android_ui::OriginalUiSession*>(context)
+       ->enqueue_source_dialog(actor,style,text,error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,tag,
+       "Source StartDialog dispatch failed: %s",error.c_str());
+   return ok?1:-1;
+  },
+  [](void* context){
+   bool active=false;std::string error;
+   const bool ok=static_cast<dh2::android_ui::OriginalUiSession*>(context)
+       ->source_dialog_active(active,error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,tag,
+       "Source WaitDialog predicate failed: %s",error.c_str());
+   return ok?(active?1:0):-1;
+  },
+  [](void* context,std::int32_t dialog_id){
+   std::string error;
+   const bool ok=static_cast<dh2::android_ui::OriginalUiSession*>(context)
+       ->enqueue_source_dialog_id(dialog_id,error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,tag,
+       "Source StartDialogID dispatch failed: %s",error.c_str());
+   return ok?1:-1;
+  }});
+ model_renderer::bind_source_char_menu_tutorial_services({&original_ui,
+  [](void* context,std::int32_t string_id,const char* frame,const char* menu){
+   if(!context||!frame||!menu)return -1;
+   std::string error;
+   const bool ok=static_cast<dh2::android_ui::OriginalUiSession*>(context)
+       ->enqueue_source_char_menu_tutorial(string_id,frame,menu,error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,tag,
+       "Source EnqueueCharMenuTutorialMessage failed: %s",error.c_str());
+   return ok?1:-1;
+  },
+  [](void* context,bool skip_all){
+   if(!context)return -1;
+   std::string error;
+   const bool ok=static_cast<dh2::android_ui::OriginalUiSession*>(context)
+       ->skip_source_char_menu_tutorial(skip_all,error);
+   if(!ok)__android_log_print(ANDROID_LOG_ERROR,tag,
+       "Source CharacterMenu tutorial skip failed: %s",error.c_str());
+   return ok?1:-1;
+  }});
+}
+const char* vs_source=R"(attribute vec2 position;attribute vec2 uv;uniform vec2 scale;varying vec2 texcoord;
+void main(){texcoord=uv;gl_Position=vec4(position*scale,0.0,1.0);})";
+const char* fs_source=R"(precision mediump float;varying vec2 texcoord;uniform sampler2D image;
+void main(){vec4 t=texture2D(image,texcoord);float tile=mod(floor(gl_FragCoord.x/16.0)+floor(gl_FragCoord.y/16.0),2.0);
+vec3 bg=mix(vec3(0.22),vec3(0.38),tile);gl_FragColor=vec4(mix(bg,t.rgb,t.a),1.0);})";
+GLuint compile(GLenum kind,const char* source){
+  const GLuint shader=glCreateShader(kind);glShaderSource(shader,1,&source,nullptr);glCompileShader(shader);
+  GLint ok=0;glGetShaderiv(shader,GL_COMPILE_STATUS,&ok);
+  if(!ok){char log[2048]{};glGetShaderInfoLog(shader,sizeof(log),nullptr,log);
+    __android_log_print(ANDROID_LOG_ERROR,tag,"Shader failed: %s",log);glDeleteShader(shader);return 0;}
+  return shader;
+}
 std::string errors(const char* operation){
   std::string text;for(GLenum e;(e=glGetError())!=GL_NO_ERROR;){char s[96];std::snprintf(s,sizeof(s),"%s GL error 0x%04x; ",operation,e);
     text+=s;__android_log_print(ANDROID_LOG_ERROR,tag,"%s",s);}return text;
 }
 jstring result(JNIEnv* env,const std::string& text){return env->NewStringUTF(text.c_str());}
 }
-bool model_renderer::borrow_actual_menu_device_v1(dh2::ui::MenuDeviceFactsV1& facts,std::string& error){
- return front_ui.menu_device_borrow_v4(facts,error);
-}
-bool model_renderer::borrow_actual_application_services_v5(std::shared_ptr<dh2::application::ApplicationServicesOwnerV5>& out,std::string& error){
- if(!application_services_v5||!application_services_v5->events14()){
-  error="Required actual Application PostInit EventManager publication";return false;
- }
- out=application_services_v5;error.clear();return true;
-}
-bool model_renderer::borrow_actual_camera_viewport_v20(std::int32_t& width,std::int32_t& height,std::string& error){
- if(surface_width<=1||surface_height<=1){error="Required resized Android camera surface";return false;}
- width=surface_width;height=surface_height;error.clear();return true;
-}
-bool model_renderer::borrow_actual_camera_lg_device_v20(std::uint8_t& lg,std::string& error){
- if(!android_device_configured_v20){error="Required Android Build.MANUFACTURER camera device input";return false;}
- return dh2::camera::source_lg_devices_v9(android_manufacturer_v20.c_str(),lg,error);
-}
-bool model_renderer::borrow_actual_font_palette_v4(const dh2::ui::CharacterMenuFontPaletteV1*& palette,std::string& error){
- if(!character_panel){palette=nullptr;error="Required actual character panel font palette owner";return false;}
- return character_panel->font_palette_borrow_v4(palette,error);
-}
-bool model_renderer::borrow_actual_status_messages_v26(std::shared_ptr<dh2::ui::MenuStatusMessagesV26>& out,std::string& error){
- return original_ui.status_messages_v26(out,error);
-}
-#include "native_gslevel_menu_v27.inc"
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_buildInfo(JNIEnv* env,jclass) {
   return result(env,"Native source reconstruction: animated scene nodes");
 }
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initialize(JNIEnv* env,jclass bridge,jobject assets){
-  // Android has created a new context: previous GL names belong to the old
-  // context and must not be deleted against this context's reused names.
-  dh2::android_resources::context_lost_v38();
-  model_renderer::reset_context();ui_program={};texture=0;report_texture_frame=true;
-  dh2::android_ui::Program premultiplied;
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_modDirectory(JNIEnv* env,jclass,jstring directory){
+  if(!directory){model_renderer::mod_directory("");return;}
+  const char* raw=env->GetStringUTFChars(directory,nullptr);if(!raw)return;
+  const std::string copy(raw);env->ReleaseStringUTFChars(directory,raw);model_renderer::mod_directory(copy);
+}
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_runtimeDirectory(JNIEnv* env,jclass,jstring directory){
+  if(!directory){model_renderer::runtime_directory("");return;}
+  const char* raw=env->GetStringUTFChars(directory,nullptr);if(!raw)return;
+  const std::string copy(raw);env->ReleaseStringUTFChars(directory,raw);model_renderer::runtime_directory(copy);
+  menu_directory=copy;
+}
+extern "C" JNIEXPORT jbyteArray JNICALL Java_com_example_dh2_NativeBridge_readAsset(JNIEnv* env,jclass,jstring name,jobject assets){
+  if(!name||!assets)return nullptr;
+  const char* raw=env->GetStringUTFChars(name,nullptr);if(!raw)return nullptr;
+  const std::string copy(raw);env->ReleaseStringUTFChars(name,raw);
   try{
-     dh2::android_resources::begin_context_v38();
-     // Service lifetime is the native Application process, not a GL context.
-     // This source-backed prefix reconstructs only pointer14 publication;
-     // complete Application PostInit/Shutdown remain separate work.
-     if(!application_services_v5)application_services_v5=std::make_shared<dh2::application::ApplicationServicesOwnerV5>();
-     std::string application_error;
-     if(!application_services_v5->events14()&&!application_services_v5->post_init_events_v5(application_error))throw std::runtime_error(application_error);
-     auto* manager=assets?AAssetManager_fromJava(env,assets):nullptr;
-      gameplay_assets=manager;
-      character_panel.reset();authored_character_menu.reset();
-    ui_program=dh2::android_ui::create(manager,false);
-    premultiplied=dh2::android_ui::create(manager,true);
-    dh2::android_ui::validate_pixels(ui_program,premultiplied);
-    dh2::android_ui::release(premultiplied);
-    std::string ui_error;
-     if(!original_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);
-     if(!front_ui.initialize(manager,ui_error))throw std::runtime_error(ui_error);
-     auto music=std::make_shared<MusicPlatformV1>();
-     if(env->GetJavaVM(&music->vm)!=JNI_OK)throw std::runtime_error("Required Android music JavaVM");
-     music->receiver=static_cast<jclass>(env->NewGlobalRef(bridge));
-     music->method=env->GetStaticMethodID(bridge,"isSupportMM","()I");
-     if(!music->receiver||!music->method||env->ExceptionCheck()){env->ExceptionClear();throw std::runtime_error("Required original Android isSupportMM receiver");}
-     original_ui.bind_platform_music([music](std::int32_t& value,std::string& error){return music->query(value,error);});
-      character_panel=std::make_unique<dh2::android_ui::CharacterPanelSessionV1>(manager);
-  }catch(const std::exception& e){
-    dh2::android_ui::release(premultiplied);dh2::android_ui::release(ui_program);
-    __android_log_print(ANDROID_LOG_ERROR,tag,"Authored UI initialization failed: %s",e.what());
-    return result(env,std::string("Authored UI initialization failed: ")+e.what());
+    auto bytes=model_renderer::read_asset(AAssetManager_fromJava(env,assets),copy);
+    auto out=env->NewByteArray(static_cast<jsize>(bytes.size()));
+    if(out)env->SetByteArrayRegion(out,0,bytes.size(),reinterpret_cast<const jbyte*>(bytes.data()));return out;
+  }catch(const std::exception& error){
+    auto type=env->FindClass("java/io/IOException");if(type)env->ThrowNew(type,error.what());return nullptr;
   }
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_profileSlot(JNIEnv* env,jclass,jint slot){
+  return result(env,model_renderer::profile_slot(slot));
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_initialize(JNIEnv* env,jclass,jobject assets){
+  program=0;texture=0;
+  try{model_renderer::reset_context();}
+  catch(const std::exception& error){return result(env,std::string("Renderer recreation failed: ")+error.what());}
+  const GLuint vs=compile(GL_VERTEX_SHADER,vs_source),fs=compile(GL_FRAGMENT_SHADER,fs_source);
+  if(!vs||!fs){if(vs)glDeleteShader(vs);if(fs)glDeleteShader(fs);return result(env,"Shader initialization failed; see DH2Native Logcat");}
+  program=glCreateProgram();glAttachShader(program,vs);glAttachShader(program,fs);glLinkProgram(program);
+  glDeleteShader(vs);glDeleteShader(fs);GLint linked=0;glGetProgramiv(program,GL_LINK_STATUS,&linked);
+  if(!linked){char log[2048]{};glGetProgramInfoLog(program,sizeof(log),nullptr,log);glDeleteProgram(program);program=0;
+    __android_log_print(ANDROID_LOG_ERROR,tag,"Link failed: %s",log);return result(env,log);}
+  if(!assets)return result(env,"UI asset manager missing");
+  menu_assets=AAssetManager_fromJava(env,assets);std::string ui_error;
+  if(!original_ui.initialize(menu_assets,ui_error))return result(env,"Menu renderer initialization failed: "+ui_error);
+  bind_menu_runtime();ui_frame_failed=false;
+  position=glGetAttribLocation(program,"position");uv=glGetAttribLocation(program,"uv");scale=glGetUniformLocation(program,"scale");
   std::string report="Renderer: ";const auto* r=glGetString(GL_RENDERER);report+=r?reinterpret_cast<const char*>(r):"unknown";
   report+="\nGLES: ";const auto* v=glGetString(GL_VERSION);report+=v?reinterpret_cast<const char*>(v):"unknown";
   return result(env,report+errors("initialize"));
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadTexture(JNIEnv* env,jclass,jbyteArray input){
   if(!input)return result(env,"Null texture input");
-  if(!ui_program.name)return result(env,"Renderer is unavailable; see DH2Native Logcat");
+  if(!program)return result(env,"Renderer is unavailable; see DH2Native Logcat");
   const auto length=env->GetArrayLength(input);
   if(length<=0||length>32*1024*1024)return result(env,"Texture input outside size limit");
   std::vector<std::uint8_t> encoded(static_cast<std::size_t>(length));
@@ -155,168 +178,71 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadTextu
   const auto fault=errors("RGBA upload");if(!fault.empty()){glDeleteTextures(1,&candidate);return result(env,fault);}
   if(texture)glDeleteTextures(1,&texture);
   texture=candidate;texture_width=view.width;texture_height=view.height;
-  report_texture_frame=true;
   model_renderer::deactivate();
-  original_ui.deactivate();
   char report[256];std::snprintf(report,sizeof(report),"%u x %u | format %u | alpha %u | RGBA upload OK\nAspect ratio preserved",
     view.width,view.height,static_cast<unsigned>(view.format),view.alpha);
   return result(env,report);
 }
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_resize(JNIEnv*,jclass,jint w,jint h){
-  surface_width=std::max(1,int(w));surface_height=std::max(1,int(h));glViewport(0,0,surface_width,surface_height);
+  surface_width=std::max(1,int(w));surface_height=std::max(1,int(h));
+  const auto viewport=dh2::ui::original_menu_viewport_v1::full_surface(surface_width,surface_height);
+  glViewport(viewport[0],viewport[1],viewport[2],viewport[3]);
+  model_renderer::drawable_target_changed(surface_width,surface_height);
   report_model_frame=true;
-  report_texture_frame=true;
   __android_log_print(ANDROID_LOG_INFO,tag,"Surface resized to %d x %d",surface_width,surface_height);
 }
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_draw(JNIEnv*,jclass){
-  dh2::perf::Frame perf_frame;
   glClearColor(0.08f,0.09f,0.11f,1);glClear(GL_COLOR_BUFFER_BIT|GL_DEPTH_BUFFER_BIT);
-  if(front_ui.active()){
-    dh2::perf::Scope perf_front(dh2::perf::Phase::front);
-    std::string error;
-    if(!front_ui.render(surface_width,surface_height,error)){
-      original_ui_error="Main menu: "+error;
-      __android_log_print(ANDROID_LOG_ERROR,tag,"Merged main menu failed: %s",error.c_str());
-      return;
-    }
-    dh2::android_ui::FrontUiSessionV87::LaunchRequest request;
-    if(front_ui.consume_launch_request(request)){
-      // This explicit development destination is the current Crypt demo.
-      // Consume after AS dispatch returns; no movie is destroyed in callback.
-      AAsset* descriptor=AAssetManager_open(gameplay_assets,"worlds/crypt01.dwld",AASSET_MODE_BUFFER);
-      if(!descriptor){original_ui_error="Crypt demo descriptor unavailable";return;}
-      const auto length=AAsset_getLength64(descriptor);
-      std::vector<std::uint8_t> bytes;
-      if(length>0&&length<=65560)bytes.resize(static_cast<std::size_t>(length));
-      const bool read=!bytes.empty()&&AAsset_read(descriptor,bytes.data(),bytes.size())==static_cast<int>(bytes.size());
-      AAsset_close(descriptor);
-      if(!read){original_ui_error="Crypt demo descriptor read failed";return;}
-      front_ui.deactivate();model_renderer::deactivate();
-      original_ui.deactivate();original_ui_error.clear();report_model_frame=true;
-      // Same authored layout recorded by crypt01-provenance.json. The main
-      // menu's current development destination is explicitly this Crypt.
-      front_launch_report=model_renderer::load_world(bytes.data(),bytes.size(),gameplay_assets,front_directory,"data/scene/x07_crypt_backup.mlx");
-      if(!model_renderer::active()||front_launch_report.find("failed")!=std::string::npos){original_ui_error=front_launch_report;return;}
-      if(!original_ui.attach_player(front_directory,error)){original_ui_error=error;return;}
-      front_launch_report="Crypt demo | selected menu slot "+std::to_string(request.slot)+" | campaign restore pending\n"+front_launch_report;
-      __android_log_print(ANDROID_LOG_INFO,tag,"Main menu Play -> Crypt demo | slot %d | difficulty %d | live HUD attached",request.slot,request.difficulty);
-    }
-    return;
-  }
   if(original_ui.active()&&!original_ui.overlays_player()){
-    std::string error;
-    if(!original_ui.render(surface_width,surface_height,error)){
-      original_ui_error=error;
-      __android_log_print(ANDROID_LOG_ERROR,tag,"Original health panel failed: %s",error.c_str());
-    }
-    return;
-  }
-  if(authored_character_menu&&authored_character_menu->opened){
-    std::string error;if(!authored_character_menu->frame(error)){
-      original_ui_error="Character menu: "+error;
-      __android_log_print(ANDROID_LOG_ERROR,tag,"Original character menu frame failed: %s",error.c_str());
-      authored_character_menu->close();
-    }
-    return;
+    std::string error;if(!original_ui.render(surface_width,surface_height,error)){
+      if(!ui_frame_failed)__android_log_print(ANDROID_LOG_ERROR,tag,"Original menu frame failed: %s",error.c_str());ui_frame_failed=true;
+    }return;
   }
   if(model_renderer::active()){
     try {
-      if(original_ui.overlays_player()){
-        dh2::perf::Scope perf_prepare(dh2::perf::Phase::hud_prepare);
-        std::string error;if(!original_ui.prepare_player_frame(surface_width,surface_height,error))throw std::runtime_error("Combat HUD preparation: "+error);
-        model_renderer::connect_combat_text(original_ui.combat_text_sink());
-      }
       model_renderer::draw(surface_width,surface_height);
+      if(original_ui.overlays_player()){
+        std::string error;
+        const bool ok=model_renderer::with_player_status_sheet(nullptr,[](void*,const std::int32_t* sheet,std::size_t count,std::uintptr_t character,std::string& failure){
+          return original_ui.render_player(surface_width,surface_height,sheet,count,character,failure);
+        },error);
+        if(!ok&&!ui_frame_failed){__android_log_print(ANDROID_LOG_ERROR,tag,"Player HUD frame failed: %s",error.c_str());ui_frame_failed=true;}
+      }
     } catch(const std::exception& e) {
       __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: %s",e.what());
-      original_ui_error=std::string("Gameplay failed: ")+e.what();
-      original_ui.deactivate();
       model_renderer::deactivate();
       return;
     } catch(...) {
       __android_log_print(ANDROID_LOG_ERROR,tag,"Native frame failed: unknown exception");
-      original_ui_error="Gameplay failed: unknown native exception";
-      original_ui.deactivate();
       model_renderer::deactivate();
       return;
     }
     if(report_model_frame){__android_log_print(ANDROID_LOG_INFO,tag,"Model frame submitted at %d x %d",surface_width,surface_height);report_model_frame=false;}
-    if(original_ui.overlays_player()){
-      dh2::perf::Scope perf_hud(dh2::perf::Phase::hud);
-      const auto player=model_renderer::player_hud_view();std::string error;
-      const auto enemy=model_renderer::enemy_hud_world_borrow(error);
-      if(!enemy.player||!original_ui.render_player(surface_width,surface_height,player.resolved,player.count,player.character,error,&enemy)){
-        original_ui_error=error;
-        __android_log_print(ANDROID_LOG_ERROR,tag,"Connected player HUD failed: %s",error.c_str());
-        return; // preserve the first failure; HUD resources were released
-      }
-      model_renderer::CombatTextFrameV1 frame;
-      dh2::perf::Scope perf_combat_text(dh2::perf::Phase::combat_text);
-      if(!model_renderer::combat_text_frame(frame,error)||!original_ui.render_combat_text(frame,error)){
-        original_ui_error=error;__android_log_print(ANDROID_LOG_ERROR,tag,"Source combat text failed: %s",error.c_str());
-      }
-    }
     return;
   }
-  if(!ui_program.name||!texture)return;
+  if(!program||!texture)return;
+  const GLfloat vertices[]={-1,1,0,0,-1,-1,0,1,1,1,1,0,1,-1,1,1};
   const float image_aspect=float(texture_width)/texture_height,viewport_aspect=float(surface_width)/surface_height;
-  const float sx=std::min(1.0f,image_aspect/viewport_aspect),sy=std::min(1.0f,viewport_aspect/image_aspect);
-  const std::array<float,16> matrix{sx,0,0,0,0,sy,0,0,0,0,1,0,0,0,0,1};
-  glDisable(GL_DEPTH_TEST);glDisable(GL_CULL_FACE);glDepthMask(GL_FALSE);
-  glEnable(GL_BLEND);glBlendFunc(GL_SRC_ALPHA,GL_ONE_MINUS_SRC_ALPHA);
-  try{dh2::android_ui::draw_quad(ui_program,texture,matrix,{1,1,1,1},{0,0,0,0});}
-  catch(const std::exception& e){__android_log_print(ANDROID_LOG_ERROR,tag,"Authored UI draw failed: %s",e.what());return;}
-  glDepthMask(GL_TRUE);const auto fault=errors("authored UI draw");
-  if(report_texture_frame&&fault.empty()){
-    __android_log_print(ANDROID_LOG_INFO,tag,"Authored UI texture frame submitted | viewport %d %d | texture %d %d | scale %.7f %.7f | GameSWF normal",surface_width,surface_height,texture_width,texture_height,sx,sy);
-    report_texture_frame=false;
-  }
+  glUseProgram(program);glUniform2f(scale,std::min(1.0f,image_aspect/viewport_aspect),std::min(1.0f,viewport_aspect/image_aspect));
+  glActiveTexture(GL_TEXTURE0);glBindTexture(GL_TEXTURE_2D,texture);glUniform1i(glGetUniformLocation(program,"image"),0);
+  glBindBuffer(GL_ARRAY_BUFFER,0);glEnableVertexAttribArray(position);glEnableVertexAttribArray(uv);
+  glVertexAttribPointer(position,2,GL_FLOAT,GL_FALSE,4*sizeof(GLfloat),vertices);
+  glVertexAttribPointer(uv,2,GL_FLOAT,GL_FALSE,4*sizeof(GLfloat),vertices+2);glDrawArrays(GL_TRIANGLE_STRIP,0,4);
+  glDisableVertexAttribArray(position);glDisableVertexAttribArray(uv);errors("draw");
 }
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadModel(JNIEnv* env,jclass,jbyteArray input,jobject assets){
   if(!input||!assets)return result(env,"Null model input");
   const auto n=env->GetArrayLength(input);if(n<=0||n>32*1024*1024)return result(env,"Model size outside limit");
   std::vector<std::uint8_t> bytes(n);env->GetByteArrayRegion(input,0,n,reinterpret_cast<jbyte*>(bytes.data()));if(env->ExceptionCheck())return nullptr;
   report_model_frame=true;
-  original_ui.deactivate();
   return result(env,model_renderer::load(bytes.data(),bytes.size(),AAssetManager_fromJava(env,assets)));
 }
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_orbit(JNIEnv*,jclass,jfloat dx,jfloat dy,jfloat zoom){model_renderer::orbit(dx,dy,zoom);}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_animationTime(JNIEnv*,jclass,jint milliseconds){model_renderer::set_time(milliseconds);}
-extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_characterPanelOpen(JNIEnv*,jclass,jboolean open){model_renderer::set_character_panel_open(open==JNI_TRUE);}
-extern "C" JNIEXPORT jboolean JNICALL Java_com_example_dh2_NativeBridge_authoredCharacterMenuIsOpen(JNIEnv*,jclass){
- return authored_character_menu&&authored_character_menu->opened?JNI_TRUE:JNI_FALSE;
-}
-extern "C" JNIEXPORT jboolean JNICALL Java_com_example_dh2_NativeBridge_authoredCharacterMenuBack(JNIEnv*,jclass){
- if(!authored_character_menu||!authored_character_menu->opened)return JNI_FALSE;
- std::string error;
- if(!character_panel->authored_back(model_renderer::player_gameplay_binding(),error))__android_log_print(ANDROID_LOG_ERROR,tag,"Original character menu Back failed: %s",error.c_str());
- return JNI_TRUE;
-}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_moveAxis(JNIEnv*,jclass,jfloat x,jfloat y){model_renderer::move_axis(x,y);}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_authoredHudTouch(JNIEnv* env,jclass,jint phase,jint pointer,jfloat x,jfloat y){
-  if(authored_character_menu&&authored_character_menu->opened){
-    std::string error;if(!authored_character_menu->pointer(phase,pointer,x,y,error)){
-      __android_log_print(ANDROID_LOG_ERROR,tag,"Original character menu input failed: %s",error.c_str());return result(env,"Character menu input failed: "+error);
-    }
-    return nullptr;
-  }
-  std::string command,error;if(!original_ui.hud_pointer(phase,pointer,x,y,command,error)){
-    __android_log_print(ANDROID_LOG_ERROR,tag,"Authored HUD input failed: %s",error.c_str());return result(env,"HUD input failed: "+error);
-  }
-  if(command=="character"){
-    const auto live=model_renderer::player_gameplay_binding();
-    if(authored_character_menu&&authored_character_menu->leases->world!=live.world_owner){
-      character_panel->reset_authored_v4();authored_character_menu.reset();
-    }
-    if(!authored_character_menu)authored_character_menu=std::make_unique<NativeCharacterMenuV4>();
-    if(!authored_character_menu->open(error)){
-      __android_log_print(ANDROID_LOG_ERROR,tag,"Original character menu open failed: %s",error.c_str());
-      return result(env,"Character menu failed: "+error);
-    }
-    return nullptr;
-  }
-  return command.empty()?nullptr:result(env,command);
-}
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_stopMovement(JNIEnv*,jclass){model_renderer::stop_movement();}
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_cameraPinchZoom(JNIEnv*,jclass,jfloat previous,jfloat current){model_renderer::camera_pinch_zoom(previous,current);}
+extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_cameraTouchPan(JNIEnv*,jclass,jint dx,jint dy){if(original_ui.camera_pan_allowed())model_renderer::camera_touch_pan(dx,dy);}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_focusObject(JNIEnv*,jclass,jint index){model_renderer::focus_object(index);}
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_objectState(JNIEnv* env,jclass,jint index,jstring state){
  if(!state)return env->NewStringUTF("Actor state is absent");
@@ -324,84 +250,150 @@ extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_objectSta
  const std::string name(raw);env->ReleaseStringUTFChars(state,raw);
  return env->NewStringUTF(model_renderer::set_object_state(index,name).c_str());
 }
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadWorld(JNIEnv* env,jclass,jbyteArray input,jobject assets,jstring files_directory,jstring selected_mlx){
-  if(!input||!assets||!files_directory||!selected_mlx)return result(env,"Null world input");const auto n=env->GetArrayLength(input);
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadWorld(JNIEnv* env,jclass,jbyteArray input,jobject assets){
+// SpawnCharacter's exact-name script boundary is exposed separately below.
+  if(!input||!assets)return result(env,"Null world input");const auto n=env->GetArrayLength(input);
   if(n<=0||n>65560)return result(env,"World descriptor outside limit");
   std::vector<std::uint8_t> bytes(n);env->GetByteArrayRegion(input,0,n,reinterpret_cast<jbyte*>(bytes.data()));if(env->ExceptionCheck())return nullptr;
-  const char* directory=env->GetStringUTFChars(files_directory,nullptr);if(!directory)return nullptr;
-  const std::string directory_path(directory);env->ReleaseStringUTFChars(files_directory,directory);
-  const char* layout=env->GetStringUTFChars(selected_mlx,nullptr);if(!layout)return nullptr;
-  const std::string layout_path(layout);env->ReleaseStringUTFChars(selected_mlx,layout);
   original_ui.deactivate();
-  original_ui_error.clear();report_model_frame=true;
-  auto report=model_renderer::load_world(bytes.data(),bytes.size(),AAssetManager_fromJava(env,assets),directory_path,layout_path);
-  if(model_renderer::active()&&report.find("failed")==std::string::npos&&report.find("error")==std::string::npos){
-    std::string error;
-    if(!original_ui.attach_player(directory_path,error))report+="\nConnected HUD failed: "+error;
-    else report+="\nOriginal player status HUD connected to world";
-  }
-  return result(env,report);
+  report_model_frame=true;return result(env,model_renderer::load_world(bytes.data(),bytes.size(),AAssetManager_fromJava(env,assets)));
 }
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadOriginalHealthPanel(JNIEnv* env,jclass,jstring files_directory){
-  original_ui_error.clear();
-  if(!files_directory)return result(env,"Original HUD failed: private directory unavailable");
-  const char* raw=env->GetStringUTFChars(files_directory,nullptr);if(!raw)return nullptr;
-  const std::string directory(raw);env->ReleaseStringUTFChars(files_directory,raw);
-  std::string error;
-  if(!original_ui.load_health_panel(directory,error))return result(env,"Original HUD failed: "+error);
-  model_renderer::deactivate();
-  return result(env,"Original health/mana panel | authored initial state\nNative SWF, original textures, fonts and text\nGame updates and original viewport/input still pending");
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_spawnCharacter(JNIEnv* env,jclass,jstring character){
+ if(!character)return env->NewStringUTF("SpawnCharacter name is absent");
+ const char* raw=env->GetStringUTFChars(character,nullptr);if(!raw)return nullptr;
+ const std::string name(raw);env->ReleaseStringUTFChars(character,raw);
+ return env->NewStringUTF(model_renderer::spawn_character(name).c_str());
 }
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalUiError(JNIEnv* env,jclass){
-  if(original_ui_error.empty())return nullptr;
-  const auto error=std::move(original_ui_error);original_ui_error.clear();return result(env,error);
-}
-extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_configureFrontDevice(JNIEnv* env,jclass,jstring manufacturer,jstring model){
- auto copy=[&](jstring input){if(!input)return std::string();const char* raw=env->GetStringUTFChars(input,nullptr);if(!raw)return std::string();std::string out(raw);env->ReleaseStringUTFChars(input,raw);return out;};
- android_manufacturer_v20=copy(manufacturer);android_device_configured_v20=true;
- front_ui.bind_menu_device(android_manufacturer_v20,copy(model),8);
-}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadOriginalFrontScreen(JNIEnv* env,jclass,jstring directory,jstring screen){
- if(!directory||!screen)return result(env,"Main menu failed: private directory or screen absent");
- const char* d=env->GetStringUTFChars(directory,nullptr);if(!d)return nullptr;
- front_directory=d;env->ReleaseStringUTFChars(directory,d);
- const char* s=env->GetStringUTFChars(screen,nullptr);if(!s)return nullptr;
- const std::string selected(s);env->ReleaseStringUTFChars(screen,s);
- original_ui.deactivate();model_renderer::deactivate();front_launch_report.clear();original_ui_error.clear();
- // Explicit preview mode until canonical SG_Load4 and saved equipment are integrated.
- front_ui.demo_persona_mode();std::string error;
- if(!front_ui.load_front_screen(front_directory,selected,error))return result(env,"Main menu failed: "+error);
- return result(env,"Original main menu | character selection | Play launches the Knight Crypt demo");
-}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_originalMenuTouch(JNIEnv* env,jclass,jfloat x,jfloat y,jint action){
- std::string error;if(!front_ui.touch(x,y,action,error))return result(env,error);return nullptr;
-}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuAudio(JNIEnv* env,jclass){auto value=front_ui.consume_menu_audio();return value.empty()?nullptr:result(env,value);}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeOriginalMenuSound(JNIEnv* env,jclass){auto value=front_ui.consume_menu_sound();return value.empty()?nullptr:result(env,value);}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeFrontLaunch(JNIEnv* env,jclass){if(front_launch_report.empty())return nullptr;const auto value=std::move(front_launch_report);front_launch_report.clear();return result(env,value);}
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_combatTarget(JNIEnv* env,jclass,jint index,jint target){return env->NewStringUTF(model_renderer::set_combat_target(index,target).c_str());}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_debugCharacterHit(JNIEnv* env,jclass,jstring character,jint raw_damage){
+ if(!character||raw_damage<=0)return env->NewStringUTF("Debug Character hit arguments rejected");
+ const char* raw=env->GetStringUTFChars(character,nullptr);if(!raw)return nullptr;
+ const std::string name(raw);env->ReleaseStringUTFChars(character,raw);
+ return result(env,model_renderer::debug_character_hit(name,std::uint32_t(raw_damage)));
+}
 extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerAttack(JNIEnv* env,jclass,jint target){return env->NewStringUTF(model_renderer::player_attack(target).c_str());}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerEquipmentAction(JNIEnv* env,jclass,jint operation,jint index,jint slot){return result(env,model_renderer::player_equipment_action(operation,index,slot));}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_debugPlayerSkillCooldown(JNIEnv* env,jclass,jint delay){return env->NewStringUTF(model_renderer::debug_player_skill_cooldown(std::uint32_t(delay)).c_str());}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_debugPlayerSkillCheck(JNIEnv* env,jclass,jint slot){return env->NewStringUTF(model_renderer::debug_player_skill_check(std::uint32_t(slot)).c_str());}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_debugPlayerMana(JNIEnv* env,jclass,jint amount){return env->NewStringUTF(model_renderer::debug_player_mana(std::uint32_t(amount)).c_str());}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_debugPlayerScalar(JNIEnv* env,jclass,jint value,jboolean write){return env->NewStringUTF(model_renderer::debug_player_scalar(std::int32_t(value),write==JNI_TRUE).c_str());}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_debugPlayerDeath(JNIEnv* env,jclass){return env->NewStringUTF(model_renderer::debug_player_death().c_str());}
 
 extern "C" JNIEXPORT jintArray JNICALL Java_com_example_dh2_NativeBridge_playerVitals(JNIEnv* env,jclass){auto values=model_renderer::player_vitals();auto out=env->NewIntArray(values.size());if(out)env->SetIntArrayRegion(out,0,values.size(),values.data());return out;}
-extern "C" JNIEXPORT jintArray JNICALL Java_com_example_dh2_NativeBridge_playerGameplayHud(JNIEnv* env,jclass){
-  auto values=model_renderer::gameplay_hud_snapshot(model_renderer::player_gameplay_binding());
-  auto out=env->NewIntArray(static_cast<jsize>(values.size()));if(out&&!values.empty())env->SetIntArrayRegion(out,0,static_cast<jsize>(values.size()),values.data());return out;
-}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerGameplayAction(JNIEnv* env,jclass,jint operation,jint index){return result(env,model_renderer::player_gameplay_action(operation,index));}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerCharacterSnapshot(JNIEnv* env,jclass){return result(env,character_panel?character_panel->snapshot(model_renderer::player_gameplay_binding()):"{\"ready\":false,\"error\":\"Character menu unavailable\"}");}
-extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_playerCharacterAction(JNIEnv* env,jclass,jint operation,jint index,jint slot){return result(env,character_panel?character_panel->action(model_renderer::player_gameplay_binding(),operation,index,slot):"Character menu unavailable");}
-extern "C" JNIEXPORT jintArray JNICALL Java_com_example_dh2_NativeBridge_menuIcon(JNIEnv* env,jclass,jstring name){
-  if(!name||!gameplay_assets)return nullptr;const char* raw=env->GetStringUTFChars(name,nullptr);if(!raw)return nullptr;
-  const std::string value(raw);env->ReleaseStringUTFChars(name,raw);std::string error;
-  auto pixels=dh2::android_ui::menu_icon_pixels(gameplay_assets,value,error);
-  if(pixels.empty()){if(!error.empty())__android_log_print(ANDROID_LOG_WARN,tag,"Original icon unavailable | %s | %s",value.c_str(),error.c_str());return nullptr;}
-  auto out=env->NewIntArray(static_cast<jsize>(pixels.size()));if(out)env->SetIntArrayRegion(out,0,static_cast<jsize>(pixels.size()),pixels.data());return out;
-}
-extern "C" JNIEXPORT jobjectArray JNICALL Java_com_example_dh2_NativeBridge_playerGameplayIcons(JNIEnv* env,jclass){
-  auto names=model_renderer::gameplay_hud_icon_names(model_renderer::player_gameplay_binding());
-  auto string_class=env->FindClass("java/lang/String");if(!string_class)return nullptr;
-  auto out=env->NewObjectArray(static_cast<jsize>(names.size()),string_class,nullptr);
-  if(out)for(std::size_t i=0;i<names.size();++i){auto item=env->NewStringUTF(names[i].c_str());if(!item)return nullptr;env->SetObjectArrayElement(out,static_cast<jsize>(i),item);env->DeleteLocalRef(item);}env->DeleteLocalRef(string_class);return out;
-}
 extern "C" JNIEXPORT void JNICALL Java_com_example_dh2_NativeBridge_enemyAi(JNIEnv*,jclass,jboolean enabled){model_renderer::set_enemy_ai(enabled);}
+
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadFrontScreen(JNIEnv* env,jclass,jstring directory,jobject assets){
+ if(!directory||!assets)return result(env,"Menu launch input unavailable");
+ const char* raw=env->GetStringUTFChars(directory,nullptr);if(!raw)return nullptr;const std::string path(raw);env->ReleaseStringUTFChars(directory,raw);
+ menu_assets=AAssetManager_fromJava(env,assets);model_renderer::deactivate();
+ std::string error;ui_frame_failed=false;
+ if(!original_ui.load_front_screen(path,"main",error))return result(env,"Menu load failed: "+error);
+ return result(env,"Original menu ready");
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_loadOpeningSplash(JNIEnv* env,jclass,jstring directory,jobject assets){
+ if(!directory||!assets)return result(env,"Opening splash input unavailable");
+ const char* raw=env->GetStringUTFChars(directory,nullptr);if(!raw)return nullptr;const std::string path(raw);env->ReleaseStringUTFChars(directory,raw);
+ menu_assets=AAssetManager_fromJava(env,assets);model_renderer::deactivate();
+ std::string error;ui_frame_failed=false;
+ if(!original_ui.load_front_screen(path,"loading",error))return result(env,"Opening splash load failed: "+error);
+ return result(env,"Original opening splash ready");
+}
+extern "C" JNIEXPORT jint JNICALL Java_com_example_dh2_NativeBridge_frontLanguage(JNIEnv*,jclass){
+ return static_cast<jint>(original_ui.language());
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_returnToMainMenu(JNIEnv* env,jclass,jstring directory,jobject assets){
+ if(!directory||!assets)return result(env,"Menu launch input unavailable");
+ const char* raw=env->GetStringUTFChars(directory,nullptr);if(!raw)return nullptr;const std::string path(raw);env->ReleaseStringUTFChars(directory,raw);
+ menu_assets=AAssetManager_fromJava(env,assets);
+ std::string unload_error;
+ if(!model_renderer::unload_game_to_menu(unload_error))
+  return result(env,"Menu return deferred: "+unload_error);
+ std::string error;ui_frame_failed=false;
+ if(!original_ui.load_front_screen(path,"main",error))return result(env,"Menu load failed: "+error);
+ return result(env,"Original menu ready");
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_menuTouch(JNIEnv* env,jclass,jfloat x,jfloat y,jint action){
+ std::string error;if(!original_ui.touch(x,y,action,error))return result(env,"Menu touch failed: "+error);
+ if(original_ui.consume_gameplay_main_menu_request())return result(env,"GAMEPLAY_MAIN_MENU_REQUESTED");
+ return result(env,"");
+}
+extern "C" JNIEXPORT jboolean JNICALL Java_com_example_dh2_NativeBridge_menuTextInputActive(JNIEnv*,jclass){
+ return original_ui.menu_text_input_active()?JNI_TRUE:JNI_FALSE;
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_menuKey(JNIEnv* env,jclass,jint code,jboolean down){
+ std::string error;if(code<0||!original_ui.menu_key_event(static_cast<std::uint32_t>(code),down==JNI_TRUE,error))
+  return result(env,"Menu key failed: "+(error.empty()?std::string("invalid key code"):error));
+ return result(env,"");
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_backToHud(JNIEnv* env,jclass){
+ std::string error;if(!original_ui.back_to_hud(error))return result(env,"Gameplay Back failed: "+error);return result(env,"");
+}
+extern "C" JNIEXPORT jobject JNICALL Java_com_example_dh2_NativeBridge_consumeMenuLaunch(JNIEnv* env,jclass){
+ dh2::android_ui::NativeStartGameIntentV1 request;
+ if(!original_ui.consume_launch_request(request))return nullptr;
+ jclass cls=env->FindClass("com/example/dh2/NativeLaunchRequest");
+ if(!cls)return nullptr;
+ const jmethodID constructor=env->GetMethodID(cls,"<init>","(IIZILjava/lang/String;D)V");
+ if(!constructor){env->DeleteLocalRef(cls);return nullptr;}
+ jstring destination=request.destination_name.empty()?nullptr:
+     env->NewStringUTF(request.destination_name.c_str());
+ if(!request.destination_name.empty()&&!destination){env->DeleteLocalRef(cls);return nullptr;}
+ const jobject result=env->NewObject(cls,constructor,
+     static_cast<jint>(request.kind),static_cast<jint>(request.slot),
+     request.has_numeric_difficulty?JNI_TRUE:JNI_FALSE,
+     static_cast<jint>(request.requested_difficulty),destination,
+     static_cast<jdouble>(request.raw_entry_point));
+ if(destination)env->DeleteLocalRef(destination);
+ env->DeleteLocalRef(cls);
+ return result;
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_startMenuGame(JNIEnv* env,jclass,jint slot,jobject assets,jint debugLevelRow,jboolean hasNumericDifficulty,jint requestedDifficulty){
+ if(!assets||slot<0)return result(env,"Start Game input unavailable");
+ original_ui.deactivate();ui_frame_failed=false;report_model_frame=true;
+ auto startup=model_renderer::start_menu_game(slot,AAssetManager_fromJava(env,assets),debugLevelRow,
+     hasNumericDifficulty==JNI_TRUE,requestedDifficulty);
+ const bool world_loaded=startup.find("Crypt |") == 0||startup.find("SWAMP |") == 0||
+     startup.find("DARKWOOD |") == 0;
+ std::string attach_error;
+ const bool hud_attached=world_loaded&&original_ui.attach_player(menu_directory,attach_error);
+ model_renderer::bind_gameplay_ui_session(hud_attached?&original_ui:nullptr);
+ if(dh2::android_ui::menu_start_commit_gate_v1(world_loaded,hud_attached)){
+  // Java may switch from the menu to gameplay only after the canonical player
+  // HUD has attached to the loaded source Player.
+ }else if(world_loaded){
+  __android_log_print(ANDROID_LOG_ERROR,tag,"Player HUD attach failed; rejecting NativeStartGame commit: %s",attach_error.c_str());
+  model_renderer::deactivate();
+  std::string recovery_error;
+  if(!original_ui.resume_front_after_start_failure(recovery_error)){
+   if(!original_ui.load_front_screen(menu_directory,"main",recovery_error))
+    __android_log_print(ANDROID_LOG_ERROR,tag,"Front menu recovery after HUD attach failure failed: %s",recovery_error.c_str());
+  }
+  startup="Start Game failed: player HUD attach failed: "+(attach_error.empty()?std::string("no diagnostic"):attach_error);
+ }else{
+  // The source menu movie and its stack are retained across the deferred
+  // launch. Re-enable that owner on failure so profile/class selection stays
+  // where the user left it; do not rebuild a second menu renderer.
+  std::string error;if(!original_ui.resume_front_after_start_failure(error))
+   __android_log_print(ANDROID_LOG_ERROR,tag,"Front menu recovery after failed start failed: %s",error.c_str());
+ }
+ return result(env,startup);
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_transitionLevel(JNIEnv* env,jclass,jstring destination,jdouble rawEntryPoint,jobject assets){
+ if(!destination||!assets)return result(env,"NativeGoToZone input unavailable");
+ const char* raw=env->GetStringUTFChars(destination,nullptr);if(!raw)return nullptr;
+ const std::string name(raw);env->ReleaseStringUTFChars(destination,raw);
+ if(name.empty())return result(env,"NativeGoToZone destination is empty");
+ report_model_frame=true;
+ return result(env,model_renderer::transition_level(name,rawEntryPoint,
+     AAssetManager_fromJava(env,assets),&original_ui,
+     [](void* raw,bool sourceFlag,const std::string& first,
+        const std::string& second,std::int32_t entry,std::string& error){
+      auto* ui=static_cast<dh2::android_ui::OriginalUiSession*>(raw);
+      return ui&&ui->display_fast_travel(sourceFlag,first,second,entry,error);
+     }));
+}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeMenuAudio(JNIEnv* env,jclass){return result(env,original_ui.consume_menu_audio());}
+extern "C" JNIEXPORT jstring JNICALL Java_com_example_dh2_NativeBridge_consumeMenuSound(JNIEnv* env,jclass){
+ auto cue=original_ui.consume_menu_sound();
+ if(cue.empty())dh2::player_gameplay_audio::consume(cue);
+ return result(env,cue);
+}

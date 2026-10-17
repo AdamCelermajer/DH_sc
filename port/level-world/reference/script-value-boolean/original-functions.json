@@ -1,0 +1,47 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0",
+      "scope": "complete reconstructed source caller; all43 original instructions execute"
+    },
+    {
+      "original_symbol": "luaL_newstate",
+      "elf_address": "0x84c7e0",
+      "size": 56,
+      "sha256": "048843109694163f53a86add7822ce15c0227bd8a47cc73448428cf8a35a3764",
+      "scope": "named dependency fixture in original oracle; real reused C API in isolated adapter"
+    },
+    {
+      "original_symbol": "lua_pushstring",
+      "elf_address": "0x84c04c",
+      "size": 52,
+      "sha256": "c6d11ac033cde7031e4804d863fb1cc89587f46a4184ecdbfe13ae5031ab9b0b",
+      "scope": "named dependency fixture in original oracle; real reused C API in isolated adapter"
+    },
+    {
+      "original_symbol": "lua_toboolean",
+      "elf_address": "0x84b320",
+      "size": 60,
+      "sha256": "a672ec9df4652df62d8a9fc54db0d68ef5086ed6fe21ac2316b93302e938df70",
+      "scope": "named dependency fixture in original oracle; real reused C API in isolated adapter"
+    },
+    {
+      "original_symbol": "lua_close",
+      "elf_address": "0x85797c",
+      "size": 124,
+      "sha256": "a634a1090edb7138bc216b8ad05d135b600a5cd0ad20d775f374ddb05fac16cb",
+      "scope": "named dependency fixture in original oracle; real reused C API in isolated adapter"
+    }
+  ],
+  "numeric_imports": {"0x30df8c": "__aeabi_fcmpeq"},
+  "new_complete_caller_bodies": 1,
+  "new_complete_dependency_bodies": 0,
+  "real_lua_dependency_adapter": true,
+  "whole_lua_vm_parity": false,
+  "native_wired": false,
+  "scope": "Complete getBool caller with mandatory typed Lua services; isolated real float32 Lua dependency reuse. No original Lua dependency body or whole-VM claim."
+}

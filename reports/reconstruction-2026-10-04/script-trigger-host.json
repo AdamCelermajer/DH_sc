@@ -1,0 +1,12 @@
+{
+  "scope": "Current consolidation host checks only; not live Android quest/trigger ownership",
+  "script_runtime": {
+    "passed": true,
+    "source_modules": 9,
+    "source_records": 148
+  },
+  "trigger_contact": {
+    "passed": true,
+    "approximate_contact_rule": true
+  }
+}

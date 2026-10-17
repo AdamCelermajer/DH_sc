@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host": "object-manager Character-list projection checks passed",
+  "arm32_add": {
+    "unique_add_sequence": [
+      "0x2003000",
+      "0x2003000"
+    ],
+    "same_character_pointer_is_not_deduplicated": true,
+    "duplicate_lookup": {
+      "resolved_handle": 21,
+      "vtable_slot4_calls": 1,
+      "list_count_after": 0
+    },
+    "non_character_gate": {
+      "base_IsCharacter_calls": 1,
+      "list_count_after": 0
+    },
+    "explicit_services": [
+      "GetObjectByName output",
+      "ObjectHandle::GetObject resolver",
+      "ObjectBase::GetHandle",
+      "ObjectManager map slot",
+      "list-node allocation",
+      "ObjectBase name storage"
+    ]
+  },
+  "arm32_remove": {
+    "remove_target_pointer": "0x2003000",
+    "remaining_after_remove": [
+      "0x2003100",
+      "0x2003200"
+    ],
+    "freed_source_nodes": [
+      {
+        "address": "0x2005000",
+        "bytes": 12
+      },
+      {
+        "address": "0x2005040",
+        "bytes": 12
+      }
+    ],
+    "missing_target_is_noop": true,
+    "stop_boundary": "0x348fec, after list scan and CharAI::RemoveFromGroup, before other manager cleanup"
+  },
+  "verified_caller_edges": [
+    {
+      "address": "0x34b5f8",
+      "target": "0x34b270",
+      "meaning": "GetNewObject -> Add"
+    },
+    {
+      "address": "0x34b750",
+      "target": "0x34b520",
+      "meaning": "Spawn -> GetNewObject"
+    },
+    {
+      "address": "0x34b95c",
+      "target": "0x34b520",
+      "meaning": "LoadFromXML -> GetNewObject"
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_aggro_object_manager_list.hpp": "5b217d65b9fa1a584e2ef406c0d3b3ba5bffc56cc2a26dcd47f82c125cb50f8e",
+    "port/level-world/character_aggro_object_manager_list.cpp": "12488169a29cb4d2565f328237cbed1dc8ed921d6fb8c63853175ed50c500124",
+    "port/level-world/tests/character_aggro_object_manager_list.cpp": "3703d2b566af76e93b9d58bbca55a7ddead7732b3877bd5a785ab8ed6fb012a5",
+    "port/level-world/tests/run_character_aggro_object_manager_list_host.py": "066f0337581727932a3f5981d5579ad5b4e5624199375039beb4cfa6f7d32cd9",
+    "port/level-world/reference/character-aggro-object-manager-list/original-functions.json": "5c1fb940c3f6dab187aae88d561db52556c633f599646db63a4113d29c18e0c5",
+    "port/level-world/reference/character-aggro-object-manager-list/NOTES.md": "3d45f0a2f9d5ceff0e50e3d5e9f94ab5f698415232e6e375c5784847ca82f8cb"
+  },
+  "scope": "Original ObjectManager Add/Remove ARM instructions and dynamic type checks executed. Explicit fixture services supply name lookup, global handle resolution/construction, map storage, node allocation/free. The Remove run stops after the flat CharacterList unlink loop and CharAI group-removal call, before manager/map cleanup. Host owner/cursor checks verify non-overlay list semantics and live-link reads."
+}

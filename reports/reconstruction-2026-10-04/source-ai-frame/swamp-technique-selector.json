@@ -1,0 +1,185 @@
+{
+  "scope": "bounded BRES CurrentTechnique selector decoding and exact external effect-name resolution across all nine selected SWAMP module roots; no shader execution, blend/depth-state recovery, APK, or device run",
+  "validation": "PASS",
+  "evidence": {
+    "validation": "PASS",
+    "effect": "Multilight-fx",
+    "effect_groups": [
+      24,
+      24
+    ],
+    "group_names_identical": true,
+    "alpha_selector_mappings": [
+      {
+        "parameter_id": "Multilight-fx-profile_GLES/CurrentTechnique",
+        "profile": "GLES",
+        "selector": "L1_Vc_Al_----_----_----_----",
+        "raw_tag": 1,
+        "serialized_group0_ordinal": 2,
+        "serialized_group1_ordinal": 2
+      },
+      {
+        "parameter_id": "Multilight-fx-profile_GLES2/CurrentTechnique",
+        "profile": "GLES2",
+        "selector": "L1_Vc_Al_Sp_----_----_----",
+        "raw_tag": 2,
+        "serialized_group0_ordinal": 4,
+        "serialized_group1_ordinal": 4
+      }
+    ],
+    "opaque_selector_mappings": [
+      {
+        "parameter_id": "Multilight-fx-profile_GLES/CurrentTechnique",
+        "profile": "GLES",
+        "selector": "L1_Vc_----_----_----_----_----",
+        "raw_tag": 1,
+        "serialized_group0_ordinal": 0,
+        "serialized_group1_ordinal": 0
+      },
+      {
+        "parameter_id": "Multilight-fx-profile_GLES2/CurrentTechnique",
+        "profile": "GLES2",
+        "selector": "L1_Vc_----_Sp_----_----_----",
+        "raw_tag": 2,
+        "serialized_group0_ordinal": 1,
+        "serialized_group1_ordinal": 1
+      }
+    ],
+    "modules": [
+      {
+        "index": 0,
+        "name": "obj_4of4_brdwalk_sw_00_0",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 25,
+        "Material__11611_draws": 22
+      },
+      {
+        "index": 1,
+        "name": "obj_3of4_brdwalk_sw_00_1",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 25,
+        "Material__11611_draws": 23
+      },
+      {
+        "index": 2,
+        "name": "obj_1of4_brdwalk_nse_00_2",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 16,
+        "Material__11611_draws": 23
+      },
+      {
+        "index": 3,
+        "name": "corner_ruin_ws_00_3",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 25,
+        "Material__11611_draws": 30
+      },
+      {
+        "index": 4,
+        "name": "merchantcamp_ruins_swe_00_4",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 27,
+        "Material__11611_draws": 25
+      },
+      {
+        "index": 5,
+        "name": "corner_brdwalk_se_00_5",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 24,
+        "Material__11611_draws": 21
+      },
+      {
+        "index": 6,
+        "name": "deadend_brdwalk_w_00_7",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 22,
+        "Material__11611_draws": 16
+      },
+      {
+        "index": 7,
+        "name": "bossroom_ruins_ns__8",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 1,
+        "Material__11611_draws": 2
+      },
+      {
+        "index": 8,
+        "name": "obj_2of4_brdwalk_sw_00_9",
+        "catalogue": "data/3d/modules/swamp/swamp.bdae",
+        "Material__11610_draws": 24,
+        "Material__11611_draws": 26
+      }
+    ],
+    "catalogue_selector_materials": 2,
+    "draw_totals": {
+      "Material__11610": 189,
+      "Material__11611": 188
+    },
+    "visible_alpha_selector_draws": 188,
+    "native_getTechniqueID_model": "first exact ordered-name match returns uint8 ordinal; absent=0xff",
+    "serialized_group_ordinal_is_runtime_ordinal": false,
+    "effect_group_profile_mapping": "unresolved",
+    "shader_selection": "Material__11611 GLES/GLES2 select Al and not At; Material__11610 selects neither",
+    "blend_depth_state": "not inferred from selector or shader branch"
+  },
+  "cache_inputs_sha256": {
+    "data/scene/001_swamp.mlx": "e3694600f07184567efcdecb79826da8bfe7aa09b7f1505b1bc13eb1eb68a041",
+    "data/3d/modules/swamp/swamp.bdae": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d",
+    "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+  },
+  "source_sha256": {
+    "port/scene-materials/tests/technique_selector_host.cpp": "cde5b28cafa8f9a4992e6beb88344cddae370d3ddb30db8b9219e8c11df8ff78",
+    "port/scene-materials/technique_selector.cpp": "7160bc64f7847d34ba21057baa9ae83428c53e1050e9ba68897126fb3c4e87fd",
+    "port/world-data/world.cpp": "7da41e07d04239793b330bc48ffda6de02647e264bc5bdccfd95e7bc5ed8e93c",
+    "port/world-data/world_scene.cpp": "31b8e508fb7c9d175364a3b2b6ea71a05d38270a9f5153b9113d0365173500ed",
+    "port/android-app/scene_buffers.cpp": "45cedcea4fa1a57438848567e9a4783a61f3989292eb232f8f6ffac9d0d4e147",
+    "port/skin-payloads/skin.cpp": "51be25565d79d346ad794f420ee587a273ac58a89ff34ea73eaccafa7ba9eee2",
+    "port/animation-pose/pose.cpp": "d3b4ccb3d01a6154a4f65d4425d03ea76b9b560a97e48704a1842ade067ef937",
+    "port/animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",
+    "port/animation-timeline/timeline.cpp": "577a6fb8d17437d85d23d0942e6ca0354c94700d77524999ccb0aabda143079a",
+    "port/animation-mixing/mixing.cpp": "356e356741497dd002f917e4ce7109eb2340f6093d230a388f30df25d8113ef5",
+    "port/animation-layers/layers.cpp": "99d6565d6c1ee7e6b339c419a69c1d48e0db98b463372c8e6c71c4c4953cadda",
+    "port/scene-draw/draw.cpp": "ea196bef3e009d74f18852cc5f86998a2a6bc8be2d0baa38c2e8943a75e16533",
+    "port/scene-payloads/scene.cpp": "886a3bbf7cf5dd76137abcd1281de71c4f9b8f7b1b02a6cde6c40c700b6033c2",
+    "port/asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/material-bindings/bindings.cpp": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+    "port/scene-materials/technique_selector.hpp": "efc0c2c81fb7181ea4aa7ab35276fa2d5b8e66d665cc9ee7946db38e4624c629",
+    "port/scene-materials/tests/run_technique_selector_host.py": "934d921dacaa735ca953149f6488c278b7f1f1934a6e90415347f9027c5b8075"
+  },
+  "compiler": "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+  "compile_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-exceptions",
+    "-fno-rtti",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-materials\\tests\\technique_selector_host.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-materials\\technique_selector.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\world-data\\world.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\world-data\\world_scene.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\scene_buffers.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\skin-payloads\\skin.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\animation-pose\\pose.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\animation-values\\values.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\animation-timeline\\timeline.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\animation-mixing\\mixing.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\animation-layers\\layers.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-draw\\draw.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-payloads\\scene.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\asset-payloads\\payloads.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-resources\\resources.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-math\\math.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\material-bindings\\bindings.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\build\\swamp-technique-selector-root\\technique-selector-host.exe"
+  ],
+  "host_executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\build\\swamp-technique-selector-root\\technique-selector-host.exe",
+  "host_executable_sha256": "301eda47e6f8f6899cc533e6b8ae45db8dd1a9e80fe6c5d24beb8f52143848ea"
+}

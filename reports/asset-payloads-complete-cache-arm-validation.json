@@ -1,0 +1,221 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "ported_sha256": "416d863fccbc67795a4390bb383471660af0f6480b2119bf4e859e432754518d",
+  "complete_engine": false,
+  "complete_accessor_search_functions": 26,
+  "partial_mesh_relocation_evidence_functions": 4,
+  "comparisons": 271970,
+  "mismatches": 0,
+  "calls": {
+    "dh2_animation_channels": 6993,
+    "dh2_animation_has_default": 6993,
+    "dh2_animation_scale_type": 6993,
+    "dh2_animation_animator": 6993,
+    "dh2_animation_target": 6993,
+    "dh2_animation_default": 6991,
+    "dh2_animation_offsets": 7,
+    "dh2_animation_scales": 7,
+    "dh2_animation_type": 7019,
+    "dh2_animation_channel": 7019,
+    "dh2_animation_time_type": 7019,
+    "dh2_animation_interpolation": 7019,
+    "time_vector": 7021,
+    "output_vector": 7021,
+    "dh2_animation_key_time": 18791,
+    "dh2_animation_start": 7019,
+    "dh2_animation_end": 7019,
+    "dh2_animation_length": 7019,
+    "search_index_1": 46444,
+    "search_fraction_1": 46444,
+    "search_raw_1": 46444,
+    "search_index_3": 2446,
+    "search_fraction_3": 2446,
+    "search_raw_3": 2446,
+    "search_index_4": 682,
+    "search_fraction_4": 682
+  },
+  "samples": {
+    "animation_segment_views": 6993,
+    "segment_state_1": 1275,
+    "samplers": 7019,
+    "cache_files_with_animations_checked": 1919,
+    "segment_state_0": 5718
+  },
+  "synthetic_fixtures": 9,
+  "cache_files_scanned": 2904,
+  "sampling": "first/middle/last animation and first/last segment in every cache file; first/middle/last key and boundary searches; synthetic typed/step/optional/mixed/large-time fixtures",
+  "arm64_pointers_above_4gib": true,
+  "dependency_model": "Imported __aeabi scalar conversions/arithmetic/comparisons and libc only; original engine instructions and compiled ARM64 code execute without algorithm mocks.",
+  "original_import_calls": {
+    "__aeabi_i2d": 46256,
+    "__aeabi_dmul": 46256,
+    "__aeabi_d2iz": 46256,
+    "__aeabi_i2f": 903027,
+    "__aeabi_fdiv": 177668,
+    "__aeabi_fcmpgt": 477867,
+    "__aeabi_fmul": 208028,
+    "__aeabi_fcmpeq": 148034,
+    "__aeabi_f2iz": 61996,
+    "__aeabi_fcmplt": 61752
+  },
+  "arm64_import_calls": {},
+  "coverage": [
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getTargetEv",
+      "elf_address": "0x00669e00",
+      "instruction_addresses_executed": 4,
+      "instruction_addresses": 4
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor7getTypeEi",
+      "elf_address": "0x00669e10",
+      "instruction_addresses_executed": 5,
+      "instruction_addresses": 5
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getOutputEi",
+      "elf_address": "0x00669e24",
+      "instruction_addresses_executed": 8,
+      "instruction_addresses": 8
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getChannelEi",
+      "elf_address": "0x00669e44",
+      "instruction_addresses_executed": 4,
+      "instruction_addresses": 4
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor15hasDefaultValueEv",
+      "elf_address": "0x00669e54",
+      "instruction_addresses_executed": 5,
+      "instruction_addresses": 5
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor15getDefaultValueEv",
+      "elf_address": "0x00669e68",
+      "instruction_addresses_executed": 4,
+      "instruction_addresses": 4
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16getChannelsCountEv",
+      "elf_address": "0x00669e78",
+      "instruction_addresses_executed": 3,
+      "instruction_addresses": 3
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor19getTimeInternalTypeEi",
+      "elf_address": "0x00669e84",
+      "instruction_addresses_executed": 6,
+      "instruction_addresses": 6
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor20getInterpolationTypeEi",
+      "elf_address": "0x00669e9c",
+      "instruction_addresses_executed": 6,
+      "instruction_addresses": 6
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getOffsetsEv",
+      "elf_address": "0x00669eb4",
+      "instruction_addresses_executed": 4,
+      "instruction_addresses": 4
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getScalesEv",
+      "elf_address": "0x00669ec4",
+      "instruction_addresses_executed": 4,
+      "instruction_addresses": 4
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor18getOffsetScaleTypeEv",
+      "elf_address": "0x00669ed4",
+      "instruction_addresses_executed": 6,
+      "instruction_addresses": 6
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getKeyTimeEi",
+      "elf_address": "0x00669eec",
+      "instruction_addresses_executed": 8,
+      "instruction_addresses": 8
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor10getKeyTimeEii",
+      "elf_address": "0x00669f0c",
+      "instruction_addresses_executed": 40,
+      "instruction_addresses": 40
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor8getStartEi",
+      "elf_address": "0x00669fac",
+      "instruction_addresses_executed": 2,
+      "instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor6getEndEi",
+      "elf_address": "0x00669fb4",
+      "instruction_addresses_executed": 10,
+      "instruction_addresses": 10
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor9getLengthEi",
+      "elf_address": "0x00669fdc",
+      "instruction_addresses_executed": 10,
+      "instruction_addresses": 10
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor11getAnimatorEv",
+      "elf_address": "0x0066a004",
+      "instruction_addresses_executed": 3,
+      "instruction_addresses": 3
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIiLi1000EEEbiRKNS_3res6vectorIiEEiRi",
+      "elf_address": "0x0066a1f0",
+      "instruction_addresses_executed": 47,
+      "instruction_addresses": 47
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIiLi1000EEEbiRKNS_3res6vectorIiEEiRiRf",
+      "elf_address": "0x0066a2ac",
+      "instruction_addresses_executed": 47,
+      "instruction_addresses": 47
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoIhLi30EEEbRKNS_3res6vectorIiEEiRi",
+      "elf_address": "0x0066a6d0",
+      "instruction_addresses_executed": 46,
+      "instruction_addresses": 46
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIhLi30EEEbiRKNS_3res6vectorIiEEiRi",
+      "elf_address": "0x0066a788",
+      "instruction_addresses_executed": 15,
+      "instruction_addresses": 15
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExIhLi30EEEbiRKNS_3res6vectorIiEEiRiRf",
+      "elf_address": "0x0066a7c4",
+      "instruction_addresses_executed": 52,
+      "instruction_addresses": 52
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor14findKeyFrameNoItLi30EEEbRKNS_3res6vectorIiEEiRi",
+      "elf_address": "0x0066abb8",
+      "instruction_addresses_executed": 48,
+      "instruction_addresses": 48
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExItLi30EEEbiRKNS_3res6vectorIiEEiRi",
+      "elf_address": "0x0066ac78",
+      "instruction_addresses_executed": 15,
+      "instruction_addresses": 15
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada18SAnimationAccessor16findKeyFrameNoExItLi30EEEbiRKNS_3res6vectorIiEEiRiRf",
+      "elf_address": "0x0066acb4",
+      "instruction_addresses_executed": 54,
+      "instruction_addresses": 54
+    }
+  ],
+  "elapsed_seconds": 65.94
+}

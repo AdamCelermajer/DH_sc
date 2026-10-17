@@ -1,0 +1,122 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN31Condition_IsQuestInStateGeneric4EvalEv",
+      "elf_address": "0x478fe8",
+      "size": 184,
+      "sha256": "9d9f30cf1aecad1f60ac857fdf5bf4a3730928f46ab051521983163c5cc38596"
+    },
+    {
+      "original_symbol": "_ZN25Condition_IsPlayerInLevel4EvalEv",
+      "elf_address": "0x478d78",
+      "size": 60,
+      "sha256": "a2b5f8066d6186ef4752278767a96852fc15968d776f895952d698b77e3ee62c"
+    }
+  ],
+  "dependencies": [
+    {
+      "original_symbol": "_ZN9Condition7CompileEv",
+      "elf_address": "0x478634",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "elf_address": "0x36e478",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    },
+    {
+      "original_symbol": "_ZN9Character15SG_GetQuestByIDEii",
+      "elf_address": "0x3bc2f8",
+      "size": 68,
+      "sha256": "ac0e4658d5ac1d8e09497a0c1875866244f05f9020f45f99b5fc1f79e4e8c073"
+    },
+    {
+      "original_symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "elf_address": "0x31f594",
+      "size": 32,
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame15SG_GetQuestByIDEiib",
+      "elf_address": "0x4672fc",
+      "size": 40,
+      "sha256": "6010fc9db719923d1fb32746bf3d57128b881b537871ca494bc456d8404742ab"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame13SG_GetQuestSGEv",
+      "elf_address": "0x466584",
+      "size": 4,
+      "sha256": "b82fa920f04c86e567fffe9dbf9207859185c8c1f051dbbcbadd69939a1f1418"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame13SG_GetQuestSGEv",
+      "elf_address": "0x466564",
+      "size": 32,
+      "sha256": "67356a007aada7266fe145d2e5fb111d872b656795b2fdc76b3fb53dd3442352"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegame15SG_GetQuestByIDEiib",
+      "elf_address": "0x46b940",
+      "size": 268,
+      "sha256": "e8d4fe5a0bb0bb063e21aa6a7092facdbf0ed9b60acf1ee43cab9e3e212d40f3"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegame13CompileQuestsEb",
+      "elf_address": "0x46b824",
+      "size": 140,
+      "sha256": "7d0a14ef011b40d0c390294b3911743a5f4593c46626a109f330fa29230c6c8f"
+    },
+    {
+      "original_symbol": "_ZN5Quest7CompileEv",
+      "elf_address": "0x480178",
+      "size": 316,
+      "sha256": "1328557df40fca2082692eeaa90552115393f95c324287c91ce3a94871e49a7c"
+    },
+    {
+      "original_symbol": "_ZN9Character20SG_GetGameDifficultyEv",
+      "elf_address": "0x3bb8e4",
+      "size": 52,
+      "sha256": "475f73d6d8adba8fb9ebe720a801b3e5d876576722256937790b9a463aef03bb"
+    }
+  ],
+  "shipped_conditions": {
+    "0": 44,
+    "1": 3,
+    "2": 1,
+    "3": 32
+  },
+  "scope": {
+    "implemented": [
+      "Whole IsQuestInStateGeneric::Eval shared by source types0..2",
+      "Whole IsPlayerInLevel::Eval for type3"
+    ],
+    "original_execution": "Unmodified whole original Eval bodies. Application/manager direct reads and actual owner method calls are declared provider boundaries; failure injection stops before the original resumes. The status protocol is a native guard, not an original ARM exception ABI.",
+    "native_composition": "Actual selected ConditionFactory, ConditionList, retained QuestTable/decoder, sole Quest runtime state and existing Level constructor field projection. All 64 shipped lists composed.",
+    "external_leaves": [
+      "Application singleton source identity",
+      "Application+40 actual manager",
+      "PlayerManager::GetLocalPlayer(0,true)",
+      "Character::SG_GetQuestByID(id,-1), including actual Save selection and reached CompileQuests(false)",
+      "Application::GetCurrentLevel"
+    ],
+    "not_implemented": [
+      "Character/Save quest lookup/CompileQuests provider bodies; they are mandatory and separately pinned dependencies, not replaced by this gate fixture",
+      "Condition Eval source types4..6, which occur zero times in shipped rows"
+    ],
+    "native_guards": [
+      "Output alias, unavailable/failed callbacks, reentry, changed record identity/projection, unknown dispatch, forged/null/out-of-bounds retained definition and missing source controls. These guards are not claimed original behavior."
+    ]
+  },
+  "source_policies": [
+    "Generic captures Definition+4 after manager read before local-player lookup; source Character660=0 and null Quest return false.",
+    "Generic uses captured definition word+8 for ID, mandatory quest lookup difficulty -1; rereads Record comparator+8 and actual Quest state0 after delivery, reads required state+0xc only for comparators0..2.",
+    "Mode0 signed equality; mode1 actual state strictly lower; mode2 actual state strictly higher. Unknown comparator returns false.",
+    "Type3 captures Definition+4 before Application/currentLevel, then reads captured target ID+8 before actual Level+3c.",
+    "Source shipped Compile slot is inherited Condition::Compile four-byte return; Eval must still dispatch to these nonempty full bodies.",
+    "No new VM, player registry, quest/property store, frame update or timer. Provider effects and source reached prefixes remain retained on delivery failure.",
+    "Raw packed cache is only decoded immutable backing; source stride identities and definitions resolve through the existing retained View."
+  ]
+}

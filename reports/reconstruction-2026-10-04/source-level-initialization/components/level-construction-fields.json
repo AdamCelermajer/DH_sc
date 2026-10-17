@@ -1,0 +1,260 @@
+{
+  "validation": "PASS",
+  "complete_game": false,
+  "native_wired": false,
+  "source_comparison": "compiled host Level field projection versus both original ARM32 constructor scan spans",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/level-world/level_construction_fields.cpp": "ae9768fef62b05f278bf8d5cdac5cbbfdf09c91612f5223fc39b54b7134925ef",
+    "port/level-world/level_construction_fields.hpp": "1a3f0a7e2210fdbae3d22d8e96892f64ceacb257cdb5eeb2fa4e3b058c57db16",
+    "port/game-data/level_tables.cpp": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+    "port/game-data/level_tables.hpp": "aa20e39db0aaab7dfdd9556db275e3d41c2e3709939c9f074851907a6470f742",
+    "port/level-world/tests/level_construction_fields.cpp": "5a818e51aa695328ff034e72d6121fe96711ade900fa50d190b311418f960ef2",
+    "port/level-world/tests/level_construction_probe.cpp": "731fec8d5828a48ced0ec20d384728fa961bafbafb9ab0b9cad427710d2fbe15",
+    "port/level-world/tests/run_level_construction_fields.py": "d93129b5872f724866b4489b51ac3cd77e1472eab9b5267ff393b60086f1aaa2"
+  },
+  "cache_sha256": {
+    "levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "levels_pystructnames.bin": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705"
+  },
+  "functions": [
+    {
+      "elf_address": "0x003f3128",
+      "size": 920,
+      "original_symbol": "_ZN5LevelC1EPKcijjjbbii",
+      "sha256": "c7a8d6eedd454223287bdb0cb2f8437142baaabeb09cf509f55a2733e2041b24"
+    },
+    {
+      "elf_address": "0x003f34c0",
+      "size": 920,
+      "original_symbol": "_ZN5LevelC2EPKcijjjbbii",
+      "sha256": "3830f760cf9d90022f8b4ea946ef906c9b915cffd0e72d99ab528bb9d6a78ba8"
+    },
+    {
+      "elf_address": "0x0034e414",
+      "size": 108,
+      "original_symbol": "_Z11ToLowerCasePcii",
+      "sha256": "c95db745595854fb9d83ae9069e591bdb6900c273868de5f2aeee0dd42a4fef4"
+    }
+  ],
+  "call_chain_functions": [
+    {
+      "elf_address": "0x00386190",
+      "size": 328,
+      "original_symbol": "_ZN7GSLevel4CtorEPK12StateMachine",
+      "sha256": "b0ee44f427742a78703ba733896cfc44595cdb7044baa465baaf3d6f46524fa2"
+    },
+    {
+      "elf_address": "0x00386818",
+      "size": 160,
+      "original_symbol": "_ZN7GSLevel9LoadLevelEPKcijjjbbii",
+      "sha256": "fddb53e2b67b1ddde925ee45384496b092010f00b55822aaded58b752c716737"
+    }
+  ],
+  "original_scan_spans": {
+    "C1": [
+      "0x3f32cc",
+      "0x3f3370"
+    ],
+    "C2": [
+      "0x3f3664",
+      "0x3f3708"
+    ]
+  },
+  "original_imports": {
+    "0x30e520": "strcpy",
+    "0x30de54": "strlen",
+    "0x30ebd4": "strstr"
+  },
+  "host_report": {
+    "validation": "PASS",
+    "level_construction_cases": 12,
+    "mismatches": 0,
+    "cache_crypt_index": 23
+  },
+  "actual_cache_level_count": 51,
+  "actual_crypt_level": {
+    "index": 23,
+    "name": "GOTHICUS_CRYPT_01",
+    "level_file": "007_crypt_01.rule.xml"
+  },
+  "comparison_count": 7,
+  "comparisons": [
+    {
+      "case": "real-crypt-file",
+      "host": {
+        "index": 23,
+        "hub": 2,
+        "is_random": 1,
+        "difficulty": 2,
+        "status": 0,
+        "rows_examined": 24
+      },
+      "original_c1": {
+        "index": 23,
+        "hub": 2,
+        "is_random": 1,
+        "difficulty": 2
+      },
+      "original_c2": {
+        "index": 23,
+        "hub": 2,
+        "is_random": 1,
+        "difficulty": 2
+      },
+      "mismatches": 0
+    },
+    {
+      "case": "real-crypt-substring",
+      "host": {
+        "index": 23,
+        "hub": 2,
+        "is_random": 1,
+        "difficulty": -11,
+        "status": 0,
+        "rows_examined": 24
+      },
+      "original_c1": {
+        "index": 23,
+        "hub": 2,
+        "is_random": 1,
+        "difficulty": -11
+      },
+      "original_c2": {
+        "index": 23,
+        "hub": 2,
+        "is_random": 1,
+        "difficulty": -11
+      },
+      "mismatches": 0
+    },
+    {
+      "case": "real-duplicate-darkwood-first",
+      "host": {
+        "index": 4,
+        "hub": 0,
+        "is_random": 0,
+        "difficulty": 4,
+        "status": 0,
+        "rows_examined": 5
+      },
+      "original_c1": {
+        "index": 4,
+        "hub": 0,
+        "is_random": 0,
+        "difficulty": 4
+      },
+      "original_c2": {
+        "index": 4,
+        "hub": 0,
+        "is_random": 0,
+        "difficulty": 4
+      },
+      "mismatches": 0
+    },
+    {
+      "case": "row-lowercased-haystack-not-lowered",
+      "host": {
+        "index": -1,
+        "hub": -1,
+        "is_random": 0,
+        "difficulty": 7,
+        "status": 1,
+        "rows_examined": 1
+      },
+      "original_c1": {
+        "index": -1,
+        "hub": -1,
+        "is_random": 0,
+        "difficulty": 7
+      },
+      "original_c2": {
+        "index": -1,
+        "hub": -1,
+        "is_random": 0,
+        "difficulty": 7
+      },
+      "mismatches": 0
+    },
+    {
+      "case": "row-lowercased-mixed-source-case",
+      "host": {
+        "index": 0,
+        "hub": 13,
+        "is_random": 1,
+        "difficulty": 8,
+        "status": 0,
+        "rows_examined": 1
+      },
+      "original_c1": {
+        "index": 0,
+        "hub": 13,
+        "is_random": 1,
+        "difficulty": 8
+      },
+      "original_c2": {
+        "index": 0,
+        "hub": 13,
+        "is_random": 1,
+        "difficulty": 8
+      },
+      "mismatches": 0
+    },
+    {
+      "case": "empty-level-list",
+      "host": {
+        "index": -1,
+        "hub": -1,
+        "is_random": 0,
+        "difficulty": -5,
+        "status": 1,
+        "rows_examined": 0
+      },
+      "original_c1": {
+        "index": -1,
+        "hub": -1,
+        "is_random": 0,
+        "difficulty": -5
+      },
+      "original_c2": {
+        "index": -1,
+        "hub": -1,
+        "is_random": 0,
+        "difficulty": -5
+      },
+      "mismatches": 0
+    },
+    {
+      "case": "empty-row-strstr-semantics",
+      "host": {
+        "index": 0,
+        "hub": 27,
+        "is_random": 0,
+        "difficulty": 9,
+        "status": 0,
+        "rows_examined": 1
+      },
+      "original_c1": {
+        "index": 0,
+        "hub": 27,
+        "is_random": 0,
+        "difficulty": 9
+      },
+      "original_c2": {
+        "index": 0,
+        "hub": 27,
+        "is_random": 0,
+        "difficulty": 9
+      },
+      "mismatches": 0
+    }
+  ],
+  "mismatches": 0,
+  "limitations": [
+    "Only the constructor's field initialization and LevelList scan span is reconstructed; the rest of Level construction is not run.",
+    "The original ARM scan is executed at its constructor span with initialized object fields and LevelList globals; unrelated constructor services are outside scope.",
+    "The LevelTable native parser retains normalized rows, but this source kernel is not yet wired to a live GSLevel/Level lifecycle.",
+    "Port-only guards reject unsafe LevelFile rows instead of reproducing the original unbounded strcpy stack overwrite."
+  ]
+}

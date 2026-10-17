@@ -1,0 +1,178 @@
+{
+  "validation": "PASS",
+  "base_commit": "ca010ffc25b1a5acb5986edd34ae93a7961fc096",
+  "scope": "Native Knight nonempty skill preparation and original framework cooldown shell fixture; selected host session/update adapters. Not a complete Player AIS or skill-use/combat loop.",
+  "upstream": {
+    "repository": "https://github.com/AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "reuse": "Borrowed ScriptOwner/Session glue and existing preparation, callback and cooldown research; current selected callers, properties, Coordinator, immutable tables and one Prince VM."
+  },
+  "host_receipts": {
+    "preparation-lease": {
+      "path": "preparation-lease.json",
+      "bytes": 73647,
+      "sha256": "4e5b5f7f92965b3e62503ab2d654d6e599661fc9884699dc38a4c128d00fce93",
+      "current_source_hashes_checked": 30
+    },
+    "selected-session": {
+      "path": "selected-session.json",
+      "bytes": 358018,
+      "sha256": "dbe654331bac88cdf6cd2751a7a82fa6441ac6caaebf0c0f23772aced369c3b0",
+      "current_source_hashes_checked": 514
+    },
+    "selected-update": {
+      "path": "selected-update.json",
+      "bytes": 67436,
+      "sha256": "8c230a7c32406d05335d7d47fd3a9ed497a4363192005c19835640cbb567e68c",
+      "current_source_hashes_checked": 507
+    },
+    "cooldown-slot-fix": {
+      "path": "cooldown-slot-fix.json",
+      "bytes": 681839,
+      "sha256": "ff07d95d71874f0823f5efd57e6c4d3f74dcd15f4f001464c5908f46507e178e",
+      "current_source_hashes_checked": 499
+    }
+  },
+  "receipts": [
+    {
+      "path": "android-library-review.json",
+      "bytes": 24990,
+      "sha256": "fc82ddb8b36ad5889df13c877fe71b3a948ec990604dca656ea248e1f406217a"
+    },
+    {
+      "path": "android-exports.json",
+      "bytes": 126524,
+      "sha256": "ed465f8ff86cd989e6942d06916a0b173b5872d446d7c813049efe5231d8d878"
+    },
+    {
+      "path": "pre-build.json",
+      "bytes": 114716,
+      "sha256": "4954c3bbf7a50f769a88830dd93de948f259a14dae3f9f7ef1237993dfa9cec0"
+    },
+    {
+      "path": "gradle-build.log",
+      "bytes": 10774,
+      "sha256": "4d38ebf776601f8fc19220ce34422c481664e7a97e5bf962cc129f5ec48e3e03"
+    },
+    {
+      "path": "player-live/player-skills-smoke.json",
+      "bytes": 5123,
+      "sha256": "061b2d369ccc2fd8ce68decb5f61406ff1f8aa0232694a34c8a742111f84c926"
+    },
+    {
+      "path": "player-live/player-skills.log",
+      "bytes": 176018,
+      "sha256": "4952d5eef3f919e7867337248e4439464ac5e5347c98f2d30860a53d71717dbf"
+    },
+    {
+      "path": "player-live/adb-transcript.json",
+      "bytes": 20490,
+      "sha256": "49aad4417f358bb26655b9ba01aaeacd69f81e60ac7141d64909f6065b26f58e"
+    },
+    {
+      "path": "player-live/player-skills-restored.png",
+      "bytes": 1376315,
+      "sha256": "49891fbd41e91f2f36048c93ac5ec0218c7bff174bda77edb91dfa9e9b1ebaee"
+    },
+    {
+      "path": "crypt-regression/crypt-script-smoke.json",
+      "bytes": 14030,
+      "sha256": "32dc76416a0b4d92f3892ba0b9fcaa2a1598b8b4dd87e499e3ca85137a6c2d07"
+    },
+    {
+      "path": "crypt-regression/crypt-script.log",
+      "bytes": 374305,
+      "sha256": "bff8ef5cc4e0bcec19b67b99e85a167a001176a6fdd4db9a492b715931330aa6"
+    },
+    {
+      "path": "crypt-regression/adb-transcript.json",
+      "bytes": 36522,
+      "sha256": "2d6a28ebeac6b3a4d94c8e551f25d2646818d00fc233aa90f00ee01890ac20b4"
+    },
+    {
+      "path": "crypt-regression/authored-ambush-restored.png",
+      "bytes": 1567790,
+      "sha256": "8807b3aa408467458ecb249aea64c67ad7736f8730a9b066bec72503a5ea9f38"
+    },
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 289515,
+      "sha256": "89627cce2cec6a0856488a337887be2f677c97e1f16d6e7455c3f2ff0c4f79c1"
+    },
+    {
+      "path": "android-packaging.json",
+      "bytes": 2191,
+      "sha256": "f41f8f305f0d4c8746ea252ed0c8e60a42a4e63d47d841797e4331f20d54a7c2"
+    },
+    {
+      "path": "player-live/player-skills-initial.png",
+      "bytes": 1604215,
+      "sha256": "5d15d5a9d0a959a1089f59885943359ff6b75b199964f8b44bf80e9f2b7440e1"
+    },
+    {
+      "path": "crypt-regression/outside-authored-trigger.png",
+      "bytes": 1721645,
+      "sha256": "8880ceda269de33918a7f338e7b058f26b1e75624719252e87eaa4f92721285d"
+    },
+    {
+      "path": "crypt-regression/source-ghost-pair-idle.png",
+      "bytes": 1954486,
+      "sha256": "a0542e2bcd8556bfc71f2d4fa4c7a10fbe96e82fa307d3d20cb18782fc9bd808"
+    },
+    {
+      "path": "crypt-regression/native-debug-after-initialization.savegame",
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    {
+      "path": "crypt-regression/native-debug-after-recreation.savegame",
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    }
+  ],
+  "android": {
+    "apk_local_path": "port/android-native/build/native-player-skills-2026-10-05/crypt-native-player-skills.apk",
+    "apk_sha256": "39c2d07204ce9cd87c334bb8ad54c1f11395c913996b37927b70e8c8348f391a",
+    "apk_bytes": 30422074,
+    "capture_local_path": "port/android-native/build/captures/native-player-skills-2026-10-05.zip",
+    "capture_sha256": "83c3093f1850ba7371f6e960d5ad4fc75e8684e793b37da823455ee6bca78052",
+    "compiled_abis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "captured_inputs_matching_current_source": 534,
+    "root_prebuild_common_inputs_matching": 532,
+    "two_additional_inputs_frozen_by_prior_host_gates": [
+      "port/pydata-names/names.c",
+      "port/pydata-names/names.h"
+    ],
+    "live_abi": "x86_64",
+    "live_api": 37,
+    "live_page_bytes": 16384,
+    "physical_arm64_tested": false,
+    "single_shared_lua_runtime_per_abi": true,
+    "native_knight_skill_preparation": true,
+    "skill_slots": 16,
+    "faery_slots": 5,
+    "nonnull_instances": 13,
+    "source_declaration_calls": 26,
+    "one_preparation_and_same_vm_across_reload_rotation": true,
+    "original_framework_cooldown_expiry_and_rearm": true,
+    "cooldown_full_skill_use": false,
+    "crypt_authored_ambush_root_motion_reload_rotation_regression": "PASS",
+    "update_all_skills_attempts": 1,
+    "blocked_provider": "GetCurrentSkillInfo__",
+    "required_vm_status": -5
+  },
+  "unfinished": [
+    "Original Player AIS constructor/OnInit/lifecycle and saved SkillTree/levels owner",
+    "SavedSkill info, temporary property/buff stores, mana/target and SkillCombatRoll services",
+    "More than one Lua return in update adapter",
+    "Full skill check/use/combat/effects and live inventory/loot delivery",
+    "Full enemy pursuit and original level/campaign completion"
+  ],
+  "new_complete_original_bodies_claimed": 0,
+  "next_live_milestone": "Original Bashdown check/use damages a real Ghost through current Prince/FSM/timer/property owners; subsequent loot enters the sole V4 inventory.",
+  "camera_release_unchanged": "https://github.com/Noamcelermajer/DH_sc/releases/tag/native-camera-frustum-2026-10-05",
+  "git_publication_receipt": "git-publication.json"
+}

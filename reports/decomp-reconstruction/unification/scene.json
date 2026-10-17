@@ -1,0 +1,2060 @@
+[
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_node.hpp",
+    "class": "glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Was a non-polymorphic accessor stand-in: no vptr, absoluteTransform as a float pointer, children / animators / bindedAnimators as std::vector, a name word. The canonical class has the 72 slots in order (IAttributeExchangingObject primary base, virtual IReferenceCounted), the embedded matrices, the intrusive child list (+0xf0) and the animator lists (+0xfc, +0x104); render and getBoundingBox are pure.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene.hpp",
+    "class": "glitch::scene::ISceneNode (layout struct)",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "A 32-bit layout struct with about 45 asserted offsets and guest-word members; the offsets are now `// +0xNN` comments on the host-width members.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene.hpp",
+    "class": "glitch::scene::IMesh, glitch::scene::IAnimatedMesh (layout structs)",
+    "canonical_header": "glitch-scene-collada-gui/scene/IMesh.hpp",
+    "differences": "A vptr and a count only; the canonical interfaces carry the slots in order (0x0c .. 0x28 pure, getUserProperty, the IAnimatedMesh frame slots).",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene.hpp",
+    "class": "glitch::scene::CMesh, CMesh::SBuffer (layout structs)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMesh.hpp",
+    "differences": "Guest-word layout of the buffer vector and the box; the canonical class holds std::vector<SBuffer> and the aabbox3d.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene.hpp",
+    "class": "glitch::scene::CMeshBuffer (layout struct)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "differences": "A layout struct. The canonical class now matches the constructor 0x6b88a8: count 0, three zeroed blocks, intrusive_ptr<CVertexStreams> at +0x14, an embedded video::CPrimitiveStream at +0x18..+0x2f, owner +0x30, flag byte +0x34.",
+    "action": "done: forwards to the canonical header (the include is left out here: see glitch-core-io/deps/glitch_core_objects.hpp)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene.hpp",
+    "class": "glitch::scene::CBatchMesh, CBatchSceneNode (layout structs)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchMesh.hpp",
+    "differences": "Layout structs (CBatchSceneNode was empty). Both are real classes now: CBatchMesh over IMesh, CBatchSceneNode over IMeshSceneNode.",
+    "action": "done: forwards to the canonical headers"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene.hpp",
+    "class": "glitch::scene::CSceneManager (flags-only layout struct)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CSceneManager.hpp",
+    "differences": "Only the flag bytes were mapped. The canonical class has the members of the constructor 0x58d908 and every virtual slot (there is no ISceneManager in the binary).",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_db.hpp",
+    "class": "glitch::collada::CColladaDatabase and its records (SAnimation .. SEmitter, SDatabaseTables, CResFile, CResFactory, CResFileReader, CResFileManager, CAnimationStreamingManager)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Count/base pairs for the table containers; the canonical SDatabaseTables holds std::vectors. CColladaDatabase is the {record, factory} pair with the copyDatabase / dropDatabase helpers.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_database.hpp",
+    "class": "glitch::collada::CColladaDatabase (named-entry lookups over a vector model)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "The lookups over std::vector tables now live in the canonical header next to the 32-bit layout of the same records.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/animation_track.hpp",
+    "class": "glitch::collada::SAnimationAccessor, SAnimationAccessorTrack (guest-word structs)",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Three uint32 members and a seam between guest words and host pointers. The canonical SAnimationAccessor is {animation, outputs, key cache} with the search and value paths as members.",
+    "action": "done: forwards to the canonical headers"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/animation_track.hpp",
+    "class": "glitch::collada::SAnimation, SChannel, SAnimationKeyframe, SAnimationOutput",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "Layout structs of the animation record (name +0, keyframes +8, channels +0x10, track +0x14, default value +0x18, offset/scale +0x1c); the canonical header holds the records with glitch::res::vector.",
+    "action": "done: forwards to the canonical headers"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/animation_track.hpp",
+    "class": "glitch::collada::animation_track::CApplicatorInfo, CMaterialApplicatorInfo (layout structs)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "A guest vtable word and plain members; the canonical classes are polymorphic.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/animation_track.hpp",
+    "class": "glitch::collada::animation_track::IAnimationTrackEx, CAnimationTrackEx (layout structs)",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Layout structs without the slots; the canonical classes have the virtual slots up to +0x8c.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/animation_track_members.hpp (deleted)",
+    "class": "glitch::collada::animation_track::ISceneNodeAnimator (layout struct)",
+    "canonical_header": "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp",
+    "differences": "A layout of the collada animator without the scene::ISceneNodeAnimator base and its virtual IReferenceCounted base.",
+    "action": "done: file removed, canonical class used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/animation_evidence.hpp (deleted)",
+    "class": "glitch::collada::animation_track evidence structs (IAnimationTrackEx, CAnimationTrackEx, SAnimationAccessor)",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Evidence layouts of the track and accessor classes; the offsets are comments on the canonical classes.",
+    "action": "done: file removed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/animation_set.hpp",
+    "class": "glitch::collada::CAnimationSet",
+    "canonical_header": "glitch-scene-collada-gui/collada/CAnimationSet.hpp",
+    "differences": "Accessors over a stand-in struct without a vtable or the reference count; the canonical class derives from IReferenceCounted and has the add/remove/query members.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_node_animator.hpp",
+    "class": "glitch::collada::CSceneNodeAnimator",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimator.hpp",
+    "differences": "A vector of 24-byte target records and no vptr; the canonical class derives from collada::ISceneNodeAnimator (non-virtual size 0x58, virtual base IReferenceCounted at 0x58).",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/synchronized_blender.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorSynchronizedBlender",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSynchronizedBlender.hpp",
+    "differences": "A partial stand-in; the canonical class derives from collada::ISceneNodeAnimator with the synchronized interface at +0x24 (it is not derived from CSceneNodeAnimatorBlender).",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/scene_node_animator_blender.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorBlender",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorBlender.hpp",
+    "differences": "The six vectors but only part of the virtual slots; the canonical class is complete (non-virtual size 0x70, virtual base at 0x70). game/include/dh2/AnimatorBlender.hpp includes this path.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene_CMesh_SBuffer.hpp",
+    "class": "glitch::scene::CMesh, CMesh::SBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMesh.hpp",
+    "differences": "A separate partial copy of the mesh and its buffer entry.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene_COctTreeTriangleSelector.hpp",
+    "class": "glitch::scene::COctTreeTriangleSelector (and a CTriangleSelector pad stand-in)",
+    "canonical_header": "glitch-scene-collada-gui/scene/COctTreeTriangleSelector.hpp",
+    "differences": "The base was a pad; the canonical class derives from the real CTriangleSelector.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene_CTriangleSelector.hpp",
+    "class": "glitch::scene::CTriangleSelector",
+    "canonical_header": "glitch-scene-collada-gui/scene/CTriangleSelector.hpp",
+    "differences": "The full class without a vptr; the canonical class derives from ITriangleSelector with the four slots.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene_ITriangleSelector.hpp",
+    "class": "glitch::scene::ITriangleSelector",
+    "canonical_header": "glitch-scene-collada-gui/scene/ITriangleSelector.hpp",
+    "differences": "The slots without the IReferenceCounted base (the binary derives it directly: vptr +0x00, count +0x04).",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene_SViewFrustum.hpp",
+    "class": "glitch::scene::SViewFrustum",
+    "canonical_header": "glitch-scene-collada-gui/scene/SViewFrustum.hpp",
+    "differences": "Same members and offsets; one definition now.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::ISceneNodeAnimator (stand-in with nine non-pure slots and a raw timeline pointer)",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNodeAnimator.hpp",
+    "differences": "No IAttributeExchangingObject / IEventReceiver / virtual IReferenceCounted bases; the canonical class has the slot table of the binary (144-byte vtable) and the timeline handle at +0x08.",
+    "action": "done: the header includes the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::ITimeController, ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "No IReferenceCounted base, three of the 21 slots, currentFrame at +0x04. The canonical interfaces have the full slot tables.",
+    "action": "done: the header includes the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::ICameraSceneNode, CCameraSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp / glitch-scene-collada-gui/scene/CCameraSceneNode.hpp",
+    "differences": "Derived from the non-polymorphic ISceneNode stand-in; the IEventReceiver sub-object slot was named forwardEvent. The canonical classes are polymorphic (25 camera slots) and the camera embeds an SViewFrustum at +0x168.",
+    "action": "done: the header includes the canonical headers"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::CEmptySceneNode, CSceneManagerRootNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp",
+    "differences": "0x130 bytes of pad before the box; the canonical classes derive from ISceneNode.",
+    "action": "done: the header includes the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::CMeshSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp",
+    "differences": "No base class, three members; the canonical class derives from IMeshSceneNode and holds the mesh handle and render counter.",
+    "action": "done: the header includes the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::CSceneManager",
+    "canonical_header": "glitch-scene-collada-gui/scene/CSceneManager.hpp",
+    "differences": "A handful of members; the canonical class has the whole layout of the constructor 0x58d908 and every virtual slot.",
+    "action": "done: the header includes the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::IMesh (destructor and getUserProperty only)",
+    "canonical_header": "glitch-scene-collada-gui/scene/IMesh.hpp",
+    "differences": "Two members of the interface; the canonical interface has every slot.",
+    "action": "done: the header includes the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::CBatchMesh, CBatchSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchMesh.hpp / glitch-scene-collada-gui/scene/CBatchSceneNode.hpp",
+    "differences": "A partial view with a vector of batches; four accessors with no base. The canonical classes carry the constructors, segment tables and slots.",
+    "action": "done: the header includes the canonical headers"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CMesh, CMesh::SBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMesh.hpp",
+    "differences": "Accessor stand-in without a base.",
+    "action": "done: removed, canonical class used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::SAnimatedMesh, IAnimatedMesh",
+    "canonical_header": "glitch-scene-collada-gui/scene/SAnimatedMesh.hpp / glitch-scene-collada-gui/scene/IMesh.hpp",
+    "differences": "A class with a box, a void* vector and a mesh type, no base; the canonical class holds intrusive IMesh handles per frame over IAnimatedMesh.",
+    "action": "done: removed, canonical class used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::ISceneNodeFactory, ISceneNodeAnimatorFactory, IMeshLoader, IShadowReceiverTarget (empty-destructor stand-ins)",
+    "canonical_header": "glitch-scene-collada-gui/scene/SceneFactories.hpp",
+    "differences": "Classes with no base and no slots; the canonical interfaces derive from IReferenceCounted and carry the pure slots named by the default factories.",
+    "action": "done: removed, canonical classes used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CAppendMeshBuffer (two fill counters), IEndOfBatchCallback",
+    "canonical_header": "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp",
+    "differences": "Two counters at +0x3c / +0x44 behind a pad; the canonical CAppendMeshBuffer derives from CMeshBuffer with the whole layout (0x70 bytes), the two driver buffers and the stream indices.",
+    "action": "done: removed, canonical classes used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene_members.hpp (deleted)",
+    "class": "glitch::scene::CAppendMeshBuffer (layout struct)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp",
+    "differences": "Guest-word layout of the same object; the offsets are comments on the canonical class.",
+    "action": "done: file removed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene_members.hpp (deleted)",
+    "class": "glitch::scene::CSceneNodeAnimatorDelete, FlyCircle, FlyStraight, FollowSpline, Rotation, Texture, CDefaultSceneNodeAnimatorFactory, CDefaultSceneNodeFactory, CDummyTransformationSceneNode, CBillboardTextSceneNode, CTerrainSceneNode, CColladaBinaryFileLoader (layout structs)",
+    "canonical_header": "glitch-scene-collada-gui/scene_simple_accessors.hpp (the one definition of each class today)",
+    "differences": "Guest-word layouts of the same classes. Their extra members (start/end/vectors, texture vector, period, loop, speed, font, colour, relative matrix, mesh holder, cursor control) were merged into the classes of scene_simple_accessors.hpp; the CTerrainSceneNode patch container at +0x178 conflicts with the accessor bodies and was not taken.",
+    "action": "done: file removed, members merged into scene_simple_accessors.hpp"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/virtual_gui_members.hpp",
+    "class": "glitch::scene::CSceneNodeAnimatorCollisionResponse, CAnimatedMeshSceneNode (layout classes)",
+    "canonical_header": "glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "differences": "Layout classes with pads; merged (animateCameraTarget +0x56, mesh holder +0x130) into the accessor classes.",
+    "action": "done: removed from the header, members merged"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorSynchronizedSet, SSyncSegment",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSynchronizedSet.hpp / glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp",
+    "differences": "Data members at their 32-bit offsets without the vptrs or bases; the canonical class derives from CSceneNodeAnimatorSet with the synchronized interface at +0x58.",
+    "action": "done: removed, canonical classes used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "glitch::collada::ISceneNodeAnimator (stand-in), CTimelineController, STimelineClip, STimelineClipTable",
+    "canonical_header": "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp / glitch-scene-collada-gui/collada/CTimelineController.hpp",
+    "differences": "Partial classes without the bases (the controller kept one scale member).",
+    "action": "done: removed, canonical classes used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "glitch::collada::CAnimationStreamingManager, SAnimationTemplate, CAnimationSetTransformationTemplate",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp / glitch-scene-collada-gui/collada/CAnimationSet.hpp",
+    "differences": "Partial stand-ins of the streaming manager and the animation-set templates.",
+    "action": "done: removed, canonical classes used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::collada::CDynamicAnimationSet",
+    "canonical_header": "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp",
+    "differences": "A vector of words at +0x24, a pad and a channel pointer; the canonical class derives from CAnimationSet.",
+    "action": "done: removed, canonical class used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorSet",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSet.hpp",
+    "differences": "A set pointer at +0x24 and one index at +0x50; the canonical class has the whole animator-set layout.",
+    "action": "done: removed, canonical class used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::collada::CMesh, CMorphingMesh, IMesh",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Accessor stand-ins without bases.",
+    "action": "done: removed, canonical classes used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_empty_dtors.hpp",
+    "class": "glitch::collada IEventsManager, CEventsManager, IAnimationTrackEx, CAnimationTrackEx, CResFileReader, CResFactory, IColladaSceneNodeSynchronizedAnimatorInterface",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp / glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Empty-destructor stand-ins.",
+    "action": "done: removed, canonical classes used"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene_evidence.hpp",
+    "class": "glitch::scene::evidence::CBatchMesh, CBatchSceneNode, CCameraSceneNode, CEmptySceneNode (layout structs)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchMesh.hpp / CBatchSceneNode.hpp / CCameraSceneNode.hpp / CEmptySceneNode.hpp",
+    "differences": "Evidence layouts of classes that are canonical now.",
+    "action": "done: removed from the header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_06.hpp (deleted)",
+    "class": "glitch::collada::recon_06::SceneNode, SceneManager, SceneNodeAnimator, RefCounted, Material, TriangleSelector, SAnimatedMesh, SBatchConfig, SDefaultEndOfBatchCallback, STransparentNodeEntry, AppendMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp / CSceneManager.hpp / ISceneNodeAnimator.hpp / CTriangleSelector.hpp / SAnimatedMesh.hpp / CAppendMeshBuffer.hpp",
+    "differences": "A free-function view of the scene bookkeeping over flat stand-in types (vectors of raw pointers, a tiny RefCounted). All 62 functions are members of the canonical classes now (src/scene/*.cpp).",
+    "action": "done: header, source and test removed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::collada::recon_31::CSceneManager::SDefaultNodeEntry / SDistanceNodeEntry / STransparentNodeEntry, CBatchMesh, CBatchSceneNode, ICameraSceneNode, CCameraSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CSceneManager.hpp / CBatchMesh.hpp / CBatchSceneNode.hpp / ICameraSceneNode.hpp / CCameraSceneNode.hpp",
+    "differences": "Entries over the stand-in ISceneNode (distance as float, the canonical SDistanceNodeEntry keeps a double); flat batch and camera classes.",
+    "action": "done: removed (the entry tests moved to scene_nodes_test.cpp)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::CAnimationSet, CSceneNodeAnimatorSet, CSceneNodeAnimatorSynchronizedBlender, CSceneNodeAnimatorSynchronizedSet, IAnimationSetTemplate, ISceneNodeAnimator",
+    "canonical_header": "glitch-scene-collada-gui/collada/CAnimationSet.hpp / CSceneNodeAnimatorSet.hpp / CSceneNodeAnimatorSynchronizedBlender.hpp / CSceneNodeAnimatorSynchronizedSet.hpp / ISceneNodeAnimator.hpp",
+    "differences": "Empty or pad stand-ins.",
+    "action": "done: removed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_04.hpp",
+    "class": "glitch::collada::recon_04::CBatchMesh (with SBatch, SSegment), CBatchSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchMesh.hpp / CBatchSceneNode.hpp",
+    "differences": "Member declarations without definitions or layout.",
+    "action": "done: removed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_07.hpp",
+    "class": "glitch::collada::recon_07::CAppendMeshBufferLayout",
+    "canonical_header": "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp",
+    "differences": "Fields of the same object at +0x20 .. +0x4c.",
+    "action": "done: removed (hasEnoughSpace, beginAppend, setup are members)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_25.hpp",
+    "class": "void*-typed CAppendMeshBuffer_* functions (adjustStride .. ctor_alt)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp",
+    "differences": "Unattached stubs over void*.",
+    "action": "done: removed (members of the canonical class)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_28.hpp",
+    "class": "glitch::collada::recon_28::CAnimationSetTransformationTemplate",
+    "canonical_header": "glitch-scene-collada-gui/collada/CAnimationSet.hpp",
+    "differences": "Free-function view of the template.",
+    "action": "done: removed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_27.hpp",
+    "class": "glitch::scene::CMeshBuffer members as read by the constructor rows",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "differences": "The test pinned loosely typed words (primitiveWord_24 ...); the canonical class embeds a CPrimitiveStream.",
+    "action": "done: test rewritten against the refined class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_09.hpp",
+    "class": "glitch::collada::recon_09::SAnimationAccessor, SAnimationOutput, CInputReader",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp / glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "Reduced views: SAnimationOutput is {reserved, data} (the canonical record is {count, data, ...} with the key buffer at +0x04), SAnimationAccessor is four pointers with getOutput(i) returning one output. The canonical SAnimationAccessor is {animation, outputs array, key cache} with getOutput / getScales / getOffsets / getDefaultValue computed from the animation record.",
+    "action": "replace with #include; build the fixtures from a SAnimation and an SAnimationOutput array (as recon_v2_06 does)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_08.hpp",
+    "class": "glitch::collada::recon_08::SAnimationOutput, Key3f, Key4f, KeyRgb",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "SAnimationOutput is {reserved00, keys} with getOutput declared \"unattached\"; the canonical record carries the element count and data pointer and getOutput is a member of SAnimationAccessor. The key structs are plain element types and stay.",
+    "action": "replace SAnimationOutput with #include; keep Key3f / Key4f / KeyRgb"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_10.hpp",
+    "class": "glitch::collada::recon_10::SAnimationAccessor, SInputReader, SKeyTable, CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp / glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "SAnimationAccessor is an input reader plus defaultValue and output pointers; CApplicatorInfo is an abstract class with one virtual applyValue(const float*) (the canonical CApplicatorInfo has the parameterId at +0x08 and the slots of the applicator hierarchy).",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_10.hpp",
+    "class": "glitch::collada::recon_10 interpreter views (CInterpreterKeyed, CVirtualExKeyed, CInterpreterQuaternionAngleKeyed, CVirtualExQuaternionAngleKeyed, CVirtualExApplyQuaternionAngleKeyed, CApplyQuaternionAngleKeyed)",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Templates over the reduced accessor; the instantiated classes of the binary are the CInterpreter / CVirtualEx / CApplyValueEx families of animation_track_virtual_ex.hpp (derived from IAnimationTrackEx).",
+    "action": "keep: the functions are the template bodies of the family; retarget them to the canonical SAnimationAccessor when recon_10 is replaced"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_11.hpp",
+    "class": "glitch::collada::recon_11::SAnimationOutput, SAnimationAccessorStandIn, ApplicatorInfoStandIn, ISceneNodeStandIn, MaterialParamsStandIn, RefCountedStandIn, OutSlotStandIn, ResFileManagerStandIn, CImageStandIn, CoreVector2dF, CoreVector3dF, CoreVector4dF, CoreQuaternionF, VideoSColor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp / glitch-scene-collada-gui/collada/CApplicatorInfo.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Reduced views for the getKeyBasedValue paths: output {reserved, data}, accessor {output, defaultValue}, applicator info with paramId at +0x08, a scene node that exposes the rotation words through one virtual (the canonical ISceneNode::getRotation is slot +0x98 and returns a quaternion), a refcounted pair, a resource manager with the streaming flag at +0x28 (canonical CResFileManager).",
+    "action": "replace with #include; ISceneNodeStandIn -> glitch::scene::ISceneNode (getRotation)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_12.hpp",
+    "class": "glitch::collada::recon_12::SKeyOutput",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "Key output record of the quaternion interpolators; the tb headers define a second SKeyOutput (see tb/glitch_collada_animation_track_CInterpreter_PosZFloat3.hpp).",
+    "action": "keep: sole definition per namespace; unify with the animation_track::SKeyOutput when the interpreter family is merged"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_13.hpp",
+    "class": "glitch::collada::recon_13::SAnimationOutput, ISceneNodeTransform, IAnimationTarget, SParameterBinding",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Reduced output record {reserved, values at +0x04}; ISceneNodeTransform names the two virtual slots the position and scale tracks read (vptr+0xa0 is ISceneNode::getPosition, vptr+0x90 getScale); IAnimationTarget::applyValue is vptr+0x9c (ISceneNode::setRotation); SParameterBinding carries the parameter id at +0x08.",
+    "action": "replace SAnimationOutput with #include; ISceneNodeTransform and IAnimationTarget -> glitch::scene::ISceneNode"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_14.hpp",
+    "class": "glitch::collada::recon_14::CInterpreter",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Interpreter template view over the reduced accessor.",
+    "action": "keep: see recon_10 interpreter views"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_16.hpp",
+    "class": "glitch::collada::recon_16::SKeyInputFloat, SKeyInputQuantized, SApplicatorInfoParam",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp / glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Element types of the key readers and the applicator parameter record; no canonical counterpart besides CApplicatorInfo.",
+    "action": "keep: element types without a canonical class; SApplicatorInfoParam -> CApplicatorInfo::parameterId when recon_16 is revisited"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_07.hpp",
+    "class": "glitch::collada::recon_07::CAnimationBlockLayout, SLightColorApplicator",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "CAnimationBlockLayout is the {count, data} view of the canonical CAnimationBlock (reference count at +0x04, the key arrays); SLightColorApplicator is the applicator object of CApplicator<SLightColor> (channels at +0x14).",
+    "action": "replace CAnimationBlockLayout with the canonical CAnimationBlock; keep SLightColorApplicator"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_00.hpp",
+    "class": "glitch::collada::recon_00::ViewFrustum, FrustumPlane",
+    "canonical_header": "glitch-scene-collada-gui/scene/SViewFrustum.hpp",
+    "differences": "The earlier view frustum model of the first slice (planes and a box, used by its test); the canonical SViewFrustum has the camera position, six planes, box and nine matrices.",
+    "action": "replace with #include; the slice-00 test builds its frustum through SViewFrustum"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_00.hpp",
+    "class": "glitch::collada::recon_00::IrrFactory",
+    "canonical_header": "glitch-scene-collada-gui/irr_factory.hpp (glitch::CIrrFactory)",
+    "differences": "A free-function view of glitch::CIrrFactory (createFileSystem, createGUIEnvironment) over a file-system pointer; irr_factory.hpp has the class and the game IrrFactory derives from it.",
+    "action": "keep: another domain owns the class (core / io factory); remove with the slice-00 cleanup"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_00.hpp",
+    "class": "glitch::collada::recon_00::BatchMeshExtExtraData",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchMesh.hpp",
+    "differences": "A view of the one empty override glitch::scene::CBatchMeshExt<GameObject*>::saveSegmentExtraData (0x50cf04). The template is not reconstructed; it derives from CBatchMesh, whose canonical class declares the virtual (saveSegmentExtraData, K 0x40).",
+    "action": "keep: sole definition of the view; becomes a member of CBatchMeshExt when that game template is reconstructed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_00.hpp",
+    "class": "glitch::collada::recon_00::Tweakable, TweakableMapping",
+    "canonical_header": "glitch-scene-collada-gui/debugger/CTweakable.hpp",
+    "differences": "Views of glitch::debugger::CTweakable and its SMapping record used by the slice-00 rows; the debugger header holds the class.",
+    "action": "keep: another domain owns the class (debugger)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_00.hpp",
+    "class": "glitch::collada::recon_00::ISharedObject, GuiElement, GuiEnvironment",
+    "canonical_header": "glitch-core-io (io) and the gui domain",
+    "differences": "ISharedObject<CFile> is the shared-object base of the io files; GuiElement / GuiEnvironment are views of IGUIElement / CGUIEnvironment.",
+    "action": "keep: another domain owns the classes (io, gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::CLightSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/deferred/CLightSceneNode.hpp (to move to scene/ when the core-io stand-ins are replaced)",
+    "differences": "No ISceneNode base; five members (light handle +0x134, recalc count +0x138, box +0x13c) over a non-polymorphic class. The canonical class derives from ISceneNode (size 0x154 + the virtual base at +0x154), holds the STransformationSource slot at +0x130, the CLight handle, the last light type and the box, and implements the constructors, doLightRecalc, render, onRegisterSceneNode and the attribute slots. Canonical class written (glitch-scene-collada-gui/deferred/); it cannot be compiled yet because glitch-core-io/deps/glitch_core_objects.hpp, which every ISceneNode user reaches through io/interfaces.hpp, still declares stand-ins for the video classes the node needs (CLight, CMaterial, CVertexStreams, IBuffer): the canonical video headers redefine them. ",
+    "action": "replace with #include of the canonical header once it can be compiled; then remove recon_31::CLightSceneNode, recon_32 / recon_05 light entries and the tb CLightSceneNode comment source"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_nodes.hpp",
+    "class": "glitch::scene::CBillboardSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/deferred/CBillboardSceneNode.hpp (to move to scene/ when the core-io stand-ins are replaced)",
+    "differences": "No base; getType / getBoundingBox / getMaterialCount / getSize over size +0x134 and box +0x13c. The binary has IBillboard (vptr +0x00) and ISceneNode (+0x04) as bases, four vertices of 36 bytes at +0x158, the stream table at +0x1e8 and the virtual base at +0x1ec. Canonical class written (glitch-scene-collada-gui/deferred/); it cannot be compiled yet because glitch-core-io/deps/glitch_core_objects.hpp, which every ISceneNode user reaches through io/interfaces.hpp, still declares stand-ins for the video classes the node needs (CLight, CMaterial, CVertexStreams, IBuffer): the canonical video headers redefine them. ",
+    "action": "replace with #include of the canonical header once it can be compiled; game/dh2/Billboard.hpp and ColladaFactory.hpp then drop their forward declarations"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene_evidence.hpp",
+    "class": "glitch::scene::evidence::CBillboardSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/deferred/CBillboardSceneNode.hpp",
+    "differences": "Evidence layout struct of the billboard node (member offsets with src= addresses); the offsets are comments in the deferred canonical class.",
+    "action": "keep: evidence until the canonical class lands, then remove"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/scene_evidence.hpp",
+    "class": "glitch::scene::evidence::CDummyTransformationSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "differences": "Evidence layout of the dummy transformation node (relative matrix at +0x130); the accessor class carries the box at +0x174 and, since this wave, the matrix.",
+    "action": "keep: evidence; remove with the CDummyTransformationSceneNode canonical class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::collada::recon_31::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "A four-virtual interface (getAbsoluteTranslation, getBoundingBox, getDistanceBias, getDefaultSortOrder) standing for the real node so the attribute bodies of the billboard, light and skinned-mesh nodes compile.",
+    "action": "replace with #include once the light / billboard / skinned-mesh nodes are canonical (the bodies then call glitch::scene::ISceneNode::serializeAttributes)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::collada::recon_31::IBillboardSceneNode, CBillboardSceneNode, CLightSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/deferred/ (see scene_nodes.hpp)",
+    "differences": "Flat views for the attribute bodies (width / height / colours, the light handle).",
+    "action": "replace with #include of the canonical classes once they can be compiled"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::collada::recon_31::CSkinnedMeshSceneNode",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "An empty derived class: its serializeAttributes / deserializeAttributes are thunks to the ISceneNode bodies.",
+    "action": "keep: replace when collada::CSkinnedMeshSceneNode is canonical"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::collada::recon_31::IAttributes",
+    "canonical_header": "glitch-core-io/io/iattributes.hpp (glitch::io::IAttributes)",
+    "differences": "A 33-slot stand-in with the slot offsets of the attribute bodies in comments; the canonical IAttributes has 187 pure slots generated from the CAttributes vtable.",
+    "action": "keep: another domain owns the class (core / io); replace with #include in the gui / scene attribute bodies"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CTextSceneNode, IText, CBillboardTextSceneNode",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Accessor classes without ISceneNode base or vtable (getType returns the tag, text colour, size, box). The binary: CTextSceneNode / CBillboardTextSceneNode derive from ITextSceneNode over ISceneNode; CBillboardTextSceneNode has a font, text buffer and vertices.",
+    "action": "keep: sole definitions (partial); make canonical when the text nodes are reconstructed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CDummyTransformationSceneNode, CSkyBoxSceneNode, CShadowVolumeSceneNode",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Accessor classes without base or vtable; the box / bias members sit at their original offsets (+0x174, +0x130, +0x168 / +0x188).",
+    "action": "keep: sole definitions (partial); a canonical class needs the ISceneNode-derived layout"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CTerrainSceneNode, STerrainPatch",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Accessor class: position / rotation / scale at +0x134 / +0x140 / +0x15c, patch grid at +0x1a8 (56-byte records), patchesPerSide +0x17c.",
+    "action": "keep: sole definition (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CAnimatedMeshSceneNode",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Accessor class: animation speed / frames / loop / identity flag at their offsets, mesh holder +0x130 (merged this wave).",
+    "action": "keep: sole definition (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CSceneNodeAnimatorCameraFPS, glitch::scene::CSceneNodeAnimatorCameraMaya, glitch::scene::CSceneNodeAnimatorCollisionResponse, glitch::scene::CSceneNodeAnimatorDelete, glitch::scene::CSceneNodeAnimatorFlyCircle, glitch::scene::CSceneNodeAnimatorFlyStraight, glitch::scene::CSceneNodeAnimatorFollowSpline, glitch::scene::CSceneNodeAnimatorRotation, glitch::scene::CSceneNodeAnimatorTexture",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNodeAnimator.hpp (their base)",
+    "differences": "Accessor classes without the ISceneNodeAnimator base (no vptr, no virtual IReferenceCounted base); the members are at their original offsets and, since this wave, include every member that layouts/scene_members.hpp mapped.",
+    "action": "keep: sole definitions (partial); derive from scene::ISceneNodeAnimator when their animateNode / createClone bodies are reconstructed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CDefaultSceneNodeAnimatorFactory, CDefaultSceneNodeFactory (with SCreatableType)",
+    "canonical_header": "glitch-scene-collada-gui/scene/SceneFactories.hpp",
+    "differences": "Accessor classes that do not derive from ISceneNodeAnimatorFactory / ISceneNodeFactory; the type-name tables are vectors.",
+    "action": "keep: sole definitions (partial); derive from the canonical interfaces when the factories are reconstructed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CColladaBinaryFileLoader",
+    "canonical_header": "glitch-scene-collada-gui/scene/SceneFactories.hpp (IMeshLoader) and glitch-core-io/collada_binary_file_loader.hpp",
+    "differences": "Defines only isALoadableFileExtension (0x6b9538). glitch-core-io defines the same class name with the constructor 0x6b9310 and the scene-manager / file-system members, derived from IReferenceCounted. Two different definitions of one class: a translation unit that includes both fails.",
+    "action": "keep: unify when the loader is reconstructed: one class derived from IMeshLoader in scene/, with glitch-core-io including it and dropping its constructor body"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::ISceneCollisionManager, IMeshCache, CMeshCache (with SMeshEntry), IBillboard, ISegmentCompileCallback, SDefaultSegmentCompileCallback",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Empty-destructor interfaces and a mesh-cache accessor class without bases or slots. IBillboard moves to the deferred billboard header; IMeshCache / ISceneCollisionManager are IReferenceCounted interfaces in the binary.",
+    "action": "keep: sole definitions (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "glitch::scene::CParticleSystemSceneNode (with SParticleRecord), glitch::scene::IParticleEmitter, IParticleAnimatedMeshSceneNodeEmitter, IParticleAffector, IParticleAttractionAffector, IParticleBoxEmitter, IParticleCylinderEmitter, IParticleFadeOutAffector, IParticleGravityAffector, IParticleMeshEmitter, IParticleRingEmitter, IParticleRotationAffector, IParticleSizeAffector, IParticleSphereEmitter, IParticleSpinAffector",
+    "canonical_header": "particle-system domain",
+    "differences": "Particle scene node and the emitter / affector tag interfaces; the glitch::ps and particle emitters / affectors are another domain (particle_emitters.hpp, particle_affectors.hpp, ps_types.hpp, recon_17 .. recon_19).",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_scene_CSceneCollisionManager.hpp",
+    "class": "glitch::scene::CSceneCollisionManager",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Sole definition (batch e1-glitch_scene_CSceneCollisionManager-0). CSceneManager creates one (new 0x1c bytes) and ISceneCollisionManager is the empty-destructor interface above.",
+    "action": "keep: sole definition; derive from ISceneCollisionManager when that is canonical"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "differences": "An empty class over IReferenceCounted so boost::intrusive_ptr<CMeshBuffer> can drop. The canonical class has the constructor 0x6b88a8 layout (see the video map). The header cannot be included in one translation unit with glitch-core-io/io/interfaces.hpp while the stub exists.",
+    "action": "replace with #include of the canonical header (owner: glitch-core-io); see the open item about the stand-ins that block the deferred nodes"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/collada_binary_file_loader.hpp",
+    "class": "glitch::scene::CColladaBinaryFileLoader",
+    "canonical_header": "glitch-scene-collada-gui/scene_simple_accessors.hpp (same class name)",
+    "differences": "The constructor 0x6b9310 / 0x6b9360 and the members sceneManager +0x08, fileSystem +0x0c over IReferenceCounted; no IMeshLoader base, no isALoadableFileExtension.",
+    "action": "keep: sole definition of the constructor; merge with the scene accessor class (see above)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::collada::CSceneNode, SUidHolder, SNodeUserProperties, SNamedMeshData",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "CSceneNode is the accessor stand-in of the collada node: it has no ISceneNode base; it holds the user-property record (uid, scope id) and answers getUID / getScopeID. In the binary collada::CSceneNode derives from ISceneNode and overrides getUserProperty / getUserPropertyStr (the base returns null).",
+    "action": "keep: sole definition (partial); the canonical collada::CSceneNode derives from scene::ISceneNode"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::collada::CMeshSceneNode, CCameraSceneNode, CLightSceneNode, CCoronasSceneNode, CModularSkinnedMeshSceneNode, CParticleSystemSceneNode, CGlitchNewParticleSystemSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp / glitch-scene-collada-gui/scene/CCameraSceneNode.hpp (their scene bases)",
+    "differences": "Accessor stand-ins of the Collada node classes (derived from CSceneNode in the binary, from the matching scene class plus the uid holder): bounding box, material and uid accessors only, no base. The game classes MeshSceneNode, SkinnedMeshSceneNode, ModularSkinnedMeshSceneNode, SkyBoxMeshSceneNode derive from these.",
+    "action": "keep: sole definitions (partial); canonical Collada nodes derive from scene::CMeshSceneNode / CCameraSceneNode / (deferred) CLightSceneNode"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "glitch::collada::animation_track::CFloatEx, CWeightEx",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Track classes with a few members and no base; the canonical IAnimationTrackEx is their base in the binary.",
+    "action": "keep: sole definitions (partial); derive from IAnimationTrackEx"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/root_scene_node.hpp",
+    "class": "glitch::collada::CRootSceneNode, CColladaUIDHolder, SIntrusiveLink, SIntrusiveList",
+    "canonical_header": "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp",
+    "differences": "The Collada root node (game RootSceneNode derives from it) over a stand-in; in the binary it derives from CSceneNode / CEmptySceneNode and owns the animators, materials, cameras and the database handle.",
+    "action": "keep: sole definition (partial); the intrusive link types duplicate SListLink / SNodeList of scene/scene_types.hpp and should be replaced by them"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/skinned_mesh.hpp",
+    "class": "glitch::collada::CSkinnedMesh, SCountedRef, SMeshBufferRef, SSkinnedBufferEntry",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "CSkinnedMesh over the stand-in layout; the binary derives it from ISkinnedMesh : IMesh (collada/IMesh.hpp). SCountedRef is also defined in modular_skinned_mesh.hpp.",
+    "action": "keep: sole definition (partial); SCountedRef: keep one copy"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/modular_skinned_mesh.hpp",
+    "class": "glitch::collada::CModularSkinnedMesh (with SModularBuffer, SModuleHolder, SModuleRecord, SCategoryEntry, SCategoryTable, SModuleSlot), SCountedRef",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Accessor stand-in of the modular skinned mesh over the stand-in layout; the binary derives it from CSkinnedMesh.",
+    "action": "keep: sole definition (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "glitch::collada::ISkinnedMesh",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "One member (skinningEnabled +0x18) and setIsSkinningEnabled; the binary class derives from IMesh and shares its destructor. layouts/collada_members.hpp holds a second layout of it (vptr, database record / factory words, skinningEnabled).",
+    "action": "keep: sole accessor definition; fold the layout in and derive from collada::IMesh"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_members.hpp",
+    "class": "glitch::collada::ISkinnedMesh (layout struct)",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp (glitch::collada::ISkinnedMesh)",
+    "differences": "Guest-word layout of the same class (the header says not to include it with collada_misc.hpp).",
+    "action": "keep: evidence; remove when ISkinnedMesh derives from collada::IMesh"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "glitch::collada::detail::CColladaHardwareMatrixSkinTechnique, CColladaHardwareQuatSkinTechnique, CColladaHardwareTextureSkinTechnique, CColladaSoftwareSkinTechnique",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Accessor classes (attach, computeBoundingBox, preparePtrCache, ...) over a pad and the attached-node pointer at +0x14. No IColladaSkinTechnique base.",
+    "action": "keep: sole definitions (partial); derive from IColladaSkinTechnique (below)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_members.hpp",
+    "class": "glitch::collada::detail::IColladaSkinTechnique, CColladaHardwareMatrixSkinTechnique, CColladaHardwareQuatSkinTechnique, CColladaHardwareTextureSkinTechnique, CColladaSoftwareSkinTechnique (layout structs)",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp (the accessor classes)",
+    "differences": "Guest-word layouts of the base (vptr, flag +0x04, shared buffer +0x08) and the four techniques (skin +0x0c, cache +0x10, node +0x14, map header and count). IColladaSkinTechnique::initProxyBuffer (0x670ec8) is declared only here and defined in a tb source that includes this header.",
+    "action": "keep: the one definition of IColladaSkinTechnique; merge the layouts into one canonical collada/IColladaSkinTechnique.hpp family (open item)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_33.hpp",
+    "class": "glitch::collada::recon_33::HardwareSkinTechniqueStandIn, SoftwareSkinTechniqueStandIn, SkinBufferStandIn, MeshBufferStandIn",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp / layouts/collada_members.hpp",
+    "differences": "Virtual-hook views of the skin techniques for the onPrepareBufferForRendering rows (the real classes dispatch through slot +0x18).",
+    "action": "keep: replace with the canonical skin technique family (open item)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_23.hpp",
+    "class": "glitch::collada::detail skin technique free functions (constructors, skin, prepareCache, ...)",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "differences": "Free-function views over void* objects.",
+    "action": "keep: replace with members of the canonical skin technique family (open item)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::CSkinnedMesh, CSkinnedMeshSceneNode, ISkinnedMesh, IParticleSystemSceneNode, SSkinBuffer, SSkinCache",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/skinned_mesh.hpp / collada_misc.hpp",
+    "differences": "Empty or pad stand-ins for the skinned mesh, its node and the particle-system node base used by the recon_22 rows.",
+    "action": "keep: replace with the accessor classes, then the canonical ones"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_factory.hpp",
+    "class": "glitch::collada::CColladaFactory",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "The factory interface with the creator slots in order (createAnimator +0x08 .. createBillboard ...); sole definition. game/dh2/ColladaFactory.hpp derives from it. Its forward declarations name glitch::collada::CCameraSceneNode while the canonical camera is glitch::scene::CCameraSceneNode.",
+    "action": "keep: sole definition; fix the CCameraSceneNode forward declaration when the Collada camera is canonical"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "class": "glitch::collada::CCameraSceneNode (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada_scene_accessors.hpp (glitch::collada::CCameraSceneNode)",
+    "differences": "Forward declaration of the Collada camera (the derived class; the canonical base is glitch::scene::CCameraSceneNode).",
+    "action": "keep: matches the Collada camera stand-in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_CImage.hpp",
+    "class": "glitch::collada::CImage",
+    "canonical_header": "glitch-video/image.hpp (glitch::video::CImage)",
+    "differences": "A separate glitch::collada::CImage class (the Collada image record), not the video image; the name is shared by two unrelated classes.",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/animation_track_virtual_ex.hpp",
+    "class": "glitch::collada::animation_track::CVirtualEx, CIdentityValueWriter",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Templated track views (applyValue, getIdentityValue) over the reduced accessors; the binary classes are the CVirtualEx<CApplyValueEx<...>> family derived from IAnimationTrackEx.",
+    "action": "keep: sole definitions (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/texture_transform_ex.hpp",
+    "class": "glitch::collada::animation_track::CTextureTransformEx",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Partial track class.",
+    "action": "keep: sole definition (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/vector3d_ex.hpp",
+    "class": "glitch::collada::animation_track::CVector3dEx",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Partial track class.",
+    "action": "keep: sole definition (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/visibility_ex.hpp",
+    "class": "glitch::collada::animation_track::CVisibilityEx",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Partial track class.",
+    "action": "keep: sole definition (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_PosZFloat3.hpp",
+    "class": "glitch::collada::animation_track::SKeyOutput",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_12.hpp (glitch::collada::recon_12::SKeyOutput)",
+    "differences": "Key output record {reserved, values at +0x04}; the ScaleZFloat3 header defines a second copy and recon_12 a third.",
+    "action": "keep: one record type exists three times; fold into animation_track::SKeyOutput when the interpreter family is merged"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_ScaleZFloat3.hpp",
+    "class": "glitch::collada::animation_track::SKeyOutput",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_PosZFloat3.hpp",
+    "differences": "Second copy of the same record.",
+    "action": "keep: see above"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_ScaleFloat3Lerp.hpp",
+    "class": "glitch::collada::SScaleAnimationOutput",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "Reduced output record for the scale interpolators.",
+    "action": "keep: sole definition"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_QuatFloat4.hpp",
+    "class": "glitch::collada::animation_track::CInterpreterSceneNodeQuaternionFloat4",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Interpreter view.",
+    "action": "keep: sole definition (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreterQuaternionAngle_QAngleFloat.hpp",
+    "class": "glitch::collada::animation_track::CInterpreterQuaternionAngleFloat, CInterpreterSceneNodeQuaternionAngleFloat4",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Interpreter views.",
+    "action": "keep: sole definitions (partial)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_detail.hpp",
+    "class": "glitch::collada::detail::SCompatibilityTable",
+    "canonical_header": "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp",
+    "differences": "The 92-row channel compatibility table; ISceneNodeAnimator::hasCompatibleTarget / setCompatibleTarget and CAnimationSet::addAnimation use channelTypeCompatible.",
+    "action": "keep: sole definition (no stand-in: a table, not a class)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_29.hpp",
+    "class": "glitch::scene::recon_29::CShadowVolumeSceneNode (with SShadowVolume, SSilhouette), CMeshConnectivity",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Free-function views of the shadow volume node and the mesh connectivity (edge tables over CMeshBuffer, which is canonical). A second CMeshConnectivity lives in recon_30.",
+    "action": "keep: sole definitions (partial); CShadowVolumeSceneNode is also an accessor class in scene_simple_accessors.hpp"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_30.hpp",
+    "class": "glitch::collada::recon_30::CMeshConnectivity (with SEdge)",
+    "canonical_header": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_29.hpp (glitch::scene::recon_29::CMeshConnectivity)",
+    "differences": "A second view of the same class over an opaque mesh-buffer type (the file also declares IReadFile / IWriteFile stand-ins).",
+    "action": "keep: merge the two views when the class is reconstructed"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_30.hpp",
+    "class": "glitch::collada::recon_30::IReadFile, IWriteFile",
+    "canonical_header": "glitch-core-io/io/interfaces.hpp",
+    "differences": "Opaque structs for the mesh (de)serialisers.",
+    "action": "keep: another domain owns the classes (io)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_21.hpp",
+    "class": "glitch::collada::recon_21::IReadFileStandIn",
+    "canonical_header": "glitch-core-io/io/interfaces.hpp",
+    "differences": "Opaque read-file view for the database loaders.",
+    "action": "keep: another domain owns the class (io)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_33.hpp",
+    "class": "glitch::collada::recon_33::CSceneManagerStandIn, CollisionManagerStandIn, ColladaBinaryFileLoaderStandIn",
+    "canonical_header": "glitch-scene-collada-gui/scene/CSceneManager.hpp / glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "differences": "Flat views (reference count at +0x04, manager and file-system words) used by the constructors of the collision manager and the binary loader.",
+    "action": "replace with #include of the canonical classes when those rows are rebuilt"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_33.hpp",
+    "class": "glitch::collada::recon_33::CollisionResponseAnimatorStandIn, FlyCircleAnimatorStandIn, FlyStraightAnimatorStandIn, RotationAnimatorStandIn, AnimatedMeshStandIn, TerrainStandIn (TerrainPatchLodStandIn), CoronasSceneNodeStandIn",
+    "canonical_header": "glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "differences": "Flat structs of the members the attribute bodies read (radius / gravity / translation / animate-camera-target; centre / direction / radius / speed; start / end / time / loop; rotation; frames per second / looping; patch dimension and LOD table; width / height / colour). All of these members are on the accessor classes now.",
+    "action": "replace with the accessor classes of scene_simple_accessors.hpp (then with the canonical animator classes)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_33.hpp",
+    "class": "glitch::collada::recon_33::TriangleStandIn, LineStandIn, IReferenceCountedStandIn, IFileSystemStandIn, ITextureStandIn, IVideoDriverStandIn, IAttributesStandIn, ParticleBoxEmitterStandIn, ParticleFadeOutAffectorStandIn, ParticleGravityAffectorStandIn, ParticlePointEmitterStandIn, ParticleSizeAffectorStandIn, ParticleSpinAffectorStandIn, CGUIButtonStandIn, CGUICheckBoxStandIn, CGUIEditBoxStandIn",
+    "canonical_header": "glitch-shared/glitch_core.hpp, glitch-core-io, glitch-video (value types, io and video classes), particle-system and gui domains",
+    "differences": "Local views of core, io, video, particle and gui classes used by the recon_33 rows.",
+    "action": "keep: another domain owns the classes (core, io, video, particle systems, gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/v2/wave_01.hpp",
+    "class": "glitch::collada::recon_v2_01::ChildNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "A node as seen by the child-iteration helpers; the canonical node has the intrusive child list.",
+    "action": "replace with #include (iterate getChildren())"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/v2/wave_07.hpp",
+    "class": "glitch::collada::recon_v2_07 wave_07_bind_ports, wave_07_buffer_config, wave_07_force_proxy, wave_07_node_ports, wave_07_quantized",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "Port structs for the particle-force and quantized-buffer bodies; no scene-domain counterpart.",
+    "action": "keep: sole definitions"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/v2/wave_08.hpp",
+    "class": "glitch::collada::recon_v2_08::SLightColorRow",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "The row view of output record 0 of the canonical SAnimationAccessor (rebuilt against it this wave).",
+    "action": "keep: sole definition"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/v2/wave_10.hpp",
+    "class": "glitch::collada::recon_v2_10::ParamType",
+    "canonical_header": "none yet (no canonical class: the stand-in is the only definition)",
+    "differences": "A byte enum of the applicator parameter kinds.",
+    "action": "keep: sole definition"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_17.hpp",
+    "class": "glitch::collada::recon_17 AxisLockContext, BufferConfig, ForceBinding, RandomState",
+    "canonical_header": "particle-system domain",
+    "differences": "Particle-force helper structs.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18 ForceOwner, GravityForce, WindForce, PSManager",
+    "canonical_header": "particle-system domain",
+    "differences": "Particle-force classes.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_19.hpp",
+    "class": "glitch::collada::recon_19 CGlitchNewParticleSystemSceneNode, PForcesModel, ParameterTable, RefCounted",
+    "canonical_header": "particle-system domain",
+    "differences": "Particle-system node views.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_02.hpp",
+    "class": "glitch::collada::recon_02 GUI stand-ins (IGUIElement, IGUIEnvironment, IGUIFont, IGUISkin, IGUISpriteBank, IGUIEditBox, CGUIScrollBar, CGUIListBox, CGUIMenu, CGUIMeshViewer, CGUIModalScreen, CGUIMessageBox, CGUISkin, CGUISpinBox, SListItem, SRect, SEvent)",
+    "canonical_header": "gui domain",
+    "differences": "Views of GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_03.hpp",
+    "class": "glitch::collada::recon_03 GUI stand-ins (CGUISpinBox, CGUISpriteBank, IGUIEditBox, IGUIEnvironment, Texture, ReferenceCounted)",
+    "canonical_header": "gui domain / glitch-video",
+    "differences": "Views of GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_04.hpp",
+    "class": "glitch::collada::recon_04 GUI stand-ins (IGUIElement, IGUIToolBar, IGUIWindow, IGUITTFont, CGUITable, CGUIToolBar, CGUIWindow, CGUITTFace, CGUITTFont, CGUITTGlyph, CGUITTLibrary)",
+    "canonical_header": "gui domain",
+    "differences": "Views of GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_25.hpp",
+    "class": "glitch::collada::recon_25 SEventStand, SContextMenuItem",
+    "canonical_header": "gui domain / glitch-core-io/os/event_receiver.hpp",
+    "differences": "Event and menu item views.",
+    "action": "keep: another domain owns the classes (gui, core)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::collada::recon_31 GUI stand-ins (IGUIElement, CGUIImage, CGUIInOutFader, CGUIListBox, CGUIMessageBox, CGUIModalScreen, CGUIScrollBar, CGUISkin, CGUISpinBox, CGUIStaticText, CGUITab, CGUITabControl, CGUITable, CGUIEnvironment)",
+    "canonical_header": "gui domain",
+    "differences": "Views of GUI classes used by the attribute bodies.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_elements.hpp",
+    "class": "glitch::gui classes (IGUIElement, CGUI* ...)",
+    "canonical_header": "gui domain",
+    "differences": "Several partial and layout definitions of the same GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/gui_simple_accessors.hpp",
+    "class": "glitch::gui classes (IGUIElement, CGUI* ...)",
+    "canonical_header": "gui domain",
+    "differences": "Several partial and layout definitions of the same GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/gui.hpp",
+    "class": "glitch::gui classes (IGUIElement, CGUI* ...)",
+    "canonical_header": "gui domain",
+    "differences": "Several partial and layout definitions of the same GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/gui_evidence.hpp",
+    "class": "glitch::gui classes (IGUIElement, CGUI* ...)",
+    "canonical_header": "gui domain",
+    "differences": "Several partial and layout definitions of the same GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/virtual_gui_members.hpp",
+    "class": "glitch::gui classes (IGUIElement, CGUI* ...)",
+    "canonical_header": "gui domain",
+    "differences": "Several partial and layout definitions of the same GUI classes.",
+    "action": "keep: another domain owns the classes (gui)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/ps_types.hpp",
+    "class": "glitch::ps and glitch::scene particle classes",
+    "canonical_header": "particle-system domain",
+    "differences": "Partial and layout definitions of the particle classes.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/ps_members.hpp",
+    "class": "glitch::ps and glitch::scene particle classes",
+    "canonical_header": "particle-system domain",
+    "differences": "Partial and layout definitions of the particle classes.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/ps_evidence.hpp",
+    "class": "glitch::ps and glitch::scene particle classes",
+    "canonical_header": "particle-system domain",
+    "differences": "Partial and layout definitions of the particle classes.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/particle_emitters.hpp",
+    "class": "glitch::ps and glitch::scene particle classes",
+    "canonical_header": "particle-system domain",
+    "differences": "Partial and layout definitions of the particle classes.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/particle_affectors.hpp",
+    "class": "glitch::ps and glitch::scene particle classes",
+    "canonical_header": "particle-system domain",
+    "differences": "Partial and layout definitions of the particle classes.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp",
+    "class": "glitch::ILogger, glitch::os::Printer",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "Stand-ins of the logger used by the scene bodies; core owns the classes.",
+    "action": "keep: another domain owns the classes (core); replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/debugger/CTweakable.hpp",
+    "class": "glitch::debugger::CTweakable",
+    "canonical_header": "none yet",
+    "differences": "Sole definition of the debugger class.",
+    "action": "keep: not a scene class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/particle_emitters.hpp",
+    "class": "glitch::scene::CParticleBoxEmitter, CParticleCylinderEmitter, CParticlePointEmitter, CParticleRingEmitter, CParticleSphereEmitter, CParticleMeshEmitter, CParticleAnimatedMeshSceneNodeEmitter, SParticleBuffer, IntBuffer",
+    "canonical_header": "particle-system domain",
+    "differences": "Particle emitters over the IParticle* tag interfaces of scene_simple_accessors.hpp; layouts/ps_members.hpp holds a second layout of the box, point, fade-out, gravity, size and spin classes in glitch::ps::scene.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/particle_affectors.hpp",
+    "class": "glitch::scene::CParticleAttractionAffector, CParticleFadeOutAffector, CParticleGravityAffector, CParticleRotationAffector, CParticleSizeAffector, CParticleSpinAffector",
+    "canonical_header": "particle-system domain",
+    "differences": "Particle affectors over the IParticle* tag interfaces.",
+    "action": "keep: another domain owns the classes (particle systems)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Animator.hpp",
+    "class": "glitch::collada::CSceneNodeAnimator (byte-pad base sub-object pad_04[0x54]) and the glitch::IReferenceCounted sub-object m_refSecondary",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimator.hpp",
+    "differences": "The game animator does not derive from the engine class: +0x04 .. +0x57 is a pad and the secondary IReferenceCounted sub-object is a member at +0x94. The canonical class derives from collada::ISceneNodeAnimator (non-virtual size 0x58) with a virtual IReferenceCounted base placed at +0x94 in Animator, so `class Animator : public glitch::collada::CSceneNodeAnimator` gives the same layout and drops pad_04 / m_refSecondary. The callback typedefs match ITimelineController::TimelineCallback and CEventsManager::EventCallback; getType must return glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE (11 is outside the 9 factory ids).",
+    "action": "replace the pad and m_refSecondary with the base class; fix getType's return type"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorSet.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorSet (pad_04[0x4c], currentAnimation, pad_54[4]) and m_refSecondary",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSet.hpp",
+    "differences": "Same pattern as Animator: the base is a pad that already names currentAnimation at +0x50. The canonical set derives from CSceneNodeAnimator (non-virtual size 0x58, virtual base at 0x58) and has currentAnimation at +0x50; getAnimationValue returns void and setCurrentAnimation returns void there (the game declares void* / Animation*).",
+    "action": "replace the pad with the base class; adjust the overrides of getType (enum), getAnimationValue and setCurrentAnimation"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorBlender.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorBlender (via tb/scene_node_animator_blender.hpp) and m_refSecondary",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorBlender.hpp",
+    "differences": "Derives from the canonical blender already (through the forwarder), but declares `virtual int getType() const`, which conflicts with the enum return type, and keeps m_refSecondary as a member. This is the compile error in game-anim: \"conflicting return type specified for AnimatorBlender::getType\".",
+    "action": "change getType to return glitch::scene::E_SCENE_NODE_ANIMATOR_TYPE; drop m_refSecondary; include collada/CSceneNodeAnimatorBlender.hpp directly"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorSynchronizedBlender.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorSynchronizedBlender (pad_04[0xb0]) and m_refSecondary",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSynchronizedBlender.hpp",
+    "differences": "The base is a pad of 0xb0 bytes. The canonical class derives from collada::ISceneNodeAnimator with the synchronized interface at +0x24 (it is not derived from CSceneNodeAnimatorBlender) and a virtual base at +0xb4; its non-virtual size is 0xb4.",
+    "action": "replace the pad with the base class; fix getType and the secondary sub-object"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorSynchronizedSet.hpp",
+    "class": "glitch::collada::CSceneNodeAnimatorSynchronizedSet (pad_04[0x80]) and m_vptrSecondary / unk_0c4",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimatorSynchronizedSet.hpp",
+    "differences": "The base is kept as a byte sub-object because the old collada_misc.hpp model had no vptrs. The canonical class derives from CSceneNodeAnimatorSet with the synchronized interface at +0x58 and the owner pointer at +0x5c (non-virtual size 0x84, virtual base at +0x84).",
+    "action": "replace the pad and the two secondary words with the base class; the AnimApplicator then sits at +0x84 as written"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimationSet.hpp",
+    "class": "glitch::collada::CDynamicAnimationSet (forward declaration, m_animSet)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp",
+    "differences": "Holds the engine set through a pointer; matches the canonical class (derived from CAnimationSet : IReferenceCounted).",
+    "action": "keep: matching forward declaration"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SceneManager.hpp",
+    "class": "glitch::scene::CSceneManager (base class)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CSceneManager.hpp",
+    "differences": "Derives from the canonical class and fills its one pure slot (registerSkinnedMesh). SDistanceNodeEntry::distance is a double in the canonical class.",
+    "action": "keep: derives from the canonical class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/RootSceneNode.hpp",
+    "class": "glitch::collada::CRootSceneNode (base) and `struct CSceneManager` forward declaration",
+    "canonical_header": "glitch-scene-collada-gui/root_scene_node.hpp (stand-in) / glitch-scene-collada-gui/scene/CSceneManager.hpp",
+    "differences": "The base is the accessor stand-in of root_scene_node.hpp (layout partial, ends at +0x1bb). The forward declaration of glitch::scene::CSceneManager uses `struct` where the canonical class is declared `class`. A static glitch::scene::CCameraSceneNode member needs a canonical (concrete) camera.",
+    "action": "keep: the base becomes the canonical collada::CRootSceneNode later; change `struct CSceneManager` to `class CSceneManager`"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BaseMeshSceneNode.hpp",
+    "class": "BaseMeshSceneNode<T> over glitch::collada::CMeshSceneNode, CSkinnedMeshSceneNode, CModularSkinnedMeshSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada_scene_accessors.hpp (stand-ins)",
+    "differences": "A template over the Collada node stand-ins, which have no ISceneNode base or vtable; the flag byte offsets (+0x138, +0x17c) are the sizes of those accessor classes, not of the binary classes.",
+    "action": "keep: becomes correct when the Collada node classes derive from the canonical scene nodes"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MeshSceneNode.hpp",
+    "class": "MeshSceneNode : BaseMeshSceneNode<glitch::collada::CMeshSceneNode>",
+    "canonical_header": "glitch-scene-collada-gui/collada_scene_accessors.hpp (stand-ins)",
+    "differences": "Derives from the Collada mesh node stand-in.",
+    "action": "keep: see BaseMeshSceneNode"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SkinnedMeshSceneNode.hpp",
+    "class": "SkinnedMeshSceneNode (pad_180, pad_184 for the vptr and the virtual base)",
+    "canonical_header": "glitch-scene-collada-gui/collada_scene_accessors.hpp (stand-ins)",
+    "differences": "Pads for a non-virtual base vptr and the IReferenceCounted virtual base that the canonical classes would provide.",
+    "action": "keep: remove the pads when the Collada skinned-mesh node is canonical"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ModularSkinnedMeshSceneNode.hpp",
+    "class": "ModularSkinnedMeshSceneNode : BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>",
+    "canonical_header": "glitch-scene-collada-gui/collada_scene_accessors.hpp (stand-ins)",
+    "differences": "Derives from the Collada modular node stand-in.",
+    "action": "keep: see BaseMeshSceneNode"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SkyBoxMeshSceneNode.hpp",
+    "class": "SkyBoxMeshSceneNode (pad_140[8] for the virtual base)",
+    "canonical_header": "glitch-scene-collada-gui/collada_scene_accessors.hpp (stand-ins)",
+    "differences": "Base is the accessor stub CMeshSceneNode without a vtable; the pad stands for the IReferenceCounted virtual base.",
+    "action": "keep: remove the pad when the base is canonical"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ShadowSkinnedMeshSceneNode.hpp",
+    "class": "ShadowSkinnedMeshSceneNode (pad_1a4[8]); ShadowModularSkinnedMeshSceneNode, XrayModularSkinnedMeshSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada_scene_accessors.hpp (stand-ins)",
+    "differences": "Same pattern: pads for the virtual base; \"does not compile yet\" until the skinned node is complete.",
+    "action": "keep: remove the pads when the base is canonical"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ColladaFactory.hpp",
+    "class": "glitch::collada::CColladaFactory (base)",
+    "canonical_header": "glitch-scene-collada-gui/collada_factory.hpp",
+    "differences": "Derives from the one definition of the factory interface; overrides the creator slots by offset.",
+    "action": "keep: derives from the sole definition"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/IrrFactory.hpp",
+    "class": "glitch::CIrrFactory (base); creates SceneManager",
+    "canonical_header": "glitch-scene-collada-gui/irr_factory.hpp",
+    "differences": "Derives from the one definition of glitch::CIrrFactory; the recon_00::IrrFactory view in this category is separate.",
+    "action": "keep: derives from the sole definition"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/global/underlay_scene_node.hpp",
+    "class": "glitch::scene::ISceneNode (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Matching forward declaration.",
+    "action": "keep: matching forward declaration"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/w7_console_01.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/w7_global_01.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/w7_global_02.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimApplicator.hpp",
+    "class": "forward declarations: glitch::collada::ISceneNodeAnimator, glitch::scene::ISceneNode, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatedDecor.hpp",
+    "class": "forward declarations: glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatedFX.hpp",
+    "class": "forward declarations: glitch::collada::ISceneNodeAnimator, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimationSet.hpp",
+    "class": "forward declarations: glitch::collada::CDynamicAnimationSet",
+    "canonical_header": "glitch-scene-collada-gui/collada/CDynamicAnimationSet.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Animator.hpp",
+    "class": "forward declarations: glitch::collada::CColladaDatabase, glitch::collada::SLibraryAnimationClips, glitch::collada::STriggeredEvent, glitch::scene::ISceneNode, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp / glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/collada/SLibraryAnimationClips.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorBlender.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent, glitch::scene::ISceneNode, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorSet.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent, glitch::scene::ISceneNode, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorSynchronizedBlender.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent, glitch::scene::ISceneNode, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimatorSynchronizedSet.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationSet, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/CAnimationSet.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimController.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationSet, glitch::collada::ISceneNodeAnimator, glitch::collada::STriggeredEvent, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CAnimationSet.hpp / glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimSetController.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationSet",
+    "canonical_header": "glitch-scene-collada-gui/collada/CAnimationSet.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AnimSetManager.hpp",
+    "class": "forward declarations: glitch::collada::ISceneNodeAnimator",
+    "canonical_header": "glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Application.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/AssetManager.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BaseMeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/BlendedAnimSetController.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationSet",
+    "canonical_header": "glitch-scene-collada-gui/collada/CAnimationSet.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/CameraBase.hpp",
+    "class": "forward declarations: glitch::scene::ICameraSceneNode, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/CameraLevel.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/CharAnimator.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Container.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/DestructibleContainer.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Door.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/GameObject.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/GSViewer.hpp",
+    "class": "forward declarations: glitch::scene::CCameraSceneNode, glitch::scene::CEmptySceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp / glitch-scene-collada-gui/scene/CEmptySceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/HUDMinimap.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/LaserTypeProjectile.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Level.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/LiftableObject.hpp",
+    "class": "forward declarations: glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MenuCharacterSelect.hpp",
+    "class": "forward declarations: glitch::scene::ICameraSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MenuCharMenu_InvMain.hpp",
+    "class": "forward declarations: glitch::scene::ICameraSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ICameraSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MenuMainMenu.hpp",
+    "class": "forward declarations: glitch::scene::CCameraSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MenuMerchant.hpp",
+    "class": "forward declarations: glitch::scene::CCameraSceneNode, glitch::scene::ICameraSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp / glitch-scene-collada-gui/scene/ICameraSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ModularSkinnedMeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/PFFloor.hpp",
+    "class": "forward declarations: glitch::scene::IMeshSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/PFRoom.hpp",
+    "class": "forward declarations: glitch::scene::IMeshSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/PFWorld.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Projectile.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/RootSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::CColladaDatabase, glitch::scene::CCameraSceneNode, glitch::scene::CEmptySceneNode, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp / glitch-scene-collada-gui/scene/CCameraSceneNode.hpp / glitch-scene-collada-gui/scene/CEmptySceneNode.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/RootSceneNode.hpp",
+    "class": "glitch::scene::CSceneManager (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CSceneManager.hpp",
+    "differences": "Declared with `struct` where the canonical definition is `class` (a mismatched tag: harmless for GCC, a warning for MSVC).",
+    "action": "keep: switch the tag to `class` when convenient"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SceneManager.hpp",
+    "class": "forward declarations: glitch::scene::CEmptySceneNode, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CEmptySceneNode.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ShadowModularSkinnedMeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/ShadowSkinnedMeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SkinnedMeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/SkyBoxMeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh, glitch::scene::IMeshSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp / glitch-scene-collada-gui/scene/CMeshSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/TriggerTrap.hpp",
+    "class": "forward declarations: glitch::collada::STriggeredEvent, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/VisualObject.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode, glitch::scene::ITimelineController",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/XrayModularSkinnedMeshSceneNode.hpp",
+    "class": "forward declarations: glitch::collada::IMesh, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Zone.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/batch/BatchNodeCompiler.hpp",
+    "class": "forward declarations: glitch::scene::CBatchMesh, glitch::scene::CSceneManager, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchMesh.hpp / glitch-scene-collada-gui/scene/CSceneManager.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/global/GetApplicator.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNodeAnimator",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNodeAnimator.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/global/SceneNodeHelpers.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/global/scene_nodes.hpp",
+    "class": "forward declarations: glitch::scene::IMeshSceneNode, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshSceneNode.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/global/underlay_scene_node.hpp",
+    "class": "forward declarations: glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/collada_binary_file_loader.hpp",
+    "class": "forward declarations: glitch::scene::CSceneManager",
+    "canonical_header": "glitch-scene-collada-gui/scene/CSceneManager.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/animation_track_virtual_ex.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_factory.hpp",
+    "class": "forward declarations: glitch::collada::CMorphingMesh, glitch::collada::IMesh, glitch::collada::SInstanceMaterial, glitch::collada::SInstanceModularSkin, glitch::collada::SLibraryAnimationClips, glitch::collada::SNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp / glitch-scene-collada-gui/collada/IMesh.hpp / glitch-scene-collada-gui/collada/SLibraryAnimationClips.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_factory.hpp",
+    "class": "glitch::collada::CCameraSceneNode (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp",
+    "differences": "Declared as glitch::collada::CCameraSceneNode but the canonical class is glitch::scene::CCameraSceneNode (the Collada camera is a derived class in the binary; this declaration names it in glitch::collada).",
+    "action": "keep: matches the Collada camera stand-in (collada_scene_accessors.hpp)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_misc.hpp",
+    "class": "forward declarations: glitch::scene::CMeshBuffer, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada_scene_accessors.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo, glitch::scene::CMeshBuffer, glitch::scene::ISceneNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp / glitch-scene-collada-gui/scene/CMeshBuffer.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene_simple_accessors.hpp",
+    "class": "forward declarations: glitch::scene::ITriangleSelector",
+    "canonical_header": "glitch-scene-collada-gui/scene/ITriangleSelector.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/skinned_mesh.hpp",
+    "class": "forward declarations: glitch::collada::CColladaDatabase, glitch::collada::SController",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/texture_transform_ex.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/CAnimationSet.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationTrackEx",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationBlock, glitch::collada::CColladaDatabase, glitch::collada::CMorphingMesh, glitch::collada::CResFactory, glitch::collada::CResFileManager, glitch::collada::IMesh, glitch::collada::SAnimationBlockSearchKey, glitch::collada::SEventKeyTable, glitch::collada::SNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp / glitch-scene-collada-gui/collada/CEventsManager.hpp / glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "class": "glitch::collada::CCameraSceneNode (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp",
+    "differences": "Declared as glitch::collada::CCameraSceneNode but the canonical class is glitch::scene::CCameraSceneNode (the Collada camera is a derived class in the binary; this declaration names it in glitch::collada).",
+    "action": "keep: matches the Collada camera stand-in (collada_scene_accessors.hpp)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor, glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp / glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp",
+    "class": "forward declarations: glitch::collada::IAnimationTrackEx, glitch::collada::ISceneNodeAnimator, glitch::collada::SChannel, glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp / glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp / glitch-scene-collada-gui/collada/ISceneNodeAnimator.hpp / glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "class": "forward declarations: glitch::collada::IAnimationTrackEx",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationTrackEx",
+    "canonical_header": "glitch-scene-collada-gui/collada/IAnimationTrackEx.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_db.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationBlock",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/layouts/collada_members.hpp",
+    "class": "forward declarations: glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_05.hpp",
+    "class": "forward declarations: glitch::scene::IShadowReceiverTarget",
+    "canonical_header": "glitch-scene-collada-gui/scene/SceneFactories.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_07.hpp",
+    "class": "glitch::collada::recon_07::CColladaDatabase (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_07), so it names a separate type from the canonical glitch::collada::CColladaDatabase; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_07.hpp",
+    "class": "glitch::collada::recon_07::CAnimationStreamingManager (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_07), so it names a separate type from the canonical glitch::collada::CAnimationStreamingManager; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_07.hpp",
+    "class": "glitch::collada::recon_07::SAnimationBlockSearchKey (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_07), so it names a separate type from the canonical glitch::collada::SAnimationBlockSearchKey; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_08.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor, glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp / glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_09.hpp",
+    "class": "glitch::collada::recon_09::CApplicatorInfo (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared inside the recon namespace (recon_09), so it names a separate type from the canonical glitch::collada::animation_track::CApplicatorInfo; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_11.hpp",
+    "class": "forward declarations: glitch::collada::CResFile, glitch::collada::SNode",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_12.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor, glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp / glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_13.hpp",
+    "class": "glitch::collada::recon_13::SAnimationAccessor (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared inside the recon namespace (recon_13), so it names a separate type from the canonical glitch::collada::SAnimationAccessor; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_14.hpp",
+    "class": "glitch::collada::recon_14::SAnimationAccessor (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared inside the recon namespace (recon_14), so it names a separate type from the canonical glitch::collada::SAnimationAccessor; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_15.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor, glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp / glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::CColladaDatabase (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::CColladaDatabase; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::SGeometry (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::SGeometry; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::SEffect (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::SEffect; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::SLight (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::SLight; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::SLibraryAnimationClips (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/SLibraryAnimationClips.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::SLibraryAnimationClips; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::SEmitter (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::SEmitter; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::SGNPSEmitter (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::SGNPSEmitter; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::CMesh (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp / glitch-scene-collada-gui/scene/CMesh.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::CMesh, glitch::scene::CMesh; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_18.hpp",
+    "class": "glitch::collada::recon_18::CSceneNodeAnimator (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CSceneNodeAnimator.hpp",
+    "differences": "Declared inside the recon namespace (recon_18), so it names a separate type from the canonical glitch::collada::CSceneNodeAnimator; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "forward declarations: glitch::collada::IMesh",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::SNode (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_22), so it names a separate type from the canonical glitch::collada::SNode; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::SController (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp",
+    "differences": "Declared inside the recon namespace (recon_22), so it names a separate type from the canonical glitch::collada::SController; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::SChannel (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimation.hpp",
+    "differences": "Declared inside the recon namespace (recon_22), so it names a separate type from the canonical glitch::collada::SChannel; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_22.hpp",
+    "class": "glitch::collada::recon_22::IMesh (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/IMesh.hpp / glitch-scene-collada-gui/scene/IMesh.hpp",
+    "differences": "Declared inside the recon namespace (recon_22), so it names a separate type from the canonical glitch::collada::IMesh, glitch::scene::IMesh; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_30.hpp",
+    "class": "glitch::collada::recon_30::CMeshBuffer (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "differences": "Declared inside the recon namespace (recon_30), so it names a separate type from the canonical glitch::scene::CMeshBuffer; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::collada::recon_31::ISceneNode (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/scene/ISceneNode.hpp",
+    "differences": "Declared inside the recon namespace (recon_31), so it names a separate type from the canonical glitch::scene::ISceneNode; the slice uses it only as an opaque handle.",
+    "action": "keep: opaque handle in a recon slice; becomes the canonical forward declaration when the slice is rebased"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_32.hpp",
+    "class": "forward declarations: glitch::collada::CAnimationBlock, glitch::collada::CAnimationStreamingManager, glitch::collada::CResFile, glitch::collada::CResFileManager, glitch::collada::CSceneNodeAnimator, glitch::collada::SAnimationBlockSearchKey, glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/collada/CColladaDatabase.hpp / glitch-scene-collada-gui/collada/CSceneNodeAnimator.hpp / glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_32.hpp",
+    "class": "glitch::collada::SAnimationAccessor (forward declaration)",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared with `class` where the canonical definition is `struct` (a mismatched tag: harmless for GCC, a warning for MSVC).",
+    "action": "keep: switch the tag to `struct` when convenient"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp",
+    "class": "forward declarations: glitch::scene::CBatchSceneNode",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchSceneNode.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/scene/scene_types.hpp",
+    "class": "forward declarations: glitch::scene::CBatchMesh, glitch::scene::CBatchSceneNode, glitch::scene::CCameraSceneNode, glitch::scene::CEmptySceneNode, glitch::scene::CMesh, glitch::scene::CMeshBuffer, glitch::scene::CMeshSceneNode, glitch::scene::COctTreeTriangleSelector, glitch::scene::CSceneManager, glitch::scene::CTriangleSelector, glitch::scene::IAnimatedMesh, glitch::scene::ICameraSceneNode, glitch::scene::IMesh, glitch::scene::IMeshLoader, glitch::scene::IMeshSceneNode, glitch::scene::ISceneNode, glitch::scene::ISceneNodeAnimator, glitch::scene::ISceneNodeAnimatorFactory, glitch::scene::ISceneNodeFactory, glitch::scene::IShadowReceiverTarget, glitch::scene::ITimeController, glitch::scene::ITimelineController, glitch::scene::ITriangleSelector, glitch::scene::SViewFrustum",
+    "canonical_header": "glitch-scene-collada-gui/scene/CBatchMesh.hpp / glitch-scene-collada-gui/scene/CBatchSceneNode.hpp / glitch-scene-collada-gui/scene/CCameraSceneNode.hpp / glitch-scene-collada-gui/scene/CEmptySceneNode.hpp / glitch-scene-collada-gui/scene/CMesh.hpp / glitch-scene-collada-gui/scene/CMeshBuffer.hpp / glitch-scene-collada-gui/scene/CMeshSceneNode.hpp / glitch-scene-collada-gui/scene/COctTreeTriangleSelector.hpp / glitch-scene-collada-gui/scene/CSceneManager.hpp / glitch-scene-collada-gui/scene/CTriangleSelector.hpp / glitch-scene-collada-gui/scene/ICameraSceneNode.hpp / glitch-scene-collada-gui/scene/IMesh.hpp / glitch-scene-collada-gui/scene/ISceneNode.hpp / glitch-scene-collada-gui/scene/ISceneNodeAnimator.hpp / glitch-scene-collada-gui/scene/ITimelineController.hpp / glitch-scene-collada-gui/scene/ITriangleSelector.hpp / glitch-scene-collada-gui/scene/SViewFrustum.hpp / glitch-scene-collada-gui/scene/SceneFactories.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/animation_track_cvirtual_scale_x.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_PositionMixinVec3f.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_PositionYComponentVec3f.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_PosXVec3.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_QuatMixinFloat.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_ScaleYVec3f.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_ScaleZVec3f.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CApplyValueEx_Vec3fComponents.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_CMixinPosFloat3.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_PosXExFloat3.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_PosZFloat3.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_QuatFloatLerp.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_ScaleFloat3Lerp.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_ScaleXFloat.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_ScaleYFloat.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CInterpreter_ScaleZFloat3.hpp",
+    "class": "forward declarations: glitch::collada::SAnimationAccessor",
+    "canonical_header": "glitch-scene-collada-gui/collada/SAnimationAccessor.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CVirtualEx_PositionMixinVec3f.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CVirtualEx_QuatMixinFloat.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/tb/glitch_collada_animation_track_CVirtualEx_ScaleYVec3f.hpp",
+    "class": "forward declarations: glitch::collada::animation_track::CApplicatorInfo",
+    "canonical_header": "glitch-scene-collada-gui/collada/CApplicatorInfo.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/batch_baker.hpp",
+    "class": "forward declarations: glitch::scene::CAppendMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/video_driver.hpp",
+    "class": "forward declarations: glitch::scene::CAppendMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CAppendMeshBuffer.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/video_types.hpp",
+    "class": "forward declarations: glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui/scene/CMeshBuffer.hpp",
+    "differences": "Declared in the same namespace and with the same class key as the canonical definition; commits to nothing else.",
+    "action": "keep: matching forward declaration (may be replaced by the canonical include)"
+  }
+]

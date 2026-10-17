@@ -1,0 +1,21 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "quests-host.so": {
+      "sha256": "23dc08c10f3aeab6773325955b2a21276a27414cdbd2c0d923347e745b228581"
+    }
+  },
+  "source_sha256": {
+    "quests.c": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "quests.h": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2"
+  },
+  "build_tool_sha256": "e56f0febccb753cf0566c1022346140e51534a1b265dd1e4f1c089c39deea9a0",
+  "safety": {
+    "iterations": 12000,
+    "asan": true,
+    "ubsan": true,
+    "recover": false,
+    "test_sha256": "61e6ebef9595b89fab7ba10419122f7ed12df36186fbe1311de6e4eccd07f34b",
+    "seed": 20261002
+  }
+}

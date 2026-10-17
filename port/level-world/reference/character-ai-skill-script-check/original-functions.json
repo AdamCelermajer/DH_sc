@@ -1,0 +1,123 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0",
+      "scope": "real original supporting getter executes; provider remains external"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+      "elf_address": "0x37c494",
+      "size": 128,
+      "sha256": "f26b03d05e3f9886a18f7d3de525a2cc05d067335ab5d74aad39800fda057538",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsERNS4_12ReturnValuesE",
+      "elf_address": "0x37c390",
+      "size": 140,
+      "sha256": "ab961745cf32b5f2b83a51978a8feb7580351248a57f24f262ed49da6959df8c",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesC1Ev",
+      "elf_address": "0x31b434",
+      "size": 60,
+      "sha256": "91d8e18b350f18166bf4a88d144be55a04dbaa02981e7ca30dd221d3dbdb9651",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "lua_toboolean",
+      "elf_address": "0x84b320",
+      "size": 60,
+      "sha256": "a672ec9df4652df62d8a9fc54db0d68ef5086ed6fe21ac2316b93302e938df70",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesD1Ev",
+      "elf_address": "0x31b398",
+      "size": 64,
+      "sha256": "e0448d33d2bc7d0bc12b783df3642de3db32bd76d95386172f4938883208168d",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "lua_close",
+      "elf_address": "0x85797c",
+      "size": 124,
+      "sha256": "a634a1090edb7138bc216b8ad05d135b600a5cd0ad20d775f374ddb05fac16cb",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "lua_pushstring",
+      "elf_address": "0x84c04c",
+      "size": 52,
+      "sha256": "c6d11ac033cde7031e4804d863fb1cc89587f46a4184ecdbfe13ae5031ab9b0b",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua12ReturnValuesixEj",
+      "elf_address": "0x3da43c",
+      "size": 88,
+      "sha256": "667063192d42c0a7249704adcd4dd2a9d2de9623fc92cabe89a8dd6bd7da3c40",
+      "scope": "real original supporting getter executes; provider remains external"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_ActiveEv",
+      "elf_address": "0x3db16c",
+      "size": 284,
+      "sha256": "4c031fb529fe75640f145f3d93c80a0bc46faf5b41bbd71ca30660f5fdb84e6e",
+      "scope": "complete rebuilt caller"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript19OnSkillCheck_UsableEv",
+      "elf_address": "0x3da9dc",
+      "size": 288,
+      "sha256": "134ce235298bc205644729576fece573f1d76114959849c35a12c7d839805f78",
+      "scope": "complete rebuilt caller"
+    },
+    {
+      "original_symbol": "luaL_newstate",
+      "elf_address": "0x84c7e0",
+      "size": 56,
+      "sha256": "048843109694163f53a86add7822ce15c0227bd8a47cc73448428cf8a35a3764",
+      "scope": "external dependency; body not newly credited"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE8_M_eraseEPS3_S6_RKSt12__false_type",
+      "elf_address": "0x31c3cc",
+      "size": 160,
+      "sha256": "8cbfc980ff6b0cc8c584d2f5723cb1ace0a2d8bfa1e69818eabdfa3fd84c6e19",
+      "scope": "external dependency; body not newly credited"
+    }
+  ],
+  "literal_strings": [
+    {
+      "elf_address": "0x8c5858",
+      "size": 9,
+      "text": "SetSkill",
+      "sha256": "deb179ea4ed15954f80eb95e62e1dbd5158645d6f6f2a167f233dcd0cb7d9fad"
+    },
+    {
+      "elf_address": "0x8c5890",
+      "size": 13,
+      "text": "OnSkillCheck",
+      "sha256": "0ed640c840a6d541a37bb37597068509fd9b40e19d80eea91778488a4bf15eac"
+    }
+  ],
+  "script_dependencies": [
+    {
+      "path": "recovered/scripts/original/data/scripts/skills/_commons.luac",
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+      "size": 11291,
+      "scope": "unchanged Lua selection dependency; not executed by caller-only oracle"
+    }
+  ],
+  "new_complete_caller_bodies": 2,
+  "new_complete_dependency_bodies": 0,
+  "new_lua_callback_bodies": 0,
+  "native_wired": false,
+  "scope": "Complete normal Usable288B and Active284B caller control; compiler stack-corruption traps excluded; resource/Lua/Value providers explicit."
+}

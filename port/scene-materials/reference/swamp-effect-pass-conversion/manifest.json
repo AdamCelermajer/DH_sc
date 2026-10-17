@@ -1,0 +1,107 @@
+{
+  "scope": "Byte-level conversion of the serialized GLES2-shaped effect payload's 76-byte video::SRenderState into the original 32-byte renderpass::SRenderState representation, based on original ARM copy-constructor instructions and differential inputs.",
+  "original_elf": {
+    "path": "work/test_strategy/libDungeonHunter2.so",
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+  },
+  "effect_bres": {
+    "path": "work/cache/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+    "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc",
+    "size": 18792,
+    "effect_name": "Multilight",
+    "group_index": 1,
+    "group_named_table_offset": "0x307c",
+    "group_named_record_count": 24,
+    "layout_evidence": {
+      "pass_stride": "0x74",
+      "source_state_offset_within_pass": "0x1c",
+      "source_state_size": "0x4c",
+      "basis": "SProfileGLES2Traits factory loop reads the pass at +0x1c with stride 0x74 and calls the recovered video::SRenderState-to-renderpass::SRenderState copy constructor. Serialized names/layout agree for GLES2 selector payloads.",
+      "qualification": "The BRES named-record group is not independently assigned to a runtime profile by this record. The profile factory layout is exact; runtime profile and the runtime-compiled renderer table are not claimed."
+    },
+    "selected_al_sp": {
+      "selector_profile": "GLES2",
+      "selector": "L1_Vc_Al_Sp_----_----_----",
+      "named_record_ordinal": 4,
+      "named_record_offset": "0x30ac",
+      "payload_offset": "0x3498",
+      "source_state_offset": "0x34b4",
+      "source_state_bytes": "545400ffff00ffff000f1c000730580100000000ffffffff000000000000803f000000000000803f0000803f0000803f00000000000000000000803f00000000000000000000000000000000",
+      "original_constructor_output": "5400ff1807000b00ffffffff0000803f0000803f00000000000000000000803f",
+      "constructor_output_evidence": "Actual original ARM instructions at 0x005d7a10 were executed on the exact 76-byte source object. Output matches the ordinal-2 AL payload, which is byte-identical; root additionally executed the original constructor directly on this ordinal-4 source.",
+      "original_execution_report": "port/scene-materials/build/render-state-snapshot-root/gles2-al-sp-original-conversion.json",
+      "original_execution_report_sha256": "f14cddc914f5fd3f7f990b7b7aad30334be938f3b7757b0045efc1910eeaaffa"
+    },
+    "also_compared_al": {
+      "selector": "L1_Vc_Al_----_----_----_----",
+      "named_record_ordinal": 2,
+      "payload_offset": "0x3320",
+      "source_state_offset": "0x333c",
+      "same_76_source_bytes_as_selected_al_sp": true
+    }
+  },
+  "scene_bres": {
+    "path": "work/cache/files/data/3d/modules/swamp/swamp.bdae",
+    "sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d",
+    "size": 5585024,
+    "material_id": "Material__11611",
+    "external_effect_file": "GL_Diffuse_L1_VC_iPhone.bdae",
+    "effect_url": "#Multilight-fx",
+    "profile_selectors": {
+      "GLES": {
+        "name": "L1_Vc_Al_----_----_----_----",
+        "group1_named_record_ordinal": 2
+      },
+      "GLES2": {
+        "name": "L1_Vc_Al_Sp_----_----_----",
+        "group1_named_record_ordinal": 4
+      }
+    },
+    "qualification": "These are serialized material profile selectors and named-table ordinals; not a claim that a particular profile or runtime-compiled technique was selected on a device."
+  },
+  "functions": [
+    {
+      "symbol": "_ZN6glitch5video6detail10renderpass12SRenderStateC1ERKNS0_12SRenderStateE",
+      "demangled": "glitch::video::detail::renderpass::SRenderState::SRenderState(glitch::video::SRenderState const&)",
+      "address": "0x005d7a10",
+      "size": 564,
+      "raw_function_bytes_sha256": "e06e8f5ee8f6df566c1576414d31e3a4389e32d442da94250e6f49de3ba1c08f",
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/glitch_video_detail_renderpass_SRenderState-2777ca965cb6-001.asm",
+      "assembly_sha256": "632fa9d145d4f5b0481b5eb1df1c7a997675ec04bde8aaaa44a00d3a8bbf2f07"
+    },
+    {
+      "symbol": "_ZN6glitch7collada32createMaterialRendererForProfileINS0_19SProfileGLES2TraitsEEEN5boost13intrusive_ptrINS_5video17CMaterialRendererEEERKNS0_16CColladaDatabaseEPNS5_12IVideoDriverEPKcRKNS0_11SEffectListEPNS0_14CRootSceneNodeE",
+      "demangled": "glitch::collada::createMaterialRendererForProfile<glitch::collada::SProfileGLES2Traits>(...)",
+      "address": "0x006361e8",
+      "size": 2436,
+      "raw_function_bytes_sha256": "3669e766eac04456a732fe9a392b2df6d711dce39992a2e692ae7743fc339e3c",
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/boost_intrusive_ptr_glitch_video_CMaterialRenderer_glitch_collada-103a5e550bf3-001.asm",
+      "assembly_sha256": "8dadd55679a3ca84c39281473c91f6cdc81c36647ae282cceb412c5d9963d129"
+    }
+  ],
+  "original_runtime_state": {
+    "blend_enabled": true,
+    "blend_source_ordinal": 4,
+    "blend_source_gl": "GL_SRC_ALPHA",
+    "blend_destination_ordinal": 5,
+    "blend_destination_gl": "GL_ONE_MINUS_SRC_ALPHA",
+    "blend_equation_ordinal": 0,
+    "blend_equation_gl": "GL_FUNC_ADD",
+    "depth_test_enabled": true,
+    "depth_compare_ordinal": 3,
+    "depth_compare_gl": "GL_LEQUAL",
+    "depth_write_enabled": false,
+    "qualification": "These are copied source-state values and source GLES mapping. They are not evidence that this GLES2 profile was selected by a particular device run."
+  },
+  "original_random_differential": {
+    "runner": "port/scene-materials/tests/run_source_state_original.py",
+    "runner_sha256": "3c80c22f4620fd95784f687ca98f55fa2c760476c4616491efc570a646442fd0",
+    "report": "port/scene-materials/reference/swamp-effect-pass-conversion/original-instruction-differential.json",
+    "report_sha256": "30bf7d23fe6ec50bb48cd12f59ff2bd8c499f55036693a191e71c9f53c8185c9",
+    "transient_build_report": "port/scene-materials/build/source-state-conversion-original-root/validation.json",
+    "input_count": 36,
+    "input_sha256": "6014c657b76daa30ea696c42c1b653654a745a2c78ed66beca2a14c5796f4c8d",
+    "result": "Every candidate conversion matched the original 564-byte ARM function; zero mismatches.",
+    "qualification": "Original-instruction execution is a host differential, not a device render or gameplay test."
+  }
+}

@@ -387,6 +387,13 @@ namespace gameswf
 	// kept in this object.
 	{
 		tu_string	n = name;
+		int existing_frame = -1;
+		// Shipped dqmenus variants repeat menu_multiplayer on frame zero.
+		// Original movie_def_impl::add_frame_name (0x768a5c) has no
+		// uniqueness assertion. Re-registering the identical mapping must
+		// therefore remain a no-op in an assertion-enabled reconstructed build.
+		if (m_named_frames.get(n, &existing_frame)
+			&& existing_frame == get_loading_frame()) return;
 		assert(m_named_frames.get(n, NULL) == false);	// frame should not already have a name (?)
 		m_named_frames.add(n, get_loading_frame());	// stores 0-based frame #
 	}

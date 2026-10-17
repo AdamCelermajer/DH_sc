@@ -1,36 +1,137 @@
 #pragma once
-#include "../game-data/combat_result.hpp"
+
 #include <array>
-#include <cstddef>
 #include <cstdint>
-namespace dh2::character {
-struct CombatSoundListV1 {const std::int32_t* ids{};std::uint32_t count{};};
-// Borrowed original CharSounds row (stride40): words4/8 death,12/16 hit,
-// 20/24 impact1,28/32 impact2; bytes36/37 select attacker impact lists.
-struct CombatSoundRowV1 {CombatSoundListV1 death,hit,impact1,impact2;std::uint8_t use_impact1{},use_impact2{};};
-struct CombatSoundPlayV1 {
- std::uintptr_t manager{},target{};std::int32_t sound_id{};
- std::array<float,3> position{};bool source_bool{};std::int32_t source_integer{};
- float source_float0{},source_float1{};
+
+namespace dh2::character_combat_sound_v1 {
+
+// The original CharSounds row stores four list counts and four arrays of SDD
+// Sounds IDs, followed by the material flags consumed by F_ApplyCombatSound.
+struct SoundList {
+    std::array<std::uint16_t, 3> ids{};
+    std::uint8_t count = 0;
 };
-struct CombatSoundServicesV1 {
- void* context{};
- int(*row)(void*,std::uintptr_t,const CombatSoundRowV1**){};
- // Calls actual Load/String/Get/Destroy for MP_MinimalRandoms in source order.
- int(*minimal_randoms)(void*,std::uint32_t*){};
- int(*dead)(void*,std::uintptr_t,bool*){};
- int(*manager)(void*,std::uintptr_t*){};
- // Source Random::GetRandom(count,false), sharing existing gameplay seed/count.
- int(*random)(void*,std::uint32_t,std::uint32_t*){};
- int(*position)(void*,std::uintptr_t,std::array<float,3>*){};
- // Must deliver source Vox Play3D request, including its subsequent gates.
- int(*play)(void*,const CombatSoundPlayV1*){};
+
+struct SoundProfile {
+    const char* name = nullptr;
+    SoundList death;
+    SoundList hurt;
+    SoundList impact_vs_flesh;
+    SoundList impact_vs_metal;
+    bool is_flesh = false;
+    bool is_metallic = false;
 };
-struct CombatSoundOutputV1 {std::uint32_t phase{},played{},calls{};};
-// Full source selection 3afee0 (character_attacker=true), or GameObject
-// overload3afd38 (false). 0 completed source branch, -1 malformed, -2 required
-// provider. Prefix deliveries/RNG effects are retained after failure.
-int character_combat_sound_v1(CombatSoundOutputV1*,const data::CombatResult*,
- std::uintptr_t attacker,std::uintptr_t target,bool character_attacker,
- const CombatSoundServicesV1*);
+
+struct Request {
+    const SoundProfile* attacker = nullptr;
+    const SoundProfile* defender = nullptr;
+    std::uintptr_t defender_identity = 0;
+    std::int32_t damage = 0;
+    bool defender_dead = false;
+    bool minimal_randoms = false;
+};
+
+struct Services {
+    void* context = nullptr;
+    // Must advance the shared source ordinary Random stream exactly once and
+    // return an index in [0, bound). No kernel-owned or substitute RNG exists.
+    bool (*random_index)(void*, std::int32_t bound, std::int32_t& index) = nullptr;
+    // The host resolves defender_identity to its source target position and
+    // submits the original Play3D request. A false return never changes the
+    // source branch order or consumes additional random values.
+    bool (*play_3d)(void*, std::uint16_t source_sound_id,
+                    std::uintptr_t defender_identity) = nullptr;
+};
+
+enum class Status : std::uint8_t {
+    complete,
+    minimal_randoms_suppressed,
+    invalid_input,
+    missing_random_service,
+    random_service_failed,
+    missing_playback_service,
+    playback_rejected
+};
+
+struct Result {
+    Status status = Status::invalid_input;
+    std::uint8_t random_draws = 0;
+    std::uint8_t playback_attempts = 0;
+};
+
+inline bool valid(const SoundList& list) noexcept {
+    return list.count <= list.ids.size();
 }
+
+// Source: Character::F_ApplyCombatSound(AttackResult, Character*, Character*)
+// at ELF 0x003afee0. It tests MP_MinimalRandoms before branch-specific work;
+// dead defenders may play death and then impact, while living positive-damage
+// defenders may play hurt and then a material impact.
+inline Result apply(const Request& request, const Services& services) noexcept {
+    Result result{};
+    if (request.minimal_randoms) {
+        result.status = Status::minimal_randoms_suppressed;
+        return result;
+    }
+    if (!request.attacker || !request.defender || !request.defender_identity) {
+        result.status = Status::invalid_input;
+        return result;
+    }
+
+    bool playback_rejected = false;
+    bool service_missing = false;
+    auto emit = [&](const SoundList& list) {
+        if (!valid(list)) {
+            result.status = Status::invalid_input;
+            return false;
+        }
+        if (!list.count) return true;
+        if (!services.random_index) {
+            result.status = Status::missing_random_service;
+            return false;
+        }
+        std::int32_t index = -1;
+        if (!services.random_index(services.context, list.count, index)) {
+            result.status = Status::random_service_failed;
+            return false;
+        }
+        ++result.random_draws;
+        if (index < 0 || index >= list.count) {
+            result.status = Status::random_service_failed;
+            return false;
+        }
+        ++result.playback_attempts;
+        if (!services.play_3d) {
+            service_missing = true;
+            return true;
+        }
+        if (!services.play_3d(services.context, list.ids[std::size_t(index)],
+                              request.defender_identity))
+            playback_rejected = true;
+        return true;
+    };
+
+    if (request.defender_dead && !emit(request.defender->death)) return result;
+    if (request.damage <= 0) {
+        result.status = service_missing ? Status::missing_playback_service
+                      : playback_rejected ? Status::playback_rejected
+                                          : Status::complete;
+        return result;
+    }
+    if (!request.defender_dead && !emit(request.defender->hurt)) return result;
+
+    if (request.defender->is_flesh) {
+        if (!valid(request.attacker->impact_vs_flesh) ||
+            !emit(request.attacker->impact_vs_flesh)) return result;
+    } else if (request.defender->is_metallic) {
+        if (!valid(request.attacker->impact_vs_metal) ||
+            !emit(request.attacker->impact_vs_metal)) return result;
+    }
+
+    result.status = service_missing ? Status::missing_playback_service
+                  : playback_rejected ? Status::playback_rejected
+                                      : Status::complete;
+    return result;
+}
+
+} // namespace dh2::character_combat_sound_v1

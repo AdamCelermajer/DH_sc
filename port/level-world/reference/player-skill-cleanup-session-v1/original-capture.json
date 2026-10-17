@@ -1,0 +1,874 @@
+{
+  "validation": "PASS",
+  "comparisons": 23,
+  "mismatches": 0,
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c",
+      "scope": "original caller executed"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa",
+      "scope": "original caller executed"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript14OnSkillCleanUpEv",
+      "elf_address": "0x3daafc",
+      "size": 212,
+      "sha256": "0efeaf8f00d568bebdf907a13085f0d1384a6769cb072b341d573c30591d05d0",
+      "scope": "original caller executed"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsERNS4_12ReturnValuesE",
+      "elf_address": "0x37c390",
+      "size": 140,
+      "sha256": "ab961745cf32b5f2b83a51978a8feb7580351248a57f24f262ed49da6959df8c",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+      "elf_address": "0x37c494",
+      "size": 128,
+      "sha256": "f26b03d05e3f9886a18f7d3de525a2cc05d067335ab5d74aad39800fda057538",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesC1Ev",
+      "elf_address": "0x31b434",
+      "size": 60,
+      "sha256": "91d8e18b350f18166bf4a88d144be55a04dbaa02981e7ca30dd221d3dbdb9651",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesD1Ev",
+      "elf_address": "0x31b398",
+      "size": 64,
+      "sha256": "e0448d33d2bc7d0bc12b783df3642de3db32bd76d95386172f4938883208168d",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE8_M_eraseEPS3_S6_RKSt12__false_type",
+      "elf_address": "0x31c3cc",
+      "size": 160,
+      "sha256": "8cbfc980ff6b0cc8c584d2f5723cb1ace0a2d8bfa1e69818eabdfa3fd84c6e19",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    }
+  ],
+  "instructions_executed": [
+    "0x3d8a98",
+    "0x3d8a9c",
+    "0x3d8aa0",
+    "0x3d8aa4",
+    "0x3d8aa8",
+    "0x3d8aac",
+    "0x3d8ab0",
+    "0x3d8ab4",
+    "0x3d8ab8",
+    "0x3d8abc",
+    "0x3d8ac0",
+    "0x3d8ac4",
+    "0x3d8ac8",
+    "0x3d8acc",
+    "0x3d8ad0",
+    "0x3d8ad4",
+    "0x3d8ad8",
+    "0x3d8adc",
+    "0x3d8ae0",
+    "0x3d8ae4",
+    "0x3d8ae8",
+    "0x3d8aec",
+    "0x3d8af0",
+    "0x3d8af4",
+    "0x3d8af8",
+    "0x3d8afc",
+    "0x3d8b00",
+    "0x3d8b04",
+    "0x3d8b08",
+    "0x3d8b0c",
+    "0x3d8b10",
+    "0x3d8b14",
+    "0x3d8b18",
+    "0x3d8b1c",
+    "0x3d8b20",
+    "0x3d8b24",
+    "0x3daafc",
+    "0x3dab00",
+    "0x3dab04",
+    "0x3dab08",
+    "0x3dab0c",
+    "0x3dab10",
+    "0x3dab14",
+    "0x3dab18",
+    "0x3dab1c",
+    "0x3dab20",
+    "0x3dab24",
+    "0x3dab28",
+    "0x3dab2c",
+    "0x3dab30",
+    "0x3dab34",
+    "0x3dab38",
+    "0x3dab3c",
+    "0x3dab40",
+    "0x3dab44",
+    "0x3dab48",
+    "0x3dab4c",
+    "0x3dab50",
+    "0x3dab54",
+    "0x3dab58",
+    "0x3dab5c",
+    "0x3dab60",
+    "0x3dab64",
+    "0x3dab68",
+    "0x3dab6c",
+    "0x3dab70",
+    "0x3dab74",
+    "0x3dab78",
+    "0x3dab7c",
+    "0x3dab80",
+    "0x3dab84",
+    "0x3dab88",
+    "0x3dab8c",
+    "0x3dab90",
+    "0x3dab94",
+    "0x3dab98",
+    "0x3dab9c",
+    "0x3daba0",
+    "0x3daba4",
+    "0x3daba8",
+    "0x3dabac",
+    "0x3dabb0",
+    "0x3dabb4",
+    "0x3dabb8"
+  ],
+  "executed_words": 84,
+  "imports_executed": {},
+  "results": [
+    {
+      "input": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        0,
+        9,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        2,
+        9,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        0,
+        0,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        0,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        0,
+        9,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        2,
+        0,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        2,
+        9,
+        0
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 1,
+        "cleanup_calls": 1,
+        "erased": 1,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 1,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 1,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 1,
+        "completed": 1,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 2,
+        "set_calls": 2,
+        "cleanup_calls": 2,
+        "erased": 2,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 2,
+        "set_calls": 2,
+        "cleanup_calls": 2,
+        "erased": 2,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0,
+        1
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 2,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 2,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0,
+        1
+      ]
+    },
+    {
+      "input": [
+        2,
+        0,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 2,
+        "set_calls": 2,
+        "cleanup_calls": 2,
+        "erased": 2,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 2,
+        "set_calls": 2,
+        "cleanup_calls": 2,
+        "erased": 2,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "original_instance_order": [
+        2,
+        3
+      ]
+    },
+    {
+      "input": [
+        2,
+        1,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 2,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 2,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 2,
+        "completed": 2,
+        "retained": 0
+      },
+      "original_instance_order": [
+        2,
+        3
+      ]
+    },
+    {
+      "input": [
+        3,
+        0,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 4,
+        "set_calls": 4,
+        "cleanup_calls": 4,
+        "erased": 4,
+        "destroyed": 4,
+        "completed": 4,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 4,
+        "set_calls": 4,
+        "cleanup_calls": 4,
+        "erased": 4,
+        "destroyed": 4,
+        "completed": 4,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "input": [
+        3,
+        1,
+        0,
+        2,
+        0,
+        3
+      ],
+      "original": {
+        "constructed": 4,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 4,
+        "completed": 4,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 4,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 4,
+        "completed": 4,
+        "retained": 0
+      },
+      "original_instance_order": [
+        0,
+        1,
+        2,
+        3
+      ]
+    },
+    {
+      "input": [
+        4,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "original": {
+        "constructed": 0,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 0,
+        "completed": 0,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 0,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 0,
+        "completed": 0,
+        "retained": 0
+      },
+      "original_instance_order": []
+    },
+    {
+      "input": [
+        5,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "original": {
+        "constructed": 0,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 0,
+        "completed": 0,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 0,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 0,
+        "completed": 0,
+        "retained": 0
+      },
+      "original_instance_order": []
+    },
+    {
+      "input": [
+        6,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "original": {
+        "constructed": 0,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 0,
+        "completed": 0,
+        "retained": 0
+      },
+      "compiled": {
+        "constructed": 0,
+        "set_calls": 0,
+        "cleanup_calls": 0,
+        "erased": 0,
+        "destroyed": 0,
+        "completed": 0,
+        "retained": 0
+      },
+      "original_instance_order": []
+    }
+  ],
+  "scope": "Full three cleanup caller bodies execute their normal/null/error/erase/vector branches. Original Lua Call/resource/erase/destructor leaves are boundary fixtures; host uses the real retained Session and ReturnValues observer. ARM void return ignored. Source stack-canary failure is not claimed.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "new_complete_source_callers": 3,
+  "new_lua_resource_dependency_bodies": 0
+}

@@ -1,0 +1,69 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK9LuaScript6GetIntEPKc",
+      "elf_address": "0x37da30",
+      "size": 148,
+      "sha256": "0be76bca260e45b83f3ffbf46d68cfa5f75339e9f6d5c8a6808f06a164bc7535",
+      "scope": "complete caller; hash dependency reused, named insertion/allocator boundary"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript6SetIntEPKci",
+      "elf_address": "0x37d990",
+      "size": 160,
+      "sha256": "5246d3084ec35e9c365298a3081c7c5892b9436848e7f7bd512e5d9e112f3c5c",
+      "scope": "complete caller; unsigned tree lookup adapted to borrowed std::map; insertion/allocator external"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_GetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37ec14",
+      "size": 92,
+      "sha256": "2a0b4a96c774c5272691da74eaab8a8270c360d5de540300f068dd729a426ebe",
+      "scope": "complete callback caller; mandatory Value::getString and ReturnValues::pushInteger dependencies"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript7_SetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x37de5c",
+      "size": 212,
+      "sha256": "e94082bbba7b7647b70b0b0d36f7a5fc004ccb52d455b35b1b9f57c345efe090",
+      "scope": "normal argument-domain callback only; source logging/assert continuation after conversion shrink is unsupported"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptC1Eb",
+      "elf_address": "0x37c584",
+      "size": 240,
+      "sha256": "9872316be6f851ef004921f0560c16766b0d2404705e8bd84281be00caa056c5",
+      "scope": "reference-only constructor scalar empty-map evidence, no new constructor-body credit"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptC2Eb",
+      "elf_address": "0x37c674",
+      "size": 240,
+      "sha256": "037cd05a9e6a65cf60887c2aa7adfe05c05c7a435424dda1902b29f9ea21cda1",
+      "scope": "reference-only constructor scalar empty-map evidence, no new constructor-body credit"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10hashStringEPKc",
+      "elf_address": "0x37c164",
+      "size": 316,
+      "sha256": "eb3c5f18f0394185bddafaf8b91447a63b8610101590b857b7334cdd70a0026d",
+      "scope": "reused selected hash helper; original hash instructions executed with explicit temporary string/guard services, no new hash-body credit"
+    }
+  ],
+  "attribution": {
+    "repository": "AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "files": {
+      "port/script-runtime/script_int_bindings.cpp": "886a5da9fbfbb26ceaeceaed0fc5a63933cc9238785ae44b411e468a78bba378",
+      "port/script-runtime/script_int_bindings.hpp": "d3664555aa9a3d878a1a7d99c111590ae2b6c79cdf99677f4584c40b0d62c3d0"
+    },
+    "reused": "unsigned hash\u2192int map; source missing GetInt insertion; callback sequencing",
+    "adaptations": "current selected hash helper/VM ABI; one externally owned dictionary; fresh Arguments; mandatory coercion failures and alignment/alias guards; finite f2iz domain"
+  },
+  "new_original_tree_allocator_bodies": 0,
+  "native_wired": false,
+  "complete_original_callers": 3,
+  "bounded_original_callers": 1,
+  "new_original_hash_constructor_allocator_bodies": 0
+}

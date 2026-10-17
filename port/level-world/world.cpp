@@ -13,7 +13,8 @@ void triangles(const resources::BresView& view,const scene::Instance& instance,u
  for(const auto& raw:record.triangles){Triangle triangle{};triangle.room=room;std::copy(raw.points[0],raw.points[0]+3,triangle.a.begin());std::copy(raw.points[1],raw.points[1]+3,triangle.b.begin());std::copy(raw.points[2],raw.points[2]+3,triangle.c.begin());level.floor.push_back(triangle);}
 }
 }
-bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::size_t size,Level& out,std::string& error){
+bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::size_t size,
+          Level& out,std::string& error,bool validate_descriptor_spawn){
  out={};error.clear();try{
   if(!descriptor||size<24||std::memcmp(descriptor,"DWLD",4)||word(descriptor+4)!=1)throw std::runtime_error("World descriptor rejected");
   const auto count=word(descriptor+8);if(!count||count>512||size!=24+std::uint64_t(count)*128)throw std::runtime_error("World room table rejected");
@@ -43,13 +44,72 @@ bool load(const resources::BresView& view,const std::uint8_t* descriptor,std::si
   if(level.floor.empty()||level.scene.instances.empty())throw std::runtime_error("World has no floor or visual geometry");
   if(!floors::build_graph(*level.native_floor,error))throw std::runtime_error(error);
   if(!floors::post_load(*level.native_floor,error))throw std::runtime_error(error);
-  float ground=0;const bool found=height(level,level.spawn,ground);
-  if(!found||std::abs(ground-level.spawn[2])>100){Point low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
-   for(const auto& t:level.floor)if(t.room==0)for(const auto& p:{t.a,t.b,t.c})for(unsigned i=0;i<3;++i){low[i]=std::min(low[i],p[i]);high[i]=std::max(high[i],p[i]);}
-   throw std::runtime_error("Spawn floor mismatch: found="+std::to_string(found)+" height="+std::to_string(ground)+" first room bounds="+std::to_string(low[0])+","+std::to_string(low[1])+","+std::to_string(low[2])+".."+std::to_string(high[0])+","+std::to_string(high[1])+","+std::to_string(high[2]));}
-  level.spawn[2]=ground;
+  if(validate_descriptor_spawn){
+   float ground=0;const bool found=height(level,level.spawn,ground);
+   if(!found||std::abs(ground-level.spawn[2])>100){Point low{INFINITY,INFINITY,INFINITY},high{-INFINITY,-INFINITY,-INFINITY};
+    for(const auto& t:level.floor)if(t.room==0)for(const auto& p:{t.a,t.b,t.c})for(unsigned i=0;i<3;++i){low[i]=std::min(low[i],p[i]);high[i]=std::max(high[i],p[i]);}
+    throw std::runtime_error("Spawn floor mismatch: found="+std::to_string(found)+" height="+std::to_string(ground)+" first room bounds="+std::to_string(low[0])+","+std::to_string(low[1])+","+std::to_string(low[2])+".."+std::to_string(high[0])+","+std::to_string(high[1])+","+std::to_string(high[2]));}
+   level.spawn[2]=ground;
+  }
   out=std::move(level);return true;
  }catch(const std::exception& e){error=e.what();return false;}
+}
+bool load_entrypoints(const std::uint8_t* data,std::size_t size,unsigned room_count,
+                      std::vector<EntryPoint>& out,std::string& error){
+ out.clear();error.clear();
+ try{
+  constexpr std::size_t header_size=16,record_size=144;
+  if(!data||size<header_size||std::memcmp(data,"SPWN",4)||word(data+4)!=1)
+   throw std::runtime_error("SpawnPoint sidecar header rejected");
+  const unsigned count=word(data+8);
+  if(!count||count>512||!room_count||word(data+12)||
+     size!=header_size+std::uint64_t(count)*record_size)
+   throw std::runtime_error("SpawnPoint sidecar table rejected");
+  std::vector<EntryPoint> parsed;parsed.reserve(count);
+  for(unsigned i=0;i<count;++i){
+   const auto* record=data+header_size+std::size_t(i)*record_size;
+   std::uint32_t raw_id=word(record);std::int32_t id;
+   std::memcpy(&id,&raw_id,sizeof(id));
+   const unsigned room=word(record+4);
+   const auto* name_begin=record+8;
+   const auto* name_end=static_cast<const std::uint8_t*>(std::memchr(name_begin,0,64));
+   if(!name_end||name_end==name_begin||room>=room_count)
+    throw std::runtime_error("SpawnPoint identity rejected");
+   for(auto* p=name_end+1;p<name_begin+64;++p)if(*p)
+    throw std::runtime_error("SpawnPoint name padding rejected");
+   for(const auto& prior:parsed)if(prior.id==id)
+    throw std::runtime_error("Duplicate SpawnPoint entrypoint ID");
+   EntryPoint point;point.id=id;point.room=room;
+   point.name.assign(reinterpret_cast<const char*>(name_begin),name_end-name_begin);
+   float values[18];for(unsigned n=0;n<18;++n)values[n]=value(record+72+n*4);
+   for(unsigned axis=0;axis<3;++axis){
+    point.local.position[axis]=values[axis];
+    point.local.rotation_degrees[axis]=values[3+axis];
+    point.local.scale[axis]=values[6+axis];
+    point.world.position[axis]=values[9+axis];
+    point.world.rotation_degrees[axis]=values[12+axis];
+    point.world.scale[axis]=values[15+axis];
+   }
+   parsed.push_back(std::move(point));
+  }
+  out=std::move(parsed);return true;
+ }catch(const std::exception& e){error=e.what();return false;}
+}
+bool select_entrypoint(const Level& level,const std::vector<EntryPoint>& entrypoints,
+                       std::int32_t id,SpawnSelection& out,std::string& error){
+ error.clear();out={};const EntryPoint* selected=nullptr;
+ for(const auto& entry:entrypoints)if(entry.id==id){
+  if(selected){error="Duplicate SpawnPoint entrypoint ID";return false;}
+  selected=&entry;
+ }
+ if(!selected){error="Requested SpawnPoint entrypoint ID is absent";return false;}
+ if(selected->room>=level.rooms){error="SpawnPoint room is outside the loaded level";return false;}
+ out.source=*selected;out.position=selected->world.position;
+ out.rotation_degrees=selected->world.rotation_degrees;
+ float ground=0;if(height(level,out.position,ground)){
+  out.position[2]=ground;out.floor_snapped=true;
+ }
+ return true;
 }
 bool height(const Level& level,const Point& point,float& result){
  if(level.native_floor)return floors::height(*level.native_floor,point.data(),result);

@@ -1,0 +1,51 @@
+{
+  "upstream": "https://github.com/AdamCelermajer/DH_sc",
+  "commit": "791e961b12233100b303038c961666834f4beb9d",
+  "upstream_inputs": [
+    {
+      "path": "port/level-world/player_equipment_queries_v1.cpp",
+      "sha256": "cdd1fa38621533d1550b31ef1f8aba23593e54e28a28530db7c871dea75377e4"
+    },
+    {
+      "path": "port/level-world/player_equipment_queries_v1.hpp",
+      "sha256": "b341d51c9e1f3dfdf52d5a4871666b1cb2bceecb26c860ea4bc932a02b054f7f"
+    },
+    {
+      "path": "port/level-world/player_equipment_render_owner_v1.cpp",
+      "sha256": "8515943e55e52bd467baca07541f4af6a562c2321e9a84e5178e79e0277fd3b6"
+    },
+    {
+      "path": "port/level-world/player_equipment_render_owner_v1.hpp",
+      "sha256": "4158f3b521a79d3856a086f942436006357483dbc04904940d6c992ba402d378"
+    },
+    {
+      "path": "port/level-world/reference/player-equipment-render-owner-v1/query-fixtures.bin",
+      "sha256": "adc9fc014d2ee39b9447f03f0612d250d418e7e3444132ce19aa2e5a8ef23fdf"
+    },
+    {
+      "path": "port/level-world/reference/player-equipment-render-owner-v1/original-capture/requirements/original-functions.json",
+      "sha256": "100225ff38658f2398302cd0d14238db91b40839f8a7653e3d3caa7714f5758e"
+    },
+    {
+      "path": "port/level-world/reference/player-equipment-render-owner-v1/original-capture/requirements/reference/original-functions.asm",
+      "sha256": "b56111d1b73af2b68de68caa210c9cc3187755177329748fa3781875bd742d28"
+    }
+  ],
+  "extraction": {
+    "requirements_cases": 1000,
+    "omitted_weapon_cases": 1000,
+    "requirements_fixture_sha256": "cb31fdc1a4d08b95ce0af4f756e7293904ac1e6ce01b5c01f9db66441844991f",
+    "layout": "ERQ1 header with weapon count zero; unchanged 200-byte requirement records"
+  },
+  "adaptation": "Borrow caller V4 inventory, exact live PropertyView and hooks. Retain V5 gear/class/power authority. No owned renderer/inventory/RNG/property/text/VM/timer graph.",
+  "local_inputs": [
+    {
+      "path": "port/game-data/player_equipment_live_services_v1.cpp",
+      "sha256": "9e75499afff0884c0b3b3e51e80167c1e368b30d1cef63af384f3374eaa51986"
+    },
+    {
+      "path": "port/game-data/player_equipment_live_services_v1.hpp",
+      "sha256": "614afe87f8b492ce60ce0b6a7fbe7ee5e4cdaa9f1dd527be32ea8a2b9825092a"
+    }
+  ]
+}

@@ -1,32 +1,56 @@
-# Native level and fast-travel data
+# Native level catalogue
 
-The original array readers are FastTravelList.read at 0x4ba8e4 and
-LevelList.read at 0x4ba794. They execute actual row readers at 0x4fcff0 and
-0x4fca84, scalar/string stream readers and array allocation/finalization.
-The virtual byte stream and allocator are explicit caller services. This is
-data decoding proof, not original Application ownership or level selection.
+`level_tables.cpp` turns both original level arrays into owned native strings
+and vectors. It reuses the format recovered in `port/level-catalogue/catalogue.py`
+and verifies the two exact schema sections before reading records.
 
-Original cache data contains 33 fast-travel destinations (bytes 0..1133), then
-51 levels (ending at byte 5574). Names and schemas contain matching sections.
-`original-loader-capture.json` records original engine/cache/input hashes.
-`level-table-fixtures.bin` retains all 84 original cache records and 128
-synthetic records with raw signed words, empty/embedded-NUL/high-byte strings
-and noncanonical bool bytes. Source vtables/string pointers and bool padding
-are normalized; serialized bool bytes themselves are preserved unchanged.
+The supplied files contain **33 FastTravelList rows followed by 51 LevelList
+rows**. Both names sections use that order too. Looking only at the first names
+section misses the Crypt declaration in the second section.
 
-Native record decoders use borrowed string spans and atomic bounded failure.
-`load_levels` owns decoded strings and rows and validates the two schemas and
-section dimensions. This deliberately rejects malformed/truncated input;
-original unsafe short-read behavior is not claimed equivalent.
+## Serialized records and source offsets
 
-Original versus optimized ARM64 passes 212 records, 2,749 scalar words and
-327 strings. Central sanitizer replay additionally checks 11,214 truncated
-prefixes, 13 malformed-input cases, every loaded cache row and section bounds.
-Application construction, active row selection, difficulty input and full
-level loading remain separate producers.
+FastTravelDestination writes DescriptionId, EntryPointId, a length-prefixed
+LevelName, LocationType and StringId. LevelDeclaration writes a one-byte
+Dbg_IsStable, a length-prefixed DynamicBusRouting, Hub, a one-byte IsRandom,
+LevelDescription, a length-prefixed LevelFile, and nine signed words.
 
-Source scalar projections retain 18 words for LevelDeclaration and seven for
-FastTravelDestination, with pointer slots zero. They are not native object
-layouts. Level range words are indices 12..14 (maximum by difficulty) and
-15..17 (minimum). GOTHICUS_CRYPT_01 has maximum [10,47,76] and minimum [8,45,74].
-This alone does not choose an active level or prove the current player session.
+The original LevelDeclaration object has a vptr and string length/pointer
+pairs. Its **runtime stride is 72 bytes**. Serialized rows have variable size;
+indexing the raw file as `OID * 72` is incorrect. The native adapter maps the
+Lua caller's six range-word offsets to current owned rows, resolving vector
+storage afresh on each read.
+
+| Source word offset | Native field |
+| --- | --- |
+| `0x30` / `0x3c` | normal maximum / minimum |
+| `0x34` / `0x40` | hard maximum / minimum |
+| `0x38` / `0x44` | nightmare maximum / minimum |
+
+GOTHICUS_CRYPT_01 is ordinal 23. Its LevelFile is
+`007_crypt_01.rule.xml`; ranges are 8–10, 45–47 and 74–76. SWAMP is ordinal 41,
+with ranges 1–4, 40–41 and 70–71. Values are ordinary signed integers.
+
+The reader supports changed row counts for mods, with bounded counts and
+strings. It rejects malformed UTF-8, invalid booleans, changed schemas,
+unresolved fast-travel references, unsafe filenames and trailing bytes.
+Failed loads preserve the previous owned catalogue.
+
+## Verification and limits
+
+`tests/run_level_tables_host.py` compares every field of all 84 original-cache
+records with the existing Python catalogue, then executes 153 range-query
+compositions and 12 malformed-input/offset guards.
+
+With `--original-elf`, it also executes the original 1388-byte LevelDeclaration
+reader and 556-byte FastTravelDestination reader on every actual record. All
+84 record comparisons match. Stream primitives, allocation/free and
+readStringEx are named modeled dependencies. This does not reconstruct their
+bodies, the ARM32 object ABI, allocation policy, array constructors or complete
+current-Level lifecycle.
+
+The Android viewport now loads this catalogue from three unchanged bundled
+assets and retains it in native ownership across scene operation. Its log
+reports the Crypt ranges. Current GSLevel identity, difficulty selection and
+hosting PlayerInfo ownership remain separate integration work. The catalogue
+probe does not assign a current level or initialize an active AIS.

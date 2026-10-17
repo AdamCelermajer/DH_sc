@@ -1,0 +1,486 @@
+{
+  "validation": "PASS",
+  "scope": "Bounded nonempty-queue CharAI::IsMyTurn decision; original ARM function and real CharAI* deque subtract executed under Unicorn, with explicit concrete Character query callback outcomes. Empty queue is tested only as the adapter's explicit unsupported result. No update-queue/timer producers, Character query bodies, or full AI/frame integration are claimed.",
+  "original_library_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_elf": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\test_strategy\\libDungeonHunter2.so",
+  "elf_source_evidence": {
+    "is_my_turn": {
+      "mangled_symbol": "_ZN6CharAI8IsMyTurnEPKS_",
+      "address": "0x3cc484",
+      "size": 288,
+      "elf_type": "STT_FUNC",
+      "sha256": "c64b83f2cfc69629118563c5b21dfb93be8a27a3e50282f022e4efca22804f0e"
+    },
+    "deque_subtract": {
+      "mangled_symbol": "_ZNKSt4priv20_Deque_iterator_baseIP6CharAIE11_M_subtractERKS3_",
+      "address": "0x3cb49c",
+      "size": 68,
+      "elf_type": "STT_FUNC",
+      "sha256": "b576532d6b53caa8f2bad02c29ba3ab863085da18345cfa566a53ed64c9154b0"
+    },
+    "is_follower": {
+      "mangled_symbol": "_ZNK9Character10IsFollowerEv",
+      "address": "0x3a307c",
+      "size": 24,
+      "elf_type": "STT_FUNC",
+      "sha256": "58a4e95c6ea102b9992c0c39ce6539574f727e45fe525c8a1041e67f4816456d"
+    },
+    "is_faerie": {
+      "mangled_symbol": "_ZNK9Character8IsFaerieEv",
+      "address": "0x3a3094",
+      "size": 24,
+      "elf_type": "STT_FUNC",
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4"
+    },
+    "is_player": {
+      "mangled_symbol": "_ZNK9Character8IsPlayerEv",
+      "address": "0x3a49f0",
+      "size": 76,
+      "elf_type": "STT_FUNC",
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    "update_queue": {
+      "mangled_symbol": "_ZN6CharAI13s_updateQueueE",
+      "address": "0x9a2b48",
+      "size": 40,
+      "elf_type": "STT_OBJECT",
+      "sha256": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb"
+    },
+    "update_timer": {
+      "mangled_symbol": "_ZN6CharAI13s_updateTimerE",
+      "address": "0x999760",
+      "size": 4,
+      "elf_type": "STT_OBJECT",
+      "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+    },
+    "character_vtable": {
+      "mangled_symbol": "_ZTV9Character",
+      "address": "0x965f30",
+      "size": 812,
+      "elf_type": "STT_OBJECT",
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6"
+    },
+    "character_vtable_slot": {
+      "vtable_symbol": "_ZTV9Character",
+      "vtable_address": "0x965f30",
+      "itanium_address_point": "0x965f38",
+      "slot_offset_from_vptr": "0x28",
+      "slot_address_in_elf": "0x965f60",
+      "target_symbol": "_ZNK9Character8IsPlayerEv",
+      "target_address": "0x3a49f0",
+      "relocation": {
+        "section": ".rel.dyn",
+        "type_id": 23,
+        "symbol_index": 0
+      }
+    }
+  },
+  "original_symbol_evidence": {
+    "is_my_turn": {
+      "mangled_symbol": "_ZN6CharAI8IsMyTurnEPKS_",
+      "address": "0x3cc484",
+      "size": 288,
+      "elf_type": "STT_FUNC",
+      "sha256": "c64b83f2cfc69629118563c5b21dfb93be8a27a3e50282f022e4efca22804f0e"
+    },
+    "deque_subtract": {
+      "mangled_symbol": "_ZNKSt4priv20_Deque_iterator_baseIP6CharAIE11_M_subtractERKS3_",
+      "address": "0x3cb49c",
+      "size": 68,
+      "elf_type": "STT_FUNC",
+      "sha256": "b576532d6b53caa8f2bad02c29ba3ab863085da18345cfa566a53ed64c9154b0"
+    },
+    "is_follower": {
+      "mangled_symbol": "_ZNK9Character10IsFollowerEv",
+      "address": "0x3a307c",
+      "size": 24,
+      "elf_type": "STT_FUNC",
+      "sha256": "58a4e95c6ea102b9992c0c39ce6539574f727e45fe525c8a1041e67f4816456d"
+    },
+    "is_faerie": {
+      "mangled_symbol": "_ZNK9Character8IsFaerieEv",
+      "address": "0x3a3094",
+      "size": 24,
+      "elf_type": "STT_FUNC",
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4"
+    },
+    "is_player": {
+      "mangled_symbol": "_ZNK9Character8IsPlayerEv",
+      "address": "0x3a49f0",
+      "size": 76,
+      "elf_type": "STT_FUNC",
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a"
+    },
+    "update_queue": {
+      "mangled_symbol": "_ZN6CharAI13s_updateQueueE",
+      "address": "0x9a2b48",
+      "size": 40,
+      "elf_type": "STT_OBJECT",
+      "sha256": "2c34ce1df23b838c5abf2a7f6437cca3d3067ed509ff25f11df6b11b582b51eb"
+    },
+    "update_timer": {
+      "mangled_symbol": "_ZN6CharAI13s_updateTimerE",
+      "address": "0x999760",
+      "size": 4,
+      "elf_type": "STT_OBJECT",
+      "sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e"
+    },
+    "character_vtable": {
+      "mangled_symbol": "_ZTV9Character",
+      "address": "0x965f30",
+      "size": 812,
+      "elf_type": "STT_OBJECT",
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6"
+    },
+    "character_vtable_slot": {
+      "vtable_symbol": "_ZTV9Character",
+      "vtable_address": "0x965f30",
+      "itanium_address_point": "0x965f38",
+      "slot_offset_from_vptr": "0x28",
+      "slot_address_in_elf": "0x965f60",
+      "target_symbol": "_ZNK9Character8IsPlayerEv",
+      "target_address": "0x3a49f0",
+      "relocation": {
+        "section": ".rel.dyn",
+        "type_id": 23,
+        "symbol_index": 0
+      }
+    }
+  },
+  "original_execution": {
+    "is_my_turn_calls": 12,
+    "deque_subtract_calls": 12,
+    "deque_lengths": [
+      1,
+      33,
+      1,
+      65,
+      8,
+      2,
+      67,
+      9,
+      37,
+      3,
+      1,
+      8
+    ],
+    "head_value_reads": 7,
+    "character_query_calls": 19,
+    "query_targets": [
+      "0x3a307c",
+      "0x3a3094",
+      "0x3a49f0",
+      "0x3a307c",
+      "0x3a307c",
+      "0x3a3094",
+      "0x3a307c",
+      "0x3a3094",
+      "0x3a49f0",
+      "0x3a307c",
+      "0x3a3094",
+      "0x3a49f0",
+      "0x3a307c",
+      "0x3a3094",
+      "0x3a307c",
+      "0x3a3094",
+      "0x3a49f0",
+      "0x3a307c",
+      "0x3a307c"
+    ]
+  },
+  "differential_cases": 12,
+  "mismatches": 0,
+  "guard_checks": 14,
+  "host_executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-ai-turn-root\\host.exe",
+  "host_executable_sha256": "02149bf7176c98b7b9b271c51cf1afb13896dfa71eb4108e3dc457a84274a137",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_turn.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_turn.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-ai-turn-root\\host.exe"
+  ],
+  "results": [
+    {
+      "name": "due_front_single",
+      "queue_length": 1,
+      "head_offset": 0,
+      "signed_timer": 0,
+      "matched": true,
+      "source_oracle": {
+        "name": "due_front_single",
+        "value": 1,
+        "calls": [],
+        "owner_after": 268517376,
+        "queue_front_read": 1,
+        "deque_length": 1
+      }
+    },
+    {
+      "name": "due_front_negative_timer_multiblock",
+      "queue_length": 33,
+      "head_offset": 0,
+      "signed_timer": -1,
+      "matched": true,
+      "source_oracle": {
+        "name": "due_front_negative_timer_multiblock",
+        "value": 1,
+        "calls": [],
+        "owner_after": 268517376,
+        "queue_front_read": 1,
+        "deque_length": 33
+      }
+    },
+    {
+      "name": "positive_timer_skips_equal_front",
+      "queue_length": 1,
+      "head_offset": 0,
+      "signed_timer": 1,
+      "matched": true,
+      "source_oracle": {
+        "name": "positive_timer_skips_equal_front",
+        "value": 7,
+        "calls": [
+          [
+            0,
+            268517376
+          ],
+          [
+            1,
+            268517376
+          ],
+          [
+            2,
+            268517376
+          ]
+        ],
+        "owner_after": 268517376,
+        "queue_front_read": 0,
+        "deque_length": 1
+      }
+    },
+    {
+      "name": "due_other_head_follower_noncanonical_true",
+      "queue_length": 65,
+      "head_offset": 0,
+      "signed_timer": 0,
+      "matched": true,
+      "source_oracle": {
+        "name": "due_other_head_follower_noncanonical_true",
+        "value": 1,
+        "calls": [
+          [
+            0,
+            268517376
+          ]
+        ],
+        "owner_after": 268517376,
+        "queue_front_read": 1,
+        "deque_length": 65
+      }
+    },
+    {
+      "name": "due_other_head_faerie_noncanonical_true",
+      "queue_length": 8,
+      "head_offset": 0,
+      "signed_timer": -2147483648,
+      "matched": true,
+      "source_oracle": {
+        "name": "due_other_head_faerie_noncanonical_true",
+        "value": 1,
+        "calls": [
+          [
+            0,
+            268517376
+          ],
+          [
+            1,
+            268517376
+          ]
+        ],
+        "owner_after": 268517376,
+        "queue_front_read": 1,
+        "deque_length": 8
+      }
+    },
+    {
+      "name": "due_other_head_player_false",
+      "queue_length": 2,
+      "head_offset": 0,
+      "signed_timer": 0,
+      "matched": true,
+      "source_oracle": {
+        "name": "due_other_head_player_false",
+        "value": 0,
+        "calls": [
+          [
+            0,
+            268517376
+          ],
+          [
+            1,
+            268517376
+          ],
+          [
+            2,
+            268517376
+          ]
+        ],
+        "owner_after": 268517376,
+        "queue_front_read": 1,
+        "deque_length": 2
+      }
+    },
+    {
+      "name": "due_other_head_player_raw_value",
+      "queue_length": 67,
+      "head_offset": 0,
+      "signed_timer": -7,
+      "matched": true,
+      "source_oracle": {
+        "name": "due_other_head_player_raw_value",
+        "value": 324508639,
+        "calls": [
+          [
+            0,
+            268517376
+          ],
+          [
+            1,
+            268517376
+          ],
+          [
+            2,
+            268517376
+          ]
+        ],
+        "owner_after": 268517376,
+        "queue_front_read": 1,
+        "deque_length": 67
+      }
+    },
+    {
+      "name": "wrapped_deque_head_offset",
+      "queue_length": 9,
+      "head_offset": 26,
+      "signed_timer": 0,
+      "matched": true,
+      "source_oracle": {
+        "name": "wrapped_deque_head_offset",
+        "value": 1,
+        "calls": [],
+        "owner_after": 268517376,
+        "queue_front_read": 1,
+        "deque_length": 9
+      }
+    },
+    {
+      "name": "head_offset_positive_timer_faerie",
+      "queue_length": 37,
+      "head_offset": 29,
+      "signed_timer": 33,
+      "matched": true,
+      "source_oracle": {
+        "name": "head_offset_positive_timer_faerie",
+        "value": 1,
+        "calls": [
+          [
+            0,
+            268517376
+          ],
+          [
+            1,
+            268517376
+          ]
+        ],
+        "owner_after": 268517376,
+        "queue_front_read": 0,
+        "deque_length": 37
+      }
+    },
+    {
+      "name": "owner_reloaded_between_all_fallbacks",
+      "queue_length": 3,
+      "head_offset": 0,
+      "signed_timer": 1,
+      "matched": true,
+      "source_oracle": {
+        "name": "owner_reloaded_between_all_fallbacks",
+        "value": 5,
+        "calls": [
+          [
+            0,
+            268517376
+          ],
+          [
+            1,
+            268517632
+          ],
+          [
+            2,
+            268517888
+          ]
+        ],
+        "owner_after": 268517888,
+        "queue_front_read": 0,
+        "deque_length": 3
+      }
+    },
+    {
+      "name": "owner_change_on_follower_short_circuits",
+      "queue_length": 1,
+      "head_offset": 0,
+      "signed_timer": 1,
+      "matched": true,
+      "source_oracle": {
+        "name": "owner_change_on_follower_short_circuits",
+        "value": 1,
+        "calls": [
+          [
+            0,
+            268517376
+          ]
+        ],
+        "owner_after": 268517632,
+        "queue_front_read": 0,
+        "deque_length": 1
+      }
+    },
+    {
+      "name": "positive_timer_not_front_follower",
+      "queue_length": 8,
+      "head_offset": 3,
+      "signed_timer": 2147483647,
+      "matched": true,
+      "source_oracle": {
+        "name": "positive_timer_not_front_follower",
+        "value": 1,
+        "calls": [
+          [
+            0,
+            268517376
+          ]
+        ],
+        "owner_after": 268517376,
+        "queue_front_read": 0,
+        "deque_length": 8
+      }
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_ai_turn.hpp": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+    "port/level-world/character_ai_turn.cpp": "e0eb5bf3bb58dd59798116d4c54e953321de4bfb0dca13bb7ccacaa7746d4cf7",
+    "port/level-world/tests/character_ai_turn.cpp": "0ff9957c861403f424be79a954176b187a408598ece4fecedbe1ff244e6d8c96",
+    "port/level-world/tests/run_character_ai_turn_host.py": "744b72cc497e4854baf2beb3ebea04f329ca587242c50543a6258c5005abed5f"
+  },
+  "oracle_runtime": {
+    "pyelftools": "0.33",
+    "unicorn": "2.1.4",
+    "architecture": "ARM32 little-endian"
+  }
+}

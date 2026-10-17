@@ -1,0 +1,38 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "scope": "Complete setFrom source composition; no native camera binding",
+    "new_complete_callers": 1,
+    "new_dependency_body_credit": 0,
+    "native_wired": false,
+    "source": [
+      "port/engine-camera/frustum_runtime.hpp",
+      "port/engine-camera/frustum_runtime.cpp"
+    ],
+    "tests": [
+      "port/engine-camera/tests/frustum_runtime_host.cpp",
+      "port/engine-camera/tests/run_frustum_runtime.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5scene12SViewFrustum7setFromERKNS_4core8CMatrix4IfEE",
+      "demangled": "glitch::scene::SViewFrustum::setFrom(glitch::core::CMatrix4<float> const&)",
+      "elf_address": "0x005826c0",
+      "size": 580,
+      "sha256": "5270c5a55f1d81173b2f3acc0bfb3633ab7bf4001fbb99878cd740582362e66a",
+      "scope": "Full 580-byte caller semantics: source plane extraction/normalization followed by the unmodified bounds and plane-intersection source call chain. The earlier component owns the 576-byte prefix; this composition closes its 4-byte tail boundary."
+    }
+  ],
+  "component_manifests": [
+    "port/engine-camera/reference/frustum-producer/original-functions.json",
+    "port/engine-camera/reference/frustum-bounds/original-functions.json",
+    "port/engine-camera/reference/plane-intersection/original-functions.json"
+  ],
+  "limits": [
+    "Imported scalar binary32/binary64 arithmetic and square roots use host IEEE operations; no historical Bionic implementation or NaN payload parity is claimed.",
+    "Original full caller and helpers are executed without a patched tail or substituted point results in the composition oracle.",
+    "Camera transform production, scene ownership, culling integration and Android gameplay remain open."
+  ]
+}

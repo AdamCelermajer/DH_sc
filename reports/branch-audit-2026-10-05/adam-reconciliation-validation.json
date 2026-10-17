@@ -1,0 +1,49 @@
+{
+  "validation": "PASS",
+  "upstream": "https://github.com/AdamCelermajer/DH_sc",
+  "upstream_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+  "base_commit": "41e75b7e33c5b7f8ccf592c36a493a9b6e27b89e",
+  "apk_sha256": "724bb2dbda2b45c32fcfe71251f828329c6da4bbb398f0768db761295a72bf4a",
+  "receipts": {
+    "adam-integrated-host.json": "82cb7081be52485ec5744a2179a163cd8129602519ab7af39d7a3b1f04431918",
+    "adam-player-vcb-host-arm.json": "21b5bb66145aed5de564d0720c6e614fbba2048584191fa484a8cb4df152f267",
+    "adam-cooldown-host-arm.json": "51a1dea33d23489cb665f5f670306457c428879fb21513750b815d0e4aeaf941",
+    "adam-shared-vm-host.json": "763115e0594d8ebc37bbb7b55fa3ddb6e5ddce20fd81d4e654067f8870e4e5af",
+    "adam-android-build.json": "e9c943cf3810f069776c49cc081bfa7447e8b0bc2f89a370d158331b07003b4f",
+    "adam-android-exports.json": "67b575628252327d9f1e4b971cf4d0e735153edda161e025b4598670aea81347",
+    "adam-camera-live-arm.json": "6467e501a594c38ef81de14aa87764fe96d18e083973a6ac9df3135b3fae65c1",
+    "adam-runtime/crypt-script-smoke.json": "ceaf94bd57666134e540776a2b28e71d4d1ee1d3b18b5291c335486ae7969bd5",
+    "adam-source-publication.json": "c8e87fcccd75309f8690231ac9c34a2e12ddfee64baf05f64af329087aef0706",
+    "adam-power-actual-arm64.json": "c4495fabc91c870a63cab23ad0dc15b581a90b36fad6da4827fc68de102a81ca",
+    "adam-gear-actual-arm64.json": "b930a7a23d3fd15ec4e09a7d4d5b9426e71c874317805b8430296ef7ae0e4443"
+  },
+  "package_checks": {
+    "zipalign_16k_exit_code": 0,
+    "apksigner_verify_exit_code": 0,
+    "signature_scheme": "v2"
+  },
+  "visual_review": {
+    "path": "adam-runtime/authored-ambush-restored.png",
+    "sha256": "da5ad13a21bfaa92b4e6388d8e643eba2a2b9c055a2373bd8099acf5cd08112b",
+    "observed": "Rendered Prince, Crypt geometry and Ghosts after recreation, retained movement/attack development controls; no error screen."
+  },
+  "scope": "Nine Adam module groups selected and compiled for ARM64/x86_64. Six selected host suites pass. Actual packaged ARM64 gear/power kernels replay against original ARM: 4,037 gear cases and 937 power records/1,224 properties match, with public-fixture gold equality; this is machine-code replay with explicit TLS/byte fixtures. API37 x86_64/16 KiB live Crypt ambush/reload/recreation passes, including nine camera snapshots. Player inventory/skills/cooldowns and loot pickup are not yet bound to the live nonempty gameplay loop. No physical ARM64 or full-game completion claim.",
+  "remaining_live_dependencies": [
+    "Stable Prince aggregate borrowing current PropertyState and skill/timer owner",
+    "Selected Player callback and shared VM protocol binding; uncompiled player_skill_vm_services draft excluded",
+    "Unified original RNG producers before powered loot",
+    "Real localization, visual/Skin, AddPower and V7 creation providers",
+    "Full enemy frame/pursuit, skill combat effect and world drop/pickup integration"
+  ],
+  "reused_selected_source_units": [
+    "port/game-data/item_instance.cpp",
+    "port/game-data/loot_tables_v2.cpp",
+    "port/game-data/fresh_inventory_owned_v4.cpp",
+    "port/game-data/item_gear_properties_v5.cpp",
+    "port/game-data/item_power_tables_v5.cpp",
+    "port/game-data/player_gear_effects_v5.cpp",
+    "port/game-data/loot_power_resources_v7.cpp",
+    "port/level-world/ais_player_init_vcb.cpp",
+    "port/level-world/character_skill_cooldown_services.cpp"
+  ]
+}

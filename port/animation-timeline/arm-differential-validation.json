@@ -1,0 +1,73 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "callbacks_tested": false,
+  "clip_library_tested": false,
+  "scope": "Range-only timing, null original callback: forward/reverse, loop/clamp, jumps and repeated/backward timestamps",
+  "comparison": "Original ARM32 vs compiled ARM64 and host state: exact bits except signed zero",
+  "sequences": 400,
+  "updates": 4000,
+  "jumps": 400,
+  "mismatches": 0,
+  "output_guards": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_sha256": "70099549639a4577417c8654b677458a71538328d78e91bfa4805f4c7c982ddc",
+  "host_sha256": "4fe7c3808c46395f3a566fcf03ad7d71eddc3e58efc3d5c79f50e775252dc190",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "function_evidence": [
+    {
+      "elf_address": "0x00666c20",
+      "size": 8,
+      "name": "setScale",
+      "symbol": "_ZN6glitch7collada19CTimelineController8setScaleEf",
+      "sha256": "b0d2b943cbb5a4c2566f4fbbcc5dfabf6977f081b2a344ee232e2340ee5220a2"
+    },
+    {
+      "elf_address": "0x00666c28",
+      "size": 8,
+      "name": "setLoop",
+      "symbol": "_ZN6glitch7collada19CTimelineController7setLoopEb",
+      "sha256": "df583123d5a6c4eef4235fe2b14fd8948009e6b0a1b5af6123b12b9fe139d8d9"
+    },
+    {
+      "elf_address": "0x00666c38",
+      "size": 140,
+      "name": "setRange",
+      "symbol": "_ZN6glitch7collada19CTimelineController8setRangeEiib",
+      "sha256": "c2ae2ecf9e11dc9cd892a92f28384d12c05bb49180ab327cbf6e6e48905b725d"
+    },
+    {
+      "elf_address": "0x00666f10",
+      "size": 52,
+      "name": "jumpTo",
+      "symbol": "_ZN6glitch7collada19CTimelineController6jumpToEi",
+      "sha256": "91875c3c69a4c45ce94748c98eaa7efc1668123758f23c6487e07f710ad2ed0e"
+    },
+    {
+      "elf_address": "0x00667104",
+      "size": 508,
+      "name": "update",
+      "symbol": "_ZN6glitch7collada19CTimelineController6updateEi",
+      "sha256": "d92345e0862e62b6b2d62c85bb2ddf6a2864b8f242dc98ce3af54b1ef3b70ac4"
+    }
+  ],
+  "main_instruction_addresses_seen": 165,
+  "import_calls": {
+    "__aeabi_i2f": 9600,
+    "__aeabi_fdiv": 9600,
+    "__aeabi_fadd": 6058,
+    "__aeabi_fcmpgt": 2750,
+    "__aeabi_fmul": 7600,
+    "__aeabi_f2iz": 4000,
+    "__aeabi_fsub": 4408,
+    "__aeabi_fcmplt": 4850,
+    "__aeabi_fcmpeq": 808,
+    "fmodf": 808
+  },
+  "test_sha256": "27be96c363ac45484c56dda41f0965d17e2bdae86134f9cac46a3a97429feef8",
+  "source_sha256": {
+    "timeline.cpp": "577a6fb8d17437d85d23d0942e6ca0354c94700d77524999ccb0aabda143079a",
+    "timeline.hpp": "550ff0e20ce128cfecd88c6e013ea31366894c864298435fb03078a70ef6db4b"
+  },
+  "dependency_model": "Host C arithmetic/libm; integer casts modeled over bounded valid values; actual original timeline executes"
+}

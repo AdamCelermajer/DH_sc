@@ -1,0 +1,125 @@
+{
+  "commit": "791e961b12233100b303038c961666834f4beb9d",
+  "files": [
+    {
+      "source": "port/engine-ui/localization.hpp",
+      "destination": "port/engine-ui/localization.hpp",
+      "sha256": "48433e35464d7fc14118de3d60a5323766a22c8116761e61eb605809187bbc8c"
+    },
+    {
+      "source": "port/engine-ui/localization.cpp",
+      "destination": "port/engine-ui/localization.cpp",
+      "sha256": "b519ab31e8553ccc808822fc1c9f846ebdff5f9e608eb31cd2fe3245d2860611"
+    },
+    {
+      "source": "port/engine-ui/hud_text_format_v1.hpp",
+      "destination": "port/engine-ui/hud_text_format_v1.hpp",
+      "sha256": "79870b445ca0d172fd4c851eacf17325d68f3b2f820d2c7de9c6215fb38b7190"
+    },
+    {
+      "source": "port/engine-ui/hud_text_format_v1.cpp",
+      "destination": "port/engine-ui/hud_text_format_v1.cpp",
+      "sha256": "3cce5aba708b6b9f90abb835ad3aafd7c092397d2498f38dba4c57008deaf76d"
+    },
+    {
+      "source": "port/engine-ui/hud_text_v1.hpp",
+      "destination": "port/engine-ui/hud_text_v1.hpp",
+      "sha256": "bff8a8c58ccba0c7c669a9bd072f677f7bdc07fc12284f65c65e019ab2a1d702"
+    },
+    {
+      "source": "port/engine-ui/hud_text_v1.cpp",
+      "destination": "port/engine-ui/hud_text_v1.cpp",
+      "sha256": "396accf2605ba07b5b7862a2958c30b82e81e702d6dccff3bf31b62413e388d8"
+    },
+    {
+      "source": "port/engine-ui/item_text_varargs_v5.hpp",
+      "destination": "port/engine-ui/item_text_varargs_v5.hpp",
+      "sha256": "b895cb56d41a1e2450a745d097ce8a0dc07189cce58f99c5f737411ab6ac5901"
+    },
+    {
+      "source": "port/engine-ui/item_text_varargs_v5.cpp",
+      "destination": "port/engine-ui/item_text_varargs_v5.cpp",
+      "sha256": "22f6fa8e792b582eeac0ede1b4fde4152f3eb0176a45aebef770f2e7cbe14e07"
+    },
+    {
+      "source": "port/engine-ui/item_text_owner_v5.hpp",
+      "destination": "port/engine-ui/item_text_owner_v5.hpp",
+      "sha256": "fc3f230a6b4883ff93dc0f213ee68e5f59b36b81ace41a6302151739247b9524"
+    },
+    {
+      "source": "port/engine-ui/item_text_owner_v5.cpp",
+      "destination": "port/engine-ui/item_text_owner_v5.cpp",
+      "sha256": "10d33680977a883edf2e2c2a330e17ae67f0c90e1509ece6e187ce08c8508dc8"
+    },
+    {
+      "source": "port/engine-ui/tests/hud_text_format_v1.cpp",
+      "destination": "port/engine-ui/tests/hud_text_format_v1.cpp",
+      "sha256": "247ae1e11305a4d442f0177b76505d22a232ff144337ee884de988b10fd8f132"
+    },
+    {
+      "source": "port/engine-ui/tests/item_text_varargs_v5.cpp",
+      "destination": "port/engine-ui/tests/item_text_varargs_v5.cpp",
+      "sha256": "bf0c437a152c8e36b7c38f7e7514a0b041df40cfe1d6bb756a15adb64454fadd"
+    },
+    {
+      "source": "port/engine-ui/tests/item_text_varargs_v5_fixture.cpp",
+      "destination": "port/engine-ui/tests/item_text_varargs_v5_fixture.cpp",
+      "sha256": "95cb88ed36db767a828cb979c45939b0568f744b0379fe30299e4d4e750a25cc"
+    },
+    {
+      "source": "port/engine-ui/reference/hud-formatting-v1/format-gold.bin",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/format-gold.bin",
+      "sha256": "da7c8fb877577034a142fc24831c3711ce73b75a43df094d3416d87a30220296"
+    },
+    {
+      "source": "port/engine-ui/reference/item-text-varargs-v5/fixtures.bin",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/varargs-fixtures.bin",
+      "sha256": "8580c32ec186550202ee77b3e075d26f225fc32ca296c4460af12eb24965258b"
+    },
+    {
+      "source": "port/level-world/reference/player-equipment-render-owner-v1/query-fixtures.bin",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/query-fixtures.bin",
+      "sha256": "adc9fc014d2ee39b9447f03f0612d250d418e7e3444132ce19aa2e5a8ef23fdf"
+    },
+    {
+      "source": "port/engine-ui/reports/hud-text-format-v1-arm64-differential.json",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/upstream-format-original.json",
+      "sha256": "f86254d978298c48d7709dee16638bc6365d55ffabeb9ebcad439a8ac855715d"
+    },
+    {
+      "source": "port/engine-ui/reports/item-text-varargs-v5-arm64-differential.json",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/upstream-varargs-original.json",
+      "sha256": "08c59f32e55a757a4379cb701ec148d0717a849bff7e3a5924ff9211bdd67fad"
+    },
+    {
+      "source": "port/level-world/reports/player-equipment-queries-v1-arm64-differential.json",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/upstream-query-original.json",
+      "sha256": "c1069d8bb47418f1a4141f63300a3814a981691ceee7e16adae4ed3463972350"
+    },
+    {
+      "source": "port/level-world/reference/player-equipment-render-owner-v1/original-capture/requirements/original-functions.json",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/query-original-functions.json",
+      "sha256": "100225ff38658f2398302cd0d14238db91b40839f8a7653e3d3caa7714f5758e"
+    },
+    {
+      "source": "port/level-world/reference/player-equipment-render-owner-v1/original-capture/requirements/reference/original-functions.asm",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/query-original.asm",
+      "sha256": "b56111d1b73af2b68de68caa210c9cc3187755177329748fa3781875bd742d28"
+    },
+    {
+      "source": "port/engine-ui/reference/localization/original-functions.json",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/localization-original-functions.json",
+      "sha256": "048b7de255a94927fb01b64dd48d59d145aa897040b13ae8d561ae881a3bf9c7"
+    },
+    {
+      "source": "port/engine-ui/reference/hud-formatting-v1/original-functions.json",
+      "destination": "port/game-data/reference/adam-791e961-inventory-binding/format-original-functions.json",
+      "sha256": "dcc4853b39c669250d044c55b9212e6961cb439a1573a6d8e8ad1f9c9a4fd6c6"
+    }
+  ],
+  "query_upstream_input_sha256": {
+    "port/level-world/player_equipment_queries_v1.hpp": "b341d51c9e1f3dfdf52d5a4871666b1cb2bceecb26c860ea4bc932a02b054f7f",
+    "port/level-world/player_equipment_queries_v1.cpp": "cdd1fa38621533d1550b31ef1f8aba23593e54e28a28530db7c871dea75377e4"
+  },
+  "adaptation": "Only weapon facts kernel reused; existing requirement kernel remains frozen. Live facade borrows existing V4/PropertyView and maps raw two-hander to existing CombatantView."
+}

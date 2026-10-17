@@ -1,5 +1,6 @@
 #pragma once
-#include "item_inventory_v1.hpp"
+#include "items.hpp"
+#include "item_instance.hpp"
 #include "item_power_tables_v5.hpp"
 #include <map>
 namespace dh2::data {
@@ -25,8 +26,10 @@ class ItemPresentationOwnerV5 {
 public:
  explicit ItemPresentationOwnerV5(ItemPowerTablesV5::Borrow b):tables_(std::move(b)){}
  bool add_power(ItemInstanceV1&,std::int32_t id,std::int32_t mode,const ItemTextServicesV5&,std::string&);
+ // Character::UpdateInventoryLocalization refreshes these exact live fields
+ // and rebuilds PowerInfo from the Item's unchanged canonical power IDs.
+ bool update_localization(ItemInstanceV1&,const ItemTextServicesV5&,std::string&);
  const std::vector<ItemPowerInstanceV5>* powers(const ItemInstanceV1&)const noexcept;
  bool forget(ItemInstanceV1&,std::string&) noexcept;
 };
 }
-

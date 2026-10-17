@@ -1,0 +1,329 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 14,
+    "native_wired": false,
+    "missing_script_implementation_fails_closed": true
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 9,
+    "mismatches": 0,
+    "results": [
+      {
+        "case": "baseline",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268533760,
+            0
+          ],
+          [
+            2,
+            1,
+            4353,
+            0
+          ],
+          [
+            2,
+            1,
+            4354,
+            2
+          ],
+          [
+            2,
+            2,
+            8705,
+            0
+          ],
+          [
+            2,
+            2,
+            8706,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "using",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ]
+        ]
+      },
+      {
+        "case": "casting",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268533760,
+            0
+          ]
+        ]
+      },
+      {
+        "case": "owner_mutation",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268537856,
+            0
+          ],
+          [
+            2,
+            1,
+            4353,
+            0
+          ],
+          [
+            2,
+            1,
+            4354,
+            2
+          ],
+          [
+            2,
+            2,
+            8705,
+            0
+          ],
+          [
+            2,
+            2,
+            8706,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "skill_rebase",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268533760,
+            0
+          ],
+          [
+            2,
+            1,
+            4353,
+            0
+          ],
+          [
+            2,
+            1,
+            4497,
+            1
+          ],
+          [
+            2,
+            1,
+            4498,
+            2
+          ],
+          [
+            2,
+            2,
+            8705,
+            0
+          ],
+          [
+            2,
+            2,
+            8706,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "faery_replace_from_skill",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268533760,
+            0
+          ],
+          [
+            2,
+            1,
+            4353,
+            0
+          ],
+          [
+            2,
+            2,
+            8848,
+            0
+          ],
+          [
+            2,
+            2,
+            8849,
+            1
+          ],
+          [
+            2,
+            2,
+            8850,
+            2
+          ]
+        ]
+      },
+      {
+        "case": "faery_rebase",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268533760,
+            0
+          ],
+          [
+            2,
+            1,
+            4353,
+            0
+          ],
+          [
+            2,
+            1,
+            4354,
+            2
+          ],
+          [
+            2,
+            2,
+            8705,
+            0
+          ],
+          [
+            2,
+            2,
+            8849,
+            1
+          ],
+          [
+            2,
+            2,
+            8850,
+            2
+          ]
+        ]
+      },
+      {
+        "case": "null_slots",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268533760,
+            0
+          ]
+        ]
+      },
+      {
+        "case": "empty",
+        "matched": true,
+        "calls": [
+          [
+            0,
+            0,
+            268533760,
+            0
+          ],
+          [
+            1,
+            0,
+            268533760,
+            0
+          ]
+        ]
+      }
+    ],
+    "executed_scope": "The original 180-byte UpdateAllSkills caller executes. The two FSM predicate callees and CharAISkillScript::OnSkillUpdate are intercepted at their call boundaries with controlled raw results/void callbacks; the caller's branch, vector count, per-slot reload, null checks and call order are original ARM.",
+    "native_wired": false
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_update_all_skills.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_update_all_skills.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-ai-update-all-skills-parent\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_ai_update_all_skills.cpp": "2912b318b014eeda8ed28e77a8e250ca069b542129e1cd63882152339bbbc54f",
+    "port/level-world/tests/character_ai_update_all_skills.cpp": "1ee68614ef75b84444f66a3ff18082446f06b4c1b6dc182ded6eec80a3cb9625",
+    "port/level-world/character_ai_update_all_skills.hpp": "fde8cb066981c2c1eee98a6dec55b2fb031394038ac475f752b9784066ad1a2c",
+    "port/level-world/tests/run_character_ai_update_all_skills_host.py": "085c561294abe72b0cb5c846e66065dcb328340218ab5ee89ec8a5ee5649a11a",
+    "port/level-world/reference/character-ai-update-all-skills/original-functions.json": "a9e2142cb457c9b317ee21a98412f8aac96fd4b3d073885659e9187b59d4bf94",
+    "port/level-world/reference/character-ai-update-all-skills/NOTES.md": "4ec9de94d79523da90ee19b37927c5fb076962607abb83233ac33a0cdae76623"
+  },
+  "native_wired": false
+}

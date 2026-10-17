@@ -1,0 +1,3826 @@
+{
+  "validation": "PASS",
+  "host": {
+    "validation": "PASS",
+    "host_cases": 12,
+    "empty_source_map": true
+  },
+  "comparisons": 128,
+  "original_caller_executions": 640,
+  "mismatches": 0,
+  "instructions": 72,
+  "source_sha256": {
+    "port/game-data/animation_tables.cpp": "436cff5b347f1d756777775e35110bab113de3547b6a878932538afac21ef86e",
+    "port/game-data/item_instance.cpp": "d3d0160862d89b1d512ad7682ba16b65540d496c83148bb463b1ef672ef5d423",
+    "port/game-data/level_tables.cpp": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+    "port/game-data/combat.cpp": "228da172df7ee0ef290a59ccaf2fcf21890705f7165528366bf5f6615fdeb4cc",
+    "port/game-data/vitals.cpp": "34999512b1bff69e99dd39aa9f252470366c8a950c9de03dc894cf299b67e5b9",
+    "port/game-data/aggro.cpp": "c9f10eb5697227dad1e7fb767b07929da4b5373327d49ce350dc1318e6b2f050",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/player_gear_effects_v5.cpp": "863f410ae216da1e43399be9c8983999475dd9af7a6e03ce30d062c67fa9ad42",
+    "port/game-data/combat_application.cpp": "ef5c7a603160b99cbec98851f69f61f8a62612cacd6dccf1e20f8f0362769557",
+    "port/game-data/loot_power_resources_v7.cpp": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+    "port/game-data/ai.cpp": "f53b4473fa4dd02ed73d514fe5b84d02058807c4bf800ab1952fc7141a229928",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/combat_result.cpp": "8c049006cb01b294304bb9820950f1d8da733bd8f7d4d7c5518d9718f18a18e3",
+    "port/game-data/tests/savegame_options_v1.cpp": "fc48643ffdd03d1d268f224f36cb86ccc0873c6f71fcb034fb0c1d3b5ebdedda",
+    "port/game-data/item_gear_properties_v5.cpp": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+    "port/game-data/savegame_options_v1.hpp": "26863444946843b5e1c2e51157140a578ae0560ead7b0409ca76a146c338483e",
+    "port/game-data/animation_scheduler.cpp": "a75190454cb98071e91483125861abe41f84217d280b44d6db5bc1fff432cfd4",
+    "port/game-data/health.cpp": "98035dd3c80ecac8e0e96c3f06d7f045dd42df80ecfe935411729bf8bff98595",
+    "port/game-data/savegame_options_v1.cpp": "6e29f8d64dd697513804f8f138a0157e2ba5e99b1266fb4c23e6519e8c693b3b",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/player_savegame_v1.cpp": "e9088a632d74ee276e2157a32130ade41a2f566ef20fb0082e7ad5709c021483",
+    "port/game-data/animation_bank.cpp": "d01fc6391ddb543eb2eadca8ce52e6b6e814cdd52d146d358c221d5a418d044f",
+    "port/game-data/items.cpp": "2468a9e5fcc12a00859bf403dba09b66dbc9a39a3231de6c1ac88abb6fd5f091",
+    "port/game-data/tests/run_savegame_options_v1_host.py": "e00d210dcc404f353e6133019b4409ccd89849a8100aebbb46d108a332a544c6",
+    "port/game-data/CMakeLists.txt": "a38ede8473ffa4997e4a6e3ab7cd176d8b8b481c27dc34d9630dc6be238f2020",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "9abbd1a0f5eed7bd6f6acb801bc2a7be18e3613bd17f43bf063caaa5057535e4",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/game-data/combat_events.cpp": "a7ac6d24c1d221506617bcfe2b2e86275e7dddac597ae28ae1911218c5238b32",
+    "port/game-data/animation_selection.cpp": "f9f985cc772e1adea4cdc7dfa1bf27f987d06308f55b3603b64722877de857ad",
+    "port/game-data/skill_tables.cpp": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+    "port/game-data/item_power_tables_v5.cpp": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_functions": [
+    {
+      "symbol": "_ZNK15SavegameManager9hasOptionEPKc",
+      "address": "0x46d4a8",
+      "bytes": 48,
+      "sha256": "7c65d3095b378f2170591c06f1ec33abc34d96677c5c3b4e0ca6fc67f40add31",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZNK15SavegameManager9getOptionEPKc",
+      "address": "0x46d474",
+      "bytes": 52,
+      "sha256": "3fcab59a9826462cc9e0219b962a0313718d2a02e9f2e76d909ad333adf27d7c",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZNK15SavegameManager15isOptionToggledEPKc",
+      "address": "0x46d418",
+      "bytes": 92,
+      "sha256": "69b6f703d2114682a0547048cc2fcc7d3c43fa7f44e45fd52a87894ea39d96f9",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZN11Application14GetSavedOptionEPKc",
+      "address": "0x320e44",
+      "bytes": 48,
+      "sha256": "8331be7f3725447f70f125af44c323ea99e75cf792de5db166837e9d1cc3010c",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZN11Application15IsSavedOptionOnEPKc",
+      "address": "0x320e14",
+      "bytes": 48,
+      "sha256": "2072285102a538d8c1784dedda939e3a30a7bf97d98877339b67ba91d250d2d5",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZN15SavegameManagerC1Ev",
+      "address": "0x46cd4c",
+      "bytes": 140,
+      "sha256": "99cfb00e6c427703b4defdeba4d658bc692b8f7063c1f8adc3f233673cfef691",
+      "scope": "empty-map constructor field evidence only"
+    }
+  ],
+  "original_results": [
+    {
+      "input": [
+        0,
+        -7,
+        -1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        -1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        -1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        -1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        0,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        0,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        0,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        0,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        7,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        7,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        7,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        -7,
+        7,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        -1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        -1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        -1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        -1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        0,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        0,
+        7,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        -1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        -1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        -1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        -1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        0,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        0,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        0,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        0,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        7,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        7,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        7,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        1,
+        7,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        -1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        -1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        -1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        -1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        0,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        0,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        0,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        0,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        1,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        1,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        1,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        1,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        7,
+        -7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        7,
+        0
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        7,
+        1
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        0,
+        7,
+        7,
+        7
+      ],
+      "original": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        0,
+        -1,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        -1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        -1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        -1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        -1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        0,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        1,
+        -7,
+        1
+      ],
+      "compiled": [
+        1,
+        -7,
+        1,
+        -7,
+        1
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        0,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        0,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        0,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        7,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        7,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        7,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        -7,
+        7,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        -1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        -1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        -1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        -1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        0,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        0,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "compiled": [
+        1,
+        0,
+        1,
+        0,
+        1
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        0,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        0,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        7,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        7,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        7,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        0,
+        7,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        -1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        -1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        -1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        -1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        0,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        0,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        0,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "compiled": [
+        1,
+        1,
+        1,
+        1,
+        1
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        0,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        7,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        7,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        7,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        1,
+        7,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        -1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        -1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        -1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        -1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        0,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        0,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        0,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        0,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        1,
+        7,
+        1
+      ],
+      "compiled": [
+        1,
+        7,
+        1,
+        7,
+        1
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        1,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        1,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        1,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        1,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        7,
+        -7
+      ],
+      "original": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "compiled": [
+        1,
+        -7,
+        0,
+        -7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        7,
+        0
+      ],
+      "original": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "compiled": [
+        1,
+        0,
+        0,
+        0,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        7,
+        1
+      ],
+      "original": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "compiled": [
+        1,
+        1,
+        0,
+        1,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    },
+    {
+      "input": [
+        1,
+        7,
+        7,
+        7
+      ],
+      "original": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "compiled": [
+        1,
+        7,
+        0,
+        7,
+        0
+      ],
+      "map_lookups": [
+        1,
+        1,
+        1,
+        2,
+        2
+      ]
+    }
+  ],
+  "selected_commands": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe  -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -MD -MT selected-game-data/CMakeFiles/savegame_options_v1_audit.dir/tests/savegame_options_v1.cpp.obj -MF selected-game-data\\CMakeFiles\\savegame_options_v1_audit.dir\\tests\\savegame_options_v1.cpp.obj.d -o selected-game-data/CMakeFiles/savegame_options_v1_audit.dir/tests/savegame_options_v1.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/tests/savegame_options_v1.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/data.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\data.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/data.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/data.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/items.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\items.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/items.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/items.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/animation_bank.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\animation_bank.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/animation_bank.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_bank.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/animation_tables.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\animation_tables.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/animation_tables.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_tables.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/animation_selection.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\animation_selection.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/animation_selection.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_selection.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/animation_scheduler.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\animation_scheduler.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/animation_scheduler.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_scheduler.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/class_tables.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\class_tables.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/class_tables.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/class_tables.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/properties.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\properties.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/properties.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/properties.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/vitals.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\vitals.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/vitals.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/vitals.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/combat.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\combat.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/combat.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/combat_events.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\combat_events.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/combat_events.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_events.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/combat_result.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\combat_result.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/combat_result.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_result.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/health.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\health.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/health.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/health.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/combat_application.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\combat_application.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/combat_application.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_application.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/aggro.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\aggro.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/aggro.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/aggro.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/ai.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\ai.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/ai.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/ai.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/level_tables.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\level_tables.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/level_tables.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/level_tables.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/skill_tables.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\skill_tables.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/skill_tables.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/skill_tables.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/player_savegame_v1.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\player_savegame_v1.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/player_savegame_v1.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_savegame_v1.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/savegame_options_v1.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\savegame_options_v1.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/savegame_options_v1.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/savegame_options_v1.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/item_gear_properties_v5.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\item_gear_properties_v5.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/item_gear_properties_v5.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/item_power_tables_v5.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\item_power_tables_v5.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/item_power_tables_v5.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/loot_power_resources_v7.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\loot_power_resources_v7.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/loot_power_resources_v7.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_resources_v7.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/item_instance.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\item_instance.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/item_instance.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_instance.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/loot_tables_v2.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\loot_tables_v2.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/loot_tables_v2.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/fresh_inventory_owned_v4.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\fresh_inventory_owned_v4.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/fresh_inventory_owned_v4.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp\nC:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -MD -MT selected-game-data/CMakeFiles/dh2_game_data.dir/player_gear_effects_v5.cpp.obj -MF selected-game-data\\CMakeFiles\\dh2_game_data.dir\\player_gear_effects_v5.cpp.obj.d -o selected-game-data/CMakeFiles/dh2_game_data.dir/player_gear_effects_v5.cpp.obj -c C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_gear_effects_v5.cpp\ncmd.exe /C \"cd . && C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -O1   -shared -o selected-game-data\\libdh2_game_data.dll -Wl,--out-implib,selected-game-data\\libdh2_game_data.dll.a -Wl,--major-image-version,0,--minor-image-version,0 selected-game-data/CMakeFiles/dh2_game_data.dir/data.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/items.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/animation_bank.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/animation_tables.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/animation_selection.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/animation_scheduler.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/class_tables.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/properties.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/vitals.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/combat.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/combat_events.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/combat_result.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/health.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/combat_application.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/aggro.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/ai.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/level_tables.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/skill_tables.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/player_savegame_v1.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/savegame_options_v1.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/item_gear_properties_v5.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/item_power_tables_v5.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/loot_power_resources_v7.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/item_instance.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/loot_tables_v2.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/fresh_inventory_owned_v4.cpp.obj selected-game-data/CMakeFiles/dh2_game_data.dir/player_gear_effects_v5.cpp.obj  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd .\"\ncmd.exe /C \"cd . && C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -O1  selected-game-data/CMakeFiles/savegame_options_v1_audit.dir/tests/savegame_options_v1.cpp.obj -o selected-game-data\\savegame_options_v1_audit.exe -Wl,--out-implib,selected-game-data\\libsavegame_options_v1_audit.dll.a -Wl,--major-image-version,0,--minor-image-version,0  selected-game-data/libdh2_game_data.dll.a  -lkernel32 -luser32 -lgdi32 -lwinspool -lshell32 -lole32 -loleaut32 -luuid -lcomdlg32 -ladvapi32 && cd .\"\n",
+  "executable_imports": [
+    "libgcc_s_seh-1.dll",
+    "libstdc++-6.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "libdh2_game_data.dll"
+  ],
+  "wrapper_cmake": "cmake_minimum_required(VERSION 3.22)\nproject(options_selected LANGUAGES C CXX)\nset(CMAKE_EXPORT_COMPILE_COMMANDS ON)\nset(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)\nadd_subdirectory(\"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data\" selected-game-data)\n",
+  "build_stdout": [
+    "-- The C compiler identification is GNU 15.2.0\n-- The CXX compiler identification is GNU 15.2.0\n-- Detecting C compiler ABI info\n-- Detecting C compiler ABI info - done\n-- Check for working C compiler: C:/Users/noamc/.local/mingw/mingw64/bin/gcc.exe - skipped\n-- Detecting C compile features\n-- Detecting C compile features - done\n-- Detecting CXX compiler ABI info\n-- Detecting CXX compiler ABI info - done\n-- Check for working CXX compiler: C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe - skipped\n-- Detecting CXX compile features\n-- Detecting CXX compile features - done\n-- Configuring done\n-- Generating done\n-- Build files have been written to: C:/tmp/dh2-opt-v1b/selected\n",
+    "[1/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/items.cpp.obj\n[2/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/data.cpp.obj\n[3/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/animation_selection.cpp.obj\n[4/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/animation_tables.cpp.obj\n[5/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/animation_bank.cpp.obj\n[6/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/animation_scheduler.cpp.obj\n[7/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/class_tables.cpp.obj\n[8/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/vitals.cpp.obj\n[9/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/properties.cpp.obj\n[10/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/combat_events.cpp.obj\n[11/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/combat.cpp.obj\n[12/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/health.cpp.obj\n[13/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/combat_application.cpp.obj\n[14/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/combat_result.cpp.obj\n[15/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/aggro.cpp.obj\n[16/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/level_tables.cpp.obj\n[17/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/ai.cpp.obj\n[18/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/player_savegame_v1.cpp.obj\n[19/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/savegame_options_v1.cpp.obj\n[20/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/loot_power_resources_v7.cpp.obj\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_resources_v7.cpp: In member function 'bool dh2::data::LootPowerResourcesV7::load(const dh2::data::LootPowerInputsV7&, dh2::data::ItemPowerTablesV5::Borrow, std::string&)':\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_resources_v7.cpp:75:4: warning: this 'while' clause does not guard... [-Wmisleading-indentation]\n   75 |    while(k--)row.push_back(monopoly.integer());next->monopolies.push_back(std::move(row));}\n      |    ^~~~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_resources_v7.cpp:75:48: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'while'\n   75 |    while(k--)row.push_back(monopoly.integer());next->monopolies.push_back(std::move(row));}\n      |                                                ^~~~\n[21/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/skill_tables.cpp.obj\n[22/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/item_gear_properties_v5.cpp.obj\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp: In function 'unsigned int {anonymous}::destination(unsigned int, unsigned int, bool)':\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp:19:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   19 |  if(!left)return p;if(type>=7&&type<=9)return p+3;\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp:19:20: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   19 |  if(!left)return p;if(type>=7&&type<=9)return p+3;\n      |                    ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp:20:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   20 |  if(type>=10&&type<=19)return p+2;if(type==28)return p+2;return p;\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp:20:35: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   20 |  if(type>=10&&type<=19)return p+2;if(type==28)return p+2;return p;\n      |                                   ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp: In function 'int dh2_gear_reset_v5(int32_t*, const int32_t*)':\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp:24:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   24 |  if(!sheets(g,d))return -1;for(unsigned i=0;i<224;++i)g[i]=d[i];return 0;\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp:24:28: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   24 |  if(!sheets(g,d))return -1;for(unsigned i=0;i<224;++i)g[i]=d[i];return 0;\n      |                            ^~~\n[23/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/item_power_tables_v5.cpp.obj\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp: In member function 'bool dh2::data::ItemPowerTablesV5::load(dh2::data::Bytes, dh2::data::Bytes, dh2::data::Bytes, std::string&)':\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp:27:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   27 |  if(snapshot_&&snapshot_.use_count()!=1)throw std::runtime_error(\"ItemPower snapshot has live borrowers\");auto next=std::make_shared<Snapshot>();Reader r(bytes),n(names),s(schema);\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp:27:107: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   27 |  if(snapshot_&&snapshot_.use_count()!=1)throw std::runtime_error(\"ItemPower snapshot has live borrowers\");auto next=std::make_shared<Snapshot>();Reader r(bytes),n(names),s(schema);\n      |                                                                                                           ^~~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp:32:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   32 |  if(r.at!=bytes.size)throw std::runtime_error(\"Unexpected ItemPower trailing bytes\");auto list_names=n.strings();next->names=n.strings();if(n.at!=names.size||list_names.size()!=lists||next->names.size()!=count)throw std::runtime_error(\"ItemPower names differ\");\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp:32:86: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   32 |  if(r.at!=bytes.size)throw std::runtime_error(\"Unexpected ItemPower trailing bytes\");auto list_names=n.strings();next->names=n.strings();if(n.at!=names.size||list_names.size()!=lists||next->names.size()!=count)throw std::runtime_error(\"ItemPower names differ\");\n      |                                                                                      ^~~~\n[24/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/player_gear_effects_v5.cpp.obj\n[25/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/item_instance.cpp.obj\n[26/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/loot_tables_v2.cpp.obj\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp: In function 'int dh2_loot_v2_decode(dh2::data::LootRow64V2*, const uint8_t*, uint32_t)':\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:24:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   24 |  if(!read(next.random_entries,32)||!read(next.fixed_entries,32)||!read(next.sub_loots,4))return -1;next.consumed=at;*out=next;return 0;\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:24:100: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   24 |  if(!read(next.random_entries,32)||!read(next.fixed_entries,32)||!read(next.sub_loots,4))return -1;next.consumed=at;*out=next;return 0;\n      |                                                                                                    ^~~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp: In member function 'bool dh2::data::LootTablesV2::load(dh2::data::Bytes, dh2::data::Bytes, dh2::data::Bytes, std::string&)':\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:33:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   33 |  if(snapshot_&&snapshot_.use_count()!=1)throw std::runtime_error(\"LootTable snapshot has live borrowers\");auto next=std::make_shared<Snapshot>();if(!load_items(records,names,schema,next->items,e))return false;\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:33:107: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   33 |  if(snapshot_&&snapshot_.use_count()!=1)throw std::runtime_error(\"LootTable snapshot has live borrowers\");auto next=std::make_shared<Snapshot>();if(!load_items(records,names,schema,next->items,e))return false;\n      |                                                                                                           ^~~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:36:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   36 |  if(r.at!=next->items.data_begin)throw std::runtime_error(\"Loot ItemList prefix differs\");r.at=next->items.data_consumed;count=r.count();for(std::uint32_t i=0;i<count;++i){auto bytes=r.count();r.take(bytes);}count=r.count();next->loots.reserve(count);\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:36:91: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   36 |  if(r.at!=next->items.data_begin)throw std::runtime_error(\"Loot ItemList prefix differs\");r.at=next->items.data_consumed;count=r.count();for(std::uint32_t i=0;i<count;++i){auto bytes=r.count();r.take(bytes);}count=r.count();next->loots.reserve(count);\n      |                                                                                           ^\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:40:3: warning: this 'for' clause does not guard... [-Wmisleading-indentation]\n   40 |   for(std::uint32_t j=0;j<row.sub_loots.count;++j)actual.sub_loots.push_back(signed_word(row.sub_loots.bytes+4*j));next->loots.push_back(std::move(actual));r.take(row.consumed);\n      |   ^~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:40:116: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'\n   40 |   for(std::uint32_t j=0;j<row.sub_loots.count;++j)actual.sub_loots.push_back(signed_word(row.sub_loots.bytes+4*j));next->loots.push_back(std::move(actual));r.take(row.consumed);\n      |                                                                                                                    ^~~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:43:2: warning: this 'for' clause does not guard... [-Wmisleading-indentation]\n   43 |  for(unsigned i=0;i<14;++i)f.strings();auto entry=f.strings(),loot=f.strings();if(entry!=std::vector<std::string>{\"ItemListID\",\"ItemPowerList\",\"MProb\",\"NumPowerProbs\",\"Pct\",\"Prob\",\"RProb\",\"WProb\"}||loot!=std::vector<std::string>{\"RollType\",\"NumRandomItemProbs\",\"RandomLootEntries\",\"FixedLootEntries\",\"SubLoots\"})throw std::runtime_error(\"LootTable schema differs\");snapshot_=std::move(next);e.clear();return true;\n      |  ^~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp:43:40: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'for'\n   43 |  for(unsigned i=0;i<14;++i)f.strings();auto entry=f.strings(),loot=f.strings();if(entry!=std::vector<std::string>{\"ItemListID\",\"ItemPowerList\",\"MProb\",\"NumPowerProbs\",\"Pct\",\"Prob\",\"RProb\",\"WProb\"}||loot!=std::vector<std::string>{\"RollType\",\"NumRandomItemProbs\",\"RandomLootEntries\",\"FixedLootEntries\",\"SubLoots\"})throw std::runtime_error(\"LootTable schema differs\");snapshot_=std::move(next);e.clear();return true;\n      |                                        ^~~~\n[27/30] Building CXX object selected-game-data/CMakeFiles/dh2_game_data.dir/fresh_inventory_owned_v4.cpp.obj\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp: In member function 'bool dh2::data::FreshInventoryOwnedV4::add_fixed_loot(int32_t, const dh2::data::OwnedInventoryServicesV4&, std::string&)':\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:19:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   19 |  if(!mutation_allowed(e))return false;if(running_||!s.invoke){e=\"Malformed fresh loot service or unsupported owner reentry\";return false;}if(id<0||std::size_t(id)>=tables_.loots().size()){e.clear();return true;}running_=true;struct Guard{bool& b;~Guard(){b=false;}}guard{running_};std::int32_t ignored=0;auto trace=[&](std::uint32_t at){return debug(s,at,\"isTracingItemInventory_Loot\",ignored,e);};\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:19:39: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   19 |  if(!mutation_allowed(e))return false;if(running_||!s.invoke){e=\"Malformed fresh loot service or unsupported owner reentry\";return false;}if(id<0||std::size_t(id)>=tables_.loots().size()){e.clear();return true;}running_=true;struct Guard{bool& b;~Guard(){b=false;}}guard{running_};std::int32_t ignored=0;auto trace=[&](std::uint32_t at){return debug(s,at,\"isTracingItemInventory_Loot\",ignored,e);};\n      |                                       ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:20:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   20 |  if(!debug(s,0x40411c,\"MP_MinimalRandoms\",ignored,e))return false;if(ignored){e.clear();return true;}if(!trace(0x404160)||!trace(0x404190))return false;\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:20:67: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   20 |  if(!debug(s,0x40411c,\"MP_MinimalRandoms\",ignored,e))return false;if(ignored){e.clear();return true;}if(!trace(0x404160)||!trace(0x404190))return false;\n      |                                                                   ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:31:2: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   31 |  if(!trace(0x4042fc)||!trace(0x40432c))return false;OwnedInventoryResponseV4 out;\n      |  ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:31:53: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   31 |  if(!trace(0x4042fc)||!trace(0x40432c))return false;OwnedInventoryResponseV4 out;\n      |                                                     ^~~~~~~~~~~~~~~~~~~~~~~~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:39:4: warning: this 'if' clause does not guard... [-Wmisleading-indentation]\n   39 |    if(!potion_&&inserted_type==14)potion_=instance;auto slot=std::make_unique<OwnedItemSlotV4>();slot->item=std::move(owned);items_.push_back(std::move(slot));auto index=std::uint32_t(items_.size()-1);if(!deliver(s,OwnedInventoryOperationV4::inventory_full,0x3ff6c4,instance,nullptr,0,index,out,e))return false;if(out.value&&!deliver(s,OwnedInventoryOperationV4::full_notifications,0x3ff7a8,instance,nullptr,0,index,out,e))return false;\n      |    ^~\nC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp:39:52: note: ...this statement, but the latter is misleadingly indented as if it were guarded by the 'if'\n   39 |    if(!potion_&&inserted_type==14)potion_=instance;auto slot=std::make_unique<OwnedItemSlotV4>();slot->item=std::move(owned);items_.push_back(std::move(slot));auto index=std::uint32_t(items_.size()-1);if(!deliver(s,OwnedInventoryOperationV4::inventory_full,0x3ff6c4,instance,nullptr,0,index,out,e))return false;if(out.value&&!deliver(s,OwnedInventoryOperationV4::full_notifications,0x3ff7a8,instance,nullptr,0,index,out,e))return false;\n      |                                                    ^~~~\n[28/30] Linking CXX shared library selected-game-data\\libdh2_game_data.dll\n[29/30] Building CXX object selected-game-data/CMakeFiles/savegame_options_v1_audit.dir/tests/savegame_options_v1.cpp.obj\n[30/30] Linking CXX executable selected-game-data\\savegame_options_v1_audit.exe\n"
+  ],
+  "scope": "Selected library five option query callers; original tree lookup modeled. Fresh map defaults and source toggled predicate. Full option registration/settings-file/profile lifecycle and networking are not claimed."
+}

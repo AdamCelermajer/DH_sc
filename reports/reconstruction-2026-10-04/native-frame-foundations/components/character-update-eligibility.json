@@ -1,0 +1,2131 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 26,
+  "mismatches": 0,
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN9Character9CanUpdateEv",
+      "address": "0x3a52a4",
+      "symbol_size": 316,
+      "active_instruction_bytes": 308
+    }
+  ],
+  "cases": [
+    {
+      "name": "offline_different_unculled",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "offline_same_player",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28673,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28673
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 3,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "offline_culling_rejects",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 0,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 0,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 0,
+        "outcome": 2,
+        "calls": 3,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "offline_culling_flag_bypasses",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 0,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 1,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          0
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "offline_zero_culling_fields",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 0,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 0,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 3,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "offline_dead_no_respawn",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 2147483648,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 0,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          2147483648
+        ],
+        [
+          5,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 0,
+        "outcome": 3,
+        "calls": 5,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "offline_dead_respawn",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 1,
+        "respawn": 2147483648,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          2147483648
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 5,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "offline_visibility_skips_respawn",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 1,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 1,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "original_node_flag": 1,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 2,
+        "node_flag": 1,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "online_remote_updated",
+      "input": {
+        "online": 128,
+        "remote": 1,
+        "local": 28674,
+        "cull": 1,
+        "dead": 1,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          128
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 2,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "online_not_remote_dead",
+      "input": {
+        "online": 1,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 1,
+        "respawn": 1,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 6,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "online_remote_cull_rejects",
+      "input": {
+        "online": 1,
+        "remote": 0,
+        "local": 28674,
+        "cull": 0,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 0,
+      "original_calls": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 0,
+        "outcome": 2,
+        "calls": 4,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "online_no_visual_dead",
+      "input": {
+        "online": 1,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 1,
+        "respawn": 1,
+        "visual": 0,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "original_node_flag": 9,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 0,
+        "node_flag": 9,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "online_remote_marks_scene",
+      "input": {
+        "online": 1,
+        "remote": 1,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 1,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "original_node_flag": 1,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 2,
+        "writes": 2,
+        "node_flag": 1,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "local_field_mutated_by_online",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 1
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 3,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "visual_rebound_by_remote",
+      "input": {
+        "online": 1,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 2
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 5,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "field_mutated_after_local_read",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 0,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 4
+      },
+      "original_result": 0,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 0,
+        "outcome": 2,
+        "calls": 3,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "culling_gate_mutated_by_callback",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 0,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 8
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          0
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "update_enabled_mutated_by_dead",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 1,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 16
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          1
+        ]
+      ],
+      "original_node_flag": 1,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 2,
+        "node_flag": 1,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "culling_byte_2fc",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 1,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "negative_raw_dead_and_remote",
+      "input": {
+        "online": 1,
+        "remote": 1,
+        "local": 28674,
+        "cull": 1,
+        "dead": 4294967295,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          1
+        ],
+        [
+          1,
+          1
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 2,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "online_byte_high_bit",
+      "input": {
+        "online": 128,
+        "remote": 255,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 128,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          128
+        ],
+        [
+          1,
+          255
+        ]
+      ],
+      "original_node_flag": 1,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 2,
+        "writes": 2,
+        "node_flag": 1,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "source_write_255_raw_bytes",
+      "input": {
+        "online": 255,
+        "remote": 255,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 255,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 0
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          255
+        ],
+        [
+          1,
+          255
+        ]
+      ],
+      "original_node_flag": 1,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 2,
+        "writes": 2,
+        "node_flag": 1,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "dead_callback_rebinds_captured_visual_root",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 1,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 128
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 2,
+        "node_flag": 0,
+        "alt_flag": 1,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "respawn_callback_rebinds_captured_visual_root",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 1,
+        "respawn": 1,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 256
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          1
+        ],
+        [
+          5,
+          1
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 5,
+        "writes": 2,
+        "node_flag": 0,
+        "alt_flag": 1,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "port_protocol_same_character_reentry",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 32
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 5,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    },
+    {
+      "name": "logical_identity_is_captured",
+      "input": {
+        "online": 0,
+        "remote": 0,
+        "local": 28674,
+        "cull": 1,
+        "dead": 0,
+        "respawn": 0,
+        "visual": 1,
+        "node_cull": 1,
+        "visibility_80": 0,
+        "field_2fc": 0,
+        "gate_1480": 0,
+        "node_flag": 9,
+        "mutations": 1024
+      },
+      "original_result": 1,
+      "original_calls": [
+        [
+          0,
+          0
+        ],
+        [
+          2,
+          28674
+        ],
+        [
+          3,
+          300,
+          1
+        ],
+        [
+          4,
+          0
+        ]
+      ],
+      "original_node_flag": 0,
+      "host": {
+        "status": 0,
+        "value": 1,
+        "outcome": 1,
+        "calls": 4,
+        "writes": 1,
+        "node_flag": 0,
+        "alt_flag": 9,
+        "nested_status": 0,
+        "nested_can_update": 0,
+        "nested_calls": 0,
+        "trace": [
+          [
+            0,
+            4097,
+            0,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            4097,
+            4097,
+            0,
+            0,
+            1
+          ],
+          [
+            3,
+            4097,
+            4097,
+            300,
+            0,
+            0
+          ],
+          [
+            4,
+            4097,
+            4097,
+            0,
+            0,
+            0
+          ]
+        ]
+      }
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_update_eligibility.cpp": "51c9b88fffe41884323bf1dcca81b51fd8f6d51e7878dcca133a94226f5d618c",
+    "port/level-world/character_update_eligibility.hpp": "2142ad323c1bba578c8766f2daf338411eca273711af1722637d310184212f1e",
+    "port/level-world/tests/character_update_eligibility.cpp": "5885f214caf03088e0fdfa2dde1eea9c440de964c1454d5215cada74995e4fab",
+    "port/level-world/tests/run_character_update_eligibility_host.py": "059cda312619beaa10f05465a99c4bcec80e246a103589024789cd1d7de3798f"
+  },
+  "host_protocol_guards": {
+    "validation": "PASS",
+    "misaligned_visual": 1,
+    "initial_graph_alias": 1,
+    "result_visual_alias": 1,
+    "late_captured_root_alias": 1,
+    "fresh_visual_root_alias": 1,
+    "same_character_reentry": 1,
+    "online_byte_domain": 1
+  },
+  "provider_failure_cases": {
+    "validation": "PASS",
+    "operation_failures": 12,
+    "missing_provider": 1
+  },
+  "scope": "Character::CanUpdate only. Visual/scene state is a typed projection; online/local-player, culling, dead and respawn calls are fixture providers. Character::Update scheduler, world ownership, and native wiring are outside this unit."
+}

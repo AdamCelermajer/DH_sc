@@ -1,6 +1,6 @@
 #include "authored_shader_program.hpp"
-#include "../asset-payloads/sha256.hpp"
-#include "../scene-materials/shader_sources.hpp"
+#include "sha256.hpp"
+#include "shader_sources.hpp"
 #include <android/log.h>
 #include <algorithm>
 #include <cmath>

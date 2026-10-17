@@ -1,0 +1,77 @@
+{
+  "functions": [
+    {
+      "original_symbol": "_ZN9ByteArray9SetBufferEPKvi",
+      "elf_address": "0x36ddac",
+      "size": 124,
+      "sha256": "ac9912a61003de1831e8beb08b5bbf3d513213eab51144202d96f0b01a3fbcbf"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeI9ByteArrayE8SetValueERKS0_",
+      "elf_address": "0x36f264",
+      "size": 88,
+      "sha256": "59b16a6f1ea7caa4a6b5ffe31c10a12c312aac446960e1a3272bf4c3fce17d90"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj36EEC1E9ByteArray",
+      "elf_address": "0x370550",
+      "size": 184,
+      "sha256": "51c714e9eef178906d6d253855db5c6b4055645a08ee632ef1beb8571416fe19"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj3EEC1E9ByteArray",
+      "elf_address": "0x370608",
+      "size": 184,
+      "sha256": "3cb4ee67d66e85d4c06125a239d773b6ac09ee6cd48579c899473d101766bf65"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj30EEC1E9ByteArray",
+      "elf_address": "0x3706c0",
+      "size": 184,
+      "sha256": "9d3d26dbecdc15705a9d6a54524174c5d332e404e1adc6e4d9337ea858239f9b"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj36EE9SetBufferEPKvi",
+      "elf_address": "0x36ffd0",
+      "size": 80,
+      "sha256": "35a59e9c88015ee9cb95f76a211493a390a77983a4dbb56ce149b3c7d8d55ab4"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj3EE9SetBufferEPKvi",
+      "elf_address": "0x370258",
+      "size": 80,
+      "sha256": "a8a0431481ddd22affe4d85e24f89a5ce49242ecf94dc0897012f7ec9ff71bdd"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj30EE9SetBufferEPKvi",
+      "elf_address": "0x3702a8",
+      "size": 80,
+      "sha256": "76b7a5b34f901759a2650fdd7a46b8661d721df5411dc4e6ac2c2cc33095b037"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIbE8SetValueERKb",
+      "elf_address": "0x36da20",
+      "size": 24,
+      "sha256": "7a5bc5d3ec094888592c7700df720ba5453465400824c0dba6ed7f810c2ee7ad"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIjE8SetValueERKj",
+      "elf_address": "0x36da08",
+      "size": 24,
+      "sha256": "1f59d6e0cee2013ddea420ff35f13a9be2dc0ac67f6cab903bd4c8db9fecdf6d"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIiE8SetValueERKi",
+      "elf_address": "0x36d9f0",
+      "size": 24,
+      "sha256": "a84fa4e587f1e7b3469b0cd15e2a2b473b5888a585a108db2b64e0f41f29ed3f"
+    },
+    {
+      "original_symbol": "_ZN15NetStructMember10SetChangedEv",
+      "elf_address": "0x814f84",
+      "size": 84,
+      "sha256": "ddacc87a84eb0f36f9d942ea144e2ad519f0955780a322eddaf033e107c4d8f9"
+    }
+  ],
+  "scope": "ByteArray/NetStructByteArray36/3/30 constructors, SetValue and SetBuffer; Int/UInt/Bool SetValue leaves. Original input objects, shared revision and allocation/free traces compared. Allocator/memory primitives declared fixtures; bitstream/network serialization and allocator OOM are outside the source equivalence proof."
+}

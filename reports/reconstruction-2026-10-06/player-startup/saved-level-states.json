@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "cases": 404,
+  "original_words": {
+    "0x46a9cc": 155,
+    "0x466e48": 109,
+    "0x466b18": 109
+  },
+  "native_policy_checks": 172,
+  "compared_projection_bytes": 74160,
+  "implementation": "selected library",
+  "native_wired": false,
+  "scope": "Whole LVLS reader and both saved-state setters versus original ARM.\nReal original instructions resolve names, consume six groups, validate source\nstates, read assertion mode and mutate the six retained Save arrays. Stream\nprimitives, temporary string lifetime, strcmp and assertion logging are explicit\nobserving providers. Original unsafe array/null stores are stopped at their\nreached store instruction and compared as native failure prefixes. Difficulty\noutside0..2, malformed streams, limits and provider errors are separate native\npolicies. This does not validate a native SG_Load/InitPost binding.\n",
+  "source_sha256": {
+    "player_saved_level_states_v1.cpp": "761b33487c69574b1583abcad0397c09dbbde203dabffb8c701f870d62f0dc0d",
+    "player_saved_level_states_v1.hpp": "ebed60cfa3eaff09ccc0e68bd3811b917edded3acb2a81b8730101366e93f838",
+    "tests/player_saved_level_states_v1_host.cpp": "b587e56718cd6b2c63c1a05aa8b0ae023b6531e9d6345fa86554844c42ce4e78",
+    "tests/run_player_saved_level_states_v1.py": "7762cf73b83558aa00442e20547ae44292b6cade55a7365ae4e64bf8dbb5a2ca",
+    "reference/player-saved-level-states-v1/original-functions.json": "4b455bd14dee57cfcb561e2775ce09566eba3942ce522e51d9b2a7670ca68de9"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_saved_level_states_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_level_states_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_level_states_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/player_saved_level_states_v1.cpp.obj"
+    }
+  ],
+  "binary_sha256": {
+    "player_saved_level_states_v1_host.exe": "76c20315be0bf9e8c229df53c2bdd465d52f122fe091cd7d3e2dc012dd5f64e5",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "e742c320b054169afb5dd3bdf647c92a1a5d101606ee51ac9297b73a3b0381fa",
+    "libdh2_level_world.dll": "24e2fc01f94285eb624ba6a710af0273f4a4ecaba2c50a911b621ee64ddb82ca"
+  }
+}

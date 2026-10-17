@@ -1,0 +1,249 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "aac39ae52ed5d36eeae31f699997877052610e8f2edf63dc66462952f65e4542",
+  "api": 37,
+  "page_size": 16384,
+  "abi": "x86_64",
+  "runs": [
+    {
+      "report": "live-run-1.json",
+      "validation": "FAIL",
+      "completed_classes": [
+        0,
+        1
+      ],
+      "original_saves_restored": true
+    },
+    {
+      "report": "live-run-2.json",
+      "validation": "PASS",
+      "completed_classes": [
+        2
+      ],
+      "original_saves_restored": true
+    }
+  ],
+  "cases": [
+    {
+      "class_index": 0,
+      "created": {
+        "slot": 0,
+        "class": 263,
+        "preset": "KnightPlayerBase",
+        "cached_property2": 48,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 0,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "occupied_after_restart": {
+        "slot": 0,
+        "class": 263,
+        "preset": "KnightPlayerBase",
+        "cached_property2": 48,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 0,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "normal_back_to_main": true,
+      "Home_resume_same_class_and_character": true
+    },
+    {
+      "class_index": 1,
+      "created": {
+        "slot": 1,
+        "class": 325,
+        "preset": "RoguePlayerBase",
+        "cached_property2": 50,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 37579,
+        "max_HP": 37580,
+        "MP": 10303,
+        "max_MP": 10304,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 1,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "occupied_after_restart": {
+        "slot": 1,
+        "class": 325,
+        "preset": "RoguePlayerBase",
+        "cached_property2": 50,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 37579,
+        "max_HP": 37580,
+        "MP": 10303,
+        "max_MP": 10304,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 1,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "normal_back_to_main": true,
+      "Home_resume_same_class_and_character": true
+    },
+    {
+      "class_index": 2,
+      "created": {
+        "slot": 0,
+        "class": 290,
+        "preset": "MagePlayerBase",
+        "cached_property2": 49,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 36095,
+        "max_HP": 36096,
+        "MP": 20095,
+        "max_MP": 20096,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 0,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "occupied_after_restart": {
+        "slot": 0,
+        "class": 290,
+        "preset": "MagePlayerBase",
+        "cached_property2": 49,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 36095,
+        "max_HP": 36096,
+        "MP": 20095,
+        "max_MP": 20096,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 0,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "normal_back_to_main": true,
+      "Home_resume_same_class_and_character": true
+    }
+  ],
+  "scope": "All three classes completed new profile, occupied-slot cold reopen, development Crypt HUD, Back and Home/resume on this exact APK across two scoped runs. The first three-class attempt failed during fresh-process transition before Mage; its two completed cases are retained, and Mage passed a separate single-class run after launch/slot harness fixes. Full PlayerInfo is the manager fallback only; controller and Character660 registration, complete original startup and campaign are not validated.",
+  "physical_arm64_tested": false
+}

@@ -1,0 +1,70 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK10GameObject29IsUpdatingPositionFromPhysicsEv",
+      "elf_address": "0x34006c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47",
+      "meaning": "Base implementation returns 1."
+    },
+    {
+      "original_symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+      "elf_address": "0x3a2e44",
+      "size": 12,
+      "sha256": "05d43e2407b49c03a330eae70a339d4e7f42f2a1ec3b77155d2900bbde90a3c8",
+      "meaning": "Character+0x520 bit 1, returned as 0 or 1."
+    }
+  ],
+  "vtable_dispatch": [
+    {
+      "class": "GameObject",
+      "vtable_symbol": "_ZTV10GameObject",
+      "vtable_address": "0x964748",
+      "vtable_size": 244,
+      "address_point": "0x964750",
+      "slot_offset": "0x64",
+      "entry_address": "0x9647b4",
+      "entry_value": "0x34006c",
+      "entry_bytes_sha256": "9a4d79944ad12fcea7a9f922b25cf99bcf853c4f0fc5b7e2096d7700edb4ac8c",
+      "relocation_type": 23,
+      "role": "Base GameObject policy."
+    },
+    {
+      "class": "Character",
+      "vtable_symbol": "_ZTV9Character",
+      "vtable_address": "0x965f30",
+      "vtable_size": 812,
+      "address_point": "0x965f38",
+      "slot_offset": "0x64",
+      "entry_address": "0x965f9c",
+      "entry_value": "0x3a2e44",
+      "entry_bytes_sha256": "acd2a8641f209b2f0667605870da055fdd90a63d0c536590581dbdb74a5bfe9d",
+      "relocation_type": 23,
+      "role": "Crypt Ghost uses Character, so Stop dispatches this override."
+    }
+  ],
+  "character_constructor": {
+    "original_symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+    "elf_address": "0x3a9340",
+    "size": 1448,
+    "sha256": "ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb",
+    "vtable_got_entry": "0x9978a0",
+    "got_bytes_sha256": "64827cd69185ada22e1f6c315e196fd075fa84c47d9ef3c754beed1fe0ae79ea",
+    "vtable_symbol_value": "0x965f30",
+    "address_point_instruction": "0x3a9404",
+    "address_point_instruction_bytes": "08008ee2",
+    "vptr_store_instruction": "0x3a9418",
+    "vptr_store_instruction_bytes": "030084e8",
+    "role": "Constructor installs Character vptr and primary address point at object offset 0."
+  },
+  "source_properties": {
+    "idle_flags": "0x2380",
+    "move_flags": "0x23c1",
+    "position_from_physics_bit": 1,
+    "idle_move_value": 0,
+    "evidence": "port/level-world/reference/move-state/NOTES.md"
+  },
+  "notes": "Character's override is a complete getter leaf and reuses the existing source-derived move policy bit decoder. No Ghost-only C++ subclass or separate Character vtable was found for the selected native Crypt actor."
+}

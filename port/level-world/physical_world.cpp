@@ -51,6 +51,7 @@ extern "C" int dh2_physical_world_step_arguments(float* dt,unsigned* iterations,
  *dt=static_cast<float>(milliseconds)*0.001f;*iterations=10;return 0;
 }
 namespace dh2::physical {
+NativeWorld::NativeWorld()=default;
 void NativeWorld::load(const float bounds[4]){
  if(!bounds||!std::isfinite(bounds[0])||!std::isfinite(bounds[1])||!std::isfinite(bounds[2])||!std::isfinite(bounds[3])||bounds[0]>=bounds[2]||bounds[1]>=bounds[3])throw std::invalid_argument("Invalid physical world bounds");
  clear();b2AABB aabb;aabb.lowerBound.Set(bounds[0],bounds[1]);aabb.upperBound.Set(bounds[2],bounds[3]);

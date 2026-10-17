@@ -1,0 +1,61 @@
+{
+  "schema": "dh2-crypt-music-loader-fixture-v1",
+  "rule": {
+    "asset": "worlds/007_crypt_01.rule.xml",
+    "music_cue": "CryptOneAmbientMusic",
+    "ambient_alias": "sfx_catacomb_ambiance",
+    "ambient_alias_resolution": "unresolved in sounds.xml; do not substitute the candidate WAV"
+  },
+  "music": {
+    "source_table": "data/sounds/sounds.xml",
+    "track_uid": 486,
+    "label": "CryptOneAmbientMusic",
+    "filename": "m_level_cathedral_sfx_catacomb.vxn",
+    "bank": 1,
+    "group": 2,
+    "loop": true,
+    "shared_file_tracks": [
+      {"uid": 484, "label": "AbbeyRuinsOneAmbientMusic"},
+      {"uid": 485, "label": "PortalRoomAmbientMusic"},
+      {"uid": 486, "label": "CryptOneAmbientMusic"},
+      {"uid": 487, "label": "SecretCryptAmbientMusic"}
+    ],
+    "cache_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/m_level_cathedral_sfx_catacomb.vxn",
+    "cache_verified": true,
+    "bytes": 10281472,
+    "crc32": "a8abdb0c",
+    "sha256": "6c0236d19b66011d986a7fd31a332257d8f689ceea69e049abf90376d33ed909",
+    "codec_id": 17,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "audio_base": 512,
+    "encoded_payload_bytes": 10280960,
+    "states": ["ambient", "combat"],
+    "segments": [
+      {"start_byte": 0, "encoded_bytes": 5140480, "sample_limit": 5105117, "opaque_tail_words": [0, 0, 0]},
+      {"start_byte": 5140480, "encoded_bytes": 5140480, "sample_limit": 5105117, "opaque_tail_words": [0, 0, 0]}
+    ],
+    "payload_included": false,
+    "metadata_fixture": "m_level_cathedral_sfx_catacomb.vxn.metadata",
+    "metadata_fixture_bytes": 504,
+    "metadata_fixture_sha256": "e12be1f4c3c5143f3975d7ac62888b64b739a3c5999588714bb922a5dd7c13e6"
+  },
+  "wind_candidate": {
+    "source_table": "data/sounds/sounds.xml",
+    "track_uid": 179,
+    "label": "CatacombWindLoop",
+    "filename": "sfx_catacomb_wind_loop.wav",
+    "bank": 4,
+    "group": 5,
+    "loop": true,
+    "channels": 1,
+    "sample_rate_hz": 32000,
+    "sample_width_bits": 16,
+    "frames": 108845,
+    "duration_ms": 3401,
+    "bytes": 217734,
+    "sha256": "4a5ef7713c61d024ee72453df7970b97ebfcb911a563bf996ad5be063e99a4ec",
+    "candidate_only": true
+  }
+}

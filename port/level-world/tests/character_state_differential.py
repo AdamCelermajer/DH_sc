@@ -37,6 +37,7 @@ def main():
  ns=new.data+0x1000;nf=new.data+0x2000;nc=new.data+0x3000;np=new.data+0x4000;no=new.data+0x5000
  context=0xabcdef0123456789;identity=0x123456789abcdef0
  events=[[],[]];facts=None;records=[];registrations={};transition_calls=0;dt=0;getter=False;callback_mode=0
+ debug_preludes=0;initial_flags=0
  def word(address):return struct.unpack('<I',old.uc.mem_read(address,4))[0]
  def put(address,value):old.pointer(address,value&0xffffffff)
  def byte(address,value):old.uc.mem_write(address,bytes((value,)))
@@ -102,8 +103,13 @@ def main():
   if address==0x3935dc:returned(target+0x100);return
  old.uc.hook_add(UC_HOOK_CODE,hook)
  def callback(uc,address,size,unused):
+  nonlocal debug_preludes
   assert new.reg(0)==context and new.reg(1)==ns
-  data=bytes(uc.mem_read(new.reg(2),32));events[1].append(data);kind,a,b,c,value,zero,key=struct.unpack('<6IQ',data);assert zero==0
+  data=bytes(uc.mem_read(new.reg(2),32));kind,a,b,c,value,zero,key=struct.unpack('<6IQ',data);assert zero==0
+  if kind==33: # Appended dead_focus_prelude; original Debug callees are fixtures.
+   current,flags=struct.unpack('<iI',uc.mem_read(ns,8));assert current==12 and flags==initial_flags
+   debug_preludes+=1;uc.reg_write(new.pc,uc.reg_read(new.lr));return
+  events[1].append(data)
   if kind==1:
    uc.mem_write(ns+32,bytes(4))
    if callback_mode==4:uc.mem_write(nf+16,bytes(12))
@@ -140,8 +146,9 @@ def main():
  load(initial,defaults)
  for state,address in ((3,0x3c7e60),(4,0x3c80ac),(5,0x3c8284),(12,0x3c8920)):old.invoke(address,[objects+state*16,state,char,sm])
  def compare(op,state,values,a=0,b=0,payload=0,mode=0):
-  nonlocal dt,transition_calls,callback_mode
+  nonlocal dt,transition_calls,callback_mode,initial_flags
   callback_mode=mode
+  initial_flags=struct.unpack_from('<I',state,4)[0]
   native=load(state,values);events[0].clear();events[1].clear();transition_calls=0;dt=a
   if op==0:old.invoke(0x3c1938,[sm,a,b,target if payload else 0]);result=1;actual=new.invoke('dh2_character_state_transition',[ns,nf,a,b,identity if payload else 0,nc])
   elif op==1:old.invoke(0x3c5684,[sm,a,target if payload else 0]);result=int(bool(transition_calls));actual=new.invoke('dh2_character_state_event',[ns,nf,a,identity if payload else 0,nc])
@@ -186,5 +193,5 @@ def main():
  # Malformed ABI inputs are a native defensive boundary, not original behavior.
  new.uc.mem_write(ns,initial);new.uc.mem_write(nf,bytes(96));before=bytes(new.uc.mem_read(ns,56));assert new.invoke('dh2_character_state_event',[ns,nf,0x22,0,0])&0xffffffff==0xffffffff;assert bytes(new.uc.mem_read(ns,56))==before
  reference=struct.pack('<II',0x31545343,len(records))+b''.join(records);args.reference_output.parent.mkdir(parents=True,exist_ok=True);args.reference_output.write_bytes(reference)
- report={'original_sha256':manifest['original_sha256'],'arm64_library_sha256':hashlib.sha256(args.library.read_bytes()).hexdigest(),'reference_sha256':hashlib.sha256(reference).hexdigest(),'kernel_source_sha256':hashlib.sha256((ROOT/'character_state.cpp').read_bytes()).hexdigest(),'comparisons':len(records),'state_cases':len(records)-getter_cases-idle_cases,'attack_speed_cases':getter_cases,'idle_predicate_cases':idle_cases,'mismatches':0,'original_event_registrations':{str(k):{hex(e):list(v) for e,v in regs.items()} for k,regs in registrations.items()},'original_import_calls':old.import_calls,'scope':__doc__,'imported_ieee_single_precision_arithmetic_and_comparisons_modeled':True,'full_service_backends_executed':False,'callback_context_and_target_identity_above_4gib':True,'coverage':{r['original_symbol']:{'instructions':r['size']//4,'seen':sum(int(r['elf_address'],16)<=pc<int(r['elf_address'],16)+r['size'] for pc in old.seen)} for r in manifest['functions']},'elapsed_seconds':round(time.monotonic()-started,2)};args.report.parent.mkdir(parents=True,exist_ok=True);args.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ('coverage','original_event_registrations')}))
+ report={'original_sha256':manifest['original_sha256'],'arm64_library_sha256':hashlib.sha256(args.library.read_bytes()).hexdigest(),'reference_sha256':hashlib.sha256(reference).hexdigest(),'kernel_source_sha256':hashlib.sha256((ROOT/'character_state.cpp').read_bytes()).hexdigest(),'comparisons':len(records),'state_cases':len(records)-getter_cases-idle_cases,'attack_speed_cases':getter_cases,'idle_predicate_cases':idle_cases,'mismatches':0,'original_event_registrations':{str(k):{hex(e):list(v) for e,v in regs.items()} for k,regs in registrations.items()},'original_import_calls':old.import_calls,'scope':__doc__,'imported_ieee_single_precision_arithmetic_and_comparisons_modeled':True,'full_service_backends_executed':False,'mandatory_dead_debug_preludes':debug_preludes,'dead_debug_scope':'Added prelude validated before flags and counted separately; original Debug callees remain fixtures, actual owner is tested in the selected dead-focus adapter gate','callback_context_and_target_identity_above_4gib':True,'coverage':{r['original_symbol']:{'instructions':r['size']//4,'seen':sum(int(r['elf_address'],16)<=pc<int(r['elf_address'],16)+r['size'] for pc in old.seen)} for r in manifest['functions']},'elapsed_seconds':round(time.monotonic()-started,2)};args.report.parent.mkdir(parents=True,exist_ok=True);args.report.write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({k:v for k,v in report.items() if k not in ('coverage','original_event_registrations')}))
 if __name__=='__main__':main()

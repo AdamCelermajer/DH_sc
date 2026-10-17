@@ -1,0 +1,21 @@
+{
+  "validation": "PASS",
+  "cases": 325,
+  "compared_bytes": 3640000,
+  "distinct_original_words": 869,
+  "clock_reads": 1160,
+  "failure_prefixes": 12,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": "selected library",
+  "scope": "Fixed Win32 input ownership, reached stores, channel and stick updates; original external soft-float and libm calls use declared host fixtures. No generic virtual providers or native singleton allocation claimed.",
+  "source_sha256": "8ed04ccd8c668f0aa07e0dd2c00a00c508532c8788302077c7c468700dd90cad",
+  "binary_sha256": {
+    "input_manager_v1_host.exe": "3713b9e78140a385f5b6656eb7031c8d7795d751deb185db6c6904276af38e82",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "f0519299da3df08e24c3b869833503091c53875d044696d6811f9d75b96b56c8",
+    "libdh2_scene_materials.dll": "88a49b4734050c374110f5d41559bee96cfaf940edcdfb9f42c6cf544c55058a",
+    "libdh2_engine_skinning.dll": "7b711dc5a207b65df63aa61405e20328a7f12498103d161caea748c7ddbe0d10",
+    "libdh2_game_data.dll": "03d6a96d38c88550692d57e77429ab0b5668b1ffb0069702fcc3d2b9fbadc8aa",
+    "libdh2_level_world.dll": "5bae5751941cafbe9241f291bd8efb2a809265df534787409c649aea284173a5"
+  }
+}

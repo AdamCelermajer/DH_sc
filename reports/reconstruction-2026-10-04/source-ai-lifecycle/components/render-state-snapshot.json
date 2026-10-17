@@ -1,0 +1,48 @@
+{
+  "scope": "strict decoding of the recovered 32-byte renderpass::SRenderState snapshot and exact static GLenum maps; no AL pass bytes supplied, no shader execution or device test",
+  "validation": "PASS",
+  "evidence": {
+    "validation": "PASS",
+    "snapshot_bytes": 32,
+    "constructor_blend": false,
+    "constructor_depth_test": true,
+    "constructor_depth_write": true,
+    "synthetic_additive_one_one": true,
+    "al_runtime_state_recovered": false
+  },
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_manifest_sha256": "2cb99cfd3903e2afa693466e5b34520395bbd630f9703aa3b2086b7ffcd9ad89",
+  "verified_assembly_sha256": {
+    "recovered/native/assembly/libDungeonHunter2.so/boost_intrusive_ptr_glitch_video_CMaterialRenderer_glitch_collada-103a5e550bf3-001.asm": "8dadd55679a3ca84c39281473c91f6cdc81c36647ae282cceb412c5d9963d129",
+    "recovered/native/assembly/libDungeonHunter2.so/glitch_video_CMaterialRenderer-a2aa4bc66635-001.asm": "96a9fdb420fa978b925a970090d265849068d2d075a91f1782f53ece21093f35",
+    "recovered/native/assembly/libDungeonHunter2.so/glitch_video_CMaterialRendererManager_SCreationState-ec75b4328515-001.asm": "ea3063b7111f48580388aa004852803dc957863ad23dda66a6ab76cc44251859",
+    "recovered/native/assembly/libDungeonHunter2.so/glitch_video_detail_renderpass_SRenderState-2777ca965cb6-001.asm": "632fa9d145d4f5b0481b5eb1df1c7a997675ec04bde8aaaa44a00d3a8bbf2f07",
+    "recovered/native/assembly/libDungeonHunter2.so/void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm": "ed7ad4f18deb60eb84e9ced0d4887f7979b2de37010f6d745e30e426747d18e4",
+    "recovered/native/assembly/libDungeonHunter2.so/void_glitch_video_detail-1d8f95ea9161-001.asm": "df2648245ba009ba6e725539817aad785b721a22ec15a20d67dc552080911cdd"
+  },
+  "source_sha256": {
+    "port/scene-materials/render_state_snapshot.cpp": "8924ebbaaa675163509bd938706ded30604602832069e1820b5bcdfc7c4b6083",
+    "port/scene-materials/render_state_snapshot.hpp": "dcf812dc8aad61b55311406def972a3bdeec031c89b568e35f0e4183674541eb",
+    "port/scene-materials/tests/render_state_snapshot.cpp": "36c02a7eccc459ba3539fbc46853dc405a6e238eb25bf5b4075b8a70644bf830",
+    "port/scene-materials/tests/run_render_state_snapshot_host.py": "486381de8ebb447ad27388ab83c2b933bacc297c4f6d4d3577bcf130325fb66b"
+  },
+  "compiler": "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+  "compile_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-exceptions",
+    "-fno-rtti",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-materials\\tests\\render_state_snapshot.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-materials\\render_state_snapshot.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-materials\\build\\render-state-snapshot-corrected-root\\render-state-snapshot-host.exe"
+  ],
+  "host_executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\scene-materials\\build\\render-state-snapshot-corrected-root\\render-state-snapshot-host.exe",
+  "host_executable_sha256": "6df9be0795f2e5bc2a5f39d88ec8c730cd1cf8c7dbe837fbe61d868e05ecafa6"
+}

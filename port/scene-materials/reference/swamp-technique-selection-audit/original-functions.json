@@ -1,0 +1,31 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "Checked serialized material technique selector and ordered name lookup; original material constructor, compiled renderer/profile ownership and GL blend/depth states excluded",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch7collada14createMaterialERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKN5boost13intrusive_ptrINS4_17CMaterialRendererEEERNS0_9SMaterialEPNS0_14CRootSceneNodeE",
+      "demangled": "glitch::collada::createMaterial(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::video::CMaterialRenderer> const&, glitch::collada::SMaterial&, glitch::collada::CRootSceneNode*)",
+      "elf_address": "0x631ce8",
+      "size": 1768,
+      "sha256": "85623a86cab3a537b4b865cd201292198524a9033ce9a266fed7713c3c138e4b",
+      "scope": "Type20 selection callsite and material active-byte evidence; full createMaterial body not reconstructed"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5video17CMaterialRenderer14getTechniqueIDEPKc",
+      "demangled": "glitch::video::CMaterialRenderer::getTechniqueID(char const*) const",
+      "elf_address": "0x5d4714",
+      "size": 160,
+      "sha256": "984f068cc2459e9915caef91dfaa2c13c36c0ff38d4b5ac576e65dfa75193142",
+      "scope": "Bounded ordered-name lookup over checked names; serialized table ordinal distinguished from runtime compiled ordinal; original interner/renderer storage not reconstructed"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5video9CMaterial12getTechniqueEv",
+      "demangled": "glitch::video::CMaterial::getTechnique() const",
+      "elf_address": "0x5c5d34",
+      "size": 72,
+      "sha256": "2b7c66ed451f2786bd962a0dbcf910c20307e994bd0e0242a005b1a930b9ff0e",
+      "scope": "Supporting active/profile-byte use evidence only; profile/pass/render-state body not reconstructed"
+    }
+  ]
+}

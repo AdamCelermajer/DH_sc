@@ -1,0 +1,30 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "one bounded normal _UpdateAggro candidate-consumption branch; classification, event acceptance, original heap mechanics, search/timing/type branches external",
+  "implementation": {
+    "source": ["port/level-world/character_aggro_candidate_events.hpp", "port/level-world/character_aggro_candidate_events.cpp"],
+    "dependencies": ["port/level-world/character_aggro_target_search.hpp", "port/level-world/character_aggro_target_search.cpp"],
+    "tests": ["port/level-world/tests/character_aggro_candidate_events.cpp", "port/level-world/tests/run_character_aggro_candidate_events_host.py"],
+    "new_bounded_branch_implementations": 1,
+    "new_full_native_body_claims": 0,
+    "native_wired": false
+  },
+  "source_facts": {
+    "candidate_identity": "TargetInfo+0 GameObject identity, port object_identity; character_identity is only resolution metadata",
+    "predicate_order": ["AI_IsEnemy", "AI_IsFriend", "AI_IsNeutral"],
+    "owner_loads": ["0x3cf708", "0x3cf6b8", "0x3cf720", "0x3cf73c", "0x3cf8ec", "0x3cf908", "0x3cf980"],
+    "events": {"enemy":9, "friend":7, "neutral":8},
+    "pop": "0x3cf6cc invokes source priority-queue pop after each event/classification, then continues through every candidate",
+    "no_enemy": "empty or no notified enemy with current AI+0x40 nonzero emits event12 with the unchanged current identity as R2 payload",
+    "valid_flags": "caller requires source TargetInfo bit0 set; invalid-flag assertion bodies excluded"
+  },
+  "functions": [
+    {"original_symbol":"_ZN6CharAI12_UpdateAggroEv", "elf_address":"0x3cf3f0", "size":2052, "sha256":"710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692", "scope":"bounded normal candidate loop only, not full method"},
+    {"original_symbol":"_ZNK6CharAI10AI_IsEnemyEPK10GameObject", "elf_address":"0x3d574c", "size":844, "sha256":"e99c62ec437b85a44ef4162fb17029fd851e01f66a92d226dc2d92b785713f4d", "scope":"external relation producer evidence"},
+    {"original_symbol":"_ZNK6CharAI11AI_IsFriendEPK10GameObject", "elf_address":"0x3d511c", "size":720, "sha256":"5b7cc3cd157969e3301a40fbec86806e68de7ed8cc453fff3fab3f3f7500f81c", "scope":"external relation producer evidence"},
+    {"original_symbol":"_ZNK6CharAI12AI_IsNeutralEPK10GameObject", "elf_address":"0x3d5a98", "size":716, "sha256":"74786171724a9d77960d71dc9c700a58aa03287ef6f9d8ea07992b0b2ed85a40", "scope":"external relation producer evidence"},
+    {"original_symbol":"_ZN9Character10RaiseEventEiPv", "elf_address":"0x3a4d5c", "size":28, "sha256":"2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3", "scope":"original wrapper executes in branch oracle; native service remains external"},
+    {"original_symbol":"_ZN6CharAI12RaiseAIEventEiPv", "elf_address":"0x3cbb34", "size":1764, "sha256":"f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966", "scope":"external event relay evidence; existing separate dispatcher kernel"},
+    {"original_symbol":"_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE3popEv", "elf_address":"0x38fb18", "size":160, "sha256":"edd7c1f63d0651ed403629b5afffb028408d06321570fd3033591d3b1154d42d", "scope":"observed pop callsite; original heap/deque body not executed by branch oracle"}
+  ]
+}

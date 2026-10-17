@@ -1,0 +1,88 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7CSSkill7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "elf_address": "0x3c0ac8",
+      "size": 60,
+      "sha256": "bfb0054d5e809585c598ce6bc42976d3440f2a559039f84e0218e5a9ee763f31",
+      "scope": "reconstructed complete body"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill8OnUpdateEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c0018",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "reconstructed complete body"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8438",
+      "size": 384,
+      "sha256": "896f8664795acd5508f39186908f2c9c0fa8c4df75e195ccb94881c62cdfe328",
+      "scope": "source event registration evidence"
+    },
+    {
+      "original_symbol": "_ZN9Character13CSM_StopSkillEiPviRi",
+      "elf_address": "0x3ad290",
+      "size": 12,
+      "sha256": "fce3ee6d925c42c31c20282419cafc551bb817935b132828254f21d86e7e6c04",
+      "scope": "source predicate evidence"
+    },
+    {
+      "original_symbol": "_ZN9Character15CSM_InterruptedEiPviRi",
+      "elf_address": "0x3ad244",
+      "size": 60,
+      "sha256": "f5c958283cb0ba77ab381cb5a86f1a9bb4f36bb22647208d706fd05c21756b85",
+      "scope": "state6 predicate branch evidence only"
+    },
+    {
+      "original_symbol": "_ZN6CSIdle6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c7e60",
+      "size": 588,
+      "sha256": "0eac7ccb9844b2b9bd95074fb65ba6b6d5be2391866895c5810a06fb264d46e6",
+      "scope": "source entry registration evidence"
+    },
+    {
+      "original_symbol": "_ZN6CSMove6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c80ac",
+      "size": 472,
+      "sha256": "5a26eb47925eeab956b077e3640db5ad443255f3b41af8e8385f36fcbb2369ea",
+      "scope": "source entry registration evidence"
+    },
+    {
+      "original_symbol": "_ZN8CSAttack6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "0x3c8284",
+      "size": 436,
+      "sha256": "61b2285ce2d36a6573385cbf3bb869bcaae9be159fbfdd8c5ef4849ac15b9e7a",
+      "scope": "source entry registration evidence"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c434c",
+      "size": 308,
+      "sha256": "e6761dc6c5d6f43b695b678924ee23ce4e7ef2af0bf2a15d96e222f389de5841",
+      "scope": "reused frozen callback, no additional body credit"
+    }
+  ],
+  "event_literal": {
+    "elf_address": "0x8c4b60",
+    "text": "is_stoppable",
+    "sha256": "f1a84fd7d6d1df089ca449a6aef613ee6a3ce22978760c44d04a2b4290462ee8"
+  },
+  "source_timer": {
+    "duration_ms": 10,
+    "repeat": 0,
+    "event": 48,
+    "user_ref": 0,
+    "call_address": "0x3c442c",
+    "event_instruction": "0x3c4420",
+    "event_instruction_bytes": "3030a0e3"
+  },
+  "attribution": {
+    "repository": "AdamCelermajer/DH_sc",
+    "commit": "791e961b12233100b303038c961666834f4beb9d",
+    "reused": "compatible V4 exact is_stoppable event algorithm and source no-op update; frozen captured Focus/Blur remains reused unchanged",
+    "adapted": "shared Coordinator fields, source registration/predicate map, unsupported destination reporting and prefix/alias validation"
+  }
+}

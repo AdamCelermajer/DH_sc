@@ -1,0 +1,71 @@
+{
+  "date": "2026-10-03",
+  "apk": {
+    "path": "build/irrlicht-ogles-r6038-debug.apk",
+    "bytes": 11422569,
+    "sha256": "249b68998a85562174d30bfd537e953e4f4391267da63a05689ed12e2bdce506",
+    "target_sdk": 37,
+    "native_api": 35,
+    "abis": ["arm64-v8a", "x86_64"],
+    "upstream_tree_manifest_sha256": "35646787aaa7ac0cb92a04a29deb52cad69fe8e75c144718801733bd4d3b4fc1"
+  },
+  "devices": [
+    {
+      "serial": "emulator-5556",
+      "android_release": "17",
+      "sdk": 37,
+      "page_size_bytes": 4096,
+      "abi": "x86_64",
+      "renderer": "OpenGL ES 3.0 SwiftShader 4.0.0.1",
+      "launch": true,
+      "top_activity": "org.irrlicht.ogles.r6038.smoke/android.app.NativeActivity",
+      "built_apk_sha256": "249b68998a85562174d30bfd537e953e4f4391267da63a05689ed12e2bdce506",
+      "installed_apk_sha256": "249b68998a85562174d30bfd537e953e4f4391267da63a05689ed12e2bdce506",
+      "screenshot": {
+        "local_build_path": "build/smoke-api37/rgba-mipmap-fix-4k/settled-frame-4k.png",
+        "sha256": "59f0919659ae3debad00f9aeb430234a091bcab7812d22402dde5717e8f5a1d1"
+      },
+      "app_pid_logcat": "build/smoke-api37/rgba-mipmap-fix-4k/logcat-app-pid.txt",
+      "loaded_textures": ["media/irrlichtlogo3.png", "media/axe.jpg", "media/dwarf.jpg"],
+      "loaded_mesh": "media/dwarf.x",
+      "gl_invalid_operation_count": 0,
+      "gl_invalid_enum_count": 0,
+      "fatal_error_count": 0
+    },
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "sdk": 37,
+      "page_size_bytes": 16384,
+      "abi": "x86_64",
+      "renderer": "OpenGL ES 3.0 SwiftShader 4.0.0.1",
+      "launch": true,
+      "top_activity": "org.irrlicht.ogles.r6038.smoke/android.app.NativeActivity",
+      "built_apk_sha256": "249b68998a85562174d30bfd537e953e4f4391267da63a05689ed12e2bdce506",
+      "installed_apk_sha256": "249b68998a85562174d30bfd537e953e4f4391267da63a05689ed12e2bdce506",
+      "screenshot": {
+        "local_build_path": "build/smoke-api37/rgba-mipmap-fix/settled-frame-16k.png",
+        "sha256": "d417ce123be0f7267ac717cde85e8145990fcb56f216f8a1e47a5bb2a7173970"
+      },
+      "app_pid_logcat": "build/smoke-api37/rgba-mipmap-fix/logcat-app-pid.txt",
+      "loaded_textures": ["media/irrlichtlogo3.png", "media/axe.jpg", "media/dwarf.jpg"],
+      "loaded_mesh": "media/dwarf.x",
+      "gl_invalid_operation_count": 0,
+      "gl_invalid_enum_count": 0,
+      "fatal_error_count": 0
+    }
+  ],
+  "mipmap_error_resolution": {
+    "pre_fix_gl_invalid_operation_count": 3,
+    "pre_fix_evidence": "GFXSTREAM logged GL error 0x502 during mipmap generation for each RGBA texture; Irrlicht reported GL_INVALID_OPERATION at COpenGLCoreTexture.h:151 after regenerateMipMapLevels.",
+    "fix": "The generated GLES2 staging copy skips the fixed-function GL_TEXTURE_2D enable workaround and forces A8R8G8B8 sources through the existing RGBA byte-order converter instead of the BGRA extension format.",
+    "post_fix_gl_invalid_operation_count": 0,
+    "post_fix_gl_invalid_enum_count": 0
+  },
+  "visual_observation": "The settled full-surface screenshots show the Irrlicht logo and fully textured, animating dwarf and axe. A screenshot taken during cold startup before the first scene render was blank; later settled screenshots show the model.",
+  "limitations": [
+    "This is the upstream HelloWorld sample, not DH2 and not integrated into the DH_sc app.",
+    "Android emulators use x86_64 and SwiftShader; ARM64 runtime and physical devices were not tested.",
+    "The current build was not re-tested for pause/resume, process death, or EGL context loss."
+  ]
+}

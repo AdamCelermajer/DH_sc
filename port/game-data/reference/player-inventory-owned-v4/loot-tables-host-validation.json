@@ -1,0 +1,54 @@
+{
+  "validation": "PASS",
+  "host_audit": {
+    "validation": "PASS",
+    "original_Loot_records": 339,
+    "synthetic_records": 128,
+    "original_random_operations": 512,
+    "actual_ItemTable_rows": 1322,
+    "actual_ItemLists": 186,
+    "starter_authored_items": 5,
+    "guards": 470,
+    "checks": 7341,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/game-data/loot_tables_v2.hpp": "2e7cf1a4ece3778e109b1d758be4c3e052ee7a9154a41917a53840c83c387d72",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/items.hpp": "12661c391735a81c29ffff587a5322dc2753c3ebe324e56be2b4a86db7e9e633",
+    "port/game-data/items.cpp": "2468a9e5fcc12a00859bf403dba09b66dbc9a39a3231de6c1ac88abb6fd5f091",
+    "port/game-data/tests/loot_tables_v2.cpp": "ef6bce7067c0a6345a62aaab4b77d39e35a34448f90797cd3a27e500a6771568",
+    "port/game-data/tests/loot_tables_v2_original.py": "bf92eeec8365ae4c13827c7f60f44cf5fbf57a65e9eacd403ce2ee580a99fa1d",
+    "port/game-data/tests/items_differential_v4_original.py": "fb12163810bd97fdaf74f62af247d65fe34003b4fea1121a4185fd72681730dd",
+    "port/game-data/tests/navigation_differential_v4_original.py": "2aa5c138f6866c3f78e0ee077497420af2f11144d85fab675ad23b3ffaf3dbfe",
+    "port/game-data/tools/run_loot_tables_v2_host.py": "17c9f957fcb593f2eb23c979f32bff37249346a092ba24e5852d358a6ce6049b"
+  },
+  "input_sha256": {
+    "port/game-data/loot_tables_v2.hpp": "2e7cf1a4ece3778e109b1d758be4c3e052ee7a9154a41917a53840c83c387d72",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/items.hpp": "12661c391735a81c29ffff587a5322dc2753c3ebe324e56be2b4a86db7e9e633",
+    "port/game-data/items.cpp": "2468a9e5fcc12a00859bf403dba09b66dbc9a39a3231de6c1ac88abb6fd5f091",
+    "port/game-data/tests/loot_tables_v2.cpp": "ef6bce7067c0a6345a62aaab4b77d39e35a34448f90797cd3a27e500a6771568",
+    "port/game-data/tests/loot_tables_v2_original.py": "bf92eeec8365ae4c13827c7f60f44cf5fbf57a65e9eacd403ce2ee580a99fa1d",
+    "port/game-data/tests/items_differential_v4_original.py": "fb12163810bd97fdaf74f62af247d65fe34003b4fea1121a4185fd72681730dd",
+    "port/game-data/tests/navigation_differential_v4_original.py": "2aa5c138f6866c3f78e0ee077497420af2f11144d85fab675ad23b3ffaf3dbfe",
+    "port/game-data/tools/run_loot_tables_v2_host.py": "17c9f957fcb593f2eb23c979f32bff37249346a092ba24e5852d358a6ce6049b",
+    "port/game-data/reference/player-creation-v2/fixtures.bin": "97b3004304b478ebd51f4d3c65593318f48a9e5bf4e0064ccb62cfb11145d0f6",
+    ".local-inputs/items-discovery/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    ".local-inputs/items-discovery/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    ".local-inputs/items-discovery/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+  },
+  "executable_sha256": "4e18370117c30eb1c7c3b97b77501408be6f808215de3f1fada02a178185e99d",
+  "runner_sha256": "17c9f957fcb593f2eb23c979f32bff37249346a092ba24e5852d358a6ce6049b",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "commands": [
+    "cd /mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc && g++ -std=c++17 -O1 -g -Wall -Wextra -Werror -Wno-misleading-indentation -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer port/game-data/loot_tables_v2.cpp port/game-data/items.cpp port/game-data/tests/loot_tables_v2.cpp -o .local-inputs/player-inventory-owned-v4/loot-tables-host",
+    "cd /mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc && ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 UBSAN_OPTIONS=halt_on_error=1 .local-inputs/player-inventory-owned-v4/loot-tables-host port/game-data/reference/player-creation-v2/fixtures.bin .local-inputs/items-discovery"
+  ],
+  "scope": "Original Loot record readers, LootTable cache projection, and the frozen Loot RNG helper; does not claim the live V4 inventory RNG has been wired into the app-wide stream."
+}

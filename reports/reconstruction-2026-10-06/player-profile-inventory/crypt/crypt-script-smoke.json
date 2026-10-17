@@ -1,0 +1,612 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "6792de5a33ecb272c1af76d184117a46b955fcce7240b015d8bd2d2c904820eb",
+  "serial": "emulator-5558",
+  "full_game_playable": false,
+  "physical_arm64_phone_tested": false,
+  "authored_trigger_and_script_modified": false,
+  "player_start_is_fan_test_override": true,
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "5bd2601c07ca43faaa93bf150f547d210a6ec4e3a2393b58fb07bdad62cc9dc6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "b2afd191b4897f262d263227c37aaf0a9a3f37e25a8c4181c109f3976f5d27da",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "56bdd933558196c1878397d50919d3a818ad04d12d86de987a0be05c2baf37f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "560246afeb7ec100fb35ce1feac0b88103c35a0cedf2e6e1b30d43e390fe074f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "9c656bb8da7cc1048639991d9e8123465b721ebf9388d9e5569267c3d944aed7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "41a99a321e29581c800057a421de1d48b70a74a71897d80956dd93b909d69ec5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "981358dd8f7de2920510f7b86ec85e64d194962250bc7cc31577535c1dc8d487",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "efe6aefc69aee43c163c5dc6bdfaf18a7418d6a451e1b1495000c70b598806d0",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "page_size": 16384,
+  "api_level": 37,
+  "installed_apk_sha256": "6792de5a33ecb272c1af76d184117a46b955fcce7240b015d8bd2d2c904820eb",
+  "launch_log_boundaries": [
+    {
+      "pid": "32537",
+      "epoch_since": "1791235158.541703900"
+    },
+    {
+      "pid": "32645",
+      "epoch_since": "1791235164.139727100"
+    }
+  ],
+  "bundled_start_does_not_trigger_remote_ambush": true,
+  "authored_trigger_descriptor_sha256": "e809b77179b827baeb8e3047e26f52bacf8dc0c855373db8e4e82d045a250299",
+  "test_spawn": [
+    -1405.22998046875,
+    19893.53872013092,
+    608.06201171875
+  ],
+  "native_monster_initial_properties": [
+    [
+      "_prim_Monster_SURPRISE_01",
+      "2048",
+      "25600",
+      "25600",
+      "23552",
+      "23552",
+      "1",
+      "2",
+      "183c",
+      "1",
+      "0",
+      "2"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "2048",
+      "25600",
+      "25600",
+      "23552",
+      "23552",
+      "1",
+      "2",
+      "183c",
+      "1",
+      "0",
+      "2"
+    ]
+  ],
+  "native_debug_file_after_initialization": {
+    "bytes": 665,
+    "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+  },
+  "screenshots": [
+    {
+      "path": "outside-authored-trigger.png",
+      "sha256": "b3b7f6b502de84057f1f48ecd72eb49277fb8aa7ecfb26163a7f2340b8f74832"
+    },
+    {
+      "path": "source-ghost-pair-idle.png",
+      "sha256": "db60e3a5db158126af7f05797e2b2e7030b885f284cb1421d2fc3853a0d13dc5"
+    },
+    {
+      "path": "authored-ambush-restored.png",
+      "sha256": "2572ed2ce1d3468f9665d8200e36ddefb3d1d1d74d3684d9a7bee5e428d53c2c"
+    }
+  ],
+  "source_visibility_hides_then_restores_enabled_ghosts": true,
+  "source_spawn_requests": [
+    {
+      "name": "_prim_Monster_SURPRISE_01",
+      "script_id": 17,
+      "pc": 1,
+      "time_ms": 5780
+    },
+    {
+      "name": "_prim_Monster_SURPRISE_02",
+      "script_id": 17,
+      "pc": 3,
+      "time_ms": 5859
+    }
+  ],
+  "source_wait_start_frames": [
+    {
+      "duration": 250,
+      "time_ms": 5509,
+      "frame_dt": 20
+    },
+    {
+      "duration": 75,
+      "time_ms": 5780,
+      "frame_dt": 21
+    }
+  ],
+  "actual_touch_contact_triggered_original_script": true,
+  "unbound_gated_combat_target_pairs_rejected": [
+    [
+      0,
+      78
+    ],
+    [
+      78,
+      0
+    ],
+    [
+      79,
+      -2
+    ]
+  ],
+  "camera_focus_restored_to_player_after_target_probes": true,
+  "nonlethal_source_health_fixture": {
+    "name": "_prim_Monster_SURPRISE_01",
+    "damage": 256,
+    "before": 25600,
+    "after": 25344,
+    "full_combat_damage_calculation_tested": false
+  },
+  "reload_preserves_consumed_trigger_and_script": true,
+  "recreation_preserves_script_and_ghost_states_without_replay": true,
+  "native_catalogue_load_reload_recreation": true,
+  "native_catalogue_current_level_owner_bound": false,
+  "native_level_constructor_fields_and_range_callbacks": true,
+  "native_level_fields_owner": "viewport-owned bounded projection; development normal difficulty argument",
+  "original_gslevel_save_stack_bound": false,
+  "native_debug_file_after_recreation": {
+    "bytes": 665,
+    "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+  },
+  "native_debug_source_io_counters": [
+    1,
+    25,
+    1,
+    1,
+    5,
+    5,
+    0
+  ],
+  "native_monster_unchanged_oninit_live_properties": true,
+  "native_monster_vm_health_and_timers_retained": true,
+  "unfinished_ai_dot_timer_providers_paused": true,
+  "native_character_function_registration_scope": "10 supported OnInit closures; complete 265 ordered bindings pending",
+  "autonomous_ghost_ai_and_full_init_script_process_complete": false,
+  "native_character_list_load_reload_recreation": true,
+  "native_character_list_counts": [
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ]
+  ],
+  "native_character_list_scope": "Prince and 13 live monster projections; native owned source-list nodes; full ObjectManager factory/name-map and autonomous Ghost AI remain pending",
+  "native_skill_catalogue_load_reload_recreation": true,
+  "native_ghost_ordered_init_script_process": true,
+  "native_ghost_skill_initialization_rows": [
+    [
+      "_prim_Monster_SURPRISE_01",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "0"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "0"
+    ],
+    [
+      "_prim_Monster_SURPRISE_01",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_01",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_01",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_01",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_01",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_01",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "12345",
+      "0",
+      "5",
+      "5",
+      "1",
+      "1",
+      "0",
+      "5",
+      "0",
+      "2",
+      "2",
+      "2",
+      "2",
+      "1",
+      "data/scripts/ai/",
+      "1"
+    ]
+  ],
+  "native_ghost_vector_catalogue_backing_retained": true,
+  "native_ghost_nonempty_skill_scripts_supported": false,
+  "native_ghost_skill_scope": "Exact authored Ghost empty SkillList/five zero-script faeries; HP/MP, SetSkillsAndSpells, UpdateAllSkills, Post and Final once on the same VM. Nonempty skill Lua, other AIS factories and autonomous frames remain pending.",
+  "native_frame_foundation_character_facts": {
+    "_prim_Monster_SURPRISE_01": {
+      "AI_id": 68,
+      "faction_id": 7,
+      "type": 4,
+      "monster": 1,
+      "player": 0,
+      "faerie": 0,
+      "NPC": 0,
+      "projected_death": 0,
+      "zonable": 1,
+      "observations": 7
+    },
+    "_prim_Monster_SURPRISE_02": {
+      "AI_id": 68,
+      "faction_id": 7,
+      "type": 4,
+      "monster": 1,
+      "player": 0,
+      "faerie": 0,
+      "NPC": 0,
+      "projected_death": 0,
+      "zonable": 1,
+      "observations": 7
+    }
+  },
+  "native_frame_foundation_scope": "Source cached-ID/type/NPC predicates select the native Ghost monster AIS and legacy nongated enemy path; zonability is diagnostic only. Ghost type4 does not use the type0 name branch. DACT instance name and normalized port death are adapter inputs, without original name/dead-byte producer parity. Autonomous frame/culling/zone-enrollment providers remain pending.",
+  "scope": "Original GhostAmbush01 contact/timed spawning on authored placement, approached with actual root-motion touch input from an explicit fan spawn override; source completion/body creation and reload/recreation; no complete-level or full AI claim.",
+  "previous_world_override_restored": true,
+  "logcat_sha256": "0e5fdc3be67d01220aff3dae369c4c135f86890f504bfe4b280c75fbf8512f2c",
+  "adb_transcript_sha256": "a27690d98cef01ac548b1554f035766cf11166c7e6bc0cf45c81856d67e4077f",
+  "source_camera_snapshot_count": 9
+}

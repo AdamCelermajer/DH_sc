@@ -1,0 +1,50 @@
+{
+  "date": "2026-10-03",
+  "apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+  "apk_bytes": 5465698,
+  "device_results": [
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "api": 37,
+      "page_size_bytes": 16384,
+      "abi": "x86_64",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "home_resume_completed": true,
+      "cold_relaunch_completed": true,
+      "cold_relaunch_used_new_pid": true,
+      "sentry_progress_unchanged": true,
+      "cold_relaunch_confirmed_restore": true,
+      "hp_at_initial_hud": 77,
+      "hp_after_home_resume_hud": 38,
+      "hp_after_cold_relaunch_hud": 5,
+      "app_pid_fatal_error_count": 0,
+      "logcat_cleared": false,
+      "evidence_directory": "build/gameplay-lifecycle-api37-16k-retry1"
+    },
+    {
+      "serial": "emulator-5556",
+      "android_release": "17",
+      "api": 37,
+      "page_size_bytes": 4096,
+      "abi": "x86_64",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "home_resume_completed": true,
+      "cold_relaunch_completed": true,
+      "cold_relaunch_used_new_pid": true,
+      "sentry_progress_unchanged": true,
+      "cold_relaunch_confirmed_restore": true,
+      "hp_at_initial_hud": 77,
+      "hp_after_home_resume_hud": 62,
+      "hp_after_cold_relaunch_hud": 38,
+      "app_pid_fatal_error_count": 0,
+      "logcat_cleared": false,
+      "evidence_directory": "build/gameplay-lifecycle-api37-4k"
+    }
+  ],
+  "notes": [
+    "The authored encounter sentries remain active while the player is idle; HP may decrease between HUD reads and is not a lifecycle invariant.",
+    "The test verifies checkpoint restoration and sentry progress across Home/resume and a force-stop/cold relaunch. It does not claim original-game save compatibility or complete gameplay."
+  ],
+  "fold7_tested": false
+}

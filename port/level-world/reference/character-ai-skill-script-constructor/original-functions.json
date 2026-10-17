@@ -1,0 +1,68 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_bounded_source_bodies": 1,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_ai_skill_script_constructor.hpp",
+      "port/level-world/character_ai_skill_script_constructor.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_ai_skill_script_constructor.cpp",
+      "port/level-world/tests/run_character_ai_skill_script_constructor_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+      "demangled": "CharAISkillScript::CharAISkillScript(Character*, char const*, unsigned int)",
+      "elf_address": "0x3cde2c",
+      "size": 336,
+      "sha256": "e755548faab63d7cf4f2cb9b89529661532ef7752e67019871d075623daa2959",
+      "scope": "Complete bounded constructor field/order body: owned dispatch type, owner, name, embedded Arguments construction, index/sentinel writes, ordered diagnostics, pushString and pushInteger calls. Called argument-storage leaf bodies remain typed services."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9ArgumentsC1Ev",
+      "demangled": "sfc::script::lua::Arguments::Arguments()",
+      "elf_address": "0x3192b4",
+      "size": 56,
+      "sha256": "ecff21dac0d948631c7d396560380f046c04bfa519f31879dcc4f96f0ceb26bb",
+      "scope": "Called leaf is intercepted at the constructor boundary. Its embedded Value-vector allocation is not reproduced by this constructor kernel."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9Arguments10pushStringEPKc",
+      "demangled": "sfc::script::lua::Arguments::pushString(char const*)",
+      "elf_address": "0x39ec10",
+      "size": 104,
+      "sha256": "5ca3d6060080cbdec9f5b09f1ecd1d2e8e6532174fdbf0cf59dc59b3bd7a0307",
+      "scope": "Called leaf is intercepted and its exact source arguments are recorded; string/value allocation is not part of this constructor claim."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9Arguments11pushIntegerEi",
+      "demangled": "sfc::script::lua::Arguments::pushInteger(int)",
+      "elf_address": "0x3cdd78",
+      "size": 180,
+      "sha256": "483cbe87eabf700aabba2356c996d5ad1173e0a505066bd35a4a75a0d45b7204",
+      "scope": "Called leaf is intercepted and its exact source arguments are recorded; conversion and Value allocation are not part of this constructor claim."
+    }
+  ],
+  "data_evidence": [
+    {
+      "symbol": "_ZTV17CharAISkillScript",
+      "demangled": "vtable for CharAISkillScript",
+      "elf_address": "0x966780",
+      "size": 16,
+      "fact": "The constructor stores the vtable address point at symbol + 8 (0x966788). The portable kernel records a semantic dispatch enum, not this original-image address."
+    }
+  ],
+  "constructor_projection": {
+    "owner_offset": 4,
+    "name_offset": 8,
+    "arguments_offset": 12,
+    "skill_index_offset": 20,
+    "last_skill_id_offset": 24,
+    "last_skill_id_initial": -1,
+    "source_call_order": ["Arguments::Arguments()", "Arguments::pushString(name)", "Arguments::pushInteger(index)"]
+  }
+}

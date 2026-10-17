@@ -1,0 +1,116 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "attribution": {
+    "repository": "https://github.com/AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "source": "port/level-world/character_skill_cooldown_v3.cpp",
+    "evidence": "port/level-world/reference/character-skill-gameplay-v3/cooldown/original-functions.json"
+  },
+  "adaptation": {
+    "new_complete_original_bodies": 0,
+    "reused_bounded_caller_projections": 2,
+    "changes": [
+      "Replace CharacterSkillOwnerV3 with borrowed list/slot/live field services",
+      "Use current source-value ABI, required failure epoch and sole VM",
+      "Preserve captured slot and spell count; fresh argument/slot reads",
+      "Assertion-unsafe source index and provider ownership failures explicit; preserve prior effects"
+    ],
+    "native_player_active": false
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character24_SetSkillCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b97e0",
+      "size": 496,
+      "sha256": "1234fbc6dd51220781adfe8f45786e45bd9a18dc996acc98bc0751b36b76cede",
+      "scope": "Reused bounded caller; source assertion-recovery excluded"
+    },
+    {
+      "original_symbol": "_ZN9Character24_SetSpellCooldownTimerIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b90e4",
+      "size": 188,
+      "sha256": "844e05483f96db8ba8d91649737ecc5bb1644f56e291c7302354df9a7ff9011e",
+      "scope": "Reused caller"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+      "elf_address": "0x37baf8",
+      "size": 88,
+      "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463",
+      "scope": "Supporting dependency, no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de",
+      "scope": "Supporting dependency, no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value11getUIntegerEv",
+      "elf_address": "0x38d798",
+      "size": 16,
+      "sha256": "0553d12ea35fd62a6857d3f01e2f1f7c8385bff2bcfd8f834f888d28a3eed1f2",
+      "scope": "Supporting dependency, no new body credit"
+    },
+    {
+      "original_symbol": "__aeabi_f2uiz",
+      "elf_address": "0x8be2a0",
+      "size": 84,
+      "sha256": "1bfbab489e0e7b2166376f736f04f891a50f7bf04191cfb8731e5294b752d66f",
+      "scope": "Supporting dependency, no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210",
+      "scope": "Mandatory selected-list provider boundary"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharFaeryListEv",
+      "elf_address": "0x3ae5dc",
+      "size": 48,
+      "sha256": "05234890042d96d3204fdd2ad4e37847b3c5a92150438c3dc1c40f13ac502b07",
+      "scope": "Mandatory selected-list provider boundary"
+    }
+  ],
+  "modeled_imports": {
+    "0x30e4cc": "__aeabi_f2iz"
+  },
+  "excluded_skill_assert_instructions": [
+    "0x3b98d4",
+    "0x3b98d8",
+    "0x3b98dc",
+    "0x3b98e0",
+    "0x3b9938",
+    "0x3b993c",
+    "0x3b9940",
+    "0x3b9944",
+    "0x3b9948",
+    "0x3b994c",
+    "0x3b9950",
+    "0x3b9954",
+    "0x3b9958",
+    "0x3b995c",
+    "0x3b9960",
+    "0x3b9964",
+    "0x3b9968",
+    "0x3b996c",
+    "0x3b9970",
+    "0x3b9974",
+    "0x3b9978",
+    "0x3b997c",
+    "0x3b9980",
+    "0x3b9984",
+    "0x3b9988",
+    "0x3b998c",
+    "0x3b9990",
+    "0x3b9994",
+    "0x3b9998",
+    "0x3b999c",
+    "0x3b99a0",
+    "0x3b99a4"
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "Read-only visibility callsite and constructor audit; this directory contributes no new source implementation or complete reconstructed visibility body.",
+  "functions": [
+    {"original_symbol":"_ZN8CSLimbus7OnFocusEiP9CharacterP16CharStateMachineiiPv","demangled":"CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)","elf_address":"0x3c2e58","size":292,"sha256":"8e29e9bed96add4ce42ccaf3d9ad2b51ec9850bca6064f9e74924405f50d1bc7","scope":"inspected prefix, false visibility call, timer branch and cleanup convergence"},
+    {"original_symbol":"_ZN8CSLimbus6OnBlurEiP9CharacterP16CharStateMachinei","demangled":"CSLimbus::OnBlur(int, Character*, CharStateMachine*, int)","elf_address":"0x3c2be4","size":344,"sha256":"f3c50b20f129706b7c8cd8e0b5d283fa876a2246cbedd5734a25f104d593b57f","scope":"inspected lock-byte reset, true visibility call and role-3 producer"},
+    {"original_symbol":"_ZN10CSPreSpawn6OnBlurEiP9CharacterP16CharStateMachinei","demangled":"CSPreSpawn::OnBlur(int, Character*, CharStateMachine*, int)","elf_address":"0x3c67d4","size":184,"sha256":"8265cb185107779691dda40758d052eac5fb2d1d339691d727e99aaf3a061a21","scope":"inspected true visibility call before Revive and collision enabling"},
+    {"original_symbol":"_ZN10GameObject10SetVisibleEb","demangled":"GameObject::SetVisible(bool)","elf_address":"0x38b0f0","size":32,"sha256":"2a8fb1ffd94aced95272d222e42a98747dff5c52f79256153b51fd6678d9e431","scope":"inspected exact enabled/current-byte update and optional visual synchronization; not newly reconstructed here"},
+    {"original_symbol":"_ZN12VisualObject14SyncVisibilityEv","demangled":"VisualObject::SyncVisibility()","elf_address":"0x4713d0","size":108,"sha256":"c12bd8d5cb7bc0e53560e134f53a090760751b352a917f89beaace5c29e3032d","scope":"separate inspected visibility consumer; full predicates and scene binding remain outside this audit"},
+    {"original_symbol":"_ZN9CharacterC2EN10ObjectBase6GO_IDSE","demangled":"Character::Character(ObjectBase::GO_IDS)","elf_address":"0x3a9340","size":1448,"sha256":"ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb","scope":"supporting address-point proof only"},
+    {"original_symbol":"_ZN10ObjectBaseC1ENS_6GO_IDSE","demangled":"ObjectBase::ObjectBase(ObjectBase::GO_IDS)","elf_address":"0x33f15c","size":436,"sha256":"0ee65c6207e36d8093719ec258764d35eeecf7bcefe76b5db93889c74b23518a","scope":"supporting initial enabled-byte=1 proof only"},
+    {"original_symbol":"_ZN10ObjectBaseC2ENS_6GO_IDSE","demangled":"ObjectBase::ObjectBase(ObjectBase::GO_IDS)","elf_address":"0x33f310","size":436,"sha256":"e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67","scope":"supporting initial enabled-byte=1 proof only"}
+  ],
+  "vtable_proof": {
+    "vtable_symbol":"_ZTV9Character",
+    "vtable_elf_address":"0x965f30",
+    "address_point":"0x965f38",
+    "vptr_slot":"0x40",
+    "full_table_offset":"0x48",
+    "entry_elf_address":"0x965f78",
+    "entry_size":4,
+    "entry_bytes_hex":"f0b03800",
+    "entry_sha256":"72a55e8334823d07b2603dd9026b41fed17e4e48c08bc334907b2b57c5e2b024",
+    "target":"0x38b0f0",
+    "entry_relocation":"R_ARM_RELATIVE (23)",
+    "got_entry":"0x9978a0",
+    "got_bytes_hex":"305f9600",
+    "got_sha256":"64827cd69185ada22e1f6c315e196fd075fa84c47d9ef3c754beed1fe0ae79ea",
+    "got_relocation":"R_ARM_RELATIVE (23)",
+    "constructor_address_point_proof":"0x3a9404",
+    "constructor_proof_size":24,
+    "constructor_proof_sha256":"5c9b1094edba9e7b25d1657256d6270a0cef5056c6d0e4067e99caa91bcafb51"
+  }
+}

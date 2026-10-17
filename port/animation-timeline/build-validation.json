@@ -1,0 +1,19 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "source_sha256": {
+    "timeline.cpp": "577a6fb8d17437d85d23d0942e6ca0354c94700d77524999ccb0aabda143079a",
+    "timeline.hpp": "550ff0e20ce128cfecd88c6e013ea31366894c864298435fb03078a70ef6db4b"
+  },
+  "artifact_sha256": {
+    "timeline-host.so": "4fe7c3808c46395f3a566fcf03ad7d71eddc3e58efc3d5c79f50e775252dc190"
+  },
+  "safety": {
+    "address_sanitizer": true,
+    "undefined_behavior_sanitizer": true,
+    "sequences": 5000,
+    "updates": 50000,
+    "seed": 20261002,
+    "test_sha256": "f60c379a9e16d5ca5ca8b1164d5699112748638ab142249fff59c13baa4e9efb"
+  }
+}

@@ -1,0 +1,158 @@
+{
+  "validation": "PASS",
+  "native_wired": false,
+  "cache_row_comparisons": 183,
+  "original_arm_row_comparisons": 183,
+  "original_arm_by_table": {
+    "skill_list": 36,
+    "faery_list": 4,
+    "skill": 127,
+    "faery": 16
+  },
+  "rejection_cases": 14,
+  "mismatches": 0,
+  "crypt_ghost_projection": {
+    "skill_list_fallback_index": 3,
+    "skill_list_fallback_name": "DEFAULT",
+    "skill_members": [],
+    "faery_list_fallback_index": 0,
+    "faery_members": [
+      2,
+      4,
+      5,
+      6,
+      3
+    ],
+    "faery_names": [
+      "Fake_Celest",
+      "Fake_Rocky",
+      "Fake_Wetty",
+      "Fake_Windy",
+      "Fake_Hotty"
+    ],
+    "spell_script_lengths": [
+      0,
+      0,
+      0,
+      0,
+      0
+    ]
+  },
+  "source_sha256": {
+    "port/game-data/skill_tables.cpp": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+    "port/game-data/tests/skill_tables.cpp": "0cacc4d650806e2ebd66689a17141350aefcd06db573dcd43447f651d46da0bb",
+    "port/game-data/skill_tables.hpp": "8004113c312d881f7e2f5e83252c3531300c68a88c902bfa35f241339a1facab",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/game-data/tests/run_skill_tables_host.py": "267feb737fdd789dddb3180cd46aadb063dea3b138b46d1031daf5ff10a6a8e7",
+    "port/game-data/reference/skill-faery-tables/original-functions.json": "17a3d5965a6848c654942151381533f5392a276cf1528181119f372dc44ccfab",
+    "port/game-data/reference/skill-faery-tables/NOTES.md": "59e6388954d6767ba9dcf9a73dbc0857be64dbd0fcc71a9c5b674e948bca975c"
+  },
+  "cache_sha256": {
+    "skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9",
+    "faeries_pyarray.bin": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+    "faeries_pyarraynames.bin": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+    "faeries_pystructnames.bin": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b"
+  },
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_functions": [
+    {
+      "original_symbol": "_ZN7Structs9SkillList4readEP11IStreamBase",
+      "elf_address": "0x4ea830",
+      "size": 292,
+      "execution": "executed per actual row",
+      "sha256": "deee5b9fa231d5a552f350a607093108fa525a0b2b63e995b8caddc0834d7868"
+    },
+    {
+      "original_symbol": "_ZN7Structs9FaeryList4readEP11IStreamBase",
+      "elf_address": "0x4eab9c",
+      "size": 292,
+      "execution": "executed per actual row",
+      "sha256": "fcc9933b9ea4f39ff5ee4bf6f99c938cd6153d3d63f7be660a69d8aa9bc30846"
+    },
+    {
+      "original_symbol": "_ZN7Structs5Skill4readEP11IStreamBase",
+      "elf_address": "0x4ebeb0",
+      "size": 1484,
+      "execution": "executed per actual row",
+      "sha256": "e580d098dc2ed24a1918dc21d4e7d5d07de8c9d465cebff063b891b48e031600"
+    },
+    {
+      "original_symbol": "_ZN7Structs5Faery4readEP11IStreamBase",
+      "elf_address": "0x50637c",
+      "size": 740,
+      "execution": "executed per actual row",
+      "sha256": "1900eec2f29d0ec4f32f324b94293a9eea3a64b18dddb4d64ccd77cb861c4bf3"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14SkillListTable4readEP11IStreamBase",
+      "elf_address": "0x4b9964",
+      "size": 332,
+      "execution": "pinned and disassembly-reviewed; not called by the row differential",
+      "sha256": "efe1c4861d4feaa821c8eb6aa02df215cf8e10adc7baba06645e940c10788587"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10SkillTable4readEP11IStreamBase",
+      "elf_address": "0x4b9810",
+      "size": 340,
+      "execution": "pinned and disassembly-reviewed; not called by the row differential",
+      "sha256": "432e191d80dc48a1195512ad7e33388ea4c5333d191c69f871ffcab733f053c2"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14FaeryListTable4readEP11IStreamBase",
+      "elf_address": "0x4bc12c",
+      "size": 332,
+      "execution": "pinned and disassembly-reviewed; not called by the row differential",
+      "sha256": "8c1696726d7dfa09d1d33aff8d59a3a8358b5d3c6444978eb19577822d8a0602"
+    },
+    {
+      "original_symbol": "_ZN6Arrays10FaeryTable4readEP11IStreamBase",
+      "elf_address": "0x4bbfe0",
+      "size": 332,
+      "execution": "pinned and disassembly-reviewed; not called by the row differential",
+      "sha256": "b650279953dec112e6bcb4cdc6a1af9b2b8b8687f81caf15cecb68ec4a85cd30"
+    }
+  ],
+  "modeled_dependencies": [
+    {
+      "name": "StreamReader::readAs<unsigned>",
+      "elf_address": "0x313a90"
+    },
+    {
+      "name": "StreamReader::readAs<signed>",
+      "elf_address": "0x459090"
+    },
+    {
+      "name": "StreamReader::readAs<bool>",
+      "elf_address": "0x4db89c"
+    },
+    {
+      "name": "StreamReader::readStringEx",
+      "elf_address": "0x317454"
+    },
+    {
+      "name": "array_allocate",
+      "elf_address": "0x31056c"
+    },
+    {
+      "name": "array_free",
+      "elf_address": "0x310440"
+    }
+  ],
+  "compiler_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\skill_tables.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\tests\\skill_tables.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\build\\skill-faery-tables-parent\\host.exe"
+  ],
+  "executable_sha256": "8d675f75f504b8b9d24a81182f074329c6376e1ee047665487fd0eb9f968f9af",
+  "scope": "Owned data/schema decoder plus actual-cache comparison. Original Structs::SkillList, FaeryList, Skill and Faery row-reader instructions execute on every actual record; stream primitive, bounded allocation/free and readStringEx dependencies are modeled. The four Arrays table-reader wrappers are pinned/disassembly-reviewed but not executed. This does not wire native SetSkillsAndSpells or publish source Lua runtimes."
+}

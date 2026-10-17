@@ -1,0 +1,209 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_caller_orchestrations": 1,
+    "new_full_callee_body_claims": 0,
+    "native_wired": false,
+    "shared_state": "ais_external_update::State owner/counter_bc",
+    "source": [
+      "port/level-world/ais_default_collision_persist.hpp",
+      "port/level-world/ais_default_collision_persist.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/ais_default_collision_persist.cpp",
+      "port/level-world/tests/run_ais_default_collision_persist_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb",
+      "elf_address": "0x3dbfa0",
+      "size": 396,
+      "sha256": "8856dcbbd7f710014b7f4339e341b836c0b17f04756c23e2feb2ca2b3e06df4f",
+      "scope": "New complete caller orchestration"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_IsMovingEb",
+      "elf_address": "0x3c029c",
+      "size": 52,
+      "sha256": "f56604e37033474979649426096f78e9945140bee00e6d7ccc058c653b646547",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnUpdateEv",
+      "elf_address": "0x3dc798",
+      "size": 64,
+      "sha256": "b4b2accbca71efc2e95e37357589e0c2e722873cac3f1395065000d8561a8913",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject",
+      "elf_address": "0x3d574c",
+      "size": 844,
+      "sha256": "e99c62ec437b85a44ef4162fb17029fd851e01f66a92d226dc2d92b785713f4d",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZN11Application7_UpdateEi",
+      "elf_address": "0x32c438",
+      "size": 2188,
+      "sha256": "6bdf2110adfc4642bbfb230cc6856fbacd4d5223728ce84d2c374311bc1c5e6a",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZN6CharAI18OnCollisionPersistEP10GameObjectb",
+      "elf_address": "0x3d0e10",
+      "size": 36,
+      "sha256": "f5bf9731d305a003b5c4c619a0ed9b11af7b090dd0ee6b3b5a53da33297ef14d",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase11IsCharacterEv",
+      "elf_address": "0x33dcd0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase8IsPlayerEv",
+      "elf_address": "0x33dcd8",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZNK9Character11IsCharacterEv",
+      "elf_address": "0x3a2e1c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a",
+      "scope": "Supporting original callee/provenance evidence, not newly implemented or counted"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "symbol": "_ZTV10AISDefault",
+      "elf_address": "0x966970",
+      "size": 204,
+      "sha256": "a2c6b0317801c137915282c349569c213cc4cecc0e3cb9d2750d6270ec0c641e",
+      "address_point_delta": 8,
+      "slots": [
+        {
+          "byte_offset": "0xc0",
+          "target": "0x3dbfa0",
+          "symbol": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV11AISExternal",
+      "elf_address": "0x966a48",
+      "size": 204,
+      "sha256": "ac5ee055a4e0fd2cb79afaa00d4b67672347c30e67b4321da9fdf9be20e14aab",
+      "address_point_delta": 8,
+      "slots": [
+        {
+          "byte_offset": "0xc0",
+          "target": "0x3dbfa0",
+          "symbol": "_ZN10AISDefault18OnCollisionPersistEP10GameObjectb"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV6CharAI",
+      "elf_address": "0x966790",
+      "size": 204,
+      "sha256": "810e22ccd61b1251bb59a0ef4fbdfd20766291506902764c194715259386f1fa",
+      "address_point_delta": 8,
+      "slots": [
+        {
+          "byte_offset": "0xc0",
+          "target": "0x3d0e10",
+          "symbol": "_ZN6CharAI18OnCollisionPersistEP10GameObjectb"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV10GameObject",
+      "elf_address": "0x964748",
+      "size": 52,
+      "sha256": "8aee18ca7c84cee12849710ee36768f22fca30b2f7aac3dd1b8312f6944808b7",
+      "address_point_delta": 8,
+      "slots": [
+        {
+          "byte_offset": "0x24",
+          "target": "0x33dcd0",
+          "symbol": "_ZNK10ObjectBase11IsCharacterEv"
+        },
+        {
+          "byte_offset": "0x28",
+          "target": "0x33dcd8",
+          "symbol": "_ZNK10ObjectBase8IsPlayerEv"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 52,
+      "sha256": "021604c7c9556d6f299123778b97e3232465516f5e94f1453422a128349e3f31",
+      "address_point_delta": 8,
+      "slots": [
+        {
+          "byte_offset": "0x24",
+          "target": "0x3a2e1c",
+          "symbol": "_ZNK9Character11IsCharacterEv"
+        },
+        {
+          "byte_offset": "0x28",
+          "target": "0x3a49f0",
+          "symbol": "_ZNK9Character8IsPlayerEv"
+        }
+      ]
+    }
+  ],
+  "data_producers": [
+    {
+      "elf_address": "0x32c7e4",
+      "size": 16,
+      "sha256": "d87c55fa763bc1fd4229c65332a4d6327ea03849939b70c56f2e5554f7e7b96c",
+      "containing_symbol": "_ZN11Application7_UpdateEi",
+      "scope": "Existing Application frame+74 increment provenance; not newly implemented or full-body claimed"
+    }
+  ]
+}

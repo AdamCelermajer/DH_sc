@@ -1,0 +1,83 @@
+{
+  "status": "PASS",
+  "arm_row_comparisons": 64,
+  "counts": {
+    "quests": 64,
+    "scripts": 896,
+    "embedded_objectives": 128,
+    "conditions": 80,
+    "list_objectives": 66,
+    "rewards": 222
+  },
+  "executed_pinned_words": 977,
+  "original_entries": {
+    "0x4b8acc": 1,
+    "0x504a94": 64,
+    "0x50600c": 80,
+    "0x505b28": 80,
+    "0x504818": 194,
+    "0x50358c": 194,
+    "0x50589c": 222,
+    "0x5053fc": 222,
+    "0x4dd5a8": 64,
+    "0x4b1928": 1
+  },
+  "original_boundary_calls": {
+    "0x5000100": 5664,
+    "0x31056c": 1670
+  },
+  "original_import_calls": {},
+  "original_stream_consumption": {
+    "packed": 21817,
+    "names": 1357
+  },
+  "original_nonnull_list_controls": 320,
+  "native_checks": 49684,
+  "packed_truncations": 21817,
+  "names_truncations": 1357,
+  "mismatches": [],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "quest_table_bindings_v1.cpp": "da344dfc5cae14c0f2121f12418248b250704806cf4690aa43786bfb273e8adc",
+    "quest_table_bindings_v1.hpp": "07e109bfd77f1f6e755899b9b41cec61ce4c117ac1160c1d72dfa83aaac59266",
+    "quest_runtime_fields_v1.hpp": "9c4b77a213f45648c06817cdb81690d3d186e385601993077d54475b87319d6b",
+    "tests/quest_table_bindings_v1_host.cpp": "b1340ee60e3889bfc5ad21685bc597822078724fad34d719cbcb0af9289f29e0",
+    "tests/quest_table_bindings_v1_original.py": "2ef19dac7edae2b40a66028d02961c267f56b7491748a1588e0f1a22a01c8caa",
+    "tests/run_quest_table_bindings_v1.py": "9484dc658a42e65f6c5f1df5fe728d8a15bb07b6db1ba8ef181d38bb9d5e86b2",
+    "reference/quest-table-bindings-v1/original-functions.json": "65dfe4356a0dc694cc809a91874b9b0a355b9273c18e7a2718974cfc2ba85503",
+    "port/quest-data/quests.c": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "port/quest-data/quests.h": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2",
+    "port/engine-math/tests/differential.py": "04b7a600e9bfed2285ef273b9365780c5c86870b9350d796756673eeb1b41f4c"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_table_bindings_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_table_bindings_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_table_bindings_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_table_bindings_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c.obj"
+    }
+  ],
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "selected_library_sha256": "0979e00b3fce6c309a570cff90d2a98f442d97c60edc0eef4f176af161aeab4e",
+  "binary_sha256": {
+    "host.exe": "f5a0b2f9f76d8880bc543c8d99afe5f69dcabcf3064320bd1062a58b3b91304a",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1bff274e1c39d3e4b4727920693c51873492adeaebd4be0f62b2eae11f426d86",
+    "libdh2_level_world.dll": "3ba3e5ba9fe7dcd44e5b636786a7eab3a796155312bf7cf550136663c1fac884"
+  },
+  "reused_decoder_attribution": "Existing repository quest-data reader and original differential extraction are reused unchanged.",
+  "scope": "Retained portable binding of the one actual immutable Quest definition generation. Fresh full original array/nested/row/name readers execute; bounded stream/allocation/disposal and libc memory leaves are declared. No Quest child execution, Lua import, native association, Android compilation or live gameplay is implied.",
+  "malformed_preserve": true,
+  "retained_generation_lifetime": true,
+  "android_compilation": false,
+  "live_gameplay": false
+}

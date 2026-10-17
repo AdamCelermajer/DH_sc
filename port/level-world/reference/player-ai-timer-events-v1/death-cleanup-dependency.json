@@ -1,0 +1,485 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "inspection": "Read-only static dependency audit; these functions were not dynamically executed by the timer capture",
+  "functions": [
+    {
+      "symbol": "_ZN6CharAI10AI_SetDeadEv",
+      "address": "0x3d6cdc",
+      "size": 140,
+      "sha256": "f3468811a494010b0265316a819636747c2e66a6e4090f019c6c2b0d3fa8a96d",
+      "instructions": [
+        {
+          "address": "0x3d6cdc",
+          "mnemonic": "mov",
+          "operands": "r1, #0"
+        },
+        {
+          "address": "0x3d6ce0",
+          "mnemonic": "push",
+          "operands": "{r4, lr}"
+        },
+        {
+          "address": "0x3d6ce4",
+          "mnemonic": "mov",
+          "operands": "r2, r1"
+        },
+        {
+          "address": "0x3d6ce8",
+          "mnemonic": "mov",
+          "operands": "r4, r0"
+        },
+        {
+          "address": "0x3d6cec",
+          "mnemonic": "bl",
+          "operands": "#0x3d6890"
+        },
+        {
+          "address": "0x3d6cf0",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3d6cf4",
+          "mnemonic": "bl",
+          "operands": "#0x3d49c4"
+        },
+        {
+          "address": "0x3d6cf8",
+          "mnemonic": "ldr",
+          "operands": "r0, [r4, #4]"
+        },
+        {
+          "address": "0x3d6cfc",
+          "mnemonic": "mov",
+          "operands": "r1, #0"
+        },
+        {
+          "address": "0x3d6d00",
+          "mnemonic": "mov",
+          "operands": "r2, r1"
+        },
+        {
+          "address": "0x3d6d04",
+          "mnemonic": "add",
+          "operands": "r0, r0, #0x4f0"
+        },
+        {
+          "address": "0x3d6d08",
+          "mnemonic": "mov",
+          "operands": "r3, #1"
+        },
+        {
+          "address": "0x3d6d0c",
+          "mnemonic": "add",
+          "operands": "r0, r0, #0xc"
+        },
+        {
+          "address": "0x3d6d10",
+          "mnemonic": "bl",
+          "operands": "#0x3c58c8"
+        },
+        {
+          "address": "0x3d6d14",
+          "mnemonic": "ldr",
+          "operands": "r0, [r4, #4]"
+        },
+        {
+          "address": "0x3d6d18",
+          "mnemonic": "ldr",
+          "operands": "r1, [r4, #0x10]"
+        },
+        {
+          "address": "0x3d6d1c",
+          "mnemonic": "add",
+          "operands": "r0, r0, #0x3b4"
+        },
+        {
+          "address": "0x3d6d20",
+          "mnemonic": "bl",
+          "operands": "#0x3db2d8"
+        },
+        {
+          "address": "0x3d6d24",
+          "mnemonic": "ldr",
+          "operands": "r0, [r4, #4]"
+        },
+        {
+          "address": "0x3d6d28",
+          "mnemonic": "ldr",
+          "operands": "r1, [r4, #0x14]"
+        },
+        {
+          "address": "0x3d6d2c",
+          "mnemonic": "add",
+          "operands": "r0, r0, #0x3b4"
+        },
+        {
+          "address": "0x3d6d30",
+          "mnemonic": "bl",
+          "operands": "#0x3db2d8"
+        },
+        {
+          "address": "0x3d6d34",
+          "mnemonic": "mvn",
+          "operands": "r3, #0"
+        },
+        {
+          "address": "0x3d6d38",
+          "mnemonic": "str",
+          "operands": "r3, [r4, #0x14]"
+        },
+        {
+          "address": "0x3d6d3c",
+          "mnemonic": "str",
+          "operands": "r3, [r4, #0x10]"
+        },
+        {
+          "address": "0x3d6d40",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3d6d44",
+          "mnemonic": "bl",
+          "operands": "#0x3d5fa8"
+        },
+        {
+          "address": "0x3d6d48",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3d6d4c",
+          "mnemonic": "mov",
+          "operands": "r1, #0"
+        },
+        {
+          "address": "0x3d6d50",
+          "mnemonic": "bl",
+          "operands": "#0x3d6abc"
+        },
+        {
+          "address": "0x3d6d54",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3d6d58",
+          "mnemonic": "bl",
+          "operands": "#0x3d8ae0"
+        },
+        {
+          "address": "0x3d6d5c",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3d6d60",
+          "mnemonic": "pop",
+          "operands": "{r4, lr}"
+        },
+        {
+          "address": "0x3d6d64",
+          "mnemonic": "b",
+          "operands": "#0x3d8a98"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN6CharAI6OnDiedEP10GameObject",
+      "address": "0x3d1000",
+      "size": 80,
+      "sha256": "e872aa87b36c9d46638f7ea691bfcde728a6068401d2111dcf4c0cd3036cc2bc",
+      "instructions": [
+        {
+          "address": "0x3d1000",
+          "mnemonic": "push",
+          "operands": "{r4, r5, r6, lr}"
+        },
+        {
+          "address": "0x3d1004",
+          "mnemonic": "mov",
+          "operands": "r4, r0"
+        },
+        {
+          "address": "0x3d1008",
+          "mnemonic": "ldr",
+          "operands": "r0, [r0, #0x34]"
+        },
+        {
+          "address": "0x3d100c",
+          "mnemonic": "mov",
+          "operands": "r5, r1"
+        },
+        {
+          "address": "0x3d1010",
+          "mnemonic": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "address": "0x3d1014",
+          "mnemonic": "beq",
+          "operands": "#0x3d1024"
+        },
+        {
+          "address": "0x3d1018",
+          "mnemonic": "ldr",
+          "operands": "r1, [r4, #4]"
+        },
+        {
+          "address": "0x3d101c",
+          "mnemonic": "mov",
+          "operands": "r2, r5"
+        },
+        {
+          "address": "0x3d1020",
+          "mnemonic": "bl",
+          "operands": "#0x3d2628"
+        },
+        {
+          "address": "0x3d1024",
+          "mnemonic": "ldr",
+          "operands": "r3, [r4, #0x1c]"
+        },
+        {
+          "address": "0x3d1028",
+          "mnemonic": "cmp",
+          "operands": "r3, #0"
+        },
+        {
+          "address": "0x3d102c",
+          "mnemonic": "beq",
+          "operands": "#0x3d1044"
+        },
+        {
+          "address": "0x3d1030",
+          "mnemonic": "mov",
+          "operands": "r0, r3"
+        },
+        {
+          "address": "0x3d1034",
+          "mnemonic": "mov",
+          "operands": "r1, r5"
+        },
+        {
+          "address": "0x3d1038",
+          "mnemonic": "ldr",
+          "operands": "r3, [r3]"
+        },
+        {
+          "address": "0x3d103c",
+          "mnemonic": "mov",
+          "operands": "lr, pc"
+        },
+        {
+          "address": "0x3d1040",
+          "mnemonic": "ldr",
+          "operands": "pc, [r3, #0x24]"
+        },
+        {
+          "address": "0x3d1044",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3d1048",
+          "mnemonic": "pop",
+          "operands": "{r4, r5, r6, lr}"
+        },
+        {
+          "address": "0x3d104c",
+          "mnemonic": "b",
+          "operands": "#0x3d6cdc"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN10CharTimers8TMR_StopEj",
+      "address": "0x3db2d8",
+      "size": 32,
+      "sha256": "6dbf462d15b090873ba926013ab337200b3311223de9da6d7c3bcae893637b61",
+      "instructions": [
+        {
+          "address": "0x3db2d8",
+          "mnemonic": "ldr",
+          "operands": "r3, [r0, #8]"
+        },
+        {
+          "address": "0x3db2dc",
+          "mnemonic": "ldr",
+          "operands": "r2, [r0, #0xc]"
+        },
+        {
+          "address": "0x3db2e0",
+          "mnemonic": "rsb",
+          "operands": "r2, r3, r2"
+        },
+        {
+          "address": "0x3db2e4",
+          "mnemonic": "cmp",
+          "operands": "r1, r2, asr #5"
+        },
+        {
+          "address": "0x3db2e8",
+          "mnemonic": "addlo",
+          "operands": "r3, r3, r1, lsl #5"
+        },
+        {
+          "address": "0x3db2ec",
+          "mnemonic": "movlo",
+          "operands": "r2, #0"
+        },
+        {
+          "address": "0x3db2f0",
+          "mnemonic": "strblo",
+          "operands": "r2, [r3, #0x14]"
+        },
+        {
+          "address": "0x3db2f4",
+          "mnemonic": "bx",
+          "operands": "lr"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZN6CharAI16AI_ScriptCleanUpEv",
+      "address": "0x3cfd7c",
+      "size": 104,
+      "sha256": "bd3f6c4a802dd2e0f2f47df3080a66ceed8b90f45f3af3b8ef48cb320b93d745",
+      "instructions": [
+        {
+          "address": "0x3cfd7c",
+          "mnemonic": "push",
+          "operands": "{r4, lr}"
+        },
+        {
+          "address": "0x3cfd80",
+          "mnemonic": "mov",
+          "operands": "r4, r0"
+        },
+        {
+          "address": "0x3cfd84",
+          "mnemonic": "ldr",
+          "operands": "r0, [r0, #4]"
+        },
+        {
+          "address": "0x3cfd88",
+          "mnemonic": "ldr",
+          "operands": "r1, [r4, #0x10]"
+        },
+        {
+          "address": "0x3cfd8c",
+          "mnemonic": "add",
+          "operands": "r0, r0, #0x3b4"
+        },
+        {
+          "address": "0x3cfd90",
+          "mnemonic": "bl",
+          "operands": "#0x3db2d8"
+        },
+        {
+          "address": "0x3cfd94",
+          "mnemonic": "ldr",
+          "operands": "r0, [r4, #4]"
+        },
+        {
+          "address": "0x3cfd98",
+          "mnemonic": "ldr",
+          "operands": "r1, [r4, #0x14]"
+        },
+        {
+          "address": "0x3cfd9c",
+          "mnemonic": "add",
+          "operands": "r0, r0, #0x3b4"
+        },
+        {
+          "address": "0x3cfda0",
+          "mnemonic": "bl",
+          "operands": "#0x3db2d8"
+        },
+        {
+          "address": "0x3cfda4",
+          "mnemonic": "ldr",
+          "operands": "r2, [r4, #0x1c]"
+        },
+        {
+          "address": "0x3cfda8",
+          "mnemonic": "mvn",
+          "operands": "r3, #0"
+        },
+        {
+          "address": "0x3cfdac",
+          "mnemonic": "str",
+          "operands": "r3, [r4, #0x14]"
+        },
+        {
+          "address": "0x3cfdb0",
+          "mnemonic": "cmp",
+          "operands": "r2, #0"
+        },
+        {
+          "address": "0x3cfdb4",
+          "mnemonic": "str",
+          "operands": "r3, [r4, #0x10]"
+        },
+        {
+          "address": "0x3cfdb8",
+          "mnemonic": "beq",
+          "operands": "#0x3cfde0"
+        },
+        {
+          "address": "0x3cfdbc",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3cfdc0",
+          "mnemonic": "bl",
+          "operands": "#0x3d8ae0"
+        },
+        {
+          "address": "0x3cfdc4",
+          "mnemonic": "mov",
+          "operands": "r0, r4"
+        },
+        {
+          "address": "0x3cfdc8",
+          "mnemonic": "bl",
+          "operands": "#0x3d8a98"
+        },
+        {
+          "address": "0x3cfdcc",
+          "mnemonic": "ldr",
+          "operands": "r3, [r4, #0x1c]"
+        },
+        {
+          "address": "0x3cfdd0",
+          "mnemonic": "mov",
+          "operands": "r0, r3"
+        },
+        {
+          "address": "0x3cfdd4",
+          "mnemonic": "ldr",
+          "operands": "r3, [r3]"
+        },
+        {
+          "address": "0x3cfdd8",
+          "mnemonic": "mov",
+          "operands": "lr, pc"
+        },
+        {
+          "address": "0x3cfddc",
+          "mnemonic": "ldr",
+          "operands": "pc, [r3, #0x14]"
+        },
+        {
+          "address": "0x3cfde0",
+          "mnemonic": "pop",
+          "operands": "{r4, pc}"
+        }
+      ]
+    }
+  ],
+  "source_producer": "CharAI::OnDied -> AIS virtual24 -> AI_SetDead -> sole owning timer stop IDs10/14 -> IDs=-1",
+  "native_dependency": "Current native death state request does not deliver actual CharAI::OnDied/AI_SetDead. No dead RegenTick guard or invented pause is substituted."
+}

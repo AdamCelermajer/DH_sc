@@ -1,0 +1,50 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_apk_sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+  "implementation": {
+    "new_bounded_source_slices": 1,
+    "native_wired": false,
+    "source": ["port/engine-camera/frustum.hpp", "port/engine-camera/frustum.cpp"],
+    "tests": ["port/engine-camera/tests/frustum_host.cpp", "port/engine-camera/tests/run_frustum_host.py"]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5scene12SViewFrustum7setFromERKNS_4core8CMatrix4IfEE",
+      "demangled": "glitch::scene::SViewFrustum::setFrom(glitch::core::CMatrix4<float> const&)",
+      "elf_address": "0x005826c0",
+      "size": 580,
+      "sha256": "5270c5a55f1d81173b2f3acc0bfb3633ab7bf4001fbb99878cd740582362e66a",
+      "implemented_prefix_size": 576,
+      "implemented_prefix_sha256": "764ee7e845e89f01f57c763c2f2c74b190e49e3bf18e5368f178ca5aed437447",
+      "scope": "Bounded complete plane extraction/normalization prefix; the final 4-byte tail branch is excluded."
+    }
+  ],
+  "supporting_functions": [
+    {
+      "original_symbol": "_ZN6glitch5scene12SViewFrustum22recalculateBoundingBoxEv",
+      "demangled": "glitch::scene::SViewFrustum::recalculateBoundingBox()",
+      "elf_address": "0x005823d4",
+      "size": 748,
+      "sha256": "2b0029a114b889bfb7c06b6f663d128c9b3315a35e3f4c735667a3dee9a32360",
+      "scope": "Unimplemented tail-call boundary after the plane slice."
+    }
+  ],
+  "tail_boundary": {
+    "tail_branch_address": "0x00582900",
+    "target_address": "0x005823d4",
+    "original_branch_bytes": "b3feffea"
+  },
+  "external_imports": [
+    {"plt_address":"0x30eba4","symbol":"__aeabi_fadd","source_calls_in_slice":20},
+    {"plt_address":"0x30e3ac","symbol":"__aeabi_fsub","source_calls_in_slice":12},
+    {"plt_address":"0x30ed6c","symbol":"__aeabi_fmul","source_calls_in_slice":42},
+    {"plt_address":"0x30ec94","symbol":"__aeabi_fdiv","source_calls_in_slice":6},
+    {"plt_address":"0x30e124","symbol":"sqrtf","source_calls_in_slice":6}
+  ],
+  "boundaries": [
+    "Imported scalar floating-point helpers are externally modeled; this is not a historical Bionic libm claim.",
+    "Camera/frustum ownership, recalculateBoundingBox, later plane intersection/bounds classification, and native wiring are outside this slice.",
+    "No upstream Irrlicht plane ordering/sign convention is assumed; output order and sign-bit flip follow the original ARM instructions."
+  ]
+}

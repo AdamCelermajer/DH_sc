@@ -1,0 +1,524 @@
+{
+  "complete_game": false,
+  "scripts_executed": false,
+  "reader_trace_sha256": "d72e8b22b1d2fa5e58c60306535eed77c9d3079d3f5f188603fed534f7178b4d",
+  "names_matched": 8863,
+  "tables": 71,
+  "host_all_unique_lookups": 8863,
+  "arm64_lookup_cases_matching_original_cases": 266,
+  "host_sha256": "5b0ae45bbe7a9429a99c63aa902bc8ad0cc4f6c75f7c940ee3f2d14e9a108a76",
+  "arm64_sha256": "0ead76b09f035c8104680a57f5c95450f1d637c6ef585ee456cc658890223ac7",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "test_sha256": "2d76c952d145a6ff5cb1bd8b9be2a88a4929fb3d8381a943a2b33908659b18d0",
+  "source_sha256": {
+    "names.c": "4786464afc0428fa2540da7954247e52b93294420e2059ed6d0956792734b659",
+    "names.h": "91e3597cf9c6c32093c225d937279eceed0b89c5a85f58f403ed53d2091d5e90"
+  },
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "records": [
+    {
+      "path": "data/pydata/ai_pyarraynames.bin",
+      "registered_name": "AITable",
+      "class": "AITable",
+      "source_segment_sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+      "names": 76
+    },
+    {
+      "path": "data/pydata/ai_factions_pyarraynames.bin",
+      "registered_name": "AIFactionTable",
+      "class": "AIFactionTable",
+      "source_segment_sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+      "names": 16
+    },
+    {
+      "path": "data/pydata/animations_pyarraynames.bin",
+      "registered_name": "AnimTable",
+      "class": "AnimTable",
+      "source_segment_sha256": "af9c2aa60821db1a1bcddd9470debe314a8075267da4564354ba52783ad6b497",
+      "names": 785
+    },
+    {
+      "path": "data/pydata/animations_pyarraynames.bin",
+      "registered_name": "CamAnimSetTable",
+      "class": "CamAnimSetTable",
+      "source_segment_sha256": "3167bc8650703d2b6bfc50796cd058943b77c8e560adfa000a1f5a61c61f04f1",
+      "names": 3
+    },
+    {
+      "path": "data/pydata/animations_pyarraynames.bin",
+      "registered_name": "CharAnimTable",
+      "class": "CharAnimTable",
+      "source_segment_sha256": "56fc5426cc50f6761671269dbc2c3d560673791f0706660a4f5f10076523e015",
+      "names": 80
+    },
+    {
+      "path": "data/pydata/character_classes_pyarraynames.bin",
+      "registered_name": "ClassTable",
+      "class": "ClassTable",
+      "source_segment_sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+      "names": 260
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "registered_name": "CharacterTable",
+      "class": "CharacterTable",
+      "source_segment_sha256": "5d203dc6dba791e9e76405d6a182aee0a829c69bbf8f13173154e4e1cd8d3903",
+      "names": 448
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "registered_name": "StatAutoAssignSchemeTable",
+      "class": "StatAutoAssignSchemeTable",
+      "source_segment_sha256": "d3685f5e132b2cf1f7cd078c189bcb44c180a89b928b768b70c3b7df546cf266",
+      "names": 3
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "registered_name": "StatListTable",
+      "class": "StatListTable",
+      "source_segment_sha256": "4fcba023a6788d38800878a04e9d3637caf1d916902e5dcc6d9fd447325676ad",
+      "names": 4
+    },
+    {
+      "path": "data/pydata/character_templates_pyarraynames.bin",
+      "registered_name": "Charater_Templates",
+      "class": "Charater_Templates",
+      "source_segment_sha256": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+      "names": 121
+    },
+    {
+      "path": "data/pydata/common_pyarraynames.bin",
+      "registered_name": "RectTable",
+      "class": "RectTable",
+      "source_segment_sha256": "fcd984e582ed9b21b08db4edc2ef838a0eab28a00d3b3a00d766a57b16164690",
+      "names": 2
+    },
+    {
+      "path": "data/pydata/design_pyarraynames.bin",
+      "registered_name": "DesignSettingsTable",
+      "class": "DesignSettingsTable",
+      "source_segment_sha256": "0b3bb3fddc39b04237a20aa5b97900920fa488b12d96feef4e595acf20eb8c3f",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/design_pyarraynames.bin",
+      "registered_name": "GameDifficulties",
+      "class": "GameDifficulties",
+      "source_segment_sha256": "237d8e941d166fb063caee55cfd1da88de42bb647f0714620d509f4e53181c7f",
+      "names": 3
+    },
+    {
+      "path": "data/pydata/design_pyarraynames.bin",
+      "registered_name": "GameOptionTable",
+      "class": "GameOptionTable",
+      "source_segment_sha256": "54af09c29f8d57f186c24d0c7b3ba53b7b99f0c5ab442f42896e1aa626483836",
+      "names": 16
+    },
+    {
+      "path": "data/pydata/dialogs_pyarraynames.bin",
+      "registered_name": "DialogActors",
+      "class": "DialogActors",
+      "source_segment_sha256": "af2ce57333ec37c748ab6a3b6b792c97761747c5e0507f8c7b7f5477e1e34c21",
+      "names": 54
+    },
+    {
+      "path": "data/pydata/dialogs_pyarraynames.bin",
+      "registered_name": "Dialogs",
+      "class": "Dialogs",
+      "source_segment_sha256": "ede8493196c366088b6ff164b79f19dfee03c143dd10ec9dc47b9437a5212e96",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/effects_pyarraynames.bin",
+      "registered_name": "AnimatedEffectTable",
+      "class": "AnimatedEffectTable",
+      "source_segment_sha256": "424395540f28582220da9acdbe33c8cad491487f24db182e941050ca9514956c",
+      "names": 276
+    },
+    {
+      "path": "data/pydata/effects_pyarraynames.bin",
+      "registered_name": "CharEffectTable",
+      "class": "CharEffectTable",
+      "source_segment_sha256": "b59518876e5f630cd00b34170d46cfa96d7bf5bddb580829fbea643d36139da1",
+      "names": 3
+    },
+    {
+      "path": "data/pydata/effects_pyarraynames.bin",
+      "registered_name": "FootstepEffectTable",
+      "class": "FootstepEffectTable",
+      "source_segment_sha256": "4cbf5671ec3aa77a4d2526cc37c4fd41c8953b5aadc38bf9bf58837a11de7527",
+      "names": 7
+    },
+    {
+      "path": "data/pydata/faeries_pyarraynames.bin",
+      "registered_name": "FaeryListTable",
+      "class": "FaeryListTable",
+      "source_segment_sha256": "82577a2c7fdd01e9408e394ba68de71fd80586961909fbbd92c4083f537b0dcf",
+      "names": 4
+    },
+    {
+      "path": "data/pydata/faeries_pyarraynames.bin",
+      "registered_name": "FaeryTable",
+      "class": "FaeryTable",
+      "source_segment_sha256": "0bcea168538420057b808ee71250060f1c3066436183c1563fba54f5b076dc3f",
+      "names": 16
+    },
+    {
+      "path": "data/pydata/fonts_pyarraynames.bin",
+      "registered_name": "FontPalette",
+      "class": "FontPalette",
+      "source_segment_sha256": "e6be591858a22662ab0421290338c99bbfa332685b47790a71ffbdd185cf7b26",
+      "names": 7
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "DestructibleContainers",
+      "class": "DestructibleContainers",
+      "source_segment_sha256": "35454791fa9bc8b070d975774cfc19200343a4dfebfd058b45829674148e9758",
+      "names": 37
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "Doors",
+      "class": "Doors",
+      "source_segment_sha256": "5ba3fe29bb91c898d54320bff66aa00fd13ec7819ead2e024e917db392c6b697",
+      "names": 12
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "ExplosiveTraps",
+      "class": "ExplosiveTraps",
+      "source_segment_sha256": "b460eabd09fe4ee5b71ed84bbe8e436e00f530261a0eddaad61b1ec01ff401d5",
+      "names": 13
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "GameObjectDamager",
+      "class": "GameObjectDamager",
+      "source_segment_sha256": "e29b07b3e791f497c5979c1ac4dcba1a8f56a8fe5715858c6ad440cdd5914236",
+      "names": 14
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "LiftableObjects",
+      "class": "LiftableObjects",
+      "source_segment_sha256": "7c1922eebeadaeef9a8f5bfeea548c4a7736bb559a7ce7557b403a4714f56f89",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "OpenableContainers",
+      "class": "OpenableContainers",
+      "source_segment_sha256": "8dc7c6dc7ce3e45b48a80ec40f7be1979549dc3785713981654f2e51f6569824",
+      "names": 68
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "ProjectileTraps",
+      "class": "ProjectileTraps",
+      "source_segment_sha256": "85de7fb8e48e20bf1773ffbcd71cd489e580c3c676850d4ecd5b7bf787eb97c1",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "TimerTraps",
+      "class": "TimerTraps",
+      "source_segment_sha256": "958534d383fbc1dcbd89d9d8f64901bdc701c4a5c1c4cfb037306ee69ea1bd01",
+      "names": 2
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "TriggerObjects",
+      "class": "TriggerObjects",
+      "source_segment_sha256": "eb9c3010780fdac73a2cbb2f64c8d6f72a0e2f783229e819f0178252e5543040",
+      "names": 6
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "TriggerPlates",
+      "class": "TriggerPlates",
+      "source_segment_sha256": "124b23c0d0af7d192748007577843fe7a29605538a6a076c5ed441e145e763fb",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "registered_name": "TriggerTraps",
+      "class": "TriggerTraps",
+      "source_segment_sha256": "a5c16cdb9eaa699df5c711f52fdaca0ecd067e9c3ed0eff036ff63cc5e59f8c6",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/help_pages_pyarraynames.bin",
+      "registered_name": "HelpPages",
+      "class": "HelpPages",
+      "source_segment_sha256": "a38e48859756359ffffe15b57354e6e138437443f45738e3f2b691c5f550dfc6",
+      "names": 9
+    },
+    {
+      "path": "data/pydata/help_pages_pyarraynames.bin",
+      "registered_name": "HintPages",
+      "class": "HintPages",
+      "source_segment_sha256": "798b3d93d34293b96eedb6387fce1fab7671d27d31536aae42b2c162d7897417",
+      "names": 16
+    },
+    {
+      "path": "data/pydata/item_powers_pyarraynames.bin",
+      "registered_name": "ItemPowerList",
+      "class": "ItemPowerList",
+      "source_segment_sha256": "d3d4aeeb11a1ca822058f3e3983c1bb507a86603a71be85c33cb6ca741782671",
+      "names": 121
+    },
+    {
+      "path": "data/pydata/item_powers_pyarraynames.bin",
+      "registered_name": "ItemPowerTable",
+      "class": "ItemPowerTable",
+      "source_segment_sha256": "980e7fb5eb8c9dcc180194ce516bee04939f32249a50a099ed4d2789814173f0",
+      "names": 937
+    },
+    {
+      "path": "data/pydata/item_powers_monopoly_pyarraynames.bin",
+      "registered_name": "ItemBonusAttrMonopoly",
+      "class": "ItemBonusAttrMonopoly",
+      "source_segment_sha256": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
+      "names": 43
+    },
+    {
+      "path": "data/pydata/levels_pyarraynames.bin",
+      "registered_name": "FastTravelList",
+      "class": "FastTravelList",
+      "source_segment_sha256": "b58f6875c5060cf7a673df510c8457e810c24fc010f3163b40885bda25f71f39",
+      "names": 33
+    },
+    {
+      "path": "data/pydata/levels_pyarraynames.bin",
+      "registered_name": "LevelList",
+      "class": "LevelList",
+      "source_segment_sha256": "36ea98995701e4df2d68417b403f4b5f0936d9e523f19c89c11f0d7364786dfc",
+      "names": 51
+    },
+    {
+      "path": "data/pydata/loot_audiovisual_pyarraynames.bin",
+      "registered_name": "ItemAudioVisualTable",
+      "class": "ItemAudioVisualTable",
+      "source_segment_sha256": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
+      "names": 29
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "DropTilePriorityTable",
+      "class": "DropTilePriorityTable",
+      "source_segment_sha256": "bbeafedebe4664254ccbf26b018d66d474084f4ef0a84ac15efbe0a6d83be1fe",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "InventoryTable",
+      "class": "InventoryTable",
+      "source_segment_sha256": "94ea28933b2150dc30ee52e927e58c51d80c49abe41da35781c35432bf7ef800",
+      "names": 3
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "ItemList",
+      "class": "ItemList",
+      "source_segment_sha256": "6d0ee9f59f5f870a5373c6b4174ebb7157bf3d6677b9a13eb647232011d5f2b4",
+      "names": 186
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "ItemTable",
+      "class": "ItemTable",
+      "source_segment_sha256": "568636004273e83a16aaefac054f401825c68784585149cd2017146f647e6db4",
+      "names": 1322
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "ItemTypeList",
+      "class": "ItemTypeList",
+      "source_segment_sha256": "0d6df706884abaff04a9657459bbc94729f2fd09d21996744f439a9616ef2064",
+      "names": 9
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "LootTable",
+      "class": "LootTable",
+      "source_segment_sha256": "d118d763c283e9683bec2d6ca33ee1c95e7feaa0926848c44b554fab658c8f02",
+      "names": 339
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "MerchantTable",
+      "class": "MerchantTable",
+      "source_segment_sha256": "4d1c1982e3b0364aea453f2f6100039faffa50e8409b9818c4315e3191a1ee39",
+      "names": 12
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "registered_name": "NumProbArray",
+      "class": "NumProbArray",
+      "source_segment_sha256": "bfa657990e2f254060a67ec0c063159cccb8bd206febab19693b93ea05db0f75",
+      "names": 39
+    },
+    {
+      "path": "data/pydata/projectiles_pyarraynames.bin",
+      "registered_name": "ProjectileTable",
+      "class": "ProjectileTable",
+      "source_segment_sha256": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950",
+      "names": 41
+    },
+    {
+      "path": "data/pydata/skills_pyarraynames.bin",
+      "registered_name": "SkillListTable",
+      "class": "SkillListTable",
+      "source_segment_sha256": "2f28ba68b711bb3d5014144f26bae1597c0d0b2e6e2256cf69e2209894529a01",
+      "names": 36
+    },
+    {
+      "path": "data/pydata/skills_pyarraynames.bin",
+      "registered_name": "SkillTable",
+      "class": "SkillTable",
+      "source_segment_sha256": "63bc0086f22b5b16866e15338b75255281b9a535246044292daf6766b9edc0b9",
+      "names": 127
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "registered_name": "CharSoundsTable",
+      "class": "CharSoundsTable",
+      "source_segment_sha256": "a6567d1dfb609b35e990c5614565c61091fcbdce3ade9f16487cfb1861bdcc47",
+      "names": 3
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "registered_name": "Listeners",
+      "class": "Listeners",
+      "source_segment_sha256": "b4829a61d2dc0d06c651e95d67caecd60d060459841ccd58b6f514b0b7e3bec8",
+      "names": 5
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "registered_name": "SoundBankPlayback",
+      "class": "SoundBankPlayback",
+      "source_segment_sha256": "42134866ea75a7b3a5815a9d10b41ca2cddd1399aeeb28137afc7a33d2eb6e45",
+      "names": 27
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "registered_name": "SoundGroupsRouting",
+      "class": "SoundGroupsRouting",
+      "source_segment_sha256": "c60774dff874b23a85200ae659c517f7634164d17d6abe07932887e81b0d3db5",
+      "names": 8
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "registered_name": "Sounds_bak",
+      "class": "Sounds_bak",
+      "source_segment_sha256": "551c4d7b695d963329d29e319a232dcfc5f4f5f7a124a421e8160aac473c2dd3",
+      "names": 183
+    },
+    {
+      "path": "data/pydata/spawn_groups_pyarraynames.bin",
+      "registered_name": "SpawnGroups",
+      "class": "SpawnGroups",
+      "source_segment_sha256": "4fa5aeaaf98e13a9a233d333e580562480573a726556657f17bd3be53bdd8835",
+      "names": 1
+    },
+    {
+      "path": "data/pydata/trophies_pyarraynames.bin",
+      "registered_name": "TrophyTable",
+      "class": "TrophyTable",
+      "source_segment_sha256": "8c0a0b279d48361398dc0b365df358c88590b682b2405d439cb204a60ea56cff",
+      "names": 69
+    },
+    {
+      "path": "data/pydata/v2conditions_pyarraynames.bin",
+      "registered_name": "v2Conditions",
+      "class": "v2Conditions",
+      "source_segment_sha256": "029b7b9253386078a87988344907a71de1a68ba105a034ff6ea48a0a3490ae9d",
+      "names": 118
+    },
+    {
+      "path": "data/pydata/v2eventmanager_pyarraynames.bin",
+      "registered_name": "v2Events",
+      "class": "v2Events",
+      "source_segment_sha256": "900e2e0afa4d37497deb8fe995fa883f50e4bb9dae632d9dc28dac8d49e273f2",
+      "names": 66
+    },
+    {
+      "path": "data/pydata/v2quests_pyarraynames.bin",
+      "registered_name": "v2Quests",
+      "class": "v2Quests",
+      "source_segment_sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4",
+      "names": 64
+    },
+    {
+      "path": "data/pydata/worldmap_pyarraynames.bin",
+      "registered_name": "WorldMap",
+      "class": "WorldMap",
+      "source_segment_sha256": "9f3920be7eff0fd911adcbed871ef9a23aafcf566984ca1b944b82dc9f70f220",
+      "names": 13
+    },
+    {
+      "path": "data/pydata/worldmap_pyarraynames.bin",
+      "registered_name": "WorldMapLockers",
+      "class": "WorldMapLockers",
+      "source_segment_sha256": "0c8298908e8c7d8d4fd051de198432ae2a6153377a4c576dd41b9cac7dfbe6d8",
+      "names": 3
+    },
+    {
+      "path": "data/pydata/character_models_dictionary_pyarraynames.bin",
+      "registered_name": "ModelDict",
+      "class": "ModelDict",
+      "source_segment_sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9",
+      "names": 116
+    },
+    {
+      "path": "data/pydata/animations_dictionary_pyarraynames.bin",
+      "registered_name": "AnimDict",
+      "class": "AnimDict",
+      "source_segment_sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+      "names": 1447
+    },
+    {
+      "path": "data/pydata/effects_dictionary_pyarraynames.bin",
+      "registered_name": "EffectDict",
+      "class": "EffectDict",
+      "source_segment_sha256": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2",
+      "names": 284
+    },
+    {
+      "path": "data/pydata/projectiles_dictionary_pyarraynames.bin",
+      "registered_name": "ProjectileDict",
+      "class": "ProjectileDict",
+      "source_segment_sha256": "42d5f9603ce4671c85e87b07fffcbfedf0e4b2e891b4b4adbfa0354093422d16",
+      "names": 28
+    },
+    {
+      "path": "data/pydata/game_objects_dictionary_pyarraynames.bin",
+      "registered_name": "GameObjectDict",
+      "class": "GameObjectDict",
+      "source_segment_sha256": "b01c74698bd0dcbcfb05d0d3a8ad645342bfed294bfa82c9c46185bb9dc0ccad",
+      "names": 85
+    },
+    {
+      "path": "data/pydata/common_text_pyarraynames.bin",
+      "registered_name": "StrID_Languages",
+      "class": "StrID_Languages",
+      "source_segment_sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+      "names": 9
+    },
+    {
+      "path": "data/pydata/sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "registered_name": "Sounds",
+      "class": "Sounds",
+      "source_segment_sha256": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d",
+      "names": 638
+    }
+  ],
+  "dependency_model": "Source ARM64/host decoded all names matching recorded original readers. Source ARM64 queries repeat the 266 original lookup cases from the trace; all unique names are additionally checked on host. Libc byte helpers use a bounded model. Array-record size agreement, original allocation/registration ownership, Structs field names and script behavior remain outside scope.",
+  "import_calls": {
+    "memchr": 97719,
+    "memcmp": 1381
+  }
+}

@@ -1,0 +1,320 @@
+{
+  "validation": "PASS",
+  "branch": "reconstruction/android17-irrlicht-rebuild-2026-10-03",
+  "adam_reviewed_commit": "791e961b12233100b303038c961666834f4beb9d",
+  "apk": {
+    "path": "port/android-native/build/native-player-ais-r2-2026-10-05/crypt-native-player-ais.apk",
+    "bytes": 30126619,
+    "sha256": "aee78d528868cbde8355f968b3f45466a525f3f4548b0eb7fb3e39e98d366abf",
+    "published": false
+  },
+  "capture": {
+    "path": "port/android-native/build/captures/native-player-ais-r2-complete-2026-10-05.zip",
+    "sha256": "95447a0d4b79820d6572b10e1c4a1ef1b83f038f36e32a19849bc5202acfa428",
+    "actual_compiler_configure_inputs": 583
+  },
+  "host_receipt_matches": [
+    {
+      "receipt": "player-ais-lifecycle.json",
+      "actual_apk_input_matches": 536
+    },
+    {
+      "receipt": "player-ai-timers.json",
+      "actual_apk_input_matches": 536
+    },
+    {
+      "receipt": "inventory-text-queries.json",
+      "actual_apk_input_matches": 79
+    }
+  ],
+  "android_exports": {
+    "arm64-v8a": {
+      "libdh2_level_world.so": {
+        "sha256": "5ed1a84e6bebe516928b24838f5e8978bbdbefa93fb7151d56437402e2fb7eaa",
+        "verified_export_groups": [
+          "player_ais_lifecycle_v1::Runtime::load(",
+          "player_ais_lifecycle_v1::Runtime::initialize_process(",
+          "character_regen_tick_v1::tick(",
+          "player_ai_timer_events_v1::Runtime::deliver(",
+          "dh2_character_ai_event"
+        ],
+        "dynamic_table": "Dynamic section at offset 0x21de48 contains 32 entries:\n  Tag                Type           Name/Value\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_skinning.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_script_runtime.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_animation.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_scene_materials.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libm.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdl.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libc.so]\n  0x000000000000000e (SONAME)       Library soname: [libdh2_level_world.so]\n  0x000000000000001e (FLAGS)        BIND_NOW \n  0x000000006ffffffb (FLAGS_1)      NOW \n  0x0000000000000007 (RELA)         0x495e0\n  0x0000000000000008 (RELASZ)       23928 (bytes)\n  0x0000000000000009 (RELAENT)      24 (bytes)\n  0x000000006ffffff9 (RELACOUNT)    545\n  0x0000000000000017 (JMPREL)       0x4f358\n  0x0000000000000002 (PLTRELSZ)     40320 (bytes)\n  0x0000000000000003 (PLTGOT)       0x2224f0\n  0x0000000000000014 (PLTREL)       RELA\n  0x0000000000000006 (SYMTAB)       0x2f8\n  0x000000000000000b (SYMENT)       24 (bytes)\n  0x0000000000000005 (STRTAB)       0x133a0\n  0x000000000000000a (STRSZ)        221757 (bytes)\n  0x000000006ffffef5 (GNU_HASH)     0xf870\n  0x0000000000000019 (INIT_ARRAY)   0x221e28\n  0x000000000000001b (INIT_ARRAYSZ) 32 (bytes)\n  0x000000000000001a (FINI_ARRAY)   0x221e18\n  0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)\n  0x000000006ffffff0 (VERSYM)       0xe530\n  0x000000006ffffffe (VERNEED)      0xf80c\n  0x000000006fffffff (VERNEEDNUM)   3\n  0x0000000000000000 (NULL)         0x0\n"
+      },
+      "libdh2_game_data.so": {
+        "sha256": "0583090ee56a05e376db595db34d50324069bb30e83badcc2bc4345febd5b353",
+        "verified_export_groups": [
+          "equipment_weapon_facts_v1(",
+          "PlayerEquipmentQueriesLiveV1::facts(",
+          "PlayerEquipmentQueriesLiveV1::combat_view("
+        ],
+        "dynamic_table": "Dynamic section at offset 0x136198 contains 27 entries:\n  Tag                Type           Name/Value\n  0x0000000000000001 (NEEDED)       Shared library: [libm.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdl.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libc.so]\n  0x000000000000000e (SONAME)       Library soname: [libdh2_game_data.so]\n  0x000000000000001e (FLAGS)        BIND_NOW \n  0x000000006ffffffb (FLAGS_1)      NOW \n  0x0000000000000007 (RELA)         0x2c358\n  0x0000000000000008 (RELASZ)       49416 (bytes)\n  0x0000000000000009 (RELAENT)      24 (bytes)\n  0x000000006ffffff9 (RELACOUNT)    1471\n  0x0000000000000017 (JMPREL)       0x38460\n  0x0000000000000002 (PLTRELSZ)     21336 (bytes)\n  0x0000000000000003 (PLTGOT)       0x13a528\n  0x0000000000000014 (PLTREL)       RELA\n  0x0000000000000006 (SYMTAB)       0x2f8\n  0x000000000000000b (SYMENT)       24 (bytes)\n  0x0000000000000005 (STRTAB)       0xc5ec\n  0x000000000000000a (STRSZ)        130408 (bytes)\n  0x000000006ffffef5 (GNU_HASH)     0x9a28\n  0x0000000000000019 (INIT_ARRAY)   0x13a180\n  0x000000000000001b (INIT_ARRAYSZ) 24 (bytes)\n  0x000000000000001a (FINI_ARRAY)   0x13a170\n  0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)\n  0x000000006ffffff0 (VERSYM)       0x8e48\n  0x000000006ffffffe (VERNEED)      0x99e4\n  0x000000006fffffff (VERNEEDNUM)   2\n  0x0000000000000000 (NULL)         0x0\n"
+      },
+      "libdh2_inventory_text_v1.so": {
+        "sha256": "5bd2601c07ca43faaa93bf150f547d210a6ec4e3a2393b58fb07bdad62cc9dc6",
+        "verified_export_groups": [
+          "ItemTextOwnerV5::ItemTextOwnerV5(",
+          "HudTextV1::native_string(",
+          "Localization::load("
+        ],
+        "dynamic_table": "Dynamic section at offset 0x21cd8 contains 26 entries:\n  Tag                Type           Name/Value\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libm.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdl.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libc.so]\n  0x000000000000000e (SONAME)       Library soname: [libdh2_inventory_text_v1.so]\n  0x000000000000001e (FLAGS)        BIND_NOW \n  0x000000006ffffffb (FLAGS_1)      NOW \n  0x0000000000000007 (RELA)         0x3d00\n  0x0000000000000008 (RELASZ)       1440 (bytes)\n  0x0000000000000009 (RELAENT)      24 (bytes)\n  0x000000006ffffff9 (RELACOUNT)    46\n  0x0000000000000017 (JMPREL)       0x42a0\n  0x0000000000000002 (PLTRELSZ)     2760 (bytes)\n  0x0000000000000003 (PLTGOT)       0x25ed8\n  0x0000000000000014 (PLTREL)       RELA\n  0x0000000000000006 (SYMTAB)       0x2f8\n  0x000000000000000b (SYMENT)       24 (bytes)\n  0x0000000000000005 (STRTAB)       0x1468\n  0x000000000000000a (STRSZ)        10389 (bytes)\n  0x000000006ffffef5 (GNU_HASH)     0x1248\n  0x000000000000001a (FINI_ARRAY)   0x25cc8\n  0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)\n  0x000000006ffffff0 (VERSYM)       0x10c0\n  0x000000006ffffffe (VERNEED)      0x11e8\n  0x000000006fffffff (VERNEEDNUM)   3\n  0x0000000000000000 (NULL)         0x0\n"
+      }
+    },
+    "x86_64": {
+      "libdh2_level_world.so": {
+        "sha256": "e3d8730910ad6b13d5b6177848c141d60bbb5fe34f997fd3eb8a5d0866e0187d",
+        "verified_export_groups": [
+          "player_ais_lifecycle_v1::Runtime::load(",
+          "player_ais_lifecycle_v1::Runtime::initialize_process(",
+          "character_regen_tick_v1::tick(",
+          "player_ai_timer_events_v1::Runtime::deliver(",
+          "dh2_character_ai_event"
+        ],
+        "dynamic_table": "Dynamic section at offset 0x205b80 contains 32 entries:\n  Tag                Type           Name/Value\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_skinning.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_script_runtime.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_engine_animation.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_scene_materials.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libm.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdl.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libc.so]\n  0x000000000000000e (SONAME)       Library soname: [libdh2_level_world.so]\n  0x000000000000001e (FLAGS)        BIND_NOW \n  0x000000006ffffffb (FLAGS_1)      NOW \n  0x0000000000000007 (RELA)         0x49518\n  0x0000000000000008 (RELASZ)       23808 (bytes)\n  0x0000000000000009 (RELAENT)      24 (bytes)\n  0x000000006ffffff9 (RELACOUNT)    541\n  0x0000000000000017 (JMPREL)       0x4f218\n  0x0000000000000002 (PLTRELSZ)     40224 (bytes)\n  0x0000000000000003 (PLTGOT)       0x20a218\n  0x0000000000000014 (PLTREL)       RELA\n  0x0000000000000006 (SYMTAB)       0x2f8\n  0x000000000000000b (SYMENT)       24 (bytes)\n  0x0000000000000005 (STRTAB)       0x13318\n  0x000000000000000a (STRSZ)        221696 (bytes)\n  0x000000006ffffef5 (GNU_HASH)     0xf7e8\n  0x0000000000000019 (INIT_ARRAY)   0x209b70\n  0x000000000000001b (INIT_ARRAYSZ) 16 (bytes)\n  0x000000000000001a (FINI_ARRAY)   0x209b60\n  0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)\n  0x000000006ffffff0 (VERSYM)       0xe4b8\n  0x000000006ffffffe (VERNEED)      0xf788\n  0x000000006fffffff (VERNEEDNUM)   3\n  0x0000000000000000 (NULL)         0x0\n"
+      },
+      "libdh2_game_data.so": {
+        "sha256": "ad041c8781848da418ff63c2c87db570b588c1a1786e6c880846a01217efde69",
+        "verified_export_groups": [
+          "equipment_weapon_facts_v1(",
+          "PlayerEquipmentQueriesLiveV1::facts(",
+          "PlayerEquipmentQueriesLiveV1::combat_view("
+        ],
+        "dynamic_table": "Dynamic section at offset 0x1265b8 contains 27 entries:\n  Tag                Type           Name/Value\n  0x0000000000000001 (NEEDED)       Shared library: [libm.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdl.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libc.so]\n  0x000000000000000e (SONAME)       Library soname: [libdh2_game_data.so]\n  0x000000000000001e (FLAGS)        BIND_NOW \n  0x000000006ffffffb (FLAGS_1)      NOW \n  0x0000000000000007 (RELA)         0x2c1b8\n  0x0000000000000008 (RELASZ)       49104 (bytes)\n  0x0000000000000009 (RELAENT)      24 (bytes)\n  0x000000006ffffff9 (RELACOUNT)    1467\n  0x0000000000000017 (JMPREL)       0x38188\n  0x0000000000000002 (PLTRELSZ)     21240 (bytes)\n  0x0000000000000003 (PLTGOT)       0x12a938\n  0x0000000000000014 (PLTREL)       RELA\n  0x0000000000000006 (SYMTAB)       0x2f8\n  0x000000000000000b (SYMENT)       24 (bytes)\n  0x0000000000000005 (STRTAB)       0xc4b0\n  0x000000000000000a (STRSZ)        130305 (bytes)\n  0x000000006ffffef5 (GNU_HASH)     0x9908\n  0x0000000000000019 (INIT_ARRAY)   0x12a5b0\n  0x000000000000001b (INIT_ARRAYSZ) 8 (bytes)\n  0x000000000000001a (FINI_ARRAY)   0x12a5a0\n  0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)\n  0x000000006ffffff0 (VERSYM)       0x8d40\n  0x000000006ffffffe (VERNEED)      0x98c8\n  0x000000006fffffff (VERNEEDNUM)   2\n  0x0000000000000000 (NULL)         0x0\n"
+      },
+      "libdh2_inventory_text_v1.so": {
+        "sha256": "b2afd191b4897f262d263227c37aaf0a9a3f37e25a8c4181c109f3976f5d27da",
+        "verified_export_groups": [
+          "ItemTextOwnerV5::ItemTextOwnerV5(",
+          "HudTextV1::native_string(",
+          "Localization::load("
+        ],
+        "dynamic_table": "Dynamic section at offset 0x20240 contains 26 entries:\n  Tag                Type           Name/Value\n  0x0000000000000001 (NEEDED)       Shared library: [libdh2_game_data.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libm.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libdl.so]\n  0x0000000000000001 (NEEDED)       Shared library: [libc.so]\n  0x000000000000000e (SONAME)       Library soname: [libdh2_inventory_text_v1.so]\n  0x000000000000001e (FLAGS)        BIND_NOW \n  0x000000006ffffffb (FLAGS_1)      NOW \n  0x0000000000000007 (RELA)         0x3cc0\n  0x0000000000000008 (RELASZ)       1392 (bytes)\n  0x0000000000000009 (RELAENT)      24 (bytes)\n  0x000000006ffffff9 (RELACOUNT)    44\n  0x0000000000000017 (JMPREL)       0x4230\n  0x0000000000000002 (PLTRELSZ)     2712 (bytes)\n  0x0000000000000003 (PLTGOT)       0x24438\n  0x0000000000000014 (PLTREL)       RELA\n  0x0000000000000006 (SYMTAB)       0x2f8\n  0x000000000000000b (SYMENT)       24 (bytes)\n  0x0000000000000005 (STRTAB)       0x1438\n  0x000000000000000a (STRSZ)        10373 (bytes)\n  0x000000006ffffef5 (GNU_HASH)     0x1218\n  0x000000000000001a (FINI_ARRAY)   0x24230\n  0x000000000000001c (FINI_ARRAYSZ) 16 (bytes)\n  0x000000006ffffff0 (VERSYM)       0x1090\n  0x000000006ffffffe (VERNEED)      0x11b4\n  0x000000006fffffff (VERNEEDNUM)   3\n  0x0000000000000000 (NULL)         0x0\n"
+      }
+    }
+  },
+  "ELF64_16KiB_libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "0583090ee56a05e376db595db34d50324069bb30e83badcc2bc4345febd5b353",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "5bd2601c07ca43faaa93bf150f547d210a6ec4e3a2393b58fb07bdad62cc9dc6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "5ed1a84e6bebe516928b24838f5e8978bbdbefa93fb7151d56437402e2fb7eaa",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "ad041c8781848da418ff63c2c87db570b588c1a1786e6c880846a01217efde69",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "b2afd191b4897f262d263227c37aaf0a9a3f37e25a8c4181c109f3976f5d27da",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "e3d8730910ad6b13d5b6177848c141d60bbb5fe34f997fd3eb8a5d0866e0187d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "d740e4ba233c03dba7c931cbbca7f4ea572c99753282bc096898edd3bfe432c2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "6e2bc8333ad69a718cab3a87a9f8b66d9cd65d5001a7873e31324bc4be1ac8de",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "zipalign_16KiB": "PASS",
+  "apksigner_stdout": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v3.2 scheme (APK Signature Scheme v3.2): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1\n",
+  "live": {
+    "api": 37,
+    "page_size": 16384,
+    "all13unchanged_updates": true,
+    "authored_buff": {
+      "count": 1,
+      "groups": 1,
+      "class_id": 49,
+      "instance": "0x71728c180bf0",
+      "timer": -1,
+      "strength": 1,
+      "sheet_fnv1a64_le_words": "3bfdcdd0eb338a14",
+      "initial_resistance_properties": [
+        {
+          "name": "Resistance_Fire",
+          "index": 74,
+          "buff": 0,
+          "resolved": 192
+        },
+        {
+          "name": "Resistance_Water",
+          "index": 75,
+          "buff": 0,
+          "resolved": 192
+        },
+        {
+          "name": "Resistance_Lightning",
+          "index": 76,
+          "buff": 7680,
+          "resolved": 7872
+        },
+        {
+          "name": "Resistance_Earth",
+          "index": 77,
+          "buff": 0,
+          "resolved": 192
+        },
+        {
+          "name": "Resistance_Air",
+          "index": 78,
+          "buff": 0,
+          "resolved": 192
+        }
+      ],
+      "retained_recreations": 3,
+      "activation_or_unlock_claim": false
+    },
+    "player_AIS_startup_regeneration_retention": "PASS",
+    "dictionary_MP_cooldown_retention": "PASS",
+    "Crypt_touch_Wait_Spawn_retention": "PASS",
+    "physical_arm64_tested": false
+  },
+  "source_review_fixes": [
+    "Allocate the stable native wrapper before phase7 AIS publication; retain reached initialization failures.",
+    "Remove development two-pass HP/MP fill; source InitProcess initializes vitals once.",
+    "Keep authored AI declaration backing and rebind borrowed class rows after GL reload.",
+    "Route33/34/36 without an additional state-machine event; use the same Coordinator traversal.",
+    "Resolve Ninja relative configure inputs against the actual build directory; preserve included text selection."
+  ],
+  "artifacts": {
+    "player-ais-lifecycle.json": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/host/player-ais-lifecycle.json",
+      "sha256": "dcc3b535b500f24c79d4fb2947f8930c83757fafcf95641944b3f20523976be2"
+    },
+    "player-ai-timers.json": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/host/player-ai-timers.json",
+      "sha256": "49a4b3095fe667258d0d18e93e2bb40756bb5de296070e9393bbf2eac3602896"
+    },
+    "inventory-text-queries.json": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/host/inventory-text-queries.json",
+      "sha256": "93b320c515abb0e33dffe80e4a448984d5c7c086f060ea0841cd2cd89f9a0c86"
+    },
+    "production": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/production-build-snapshot.json",
+      "sha256": "afd6391c1fe1359f0d448a54b69ec777c147c20b6854d8bce562988a7ba0b5d2"
+    },
+    "player-skills/player-skills-smoke.json": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/player-skills/player-skills-smoke.json",
+      "sha256": "8b65885d64e8fab694e2d12ac642dee182bef12f2369d9a494cca0f60cf68258"
+    },
+    "player-skills/adb-transcript.json": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/player-skills/adb-transcript.json",
+      "sha256": "331e3ac20207a06a2ca68ef4f31ea193ca507435be1a05d9d9c5a83631232b67"
+    },
+    "player-skills/player-skills.log": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/player-skills/player-skills.log",
+      "sha256": "28448d05aac7c274cbfb86580fdcbca8a19e6e52d82837c6675b192ed224cedb"
+    },
+    "player-skills/player-skills-initial.png": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/player-skills/player-skills-initial.png",
+      "sha256": "e88841d2316845f9e2f87572ddaa45b0203c235e344f9ed30ea2622b8cdb2902"
+    },
+    "player-skills/player-skills-restored.png": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/player-skills/player-skills-restored.png",
+      "sha256": "1fe87951d808641e47fea63042d0ad775e5ade3309bfd2c2620026f7560169d4"
+    },
+    "crypt-foundations/crypt-script-smoke.json": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/crypt-foundations/crypt-script-smoke.json",
+      "sha256": "a6b4d62e6ea5cf2f636b51f5b6844954bdc10cfb28a6d34bcf6ccd1e90e394f1"
+    },
+    "crypt-foundations/adb-transcript.json": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/crypt-foundations/adb-transcript.json",
+      "sha256": "18d809ad2c14f892313ad79c9b0a4779bcd5f00e5ec5eb2cad6236b36803f65b"
+    },
+    "crypt-foundations/crypt-script.log": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/crypt-foundations/crypt-script.log",
+      "sha256": "11742d24f9e71a3fa0f2746200025e28bfbdc730d8d3ebd2978e197ebb114e2f"
+    },
+    "crypt-foundations/authored-ambush-restored.png": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/crypt-foundations/authored-ambush-restored.png",
+      "sha256": "5a297d823097106bea51bf9d3fbf0542b519da9aff78f944738ecf6892076686"
+    },
+    "crypt-foundations/outside-authored-trigger.png": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/crypt-foundations/outside-authored-trigger.png",
+      "sha256": "5670d49610bb4bc879c18000e321dfde2bef6e7956df4fce34b2a93d158c8e29"
+    },
+    "crypt-foundations/source-ghost-pair-idle.png": {
+      "path": "reports/reconstruction-2026-10-05/player-ais-timers/crypt-foundations/source-ghost-pair-idle.png",
+      "sha256": "c3aba5560bc5a9e0adb04a9c6f4bf1071fe888fb1fca4c4d5b06bae629bb5d87"
+    }
+  },
+  "scope": "Native Player source load/InitProcess and unpaused AI regeneration/zero-DoT timers now use the same Session, canonical AIS flags, saved skills, property groups, Debug and Coordinator. Selected-world original/host gates and Android/live startup, MP regeneration, same-owner reload/rotation, buff/dictionary/cooldown and Crypt regressions pass. Adam text/query dependencies are selected in shared libraries and host-tested, but native inventory/text/Skin/profile/grants remain disconnected. Positive Player DoT attack/application, OnDied/AI_SetDead cleanup, full native AIS frame and skill activation remain open. No full game or physical ARM64 gameplay claim."
+}

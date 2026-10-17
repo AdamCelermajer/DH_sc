@@ -1,0 +1,18 @@
+{
+  "schema": "dh2-manual-visual-regression/v1",
+  "apk_sha256": "543019887d1dbbfb47e46bf525a1f86c6314ca726811f4831d6fe63862eaf9d5",
+  "android_sdk": 37,
+  "page_size_bytes": 16384,
+  "automated_source_geometry_and_motion_checks": "passed",
+  "manual_visual_check": "failed",
+  "observations": [
+    "The initial screenshot shows the source Prince but clips his head at the top of the viewport.",
+    "The X-movement screenshot reports Walk, but the Prince is no longer visible.",
+    "Large dark foreground geometry and white unmapped floor regions are separate pre-existing rendering gaps."
+  ],
+  "source_screenshots": [
+    "port/android-app/build/irrlicht-swamp-prince-preview/runtime-16k/initial.png",
+    "port/android-app/build/irrlicht-swamp-prince-preview/runtime-16k/x-held.png"
+  ],
+  "interpretation": "Animation selection, source skin deformation and movement logs do not establish visible actor correctness. Investigate original root/helper composition and camera framing before accepting the renderer milestone."
+}

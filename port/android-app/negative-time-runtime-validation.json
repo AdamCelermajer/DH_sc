@@ -1,0 +1,55 @@
+{
+  "serial": "emulator-5558",
+  "android_release": "17",
+  "sdk": "37",
+  "page_size": "16384",
+  "apk_sha256": "6c4e50f278348b80c15b0856ea43338e4fe245fb1821343ece5db0fd9d7f688e",
+  "installed_apk_sha256": "6c4e50f278348b80c15b0856ea43338e4fe245fb1821343ece5db0fd9d7f688e",
+  "fixture_sha256": {
+    "data/3d/characters/prince/prince_low_poly_warrior.bdae": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+    "data/3d/textures/prince-warrior.tga": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+    "data/3d/characters/prince/animations/skill_dh2_prince_warrior_paladin_guarding_aura.bdae": "8232e55d6c8c25cf1e7282991f47657e30010715d88e31842d9ee01a920e5421"
+  },
+  "statuses": [
+    [
+      "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it."
+    ],
+    [
+      "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene."
+    ],
+    [
+      "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay."
+    ]
+  ],
+  "seek_status": [
+    "Animation preview: 400 / 799 ms. No gameplay.",
+    "IMPORT BRES SCENE",
+    "IMPORT PVRTC TEXTURE",
+    "IMPORT CHARACTER ANIMATION",
+    "PLAY ANIMATION"
+  ],
+  "play_and_pause": true,
+  "pid": "23701",
+  "fatal_in_run": false,
+  "log_start_emulator_gmt": "10-02 12:46:29.000",
+  "screenshots": [
+    {
+      "file": "DH2-source-aura-preview-Android17-16k-start.png",
+      "sha256": "bb9638978267f6734298fe221228e411672141048173e1ed35cce1773427c1c5"
+    },
+    {
+      "file": "DH2-source-aura-preview-Android17-16k-middle.png",
+      "sha256": "da6a6f4be273cbc4fd8e39fe230a53470f6008be2d23600931fe3fec4a544145"
+    },
+    {
+      "file": "DH2-source-aura-preview-Android17-16k-playing.png",
+      "sha256": "afae71449e52bd46f1bcb32795b2e207c0f73a26f69cea45849c9a3f3952f8c4"
+    }
+  ],
+  "visual_inspection_required": true,
+  "complete_game": false,
+  "original_animator_equivalence": false,
+  "visual_inspection": "Textured warrior visible; start and midpoint show distinct aura casting poses. No spell particles or gameplay are provided.",
+  "clip_start_ms": -333,
+  "clip_end_ms": 466
+}

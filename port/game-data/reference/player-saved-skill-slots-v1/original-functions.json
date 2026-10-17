@@ -1,0 +1,39 @@
+{
+  "schema": "dh2-player-saved-skill-slots-source-v1",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZN13ItemInventory18GetCurrentSkillSetEi",
+      "address": "0x3fc6a0",
+      "size": 8,
+      "bytes": "0000a0e31eff2fe1",
+      "behavior": "mov r0,#0; bx lr. Returns zero for every selector and ignores this."
+    },
+    {
+      "symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "address": "0x3fc6a8",
+      "size": 32,
+      "bytes": "000051e3030000ba011041e2010051e30000a0831eff2f81de02d0e11eff2fe1",
+      "behavior": "Negative selector and selectors 1..2 return the signed byte at this+0x2e; selector zero and selectors above two return zero."
+    }
+  ],
+  "related_prior_evidence": {
+    "symbol": "_ZN13ItemInventory16SwapEquipmentSetEv",
+    "address": "0x3fc6c8",
+    "evidence": "port/game-data/reference/player-inventory-owned-v4/imported-adam-c3ae797/original/dependencies/original-functions.json",
+    "note": "The V4 source-differential owns swap verification; the present adapter only observes V4's selected equipment state."
+  },
+  "source_caller_facts": {
+    "SG_SetSkillInSlot": "0x3bbe54 passes selector -1 to GetCurrentSkillSet, then writes the selected PlayerSavegame map.",
+    "SG_GetSkillInSlot": "0x3bbe68 passes selector -1 to GetCurrentSkillSet.",
+    "SG_HasSkillSlots": "0x3bbea0 passes selector -1 to GetCurrentSkillSet.",
+    "InitSkillsSlots": "0x3b3a90 writes saved row zero to slot zero, swaps equipment, writes row zero to slot zero again, swaps back, then conditionally increments row zero. Both slot writes therefore continue to address source map zero."
+  },
+  "host_scope": {
+    "original_executed_function_count": 2,
+    "original_selector_comparisons": 24,
+    "selected_shared_library": "libdh2_game_data.dll",
+    "native_wired": false,
+    "full_item_inventory_layout_claimed": false
+  }
+}

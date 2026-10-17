@@ -1,0 +1,272 @@
+{
+  "schema": "dh2-gles-pass-state-provenance-v1",
+  "source_apk": "C:\\Users\\NacWorkstation\\Downloads\\Dungeon-Hunter-2-HD-v1-0-2.apk",
+  "source_apk_sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+  "source_elf_member": "lib/armeabi-v7a/libDungeonHunter2.so",
+  "source_elf_size": 15938284,
+  "source_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "hash_basis": "SHA-256 covers exactly range_size bytes at elf_va in the original ELF PT_LOAD mapping; copied ARM byte rows were checked against those bytes.",
+  "functions": [
+    {
+      "elf_va": "0x005d7a10",
+      "range_size": 564,
+      "function_bytes_sha256": "e06e8f5ee8f6df566c1576414d31e3a4389e32d442da94250e6f49de3ba1c08f",
+      "source_assembly": "glitch_video_detail_renderpass_SRenderState-2777ca965cb6-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005dcf2c",
+      "range_size": 100,
+      "function_bytes_sha256": "08b0332c8cb0e89140e6eaac4583286d8ac9ef8a2ec65d02bbc8f096b59b84f6",
+      "source_assembly": "glitch_video_CMaterialRendererManager-a4bf824a9f3f-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b71d8",
+      "range_size": 452,
+      "function_bytes_sha256": "207b3dd4641db243c26d51f67c94cfd0273aadcd15131f363f1f1b9bf4ef7847",
+      "source_assembly": "void_glitch_video_detail-1d8f95ea9161-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b73e0",
+      "range_size": 264,
+      "function_bytes_sha256": "4269a6555db594ac283ba023440c3614605684c4ee1413c0b8f6934734e731f4",
+      "source_assembly": "void_glitch_video_detail-1d8f95ea9161-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005af3f8",
+      "range_size": 380,
+      "function_bytes_sha256": "7fcb7764acdfffca0928b4e3634d8c49b954d5e8516e435c9dea1d8d90b8a5bf",
+      "source_assembly": "void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005af654",
+      "range_size": 100,
+      "function_bytes_sha256": "159da0f483b2914007da91dd1af70617c9bc6deee97f618c7717ecac9b7629f1",
+      "source_assembly": "void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005af6fc",
+      "range_size": 100,
+      "function_bytes_sha256": "218022e465873a05e084007822e453919d7daf45a148ec3084249f1a3daf383e",
+      "source_assembly": "void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005af7a4",
+      "range_size": 132,
+      "function_bytes_sha256": "4221d371253df658855bc6630b0d6f748834db2b254c7a43822686c47621f5cc",
+      "source_assembly": "void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005af88c",
+      "range_size": 108,
+      "function_bytes_sha256": "4e121dcffca710c3622b4821eafd12695b55e77789f223eeb800e0c52c158bce",
+      "source_assembly": "void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005afa78",
+      "range_size": 212,
+      "function_bytes_sha256": "c1f78a68ca53936f676445f815efd279a99b45eec6fea0c9b332d84a4f06f38b",
+      "source_assembly": "void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b70cc",
+      "range_size": 268,
+      "function_bytes_sha256": "493b9b879652b16e19864c66e6ab356902d5676f6d202b0868b306879f6d2d6d",
+      "source_assembly": "void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b69c0",
+      "range_size": 780,
+      "function_bytes_sha256": "28cebdcc6c60f27e79c4ee058bdc7064b99b7e13738f2789a6893812b2b0ba0a",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b6ccc",
+      "range_size": 340,
+      "function_bytes_sha256": "6aec5209b723ab86c7838b2644600ad77f1e36d80ea56468f2f6717b8b1bd730",
+      "source_assembly": "glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHandler-ed6f9d815e92-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b6e20",
+      "range_size": 76,
+      "function_bytes_sha256": "c22d3af2b053fd42a57a625cc16097307c9d0ebeb0bc327379be06af24bbd22e",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b6eb8",
+      "range_size": 76,
+      "function_bytes_sha256": "2f3783f3b5f83a6433885d2cb786ad4b329b4c01161c29743753523979f7a8f3",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b6f04",
+      "range_size": 76,
+      "function_bytes_sha256": "4b3b8b7c67950063d859a3c2a68b9857aa544e065b77307846c4e09175ccafec",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b6f50",
+      "range_size": 76,
+      "function_bytes_sha256": "f72e34de92e6750e18fc76e91807ca63fcd159012f305812ba3fc7fdb7fa8a9f",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b6fe8",
+      "range_size": 76,
+      "function_bytes_sha256": "141ddb10797c598aac8f1dd09af774665cd795c7b5f3e87cb1c6bf10fa2c1a12",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b7034",
+      "range_size": 76,
+      "function_bytes_sha256": "50be4a04dc063c18ef363ab6a8eb39187a2c01a3893840027854cbf4f2f0d634",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b7080",
+      "range_size": 76,
+      "function_bytes_sha256": "cc03c62e49ec51b0d46661c0108053f650d7514f99bd183ede479e29b8269646",
+      "source_assembly": "glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHa-569492699322-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b5c40",
+      "range_size": 312,
+      "function_bytes_sha256": "ed800fc03c0a69a1c3ed76f5aed10308785528a9b61df4712f2ce55e6a6bb18c",
+      "source_assembly": "glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHandler-ed6f9d815e92-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    },
+    {
+      "elf_va": "0x005b5e34",
+      "range_size": 312,
+      "function_bytes_sha256": "17fad1ff3b67f9e12d4245a0b2f36bbdee38e413a9c0a9499c1aaa439c0a1aa6",
+      "source_assembly": "glitch_video_CProgrammableGLDriver_glitch_video_CGLSLShaderHandler-ed6f9d815e92-001.asm",
+      "listing_byte_comparison": "exact_match_to_original_apk_elf_bytes"
+    }
+  ],
+  "supporting_data_ranges": [
+    {
+      "name": "blend-factor lookup values",
+      "elf_va": "0x008e003c",
+      "elf_file_offset": "0x008e003c",
+      "pt_load_segment_index": 1,
+      "range_size": 60,
+      "sha256": "575e7fb3e7af27785cb09d4e1bd41a5dda87fcec41fd3ca35831b50d4b6e5546",
+      "raw_u32_le": [
+        "0x00000000",
+        "0x00000001",
+        "0x00000300",
+        "0x00000301",
+        "0x00000302",
+        "0x00000303",
+        "0x00000306",
+        "0x00000307",
+        "0x00000304",
+        "0x00000305",
+        "0x00008001",
+        "0x00008002",
+        "0x00008003",
+        "0x00008004",
+        "0x00000308"
+      ]
+    },
+    {
+      "name": "blend-equation lookup and adjacent entries reachable through the 3-bit selector",
+      "elf_va": "0x008e0078",
+      "elf_file_offset": "0x008e0078",
+      "pt_load_segment_index": 1,
+      "range_size": 32,
+      "sha256": "93534ca79555b3cfa02245174bf2a2e6c0269a5e865d635b2c8f36c86d58fcda",
+      "raw_u32_le": [
+        "0x00008006",
+        "0x0000800a",
+        "0x0000800b",
+        "0x00008007",
+        "0x00008008",
+        "0x00000405",
+        "0x00000404",
+        "0x00000408"
+      ]
+    },
+    {
+      "name": "cull-face lookup values including selector index 3",
+      "elf_va": "0x008e008c",
+      "elf_file_offset": "0x008e008c",
+      "pt_load_segment_index": 1,
+      "range_size": 16,
+      "sha256": "1b158d3a6c593a03eebb5a1fb51bd8e66f5412153534ba86533554a872084b90",
+      "raw_u32_le": [
+        "0x00000405",
+        "0x00000404",
+        "0x00000408",
+        "0x00000200"
+      ]
+    },
+    {
+      "name": "depth and stencil compare-function lookup values",
+      "elf_va": "0x008e0098",
+      "elf_file_offset": "0x008e0098",
+      "pt_load_segment_index": 1,
+      "range_size": 32,
+      "sha256": "9dc61ea72f35ef6e8dafee56f60fd37c77b7e203fe4f00947e5f5527ef0235de",
+      "raw_u32_le": [
+        "0x00000200",
+        "0x00000201",
+        "0x00000202",
+        "0x00000203",
+        "0x00000204",
+        "0x00000205",
+        "0x00000206",
+        "0x00000207"
+      ]
+    },
+    {
+      "name": "stencil-operation lookup values",
+      "elf_va": "0x008e00b8",
+      "elf_file_offset": "0x008e00b8",
+      "pt_load_segment_index": 1,
+      "range_size": 32,
+      "sha256": "87386408529975b6742f33e33ec5985e6c5280b6ff943669101186989f454fb3",
+      "raw_u32_le": [
+        "0x00001e00",
+        "0x00000000",
+        "0x00001e01",
+        "0x00001e02",
+        "0x00008507",
+        "0x00001e03",
+        "0x00008508",
+        "0x0000150a"
+      ]
+    },
+    {
+      "name": "front-face lookup values",
+      "elf_va": "0x008e00d8",
+      "elf_file_offset": "0x008e00d8",
+      "pt_load_segment_index": 1,
+      "range_size": 8,
+      "sha256": "85431b31cbc74a9b8b326a300be2f6357e210440c90cffac9b722dc41332c625",
+      "raw_u32_le": [
+        "0x00000901",
+        "0x00000900"
+      ]
+    }
+  ]
+}

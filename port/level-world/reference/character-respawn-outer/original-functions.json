@@ -1,0 +1,88 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "record_scope_definition": "Each complete function range is pinned to the original library. The scope and unimplemented caller policies are stated per function and in NOTES.md.",
+  "source_reconstruction_scope": "Character::GetRespawnDelay signed conversion and Character::CanRespawn outer suppression/property gates, delegating the optional GroupInfo leaf to the existing character_group_respawn kernel. No native property storage, actor/group ownership, or timer policy is reconstructed.",
+  "caller_facts": [
+    "Character+0x1481 is checked before property access by both outer methods; Character::InitSpawned sets this byte to 1, so the adapter preserves it as a raw nonzero/zero suppression fact without inventing a member name.",
+    "The queried CharacterProperties field is ID 11, RespawnTime. CanRespawn checks its raw signed value > 0; GetRespawnDelay independently converts the raw value by arithmetic shift right 8 then multiply by 1000.",
+    "A null Character+0x3fc GroupInfo pointer makes CanRespawn return true after the byte/property gates. A non-null pointer delegates to GroupInfo::CanRespawn(Character*) with Character state ID.",
+    "The port uses a property-ID callback and passes 11 only after the source suppression gate. It binds character_group::can_respawn directly; it does not duplicate that leaf.",
+    "Port input protection validates the caller's outer output against group header and consumed member storage; the leaf receives a local result and cannot see those aliases. Header checks do not dereference the group. Member checks run only for state 3/status 1, retain the leaf's no-read branches, and reject address-space wrap before member queries."
+  ],
+  "unsupported": [
+    "The live Character property sheet, property recalculation pipeline and source object layout are caller-owned; this adapter accepts a raw resolved value through a callback.",
+    "GroupInfo construction, membership storage, member lifetime, OnDied/OnEnemySpotted status producers, and native group ownership are not implemented.",
+    "CSLimbus::OnFocus timer eligibility and PlayerManager local-host policy, timer event 0x2f delivery, and native Character coordinator wiring are deliberately deferred.",
+    "The source byte at Character+0x1481 is not semantically renamed beyond the observed InitSpawned suppression behavior."
+  ],
+  "source_files": [
+    "port/level-world/character_respawn_outer.hpp",
+    "port/level-world/character_respawn_outer.cpp",
+    "port/level-world/tests/character_respawn_outer.cpp",
+    "port/level-world/tests/run_character_respawn_outer_host.py"
+  ],
+  "reused_source": [
+    "port/level-world/character_group_respawn.hpp",
+    "port/level-world/character_group_respawn.cpp",
+    "port/game-data/reference/properties/property-rules.json"
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character15GetRespawnDelayEv",
+      "demangled": "Character::GetRespawnDelay() const",
+      "elf_address": "0x3a4bac",
+      "size": 64,
+      "sha256": "33c33d2c8d084d66c92c6087b380099e9cc9fa7a1db41db3ef5d62a638194557",
+      "scope": "complete source arithmetic-shift/multiply conversion and byte suppression return"
+    },
+    {
+      "original_symbol": "_ZNK9Character10CanRespawnEv",
+      "demangled": "Character::CanRespawn() const",
+      "elf_address": "0x3a5248",
+      "size": 92,
+      "sha256": "27df1bd744d4a5811a3f66dbaa480d14a6ec6fd6b6cf6c2c0fc8f2fbf8355e28",
+      "scope": "complete outer gate and optional GroupInfo delegation; the group leaf is reused separately"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "demangled": "CharProperties::_GetProperty(Structs::CharacterProperties const&, int) const",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f",
+      "scope": "property query dependency; port binds an ID-11 raw-value provider instead of rebuilding this getter"
+    },
+    {
+      "original_symbol": "_ZN9Character11InitSpawnedEiRK7Point3DIfE",
+      "demangled": "Character::InitSpawned(int, Point3D<float> const&)",
+      "elf_address": "0x3b379c",
+      "size": 136,
+      "sha256": "cfca6e8b4d35bfdc2f4bce13e234c2a79768f7ae917d29b86ba289c29ccbed36",
+      "scope": "field-producer evidence: sets Character+0x1481, the byte tested by both outer methods"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9GroupInfo10CanRespawnEP9Character",
+      "demangled": "CharAI::GroupInfo::CanRespawn(Character*)",
+      "elf_address": "0x3d2a34",
+      "size": 180,
+      "sha256": "e237df6da594de9a41e0ce53dde069500048b37988f52724a45ba04807f416f5",
+      "scope": "reused by direct call into the existing character_group_respawn kernel; not duplicated here"
+    },
+    {
+      "original_symbol": "_ZN8CSLimbus7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "demangled": "CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)",
+      "elf_address": "0x3c2e58",
+      "size": 292,
+      "sha256": "8e29e9bed96add4ce42ccaf3d9ad2b51ec9850bca6064f9e74924405f50d1bc7",
+      "scope": "separate caller policy for respawn timer event 0x2f; explicitly not implemented by this slice"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager20IsLocalPlayerHostingEv",
+      "demangled": "PlayerManager::IsLocalPlayerHosting()",
+      "elf_address": "0x36f074",
+      "size": 104,
+      "sha256": "58f5e18507c3a03922ee1fa6799a0dac1100efbed60acc2416d12b00873081a5",
+      "scope": "separate source timer-hosting gate called by CSLimbus::OnFocus; explicitly not implemented by this slice"
+    }
+  ]
+}

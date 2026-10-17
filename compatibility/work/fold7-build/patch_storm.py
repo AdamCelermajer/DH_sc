@@ -6,12 +6,17 @@ from elftools.elf.elffile import ELFFile
 from capstone import Cs,CS_ARCH_ARM,CS_MODE_ARM
 
 ROOT=Path(__file__).resolve().parent
-parser=argparse.ArgumentParser();parser.add_argument('--output',type=Path,required=True);args=parser.parse_args()
-original=ROOT.parent/'original/lib/armeabi-v7a/libStormGLOFT.so'
+parser=argparse.ArgumentParser()
+parser.add_argument('--output',type=Path,required=True)
+parser.add_argument('--original-storm',type=Path,default=ROOT.parent/'original/lib/armeabi-v7a/libStormGLOFT.so')
+parser.add_argument('--original-engine',type=Path,default=ROOT.parent/'original/lib/armeabi-v7a/libDungeonHunter2.so')
+parser.add_argument('--toolchain-bin',type=Path,default=ROOT.parent/'toolchains/android-ndk-r29/toolchains/llvm/prebuilt/linux-x86_64/bin')
+args=parser.parse_args()
+original=args.original_storm
 expected='be6beaab782944e5ce39cca8e850fd03de654e4236c9329621043adcbee291e1'
 if hashlib.sha256(original.read_bytes()).hexdigest()!=expected:
     raise SystemExit('Storm library differs from the supplied build; refusing an address-based patch.')
-engine=original.with_name('libDungeonHunter2.so')
+engine=args.original_engine
 if hashlib.sha256(engine.read_bytes()).hexdigest()!='36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80':
     raise SystemExit('Companion engine differs from the build used for symbol and GOT addresses.')
 # Freeze the original hash in patch metadata and check the replacement instruction,
@@ -25,13 +30,21 @@ with original.open('rb') as f:
     oldend=loads[0]['p_filesz'];nextoff=loads[1]['p_offset']
     phoff=elf['e_phoff'];phsize=elf['e_phentsize']
     header_index=next(i for i,s in enumerate(elf.iter_segments()) if s['p_type']=='PT_LOAD')
-toolchain=ROOT.parent/'toolchains/android-ndk-r29/toolchains/llvm/prebuilt/linux-x86_64/bin'
+toolchain=args.toolchain_bin
+if (toolchain/'clang.exe').is_file():
+    compiler=[str(toolchain/'clang.exe'),'--target=armv7a-linux-androideabi21']
+    linker=toolchain/'ld.lld.exe'
+    objcopy=toolchain/'llvm-objcopy.exe'
+else:
+    compiler=[str(toolchain/'armv7a-linux-androideabi21-clang')]
+    linker=toolchain/'ld.lld'
+    objcopy=toolchain/'llvm-objcopy'
 out=ROOT/'out';out.mkdir(exist_ok=True)
-subprocess.run([str(toolchain/'armv7a-linux-androideabi21-clang'),'-c',str(ROOT/'storm_bias_fix.S'),'-o',str(out/'storm-bias.o')],check=True)
-subprocess.run([str(toolchain/'armv7a-linux-androideabi21-clang'),'-marm','-Os','-fPIC','-ffreestanding','-fno-builtin','-fno-stack-protector','-fno-unwind-tables','-fno-asynchronous-unwind-tables','-c',str(ROOT/'storm_import_fix.c'),'-o',str(out/'storm-import.o')],check=True)
+subprocess.run([*compiler,'-c',str(ROOT/'storm_bias_fix.S'),'-o',str(out/'storm-bias.o')],check=True)
+subprocess.run([*compiler,'-marm','-Os','-fPIC','-ffreestanding','-fno-builtin','-fno-stack-protector','-fno-unwind-tables','-fno-asynchronous-unwind-tables','-c',str(ROOT/'storm_import_fix.c'),'-o',str(out/'storm-import.o')],check=True)
 objects=[str(out/'storm-bias.o'),str(out/'storm-import.o')]
-subprocess.run([str(toolchain/'ld.lld'),'-T',str(ROOT/'storm_bias_fix.ld'),*objects,'-o',str(out/'storm-fixes.elf')],check=True)
-subprocess.run([str(toolchain/'llvm-objcopy'),'-O','binary',str(out/'storm-fixes.elf'),str(out/'storm-bias.bin')],check=True)
+subprocess.run([str(linker),'-T',str(ROOT/'storm_bias_fix.ld'),*objects,'-o',str(out/'storm-fixes.elf')],check=True)
+subprocess.run([str(objcopy),'-O','binary',str(out/'storm-fixes.elf'),str(out/'storm-bias.bin')],check=True)
 with (out/'storm-fixes.elf').open('rb') as f:
     fixelf=ELFFile(f)
     assert not any(sec['sh_size'] and sec.name in ('.got','.got.plt','.data','.bss','.rel.dyn') for sec in fixelf.iter_sections()), 'Embedded patch must be position independent without runtime relocations'
@@ -55,6 +68,6 @@ args.output.parent.mkdir(parents=True,exist_ok=True);args.output.write_bytes(dat
 instructions=[f'{i.address:08x} {i.mnemonic} {i.op_str}' for i in Cs(CS_ARCH_ARM,CS_MODE_ARM).disasm(stub,start)]
 assert any('bl #0x321d4' in x for x in instructions)
 assert any('b #0x438e8' in x for x in instructions)
-report={'input_sha256':expected,'output_sha256':hashlib.sha256(data).hexdigest(),'patched_va':'0x438e4','old_instruction':'ldr r0, [r0, #0x8c]','replacement':'branch to symbol-based load-bias resolver','import_hook_entry_patch':'0x371e4','import_hook_replacement':hex(import_va),'import_hook_algorithm':'Walk PT_DYNAMIC, DT_SYMTAB, DT_STRTAB and DT_JMPREL in the loaded engine ELF; replace matching R_ARM_JUMP_SLOT','stub_va':hex(start),'stub_bytes':len(stub),'original_rx_end':hex(oldend),'extended_rx_end':hex(end),'instructions':instructions,'file_guard':'Reject trailing directory separators at the engine fopen import; log buffered STL puts reasons','scope':'Exact supplied DH2/Storm pair only; no licensing decisions modified'}
+report={'input_sha256':expected,'output_sha256':hashlib.sha256(data).hexdigest(),'patched_va':'0x438e4','old_instruction':'ldr r0, [r0, #0x8c]','replacement':'branch to symbol-based load-bias resolver','import_hook_entry_patch':'0x371e4','import_hook_replacement':hex(import_va),'import_hook_algorithm':'Walk PT_DYNAMIC, DT_SYMTAB, DT_STRTAB and DT_JMPREL in the loaded engine ELF; replace matching R_ARM_JUMP_SLOT','stub_va':hex(start),'stub_bytes':len(stub),'original_rx_end':hex(oldend),'extended_rx_end':hex(end),'instructions':instructions,'file_guard':'Reject trailing directory separators; retry exact repeated Android cache roots after failed read-only fopen; retry flat qata/3d/textures/*.tga as data/3d/textures/*.tga after failed read-only fopen; log buffered STL puts reasons','scope':'Exact supplied DH2/Storm pair only; no licensing decisions modified'}
 (ROOT/'storm-patch-report.json').write_text(json.dumps(report,indent=2)+'\n')
 print('Patched Storm legacy linker handle dereference:',args.output)

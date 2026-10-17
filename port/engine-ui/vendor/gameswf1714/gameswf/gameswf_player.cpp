@@ -98,6 +98,7 @@ namespace gameswf
 			if (s_standard_method_map[i])
 			{
 				delete s_standard_method_map[i];
+				s_standard_method_map[i] = NULL;
 			}
 		}
 	}

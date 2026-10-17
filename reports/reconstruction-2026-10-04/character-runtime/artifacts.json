@@ -1,0 +1,20 @@
+{
+  "schema": "dh2-character-runtime-artifacts/v1",
+  "scope": "two development APKs; full game remains incomplete",
+  "builds": [
+    {
+      "role": "native Crypt Spawn checkpoint",
+      "path": "port/android-native/app/build/character-spawn-checkpoint.apk",
+      "bytes": 24274722,
+      "sha256": "2b7b064c2d55d92b893c855c6297215263724f8056ae430141576a9a33c46a37"
+    },
+    {
+      "role": "Irrlicht full-bank Character checkpoint",
+      "path": "port/android-app/build/irrlicht-swamp-prince-character-candidate/dh2-swamp-irrlicht-source-local-debug.apk",
+      "bytes": 71416410,
+      "sha256": "b367d0fa2e21ebae18c2552e81c16a398f0d4adb3d60b9c07eaf18f9f74dd8f1"
+    }
+  ],
+  "prior_regression_apk_sha256": "d3bc3154823fd24ab7a9eb1a356f12c1db9dff90cfc84473d697556449fc7257",
+  "regression_limit": "Prince combat suite belongs to the preceding d3bc APK; the final 2b7 artifact adds safe native reload and rejects unsupported gated-character combat, then passes its own spawn/reload/rotation checks."
+}

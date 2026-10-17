@@ -1,0 +1,240 @@
+{
+  "validation": "PASS",
+  "full_game_complete": false,
+  "apk_sha256": "7af1cc1bf745a8634ae1f8162888b4da4c1af0945ad30910c2a7df359420083b",
+  "apk_bytes": 154190373,
+  "source_capture": {
+    "name": "DH2-native-player-startup-source-capture-2026-10-06.zip",
+    "sha256": "3f397a3f4fd34b334a849b3442f3ad1c15f610639ee2979316207e5abb941acc",
+    "captured_source_files": 1305,
+    "compiler_inputs_per_abi": {
+      "arm64-v8a": 1254,
+      "x86_64": 1254
+    }
+  },
+  "source_gates": {
+    "player-activity": {
+      "cases": 3716
+    },
+    "player-friendly": {
+      "comparisons": 308
+    },
+    "player-add-character": {
+      "arm_comparisons": 277
+    },
+    "player-metadata-prepare": {
+      "arm_comparisons": 245
+    },
+    "character-gameplay-save": {},
+    "character-init-final": {
+      "comparisons": 260
+    },
+    "save-level-states": {
+      "cases": 670
+    },
+    "worldmap": {},
+    "saved-level-states": {
+      "cases": 404
+    },
+    "saved-fast-travel": {
+      "cases": 249
+    },
+    "quest-savegame": {
+      "arm_comparisons": 220
+    }
+  },
+  "transport_checks": 522,
+  "metadata_composition_checks": 46,
+  "android": {
+    "both_abis_compiled": true,
+    "libraries": [
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+        "sha256": "a0843d41c8b73f81a5ffc3e4c0f9d6940eaf0b95485a9b59d566cbd27a3d6270",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+        "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+        "sha256": "5c46b37a5d4bcfca9402233b1c52b7b04bcdb7a3c8d346914ea8ebcd592cd86d",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+        "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+        "sha256": "c3f8d33059ae62a19489e51874efee514ea789033bb4cadd36befd909cc5cc1e",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+        "sha256": "a416cb1abd60a6bc7604684a8c48f8e8c39a02ce1ab1f6f6fbe8f0ca7b4d521f",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+        "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_animation.so",
+        "sha256": "476752c2f404822bf0ebe429f3c7224e86b6b2e55322ddcb608fc75e42a5282a",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_camera.so",
+        "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_skinning.so",
+        "sha256": "e1f44bd06a4944d216a8656c6b63b7cfd508eee72e6803aead078f49f0ba43d4",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_textures.so",
+        "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+        "sha256": "efff50ba140adaeb5c855a2f5456bc4aa3e89dabf0d5bfc52e391169912ce832",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_scene_materials.so",
+        "sha256": "8d80c3f926e027d3a16ce5f892a155c19a994683142566b0405098b913bbc113",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_script_runtime.so",
+        "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+        "sha256": "961e8ecaa75b07c14f3baf8f61ac0acabe632c96b6786f7c75d47d2850641c9d",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_game_data.so",
+        "sha256": "4634c1a56119dd9c920fc08a50d48d9da8ba220081bb68788eb411ae82085477",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_level_world.so",
+        "sha256": "af01aba8192a831f475cdacead1258254b34f456f14630b77a9d344401ebaade",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_native.so",
+        "sha256": "9bb16c8db71772168afea5146b6e898f812bbe87039cc9878467efb13d3611e8",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_ui.so",
+        "sha256": "b681e21d8190d7bbdb6fa26c731c9aeaa17c452efe049aa183ff488498025572",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_game_data.so",
+        "sha256": "b9ab5c138f0ca1c325e80b3618c942cf90f2f7582a6ee380257e1164de7e01db",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_level_world.so",
+        "sha256": "cc6efe38727ac1b14ad5dea6f95f39dba40e923d404f0320b7244c3065e7d360",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_native.so",
+        "sha256": "524a5e7838f3b29438386176403e1c13ee044da4d8bc3ece14da89431cceebb5",
+        "minimum_load_alignment": 16384
+      }
+    ],
+    "all_apk_zip_entries_16k_aligned": true,
+    "new_exports": {
+      "arm64-v8a": {
+        "sha256": "f787498a435cd8bfa41a97ea725b63427a3e132838dab9596a9b5df9c3639429",
+        "new_game_data_exports": [
+          "122: 00000000000fdf5c   736 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17Runtime9set_stateENS0_17SavedStateTableV1EiiiPNS1_6ResultERNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+          "179: 0000000000139c5c    56 FUNC    WEAK   DEFAULT    14 _ZN3dh24data17quest_savegame_v16ResultC2Ev",
+          "258: 0000000000139774   612 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data17quest_savegame_v17Runtime9constructEPNS1_6ResultE",
+          "261: 00000000000fc474   916 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data16PlayerSavegameV123initialize_level_statesERKNS0_25SavedLevelStateServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+          "494: 000000000013c0f8    40 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk19allocatorIPN3dh24data17quest_savegame_v18QuestRefEE9constructB8ne210000IS5_JRKS5_EEEvPT_DpOT0_",
+          "608: 0000000000139d04   348 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data17quest_savegame_v17Runtime11init_questsEPNS1_6ResultE",
+          "657: 00000000000fce04   152 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v114table_servicesERNS1_13TableBindingsE",
+          "679: 000000000013acb0    20 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk16vectorIPN3dh24data17quest_savegame_v18QuestRefENS_9allocatorIS5_EEE26__add_alignment_assumptionB8ne210000IPS5_TnNS_9enable_ifIXsr10is_pointerIT_EE5valueEiE4typeELi0EEESA_SC_",
+          "922: 00000000000ff8d8  1208 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data27player_saved_fast_travel_v17Runtime4loadENS0_5BytesEPNS1_6ResultERNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+          "940: 00000000000ff70c   264 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data27player_saved_fast_travel_v17RuntimeC2EPNS0_16PlayerSavegameV1E",
+          "1004: 00000000000fcefc   280 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17RuntimeC1ENS1_8BindingsE",
+          "1275: 00000000000fd11c  1008 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17Runtime4loadENS0_5BytesEPNS1_6ResultERNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+          "1476: 000000000013b978    36 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk116allocator_traitsINS_9allocatorIPN3dh24data17quest_savegame_v18QuestRefEEEE8max_sizeB8ne210000IS7_TnNS_9enable_ifIXsr14__has_max_sizeIKT_EE5valueEiE4typeELi0EEEmRKS7_",
+          "1505: 00000000000ff70c   264 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data27player_saved_fast_travel_v17RuntimeC1EPNS0_16PlayerSavegameV1E",
+          "1507: 000000000013a48c   340 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data17quest_savegame_v17Runtime7destroyEPNS1_6ResultE",
+          "1530: 00000000000fcefc   280 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17RuntimeC2ENS1_8BindingsE",
+          "1589: 000000000013c0a4    52 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk116allocator_traitsINS_9allocatorIPN3dh24data17quest_savegame_v18QuestRefEEEE9constructB8ne210000IS6_JRKS6_ETnNS_9enable_ifIXsr15__has_constructIS7_PT_DpT0_EE5valueEiE4typeELi0EEEvRS7_SE_DpOSF_",
+          "1614: 000000000013c4ac    44 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk116allocator_traitsINS_9allocatorIPN3dh24data17quest_savegame_v18QuestRefEEEE7destroyB8ne210000IS6_TnNS_9enable_ifIXsr13__has_destroyIS7_PT_EE5valueEiE4typeELi0EEEvRS7_SC_"
+        ]
+      },
+      "x86_64": {
+        "sha256": "f681bf23a7727876074b7a3deee52793a5ee33c1789a69134d58849520d33604",
+        "new_game_data_exports": [
+          "215: 00000000000ef6d0   222 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data27player_saved_fast_travel_v17RuntimeC2EPNS0_16PlayerSavegameV1E",
+          "237: 0000000000127cb0    11 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk16vectorIPN3dh24data17quest_savegame_v18QuestRefENS_9allocatorIS5_EEE26__add_alignment_assumptionB8ne210000IPS5_TnNS_9enable_ifIXsr10is_pointerIT_EE5valueEiE4typeELi0EEESA_SC_",
+          "310: 0000000000126ea0   321 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data17quest_savegame_v17Runtime11init_questsEPNS1_6ResultE",
+          "438: 00000000000ee2a0   812 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17Runtime9set_stateENS0_17SavedStateTableV1EiiiPNS1_6ResultERNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+          "577: 00000000000ed3f0  1251 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17Runtime4loadENS0_5BytesEPNS1_6ResultERNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+          "780: 0000000000126df0    74 FUNC    WEAK   DEFAULT    14 _ZN3dh24data17quest_savegame_v16ResultC2Ev",
+          "788: 00000000000ed150   144 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v114table_servicesERNS1_13TableBindingsE",
+          "822: 0000000000128680    27 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk116allocator_traitsINS_9allocatorIPN3dh24data17quest_savegame_v18QuestRefEEEE8max_sizeB8ne210000IS7_TnNS_9enable_ifIXsr14__has_max_sizeIKT_EE5valueEiE4typeELi0EEEmRKS7_",
+          "841: 00000000001269e0   496 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data17quest_savegame_v17Runtime9constructEPNS1_6ResultE",
+          "878: 00000000000ef850  1648 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data27player_saved_fast_travel_v17Runtime4loadENS0_5BytesEPNS1_6ResultERNSt6__ndk112basic_stringIcNS6_11char_traitsIcEENS6_9allocatorIcEEEE",
+          "1127: 00000000001275f0   304 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data17quest_savegame_v17Runtime7destroyEPNS1_6ResultE",
+          "1353: 00000000000ec910   910 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data16PlayerSavegameV123initialize_level_statesERKNS0_25SavedLevelStateServicesV1ERNSt6__ndk112basic_stringIcNS5_11char_traitsIcEENS5_9allocatorIcEEEE",
+          "1396: 00000000000ef6d0   222 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data27player_saved_fast_travel_v17RuntimeC1EPNS0_16PlayerSavegameV1E",
+          "1413: 00000000000ed220   233 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17RuntimeC1ENS1_8BindingsE",
+          "1419: 00000000000ed220   233 FUNC    GLOBAL DEFAULT    14 _ZN3dh24data28player_saved_level_states_v17RuntimeC2ENS1_8BindingsE",
+          "1570: 0000000000129100    35 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk116allocator_traitsINS_9allocatorIPN3dh24data17quest_savegame_v18QuestRefEEEE7destroyB8ne210000IS6_TnNS_9enable_ifIXsr13__has_destroyIS7_PT_EE5valueEiE4typeELi0EEEvRS7_SC_",
+          "1633: 0000000000128d80    32 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk19allocatorIPN3dh24data17quest_savegame_v18QuestRefEE9constructB8ne210000IS5_JRKS5_EEEvPT_DpOT0_",
+          "1696: 0000000000128d30    43 FUNC    WEAK   DEFAULT    14 _ZNSt6__ndk116allocator_traitsINS_9allocatorIPN3dh24data17quest_savegame_v18QuestRefEEEE9constructB8ne210000IS6_JRKS6_ETnNS_9enable_ifIXsr15__has_constructIS7_PT_DpT0_EE5valueEiE4typeELi0EEEvRS7_SE_DpOSF_"
+        ]
+      }
+    }
+  },
+  "live": {
+    "api": 37,
+    "page_size": 16384,
+    "class_flows": 3,
+    "original_saves_restored": true,
+    "development_controls": {
+      "physical_movement_steps": 11,
+      "blocked_steps": 2,
+      "position": [
+        -2253.5098,
+        1389.3752,
+        842.3644
+      ],
+      "attack_response": "Walk closer to an enemy",
+      "full_combat_verified": false
+    }
+  },
+  "remaining": "Character660 Spawn/InitPost and full SG_Load2/4, genuine Quest providers, V4 inventory/text/Skin and complete player/enemy/skills/combat/loot/campaign. New source callers are selected and host-tested; whole gameplay startup remains a development continuation.",
+  "live_regressions": {
+    "player-death": {
+      "validation": "PASS",
+      "scope": "Live native CharAI::OnDied -> AI_SetDead after existing raw F_ApplyResult health/Kill prefix. Full Character::Kill trophies/online/event2 forwarding, rewards, AI frame and campaign combat remain unbound."
+    },
+    "player-skills": {
+      "validation": "PASS",
+      "scope": "Live source Player AIS split load/InitProcess, same skill/property/save/buff owners, original timer regeneration and framework cooldown shell fixture. Profile/starter grants, Player AI frame, skill activation and complete combat loop remain unfinished."
+    }
+  }
+}

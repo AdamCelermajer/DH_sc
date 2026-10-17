@@ -1,0 +1,44 @@
+{
+  "validation": "PASS",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "pinned_source_manifest_sha256": "1714c59cc3e731ad2d44543b0452a6d01fde149505ccc88cf93b0fda610250b4",
+  "selected_arm64_library_sha256": "3223df5d7e8bd4ba836e1d098aed7ec126506d1f8172016d3769d5e8d6f30ccf",
+  "comparisons": {
+    "percentage": 18,
+    "effective_probability": 82,
+    "percent_roll": 16,
+    "vector_choice": 102,
+    "loot_choice": 102
+  },
+  "total_comparisons": 320,
+  "selected_raw_entry_comparisons": 204,
+  "original_rng_draws_observed": 89,
+  "all_selected_rng_states_match": true,
+  "original_helpers_executed": [
+    "_ZN13ItemInventory10_DoPctRollERKN7Structs9LootEntryE",
+    "_ZN13ItemInventory17_GetEffectiveProbERKN7Structs9LootEntryE",
+    "_ZN13ItemInventory19_GetRandomLootEntryERKN7Structs4LootE",
+    "_ZN13ItemInventory19_GetRandomLootEntryERKSt6vectorIPKN7Structs9LootEntryESaIS4_EE",
+    "_ZN13ItemInventory20_IsLootEntryUsingPctERKN7Structs9LootEntryE",
+    "_ZN6Random9GetRandomEib.clone.1"
+  ],
+  "original_helper_range_hashes": {
+    "_ZN13ItemInventory10_DoPctRollERKN7Structs9LootEntryE": "de4bbc84687fd9c1c94052a3257871e52421475e732423d460ff78ee488fee1f",
+    "_ZN13ItemInventory17_GetEffectiveProbERKN7Structs9LootEntryE": "dab454445d86e18e416812d190483578c58a924a74be70b01e23c4ace5e2f9b2",
+    "_ZN13ItemInventory19_GetRandomLootEntryERKN7Structs4LootE": "01f35c8a212d113dc259893fd659f28ba070f74d95951a31f0930aa6f9f9c7dc",
+    "_ZN13ItemInventory19_GetRandomLootEntryERKSt6vectorIPKN7Structs9LootEntryESaIS4_EE": "20b8acab70e95a93c9834af2fc63f24fd55826d1224c59c58b44341b190fa17a",
+    "_ZN13ItemInventory20_IsLootEntryUsingPctERKN7Structs9LootEntryE": "fa09df1450ac036676b085adc55437f7b31781432e8ef5bb992011a645ece485",
+    "_ZN6Random9GetRandomEib.clone.1": "c9a2f24f7c691def06040a7dab766218420d67fe8ce514386961e4a9e33d0c86"
+  },
+  "controlled_original_services": {
+    "DebugSwitches::load/GetSwitch": "load returns; GetSwitch returns supplied InfiniteLootDrops state",
+    "PlayerManager class counts": {
+      "Mage": "0x36eac8",
+      "Rogue": "0x36eac0",
+      "Warrior": "0x36eab8"
+    },
+    "temporary std::string allocation": "bounded emulated allocator; no-op release",
+    "mutex": "single-threaded no-op lock/unlock"
+  },
+  "scope": "Original helper bodies and Random clone execute under controlled debug and class-count facts. This validates loot-entry classification, effective weights, percentage rolls and both weighted-selection overloads; no recursive AddLootItems or gameplay claim."
+}

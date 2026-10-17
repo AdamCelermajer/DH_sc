@@ -1,0 +1,719 @@
+category,address,symbol,source_file,pseudo_lines
+core-platform,0x33da0c,_ZN17AccelerometerBaseC1Ev,core-platform/src/accelerometer.cpp,14
+core-platform,0x34e0fc,_ZN14FileSystemBase20decodeObfuscatedDataEiPviS0_,core-platform/src/filesystem_base.cpp,22
+core-platform,0x34ffb0,_ZN15FileSystemWin328openFileEPKcbb,core-platform/src/filesystem_win32.cpp,17
+core-platform,0x34ebcc,_ZN15FileSystemWin329closeFileERP11IFileStream,core-platform/src/filesystem_win32.cpp,13
+core-platform,0x34ee74,_ZN15FileSystemWin3211_FileHandle5writeEPKvy,core-platform/src/filesystem_win32.cpp,12
+core-platform,0x42b1a4,_Z13fs_close_funcPv,core-platform/src/fs_callbacks.cpp,20
+core-platform,0x89cbec,LC_API_FILE_OPEN,core-platform/src/lc_api.cpp,19
+core-platform,0x89cc4c,LC_API_IP_INT2STR,core-platform/src/lc_api.cpp,13
+core-platform,0x3309d4,_ZN7Console15_cmdReloadLevelEv,core-platform/src/ok3-Console.cpp,21
+core-platform,0x330cc0,_ZN7Console18_setMenuVFXSetListEv,core-platform/src/ok3-Console.cpp,19
+core-platform,0x330270,_ZN7Console6UpdateEd,core-platform/src/ok3-Console.cpp,12
+core-platform,0x7d3c24,_Z5crossPfS_S_,core-platform/src/ok3-global.cpp,12
+core-platform,0x52ebe0,_ZN7ADevice15CallJNIFuncCharEP7_jclassP10_jmethodIDPciS4_,core-platform/src/p1-core-platform-ADevice-127f54-0.cpp,18
+core-platform,0x53177c,nativeSetVolumeBig,core-platform/src/p1-core-platform-global-f216b6-1.cpp,13
+core-platform,0x532c48,nativeOpenBrowser,core-platform/src/p1-core-platform-global-f216b6-2.cpp,14
+core-platform,0x3115c4,_ZN12PerfCountersD1Ev,core-platform/src/perf_counters.cpp,22
+core-platform,0x3110c4,_ZN12PerfCountersC2Ev,core-platform/src/perf_counters.cpp,15
+core-platform,0x311730,_ZN12PerfCounters12CounterEntryC1ERKS0_,core-platform/src/perf_counters.cpp,13
+core-platform,0x310380,_ZrsRSiRN6glitch4core8vector3dIfEE,core-platform/src/stream_ops.cpp,17
+core-platform,0x317ae4,_ZN9TimerUtil6UpdateEv,core-platform/src/timer_util.cpp,16
+core-platform,0x33cdcc,_ZN17TouchScreenIPhoneC2Efffff,core-platform/src/touch_screen_iphone.cpp,23
+core-platform,0x82b6cc,_Z21TranslateUtf82UnicodePPtPcii,core-platform/src/utf_text.cpp,21
+core-platform,0x8764f8,_Z13point_comparePKvS0_,core-platform/src/vorbis_util.cpp,14
+core-platform,0x50eb90,_Z15ChangeMaterialsPN6glitch5scene10ISceneNodeENS_5video15E_MATERIAL_TYPEE,core-platform/src/w7_global_01.cpp,21
+core-platform,0x50e46c,_Z19setOnAnimateEnabledPN6glitch5scene10ISceneNodeEb,core-platform/src/w7_global_01.cpp,15
+core-platform,0x50f744,_Z14setCullingModePN6glitch5scene10ISceneNodeEi,core-platform/src/w7_global_02.cpp,24
+core-platform,0x58a75c,_ZN12_GLOBAL__N_16SStats5resetEPN6glitch2io11IAttributesE.clone.3,glitch-scene-collada-gui/src/scene/CSceneManager_render.cpp,16
+game-anim,0x36440c,_ZN14AnimApplicator13CheckCallbackEPN6glitch5scene19ITimelineControllerE,game-anim/src/g1-game-anim-AnimApplicator-85c725-0.cpp,19
+game-anim,0x474920,"AnimController::SetScale(float, unsigned int)",game-anim/src/g1-game-anim-AnimController-83ef73-0.cpp,21
+game-anim,0x4747d8,AnimController::GetClipDuration(unsigned int) const,game-anim/src/g1-game-anim-AnimController-83ef73-0.cpp,13
+game-anim,0x475248,"AnimSetController::AnimSetController(RootSceneNode*, int)",game-anim/src/g1-game-anim-AnimSetController-be4322-0.cpp,20
+game-anim,0x475460,_ZN14AnimSetManager11DBG_SetNameEiPKc,game-anim/src/g1-game-anim-AnimSetManager-d3d27a-0.cpp,16
+game-anim,0x4753b4,_ZN14AnimSetManagerC1Ev,game-anim/src/g1-game-anim-AnimSetManager-d3d27a-0.cpp,12
+game-anim,0x4928ac,_ZN10AnimatedFX8SetScaleERK7Point3DIfE,game-anim/src/g1-game-anim-AnimatedFX-6c1bfb-0.cpp,14
+game-anim,0x367018,_ZN15AnimatorBlenderC1Ev,game-anim/src/g1-game-anim-AnimatorBlender-0caed3-0.cpp,20
+game-anim,0x367510,"AnimatorSet::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)",game-anim/src/g1-game-anim-AnimatorSet-8cd819-0.cpp,23
+game-anim,0x367638,AnimatorSet::~AnimatorSet(),game-anim/src/g1-game-anim-AnimatorSet-8cd819-0.cpp,21
+game-anim,0x367368,AnimatorSet::computeAnimationValues(unsigned int),game-anim/src/g1-game-anim-AnimatorSet-8cd819-0.cpp,12
+game-anim,0x368cd0,_ZN27AnimatorSynchronizedBlenderD1Ev,game-anim/src/g1-game-anim-AnimatorSynchronizedBlender-e23b0b-0.cpp,17
+game-anim,0x367d4c,_ZN27AnimatorSynchronizedBlender29SynchronizedBlenderApplicatorD1Ev,game-anim/src/g1-game-anim-AnimatorSynchronizedBlender-e23b0b-0.cpp,13
+game-anim,0x47695c,BlendedAnimSetController::GetNumClip(unsigned int) const,game-anim/src/g1-game-anim-BlendedAnimSetController-bd761d-0.cpp,18
+game-anim,0x3c932c,_ZNK12CharAnimator17ANIM_GetStepIndexEv,game-anim/src/g1-game-anim-CharAnimator-2af513-0.cpp,22
+game-anim,0x3c9b14,_ZN12CharAnimator21ANIM_AddAnimDictToSetEi,game-anim/src/g1-game-anim-CharAnimator-2af513-1.cpp,19
+game-anim,0x3c9984,"CharAnimator::__CallbackEvent(glitch::collada::STriggeredEvent const&, void*)",game-anim/src/g1-game-anim-CharAnimator-2af513-1.cpp,12
+game-anim,0x405138,_ZN14v2ControllableD1Ev,game-anim/src/g1-game-anim-v2Controllable-ff8db6-1.cpp,14
+game-app,0x31f5fc,Application::IsInActionPhase() const,game-app/src/g1-game-app-Application-b291be-0.cpp,18
+game-app,0x320e14,Application::IsSavedOptionOn(char const*),game-app/src/g1-game-app-Application-b291be-1.cpp,13
+game-app,0x320890,Application::GetVersionMajor(),game-app/src/g1-game-app-Application-b291be-1.cpp,12
+game-app,0x32fd10,Application::~Application(),game-app/src/g1-game-app-Application-b291be-3.cpp,14
+game-app,0x335fcc,DebugSwitches::DebugSwitches(),game-app/src/g1-game-app-DebugSwitches-d73440-0.cpp,15
+game-app,0x3383f4,EventManager::DropDelayedDetach(),game-app/src/g1-game-app-EventManager-913641-0.cpp,22
+game-app,0x4793d0,GameEvent::SetState(int),game-app/src/g1-game-app-GameEvent-9380de-0.cpp,19
+game-app,0x34d7b4,InputManager::GetFirstConnectedGamepad(),game-app/src/g1-game-app-InputManager-dd3002-0.cpp,16
+game-app,0x37c390,"LuaScript::Call(char const*, sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&)",game-app/src/g1-game-app-LuaScript-5015a8-0.cpp,20
+game-app,0x37ca60,"LuaScript::_GetHostPlayer(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)",game-app/src/g1-game-app-LuaScript-5015a8-0.cpp,13
+game-app,0x455b8c,ScriptManager::GetNameFromID(int) const,game-app/src/g1-game-app-ScriptManager-b3ae8b-0.cpp,14
+game-app,0x45a2ac,ScriptManager::Flush(),game-app/src/g1-game-app-ScriptManager-b3ae8b-0.cpp,14
+game-app,0x33a7f4,_ZN12StateMachine6UpdateEd,game-app/src/g1-game-app-StateMachine-4cb24d-0.cpp,21
+game-app,0x3830bc,ZoomHandler::ResetFingerMap(),game-app/src/g1-game-app-ZoomHandler-5b2731-0.cpp,18
+game-app,0x328b6c,CMessage* GetNewInstance<CMsgAttackResult>(bool),game-app/src/g1-game-app-global-f216b6-0.cpp,14
+game-app,0x32a710,CMessage* GetNewInstance<CMsgScriptCmd>(bool),game-app/src/g1-game-app-global-f216b6-1.cpp,16
+game-app,0x43e308,NativeStartMultiplayerGame(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,23
+game-app,0x442838,NativeSkipCharMenuTutorialMessage(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-12.cpp,16
+game-app,0x4577a4,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockTutorial>(),game-app/src/g1-game-app-global-f216b6-14.cpp,13
+game-app,0x4578c4,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SkipAllTutorialMessages>(),game-app/src/g1-game-app-global-f216b6-14.cpp,13
+game-app,0x4579e4,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SaveGame>(),game-app/src/g1-game-app-global-f216b6-14.cpp,13
+game-app,0x457e34,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_OpenDoor>(),game-app/src/g1-game-app-global-f216b6-15.cpp,15
+game-app,0x457d98,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ActivateProjectileTrap>(),game-app/src/g1-game-app-global-f216b6-15.cpp,14
+game-app,0x457b04,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_EndGame>(),game-app/src/g1-game-app-global-f216b6-15.cpp,13
+game-app,0x457c24,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetLevelState>(),game-app/src/g1-game-app-global-f216b6-15.cpp,13
+game-app,0x457f14,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_UnEquipHands>(),game-app/src/g1-game-app-global-f216b6-15.cpp,13
+game-app,0x458034,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_SetActorMaster>(),game-app/src/g1-game-app-global-f216b6-16.cpp,13
+game-app,0x458154,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_ShowActor>(),game-app/src/g1-game-app-global-f216b6-16.cpp,13
+game-app,0x4582c8,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIChangeScript>(),game-app/src/g1-game-app-global-f216b6-16.cpp,13
+game-app,0x4583e8,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_AIEnableTimer>(),game-app/src/g1-game-app-global-f216b6-16.cpp,13
+game-app,0x458508,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PutCharacterInLimbus>(),game-app/src/g1-game-app-global-f216b6-16.cpp,13
+game-app,0x458678,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_LockCharacter>(),game-app/src/g1-game-app-global-f216b6-17.cpp,13
+game-app,0x458830,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_PlayAnimById>(),game-app/src/g1-game-app-global-f216b6-17.cpp,13
+game-app,0x458950,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StopSound>(),game-app/src/g1-game-app-global-f216b6-17.cpp,13
+game-app,0x458a70,ScriptCmdImpl* GetNewScriptCmdImplInstance<Script_StartDialog>(),game-app/src/g1-game-app-global-f216b6-17.cpp,13
+game-app,0x4595c8,GetNewScriptCmdImplInstance<Script_PlayActorAnim>(void),game-app/src/g1-game-app-global-f216b6-18.cpp,17
+game-app,0x478a80,GetConditionImplInstance<Condition_IsPlayerInLevel>(void),game-app/src/g1-game-app-global-f216b6-18.cpp,15
+game-app,0x458b90,GetNewScriptCmdImplInstance<Script_SetCameraClip>(void),game-app/src/g1-game-app-global-f216b6-18.cpp,13
+game-app,0x458cb0,GetNewScriptCmdImplInstance<Script_ExitCutSceneMode>(void),game-app/src/g1-game-app-global-f216b6-18.cpp,13
+game-app,0x47bf20,GetObjectiveImplInstance<Objective_MoveInZone>(void),game-app/src/g1-game-app-global-f216b6-18.cpp,13
+game-app,0x482e34,Reward* GetRewardImplInstance<Reward_CharacterProps>(),game-app/src/g1-game-app-global-f216b6-19.cpp,20
+game-app,0x482ef0,Reward* GetRewardImplInstance<Reward_Gold>(),game-app/src/g1-game-app-global-f216b6-19.cpp,19
+game-app,0x47d02c,"Objective* GetObjectiveImplInstance<ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemies, QE_KillEnemies, TestCharPropId, Objective_SavedQty>>()",game-app/src/g1-game-app-global-f216b6-19.cpp,16
+game-app,0x47d0e4,"Objective* GetObjectiveImplInstance<ObjectiveTemplate_InteractWith<Structs::v2QuestPickedUpLiftable, QE_PickedUpLiftable>>()",game-app/src/g1-game-app-global-f216b6-19.cpp,14
+game-app,0x3b059c,"CF_SetCombatants(Character*, Character*, int, bool, bool)",game-app/src/g1-game-app-global-f216b6-2.cpp,20
+game-app,0x3410a4,ObjectBase* GetNewInstance<Dummy>(),game-app/src/g1-game-app-global-f216b6-2.cpp,14
+game-app,0x439dfc,NativeBeginCustom(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-5.cpp,21
+game-app,0x439fa4,NativeScreenIsBlack(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-5.cpp,14
+game-app,0x43ac28,NativePopAllAbove(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-7.cpp,22
+game-app,0x43aa58,NativeShowMinimapLegend(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-7.cpp,15
+game-app,0x43b424,NativeOptionFX(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-8.cpp,18
+game-app,0x43cabc,NativeHUDSpell(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-9.cpp,20
+game-app,0x43b514,IsNonDebugQuestActiveButNotClosedQuest(Quest const*),game-app/src/g1-game-app-global-f216b6-9.cpp,13
+game-app,0x431428,DebugCachedCharacter::DebugCachedCharacter(gameswf::character*),game-app/src/g1-game-app-pack0-8e4185-0.cpp,19
+game-app,0x34cc94,Keyboard::Keyboard(),game-app/src/g1-game-app-pack1-dbf367-0.cpp,23
+game-app,0x37a0ac,LuaManager::~LuaManager(),game-app/src/g1-game-app-pack1-dbf367-0.cpp,17
+game-app,0x45ce78,"Script_SetWorldMapLocationState::Execute(bool, int)",game-app/src/g1-game-app-pack10-ec557a-0.cpp,21
+game-app,0x45cf40,"Script_SetLevelState::Execute(bool, int)",game-app/src/g1-game-app-pack10-ec557a-0.cpp,18
+game-app,0x45d008,"Script_SpawnContainer::Execute(bool, int)",game-app/src/g1-game-app-pack11-61230f-0.cpp,20
+game-app,0x459034,Script_StartDialog::Init(),game-app/src/g1-game-app-pack11-61230f-0.cpp,12
+game-app,0x45c438,"Script_Wait::Execute(bool, int)",game-app/src/g1-game-app-pack12-35588a-0.cpp,15
+game-app,0x386d00,void TestUD::createBindings(sfc::script::lua::Binder&),game-app/src/g1-game-app-pack13-4d9327-0.cpp,16
+game-app,0x4704b4,"POProjectile::onCollisionBegins(PhysicalBaseObject*, Point2D<float> const&, bool)",game-app/src/g1-game-app-pack3-d077cc-0.cpp,16
+game-app,0x4559f8,ScriptCmdImpl::~ScriptCmdImpl(),game-app/src/g1-game-app-pack4-c4671c-0.cpp,18
+game-app,0x460a58,"Script_FlushMessages::Execute(bool, int)",game-app/src/g1-game-app-pack6-496562-0.cpp,19
+game-app,0x45fc80,"Script_EnterSafeZone::Execute(bool, int)",game-app/src/g1-game-app-pack6-496562-0.cpp,12
+game-app,0x4597e8,Script_HideFlash::Init(),game-app/src/g1-game-app-pack7-38b07e-0.cpp,22
+game-app,0x484554,rnd::RandomGenerator::ValidList(char const*),game-app/src/g1-game-app-rnd-8b06ae-0.cpp,14
+game-app,0x483ac8,"rnd::RandomGenerator::GetInt(int,int)",game-app/src/g1-game-app-rnd-8b06ae-0.cpp,12
+game-app,0x48bc00,"rnd::RPElem::FillSizes(int, int)",game-app/src/g1-game-app-rnd-8b06ae-2.cpp,15
+game-app,0x48c374,"rnd::RootRule::Impl::PlaceRootTile(rnd::Block *,rnd::ListElem)",game-app/src/g1-game-app-rnd-8b06ae-3.cpp,23
+game-app,0x48d58c,"rnd::Rule::~Rule() (D2, _ZN3rnd4RuleD2Ev)",game-app/src/g1-game-app-rnd-8b06ae-5.cpp,22
+game-app,0x5231d4,sfc::math::graph::GraphSparse<PFGOuterEdge>::~GraphSparse(),game-app/src/g1-game-app-sfc-57f3bb-0.cpp,18
+game-app,0x386f28,sfc::script::lua::Arguments::pushUserData(sfc::script::lua::UserData*),game-app/src/n2-game-app-sfc_script_lua_Arguments-3e968c-0.cpp,14
+game-app,0x39eba8,sfc::script::lua::Arguments::pushNil(),game-app/src/n2-game-app-sfc_script_lua_Arguments-3e968c-0.cpp,12
+game-app,0x319c44,"sfc::script::lua::Binder::_bindMethod(char const*, void*, void*)",game-app/src/n2-game-app-sfc_script_lua_Binder-545b31-0.cpp,14
+game-app,0x31a78c,sfc::script::lua::Error::Error(sfc::script::lua::Error const&),game-app/src/n2-game-app-sfc_script_lua_Error-3e7271-0.cpp,19
+game-app,0x31a804,sfc::script::lua::Error::Error(),game-app/src/n2-game-app-sfc_script_lua_Error-3e7271-0.cpp,12
+game-app,0x31b434,sfc::script::lua::ReturnValues::ReturnValues(),game-app/src/n2-game-app-sfc_script_lua_ReturnValues-40c672-0.cpp,12
+game-app,0x37cb24,sfc::script::lua::ReturnValues::pushInteger(int),game-app/src/n2-game-app-sfc_script_lua_ReturnValues-40c672-0.cpp,12
+game-app,0x37ca9c,sfc::script::lua::Value::Value(int),game-app/src/n2-game-app-sfc_script_lua_Value-c98984-1.cpp,19
+game-character,0x3dc9a8,_ZN10AISDefault15OnCombatResultsEP9CharacterS1_Pv,game-character/src/g1-game-character-AISDefault-7ff887-2.cpp,20
+game-character,0x3dc798,_ZN10AISDefault8OnUpdateEv,game-character/src/g1-game-character-AISDefault-7ff887-2.cpp,17
+game-character,0x3de4c8,_ZN8AISFaery18OnMasterOutOfSightEv,game-character/src/g1-game-character-AISFaery-71f155-0.cpp,13
+game-character,0x3dd884,_ZN9AISPlayer7InitVCBEv,game-character/src/g1-game-character-AISPlayer-a14aa9-0.cpp,16
+game-character,0x3d1740,_ZN6CharAI20OnMasterInCloseRangeEv,game-character/src/g1-game-character-CharAI-2ae0f1-3.cpp,15
+game-character,0x3d1d4c,_ZN6CharAI21OnTargetInRangedRangeEv,game-character/src/g1-game-character-CharAI-2ae0f1-4.cpp,16
+game-character,0x3d19f0,_ZN6CharAI18OnMasterOutOfSightEv,game-character/src/g1-game-character-CharAI-2ae0f1-4.cpp,15
+game-character,0x3d1ca0,_ZN6CharAI20OnTargetInCloseRangeEv,game-character/src/g1-game-character-CharAI-2ae0f1-4.cpp,15
+game-character,0x3d217c,_ZN6CharAI16OnNeutralSpottedEP9Character,game-character/src/g1-game-character-CharAI-2ae0f1-4.cpp,15
+game-character,0x3d2fb0,CharAI::ClearGroupInfo(),game-character/src/g1-game-character-CharAI-2ae0f1-5.cpp,18
+game-character,0x3d2de0,CharAI::GroupInfo::GroupInfo(CharAI::GroupInfo const&),game-character/src/g1-game-character-CharAI-2ae0f1-5.cpp,12
+game-character,0x3d4c34,_ZNK6CharAI17AI_GetMeleeRadiusEv,game-character/src/g1-game-character-CharAI-2ae0f1-6.cpp,16
+game-character,0x3d541c,_ZNK6CharAI23AI_GetTargetAsCharacterEv,game-character/src/g1-game-character-CharAI-2ae0f1-6.cpp,13
+game-character,0x3d8038,CharAI::_SpellFocus(void),game-character/src/g1-game-character-CharAI-2ae0f1-7.cpp,20
+game-character,0x3d8a04,CharAI::UpdateSkills(),game-character/src/g1-game-character-CharAI-2ae0f1-8.cpp,22
+game-character,0x3d8474,CharAI::AI_EndSkill(unsigned int),game-character/src/g1-game-character-CharAI-2ae0f1-8.cpp,19
+game-character,0x3d8b7c,CharAI::_SkillBlur(),game-character/src/g1-game-character-CharAI-2ae0f1-8.cpp,17
+game-character,0x3d8d70,CharAI::_ClearNonStickyTarget(),game-character/src/g1-game-character-CharAI-2ae0f1-8.cpp,14
+game-character,0x3df084,_ZN14CharPropertiesC2Ev,game-character/src/g1-game-character-CharProperties-53ed14-1.cpp,19
+game-character,0x3e07a0,_ZN14CharProperties9PROPS_SetEii,game-character/src/g1-game-character-CharProperties-53ed14-2.cpp,18
+game-character,0x3c0260,CharStateMachine::SM_IsIdle(bool) const,game-character/src/g1-game-character-CharStateMachine-33fc5a-0.cpp,13
+game-character,0x3c01ac,CharStateMachine::SM_GetState() const,game-character/src/g1-game-character-CharStateMachine-33fc5a-0.cpp,12
+game-character,0x3c2ac4,_ZN16CharStateMachineD2Ev,game-character/src/g1-game-character-CharStateMachine-33fc5a-1.cpp,17
+game-character,0x3dbe24,_ZN10CharTimers9TMR_StartEjiiPv,game-character/src/g1-game-character-CharTimers-b6b849-0.cpp,22
+game-character,0x3b6df8,_ZN9Character29_GetCurrentEquippedFaeryLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-10.cpp,15
+game-character,0x3b6da0,_ZN9Character26_GetCurrentEquippedFaeryIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-10.cpp,13
+game-character,0x3b6f50,_ZN9Character10_HasTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-11.cpp,15
+game-character,0x3b6fa4,_ZN9Character10_HasShieldERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-11.cpp,13
+game-character,0x3b7b28,_ZN9Character23_GetPropBonusCritRatingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-12.cpp,22
+game-character,0x3b7acc,_ZN9Character19_GetPropBonusDamageERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-12.cpp,20
+game-character,0x3bb950,_ZN9Character20SG_SetGameDifficultyEi,game-character/src/g1-game-character-Character-ee9946-14.cpp,14
+game-character,0x3bb7fc,_ZNK9Character17SG_GetPlayerClassEv,game-character/src/g1-game-character-Character-ee9946-14.cpp,12
+game-character,0x3bb98c,_ZNK9Character21SG_GetCurrentFaerieIdEi,game-character/src/g1-game-character-Character-ee9946-15.cpp,16
+game-character,0x3bbb08,_ZN9Character26SG_GetFastTravelIdUnlockedEii,game-character/src/g1-game-character-Character-ee9946-15.cpp,15
+game-character,0x3bbc6c,_ZN9Character16SG_IsLevelLockedEii,game-character/src/g1-game-character-Character-ee9946-15.cpp,15
+game-character,0x3bbda0,_ZN9Character17SG_SetMapLocStateEiii,game-character/src/g1-game-character-Character-ee9946-15.cpp,15
+game-character,0x3bbc18,_ZN9Character17SG_GetFaerieLevelEji,game-character/src/g1-game-character-Character-ee9946-15.cpp,13
+game-character,0x3bc2ac,_ZN9Character15SG_GetQuestByIDEPFbPK5QuestEii,game-character/src/g1-game-character-Character-ee9946-16.cpp,15
+game-character,0x3bbe84,_ZN9Character15SG_GetSkillSlotEj,game-character/src/g1-game-character-Character-ee9946-16.cpp,12
+game-character,0x3bc9ec,Character::CanIncrementSkill(int),game-character/src/g1-game-character-Character-ee9946-17.cpp,19
+game-character,0x3bc37c,_ZN9Character15SG_GetNumQuestsEi,game-character/src/g1-game-character-Character-ee9946-17.cpp,17
+game-character,0x3bc400,_ZN9Character25SG_GetCurrentPrimaryQuestEi,game-character/src/g1-game-character-Character-ee9946-17.cpp,13
+game-character,0x3bd26c,_ZN9Character10ResetStatsEv,game-character/src/g1-game-character-Character-ee9946-18.cpp,23
+game-character,0x3a34f0,_ZNK9Character17GetNumComboAttackEv,game-character/src/g1-game-character-Character-ee9946-2.cpp,15
+game-character,0x3a4068,_ZN9Character26RemoveMultiplayerHighlightEv,game-character/src/g1-game-character-Character-ee9946-2.cpp,14
+game-character,0x3a4930,Character::INV_DoesMeetRequirements(ItemInstance*),game-character/src/g1-game-character-Character-ee9946-3.cpp,15
+game-character,0x3a49f0,Character::IsPlayer() const,game-character/src/g1-game-character-Character-ee9946-3.cpp,13
+game-character,0x3a9fa8,_ZN9Character13EquipItemAutoEj,game-character/src/g1-game-character-Character-ee9946-5.cpp,12
+game-character,0x3adac8,_ZN9Character11Ctrl_HeadToERK7Point3DIfE,game-character/src/g1-game-character-Character-ee9946-7.cpp,23
+game-character,0x3ada6c,_ZN9Character11Ctrl_HeadToEP10GameObject,game-character/src/g1-game-character-Character-ee9946-7.cpp,19
+game-character,0x3ad9ac,_ZN9Character11Ctrl_LookAtEP10GameObject,game-character/src/g1-game-character-Character-ee9946-7.cpp,17
+game-character,0x3b379c,_ZN9Character11InitSpawnedEiRK7Point3DIfE,game-character/src/g1-game-character-Character-ee9946-9.cpp,14
+game-character,0x36e09c,PlayerManager::GetHostingPlayer(),game-character/src/g1-game-character-PlayerManager-025dba-0.cpp,22
+game-character,0x36de50,PlayerManager::DoesPlayerExist(int),game-character/src/g1-game-character-PlayerManager-025dba-0.cpp,20
+game-character,0x36ea50,PlayerManager::GetNumPlayerCharactersOfClass(int),game-character/src/g1-game-character-PlayerManager-025dba-1.cpp,21
+game-character,0x3e8f24,_ZN17SpawnGroupManagerD1Ev,game-character/src/g1-game-character-SpawnGroupManager-ae66a7-0.cpp,21
+game-character,0x3ea730,_ZN17SpawnGroupManager11GetInstanceEv,game-character/src/g1-game-character-SpawnGroupManager-ae66a7-0.cpp,17
+game-character,0x3ea388,_ZN10SpawnPointC1EN10ObjectBase6GO_IDSE,game-character/src/g1-game-character-SpawnPoint-3099c0-0.cpp,16
+game-character,0x3ea808,SpawnSpot::~SpawnSpot(),game-character/src/g1-game-character-SpawnSpot-3714d9-0.cpp,14
+game-character,0x3c3934,"CSCast::OnBlur(int,Character *,CharStateMachine *,int)",game-character/src/g1-game-character-pack1-03fac4-0.cpp,12
+game-character,0x3c6608,_ZN13CSLiftingIdle7OnEventEiP9CharacterP16CharStateMachineiPv,game-character/src/g1-game-character-pack4-c1ee6a-0.cpp,21
+game-character,0x3c8ee0,_ZN13CSLiftingMove6OnInitEiP9CharacterP16CharStateMachine,game-character/src/g1-game-character-pack4-c1ee6a-0.cpp,14
+game-character,0x3c6724,_ZN10CSReviving6OnBlurEiP9CharacterP16CharStateMachinei,game-character/src/g1-game-character-pack6-54e920-0.cpp,15
+game-character,0x3c4788,_ZN8CSScared8OnUpdateEiP9CharacterP16CharStateMachine,game-character/src/g1-game-character-pack7-7fd0af-0.cpp,17
+game-character,0x3c8438,_ZN7CSSkill6OnInitEiP9CharacterP16CharStateMachine,game-character/src/g1-game-character-pack7-7fd0af-0.cpp,17
+game-character,0x3c0b04,_ZN7CSSpawn7OnEventEiP9CharacterP16CharStateMachineiPv,game-character/src/g1-game-character-pack8-870e63-0.cpp,18
+game-character,0x3c2f7c,_ZN7CSSpawn6OnBlurEiP9CharacterP16CharStateMachinei,game-character/src/g1-game-character-pack8-870e63-0.cpp,13
+game-character,0x433b70,_ZN19CharMenuTutorialMsgC2EiRKSsS1_,game-character/src/g1-game-character-pack8-870e63-0.cpp,12
+game-items-save,0x4002d8,_ZNK13ItemInventory20IsEquipmentSlotTakenEj,game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-2.cpp,22
+game-items-save,0x3fffa4,_ZNK13ItemInventory15HasRangedWeaponEv,game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-2.cpp,17
+game-items-save,0x3fff30,_ZNK13ItemInventory14CanMeleeAttackERi,game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-2.cpp,15
+game-items-save,0x47ba10,Objective::SetIsCompleted(),game-items-save/src/g1-game-items-save-Objective-50c892-0.cpp,17
+game-items-save,0x47b9b8,Objective::GetDescStr() const,game-items-save/src/g1-game-items-save-Objective-50c892-0.cpp,15
+game-items-save,0x47a4ec,_ZN13ObjectiveList23InstallObjectiveMarkersEii,game-items-save/src/g1-game-items-save-ObjectiveList-953dbe-0.cpp,21
+game-items-save,0x47a3e8,ObjectiveList::CreateObjectiveWithPyData(Structs::v2QuestObjectiveStub*),game-items-save/src/g1-game-items-save-ObjectiveList-953dbe-0.cpp,13
+game-items-save,0x47ec80,_ZN30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTalkToNPCE12QE_TalkToNPCE7CompileEv,game-items-save/src/g1-game-items-save-ObjectiveTemplate_InteractWith-131786-1.cpp,23
+game-items-save,0x463654,_ZN14PlayerSavegame14SG_SynchronizeEb,game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-0.cpp,12
+game-items-save,0x467160,_ZN14PlayerSavegame18SG_UnpackQuestSyncER12StreamBuffer,game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-2.cpp,15
+game-items-save,0x4698e4,_ZN14PlayerSavegame17__SavePlayerClassEP11IStreamBasePv,game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-4.cpp,21
+game-items-save,0x469cdc,_ZN14PlayerSavegame20__SaveFastTravelListEP11IStreamBasePv,game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-4.cpp,20
+game-items-save,0x37912c,_ZN17PlayerStatManager18ResetAllStatValuesEi,game-items-save/src/g1-game-items-save-PlayerStatManager-d6e093-0.cpp,15
+game-items-save,0x33e4ac,_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_,game-items-save/src/g1-game-items-save-PropertyMap-ab4ea6-0.cpp,14
+game-items-save,0x398878,_ZN11PropertyMap11AddPropertyIiEEvPKcRT_S3_,game-items-save/src/g1-game-items-save-PropertyMap-ab4ea6-0.cpp,14
+game-items-save,0x3e7ffc,_ZN11PropertyMap11AddPropertyIbEEvPKcRT_S3_.clone.5,game-items-save/src/g1-game-items-save-PropertyMap-ab4ea6-0.cpp,14
+game-items-save,0x47f984,_ZNK5Quest17GetPreDescriptionEv,game-items-save/src/g1-game-items-save-Quest-1defd1-0.cpp,16
+game-items-save,0x480a84,_ZNK5Quest23GetObjectiveDescriptionEv,game-items-save/src/g1-game-items-save-Quest-1defd1-1.cpp,22
+game-items-save,0x481448,_ZN5Quest12UpdateClosedEv,game-items-save/src/g1-game-items-save-Quest-1defd1-1.cpp,20
+game-items-save,0x4812b8,_ZN5Quest16UpdatePostActiveEv,game-items-save/src/g1-game-items-save-Quest-1defd1-1.cpp,12
+game-items-save,0x481700,_ZN5Quest15UpdateAvailableEv,game-items-save/src/g1-game-items-save-Quest-1defd1-2.cpp,23
+game-items-save,0x481688,_ZN5Quest12UpdateActiveEv,game-items-save/src/g1-game-items-save-Quest-1defd1-2.cpp,19
+game-items-save,0x4817b4,_ZN5Quest12UpdateLockedEv,game-items-save/src/g1-game-items-save-Quest-1defd1-2.cpp,12
+game-items-save,0x46bb58,QuestSavegame::UpdateQuests(bool),game-items-save/src/g1-game-items-save-QuestSavegame-ef02ce-0.cpp,23
+game-items-save,0x46c658,"QuestSavegame::PackQuests(int, IStreamBase*)",game-items-save/src/g1-game-items-save-QuestSavegame-ef02ce-1.cpp,18
+game-items-save,0x483278,Reward::DBG_TraceDetailedRewardInformation(__sFILE*),game-items-save/src/g1-game-items-save-Reward-c7d765-0.cpp,13
+game-items-save,0x3163c0,_ZN8Savegame5resetEv,game-items-save/src/g1-game-items-save-Savegame-c870a2-0.cpp,19
+game-items-save,0x3145e0,_ZN8Savegame3JobC1ERKS0_,game-items-save/src/g1-game-items-save-Savegame-c870a2-0.cpp,15
+game-items-save,0x33e380,_ZN18SimpleTypePropertyISsEC1EPvPKcPSsSs,game-items-save/src/g1-game-items-save-SimpleTypeProperty-cdc6b3-0.cpp,13
+game-items-save,0x33e218,_ZN18SimpleTypePropertyISsE8ToStringEPv,game-items-save/src/g1-game-items-save-SimpleTypeProperty-cdc6b3-0.cpp,12
+game-items-save,0x3f8ec8,_ZN18SimpleTypePropertyISt6vectorI7Point3DIfESaIS2_EEE5CloneEv,game-items-save/src/g1-game-items-save-SimpleTypeProperty-cdc6b3-2.cpp,22
+game-items-save,0x394f10,"SimpleTypeProperty<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::SimpleTypeProperty()",game-items-save/src/g1-game-items-save-SimpleTypeProperty-cdc6b3-2.cpp,19
+game-items-save,0x3f8fc8,"SimpleTypeProperty<std::vector<Point3D<float>, std::allocator<Point3D<float> > > >::FromString(void*, char const*)",game-items-save/src/g1-game-items-save-SimpleTypeProperty-cdc6b3-2.cpp,13
+game-items-save,0x3804c0,TrophyManager::CreateInstance(),game-items-save/src/g1-game-items-save-TrophyManager-f8fac6-0.cpp,13
+game-items-save,0x3181f4,_ZN14UserPropertiesD2Ev,game-items-save/src/g1-game-items-save-UserProperties-49b82b-0.cpp,21
+game-items-save,0x318e18,_ZN14UserProperties11AddPropertyEPKcS1_,game-items-save/src/g1-game-items-save-UserProperties-49b82b-0.cpp,13
+game-items-save,0x483330,Reward_CharacterProps::DBG_TraceDetailedRewardInformation(__sFILE*),game-items-save/src/g1-game-items-save-pack6-e1e5d0-0.cpp,16
+game-items-save,0x483420,Reward_XP::Give(),game-items-save/src/g1-game-items-save-pack7-8a9dd8-0.cpp,21
+game-items-save,0x483480,Reward_Gold::Give(),game-items-save/src/g1-game-items-save-pack7-8a9dd8-0.cpp,15
+game-items-save,0x3fdfa0,_ZN13ItemInventory26UpdateLocalizationForItemsEv,game-items-save/src/r2a-game-items-save-ItemInventory-cf6f6b-0.cpp,20
+game-ui,0x478520,_ZN11AnchorGroup10_AddAnchorEPS_,game-ui/src/g1-game-ui-AnchorGroup-fe0c7f-0.cpp,18
+game-ui,0x433dd8,DialogMsg::SetActorName(int),game-ui/src/g1-game-ui-DialogMsg-3e9364-0.cpp,23
+game-ui,0x433ea8,"DialogMsg::DialogMsg(std::string const&,std::string const&,int,int)",game-ui/src/g1-game-ui-DialogMsg-3e9364-0.cpp,13
+game-ui,0x43f828,DialogMsg::operator=(DialogMsg const&),game-ui/src/g1-game-ui-DialogMsg-3e9364-0.cpp,13
+game-ui,0x412aa8,_ZN11DragAndDrop14ResetPositionsEv,game-ui/src/g1-game-ui-DragAndDrop-d8e806-0.cpp,19
+game-ui,0x411ebc,_ZN11DragAndDropC1Ev,game-ui/src/g1-game-ui-DragAndDrop-d8e806-0.cpp,12
+game-ui,0x416230,_ZN23FSCommandParamTokenizer8GetParamEj,game-ui/src/g1-game-ui-FSCommandParamTokenizer-03a430-0.cpp,19
+game-ui,0x413dc4,_ZN16FlashAnimManager23PlayScrollingCombatTextEiRKN6glitch4core8vector3dIfEEPKci,game-ui/src/g1-game-ui-FlashAnimManager-797a71-0.cpp,22
+game-ui,0x413840,_ZN16FlashAnimManager17ResetScanForAnimsEP6MenuFX,game-ui/src/g1-game-ui-FlashAnimManager-797a71-0.cpp,18
+game-ui,0x4163c8,"GameSWFUtils::SetTextHeight(gameswf::character*, int)",game-ui/src/g1-game-ui-GameSWFUtils-e60dd5-0.cpp,14
+game-ui,0x41b11c,_ZN11HUDControls11GetInstanceEv,game-ui/src/g1-game-ui-HUDControls-fd602c-0.cpp,13
+game-ui,0x41b4a8,_ZN10HUDMinimap16DestroyMapCameraEv,game-ui/src/g1-game-ui-HUDMinimap-93879d-0.cpp,16
+game-ui,0x420344,"MenuBase::FS_LockCharacter(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-0.cpp,23
+game-ui,0x420cfc,"MenuBase::FS_IsSaveSlotValid(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-2.cpp,22
+game-ui,0x421554,"MenuBase::FS_GetHasOffHandWeapon(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-2.cpp,21
+game-ui,0x421980,"MenuBase::FS_GetPlayerClass2(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-2.cpp,12
+game-ui,0x421b58,"MenuBase::FS_GetOption(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-3.cpp,23
+game-ui,0x422280,_ZN8MenuBase16FS_SetPlayerNameEPKcS1_Pv,game-ui/src/g1-game-ui-MenuBase-8948cc-3.cpp,19
+game-ui,0x452be8,_ZN20MenuCharMenu_InvMainD2Ev,game-ui/src/g1-game-ui-MenuCharMenu_InvMain-17e1b1-0.cpp,14
+game-ui,0x453da4,_ZN16MenuCharMenu_Map11GetInstanceEv,game-ui/src/g1-game-ui-MenuCharMenu_Map-2d6327-0.cpp,16
+game-ui,0x427ffc,MenuCharacterSelect::UpdateAnim(),game-ui/src/g1-game-ui-MenuCharacterSelect-c1e600-0.cpp,22
+game-ui,0x429a98,_ZN19MenuCharacterSelectC1Ev,game-ui/src/g1-game-ui-MenuCharacterSelect-c1e600-0.cpp,14
+game-ui,0x42a8c0,MenuDebugHUD::SetDisplaySealOfFreshness(bool),game-ui/src/g1-game-ui-MenuDebugHUD-c7396f-0.cpp,22
+game-ui,0x42a470,_ZN12MenuDebugHUDC1Ev,game-ui/src/g1-game-ui-MenuDebugHUD-c7396f-0.cpp,18
+game-ui,0x42b038,_ZN13MenuEnterName11GetInstanceEv,game-ui/src/g1-game-ui-MenuEnterName-b63d4c-0.cpp,13
+game-ui,0x421f80,_ZN6MenuFX5StateC2EPKc,game-ui/src/g1-game-ui-MenuFX-65b527-0.cpp,15
+game-ui,0x7a86e4,MenuFX::MenuFX(),game-ui/src/g1-game-ui-MenuFX-65b527-1.cpp,17
+game-ui,0x7adf20,MenuFX::OnEvent(RenderFX::Event&),game-ui/src/g1-game-ui-MenuFX-65b527-1.cpp,13
+game-ui,0x42b8ec,_ZN15MenuLeaderboard11GetInstanceEv,game-ui/src/g1-game-ui-MenuLeaderboard-42cc86-0.cpp,16
+game-ui,0x42b8a0,_ZN15MenuLeaderboardC1Ev,game-ui/src/g1-game-ui-MenuLeaderboard-42cc86-0.cpp,12
+game-ui,0x42d1f0,_ZN11MenuManager13GetMenuByNameEPKc,game-ui/src/g1-game-ui-MenuManager-a5622d-0.cpp,17
+game-ui,0x43359c,_ZN12MenuMerchantD1Ev,game-ui/src/g1-game-ui-MenuMerchant-5569f0-0.cpp,14
+game-ui,0x433688,_ZN12MenuMerchantC1Ev,game-ui/src/g1-game-ui-MenuMerchant-5569f0-0.cpp,12
+game-ui,0x3f2274,"MenuMessageManager<TutorialMsg, 1>::FlushEnqueuedMessages(int)",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-0.cpp,23
+game-ui,0x329c98,"MenuMessageManager<OnlineStatusMsg, 1>::~MenuMessageManager()",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-0.cpp,20
+game-ui,0x329930,"MenuMessageManager<AchievementMsg, 1>::~MenuMessageManager()",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-0.cpp,18
+game-ui,0x460dec,"MenuMessageManager<DialogMsg, 1>::EnqueueMessage(DialogMsg const&, int, bool)",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-1.cpp,20
+game-ui,0x435880,_ZN25MenuMultiplayerLobbyMulti11GetInstanceEv,game-ui/src/g1-game-ui-MenuMultiplayerLobbyMulti-0fc06b-0.cpp,16
+game-ui,0x496d14,_ZN7SWFAnim8PlayAnimEPKc,game-ui/src/g1-game-ui-SWFAnim-b79bba-0.cpp,22
+game-ui,0x497418,_ZN14SWFAnimManager8DropAnimEP7SWFAnim,game-ui/src/g1-game-ui-SWFAnimManager-c5dc0b-0.cpp,13
+game-ui,0x508e1c,_ZNK13StringManager9getStringEij,game-ui/src/g1-game-ui-StringManager-afda5d-1.cpp,15
+game-ui,0x4779dc,AnchorForward::Reset(),game-ui/src/g1-game-ui-pack1-48ce29-0.cpp,12
+game-ui,0x415c54,_ZN14FSCommandParamD2Ev,game-ui/src/g1-game-ui-pack2-a7677d-0.cpp,17
+game-ui,0x413f14,_ZN16FlashAnimContext15SetTextToNumberEi,game-ui/src/g1-game-ui-pack2-a7677d-0.cpp,15
+game-ui,0x42cc50,_ZN17MenuFlash2DCameraC2EP6MenuFX,game-ui/src/g1-game-ui-pack3-9e17e4-0.cpp,18
+game-ui,0x42ab24,_ZN15MenuConfirmBaseC1EPKc,game-ui/src/g1-game-ui-pack3-9e17e4-0.cpp,13
+game-ui,0x7a8c08,"RenderFX::FindCharacters(gameswf::character*, char const*, int)",game-ui/src/n2-game-ui-RenderFX-849cdc-1.cpp,23
+game-ui,0x7a9afc,RenderFX::BeginDisplay(),game-ui/src/n2-game-ui-RenderFX-849cdc-2.cpp,20
+game-ui,0x7ab6c8,"RenderFX::SetMember(char const*, char const*, int)",game-ui/src/n2-game-ui-RenderFX-849cdc-3.cpp,15
+game-ui,0x7ad7e8,"int RenderFX::InvokeASCallback(char const*, char const*, gameswf::as_value const*, int)",game-ui/src/n2-game-ui-RenderFX-849cdc-3.cpp,14
+game-world,0x50ca2c,_ZN12AssetManager13dropSceneNodeEPKcS1_,game-world/src/g1-game-world-AssetManager-cbdbfa-0.cpp,14
+game-world,0x387ba4,Billboard::~Billboard(),game-world/src/g1-game-world-Billboard-1e5d36-0.cpp,16
+game-world,0x40ff04,_ZN11CameraLevelD2Ev,game-world/src/g1-game-world-CameraLevel-aa3485-0.cpp,17
+game-world,0x39fc98,Container::InitFinal(),game-world/src/g1-game-world-Container-e6443a-1.cpp,22
+game-world,0x3a1508,DestructibleContainer::DestructibleContainer(ObjectBase::GO_IDS),game-world/src/g1-game-world-DestructibleContainer-8b39a5-0.cpp,12
+game-world,0x3e7b94,_ZN4Door8DisabledEv,game-world/src/g1-game-world-Door-478d47-0.cpp,14
+game-world,0x3869b0,_ZN10GSLevelMap4InstEi,game-world/src/g1-game-world-GSLevelMap-ae6433-0.cpp,14
+game-world,0x38b8b8,GameObject::RequireOnlineUpdate(),game-world/src/g1-game-world-GameObject-5d2019-2.cpp,20
+game-world,0x38e9f0,_ZN10GameObject9_IsPlayerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-3.cpp,13
+game-world,0x38ea94,_ZN10GameObject9_IsFlyingERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-3.cpp,13
+game-world,0x390624,_ZN10GameObject26_SetTargetListObjectFilterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-4.cpp,23
+game-world,0x3949b0,_ZN10GameObject17DisableCollisionsEv,game-world/src/g1-game-world-GameObject-5d2019-6.cpp,21
+game-world,0x3ef3fc,Level::CleanUpAllSkills(),game-world/src/g1-game-world-Level-7c7f5d-0.cpp,19
+game-world,0x3f9d0c,_ZN8LevelMap6UnloadEv,game-world/src/g1-game-world-LevelMap-f6cfca-0.cpp,17
+game-world,0x3ee9a4,_ZN14LiftableObject6UpdateEv,game-world/src/g1-game-world-LiftableObject-ad7bbe-0.cpp,21
+game-world,0x3ee5a8,LiftableObject::Drop(),game-world/src/g1-game-world-LiftableObject-ad7bbe-0.cpp,15
+game-world,0x40c3cc,LightSetManager::GetLightSetIdFromName(std::string),game-world/src/g1-game-world-LightSetManager-37fe36-0.cpp,18
+game-world,0x33ddc8,_ZN10ObjectBase9SetEnableEb,game-world/src/g1-game-world-ObjectBase-670ee4-0.cpp,14
+game-world,0x33ff54,_ZN12ObjectHandlecvP9CharacterEv,game-world/src/g1-game-world-ObjectHandle-4d223d-0.cpp,14
+game-world,0x340304,_ZN13ObjectManager19DBG_DumpRoomObjectsEv,game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp,20
+game-world,0x340be0,ObjectManager::NetworkInitLevel(),game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp,19
+game-world,0x344184,_ZN13ObjectManager15AddNoRoomObjectEP10GameObject,game-world/src/g1-game-world-ObjectManager-5017c7-1.cpp,23
+game-world,0x3a1d2c,OpenableContainer::OpenableContainer(ObjectBase::GO_IDS),game-world/src/g1-game-world-OpenableContainer-8e9965-0.cpp,17
+game-world,0x3a18bc,_ZN17OpenableContainer12TryUnlockingEP10GameObject,game-world/src/g1-game-world-OpenableContainer-8e9965-0.cpp,14
+game-world,0x51c0dc,_ZN7PFFloor10_GetNodeAtERK7Point3DIfE,game-world/src/g1-game-world-PFFloor-da331b-0.cpp,16
+game-world,0x51bee8,_ZN7PFFloor9_PostLoadEv,game-world/src/g1-game-world-PFFloor-da331b-0.cpp,15
+game-world,0x5223e4,_ZN7PFWorld10DBG_PFInfoERjS0_,game-world/src/g1-game-world-PFWorld-d9994a-0.cpp,13
+game-world,0x5225ac,_ZN7PFWorld11DBG_MemInfoERj,game-world/src/g1-game-world-PFWorld-d9994a-0.cpp,12
+game-world,0x525684,_ZN7PFWorld18FlagFloorAsEnabledERK7Point3DIfEb,game-world/src/g1-game-world-PFWorld-d9994a-1.cpp,21
+game-world,0x46eb20,_ZN14PhysicalObject3pinEv,game-world/src/g1-game-world-PhysicalObject-442e5f-0.cpp,23
+game-world,0x46ea80,_ZN14PhysicalObject11setPositionEff,game-world/src/g1-game-world-PhysicalObject-442e5f-0.cpp,12
+game-world,0x312f40,_ZNK7Point3DIfE8angleCosERKS0_,game-world/src/g1-game-world-Point3D-3d74ab-0.cpp,15
+game-world,0x3e68b0,ProjectileManager::~ProjectileManager(),game-world/src/g1-game-world-ProjectileManager-fb6a9d-0.cpp,20
+game-world,0x39d0f8,ProjectileTrap::GetDataId() const,game-world/src/g1-game-world-ProjectileTrap-a3961a-0.cpp,22
+game-world,0x39cbe4,_ZNK14ProjectileTrap13GetHurtChanceEv,game-world/src/g1-game-world-ProjectileTrap-a3961a-0.cpp,14
+game-world,0x39cb2c,_ZNK14ProjectileTrap9GetScriptEv,game-world/src/g1-game-world-ProjectileTrap-a3961a-0.cpp,12
+game-world,0x35d624,_ZN13RootSceneNode7NewAnimEb,game-world/src/g1-game-world-RootSceneNode-e402f1-0.cpp,21
+game-world,0x35ccdc,RootSceneNode::GetAnimRoot(bool),game-world/src/g1-game-world-RootSceneNode-e402f1-0.cpp,18
+game-world,0x35b0a0,SkinnedMeshSceneNode::SkinnedMeshSceneNode(boost::intrusive_ptr<glitch::collada::IMesh> const&),game-world/src/g1-game-world-SkinnedMeshSceneNode-f843bf-0.cpp,14
+game-world,0x362718,_ZN19SkyBoxMeshSceneNodeD1Ev,game-world/src/g1-game-world-SkyBoxMeshSceneNode-1f1d6a-0.cpp,16
+game-world,0x398fd4,"Trigger::Trigger(ObjectBase::GO_IDS, bool, bool)",game-world/src/g1-game-world-Trigger-d3f06a-0.cpp,23
+game-world,0x398b5c,_ZN7Trigger16NetStructTriggerD1Ev,game-world/src/g1-game-world-Trigger-d3f06a-0.cpp,22
+game-world,0x3987fc,_ZN7Trigger11UpdateTimerEv,game-world/src/g1-game-world-Trigger-d3f06a-0.cpp,16
+game-world,0x3987ac,_ZNK7Trigger11CanActivateEv,game-world/src/g1-game-world-Trigger-d3f06a-0.cpp,12
+game-world,0x39dbc0,_ZNK11TriggerTrap9GetScriptEv,game-world/src/g1-game-world-TriggerTrap-4c3d15-0.cpp,12
+game-world,0x39ec78,_ZN11TriggerTrap15__EventCallbackERKN6glitch7collada15STriggeredEventEPv,game-world/src/g1-game-world-TriggerTrap-4c3d15-1.cpp,14
+game-world,0x39ea64,_ZN11TriggerTrap11_GetDamagerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-TriggerTrap-4c3d15-1.cpp,13
+game-world,0x39b27c,_ZNK11TriggerZone21IsDoorClosedActivatedEv,game-world/src/g1-game-world-TriggerZone-8e2902-0.cpp,19
+game-world,0x39b2a0,_ZNK11TriggerZone23SafeStartScriptOnlyOnceEi,game-world/src/g1-game-world-TriggerZone-8e2902-0.cpp,15
+game-world,0x39ca40,_ZN20TriggerZoneExitLevelC2EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-TriggerZoneExitLevel-2febd1-0.cpp,21
+game-world,0x47c154,_ZN13Vector3DFListC1Ev,game-world/src/g1-game-world-Vector3DFList-3ca439-0.cpp,13
+game-world,0x496bd8,_ZN15VisualFXManager14BuildLibrariesEv,game-world/src/g1-game-world-VisualFXManager-29ec2f-1.cpp,22
+game-world,0x4963d0,_ZN15VisualFXManager16__Anim_EndOfLoopEP10AnimatedFXPNS_13AnimFXSetDataE,game-world/src/g1-game-world-VisualFXManager-29ec2f-1.cpp,18
+game-world,0x470be4,VisualObject::GetPosition(Point3D<float>&),game-world/src/g1-game-world-VisualObject-0654b6-0.cpp,16
+game-world,0x470e18,"VisualObject::SetModularSkin(int, int)",game-world/src/g1-game-world-VisualObject-0654b6-1.cpp,21
+game-world,0x397bc4,_ZN4ZoneD2Ev,game-world/src/g1-game-world-Zone-03efcc-0.cpp,17
+game-world,0x397ec0,_ZN6ZoneExC1EN10ObjectBase6GO_IDSEbb,game-world/src/g1-game-world-ZoneEx-dd645a-0.cpp,17
+game-world,0x3899d0,_ZN5Decor17DeclarePropertiesEv,game-world/src/g1-game-world-pack0-9565e8-0.cpp,15
+game-world,0x3959b4,_ZN14CheckpointZoneC2EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-pack0-9565e8-0.cpp,15
+game-world,0x389938,_ZN6ColBox17DeclarePropertiesEv,game-world/src/g1-game-world-pack0-9565e8-0.cpp,12
+game-world,0x350a80,"IrrFactory::createSceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem> const&, glitch::gui::ICursorControl*, glitch::gui::IGUIEnvironment*)",game-world/src/g1-game-world-pack1-bc81ef-0.cpp,22
+game-world,0x3886b4,Floor::InitPost(),game-world/src/g1-game-world-pack1-bc81ef-0.cpp,17
+game-world,0x35b2c0,MeshSceneNode::MeshSceneNode(boost::intrusive_ptr<glitch::collada::IMesh> const&),game-world/src/g1-game-world-pack2-adf7ed-0.cpp,13
+game-world,0x5102e8,PolyStat::~PolyStat(),game-world/src/g1-game-world-pack3-ce4c1f-0.cpp,17
+game-world,0x381e48,UnderlaySceneNode::getBoundingBox() const,game-world/src/g1-game-world-pack4-608cd6-0.cpp,19
+net-session-online,0x7fd838,_ZN7COnlineC2Ev,net-session-online/include/net-session-online/c_online.hpp,20
+net-session-online,0x842d70,_ZN4itemC1ERKS_,net-session-online/include/net-session-online/item.hpp,17
+net-session-online,0x81ebc8,_ZN11tFriendInfoC1Ev,net-session-online/include/net-session-online/t_friend_info.hpp,24
+net-session-online,0x89b16c,_ZN13ALicenseCheck11initXPlayerEv,net-session-online/src/a_license_check.cpp,18
+net-session-online,0x89a9a4,_ZN13ALicenseCheck15CallJNIFuncCharEP7_jclassP10_jmethodIDPci,net-session-online/src/a_license_check.cpp,15
+net-session-online,0x7fdea4,_ZN6CEventD2Ev,net-session-online/src/c_event.cpp,14
+net-session-online,0x7ff054,_ZN9CMatching21GetRoomMemberAttibuteEiPvi,net-session-online/src/c_matching_base.cpp,24
+net-session-online,0x81bc78,_ZN15CMatchingGLLive13GetMemberMaskEi,net-session-online/src/c_matching_gl_live.cpp,21
+net-session-online,0x821560,_ZN28CMatchingGLLiveLobbyObserver24OnMPProcessPushStartGameEP10DataPacket,net-session-online/src/c_matching_gl_live_observers.cpp,13
+net-session-online,0x801b14,_ZN14CMatchingLocal12IsRoomHiddenEv,net-session-online/src/c_matching_local.cpp,17
+net-session-online,0x80795c,_ZN14CMatchingLocal9LeaveRoomEv,net-session-online/src/c_matching_local_rooms.cpp,18
+net-session-online,0x809fd0,_ZN8CMessage11MustForwardEv,net-session-online/src/c_message.cpp,15
+net-session-online,0x809aa0,_ZN8CMessage8ReadDataER12NetBitStream,net-session-online/src/c_message.cpp,14
+net-session-online,0x80a128,_ZN8CMessage9IsExpiredEv,net-session-online/src/c_message.cpp,13
+net-session-online,0x80ad54,CMessaging::ProcessRecvQueue(),net-session-online/src/c_messaging.cpp,24
+net-session-online,0x80e1e8,CMessaging::SendMsgToServer(CMessage*),net-session-online/src/c_messaging.cpp,18
+net-session-online,0x80b16c,CMessaging::GetInstance(),net-session-online/src/c_messaging.cpp,13
+net-session-online,0x329630,_ZN15CMsgRaisedEventC1Eb,net-session-online/src/c_msg_raised_event.cpp,15
+net-session-online,0x824e60,_ZN11COnlineImpl13ElapsedTimeMsEl,net-session-online/src/c_online_impl.cpp,12
+net-session-online,0x81a528,_ZN7CSignIn7DestroyEv,net-session-online/src/c_sign_in.cpp,17
+net-session-online,0x81a4fc,_ZN7CSignIn9TerminateEv,net-session-online/src/c_sign_in.cpp,14
+net-session-online,0x824b4c,_ZN21CSignInGLLiveObserver16OnRequestTimeoutEi,net-session-online/src/c_sign_in_gl_live_observer.cpp,14
+net-session-online,0x8435ec,_ZN7channelaSERKS_,net-session-online/src/channel.cpp,13
+net-session-online,0x4995a0,_ZN10GameCenter19ReportGCAchievementEPc,net-session-online/src/game_center.cpp,20
+net-session-online,0x499618,_ZN10GameCenter16SetGCPlayerAliasEPc,net-session-online/src/game_center.cpp,13
+net-session-online,0x89d42c,_ZN13LCXPlayerHttp6CancelEv,net-session-online/src/glx_84ae28.cpp,22
+net-session-online,0x832fb8,_ZN20GLXPlayerLeaderboard13sendHighScoreEiii,net-session-online/src/glx_player_leaderboard_requests.cpp,14
+net-session-online,0x8333b4,GLXPlayerLogin::getProductGGI(int),net-session-online/src/glx_player_login.cpp,16
+net-session-online,0x833528,_ZN14GLXPlayerLogin18SendGetLobbyServerEv,net-session-online/src/glx_player_login_requests.cpp,12
+net-session-online,0x835178,GLXPlayerMessage::getMsgDesUserNumber(int; int),net-session-online/src/glx_player_message.cpp,15
+net-session-online,0x834e28,_ZN16GLXPlayerMessage18getMsgSenderNumberEi,net-session-online/src/glx_player_message.cpp,12
+net-session-online,0x834ee8,_ZN16GLXPlayerMessage17getMsgCreatedTimeEi,net-session-online/src/glx_player_message.cpp,12
+net-session-online,0x836094,_ZN16GLXPlayerMessage15SendReadMessageEi,net-session-online/src/glx_player_message_requests.cpp,16
+net-session-online,0x84aea8,_ZN15GLXPlayerMPBaseD1Ev,net-session-online/src/glx_player_mp_base.cpp,21
+net-session-online,0x83a6c8,_ZN16GLXPlayerMPLobbyC2EP23GLXPlayerMPBaseObserverPc,net-session-online/src/glx_player_mp_lobby.cpp,21
+net-session-online,0x82e038,_ZN22GLXPlayerSereverConfig11isOutOfDateEi,net-session-online/src/glx_player_serever_config.cpp,15
+net-session-online,0x82ba8c,_ZN19GLXPlayerUserFriend13GetReputationEi,net-session-online/src/glx_player_user_friend.cpp,12
+net-session-online,0x82bb58,_ZN19GLXPlayerUserFriend14GetCurrentGameEi,net-session-online/src/glx_player_user_friend.cpp,12
+net-session-online,0x82bc18,_ZN19GLXPlayerUserFriend19GetAvatarLastUpdateEi,net-session-online/src/glx_player_user_friend.cpp,12
+net-session-online,0x82ca20,_ZN19GLXPlayerUserFriend15OnUpdateSuccessEi,net-session-online/src/glx_player_user_friend_lists.cpp,22
+net-session-online,0x82c8ec,_ZN19GLXPlayerUserFriend17sendAddUserFriendEPcS0_b,net-session-online/src/glx_player_user_friend_requests.cpp,21
+net-session-online,0x82c7f4,_ZN19GLXPlayerUserFriend21sendConfirmUserFriendEPcib,net-session-online/src/glx_player_user_friend_requests.cpp,18
+net-session-online,0x83b280,_ZN13GLXPlayerUser17processGetADV_RSSEPc,net-session-online/src/glx_player_user_responses.cpp,16
+net-session-online,0x4a0040,_ZN15OnlineGameStateC1Ev,net-session-online/src/online_game_state.cpp,16
+net-session-online,0x81fadc,_ZN15CMatchingGLLive18SearchRoomInternalER17CRoomSearchFilterbh,net-session-online/src/room_attributes_impl.cpp,19
+net-session-online,0x821dbc,_ZN11tMemberInfoD1Ev,net-session-online/src/t_member_info.cpp,21
+net-session-online,0x7feac4,_ZN9CMatching16ResendMemberDataEv,net-session-online/src/tb_session-online-CMatching-0.cpp,21
+net-session-online,0x7fe5e0,_ZN9CMatching9GetTeamIdEi,net-session-online/src/tb_session-online-CMatching-0.cpp,12
+net-session-online,0x822638,_ZN28CMatchingGLLiveLobbyObserver14SetPlayerParamESs,net-session-online/src/tb_session-online-CMatchingGLLiveLobbyObserver-0.cpp,24
+net-session-online,0x821474,_ZN28CMatchingGLLiveLobbyObserver18GetRoomIndexByNameEPKc,net-session-online/src/tb_session-online-CMatchingGLLiveLobbyObserver-0.cpp,20
+net-session-online,0x81d1f4,_ZN15CMatchingGLLive19MemberInfoNetStructD1Ev,net-session-online/src/tb_session-online-CMatchingGLLive_MemberInfoNetStruct-0.cpp,23
+net-session-online,0x805cc8,_ZN14CMatchingLocal8IsInRoomEv,net-session-online/src/tb_session-online-CMatchingLocal-0.cpp,23
+net-session-online,0x8057f0,_ZN14CMatchingLocal17ProcessLostPacketEii,net-session-online/src/tb_session-online-CMatchingLocal-0.cpp,22
+net-session-online,0x7fd744,_ZN7COnline11GetInstanceEv,net-session-online/src/tb_session-online-COnline-0.cpp,13
+net-session-online,0x82b9a0,XP_API_STRNEW,net-session-online/src/xp_api.cpp,17
+net-session-online,0x325d28,_ZN14CMsgQuestsSyncD1Ev,port/decomp-reconstruction/net-session-online/include/net-session-online/c_msg_quests_sync.hpp,17
+net-session-online,0x3204a4,_ZN12CMsgDropLoot9WriteDataER12NetBitStream,port/decomp-reconstruction/net-session-online/src/c_msg_drop_loot.cpp,21
+net-session-online,0x32793c,_ZN14CMsgQuestsSync13SetPropertiesEv,port/decomp-reconstruction/net-session-online/src/c_msg_quests_sync.cpp,12
+net-session-online,0x82cd18,_ZN18GLXPlayerComponentD1Ev,port/decomp-reconstruction/net-session-online/src/glx_player_component.cpp,16
+net-session-online,0x83a9dc,_ZN13GLXPlayerUser19getAvatarLastUpdateEi,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,12
+net-session-online,0x83f080,_ZN13GLXPlayerUser20sendGetUserBestScoreEPcb,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,21
+net-session-online,0x83d67c,_ZN13GLXPlayerUser17sendDelUserAvatarEPc,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,20
+net-session-online,0x83d4d0,_ZN13GLXPlayerUser20sendDelUserStoreDataEPc,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,19
+net-session-online,0x83d200,_ZN13GLXPlayerUser13sendGetAdvRSSEi,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,14
+net-session-online,0x83b074,_ZN13GLXPlayerUser20processRssAttachmentEPc,port/decomp-reconstruction/net-session-online/src/glx_player_user_responses.cpp,18
+net-session-online,0x832134,_ZN21GLXPlayerWebComponentC2Ev,port/decomp-reconstruction/net-session-online/src/glx_player_web_component.cpp,17
+net-session-online,0x4a012c,_ZN23MultiplayerStateMachine9skipStateEi,port/decomp-reconstruction/net-session-online/src/multiplayer_state_machine.cpp,19
+net-session-online,0x83026c,_ZN15GLXPlayerSocketD2Ev,src/glx_player_socket.cpp,22
+net-session-online,0x8301ac,_ZN15GLXPlayerSocket5StartEv,src/glx_player_socket.cpp,13
+net-transport,0x825388,CDataStats<int>::GetAverage(float),net-transport/include/net-transport/c_data_stats.hpp,125
+net-transport,0x805730,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE25ProcessAcknowledgedPacketEii,net-transport/include/net-transport/net_struct_array.hpp,25
+net-transport,0x841790,_ZN14CAndroidSocket13ConnectByNameEPct,net-transport/src/android_socket.cpp,111
+net-transport,0x841fbc,_ZN14CAndroidSocket10GetLocalIPEPc,net-transport/src/android_socket.cpp,43
+net-transport,0x840cc8,_ZN14CAndroidSocket8RecvFromEPci,net-transport/src/android_socket.cpp,42
+net-transport,0x8408ac,_ZN14CAndroidSocket13SendBroadcastEPKcii,net-transport/src/android_socket.cpp,27
+net-transport,0x840de0,_ZN14CAndroidSocket6SendToEPKciS1_i,net-transport/src/android_socket.cpp,22
+net-transport,0x840f04,_ZN14CAndroidSocket15CreateUdpSocketEv,net-transport/src/android_socket.cpp,21
+net-transport,0x840f38,_ZN14CAndroidSocket15CreateTcpSocketEv,net-transport/src/android_socket.cpp,16
+net-transport,0x8412b4,_ZN14CAndroidSocket11CloseSocketEv,net-transport/src/android_socket.cpp,15
+net-transport,0x829cfc,_ZN20CBluetoothUnreliable6CreateESsSsi,net-transport/src/bluetooth_transport.cpp,44
+net-transport,0x8298d0,_ZN20CBluetoothUnreliable6ListenESsSs,net-transport/src/bluetooth_transport.cpp,35
+net-transport,0x829980,_ZN20CBluetoothUnreliableC2Ev,net-transport/src/bluetooth_transport.cpp,24
+net-transport,0x8297a8,_ZN20CBluetoothUnreliable17AcceptConnectionsEv,net-transport/src/bluetooth_transport.cpp,12
+net-transport,0x317014,_ZN6Buffer7setSizeEj,net-transport/src/buffer.cpp,63
+net-transport,0x42b1e4,_ZN14BufferedStream10FillBufferEP11IStreamBase,net-transport/src/buffered_stream.cpp,31
+net-transport,0x8261c4,_ZN11CConnection7ConnectEiR10CNetworkId,net-transport/src/connection.cpp,101
+net-transport,0x8259a8,_ZN11CConnectionC1Ev,net-transport/src/connection.cpp,39
+net-transport,0x825788,_ZN11CConnection19SendConnectResponseEv,net-transport/src/connection.cpp,35
+net-transport,0x8258f0,_ZN11CConnection4SendE12tPACKET_TYPEPvi,net-transport/src/connection.cpp,27
+net-transport,0x8261a4,_ZN11CConnection15SetLastRecvTimeEv,net-transport/src/connection.cpp,12
+net-transport,0x845da4,_ZN10Connection29sendListSessionsByDataPackageEhiPci,net-transport/src/connection_base.cpp,24
+net-transport,0x8456fc,_ZN10Connection21getNextIncomingPacketEv,net-transport/src/connection_base.cpp,20
+net-transport,0x846034,_ZN10Connection23sendListSessionsPackageEhi,net-transport/src/connection_base.cpp,17
+net-transport,0x845764,_ZN10Connection14cleanRetryDataEv,net-transport/src/connection_base.cpp,16
+net-transport,0x846208,_ZN10Connection20sendQuickGamePackageEv,net-transport/src/connection_base.cpp,15
+net-transport,0x848fac,_ZN15ConnectionLobby8sendDataEv,net-transport/src/connection_lobby.cpp,53
+net-transport,0x848300,_ZN15ConnectionLobby24sendKickOutPlayerPackageEPc,net-transport/src/connection_lobby.cpp,26
+net-transport,0x848628,_ZN15ConnectionLobby29sendListSessionsByNamePackageEhiPc,net-transport/src/connection_lobby.cpp,23
+net-transport,0x848258,_ZN15ConnectionLobby21sendLobbyLoginPackageElPcsh,net-transport/src/connection_lobby.cpp,21
+net-transport,0x8473b0,_ZN15ConnectionLobby18sendKickOutPackageEPc,net-transport/src/connection_lobby.cpp,18
+net-transport,0x8483ac,_ZN15ConnectionLobby24sendUpdateSessionPackageEi,net-transport/src/connection_lobby.cpp,16
+net-transport,0x848884,_ZN15ConnectionLobby23sendLeaveSessionPackageEv,net-transport/src/connection_lobby.cpp,15
+net-transport,0x84791c,_ZN15ConnectionLobby26sendSetPlayerStatusPackageEh,net-transport/src/connection_lobby.cpp,14
+net-transport,0x8479e4,_ZN15ConnectionLobby21sendLeaveLobbyPackageEv,net-transport/src/connection_lobby.cpp,13
+net-transport,0x7fca74,_ZN18CConnectionManager24ProcessConnectionRequestER10CNetworkIdR12NetBitStream,net-transport/src/connection_manager.cpp,47
+net-transport,0x7fcb2c,_ZN18CConnectionManager22PacketReceiverCallbackER10CNetworkIdPci,net-transport/src/connection_manager.cpp,36
+net-transport,0x7fbe94,_ZN18CConnectionManager18GetConnectionCountEb,net-transport/src/connection_manager.cpp,32
+net-transport,0x7fc864,_ZN18CConnectionManager21ProcessDisconnectPeerER10CNetworkIdR12NetBitStream,net-transport/src/connection_manager.cpp,23
+net-transport,0x7fbda0,_ZN18CConnectionManager24GetConnectionByNetworkIdER10CNetworkId,net-transport/src/connection_manager.cpp,18
+net-transport,0x7fc5f8,_ZN18CConnectionManager6SendToE12tPACKET_TYPEiPvi,net-transport/src/connection_manager.cpp,16
+net-transport,0x7fc4e0,_ZN18CConnectionManager21sPingReceiverCallbackER10CNetworkIdPci,net-transport/src/connection_manager.cpp,13
+net-transport,0x7fc33c,_ZN18CConnectionManager20UnregisterPacketTypeE12tPACKET_TYPE,net-transport/src/connection_manager.cpp,12
+net-transport,0x8285ec,_ZN7CSocket6AcceptER7in_addrRt,net-transport/src/csocket.cpp,37
+net-transport,0x828738,_ZN7CSocket7ConnectERK7in_addrt,net-transport/src/csocket.cpp,34
+net-transport,0x8284c8,_ZN7CSocket16SetSocketOptionsEj,net-transport/src/csocket.cpp,26
+net-transport,0x828380,_ZN7CSocket6SendToERK7in_addrtPvi,net-transport/src/csocket.cpp,25
+net-transport,0x827ee0,_ZN7CSocket5CloseEv,net-transport/src/csocket.cpp,23
+net-transport,0x82810c,_ZN7CSocket11GetPeerPortEv,net-transport/src/csocket.cpp,18
+net-transport,0x827fa4,_ZN7CSocket12GetLocalPortEv,net-transport/src/csocket.cpp,15
+net-transport,0x82844c,_ZN7CSocket4SendEPvi,net-transport/src/csocket.cpp,14
+net-transport,0x827bb0,_ZN7CSocketC1Ev,net-transport/src/csocket.cpp,13
+net-transport,0x82a2a4,_ZN4CTcp10OpenSocketEtb,net-transport/src/ctcp.cpp,31
+net-transport,0x8275b0,_ZN4CUdp7ReceiveEv,net-transport/src/cudp.cpp,30
+net-transport,0x84980c,_ZN15DataPacketLobby7getBlobERPcRs,net-transport/src/data_packet_lobby.cpp,34
+net-transport,0x8499d8,_ZN15DataPacketLobby17addShortLenStringEPKcs,net-transport/src/data_packet_lobby.cpp,29
+net-transport,0x849d20,_ZN15DataPacketLobbyC1EP10DataPacket,net-transport/src/data_packet_lobby.cpp,25
+net-transport,0x849714,_ZN15DataPacketLobby5setIPEPc,net-transport/src/data_packet_lobby.cpp,17
+net-transport,0x84a01c,_ZN17DefaultDataPacket7getByteERh,net-transport/src/default_data_packet.cpp,38
+net-transport,0x84a8e0,_ZN17DefaultDataPacket16getByteLenStringERPcRh,net-transport/src/default_data_packet.cpp,34
+net-transport,0x84a060,_ZN17DefaultDataPacket8addShortEs,net-transport/src/default_data_packet.cpp,28
+net-transport,0x84a9fc,_ZN17DefaultDataPacket9getPacketERP10DataPacket,net-transport/src/default_data_packet.cpp,23
+net-transport,0x84a410,_ZN17DefaultDataPacket13Packet2StringEPcRi,net-transport/src/default_data_packet.cpp,13
+net-transport,0x84a3d0,_ZN17DefaultDataPacket13String2PacketEPci,net-transport/src/default_data_packet.cpp,12
+net-transport,0x8111ec,CNetPlayerManager::InitPlayers(),net-transport/src/e2-net-transport-CNetPlayerManager-0e46d6-0.cpp,60
+net-transport,0x810d90,CNetPlayerManager::NetStructPlayerManager::NetStructPlayerManager(),net-transport/src/e2-net-transport-CNetPlayerManager-0e46d6-0.cpp,46
+net-transport,0x812d50,CNetPlayerManager::GetPlayerIdListByMemberId(int),net-transport/src/e2-net-transport-CNetPlayerManager-0e46d6-1.cpp,69
+net-transport,0x3706c0,_ZN18NetStructByteArrayILj30EEC1E9ByteArray,net-transport/src/e2-net-transport-NetStructByteArray-9de6f9-0.cpp,28
+net-transport,0x3703b0,_ZN18NetStructByteArrayILj3EE4ReadER12NetBitStream,net-transport/src/e2-net-transport-NetStructByteArray-9de6f9-0.cpp,19
+net-transport,0x7fefb8,_ZN18NetStructByteArrayILj64EE9SetBufferEPKvi,net-transport/src/e2-net-transport-NetStructByteArray-9de6f9-0.cpp,15
+net-transport,0x818290,_ZN18NetStructByteArrayILj256EE9SetBufferEPKvi,net-transport/src/e2-net-transport-NetStructByteArray-9de6f9-1.cpp,15
+net-transport,0x36fc4c,NetStructMemberType<std::string>::SetValue(std::string const&),net-transport/src/e2-net-transport-NetStructMemberType-b42f13-0.cpp,24
+net-transport,0x80fc28,CNetPlayerInfo::CNetPlayerInfo(void),net-transport/src/e2-net-transport-pack0-e3f33b-0.cpp,197
+net-transport,0x80f618,_ZN14CNetPlayerInfoD1Ev,net-transport/src/e2-net-transport-pack0-e3f33b-0.cpp,30
+net-transport,0x89f4fc,_ZN15LCAndroidSocket13ConnectByNameEPc,net-transport/src/lc_android_socket.cpp,99
+net-transport,0x89f9a0,_ZN15LCAndroidSocket9GetHostIPEPc,net-transport/src/lc_android_socket.cpp,55
+net-transport,0x89fb04,_ZN15LCAndroidSocket13GetHostByNameEPc,net-transport/src/lc_android_socket.cpp,46
+net-transport,0x89ece4,_ZN15LCAndroidSocket4BindEPct,net-transport/src/lc_android_socket.cpp,42
+net-transport,0x89ee4c,_ZN15LCAndroidSocket4SendEPci,net-transport/src/lc_android_socket.cpp,24
+net-transport,0x89ec70,_ZN15LCAndroidSocket12CreateSocketEv,net-transport/src/lc_android_socket.cpp,22
+net-transport,0x89ec0c,_ZN15LCAndroidSocket15CreateUdpSocketEv,net-transport/src/lc_android_socket.cpp,21
+net-transport,0x89e6d0,_ZN15LCAndroidSocket12SetBroadcastEv,net-transport/src/lc_android_socket.cpp,16
+net-transport,0x89f7c8,_ZN15LCAndroidSocket14SetNonBlockingEv,net-transport/src/lc_android_socket.cpp,16
+net-transport,0x89ff54,_ZN15LCAndroidSocketD1Ev,net-transport/src/lc_android_socket.cpp,14
+net-transport,0x8109a0,CNetPlayerManager::ProcessEvents(),net-transport/src/net-structure-CNetPlayerManager.cpp,47
+net-transport,0x80eac8,"NetBitStream::ShiftMemCopy(void*,uint,void const*,uint,int)",net-transport/src/net_bit_stream.cpp,86
+net-transport,0x80ee5c,NetBitStream::operator=(NetBitStream const&),net-transport/src/net_bit_stream.cpp,41
+net-transport,0x80e564,_ZN12NetBitStream8ReadByteEj,net-transport/src/net_bit_stream.cpp,22
+net-transport,0x80e83c,_ZN12NetBitStream6RevertEv,net-transport/src/net_bit_stream.cpp,21
+net-transport,0x80ea50,_ZN12NetBitStreamC2Ej,net-transport/src/net_bit_stream.cpp,20
+net-transport,0x80e790,_ZN12NetBitStreamD1Ev,net-transport/src/net_bit_stream.cpp,14
+net-transport,0x80e6a8,_ZN17NetBitStreamArrayD1Ev,net-transport/src/net_bit_stream_array.cpp,35
+net-transport,0x80e8d0,_ZN17NetBitStreamArray15ClearAllStreamsEv,net-transport/src/net_bit_stream_array.cpp,17
+net-transport,0x826b8c,_ZN17CNetworkEmulation21SetNetConditionPresetE18tNET_EMULATION_SET21tNET_CONDITION_PRESET,net-transport/src/net_network_emulation.cpp,43
+net-transport,0x826df8,_ZN17CNetworkEmulationC2Ev,net-transport/src/net_network_emulation.cpp,17
+net-transport,0x827190,_ZN17CNetworkEmulation10InitializeEv,net-transport/src/net_network_emulation.cpp,16
+net-transport,0x826ad0,_ZN17CNetworkEmulation9TerminateEv,net-transport/src/net_network_emulation.cpp,13
+net-transport,0x81b970,_ZN10CNetworkId20GetTransportTypeListEv,net-transport/src/net_network_id.cpp,75
+net-transport,0x801cf0,_ZN10CNetworkId4LoadER12NetBitStream,net-transport/src/net_network_id.cpp,38
+net-transport,0x7fea58,_ZN14NetStructArrayIN9CMatching19MemberInfoNetStructELj32EE5EraseER12NetBitStream,net-transport/src/net_struct_array.cpp,20
+net-transport,0x8056c0,_ZN14NetStructArrayIN14CMatchingLocal21ServerBackupNetStructELj32EE13HasDataToSendEi,net-transport/src/net_struct_array.cpp,19
+net-transport,0x3a681c,_ZN32NetStructInterpolatedRangedFloatILj18ELin200000ELi200000EEC1Ef,net-transport/src/net_struct_interpolation.cpp,33
+net-transport,0x81181c,CNetPlayerManager::GetPlayerName(int),net-transport/src/od2-CNetPlayerManager-AddPlayer.cpp,24
+net-transport,0x8179d0,_ZN14CPacketManager11SendPacketsEv,net-transport/src/packet_manager.cpp,154
+net-transport,0x8162a4,_ZN14CPacketManagerC1Ev,net-transport/src/packet_manager.cpp,113
+net-transport,0x81704c,_ZN14CPacketManagerD1Ev,net-transport/src/packet_manager.cpp,68
+net-transport,0x815ec8,_ZN14CPacketManager17PreparePacketDataEijR12NetBitStream,net-transport/src/packet_manager.cpp,64
+net-transport,0x815504,_ZN14CPacketManager26ProcessAcknowledgedPacketsEv,net-transport/src/packet_manager.cpp,49
+net-transport,0x817d1c,_ZN14CPacketManager23sPacketReceiverCallbackEiPci,net-transport/src/packet_manager.cpp,17
+net-transport,0x815214,_ZN14CPacketManager9TerminateEv,net-transport/src/packet_manager.cpp,13
+net-transport,0x816c68,_ZN14CPacketManager13GetNextPacketEv,net-transport/src/packet_manager.cpp,12
+net-transport,0x3166bc,_ZNK12StreamBuffer4peekEPvy,net-transport/src/stream_buffer.cpp,14
+net-transport,0x84560c,_ZN6Thread4StopEv,net-transport/src/sync.cpp,19
+net-transport,0x310704,_ZN6CMutex6UnlockEv,net-transport/src/sync.cpp,14
+net-transport,0x845688,_ZN6Thread5StartEv,net-transport/src/sync.cpp,14
+net-transport,0x84559c,Thread::IsCurrectThreadRunning(),net-transport/src/sync.cpp,13
+net-transport,0x36f40c,_ZN14CNetPlayerInfo8SetStateEc,net-transport/src/tb_transport-CNetPlayerInfo-0.cpp,26
+net-transport,0x80f1a0,_ZN14CNetPlayerInfo9IsLocalToEi,net-transport/src/tb_transport-CNetPlayerInfo-0.cpp,18
+net-transport,0x810610,"CNetPlayerManager::WritePacketData(int,int,NetBitStream &)",net-transport/src/tb_transport-CNetPlayerManager-0.cpp,137
+net-transport,0x8104ec,_ZN17CNetPlayerManager25ProcessAcknowledgedPacketEii,net-transport/src/tb_transport-CNetPlayerManager-0.cpp,50
+net-transport,0x810338,_ZN17CNetPlayerManager25AreAllPlayersAcknowledgedEv,net-transport/src/tb_transport-CNetPlayerManager-0.cpp,28
+net-transport,0x810180,"CNetPlayerManager::GetPlayerInternal(int,int)",net-transport/src/tb_transport-CNetPlayerManager-0.cpp,27
+net-transport,0x810228,"CNetPlayerManager::GetPlayerByMemberId(int,int,bool)",net-transport/src/tb_transport-CNetPlayerManager-0.cpp,14
+net-transport,0x81366c,_ZN9NetStruct10SetEnabledEb,net-transport/src/tb_transport-NetStruct-0.cpp,52
+net-transport,0x8135f4,_ZN9NetStruct4LoadER12NetBitStreamij,net-transport/src/tb_transport-NetStruct-0.cpp,22
+net-transport,0x81395c,_ZN9NetStructD1Ev,net-transport/src/tb_transport-NetStruct-0.cpp,21
+net-transport,0x81388c,_ZN9NetStructC1Ev,net-transport/src/tb_transport-NetStruct-0.cpp,20
+net-transport,0x81383c,_ZN9NetStruct9IsChangedEv,net-transport/src/tb_transport-NetStruct-0.cpp,16
+net-transport,0x36d730,_ZN18NetStructByteArrayILj3EE9GetBufferEPvi,net-transport/src/tb_transport-NetStructByteArray-0.cpp,16
+net-transport,0x36feb0,_ZN18NetStructByteArrayILj36EED1Ev,net-transport/src/tb_transport-NetStructByteArray-0.cpp,15
+net-transport,0x36ffd0,_ZN18NetStructByteArrayILj36EE9SetBufferEPKvi,net-transport/src/tb_transport-NetStructByteArray-0.cpp,15
+net-transport,0x36da70,_ZN12NetStructIntILj32EE4ReadER12NetBitStream,net-transport/src/tb_transport-NetStructInt-0.cpp,15
+net-transport,0x815168,_ZN15NetStructMember9SerializeER12NetBitStreamj,net-transport/src/tb_transport-NetStructMember-0.cpp,23
+net-transport,0x36da20,_ZN19NetStructMemberTypeIbE8SetValueERKb,net-transport/src/tb_transport-NetStructMemberType-0.cpp,14
+net-transport,0x36dd64,_ZN19NetStructMemberTypeIiE5EraseER12NetBitStream,net-transport/src/tb_transport-NetStructMemberType-0.cpp,12
+net-transport,0x800bb4,_ZN15NetStructStringILj256EE5WriteER12NetBitStream,net-transport/src/tb_transport-NetStructString-0.cpp,27
+net-transport,0x371b78,_ZN15NetStructStringILj32EE5WriteER12NetBitStream,net-transport/src/tb_transport-NetStructString-0.cpp,13
+net-transport,0x827220,_ZN17CTransportFactory19InitializeTransportE15tTRANSPORT_TYPE,net-transport/src/transport_factory.cpp,32
+net-transport,0x81ae94,CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE),net-transport/src/transport_manager.cpp,38
+net-transport,0x81b64c,CTransportManager::TerminateInternal(),net-transport/src/transport_manager.cpp,33
+net-transport,0x81b5b4,CTransportManager::ReceiverThreadExecute(),net-transport/src/transport_manager.cpp,26
+net-transport,0x81ac0c,CTransportManager::IsConnectedTo(CNetworkId&),net-transport/src/transport_manager.cpp,18
+net-transport,0x825110,CTransportManagerImpl::GetHostname(CNetworkId&),net-transport/src/transport_manager_impl.cpp,22
+vox-audio,0x88cc14,_ZNK3vox15VoxSoundPackXML12GetGroupMaskEPKcRi,vox-audio/include/vox-audio/vox/sound_pack_xml.hpp,24
+vox-audio,0x893548,_ZN3vox16AccessController13GetReadAccessEv,vox-audio/src/access_controller.cpp,18
+vox-audio,0x865b30,_ZN3vox7DataObj17UnregisterEmitterEx,vox-audio/src/data_obj.cpp,31
+vox-audio,0x865a0c,_ZN3vox7DataObj7IsGroupEj,vox-audio/src/data_obj.cpp,15
+vox-audio,0x865878,_ZN3vox7DataObj11GetUserDataEv,vox-audio/src/data_obj.cpp,13
+vox-audio,0x870e38,_ZN3vox8DataNode9DropNodesEv,vox-audio/src/decoder-mswav-mpc8/data_node.cpp,82
+vox-audio,0x86fd58,_ZN3vox17DecoderMPC8Cursor19ConvertFloatToShortEPsPfi,vox-audio/src/decoder-mswav-mpc8/decoder_mpc8_cursor.cpp,32
+vox-audio,0x870610,_ZN3vox18DecoderMSWavCursor9ParseFileEv,vox-audio/src/decoder-mswav-mpc8/decoder_mswav_cursor_ctor.cpp,124
+vox-audio,0x870ac8,_ZN3vox18DecoderMSWavCursorC1EPNS_16DecoderInterfaceEPNS_21StreamCursorInterfaceE,vox-audio/src/decoder-mswav-mpc8/decoder_mswav_cursor_ctor.cpp,94
+vox-audio,0x8755b0,_ZN3vox26VoxMSWavSubDecoderIMAADPCMC1EPNS_21StreamCursorInterfaceEPNS_9WaveChunkE,vox-audio/src/decoder-mswav-mpc8/mswav_sub_decoder_imaadpcm_impl.cpp,89
+vox-audio,0x875418,_ZN3vox26VoxMSWavSubDecoderIMAADPCM7HasDataEv,vox-audio/src/decoder-mswav-mpc8/mswav_sub_decoder_imaadpcm_impl.cpp,22
+vox-audio,0x872a84,_ZN3vox13DecoderNative26CreateTransitionsContainerEi,vox-audio/src/decoder-native/decoder_native_containers.cpp,19
+vox-audio,0x872440,_ZN3vox19DecoderNativeCursorD2Ev,vox-audio/src/decoder-native/decoder_native_cursor.cpp,57
+vox-audio,0x8720b8,_ZN3vox19DecoderNativeCursor6RewindEi,vox-audio/src/decoder-native/decoder_native_cursor.cpp,43
+vox-audio,0x871954,_ZN3vox19DecoderNativeCursor13GetStateIndexEv,vox-audio/src/decoder-native/decoder_native_cursor.cpp,35
+vox-audio,0x8710d4,_ZN3vox19DecoderNativeCursor14GetRewindLimitEv,vox-audio/src/decoder-native/decoder_native_cursor.cpp,15
+vox-audio,0x8710a8,_ZN3vox19DecoderNativeCursor7HasDataEv,vox-audio/src/decoder-native/decoder_native_cursor.cpp,12
+vox-audio,0x874648,_ZN3vox13DecoderNative15CreateNewCursorEPNS_21StreamCursorInterfaceE,vox-audio/src/decoder-native/decoder_native_lifetime.cpp,12
+vox-audio,0x87057c,_ZN3vox18DecoderMSWavCursor6DecodeEPvi,vox-audio/src/decoder_mswav_cursor.cpp,12
+vox-audio,0x874a0c,_ZN3vox10DecoderRawC2EPNS_11TrackParamsE,vox-audio/src/decoder_raw.cpp,29
+vox-audio,0x8752bc,_ZN3vox22DecoderStbVorbisCursorC2EPNS_16DecoderInterfaceEPNS_21StreamCursorInterfaceE,vox-audio/src/decoder_stb_vorbis.cpp,44
+vox-audio,0x874fec,_ZN3vox22DecoderStbVorbisCursor6DecodeEPvi,vox-audio/src/decoder_stb_vorbis.cpp,36
+vox-audio,0x88f130,_ZN3vox13DriverAndroid7SuspendEv,vox-audio/src/driver_android.cpp,16
+vox-audio,0x890bb0,_ZN3vox29DriverCallbackSourceInterface7GetGainEv,vox-audio/src/driver_callback.cpp,13
+vox-audio,0x88fce4,_ZN3vox29DriverCallbackSourceInterface6UpdateEf,vox-audio/src/driver_callback.cpp,12
+vox-audio,0x88f14c,_ZN3vox13DriverAndroid12DoCallbackATERP7_jarray,vox-audio/src/drivers-threads/driver_android_slice.cpp,47
+vox-audio,0x88fbac,_ZN3vox19DriverAndroidSourceC1EPvS1_j,vox-audio/src/drivers-threads/driver_android_slice.cpp,13
+vox-audio,0x8902e4,_ZN3vox23DriverCallbackInterface15_Set3DParameterEiPv,vox-audio/src/drivers-threads/driver_callback_interface.cpp,38
+vox-audio,0x891334,_ZN3vox23DriverCallbackInterfaceC2Ev,vox-audio/src/drivers-threads/driver_callback_interface.cpp,25
+vox-audio,0x89278c,_ZN3vox29DriverCallbackSourceInterface23FillBufferMono16NoInterEPii,vox-audio/src/drivers-threads/driver_callback_source_mix.cpp,246
+vox-audio,0x892bd0,_ZN3vox29DriverCallbackSourceInterface16FillBufferMono16EPii,vox-audio/src/drivers-threads/driver_callback_source_mix.cpp,210
+vox-audio,0x891860,_ZN3vox29DriverCallbackSourceInterface18FillBufferStereo16EPii,vox-audio/src/drivers-threads/driver_callback_source_mix.cpp,173
+vox-audio,0x8909e8,_ZN3vox29DriverCallbackSourceInterface14Set3DParameterEiPv,vox-audio/src/drivers-threads/driver_callback_source_setup.cpp,54
+vox-audio,0x892114,_ZN3vox29DriverCallbackSourceInterface15GetDistanceGainEv,vox-audio/src/drivers-threads/driver_callback_spatial.cpp,130
+vox-audio,0x891b80,_ZN3vox29DriverCallbackSourceInterface16GetStereoPanningEPiS1_,vox-audio/src/drivers-threads/driver_callback_spatial.cpp,60
+vox-audio,0x891ed0,_ZN3vox29DriverCallbackSourceInterface15GetDopplerPitchEv,vox-audio/src/drivers-threads/driver_callback_spatial.cpp,45
+vox-audio,0x893784,_ZN3vox9VoxThreadC1EPFvPvS1_ES1_S1_Pc,vox-audio/src/drivers-threads/vox_thread_object.cpp,62
+vox-audio,0x863954,_ZN3vox10EmitterObj7CleanUpEv,vox-audio/src/emitter-obj/emitter_obj_dsp.cpp,40
+vox-audio,0x866acc,_ZN3vox10EmitterObj15SetDSPParameterEiPv,vox-audio/src/emitter-obj/emitter_obj_dsp.cpp,24
+vox-audio,0x86e868,_ZN3vox10EmitterObj4StopEf,vox-audio/src/emitter-obj/emitter_obj_transport.cpp,76
+vox-audio,0x86c1d4,_ZN3vox10EmitterObj6ResumeEf,vox-audio/src/emitter_obj.cpp,37
+vox-audio,0x864f04,_ZN3vox10EmitterObj16Get3DParameter3fEiRfS1_S1_,vox-audio/src/emitter_obj.cpp,28
+vox-audio,0x865398,_ZN3vox10EmitterObj11GetUserDataEv,vox-audio/src/emitter_obj.cpp,13
+vox-audio,0x865680,_ZN3vox10EmitterObj8GetStateEv,vox-audio/src/emitter_obj.cpp,13
+vox-audio,0x8699c0,_ZN3vox10EmitterObjD1Ev,vox-audio/src/emitter_obj_state.cpp,13
+vox-audio,0x86ac94,_ZN3vox17VoxEngineInternal17GetAllDataSourcesEPNS_10DataHandleEi,vox-audio/src/engine-internal-data/voxengine_internal_data_objects.cpp,115
+vox-audio,0x8687f8,_ZN3vox17VoxEngineInternal11SetUserDataERNS_10DataHandleERNS_18DataHandleUserDataE,vox-audio/src/engine-internal-data/voxengine_internal_data_objects.cpp,14
+vox-audio,0x86c02c,_ZN3vox17VoxEngineInternalD2Ev,vox-audio/src/engine-internal-data/voxengine_internal_lifecycle.cpp,86
+vox-audio,0x86934c,_ZN3vox17VoxEngineInternal10InitializeEv,vox-audio/src/engine-internal-data/voxengine_internal_lifecycle.cpp,14
+vox-audio,0x86f040,_ZN3vox17VoxEngineInternal15PlayAllEmittersEjf,vox-audio/src/engine-internal-emitter/emitter_group_loops.cpp,116
+vox-audio,0x86c2dc,_ZN3vox17VoxEngineInternal17ResumeAllEmittersEjf,vox-audio/src/engine-internal-emitter/emitter_group_loops.cpp,112
+vox-audio,0x86e160,_ZN3vox17VoxEngineInternal11KillEmitterEPNS_10EmitterObjE,vox-audio/src/engine-internal-emitter/update_emitters_kill.cpp,83
+vox-audio,0x868de8,_ZN3vox10DataHandleC2ExPPNS_17VoxEngineInternalEPNS_9HandlableEjj,vox-audio/src/engine_handles.cpp,27
+vox-audio,0x86b968,_ZN3vox10DataHandleD2Ev,vox-audio/src/engine_handles.cpp,14
+vox-audio,0x894330,_ZN3vox19FileSystemInterface8OpenFileEPcNS_17VoxFileAccessModeE,vox-audio/src/files-xml-zip-stream/file_io.cpp,92
+vox-audio,0x893c74,_ZN3vox11FileLimited4SeekEiNS_17VoxFileSeekOriginE,vox-audio/src/files-xml-zip-stream/file_io.cpp,63
+vox-audio,0x894290,_ZN3vox19FileSystemInterface10SetArchiveEPKcbbb,vox-audio/src/files-xml-zip-stream/file_io.cpp,30
+vox-audio,0x894684,_ZN3vox15FileSystemStdioC1Ev,vox-audio/src/files-xml-zip-stream/file_io.cpp,17
+vox-audio,0x8939fc,_ZN3vox13FileInterface4ReadEPvii,vox-audio/src/files-xml-zip-stream/file_io.cpp,16
+vox-audio,0x893d70,_ZN3vox11FileLimitedC1EPvii,vox-audio/src/files-xml-zip-stream/file_io.cpp,13
+vox-audio,0x893b7c,_ZN3vox11FileLimitedC1Ev,vox-audio/src/files-xml-zip-stream/file_io.cpp,12
+vox-audio,0x88bdd0,_ZN3vox15VoxSoundPackXML30GetEmitterInfoFromSoundOrEventEPKcRNS_14EmitterInfoXMLE,vox-audio/src/files-xml-zip-stream/sound_pack_xml_events.cpp,14
+vox-audio,0x895e80,_ZN3vox10CZipReaderC1EPKcbb,vox-audio/src/files-xml-zip-stream/zip_reader.cpp,43
+vox-audio,0x881a8c,_ZN3vox12SegmentGroup8SetStateERS0_,vox-audio/src/groups.cpp,14
+vox-audio,0x881c74,_ZN3vox15SequentialGroupC1EPNS_10GroupInfosEi,vox-audio/src/groups.cpp,13
+vox-audio,0x882888,_ZN3vox15SequentialGroupD1Ev,vox-audio/src/groups.cpp,12
+vox-audio,0x8839fc,_ZN3vox15SequentialGroupC1ERS0_,vox-audio/src/groups/group_copy_ctors.cpp,49
+vox-audio,0x8832c0,_ZN3vox11RandomGroupC2ERS0_,vox-audio/src/groups/random_group_lifetime.cpp,61
+vox-audio,0x865bf4,_ZN3vox9Handlable7ReleaseEv,vox-audio/src/handlable.cpp,14
+vox-audio,0x86fc38,_Z11mpc_getsizeP12mpc_reader_t,vox-audio/src/mpc_reader.cpp,13
+vox-audio,0x896068,_ZN3vox18VoxMSWavSubDecoder17GoToNextDataChunkEv,vox-audio/src/mswav_sub_decoder.cpp,41
+vox-audio,0x875edc,_ZN3vox21VoxMSWavSubDecoderPCM4SeekEj,vox-audio/src/mswav_sub_decoder_pcm.cpp,38
+vox-audio,0x876200,_ZN3vox21VoxMSWavSubDecoderPCMC2EPNS_21StreamCursorInterfaceEPNS_9WaveChunkE,vox-audio/src/mswav_sub_decoder_pcm.cpp,24
+vox-audio,0x875e58,_ZN3vox21VoxMSWavSubDecoderPCM7HasDataEv,vox-audio/src/mswav_sub_decoder_pcm.cpp,16
+vox-audio,0x88506c,_ZN3vox19VoxNativeSubDecoder8GetStateEPNS_21NativeSubDecoderStateE,vox-audio/src/native-subdecoder-base/native_sub_decoder_segments.cpp,40
+vox-audio,0x885538,_ZN3vox19VoxNativeSubDecoder25SwapOldAndCurrentSegmentsEv,vox-audio/src/native-subdecoder-base/native_sub_decoder_segments.cpp,27
+vox-audio,0x884470,_ZN3vox19VoxNativeSubDecoder20IsExtraSegmentNeededEPNS_14TransitionRuleE,vox-audio/src/native-subdecoder-base/native_sub_decoder_segments.cpp,19
+vox-audio,0x88547c,_ZN3vox21NativeSubDecoderStateD1Ev,vox-audio/src/native-subdecoder-base/native_subdecoder_state_base.cpp,15
+vox-audio,0x886364,_ZN3vox27VoxNativeSubDecoderIMAADPCM18EmulateDecodeBlockEPNS_12SegmentStateE,vox-audio/src/native-subdecoder-pcm-adpcm/ima_block_state.cpp,32
+vox-audio,0x8864f8,_ZN3vox27VoxNativeSubDecoderIMAADPCM8SetStateEPNS_29NativeSubDecoderIMAADPCMStateE,vox-audio/src/native-subdecoder-pcm-adpcm/ima_block_state.cpp,20
+vox-audio,0x886a20,_ZN3vox27VoxNativeSubDecoderIMAADPCMD1Ev,vox-audio/src/native-subdecoder-pcm-adpcm/ima_destructor.cpp,51
+vox-audio,0x8867dc,_ZN3vox27VoxNativeSubDecoderIMAADPCM37EmulateDecodeCurrentSegmentWithOffsetEi,vox-audio/src/native-subdecoder-pcm-adpcm/ima_emulate_segment.cpp,147
+vox-audio,0x887e1c,_ZN3vox22VoxNativeSubDecoderPCM37EmulateDecodeCurrentSegmentWithOffsetEi,vox-audio/src/native-subdecoder-pcm-adpcm/pcm_emulate_segment.cpp,118
+vox-audio,0x8841fc,_ZN3vox19VoxNativeSubDecoder25EmulateMixSegmentInBufferEiPNS_12SegmentStateE,vox-audio/src/native_sub_decoder.cpp,74
+vox-audio,0x36c7b0,_ZN15VoxSoundManagerC1Ev,vox-audio/src/p1-vox-audio-VoxSoundManager-3a5f5c-0.cpp,104
+vox-audio,0x369fec,_ZN15VoxSoundManager4StopEii,vox-audio/src/p1-vox-audio-VoxSoundManager-3a5f5c-0.cpp,78
+vox-audio,0x36a470,_ZN15VoxSoundManager6ResumeEi,vox-audio/src/p1-vox-audio-VoxSoundManager-3a5f5c-0.cpp,72
+vox-audio,0x36baa0,_ZN15VoxSoundManager14CrossfadeMusicEii,vox-audio/src/p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp,63
+vox-audio,0x36b420,_ZN15VoxSoundManager9PlayEventEiRKN6glitch4core8vector3dIfEEff,vox-audio/src/p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp,40
+vox-audio,0x36b088,_ZN15VoxSoundManagerD2Ev,vox-audio/src/p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp,27
+vox-audio,0x36ca88,_ZN15VoxSoundManager14CreateInstanceEv,vox-audio/src/p1-vox-audio-VoxSoundManager-3a5f5c-1.cpp,13
+vox-audio,0x884024,_ZN3vox14NativePlaylistC2ERS0_,vox-audio/src/playlists/native_playlist_lifetime.cpp,120
+vox-audio,0x8825b8,_ZN3vox14NativePlaylistD1Ev,vox-audio/src/playlists/native_playlist_lifetime.cpp,67
+vox-audio,0x881e9c,_ZN3vox14NativePlaylistC1EPNS_13PlaylistInfosE,vox-audio/src/playlists/native_playlist_lifetime.cpp,24
+vox-audio,0x88240c,_ZN3vox14NativePlaylist18SetToPreviousStateEv,vox-audio/src/playlists/native_playlist_state.cpp,18
+vox-audio,0x8826b4,_ZN3vox22NativePlaylistsManagerD1Ev,vox-audio/src/playlists/native_playlists_manager.cpp,31
+vox-audio,0x882488,_ZN3vox22NativePlaylistsManager18GetPlaylistElementEiii,vox-audio/src/playlists/native_playlists_manager.cpp,22
+vox-audio,0x86e078,_ZN3vox19PriorityBankManager13RemoveEmitterEiPNS_10EmitterObjE,vox-audio/src/priority_bank.cpp,55
+vox-audio,0x8698e8,_ZN3vox19PriorityBankManagerC2Ei,vox-audio/src/priority_bank.cpp,34
+vox-audio,0x863870,_ZN3vox12PriorityBankD1Ev,vox-audio/src/priority_bank.cpp,14
+vox-audio,0x88a3f4,_ZNK3vox15VoxSoundPackXML11GetEventUidEPKc,vox-audio/src/sound_pack_xml.cpp,26
+vox-audio,0x889b34,_ZNK3vox15VoxSoundPackXML12GetEventInfoEiRNS_12EventInfoXMLE,vox-audio/src/sound_pack_xml.cpp,25
+vox-audio,0x88a55c,_ZNK3vox15VoxSoundPackXML11GetSoundUidEPKc,vox-audio/src/sound_pack_xml.cpp,18
+vox-audio,0x3692f0,_ZN15VoxSoundManager24ConvertVisual3DToSound3DERKN6glitch4core8vector3dIfEE,vox-audio/src/soundmanager/sound_manager_basic.cpp,14
+vox-audio,0x36b120,_ZN15VoxSoundManager21ShowPlayingMusicTitleEPc,vox-audio/src/soundmanager/sound_manager_glue.cpp,56
+vox-audio,0x36c224,_ZN15VoxSoundManager12RestartMusicEi,vox-audio/src/soundmanager/sound_manager_glue.cpp,19
+vox-audio,0x888db8,_ZN3vox17StreamCFileCursor4SeekEii,vox-audio/src/stream_cfile.cpp,88
+vox-audio,0x888cf0,_ZN3vox17StreamCFileCursor11EndOfStreamEv,vox-audio/src/stream_cfile.cpp,23
+vox-audio,0x888f18,_ZN3vox11StreamCFileC1EPKc,vox-audio/src/stream_cfile.cpp,22
+vox-audio,0x888aec,_ZN3vox11StreamCFile15CreateNewCursorEv,vox-audio/src/stream_cfile.cpp,21
+vox-audio,0x88908c,_ZN3vox18StreamMemoryBufferD2Ev,vox-audio/src/stream_memory_buffer.cpp,14
+vox-audio,0x88b778,_ZNK3vox10stringcompclERKSbIcSt11char_traitsIcENS_10SAllocatorIcLNS_10VoxMemHintE0EEEES8_,vox-audio/src/string_compare.cpp,31
+vox-audio,0x863714,_ZN3vox18VoxCallbackManager7SendAllEv,vox-audio/src/voxcallback_manager.cpp,33
+vox-audio,0x862c4c,_ZN3vox9VoxEngine22UpdateEmittersThreadedEv,vox-audio/src/voxengine-facade/engine_instance.cpp,26
+vox-audio,0x862990,_ZN3vox9VoxEngineD1Ev,vox-audio/src/voxengine-facade/engine_instance.cpp,21
+vox-audio,0x862abc,_ZN3vox9VoxEngineC1Ev,vox-audio/src/voxengine-facade/engine_instance.cpp,17
+vox-audio,0x86ea54,_ZN3vox19PriorityBankManager10AddEmitterEiPNS_10EmitterObjE,vox-audio/src/voxengine-facade/priority_bank_emitters.cpp,168
+vox-audio,0x86f5fc,_ZN3vox8VoxUtils24LoadDataSourceFromFileExEPKciNS_21VoxSourceLoadingFlagsEi,vox-audio/src/voxengine-facade/voxutils.cpp,30
+vox-audio,0x86f5a0,_ZN3vox8VoxUtils27LoadDataSourceFromFileAsRAWEPKcii,vox-audio/src/voxengine-facade/voxutils.cpp,17
+vox-audio,0x861d28,_ZN3vox9VoxEngine20Get3DEmitterPositionERNS_13EmitterHandleERfS3_S3_,vox-audio/src/voxengine.cpp,21
+vox-audio,0x8617fc,_ZN3vox9VoxEngine12SetGroupGainEjff,vox-audio/src/voxengine.cpp,16
+vox-audio,0x861b10,_ZN3vox9VoxEngine21Get3DListenerPositionERfS1_S1_,vox-audio/src/voxengine.cpp,15
+vox-audio,0x861c68,_ZN3vox9VoxEngine22Get3DEmitterParameterfERNS_13EmitterHandleEiRf,vox-audio/src/voxengine.cpp,15
+vox-audio,0x8688f4,_ZN3vox17VoxEngineInternal11GetDurationERNS_10DataHandleE,vox-audio/src/voxengine_internal_data.cpp,18
+vox-audio,0x86893c,_ZN3vox17VoxEngineInternal7IsValidERNS_10DataHandleE,vox-audio/src/voxengine_internal_data.cpp,17
+vox-audio,0x864dc4,_ZN3vox17VoxEngineInternal7SuspendEv,vox-audio/src/voxengine_internal_driver.cpp,24
+vox-audio,0x864d10,_ZN3vox17VoxEngineInternal11IsSuspendedEv,vox-audio/src/voxengine_internal_driver.cpp,15
+vox-audio,0x8630e4,_ZN3vox17VoxEngineInternal13SetOutputModeENS_13VoxOutputModeE,vox-audio/src/voxengine_internal_driver.cpp,12
+vox-audio,0x8674cc,_ZN3vox17VoxEngineInternal16GetEmitterObjectERNS_13EmitterHandleE,vox-audio/src/voxengine_internal_emitter.cpp,32
+vox-audio,0x8677bc,_ZN3vox17VoxEngineInternal22Get3DEmitterParametersERNS_13EmitterHandleERNS_22Vox3DEmitterParametersE,vox-audio/src/voxengine_internal_emitter.cpp,25
+vox-audio,0x867c48,_ZN3vox17VoxEngineInternal8SetGroupERNS_13EmitterHandleEi,vox-audio/src/voxengine_internal_emitter.cpp,21
+vox-audio,0x8675c0,_ZN3vox17VoxEngineInternal11GetUserDataERNS_13EmitterHandleE,vox-audio/src/voxengine_internal_emitter.cpp,18
+vox-audio,0x867f40,_ZN3vox17VoxEngineInternal7GetGainERNS_13EmitterHandleE,vox-audio/src/voxengine_internal_emitter.cpp,18
+vox-audio,0x867dac,_ZN3vox17VoxEngineInternal9IsPlayingERNS_13EmitterHandleE,vox-audio/src/voxengine_internal_emitter.cpp,17
+vox-audio,0x8682e0,_ZN3vox17VoxEngineInternal29DecreaseEmitterObjectRefCountERNS_13EmitterHandleE,vox-audio/src/voxengine_internal_emitter.cpp,16
+vox-audio,0x867770,_ZN3vox17VoxEngineInternal22Get3DEmitterParameterfERNS_13EmitterHandleEiRf,vox-audio/src/voxengine_internal_emitter.cpp,14
+vox-audio,0x867994,_ZN3vox17VoxEngineInternal22Set3DEmitterParameteriERNS_13EmitterHandleEii,vox-audio/src/voxengine_internal_emitter.cpp,14
+vox-audio,0x867ba4,_ZN3vox17VoxEngineInternal20Set3DEmitterPositionERNS_13EmitterHandleEfff,vox-audio/src/voxengine_internal_emitter.cpp,14
+vox-audio,0x865f18,_ZN3vox17VoxEngineInternal22Set3DGeneralParameterfEif,vox-audio/src/voxengine_internal_listener.cpp,23
+vox-audio,0x866058,_ZN3vox17VoxEngineInternal21Set3DListenerPositionEfff,vox-audio/src/voxengine_internal_listener.cpp,14
+vox-audio,0x865e9c,_ZN3vox17VoxEngineInternal21Get3DListenerPositionERfS1_S1_,vox-audio/src/voxengine_internal_listener.cpp,13
+vox-audio,0x865d2c,_ZN3vox17VoxEngineInternal22Get3DGeneralParameteriEiRi,vox-audio/src/voxengine_internal_listener.cpp,12
+vox-audio,0x862e94,_ZN3vox17VoxEngineInternal19RegisterDecoderTypeEPFPNS_16DecoderInterfaceEPvE,vox-audio/src/voxengine_internal_registry.cpp,20
+vox-audio,0x867fcc,_ZN3vox17VoxEngineInternal43UnregisterForEmitterStateChangeNotificationERNS_13EmitterHandleE,vox-audio/src/voxengine_internal_state.cpp,14
+vox-audio,0x86e824,_ZN3vox17VoxEngineInternal5PauseERNS_13EmitterHandleEf,vox-audio/src/voxengine_internal_state.cpp,13
+vox-audio,0x862760,_ZN3vox9VoxEngine19LoadDataSourceAsyncEiPviS1_iNS_21VoxSourceLoadingFlagsE,vox-audio/src/voxengine_sources.cpp,18
+vox-audio,0x886bfc,_ZN3vox27VoxNativeSubDecoderIMAADPCMC1EPNS_21StreamCursorInterfaceEPNS_12NativeChunksEPNS_6StatesEPNS_13AudioSegmentsEPSt6vectorIS9_IiNS_10SAllocatorIiLNS_10VoxMemHintE0EEEENSA_ISD_LSB_0EEEEPNS_15TransitionRulesEPS9_IS9_INS_16TransitionParamsENSA_ISJ_LSB_0EEEENSA_ISL_LSB_0EEEEPSt3mapISbIcSt11char_traitsIcENSA_IcLSB_0EEEEiNS_13StringCompareENSA_ISt4pairIKST_iELSB_0EEEEPNS_22NativePlaylistsManagerE,vox-audio/src/w10-containers/native_sub_decoder_ima_ctor.cpp,96
+vox-audio,0x86ce1c,_ZN3vox10EmitterObjC2ExiiiPNS_21DriverSourceInterfaceEPNS_22DecoderCursorInterfaceEPNS_7DataObjE,vox-audio/src/w10-dataobj-emitter/emitter_obj_ctor_load.cpp,230
+vox-audio,0x86d238,_ZN3vox10EmitterObj9LoadAsyncEv,vox-audio/src/w10-dataobj-emitter/emitter_obj_ctor_load.cpp,176
+vox-audio,0x86d5b8,_ZN3vox10EmitterObj6UpdateEf,vox-audio/src/w10-dataobj-emitter/emitter_obj_update.cpp,238
+vox-audio,0x88ec4c,_ZN3vox15VoxSoundPackXMLC1EPKc,vox-audio/src/w10-xml/sound_pack_xml_load.cpp,29
+vox-audio,0x88b104,_ZN3vox11EventXMLDefaSERKS0_,vox-audio/src/w10-xml/xml_def_records.cpp,16
+vox-audio,0x8653ec,_ZN3vox10EmitterObj13SetPlayCursorEf,vox-audio/src/w13-b/emitter_obj_set_play_cursor.cpp,39
+vox-audio,0x863228,_ZN3vox10EmitterObj20ProcessNonNativeDataEf,vox-audio/src/w9-emitter-slots/emitter_obj_playback.cpp,52
+vox-audio,0x87871c,_ZL14init_blocksizeP10stb_vorbisii,vox-audio/upstream/stb_vorbis-0.99996/stb_vorbis.c,141
+vox-audio,0x87e750,_Z24stb_vorbis_decode_memoryPhiPiS0_PPs,vox-audio/upstream/stb_vorbis-0.99996/stb_vorbis.c,80
+vox-audio,0x877738,_ZL15setup_temp_freeP10stb_vorbisPvj,vox-audio/upstream/stb_vorbis-0.99996/stb_vorbis.c,12

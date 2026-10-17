@@ -1,6 +1,6 @@
 #pragma once
 #include "character_timers.hpp"
-#include "../script-runtime/script_game_bindings.h"
+#include "../adam-script-runtime/script_game_bindings.h"
 
 namespace dh2::character {
 // Port-owned adapter, not an original object layout. Every pointer is borrowed

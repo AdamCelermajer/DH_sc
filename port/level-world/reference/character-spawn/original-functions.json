@@ -1,0 +1,270 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "record_scope_definition": "Each function record hashes its complete original assembly range; this is an evidence boundary, not a claim that every listed function is fully reconstructed or integrated. The source implementation and external service limits are described in NOTES.md and source_reconstruction_scope.",
+  "source_reconstruction_scope": "Bounded Character Limbus/Spawn state kernels, exact-name Script_SpawnCharacter factory request, and directly called source-owned Character services. This is not whole Character/AI/trigger reconstruction.",
+  "caller_facts": [
+    "Caller resolves an already-loaded Character by exact object name; Script_SpawnCharacter does not allocate one.",
+    "The normal character constructor registers state IDs 0 through 19; the port factory also checks the Spawn ID bit before changing state.",
+    "Resolved respawn timer eligibility/delay, CanRespawn, group predicates, saved Limbus transform, AI table/type, animation table Spawn sequence, visual property, and body ownership are supplied as explicit adapter facts/services.",
+    "The selected development ghosts begin in authored Limbus state 0 and the request asks for Spawn state 1; initial presentation hiding for auto_spawn=0 is separate policy."
+  ],
+  "unsupported": [
+    "GhostAmbushHallway trigger activation and its command table/dispatch timing are not reconstructed.",
+    "Autonomous AI, target selection, movement/combat decisions, and AI event production are not reconstructed.",
+    "Caller producers for respawn eligibility, group membership/update, saved Limbus transforms, and complete revive/body ownership remain external.",
+    "PreSpawn focus and arbitrary transitions into Spawn outside the bounded fresh-ghost path are not reconstructed.",
+    "General enable-condition/serialized visibility and full VisualObject synchronization remain external; selected fresh Ghost visibility is now source-bound.",
+    "Timed alpha fading is not implemented or claimed; VisualObject::StartFadeIn and UpdateFadeIn are return stubs."
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZN21Script_SpawnCharacter7ExecuteEbi",
+      "demangled": "Script_SpawnCharacter::Execute(bool, int)",
+      "elf_address": "0x45f400",
+      "size": 232,
+      "sha256": "b1f7809cd225b9201b48371a3b9a34d1272ea35f5f11acc9a07a9fc3606582c7",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetSpawnStateEbb",
+      "demangled": "CharStateMachine::SM_SetSpawnState(bool, bool)",
+      "elf_address": "0x3c2734",
+      "size": 220,
+      "sha256": "db3abe9f104aba3b6c77de6a7861b146f7a8d18ed111c7d6a8b37bd82b8e4eac",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine9_SetStateEiiPv",
+      "demangled": "CharStateMachine::_SetState(int, int, void*)",
+      "elf_address": "0x3c1938",
+      "size": 200,
+      "sha256": "4441e973629e1e245b5b6f452e586ee1e367303fd5f93db42ac91b715cd362bb",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15RaiseStateEventEiPv",
+      "demangled": "CharStateMachine::RaiseStateEvent(int, void*)",
+      "elf_address": "0x3c5684",
+      "size": 508,
+      "sha256": "5508184fa6236ab106322e2ac88495dd991dcba5b1c8f3a2d9ca89eb2d633477",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN8CSLimbus6OnBlurEiP9CharacterP16CharStateMachinei",
+      "demangled": "CSLimbus::OnBlur(int, Character*, CharStateMachine*, int)",
+      "elf_address": "0x3c2be4",
+      "size": 344,
+      "sha256": "f3c50b20f129706b7c8cd8e0b5d283fa876a2246cbedd5734a25f104d593b57f",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN8CSLimbus7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "demangled": "CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)",
+      "elf_address": "0x3c2e58",
+      "size": 292,
+      "sha256": "8e29e9bed96add4ce42ccaf3d9ad2b51ec9850bca6064f9e74924405f50d1bc7",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN8CSLimbus6OnInitEiP9CharacterP16CharStateMachine",
+      "demangled": "CSLimbus::OnInit(int, Character*, CharStateMachine*)",
+      "elf_address": "0x3c7cc0",
+      "size": 76,
+      "sha256": "036976e2f0153585b96eabcd21b91ccb192cca1a5571c49fa8949a6d3dbe641e",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN8CSLimbus8OnUpdateEiP9CharacterP16CharStateMachine",
+      "demangled": "CSLimbus::OnUpdate(int, Character*, CharStateMachine*)",
+      "elf_address": "0x3bffe4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN8CSLimbus7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "demangled": "CSLimbus::OnEvent(int, Character*, CharStateMachine*, int, void*)",
+      "elf_address": "0x3bffe8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn6OnBlurEiP9CharacterP16CharStateMachinei",
+      "demangled": "CSSpawn::OnBlur(int, Character*, CharStateMachine*, int)",
+      "elf_address": "0x3c2f7c",
+      "size": 164,
+      "sha256": "2241aa4f3100d2c4f902d9466004f060bd54fe0d2b6ac86bd64e4b7a8a37eb9a",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "demangled": "CSSpawn::OnFocus(int, Character*, CharStateMachine*, int, int, void*)",
+      "elf_address": "0x3c35ec",
+      "size": 424,
+      "sha256": "28e75a41daa974cdc84cfd7d4960533b6402863dfdddd6ad0be0eae815b30876",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "demangled": "CSSpawn::OnEvent(int, Character*, CharStateMachine*, int, void*)",
+      "elf_address": "0x3c0b04",
+      "size": 76,
+      "sha256": "98cc488bdc9d54104bd87eae408d95f9a7df127f48502935aa9692546fc69e06",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn6OnInitEiP9CharacterP16CharStateMachine",
+      "demangled": "CSSpawn::OnInit(int, Character*, CharStateMachine*)",
+      "elf_address": "0x3c7d0c",
+      "size": 240,
+      "sha256": "c7831cf1a4a7e0a10a5a5cced704bee9996d27861527ca29a6ec2a6e1c2d8982",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN7CSSpawn8OnUpdateEiP9CharacterP16CharStateMachine",
+      "demangled": "CSSpawn::OnUpdate(int, Character*, CharStateMachine*)",
+      "elf_address": "0x3bfff0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN10CSPreSpawn6OnBlurEiP9CharacterP16CharStateMachinei",
+      "demangled": "CSPreSpawn::OnBlur(int, Character*, CharStateMachine*, int)",
+      "elf_address": "0x3c67d4",
+      "size": 184,
+      "sha256": "8265cb185107779691dda40758d052eac5fb2d1d339691d727e99aaf3a061a21",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN10CSPreSpawn7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "demangled": "CSPreSpawn::OnEvent(int, Character*, CharStateMachine*, int, void*)",
+      "elf_address": "0x3c2810",
+      "size": 312,
+      "sha256": "64df1d09cb5a466ec657da7b228c82fefdb43f8c4a2ef5e42ba0dffa7e9a4821",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject11IsUpdatableEv",
+      "demangled": "GameObject::IsUpdatable() const",
+      "elf_address": "0x38aac0",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47",
+      "scope": "obsolete virtual-slot candidate retained as evidence; not invoked by the reconstructed Spawn/Limbus path"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject11StartFadeInEf",
+      "demangled": "VisualObject::StartFadeIn(float)",
+      "elf_address": "0x470ce4",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN12VisualObject12UpdateFadeInEv",
+      "demangled": "VisualObject::UpdateFadeIn()",
+      "elf_address": "0x470cec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAnimTableIdEv",
+      "demangled": "Character::GetCharAnimTableId() const",
+      "elf_address": "0x3a3228",
+      "size": 60,
+      "sha256": "d8d60d8d2fdb2d9246a68f44712f30b28285a80460573e4fc7c9e07a008dfd29",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "demangled": "Character::GetCharAIId() const",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "demangled": "Character::GetCharAI() const",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "demangled": "Character::GetCharType() const",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN9Character6ReviveEP10GameObjectb",
+      "demangled": "Character::Revive(GameObject*, bool)",
+      "elf_address": "0x3a59ac",
+      "size": 312,
+      "sha256": "c17b6b9ee8943802d089fd8c928f391574e0a8134a4c2c8d32b741d6827ce680",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN9Character18InitPhysicalObjectEv",
+      "demangled": "Character::InitPhysicalObject()",
+      "elf_address": "0x3b4088",
+      "size": 856,
+      "sha256": "1793958ab90b0c33330288678f3e05fc198d7f49d8cc5d1c468e65c532e058a4",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "demangled": "Character::CancelSneaking()",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "demangled": "CharAI::AI_SetTarget(GameObject*, bool)",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "demangled": "CharAI::AI_SyncLastTarget()",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "demangled": "Character::Character(ObjectBase::GO_IDS)",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine13RegisterStateEi",
+      "demangled": "CharStateMachine::RegisterState(int)",
+      "elf_address": "0x3c7318",
+      "size": 408,
+      "sha256": "59401405652aec47d48c1cca939a81b9816231e92ba951b92457a42ab332d5e8",
+      "scope": "complete function"
+    },
+    {
+      "original_symbol": "_ZN10GameObject10SetVisibleEb",
+      "demangled": "GameObject::SetVisible(bool)",
+      "elf_address": "0x38b0f0",
+      "size": 32,
+      "sha256": "2a8fb1ffd94aced95272d222e42a98747dff5c52f79256153b51fd6678d9e431",
+      "scope": "source virtual visibility contract; selected fresh Ghost enabled-byte adapter; full VisualObject::SyncVisibility and enable-condition/serialized producers external"
+    }
+  ]
+}

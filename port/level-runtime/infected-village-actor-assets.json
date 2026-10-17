@@ -1,0 +1,288 @@
+{
+  "format": "dh2.infected-village-actor-assets.v1",
+  "scope": "Cache-only metadata for the four source-backed Infected Village Ambush Character records. Original asset payloads are not copied.",
+  "source_records": {
+    "module_index": 0,
+    "source_path": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+    "shared_template": {
+      "char_template_pydata": "Charater_Templates",
+      "template_id": 68,
+      "template_name": "InfectedVillage_CommonType1",
+      "template_name_field": "MonsterCommonType1"
+    },
+    "records": [
+      {
+        "source_record": 6,
+        "name": "_prim_tmp_infected05",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_tmp_infected05",
+          "position": "5619.87,-1716.89,1325.43",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,78.9326",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "ai_state": "Limbus",
+          "char_template": "InfectedVillage_CommonType1",
+          "auto_spawn": "0"
+        }
+      },
+      {
+        "source_record": 7,
+        "name": "_prim_tmp_infected06",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_tmp_infected06",
+          "position": "6320.09,-2016.95,1325.43",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,-101.756",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "ai_state": "Limbus",
+          "char_template": "InfectedVillage_CommonType1",
+          "auto_spawn": "0"
+        }
+      },
+      {
+        "source_record": 8,
+        "name": "_prim_tmp_infected07",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_tmp_infected07",
+          "position": "5602.35,-2008.12,1325.43",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,96.4741",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "ai_state": "Limbus",
+          "char_template": "InfectedVillage_CommonType1",
+          "auto_spawn": "0"
+        }
+      },
+      {
+        "source_record": 19,
+        "name": "_prim_tmp_infected16",
+        "attributes": {
+          "type": "Block",
+          "name": "_prim_tmp_infected16",
+          "position": "6010.92,-2348.02,1325.43",
+          "scale": "1.0,1.0,1.0",
+          "debugcolor": "255.0,127.0,127.0",
+          "rotation": "0.0,0.0,174.741",
+          "gametype": "Character",
+          "spawn_prob": "100",
+          "starting_waypoint": "",
+          "char_group": "",
+          "char_group_role": "Normal",
+          "char_template_pydata": "Charater_Templates",
+          "_templateName": "MonsterCommonType1",
+          "editormax": "data/level_editor/primitives_visuals.max",
+          "editorobject": "_prim_Monster_CommonType1",
+          "ai_state": "Limbus",
+          "char_template": "InfectedVillage_CommonType1",
+          "ai_state_visible": "1",
+          "auto_spawn": "0"
+        }
+      }
+    ]
+  },
+  "template_choices": {
+    "pydata_name_table": "Charater_Templates",
+    "character_table_ids_in_template_order": [258, 252, 251, 255, 256, 257],
+    "models": [
+      {
+        "character_table_id": 258,
+        "character_name": "InfectedVillager",
+        "model_key": "infected",
+        "bdae_path": "data/3d/characters/infected/infected.bdae",
+        "skin_controller_id": "zombie02-mesh-skin"
+      },
+      {
+        "character_table_id": 252,
+        "character_name": "InfectedBurned",
+        "model_key": "burned",
+        "bdae_path": "data/3d/characters/infected/burned.bdae",
+        "skin_controller_id": "_mesh_burned-mesh-skin"
+      },
+      {
+        "character_table_id": 251,
+        "character_name": "InfectedBlacksmith",
+        "model_key": "inf_blacksmith",
+        "bdae_path": "data/3d/characters/infected/inf_blacksmith.bdae",
+        "skin_controller_id": "blacksmith-mesh-skin"
+      },
+      {
+        "character_table_id": 255,
+        "character_name": "InfectedMaid",
+        "model_key": "inf_maid",
+        "bdae_path": "data/3d/characters/infected/inf_maid.bdae",
+        "skin_controller_id": "_mesh_castle_worker02-mesh-skin"
+      },
+      {
+        "character_table_id": 256,
+        "character_name": "InfectedMerchant",
+        "model_key": "inf_merchant",
+        "bdae_path": "data/3d/characters/infected/inf_merchant.bdae",
+        "skin_controller_id": "_mesh_merchant_skinned_batch-mesh-skin"
+      },
+      {
+        "character_table_id": 257,
+        "character_name": "InfectedNun",
+        "model_key": "inf_nun",
+        "bdae_path": "data/3d/characters/infected/inf_nun.bdae",
+        "skin_controller_id": "_mesh_nun-mesh-skin"
+      }
+    ],
+    "shared_character_animation_table": {
+      "table": "CharAnimTable",
+      "table_id": 29,
+      "name": "Infected"
+    }
+  },
+  "animation": {
+    "table": "CharAnimTable",
+    "table_id": 29,
+    "name": "Infected",
+    "positive_state_mapping_count": 16,
+    "unmapped_state_slots": [
+      {"state": "Limbus", "anim_tpl_id": -1}
+    ],
+    "states": [
+      {"state": "Attack", "anim_tpl_id": 315},
+      {"state": "Blocking", "anim_tpl_id": 322},
+      {"state": "Dodging", "anim_tpl_id": 322},
+      {"state": "Injured", "anim_tpl_id": 322},
+      {"state": "DeadlyGreatKB", "anim_tpl_id": 316},
+      {"state": "Despawn", "anim_tpl_id": 317},
+      {"state": "DespawnGreatKB", "anim_tpl_id": 318},
+      {"state": "Died", "anim_tpl_id": 319},
+      {"state": "GreatKnockedBack", "anim_tpl_id": 320},
+      {"state": "Idle", "anim_tpl_id": 321},
+      {"state": "KnockedBack", "anim_tpl_id": 323},
+      {"state": "Scared", "anim_tpl_id": 328},
+      {"state": "Walk", "anim_tpl_id": 328},
+      {"state": "Spawn", "anim_tpl_id": 325},
+      {"state": "Stunned", "anim_tpl_id": 326},
+      {"state": "Template", "anim_tpl_id": 327}
+    ],
+    "anim_tpls": [
+      {"id": 315, "name": "Infected_Attack1H", "anim_dict_paths": [
+        "data/3d/characters/faeries/animations/cs_madruk_end_scene06_faery01.bdae",
+        "data/3d/characters/prince/animations/cs_madruk_end_scene06_prince.bdae"
+      ]},
+      {"id": 322, "name": "Infected_Injured", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_hurt_01.bdae",
+        "data/3d/characters/infected/animations/infected_hurt_02.bdae"
+      ]},
+      {"id": 316, "name": "Infected_DeadlyGreatKB", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_great_pushback.bdae",
+        "data/3d/characters/infected/animations/infected_great_pushback_dying.bdae"
+      ]},
+      {"id": 317, "name": "Infected_Despawn", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_despawn.bdae"
+      ]},
+      {"id": 318, "name": "Infected_DespawnGreatKB", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_great_pushback_dying_despawn.bdae"
+      ]},
+      {"id": 319, "name": "Infected_Died", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_dying.bdae",
+        "data/3d/characters/infected/animations/infected_dying_02.bdae"
+      ]},
+      {"id": 320, "name": "Infected_GKnockedBack", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_great_pushback.bdae",
+        "data/3d/characters/infected/animations/infected_great_pushback_dying_standup.bdae"
+      ]},
+      {"id": 321, "name": "Infected_Idle", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_idle.bdae",
+        "data/3d/characters/infected/animations/infected_idle_02.bdae"
+      ]},
+      {"id": 323, "name": "Infected_KnockedBack", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_pushback.bdae"
+      ]},
+      {"id": 328, "name": "Infected_Walk", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_walk.bdae"
+      ]},
+      {"id": 325, "name": "Infected_Spawn", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_spawn.bdae"
+      ]},
+      {"id": 326, "name": "Infected_Stunned", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_pre_stunned.bdae",
+        "data/3d/characters/npcs/animations/cs_madruk_intro_rene_scene07_talk.bdae",
+        "data/3d/characters/infected/animations/infected_post_stunned.bdae"
+      ]},
+      {"id": 327, "name": "Infected_Template", "anim_dict_paths": [
+        "data/3d/characters/infected/animations/infected_template_anim.bdae"
+      ]}
+    ]
+  },
+  "model_textures": {
+    "applies_to_model_keys": ["infected", "burned", "inf_blacksmith", "inf_maid", "inf_merchant", "inf_nun"],
+    "paths": [
+      "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga"
+    ]
+  },
+  "asset_files": [
+    {"path": "data/3d/characters/infected/infected.bdae", "role": "model", "size_bytes": 53840, "sha256": "1be504c45349550464cfa631399ccde212da5195a9ffb924ed980af3ee7a01ef"},
+    {"path": "data/3d/characters/infected/burned.bdae", "role": "model", "size_bytes": 51824, "sha256": "921cbf0fc319f2a6bcb001b822e1ae2760317e978c4787f5b82d3bb9203c1b7d"},
+    {"path": "data/3d/characters/infected/inf_blacksmith.bdae", "role": "model", "size_bytes": 61656, "sha256": "15b516b10b7a2af4e6ef4d0ae2aea4ce6b1c797b3327975581d0af97fa887b9d"},
+    {"path": "data/3d/characters/infected/inf_maid.bdae", "role": "model", "size_bytes": 58448, "sha256": "7a63993af7716cbbca1c994716657e1710076b29948059780d83b6ecbb908e38"},
+    {"path": "data/3d/characters/infected/inf_merchant.bdae", "role": "model", "size_bytes": 61732, "sha256": "de774733db5fd2ef41e3509cc768971bcc443dff40b6c1a3618427346bd9790f"},
+    {"path": "data/3d/characters/infected/inf_nun.bdae", "role": "model", "size_bytes": 55828, "sha256": "6c18b7b16787d2ddd574fa10a93308d5956c6647a926288f32b9372c14bf6e09"},
+    {"path": "data/3d/characters/infected/animations/infected_hurt_01.bdae", "role": "animation", "size_bytes": 10844, "sha256": "f8935b073fa9eae9eb0df7f10a0749db755ce61551fd46fa4398057380d54162"},
+    {"path": "data/3d/characters/infected/animations/infected_hurt_02.bdae", "role": "animation", "size_bytes": 10396, "sha256": "f91d8d74c0ef9843b855d277bf1c62c572609ecff044cdef61976f0c10d4e963"},
+    {"path": "data/3d/characters/infected/animations/infected_great_pushback.bdae", "role": "animation", "size_bytes": 9120, "sha256": "c24cca97650a81f3fb779e913d03c2126d45a6b165142a173304a1daf3e9b809"},
+    {"path": "data/3d/characters/infected/animations/infected_great_pushback_dying.bdae", "role": "animation", "size_bytes": 8732, "sha256": "fd4f43b0fab6ba600b9538474f8f495b81a7e72f5d346759761957aa266f59a2"},
+    {"path": "data/3d/characters/infected/animations/infected_despawn.bdae", "role": "animation", "size_bytes": 5488, "sha256": "b6e4cf5f8e77b29b92d43336bb1a5f9defa7f9b0c9301d6424fa3129d7261ea0"},
+    {"path": "data/3d/characters/infected/animations/infected_great_pushback_dying_despawn.bdae", "role": "animation", "size_bytes": 6076, "sha256": "ed5d52849ce9cd7a044eb3a6140aa0d230db03bcaaba31b5d0741335ad87a96a"},
+    {"path": "data/3d/characters/infected/animations/infected_dying.bdae", "role": "animation", "size_bytes": 11160, "sha256": "ccbafcfe5ddc5d8b7a137ccac6d8f469f889cf13fe482175639cca6e1a5eb3a9"},
+    {"path": "data/3d/characters/infected/animations/infected_dying_02.bdae", "role": "animation", "size_bytes": 12108, "sha256": "ad3e1138c130e8d6ed7705ed927805877ef2dd7b078c1e37a36de6716ca64270"},
+    {"path": "data/3d/characters/infected/animations/infected_great_pushback_dying_standup.bdae", "role": "animation", "size_bytes": 23336, "sha256": "5e3d47fd65b133e2f320f397f817405ebc2ab8f2a42b8c38902b17f005f7a8e2"},
+    {"path": "data/3d/characters/infected/animations/infected_idle.bdae", "role": "animation", "size_bytes": 16100, "sha256": "9ccedc273d12c596aad4f126ce256501376bb2ba29165b73d8cb0e8ed8b7e092"},
+    {"path": "data/3d/characters/infected/animations/infected_idle_02.bdae", "role": "animation", "size_bytes": 19408, "sha256": "8271bb591d70fea467c5bc40172e0e5c730381737cb2b861f57adecaaa0d9e74"},
+    {"path": "data/3d/characters/infected/animations/infected_pushback.bdae", "role": "animation", "size_bytes": 12056, "sha256": "e915e8a3b06fc5a2cc8dda63b1686ba7bc52b812027d0d01c71627db6a2aedb7"},
+    {"path": "data/3d/characters/infected/animations/infected_walk.bdae", "role": "animation", "size_bytes": 9860, "sha256": "f35fc7fe84fa1b992142a5b4b29073037769ae0ca9a1dab767d317a522b013d9"},
+    {"path": "data/3d/characters/infected/animations/infected_spawn.bdae", "role": "animation", "size_bytes": 54308, "sha256": "2abaea344c75b1b49b63c89c5b61f986f735fe9353f01e4d2d2acc242d4ae269"},
+    {"path": "data/3d/characters/infected/animations/infected_pre_stunned.bdae", "role": "animation", "size_bytes": 6732, "sha256": "840a64bb816bfb6628e8b1888c4e0975a7852c43861c95ad27bbd7c2b57aa061"},
+    {"path": "data/3d/characters/infected/animations/infected_post_stunned.bdae", "role": "animation", "size_bytes": 9100, "sha256": "7ba47dc124160e5683bd5fbccf9fdbaa8703a033f3bdc28fa368c95865c8d664"},
+    {"path": "data/3d/characters/infected/animations/infected_template_anim.bdae", "role": "animation", "size_bytes": 57116, "sha256": "28db6a258c9e2127a84e58e848e7e33fc6cc72e1c3f6655ad78006b3183975bf"},
+    {"path": "data/3d/characters/faeries/animations/cs_madruk_end_scene06_faery01.bdae", "role": "animation", "size_bytes": 24480, "sha256": "fede3b3ab08b03d2e366c651be1bb79934997d2bd146f73f0aecd727efe6efe7"},
+    {"path": "data/3d/characters/prince/animations/cs_madruk_end_scene06_prince.bdae", "role": "animation", "size_bytes": 6112, "sha256": "d2b6afbe3b96285aa27f0a601fa5313b7b69fdbf76386b8bf549b74cc524ffc7"},
+    {"path": "data/3d/characters/npcs/animations/cs_madruk_intro_rene_scene07_talk.bdae", "role": "animation", "size_bytes": 11252, "sha256": "32b4422ff16557427c4ab589fb66b642afde2992624e26c5a347dd257c3d677e"},
+    {"path": "data/3d/textures/atlas_dh2_game_objects_001.tga", "role": "texture", "size_bytes": 524348, "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"},
+    {"path": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga", "role": "texture", "size_bytes": 524348, "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79"},
+    {"path": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga", "role": "texture", "size_bytes": 131132, "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398"},
+    {"path": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_002.tga", "role": "texture", "size_bytes": 524348, "sha256": "80bb4294c81a677bca7b2725ca170c4bbd663ccfc6d05c7c57399413f0a44309"}
+  ],
+  "closure_summary": {
+    "unique_asset_paths": 30,
+    "total_size_bytes": 2371288,
+    "payloads_copied": false
+  }
+}

@@ -1,0 +1,943 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "original_whole_state_cases": 40,
+    "coordinator_prefix_and_ownership_checks": 14,
+    "unchanged_celest_same_vm_cases": 40,
+    "selected_native_build": false,
+    "live_gameplay": false
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_ranges_verified": 8,
+  "original_oracle": {
+    "cases": 40,
+    "normal_resistance_cases": 20,
+    "aw_resistance_cases": 20,
+    "original_apply_buff_callback_executed": true,
+    "original_nested_class_property_and_map_deque_instructions_unmocked": true,
+    "original_buff_allocator_timer_fx_and_delete_bodies_executed": false,
+    "fixture_sha256": "b0db7bf4db8f271897fa40784cfae09422d88db07f0ba117a7b28f0ef12010c2",
+    "fixture_bytes": 466244,
+    "case_details": [
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "Avalon_FireResistance",
+        "class_id": 13,
+        "changed_resolved_properties": [
+          74,
+          172
+        ],
+        "applied_sha256": "6e837324598aebf40903a43a0d4459d06399955ad6224e1260700000dd5242be",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "Maria_WaterResistance",
+        "class_id": 105,
+        "changed_resolved_properties": [
+          75,
+          172
+        ],
+        "applied_sha256": "32610f8e33b04fad071cabb2104ef56436ea72edb1a675bf71e39ba21bce87fa",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "Sylph_WindResistance",
+        "class_id": 246,
+        "changed_resolved_properties": [
+          78,
+          172
+        ],
+        "applied_sha256": "310b8239fef7bcecab27b1e0829baaf55cbee7acee7566e3face4a049f5998b6",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "Primula_EarthResistance",
+        "class_id": 117,
+        "changed_resolved_properties": [
+          77,
+          172
+        ],
+        "applied_sha256": "2baf257f1c50fc233ef7edfb952debb9b6b261f042c684f03b38e03fcad612c8",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "Celeste_LightningResistance",
+        "class_id": 49,
+        "changed_resolved_properties": [
+          76,
+          172
+        ],
+        "applied_sha256": "5c9a549423f31d105f1e21e496c3dd0bf060aa3216e4cb6b4919b47ea9c3ce73",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "AW_Avalon_FireResistance",
+        "class_id": 6,
+        "changed_resolved_properties": [
+          44,
+          74,
+          172
+        ],
+        "applied_sha256": "83bfdd2687cc01bbfc3dd8b1d4ff39bb83d0442c481fc37c70fad754766c0f6d",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "AW_Maria_WaterResistance",
+        "class_id": 8,
+        "changed_resolved_properties": [
+          39,
+          75,
+          172
+        ],
+        "applied_sha256": "6b61e9fe50fad526c2c0254e2c508dfce7363859a01d48c763b73c1b77e8b588",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "AW_Sylph_WindResistance",
+        "class_id": 10,
+        "changed_resolved_properties": [
+          60,
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "690e0274c89ce3d1a7b3c39bd9292ccc3f66319b3dc23353464a0d3a81cacaf6",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "AW_Primula_EarthResistance",
+        "class_id": 9,
+        "changed_resolved_properties": [
+          61,
+          77,
+          172
+        ],
+        "applied_sha256": "6efc2c01a618bf815d6729f62aabf8dbfd8409b92ef96a97ce988b5f9b3e6f1c",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "ClassID=-1",
+        "base_index": -1,
+        "base_class_id": -1,
+        "class": "AW_Celeste_LightningResistance",
+        "class_id": 7,
+        "changed_resolved_properties": [
+          74,
+          75,
+          76,
+          77,
+          78,
+          172
+        ],
+        "applied_sha256": "6ccc596c8512ebc097b70ebb8342dc632c01b7001696e1b3cda30a0a9342e7c6",
+        "removed_sha256": "7ac0f70e8e00cb9cd5c9e8717e388d22550bf7e2d76d5b05ce9f40c62dfa1c55"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "Avalon_FireResistance",
+        "class_id": 13,
+        "changed_resolved_properties": [
+          74,
+          164,
+          172
+        ],
+        "applied_sha256": "eecd746319d65e1f92682aeedbbe072f3a0ab8f11aa2a2631f6a5b84d29c3439",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "Maria_WaterResistance",
+        "class_id": 105,
+        "changed_resolved_properties": [
+          75,
+          164,
+          172
+        ],
+        "applied_sha256": "1d33e8ac4e7318897c57fb3434079b41244aebcb7ac1bee133aec1ff6a2ec011",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "Sylph_WindResistance",
+        "class_id": 246,
+        "changed_resolved_properties": [
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "c9a6833340ada186eeb0d7eea6bcf6dc36d1aae50258d79c42a95397f203a286",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "Primula_EarthResistance",
+        "class_id": 117,
+        "changed_resolved_properties": [
+          77,
+          164,
+          172
+        ],
+        "applied_sha256": "f37757d53e97f1eebe25a67f995744c86da77ef36eae43a020a0cd0dd46c03b5",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "Celeste_LightningResistance",
+        "class_id": 49,
+        "changed_resolved_properties": [
+          76,
+          164,
+          172
+        ],
+        "applied_sha256": "766b2323d6ab26c838721b7bde62437d010ef336562b75c856dea7cec50d6b72",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "AW_Avalon_FireResistance",
+        "class_id": 6,
+        "changed_resolved_properties": [
+          44,
+          74,
+          164,
+          172
+        ],
+        "applied_sha256": "4b8ef8e3235c7411a7dd1dbec773e74df543dcbee41aaf25d773884d9d4bb03b",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "AW_Maria_WaterResistance",
+        "class_id": 8,
+        "changed_resolved_properties": [
+          39,
+          75,
+          164,
+          172
+        ],
+        "applied_sha256": "374c5e902c5af3710062e91c8acf15e72f90ab54400477b166e44bb17c3709d8",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "AW_Sylph_WindResistance",
+        "class_id": 10,
+        "changed_resolved_properties": [
+          60,
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "de6c49f44aac258bf7d743b6279c3f7d7ef404ee7f3c7e5e50d98cafef69f3c0",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "AW_Primula_EarthResistance",
+        "class_id": 9,
+        "changed_resolved_properties": [
+          61,
+          77,
+          164,
+          172
+        ],
+        "applied_sha256": "63ca4ae111d19d5c72ad3bc8ed3c8b931f7d5642a2c338faefad9ea96b67c30a",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "KnightPlayerBase",
+        "base_index": 263,
+        "base_class_id": 77,
+        "class": "AW_Celeste_LightningResistance",
+        "class_id": 7,
+        "changed_resolved_properties": [
+          74,
+          75,
+          76,
+          77,
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "e2c0bf1eb1204cc29cfe1fa9d4b1b5d4ff52b0b931bb839cacd357fa3e9237bf",
+        "removed_sha256": "a008a34a8b11bee8ead08edc4b66c16270df74b784d0699a36621b6f6144f16c"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "Avalon_FireResistance",
+        "class_id": 13,
+        "changed_resolved_properties": [
+          74,
+          164,
+          172
+        ],
+        "applied_sha256": "3bec626d45e79c5487b69e3c14c694c009f6a9ec62fb55ef6b9d0fe714013fa4",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "Maria_WaterResistance",
+        "class_id": 105,
+        "changed_resolved_properties": [
+          75,
+          164,
+          172
+        ],
+        "applied_sha256": "fc5c785d1a9fd0a9569786d08842a78d84b5ea98a302631226208d55400d1cda",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "Sylph_WindResistance",
+        "class_id": 246,
+        "changed_resolved_properties": [
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "784a2b0785837985b5d7b2821ecffe7081dce03114e90a38a59c2654397ece2c",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "Primula_EarthResistance",
+        "class_id": 117,
+        "changed_resolved_properties": [
+          77,
+          164,
+          172
+        ],
+        "applied_sha256": "5d2604a86a978e9c2defed25c81519de8172a3e42ac35fb2b6b409a75620973a",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "Celeste_LightningResistance",
+        "class_id": 49,
+        "changed_resolved_properties": [
+          76,
+          164,
+          172
+        ],
+        "applied_sha256": "f8fde12516a207a34eae252cb3a659e93e65275c47f415d381fde42a8d124fb2",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "AW_Avalon_FireResistance",
+        "class_id": 6,
+        "changed_resolved_properties": [
+          44,
+          74,
+          164,
+          172
+        ],
+        "applied_sha256": "cad679ac9e63702269a0850fbf5e097263bf38888c8349ca3724c4ce47b85f43",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "AW_Maria_WaterResistance",
+        "class_id": 8,
+        "changed_resolved_properties": [
+          39,
+          75,
+          164,
+          172
+        ],
+        "applied_sha256": "dc407078520fd3ce04d4a7f5886a8b2c8f8a70c36a854d599db126b55aa2f99e",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "AW_Sylph_WindResistance",
+        "class_id": 10,
+        "changed_resolved_properties": [
+          60,
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "f44f316d9997baa89fb90cfac978b7f20285a0f3de9475df40c6fb1d761b7831",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "AW_Primula_EarthResistance",
+        "class_id": 9,
+        "changed_resolved_properties": [
+          61,
+          77,
+          164,
+          172
+        ],
+        "applied_sha256": "8ffc2e4f8ddeb439377aa9e389413904259d53eed1fc2aebfa48b558b3c89249",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "MagePlayerBase",
+        "base_index": 290,
+        "base_class_id": 94,
+        "class": "AW_Celeste_LightningResistance",
+        "class_id": 7,
+        "changed_resolved_properties": [
+          74,
+          75,
+          76,
+          77,
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "cf02c148e0f5c9b24924847799891d89e95e924201ae240e70c90b29b0f0ed18",
+        "removed_sha256": "a52ae48f99dc2bb7d1ca5330c1540f7d0ad007000bed9269bf47e521ce731969"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "Avalon_FireResistance",
+        "class_id": 13,
+        "changed_resolved_properties": [
+          74,
+          164,
+          172
+        ],
+        "applied_sha256": "15f6fce302e66ff748dea2048eb2f549932a55a319108b997f0e89b972e505d8",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "Maria_WaterResistance",
+        "class_id": 105,
+        "changed_resolved_properties": [
+          75,
+          164,
+          172
+        ],
+        "applied_sha256": "de54d740af6934d9bbad246252873acdecc35985c37155e6d12e955a5288eca3",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "Sylph_WindResistance",
+        "class_id": 246,
+        "changed_resolved_properties": [
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "43907e9b314edf4ec047dcb12d7a15d3caa9b26d15db424e706bafac9b1d8367",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "Primula_EarthResistance",
+        "class_id": 117,
+        "changed_resolved_properties": [
+          77,
+          164,
+          172
+        ],
+        "applied_sha256": "81c4f7b7ced36a5cc9a92283138f602abb906b6a870f579f868d8078e85c7b9e",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "Celeste_LightningResistance",
+        "class_id": 49,
+        "changed_resolved_properties": [
+          76,
+          164,
+          172
+        ],
+        "applied_sha256": "81c0ba2331b2e35ad2a1517609f79919ea0cd855b540da899e338e958926a815",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "AW_Avalon_FireResistance",
+        "class_id": 6,
+        "changed_resolved_properties": [
+          44,
+          74,
+          164,
+          172
+        ],
+        "applied_sha256": "2d85be1eaa29a19f7a1833e31116eac8408523f89b48e5b03c7b4cbfd7ce2d71",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "AW_Maria_WaterResistance",
+        "class_id": 8,
+        "changed_resolved_properties": [
+          39,
+          75,
+          164,
+          172
+        ],
+        "applied_sha256": "1253a1d7fcd4d5ba90d95840830e562fdbe6907ea505a667c0aeb4091971052d",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "AW_Sylph_WindResistance",
+        "class_id": 10,
+        "changed_resolved_properties": [
+          60,
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "0687d264c687a23f400c7116fe47b87ae90fbdc52806c4d7340cc51209d260ef",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "AW_Primula_EarthResistance",
+        "class_id": 9,
+        "changed_resolved_properties": [
+          61,
+          77,
+          164,
+          172
+        ],
+        "applied_sha256": "644a91372225a09c9d1452f91d8cd409ffed42ae5e8379e7badcafef64a850f9",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      },
+      {
+        "base": "RoguePlayerBase",
+        "base_index": 325,
+        "base_class_id": 120,
+        "class": "AW_Celeste_LightningResistance",
+        "class_id": 7,
+        "changed_resolved_properties": [
+          74,
+          75,
+          76,
+          77,
+          78,
+          164,
+          172
+        ],
+        "applied_sha256": "92730779b2391f1230bbfa59de3f19df4b932f843509f77b5924ff7703c8ec18",
+        "removed_sha256": "5322265a04d7324ccee02590f9ccc3ee3b82888a1de60253dc4f34d335ed7753"
+      }
+    ],
+    "executed_pinned_function_words": 725,
+    "import_calls": {}
+  },
+  "attribution": {
+    "upstream_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "latest_inspected_commit": "791e961b12233100b303038c961666834f4beb9d",
+    "reused": "Adam signed-key map, deque BuffInst ownership, stronger/equal retention and v3 native callback argument rules",
+    "adaptation": "One owned group store borrowed by current PropertyView; timer calls borrow current Coordinator; ApplyBuff target owned_sheet only; existing canonical class kernels."
+  },
+  "source_sha256": {
+    "port/level-world/crypt_spawn_script_session.hpp": "32cf96caa69727f7d4e7801b6de7f5ba54f451d1ab28257b0568803d2f958539",
+    "port/level-world/character_aggro_delay.hpp": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+    "port/level-world/physical_controls.hpp": "9209492d39631c26775c9b9b5dddc55e358463caca071878c0f7f52f319ec7e4",
+    "port/level-world/character_animation_ai.hpp": "8652a206c3d0c5bc84d3086f6ee8e929a730ee271fb0735903ccb825874c0523",
+    "port/level-world/character_current_equipped_faery_v1.hpp": "f14ab8fded0fed2a9e6844554a84dfb5d89e350e0975a8253f45f117ee7aba42",
+    "port/level-world/game_object_zoning_visibility.hpp": "cc1d859e41a88fc0a704d4231bf74d1b735f49ae2cbd17e5befdca013d98a32e",
+    "port/level-world/objects.hpp": "fc801b16c8b834f8479f89366427854dab19ffe867c930278324aba51885e9ea",
+    "port/level-world/character_enemy_retention.hpp": "a8aedc3e9031ab1053931f7f9abd64378280fc9a01a1ba4837a08caa667cab95",
+    "port/game-data/item_power_tables_v5.hpp": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+    "port/level-world/character_aggro_acquisition_prefix.hpp": "1ce70f05d83d50e9652b201ba0647bbd64eec6115e79cb3f640071eeba375d8b",
+    "port/game-data/reference/properties/original-functions.json": "899a3de301e5ed7715a0162d25ef5f416ec1ba065705a2ccd1214a53a00bb3a0",
+    "port/level-world/character_path_commands.hpp": "56189c414ae0afcd5962248e14950dd1ea5713ec796e524a63c7fdf233f62c00",
+    "port/level-world/navigation_search.hpp": "1cb12c0b9d50c75d6f205f377fba03ddec439c1439bc9770ded9063d30871d41",
+    "port/adam-script-runtime/lua/loslib.c": "eae51d556823c9fd96c1089010c8fa08c609aeff90162ab429b7421a442cc756",
+    "port/level-world/character_aggro_candidate_events.hpp": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+    "port/adam-script-runtime/lua/luac.c": "4e6a74ecc981695d5fdab7864f5796341f673a359cd93b30f52a1b1b628fb0d9",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/level-world/monster_external_script_session.hpp": "e90d4023348098e911aae03349fae3d708632d1795103d131b885ae70ecb5623",
+    "port/level-world/character_attack_geometry.hpp": "af9d0501d5409ffd7bf6526e99bcf925c34ed895e895feeb3724031729ec3e2c",
+    "port/adam-script-runtime/lua/lmathlib.c": "6a2e9673eda84cf41d43040875705ba0bac36b2032460603546be06625aecd9f",
+    "port/level-world/character_ai_sight.hpp": "ae36f54ffd97cfb079905e3e03854fc354853304609135aba76591bfb07e9a81",
+    "port/level-world/character_ai_pause_update.hpp": "aca55bf8a231cec5b81375ec94d0e02299368ec76968d657c42e1681ee2a0db8",
+    "port/level-world/character_level_runtime.hpp": "88f58ddb8038c65aa817e24631a7a429ce93e5434f4310879f4f5428cfee1f7b",
+    "port/level-world/character_controller_commands.hpp": "ee16f28dee18d04156601f32edcc7235f3356d9ae891e10f8ba77710864c787b",
+    "port/level-world/character_update_eligibility.hpp": "2142ad323c1bba578c8766f2daf338411eca273711af1722637d310184212f1e",
+    "port/level-world/character_update_script_scheduler.hpp": "be4e7124417d5a08e7fd70a6c6607fa423c26d0699fc66aa5dafc449c6f27e3b",
+    "port/adam-script-runtime/lua/lua.c": "aae14ae9032eb056039938719fa8dac5906f0c102e09bcf6e8c0a23e75de71bf",
+    "port/level-world/character_factory.hpp": "f8aefdcc79cb403f988668c276b49af88fb990bd82d24c0b6cc05be1c0fb539e",
+    "port/level-world/decor_body_config.hpp": "3015c7eaad806ea427386e4386aaa19d47cf4cf070f9eaf266b3ee8889d4196a",
+    "port/adam-script-runtime/lua/ldebug.c": "791fdeeff52e67ebb3d2a196822bbae14cb853413c981b9f903615a50c7cd669",
+    "port/adam-script-runtime/lua/ldebug.h": "f02eded8c4860046b5b2058fca83a4b55fcaa4422a5e16ab92acd94d7e82ed2c",
+    "port/level-world/character_aggro_cleanup.hpp": "b5ef5a6037e9f6d3ccdd9147f3807a1a96b9396c7d63fe595aa4fecd14b234e4",
+    "port/level-world/character_player_scalar_services_v1.hpp": "ea8dc46aa7d67f5a820cfe919b29ff2b3e0565ac9cf3e70fb10c9d435fb8235e",
+    "port/level-world/character_ai_melee_range.hpp": "94f493092f95d1ff91f64a5eac66f03563a939cb4e0185a19878ff14b4eb5f67",
+    "port/level-world/navigation_heading.hpp": "932e8d204efa7c3864d31ef3ccbc4cb3fa9a38eb643f6fe21fa8fcc1523af38b",
+    "port/level-world/character_skill_cooldown_services.hpp": "5f2bea042897ace60b062e667727db0efd6a916bff809e5f854da8485b57ec5f",
+    "port/level-world/object_update_dispatch.hpp": "ec15f800007e224f29986fd8f2179160ab5e34f729409d3e6ae8e6e05b0fab21",
+    "port/adam-script-runtime/script_function_alias.h": "767ea8b24a05e04416ca4b29e0873b772295d742b9a2e5101d6e6122a05c0d0b",
+    "port/level-world/ghost_ai_session.hpp": "3fc81b8fcc2adb3fe92da058c7f18bc0751bd03480a7f13d3423c4edae02f003",
+    "port/level-world/character_group_respawn.hpp": "b5638d32559861fd2f4c7b60597a22975f51b872170f6b34a6c90ee203870a9c",
+    "port/game-data/player_gear_effects_v5.hpp": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7",
+    "port/level-world/character_ai_update.hpp": "ff896c1a49d5000d5b55f7c70a75bee75210644cf100cbfffbc87c0af075d0fd",
+    "port/level-world/character_skill_state_dispatch_v1.hpp": "1a17ebec9088e2c6fa1a14c1872ff408b0ae9d81cdffa774c0dc74d8c7e0c2bf",
+    "port/level-world/character_script_selection.hpp": "69a918de2860f1c9966b7fa6e526b3273ab7ba3c14850d5964551fc877f2db16",
+    "port/level-world/character_respawn_outer.hpp": "f75a3e01d58ba970216f049161407931cf13efd5e8c052ee5f5cc0691fe9602e",
+    "port/level-world/navigation_path.hpp": "d9044a95ee529ddbaf215f421ef021da697bf88d1f45d2bf407a3224b3d32d80",
+    "port/game-data/loot_power_resources_v7.hpp": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+    "port/level-world/character_animation_events.hpp": "0e060ee682c7ee49b9a7517833ecb6fd32653a7244e35f9e42688f49c3dbc753",
+    "port/level-world/visual_timeline.hpp": "2386f96aed8483d0134bec0aedbf7687e86a72d9a0e5a499f96c79af34b22d8a",
+    "port/pydata-constants/constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
+    "port/game-data/combat_application.hpp": "7b1bf8f631a3c3221c5eb2d03901dd96d43f6a168bd4a47733ce6eff97e23127",
+    "port/level-world/character_script_update.hpp": "fe4fd4fde7b0f8a09668993c9f01ffcedb22e3b24a4f8f44410ca707d2288a84",
+    "port/level-world/character_player_buffs_v1.hpp": "95155c0eceb7de6605ee2f88dc11e275f8fb53255fcff4f0fc02ae19fd2ff7b5",
+    "port/adam-script-runtime/lua/lauxlib.h": "82d7bcc075308fd1dcee8a8766ab69cda6945624fc4899021e5e971717df1b59",
+    "port/adam-script-runtime/lua/lopcodes.c": "fa1233a188697642be338114ce31a623bbfe49c5e718fe5b33a6b4bce2c8bb8c",
+    "port/level-world/character_dot_tick.hpp": "88518f7bab01a3ea80c3152470b4ea13a453fa9f99b07bbb26386978e838bb11",
+    "port/level-world/character_script_set_level.hpp": "1a12ea5d04c7e2d21066d32c1d172241a25301d5e84bc2e359919c8bb6ab310c",
+    "port/adam-script-runtime/lua/lstring.c": "53cc6dd8cbbef5c91fe390d293f209ae867211c36bbe596dcd5a5857827706d7",
+    "port/adam-script-runtime/lua/lzio.c": "e0c2de4dc36d404a907b0a80506f6637acb00a7b17b6db10d74975f7b31e1972",
+    "port/level-world/character_ai_in_combat.hpp": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+    "port/adam-script-runtime/lua/llex.h": "c86e68a0dc2a9692462730a7d3bde6bec2e3e13a9192f420340505cba4167015",
+    "port/level-world/player_skill_session_v1.hpp": "3dc2913807f11b5f97fee293aafb750b93c680abfcfb89c9e5918dfaa9f61c48",
+    "port/adam-script-runtime/lua/lstate.c": "a09cc02990c27639560c357babbe2c01c753ac19d8b7bea903abf01c5c3c63fb",
+    "port/adam-script-runtime/lua/lparser.h": "398b81305656d8f0a9827943d7ab77e6ccaf06794d129a0dfff3532389688d4e",
+    "port/level-world/character_native_bindings.hpp": "3754dc6bbe1ea2bc2f8f50ffd2b1c482d69eb5ec766c1129a9324345f42e263a",
+    "port/level-world/character_timers.hpp": "d57e1c747cd582a2948a90799754681e6a876f8b50a6b3537881142f9f9f505c",
+    "port/level-world/lua_script_level_queries.hpp": "8b05ca372a84272a5a71e36d0aad40c4312461cea25308257ce952a6daef1b9e",
+    "port/adam-script-runtime/lua/ltm.h": "dd24d1e73f109bbea9a97940b68c0e7a968ce0e3b3b76e7210b7e701c2bdf891",
+    "port/adam-script-runtime/lua/ldblib.c": "c6d7100bfeeda87bcf6f00ec7c2494b7612634e53d726d1343e03ed27f77edca",
+    "port/game-data/skill_tables.hpp": "8004113c312d881f7e2f5e83252c3531300c68a88c902bfa35f241339a1facab",
+    "port/level-world/character_skill_state_queries.hpp": "629922158aaa4d5004c5c6401406ed45f1e57a221729eef4af52c154e931d5d0",
+    "port/level-world/actor_playback.hpp": "eb267319a7bd38ab1335b72cddb8b677fbe3bf0388b9f0f1056e4d6d44d11ac2",
+    "port/game-data/loot_tables_v2.hpp": "2e7cf1a4ece3778e109b1d758be4c3e052ee7a9154a41917a53840c83c387d72",
+    "port/level-world/script_value_boolean.hpp": "74a568c0701504488809fffffc7d02171f3e5fd6dd68761fed75ff8457943ceb",
+    "port/level-world/character_equipped_faery_element_v1.hpp": "fc46d126a7193cc7b5407cf8fe19be84568f8748accd4f8bfe196f36b17058ef",
+    "port/level-world/collision.hpp": "87c4b94767d11a7aa276e0e5507d2455e0f3471f49d6b22eb83ef035afca178d",
+    "port/level-world/physical_lifecycle.hpp": "63b3c2918dc58e7636cb9ad828f88b7070eb10ce0413f48d205a401119f930be",
+    "port/adam-script-runtime/script_runtime.h": "72b3640d4c3e898631fc0826ad8d336673c64ca4c7dad7fee54147c846708c62",
+    "port/adam-script-runtime/lua/lmem.h": "465e212c1cf0c25d750f20ac9cd6095dad1c3aa23f34724c9492ac733654a22b",
+    "port/level-world/character_ai_initialization.hpp": "d16d4a5b2848a9a5e037fc03999cebc44b689543b114edb0d22a50865aac72bd",
+    "port/pydata-constants/constants.h": "bf5ea5bcb1ac5112c71c0351e7841721bba6c20f761ac5891af28bb344270fa6",
+    "port/level-world/player_skill_progression_v1.hpp": "7d55d0ad63bd04cf29b0a3dc0281b70fe4c4be6ec8daea1148418b3f543cf385",
+    "port/game-data/fresh_inventory_owned_v4.hpp": "e666cc21941ab7cbe39ae3ac0d1edbdd4f3cd0e70fdcffef6c7ffc06055d67a2",
+    "port/level-world/character_coordinator.cpp": "2ab1ac65a49ddd120f6bbc09e7da4ca2b88be329e0aef2434755cdf5cad2338a",
+    "port/level-world/character_coordinator.hpp": "de7ab3a0328a69a290bd706167d71347403ad3b86f83dc7ac4cc1fbb062b8452",
+    "port/adam-script-runtime/lua/lobject.c": "5160a4348317285d003aaa7b4c8db374da89459898b441b06a5aaee395c96226",
+    "port/level-world/script_value_boolean_lua.hpp": "eafbde24d80838328c07137f79be23511c332150814e9afcd9f9cf0dec02699a",
+    "port/level-world/game_object_set_visible.hpp": "fb470ab13730d8b125183c9cdee3a44a02c8f5827f5eb62a2c047ac281f86653",
+    "port/level-world/character_script_timers.hpp": "b33fb151a63f951b8eee7ddf7ee85fb507aef1835426ff753f4e856d7fb5abf1",
+    "port/level-world/octree.hpp": "b7e01f0bb6f117baa579a5c956d7d00259cbbd0e2fd63d839a3f002cb48fb6fc",
+    "port/game-data/aggro.hpp": "3a8d50a78c05e4e2759ffa92c1a881c811573d7d2e37191a9e513e7588b4e742",
+    "port/level-world/character_ai_skill_commands_v1.hpp": "a32fcd9f157855301d18b6c3e8b5a3bdf2cb32bb86ff7666b680d7510975353a",
+    "port/adam-script-runtime/script_game_bindings.c": "3f2d89631c1908c88677a10417345031f50473fadc1a958db651443f19983292",
+    "port/adam-script-runtime/script_runtime.c": "8e1e11fe4b70252c7230e11b446b07aa47ad101020a277fdbc220233af1daf00",
+    "port/adam-script-runtime/lua/lgc.c": "affe7edb37514bbb83521b660f663fa820c31cfd2c31d8c366dcc5c6f0b42f00",
+    "port/adam-script-runtime/lua/lmem.c": "08a47c61d5347280fac3040cbe3c07e1fbba81dcef10417136cf7b319a0ad628",
+    "port/level-world/character_enemy_spotted.hpp": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+    "port/level-world/character_timers.cpp": "5bb3e0181f361c7c3b3633069a6148abcdbfaa99806d6798619a996bef203ba9",
+    "port/game-data/vitals.hpp": "c0a378ae928dbb6a7c579385e1dcb70c7731fe1772c7d48b37991d51d6fd0de3",
+    "port/level-world/character_state.cpp": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+    "port/game-data/loot_power_creation_v7.hpp": "a9e391ef52a3e5efed6d549a8c598425a9e3daee112b8b19debec4cafbb7c0b4",
+    "port/level-world/controller_physical.hpp": "15e4dcb1db80e50882fd4eac8b466f9a687d0d07d62b1c342e14939052111cbf",
+    "port/level-world/ais_external_init_vcb.hpp": "22baf75dabd5dcfa42769a33df22a4e6e09445c9d0497ed4251970d479a4d316",
+    "port/level-world/subobjects_update.hpp": "cbee76cd842d3e4029f3a853c509edb05992553da5a76f5f52e1bc4221e8d540",
+    "port/game-data/animation_tables.hpp": "031dbc1ec565bc468357a21a9994abfba2c00f046796f4e8c409c63b8b872ecc",
+    "port/level-world/character_ai_skill_script_update.hpp": "5051df1d82739a5bb69fc575f7b7fef3c33f3907eabb6d9a950ea9f393986408",
+    "port/level-world/character_target_search.hpp": "c22abdb55677bf15192b0fd97b5dee91bf4dad437ed244d776b5812f40d5297a",
+    "port/level-world/character_group_limbus_blur.hpp": "3e5d64efafd39b4a3650e3f1b16cbb71ee9da371a6293879d661addcbc9aaec1",
+    "port/game-data/item_presentation_v5.hpp": "732ed9ad83e3adc0cee0c3827f5e4dc94da90b4d690bb2afb5d80e65f266272d",
+    "port/adam-script-runtime/lua/lapi.c": "88603b1d26a282cd6c637e0b637b6ecea3373dd05a1ca1bc3e2b9cc56a251b3f",
+    "port/level-world/character_ai_events.hpp": "6efbb946bdda798c1fcf6dbbefc6cfcc06992b8b49f09db0453bf5a56683436a",
+    "port/level-world/character_ai_set_skills_and_spells.hpp": "5690c7ba63ec9294fa0f02e31c4e359faf4b4f38f45c19f6f7fc6285c7313e53",
+    "port/level-world/character_aggro_target_search.hpp": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+    "port/level-world/character_ai_update_all_skills.hpp": "fde8cb066981c2c1eee98a6dec55b2fb031394038ac475f752b9784066ad1a2c",
+    "port/level-world/character_combat_queries.hpp": "dc840c1073ef4f1f4eebc3618bff70547c72666b32b12ce3224d9709ec668a02",
+    "port/level-world/character_regeneration.hpp": "3e0146040c5083351a985e83f3bc72436971bb1caf89a0e779374c400f9a2784",
+    "port/level-world/tests/character_player_buffs_v1_original.py": "a528e29cf7f4f8450d5d00d23842f7a7bb0913f4a18d22f811df771daec61e13",
+    "port/level-world/navigation_avoidance.hpp": "1a8738338c4a5a691ee0088cb70a92672d2b52ccebd522661f77b650f8e713be",
+    "port/level-world/player_skill_vm_services.hpp": "d165e9f84e50a2bc7acfe4c6045c2d1c5218be4634ac6392405dc1d82b610acf",
+    "port/level-world/floors.hpp": "cb9108b5c40e2ccbbae1b8ebc6ebc24f8dc13610e32c2a646d78e920434b1bd0",
+    "port/level-world/visual_motion.hpp": "7e388529a1c6bfb5022b1b54a26b53573427e21b1458405d2c45944877548346",
+    "port/level-world/body_transform.hpp": "39d8c2529fbb66d5611c3f5e0b64f0619ad663519fcdc0d4200adff933fa947d",
+    "port/adam-script-runtime/lua/lobject.h": "6ea53c1bcdaabb4bdbe02287eb3b3fddbac497d7642147395f49646542186b03",
+    "port/adam-script-runtime/lua/lcode.c": "2c5f2dea541c59fb52634ea46fe40d3e05aa1259e6a9e2c03730cfe0b1b15197",
+    "port/level-world/character_ai_attack.hpp": "61bdf138134271768d00d12129b9303523d3340cadcce208f8af1c4bc02192db",
+    "port/level-world/navigation_motion.hpp": "a05c6a893cdbdd172bc286abc31c46008abc37fafb7ddb4d565735ba215961b5",
+    "port/game-data/ai.hpp": "00eb983ad3120ba68f86f104186d8216e70f73da54451b59a2b760b16468e8a5",
+    "port/adam-script-runtime/lua/liolib.c": "1f3658cd4a5c5411a776fb89705e6000f29f5ecccc5ca2825bbd287198a64102",
+    "port/level-world/character_current_spell_v1.hpp": "0d67d8acbbd8f25b77bdbf10126bffadc877267add65f45d43f96376f328c82d",
+    "port/adam-script-runtime/lua/lauxlib.c": "864f1e52a7e12688e148679356fedf8a3baff8a66800d527617535ac1d678d6d",
+    "port/level-world/reference/character-player-buffs-v1/NOTES.md": "ebe36f655ecf3a3c035b3d6df2b0cd7337caf091e1326a913815132288e97c4f",
+    "port/level-world/character_range_capability.hpp": "9ed2dbeeb69409ae56501cc7942c5831e962421b53e8cbb5c2fc552b9e5b5a8f",
+    "port/adam-script-runtime/lua/llimits.h": "f0e369d46b79026107f4b7ac54d3ee70b15e9482d8e05f5cc16154600bae336c",
+    "port/level-world/ais_external_update.hpp": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+    "port/adam-script-runtime/lua/lstrlib.c": "207703835595b62a0e9c43b0f89ade77804ae1b80854acb1d6a591f3a7e3d700",
+    "port/adam-script-runtime/lua/ltable.h": "a93a3ab6d8d515c9086eacc8967c236daa68064d488185d885ea48900d22dcf9",
+    "port/level-world/character_aggro_object_manager_list.hpp": "5b217d65b9fa1a584e2ef406c0d3b3ba5bffc56cc2a26dcd47f82c125cb50f8e",
+    "port/level-world/character_ai_queue.hpp": "24051a580fdc81add0e29a245502f04cd8d55c50a17673a65edead4fa9a368d5",
+    "port/level-world/character_skill_fsm_callbacks_v1.hpp": "8aa4cac14b16bf539d35a960286b1d4685e48f1072e332e281ef1d953da84401",
+    "port/level-world/decor_scene.hpp": "488d86ae895e3a6659c25056e5c45a6b033788fa6dede4acf78d0edd0917d89c",
+    "port/level-world/module_room_zone_bounds.hpp": "5ba7755229af957daddf3624ae12c7ece9d24e193183ca7c37b6396deaeb986e",
+    "port/level-world/player_skill_use_session_v1.hpp": "76a69f6cdfdfaacd1221ded9a470fdd8ec5fa43d911eb4745a0224a6983e6491",
+    "port/level-world/character_ai_state.hpp": "e6188f3b92742c409167127feeab2783e3abb3ecd96979e38c606963dade8955",
+    "port/level-world/character_apply_result.hpp": "500ca2e1c71926346c1a7729fcf9da033ef224ee8efee9ee358e0fcd68351689",
+    "port/game-data/health.hpp": "54dc3a4600ac752fc8c434bddcd29f3c77df9900eaf5c958ea54ad0aa39140f6",
+    "port/level-world/character_ai_skill_script_constructor.hpp": "1a1f10d29b5bba0fabb05a9069982a38de384e2100efef6fe40fd2e6bb956a5c",
+    "port/level-world/ais_state_callbacks.hpp": "5cf435a846197974552e36d53eb072d265c5b06e299613e82109ef08422adaeb",
+    "port/level-world/character_monster_retarget.hpp": "cde628b6f6445b5490f4f0b8c7af7bc36bc3e0807b77630469b5aacfd49ba6ac",
+    "port/adam-script-runtime/lua/lparser.c": "90b79276da5a08dcecd782ce23812eff55f2b95de030bb1fd258d1688bc422ab",
+    "port/level-world/ais_external_init_callbacks.hpp": "b3eec4f44c006e4a390212b4d67f79784ffc923498349d26503032c3feb95885",
+    "port/level-world/character_aggro_character_list.hpp": "df7abcbd4caba67d16f563285d419876e9b660a378b1aec9e3df1000cb48ca40",
+    "port/level-world/object_update_culling.hpp": "db2e00bff24c1d4f52fef7ce6dc22581dca4b91ae94054a6a90e494f76b6e386",
+    "port/level-world/character_culling_runtime.hpp": "098857e211dda9172c4e76ed23f03119482cfccf281701d1402d7b02c1335bfd",
+    "port/level-world/selector.hpp": "3f46e5b20bd7aab7fcd3a7c6efa7f46ac451a18abd9bc0b69ab2df771fe2c23a",
+    "port/level-world/character_state.hpp": "22d512b11c0f20d00ea01c4344bbf0d3b072c4be74ad2a297e2b4519e2e9cdc9",
+    "port/adam-script-runtime/lua/lapi.h": "d303b261fe6018f51e0ce84b9f90acef8683cbe8ac257f81225d42e4b85efee1",
+    "port/game-data/savegame_options_v1.hpp": "26863444946843b5e1c2e51157140a578ae0560ead7b0409ca76a146c338483e",
+    "port/level-world/reference/character-player-buffs-v1/original-resistance-cases.bin": "b0db7bf4db8f271897fa40784cfae09422d88db07f0ba117a7b28f0ef12010c2",
+    "port/level-world/native_body.hpp": "903f9329f9e97ef695e771aa28965b560728d12b9167bb417af16cdd1b608b18",
+    "port/adam-script-runtime/CMakeLists.txt": "abc495e960513e76443c8a25045da1730b4a18861b8943fdfe34815c0b20cfcd",
+    "port/adam-script-runtime/lua/lfunc.h": "0f18fd116cc0a8091a7c40e5c33bb438e6211d6db349513148f1ea10e686d404",
+    "port/level-world/character_stance.hpp": "6ce708a75947413a499b6bf329d4928881cabdb011fcfb85025ed79ec3bb22ee",
+    "port/level-world/character_interactive.hpp": "bb64936cd21596c59fe68a70c4fa9c7989b8cc537928d9faf4aecd72ebc9c7d6",
+    "port/level-world/character_body_config.hpp": "cec9d32b55b6fb74f09853a993f32191fbf41313d181bf0715b1e792c7944869",
+    "port/level-world/character_limbus_respawn.hpp": "b222b2b395603a18aa9e7b41968e8a5ebffc5d1e3161a0466f33272c014f11ba",
+    "port/game-data/class_tables.hpp": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+    "port/adam-script-runtime/lua/lua.h": "9a8ee0cb834877ad723a6bd29f92385376dea5f012d32f9e181388c33820c5a3",
+    "port/level-world/lua_script_load_once.hpp": "e14aff85bdbe215d2766a5a72f0198416ae27753a4728fd6988fc4d623a4d5f4",
+    "port/game-data/animation_scheduler.hpp": "001547189bcb3d47fd096541db08ce5bd3b6935725a543735dd253da840b7aa3",
+    "port/adam-script-runtime/lua/lvm.h": "dde27a5ef887e8ec43518906f8a491c9ff1a91617c3c9035e8e0ea3eb5796a6a",
+    "port/level-world/world.hpp": "2d8645655a91a667c4a02b4321cb2f49b351954b5275686532234f386401749b",
+    "port/game-data/player_saved_skill_slots_v1.hpp": "4ce996da152ff134ed745afbdafe488c574382fedea66c5da5e5cc55b596f321",
+    "port/adam-script-runtime/lua/lstate.h": "620cb6779a368c9c083e91bafd5a014c3c3c02951b5d5d4b10e59725c1d2ea48",
+    "port/level-world/animation_blender.hpp": "b4021869fdcea3f4b43535bee8cd77e67afcf222cb9cec5ea4df89530c05df88",
+    "port/level-world/ais_player_init_vcb.hpp": "5676ada6948a4fca723210bf8ed2c642235c58715cca8e69354d57ecad53ae63",
+    "port/level-world/reference/character-player-buffs-v1/original-functions.json": "779725f43a97d058d2da2ffb0b528a03fa13b59a9573a9ac016c51a47b7e85bc",
+    "port/level-world/character_init_hp_mp.hpp": "c4ee2159b091c672d978a2c4b2c9cec21895a6ac6f4ee16fd70143376f1cd2d1",
+    "port/adam-script-runtime/lua/ltable.c": "d5df266f7ed1bb832c10f32958f8f2940c0205a513c9af1c88ed1a7b164dc4fc",
+    "port/level-world/character_ai_ranged_range.hpp": "4ff33987e8f0d97a2fc4ca0fd04cb675124d9c7bba540966a41236530a3333ab",
+    "port/level-world/character_player_buffs_v1.cpp": "50815022fe18a5852df9fb88ef9c79af71560cb559a9ab9792540e6dd951ed6e",
+    "port/adam-script-runtime/lua/ltablib.c": "1e1aa085f3ba40cfc136399002ebf284222b26e1dc7d353d01200933c719fc97",
+    "port/adam-script-runtime/lua/lvm.c": "88cd8a3e80acf774deaef846883f46298ebed29ad3a286e00cb18d285643d1e3",
+    "port/adam-script-runtime/lua/lstring.h": "845244bef3dfb35e323503cd57b3be0a038e73a9b041d733f4c1f427a5b93b81",
+    "port/level-world/debug_switches_runtime.hpp": "92c296a3ee0dec9313adaf99e47e7fbc17b537e3248b2de69ed1531d811d25fc",
+    "port/game-data/items.hpp": "12661c391735a81c29ffff587a5322dc2753c3ebe324e56be2b4a86db7e9e633",
+    "port/level-world/character_dot_attack.hpp": "ae969514810aade6cd48ac88e984f9b8993538a1bb5b420f9a0f4ffc739e8fe5",
+    "port/adam-script-runtime/lua/lundump.c": "b9db5bc6d0096e4662d630f097a15a56afe4309f376fc5e20526bc697d7de06d",
+    "port/adam-script-runtime/lua/lopcodes.h": "6dc1c16676e28cad35e6acf40b4c110b04630ebffa2e36c4fd6866df43028a5b",
+    "port/level-world/move_state.hpp": "2ec7bf0ca12ac3745945af532355a8d22d7f682e863b7cf138d5899b00504186",
+    "port/level-world/actor_runtime.hpp": "58e973db47b6c274c450b05ee01c77e0acb1f8d3d9b7108c618145c4285e5d98",
+    "port/level-world/character_ai_skill_script_check.hpp": "6af79712254ce980d47beca5c13c438e2baa3558c9bab243762c2a0b10a4f34d",
+    "port/adam-script-runtime/script_function_alias.cpp": "2f40e5f8ba2ebafaf217cb5efe0d795bd193f366e42a83b70960dd57c64f3cea",
+    "port/level-world/character_ai_master_update.hpp": "b7bd52f31a8dc6f130f13512190228f76c5e584bbcec0daf1b041a4a24706d8e",
+    "port/adam-script-runtime/lua/lualib.h": "fdc28369da6fffb836b744b8a6d4b78d386e2b7348247f5cf3246b421d9f0439",
+    "port/level-world/character_mana_services_v1.hpp": "81a0648743d853ba112c949bbf6938eabc6149caaa8b7829b335b3ec0aa602d1",
+    "port/level-world/ais_native_bindings.hpp": "09a53e2655519e0ecdcad7b99b18c081f47eecc26a4812b56b77c623cd66b81d",
+    "port/level-world/character_ai_update_target.hpp": "53b8a94ef3d82b46a64c76ebdfc63e668e7089f724721b59373e2dbc97f8e3d2",
+    "port/level-world/character_physics_position.hpp": "51f100f7a69f513a512b16769275637b883104d56a407feca64abb78bd4f8297",
+    "port/level-world/navigation_objects.hpp": "cf120827d5df79ce5c09340ebf453e654eed93140f7cfd0dd152971bed6634db",
+    "port/game-data/properties.hpp": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+    "port/adam-script-runtime/lua/lbaselib.c": "9005372de751bf9be09a7c412ea25157632465b4e3ee1d5ccc5b6daae8d5f222",
+    "port/level-world/character_ai_set_target.hpp": "13e569adc9eec552333c6a265eb35bf4ff22175145691a011f0a0ecf6e56e184",
+    "port/level-world/character_ai_classification.hpp": "57703f3462983e3d026a1a832c9e3cbceb52f045e899ac2a487bc57782cd299c",
+    "port/level-world/character_ai_relations.hpp": "d2555cde0441bdcccc2a9a2df69099b899c5121171b67a18ef7506cf4be62ebf",
+    "port/level-world/actor_blended_playback.hpp": "f6342a4694c654b567c656bb26883faa6272ae628b0a6188fcfedb1bcd2d4eee",
+    "port/adam-script-runtime/lua/ltm.c": "a7551c630c2c86701af7ef57648062b3d802b69b2c5bb8081553fe36bf570303",
+    "port/game-data/reference/classes/original-functions.json": "ab9bd88c7dc0bc5f727e4311aa286a19ae90a715d3162627db6895d6ea44e11b",
+    "port/level-world/character_template_factory.hpp": "5424f335b98b2dfa2508544d8878ffe4820c315d882b2c1f8ea1b14e7af3c16c",
+    "port/game-data/reference/vitals/original-functions.json": "739ef2b594647711a3311dcc2232157e92d28a4c1cba4c70a4d09c5cc04aa363",
+    "port/game-data/player_savegame_v1.hpp": "050edc426773e456d8f1aec7d0dfda30f37e6886ae27d2a73e4e397fa0114aeb",
+    "port/level-world/character_ai_frame.hpp": "ac6e1b08d98f10253853c30ce050b5fa977267c223633c90ffb3c6a0238201df",
+    "port/adam-script-runtime/lua/ldo.h": "be1970358a771004937d263282326daab04277a4ea63c0e518e52a2a41d5bcf2",
+    "port/level-world/character_faery_selection.hpp": "351ca88b792c1eacdc5f0358b4b1245c96d1c4937ce4c97efc1949368d23a27d",
+    "port/level-world/tests/run_character_player_buffs_v1_host.py": "2eaf329202dd5bc0f13d22be6b37aba847be980b52035d34461e2b1a12057aa6",
+    "port/level-world/player_skill_property_services_v1.hpp": "3935943508a6cabb00986ec8370b359a1168f0f073e873efa8ab6a09190851f5",
+    "port/game-data/combat_events.hpp": "5ea137c6d04a3fd19a6ef57305e304d5d7653893ec29a6ec071f311603b0b8b1",
+    "port/level-world/character_script_lifecycle.hpp": "6c25371e6dc6579a6d0f0293561e94f1e23466caf31802da708d4c25bde9acd5",
+    "port/adam-script-runtime/lua/lcode.h": "f13b4081ad1d48f8423580a624d7d0ecc7dea6cb052aa4318a77cf40af38c206",
+    "port/level-world/navigation_world.hpp": "2e35d819626702b055c0840ba8d9f5ef4ef9dbd11bc017251e3ee81982fb7659",
+    "port/level-world/character_script_collision.hpp": "8d966813fe224ee7f510c5042494336730d101b8231c331fcc0c19566279147e",
+    "port/level-world/character_scene.hpp": "ed04dea82ee305f96deed12a827845f6245342fe9842dd239c05b34377377b38",
+    "port/adam-script-runtime/lua/ldump.c": "41dd832b0c03e2c9e5d0352eeeb6e32bdb076bf79bb4f2cea59316c89d0865cd",
+    "port/level-world/physical_world.hpp": "ecb4180baf21facd5ee5235bdf3708fca8650fb1431e1a36f525a4023ca549f3",
+    "port/level-world/floor_source.hpp": "84e227bc57ea1d6ffb02ec79f7a1d48a949f08e896881b3fa05d4d2e3c907262",
+    "port/adam-script-runtime/lua/lzio.h": "716d05b89824c09dbd7daf4ce31244131b4adceff19a46065a41fc0379b46aab",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/level-world/crypt_spawn_trigger.hpp": "e821aaa8459c0827053e39ca95dcfa65e5b232e1d61e0354bcb4d7f1f8b28cc3",
+    "port/level-world/character_ai_skill_dispatch_v1.hpp": "218f99dac2503c662a5ab34320f79a5a108fc13a9a57093c7effd3f1fa076be7",
+    "port/game-data/item_gear_properties_v5.hpp": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+    "port/level-world/tests/character_player_buffs_v1.cpp": "ea4305d6af1aa317e57ac6dbcbe672aad20ebf4c4f4a2c1fde2197a03a62b600",
+    "port/level-world/module_scene_root_bounds.hpp": "f64b78f4059934c9713d2ea8a2e3c3d49e5da3fa5484cd3b063fafe869cfc044",
+    "port/adam-script-runtime/lua/llex.c": "31dbfd76b2288bc3c5d0745b3a0b278d762519fbe5f2c75a478d5bea99d26688",
+    "port/level-world/character_ai_interaction_range.hpp": "f2576cde0fb675ce3aa789caa5c5fb4993ae6d3fd1c29456174a45b2c3f9550a",
+    "port/level-world/navigation_controller.hpp": "f30bb259c4e56e65c2728fcef97d1b920973f7d816ab96176f6b6f123d119c4b",
+    "port/adam-script-runtime/lua/linit.c": "a9fa0d68f258fd0f310246f7861cfc71d953e283075193fa5473d7babfc4d632",
+    "port/adam-script-runtime/lua/lundump.h": "e34c2063b73b24e9a05a29a984ae1a9adf5c4463ab75850f3acee3b2ed2ebdd6",
+    "port/adam-script-runtime/lua/loadlib.c": "1f7251995c02c23d148a95f931f7ab6021b189fc51b3e43c11bd74f8af40ff63",
+    "port/level-world/character_ai_turn.hpp": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+    "port/level-world/actor_rotation.hpp": "02cf9c62cf3e8c096b6fd82d2d340631a4cba0019d3b526b9fca3255604d00e0",
+    "port/level-world/character_template_random.hpp": "fd2fb26481804095e27e76f3675fc51d7ee9e396120c87e2b2696ad32163e453",
+    "port/game-data/item_instance.hpp": "c95b0b07ca099ac525ac7bead4e327934164e959c2369a3fb3661aeabe9f9578",
+    "port/level-world/ais_external_initialization.hpp": "6f7524f1230e69e318cca7e873d32fd3ee4538ef5de9b39b23883a2e7bb692be",
+    "port/adam-script-runtime/lua/lgc.h": "42fe93edf3a4bf7938a6adb18882872a59b2de9c44f5e962ff2109729286b3a6",
+    "port/level-world/character_ai_association.hpp": "3701763347ffede660e32e8c930bc0826d7935912e992dd587513ad0da60ac95",
+    "port/level-world/ais_default_collision_persist.hpp": "835c383f95c11244d4a66be840b362ae36d9a301b293cac56be8b17c62648fc7",
+    "port/level-world/navigation.hpp": "9d6f01d85e7d0533050dd53bb3c61e86d18bd344b90bf86a99ba11a1e79ddeab",
+    "port/game-data/combat_result.hpp": "80c13844301caea0c6df3f34a0f4d722c8f794a661f681a509729ab132f7c5b2",
+    "port/level-world/debug_switches_persistence.hpp": "f05f1ada58d2e52bebc45a2298a4660767fe5de8e5be53fe93a4927184dafb69",
+    "port/level-world/player_skill_update_session_v1.hpp": "05afe73353ca68d50fb780f29a17f937c94041bd44e64640d8fe4e65be6e99cf",
+    "port/adam-script-runtime/lua/luaconf.h": "cf26ba410be013a61d04322d507e6442691db20c52604ddeb19bfc47e3723761",
+    "port/game-data/level_tables.hpp": "aa20e39db0aaab7dfdd9556db275e3d41c2e3709939c9f074851907a6470f742",
+    "port/adam-script-runtime/lua/print.c": "a8a31a286c2b1e452a5463f8f0bfdd5e9d3b308de4cbf6e1202b5f94d27b0bc2",
+    "port/level-world/room_zone_enrollment.hpp": "d4bd8777964b673191fa4ab74c81f55438007d8bb842aada802d107e18331e73",
+    "port/level-world/character_player_skills_preparation_v3.hpp": "f0dbd9fb93861cb4e8a2f8c3707fedd2c192bf2157f051421591d0fb632b94ba",
+    "port/level-world/navigation_producers.hpp": "a53b42be122b26269044a86e646b7e842ce1782a9bb96cba6778ae30d5f826e3",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/adam-script-runtime/lua/ldo.c": "816fa9f50d1674ea75a2bb7452b39608136b159f4dc40cc3ec31d8fb1ad2c19f",
+    "port/level-world/player_skill_tables_adapter.hpp": "aa486d3b4938a5fe4316b32733e3f3f979e21e67cfcba18e72a52f22abe3cbb9",
+    "port/level-world/level_construction_fields.hpp": "1a3f0a7e2210fdbae3d22d8e96892f64ceacb257cdb5eeb2fa4e3b058c57db16",
+    "port/level-world/game_object_stop.hpp": "77ffbe3e6e3c1325735df47e8b49941a1e7a4e76e218cd0347ad47d435b9cf8d",
+    "port/adam-script-runtime/lua/lfunc.c": "344d6f5f003cb87aab783d2ef4d72d0f732cec4a2807de9ddf25db405ab99073",
+    "port/game-data/animation_bank.hpp": "8e858b78976ee8d4dbaee87f6379228df12a30ed4819b2d3acf03f2df8c4ac33",
+    "port/game-data/combat.hpp": "61cb840335e6eec650dc5520873067e89bafca8aac7dec22cd6c081ca846afd7",
+    "port/adam-script-runtime/script_game_bindings.h": "a8d768040ea89440014c9707f6104bfb83b3cdb1be6e80cab165f08fdee4c3f2",
+    "port/level-world/character_zonability.hpp": "0c395ae04332cfa5f8fa4f57da2319ed14eb0eb9acc7bddad04e97e919167148"
+  },
+  "cache_inputs_sha256": {
+    "data/pydata/character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "data/pydata/character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "data/pydata/character_classes_pycst.bin": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+    "data/pydata/character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "data/pydata/character_properties_extra_pystructnames.bin": "864d6bcd58ab6671e2354613b50f2fa618bdf8f6adc667020cbc75c20b443d42",
+    "data/pydata/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "data/pydata/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "data/pydata/character_properties_pycst.bin": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+    "data/pydata/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "data/scripts/skills/faerie_celest.luac": "4ba609b50179669e73ab2c256fd2aa27d3740d05f85835464906353e2e0bdd7d",
+    "data/pydata/design_pycst.bin": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+  },
+  "binary_sha256": {
+    "build/player_buffs_audit.exe": "c6fc72121d4997bd15369f5f196502ad56e5451a64c641ed724c77afbcf05814",
+    "build/adam-script-runtime/libdh2_script_runtime.dll": "88ab730c61ecbe05a18998fc0318d567d570d3d2fbefa0d3594562939f855ae5"
+  },
+  "compiler_commands": [
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\cmake.EXE",
+      "-S",
+      "C:\\tmp\\dh2-buff-v1\\wrapper",
+      "-B",
+      "C:\\tmp\\dh2-buff-v1\\build",
+      "-G",
+      "Ninja",
+      "-DCMAKE_MAKE_PROGRAM=C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\ninja.EXE",
+      "-DCMAKE_CXX_COMPILER=C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+      "-DCMAKE_C_COMPILER=C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe",
+      "-DCMAKE_BUILD_TYPE=Release",
+      "-DCMAKE_CXX_FLAGS_RELEASE=-O1",
+      "-DCMAKE_C_FLAGS_RELEASE=-O1"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\cmake.EXE",
+      "--build",
+      "C:\\tmp\\dh2-buff-v1\\build",
+      "--target",
+      "player_buffs_audit",
+      "--parallel",
+      "2"
+    ]
+  ],
+  "compiler_version": "g++.exe (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r7) 15.2.0",
+  "build_stdout": [
+    "-- Configuring done (0.1s)\n-- Generating done (0.0s)\n-- Build files have been written to: C:/tmp/dh2-buff-v1/build\n",
+    "[1/3] Building CXX object CMakeFiles/player_buffs_audit.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/character_player_buffs_v1.cpp.obj\n[2/3] Building CXX object CMakeFiles/player_buffs_audit.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/tests/character_player_buffs_v1.cpp.obj\n[3/3] Linking CXX executable player_buffs_audit.exe\n"
+  ],
+  "wrapper_cmake": "cmake_minimum_required(VERSION 3.22)\nproject(player_buffs_isolated_audit LANGUAGES C CXX)\nset(CMAKE_WINDOWS_EXPORT_ALL_SYMBOLS ON)\nset(CMAKE_EXPORT_COMPILE_COMMANDS ON)\nadd_subdirectory(\"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime\" adam-script-runtime)\nadd_executable(player_buffs_audit \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/character_player_buffs_v1.cpp\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/character_coordinator.cpp\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/character_state.cpp\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/character_timers.cpp\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/properties.cpp\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/class_tables.cpp\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/data.cpp\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/pydata-constants/constants.c\" \"C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/tests/character_player_buffs_v1.cpp\")\ntarget_compile_features(player_buffs_audit PRIVATE cxx_std_17)\ntarget_compile_options(player_buffs_audit PRIVATE -Wall -Wextra -Werror -fno-fast-math -ffp-contract=off)\ntarget_link_libraries(player_buffs_audit PRIVATE dh2_script_runtime)\n",
+  "wrapper_sha256": "cc432b4e1dc4b16ef75423150a7c1393602506889a2f79f0e58c1cce81d7e290",
+  "scope": "Isolated source composition; one native buff group owner, current PropertyView/ClassTables/Coordinator, existing Adam Lua core exactly once. 40 original full ApplyBuff identity callbacks run all nested class, property and map/deque instructions, including real player rows and base ClassID=-1. Host owner add/apply/remove compared over all 224 words in every property sheet plus the owned buff sheet. 40 unchanged Celest script updates use these same native buff callbacks on one retained real Lua VM; fixture prerequisite helpers and selected-level/element inputs are external test providers. Existing frozen faery wrapper/save integration, selected Android build and actual live gameplay are separate root-owned gates.",
+  "limits": [
+    "Original AddBuff/DelBuff/allocator/timer/FX STL bodies are byte pinned, not executed by this oracle.",
+    "Reached FX calls require actual external provider except source null release no-op.",
+    "Value string/identity/table numeric coercions and nonfinite numbers fail explicitly.",
+    "Allocator/STL failure instruction equivalence is external; completed native effects are retained.",
+    "Caller ends timer delivery and closes its VM before retire; all borrowed backing must outlive callbacks.",
+    "The host audit does not select this source through level-world or Android CMake."
+  ]
+}

@@ -1,0 +1,35 @@
+{
+  "validation": "PASS",
+  "cases": 249,
+  "original_words": 105,
+  "native_policy_checks": 478,
+  "compared_projection_bytes": 13944,
+  "implementation": "selected library",
+  "native_wired": false,
+  "scope": "Whole FTVL452B versus original ARM, borrowing six canonical Save words.\nOriginal reverse-bit parsing, low/high publication, invalid-bit throw prefixes\nand whole-reader early exit for oversized strings execute. The string primitive\nand temporary storage lifetime are explicit observing providers. Bad stream\nlengths/terminators, truncation, span limits, allocations and alias guards are\nseparate native policies. C1 six-word zero-store spans are pinned separately;\nthe complete constructor, native SG_Load4 and live gameplay are not claimed.\n",
+  "source_sha256": {
+    "player_saved_fast_travel_v1.cpp": "b608a880f1aeb566cc4ec53761e2c28ee13d0019b395bbd366a03224761eab0c",
+    "player_saved_fast_travel_v1.hpp": "9888b5571a6b237e6b6bd2f4053ab738b584276c9fa2d68c6e8d8b4e74103ea2",
+    "player_savegame_v1.hpp": "ecbee2a8b64507c967522c4b09067264c6fc88c1a0e5e7bdb2a899ac6e4e950b",
+    "tests/player_saved_fast_travel_v1_host.cpp": "e3159a2a84b3a2c904db6b44e3c64ce388cfb1280708009efd82c95f1dd636f3",
+    "tests/run_player_saved_fast_travel_v1.py": "e4f778edde0b74b81a96f21980034ad6019a5ff0afc5ab5dda47510cc05c11fc",
+    "reference/player-saved-fast-travel-v1/original-functions.json": "5becff1b10cc9348662bbff39361f3cf3e5dbc497cc23772e4e7a90b5d875943"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_saved_fast_travel_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_fast_travel_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_fast_travel_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/player_saved_fast_travel_v1.cpp.obj"
+    }
+  ],
+  "binary_sha256": {
+    "player_saved_fast_travel_v1_host.exe": "4a4b479b2709d057550bf6b95789c3589eee32b5b247648b74319176b8bd0a9b",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "e742c320b054169afb5dd3bdf647c92a1a5d101606ee51ac9297b73a3b0381fa",
+    "libdh2_level_world.dll": "24e2fc01f94285eb624ba6a710af0273f4a4ecaba2c50a911b621ee64ddb82ca"
+  }
+}

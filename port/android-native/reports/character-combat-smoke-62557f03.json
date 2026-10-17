@@ -1,0 +1,676 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "62557f036d3ee0b29de5c2376b4d2bc33de9f9df930ba528a265d8ddf4b39dad",
+  "installed_apk_sha256": "62557f036d3ee0b29de5c2376b4d2bc33de9f9df930ba528a265d8ddf4b39dad",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "a6b33ff3c2e28a426348c49a6954149c7f4e42a45c5f6625ed32e4fc565d163d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "62eb580ce419e37175674dd7780a1c3a235a5901c2b3e8539cd0f89fb5beb62e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "50918ec9f183250d23e4ed61de188703c9f248961ad55cbdc7376047dfe17721",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "899cee27020bcd355e424f647a0e1b98bc0e88292360ca6aa76111978b18b6d7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "f016d460d9f6a95737118243a01f73c3c2c647f0b36dbbfcaaa841836684f789",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "35ae90a29a66a4141a4fe6fb8f7203664d1631e0d05c723e5650798f86650825",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "322d961f29bdaa764edb0f1a535b84416884dd20e1bfece16b5b83965da1f0ab",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "0ea22f4c5285f8fba6ee63c725b440a7ec0b1da1d9ea06b55dc30af370cbb8cc",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "4387886692e824c30440f9b21bf54f231cda8ebe20c3d027c9a1c94d62c41d9b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "35d0086d89e444a4f9ebfe72471900dc36e26ad5647de8765739cbb11b9610f8",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "6aae17b64280d5ec501f3217b5337e408d926d2e6bfbe03553a4db6a8d8622fd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "bd6b4f4597f9b53bb5546cf003a1fd866f2a5783cae216cb5184162cf24ce3e5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "948eab36660e62bb0744787a78a8d17bb192de4a936c077ee7f343b1f4847284",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "538bde8add13ceb01922b12ad9a402367baca2c07053501256a6ec68d8d539ab",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "2c4f401c06bf64c21ecff0f3aeae3e94a6ce4854936f67e1566b504199d1e5b0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "df552122c70e9f517f0b9670c85822d4a6c150fca87ddbda6346fc57b13d41b6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "6fe08de9316b06f0640b5df91dd8ad99db552fa99c7b5ce6435bb5d9b0a59b0c",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "47a62eaaf94eb6f4da8d9d9e71e1f2f602a3b86a95119a28065dbb88dcb0f242",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "3a39af8019a7806b52bc3d9c7c2b6b939120a2e816c8ca6e80959efbeb1a1ca1",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "2645080fd85402adfe4a5f1c7469c76df9e5835c509d0789f19f309892274d03",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "421ca5f2200a522e5376c5f7a3a7f2083dd75e1a81ab9f7b52c32ca1e72c0e25",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "d5de45f07ea7b40340944f24e3349405b52ddae51b62cd1cfc250e5fd99386d4",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "scope": "Exercise source player states and authored combat events on an emulator.\n\nThe caller must already install --apk. This script verifies the installed hash,\nfresh-launches Crypt with enemy AI disabled, uses actual touch movement and the\ndebug broadcast into the same playerAttack UI bridge, and records bounded\nsource-state observations without pausing the Activity or changing held input.\nIt does not establish full FSM, blended-pose, GPU or physical ARM64 parity.\nRequired transition log contract: Player source state | previous P | current C\n| event 0xE | flags HEX | root R | clip K | position X Y Z | Step N.\n",
+  "physical_arm64_tested": false,
+  "full_original_fsm_or_gpu_parity_claimed": false,
+  "out_of_reach_ui_rejected": true,
+  "target": {
+    "index": 4,
+    "name": "_prim_tmp_cultist07"
+  },
+  "cases": {
+    "stationary": {
+      "source_start": {
+        "previous": 3,
+        "current": 5,
+        "event": 50004,
+        "flags": 9025,
+        "root": 243,
+        "clip": 967,
+        "position": [
+          -1382.0684,
+          -404.1807,
+          176.3373
+        ],
+        "step": 7,
+        "offset": 775
+      },
+      "source_end": {
+        "previous": 5,
+        "current": 3,
+        "event": 34,
+        "flags": 9088,
+        "root": 262,
+        "clip": 963,
+        "position": [
+          -1382.0684,
+          -404.1807,
+          176.3373
+        ],
+        "step": 117,
+        "offset": 22791
+      },
+      "authored_scene_events": 4,
+      "authored_melee_events": 3,
+      "native_hits": [
+        {
+          "attempt": 1,
+          "result": [
+            259,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            24,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 12160,
+          "hp_after": 11901,
+          "dead": 0,
+          "combo": 1,
+          "random_after": [
+            9988867,
+            9
+          ],
+          "status_requests": 8
+        },
+        {
+          "attempt": 2,
+          "result": [
+            173,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11901,
+          "hp_after": 11728,
+          "dead": 0,
+          "combo": 2,
+          "random_after": [
+            11996333,
+            18
+          ],
+          "status_requests": 0
+        },
+        {
+          "attempt": 3,
+          "result": [
+            172,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11728,
+          "hp_after": 11556,
+          "dead": 0,
+          "combo": 3,
+          "random_after": [
+            9007020,
+            27
+          ],
+          "status_requests": 0
+        }
+      ],
+      "displacement_units": 0.0,
+      "source_finite_event": "0x22",
+      "legacy_cursor_completion_absent": true
+    },
+    "moving": {
+      "source_start": {
+        "previous": 4,
+        "current": 5,
+        "event": 50004,
+        "flags": 9025,
+        "root": 248,
+        "clip": 968,
+        "position": [
+          -1319.6165,
+          -404.1807,
+          178.2653
+        ],
+        "step": 204,
+        "offset": 2628
+      },
+      "source_end": {
+        "previous": 5,
+        "current": 3,
+        "event": 34,
+        "flags": 9088,
+        "root": 262,
+        "clip": 963,
+        "position": [
+          -1131.2064,
+          -346.0327,
+          210.2017
+        ],
+        "step": 312,
+        "offset": 27659
+      },
+      "authored_scene_events": 3,
+      "authored_melee_events": 3,
+      "native_hits": [
+        {
+          "attempt": 4,
+          "result": [
+            128,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11556,
+          "hp_after": 11428,
+          "dead": 0,
+          "combo": 4,
+          "random_after": [
+            407936,
+            36
+          ],
+          "status_requests": 0
+        },
+        {
+          "attempt": 5,
+          "result": [
+            105,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11428,
+          "hp_after": 11323,
+          "dead": 0,
+          "combo": 5,
+          "random_after": [
+            12280425,
+            45
+          ],
+          "status_requests": 0
+        },
+        {
+          "attempt": 6,
+          "result": [
+            131,
+            -1,
+            0,
+            0,
+            0,
+            0,
+            0,
+            2271925,
+            -1,
+            -1
+          ],
+          "hp_before": 11323,
+          "hp_after": 11192,
+          "dead": 0,
+          "combo": 6,
+          "random_after": [
+            13297027,
+            54
+          ],
+          "status_requests": 0
+        }
+      ],
+      "displacement_units": 199.7485652788776,
+      "source_finite_event": "0x22",
+      "legacy_cursor_completion_absent": true
+    }
+  },
+  "movement": [
+    {
+      "axis": 1,
+      "start": [
+        -2227.77,
+        1220.9301,
+        842.3644
+      ],
+      "end": [
+        -2224.5107,
+        1117.2573,
+        842.3644
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.2680653999996139,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2224.5107,
+        1117.2573,
+        842.3644
+      ],
+      "end": [
+        -2220.478,
+        702.9293,
+        725.6735
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6855536999937613,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2220.478,
+        702.9293,
+        725.6735
+      ],
+      "end": [
+        -2219.5952,
+        205.2865,
+        474.4198
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6705173999944236,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2219.5952,
+        205.2865,
+        474.4198
+      ],
+      "end": [
+        -2217.5713,
+        -252.5176,
+        243.28
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.677124099995126,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2217.5713,
+        -252.5176,
+        243.28
+      ],
+      "end": [
+        -2213.4104,
+        -657.3243,
+        41.7077
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6728796000097645,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2213.4104,
+        -657.3243,
+        41.7077
+      ],
+      "end": [
+        -2205.9697,
+        -892.717,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.33,
+      "input_duration_ms": 330,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.4065142999897944,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2205.9697,
+        -892.717,
+        41.7079
+      ],
+      "end": [
+        -2205.9697,
+        -928.0588,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.27094049999141134,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -2205.9697,
+        -928.0588,
+        41.7079
+      ],
+      "end": [
+        -2205.9697,
+        -982.81,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.265,
+      "input_duration_ms": 265,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.32141810000757687,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -2205.9697,
+        -982.81,
+        41.7081
+      ],
+      "end": [
+        -2116.4248,
+        -1004.3117,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.2926685999991605,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -2116.4248,
+        -1004.3117,
+        41.7081
+      ],
+      "end": [
+        -1631.0095,
+        -1003.1719,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.6,
+      "input_duration_ms": 600,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6784304999891901,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1631.0095,
+        -1003.1719,
+        41.7079
+      ],
+      "end": [
+        -1513.9222,
+        -999.4872,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.194,
+      "input_duration_ms": 194,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.2802131000062218,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1513.9222,
+        -999.4872,
+        41.7079
+      ],
+      "end": [
+        -1478.2717,
+        -999.4872,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.2705640000058338,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 0,
+      "start": [
+        -1478.2717,
+        -999.4872,
+        41.7081
+      ],
+      "end": [
+        -1406.4144,
+        -999.4872,
+        41.7081
+      ],
+      "requested_hold_seconds": 0.322,
+      "input_duration_ms": 322,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.4049980999989202,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -1406.4144,
+        -999.4872,
+        41.7081
+      ],
+      "end": [
+        -1379.4115,
+        -878.6882,
+        41.7079
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.2781717000034405,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -1379.4115,
+        -878.6882,
+        41.7079
+      ],
+      "end": [
+        -1382.0684,
+        -445.5946,
+        155.4279
+      ],
+      "requested_hold_seconds": 0.547,
+      "input_duration_ms": 547,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Run",
+      "command_wall_seconds": 0.6594306000042707,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    },
+    {
+      "axis": 1,
+      "start": [
+        -1382.0684,
+        -445.5946,
+        155.4279
+      ],
+      "end": [
+        -1382.0684,
+        -404.1807,
+        176.3372
+      ],
+      "requested_hold_seconds": 0.2,
+      "input_duration_ms": 200,
+      "input_method": "stationary Android touchscreen swipe",
+      "locomotion": "Walk",
+      "command_wall_seconds": 0.28142979998665396,
+      "native_walk_entry_observed": true,
+      "settled_idle_measured": true
+    }
+  ],
+  "enemy_ai_disabled": true,
+  "finite_source_idle_closure": true,
+  "moving_attack_displacement_preserved": true,
+  "legacy_second_cursor_completion_absent": true,
+  "death_case": "Not run; existing defender harness is separate and uses repeated actual enemy events."
+}

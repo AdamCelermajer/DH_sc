@@ -1,0 +1,17 @@
+{
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegame16_InitLevelStatesEv",
+      "elf_address": "0x46954c",
+      "size": 316,
+      "sha256": "e6512ea40532fbfdaf9067b21205abb0649972dd845f8498a3e115b86ef2f10f"
+    }
+  ],
+  "table_globals": {
+    "_ZN6Arrays9LevelList4sizeE": "0x9a65e4",
+    "_ZN6Arrays9LevelList7membersE": "0x9a65e8",
+    "_ZN6Arrays8WorldMap4sizeE": "0x9a66f8",
+    "_ZN6Arrays8WorldMap7membersE": "0x9a66fc"
+  },
+  "scope": "Complete _InitLevelStates316B initializes six arrays in the sole PlayerSavegame owner. Source LevelList stride0x48/default+28 and WorldMap stride0x14/default+8; allocationtag0, pointer-presence guards, publication-before-fill and fresh count/default reads match. CustomAlloc and live table globals are explicit providers. Native bounds, provider failure/reentry and defined allocation residues are additional policies. WorldMap decoding, SG_Load2 orchestration and live gameplay binding are not proven here."
+}

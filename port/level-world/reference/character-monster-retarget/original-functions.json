@@ -1,0 +1,90 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "source": [
+      "port/level-world/character_monster_retarget.hpp",
+      "port/level-world/character_monster_retarget.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_monster_retarget.cpp",
+      "port/level-world/tests/run_character_monster_retarget_host.py"
+    ],
+    "new_bounded_query_orchestrations": 1,
+    "new_full_native_body_claims": 0,
+    "native_wired": false
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateAggroEv",
+      "elf_address": "0x3cf3f0",
+      "size": 2052,
+      "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692",
+      "scope": "bounded already-target branch orchestration; retaining enemy-search body excluded"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI18AI_GetHighestAggroEv",
+      "elf_address": "0x3d4a18",
+      "size": 176,
+      "sha256": "cde6a15615da96f0b3f51c4c2f4418dcfe709920c62f98a7738615c1f67ac869",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBase9GetHandleEv",
+      "elf_address": "0x33dd2c",
+      "size": 68,
+      "sha256": "d5c62cf46e3cf4763fd953611ce5210db2ddd75fa566e3d1d878e760412eb4d3",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZN12ObjectHandlecvP9CharacterEv",
+      "elf_address": "0x33ff54",
+      "size": 56,
+      "sha256": "f71383751930720e0ba25bd80d40eb0d301b73ecbbd33969d672b0ccf09675ea",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI11AI_GetAggroEP9Character",
+      "elf_address": "0x3d4ac8",
+      "size": 252,
+      "sha256": "98c26116c098862a859a801d8a16bae8ff814a525b4a2972068f2283b4511fa9",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject",
+      "elf_address": "0x3d574c",
+      "size": 844,
+      "sha256": "e99c62ec437b85a44ef4162fb17029fd851e01f66a92d226dc2d92b785713f4d",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character",
+      "elf_address": "0x3d6d68",
+      "size": 388,
+      "sha256": "d59c80b01af4f6b38ff7a70f4eb21a3382a04edab27f4f6b51394c221f568040",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1",
+      "scope": "supporting dependency evidence; external or existing source body, not newly counted"
+    }
+  ],
+  "source_facts": {
+    "first_query": "AI_GetHighestAggro on owner already captured for +408 gate, not AI_GetTarget",
+    "handle_path": "nonconst ObjectBase::GetHandle struct-return then ObjectHandle::operator Character*; conversion GetObject(false) plus virtual IsCharacter+24, not plain GetObject projection",
+    "threat": "fresh-owner current GetAggro, separately fresh-owner highest GetAggro, live global design+8 factor, binary32 current*factor, strict highest>threshold",
+    "diagnostic": "switch lookup result ignored but call and ownership effects preserved before fresh-owner SetTarget(highest,force0)",
+    "cleanup": "null/equal path IsEnemy(resolved current); false ClearAggro\u2192SetTarget(null,0)\u2192AI_SyncLastTarget all on captured original AI",
+    "remaining_boundary": "enemy true requires distinct flags1/objectfilter2/sort1 TargetList and current-player property registry semantics; explicitly unsupported"
+  }
+}

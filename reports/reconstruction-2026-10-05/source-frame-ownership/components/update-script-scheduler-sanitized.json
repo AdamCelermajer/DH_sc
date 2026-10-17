@@ -1,0 +1,38 @@
+{
+  "validation": "PASS",
+  "host_cases": 18,
+  "host_guard_cases": 15,
+  "host_effect_cases": 3,
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer",
+    "LeakSanitizer"
+  ],
+  "source_sha256": {
+    "port/level-world/character_update_script_scheduler.hpp": "be4e7124417d5a08e7fd70a6c6607fa423c26d0699fc66aa5dafc449c6f27e3b",
+    "port/level-world/character_update_script_scheduler.cpp": "4685be8561e6bbe44526e25a586dcde10b3657b0d1c59567c9840ef2d41861e1",
+    "port/level-world/tests/character_update_script_scheduler.cpp": "6a21ef18a936cd35e978fdc8d2264cafff85aaf2550fd36b1fb9d228342e3123",
+    "port/level-world/tests/run_character_update_script_scheduler_host.py": "b5a13d92c690c9dae5dea3a3f5e74e342b92f958d770591d4db788122387832f",
+    "port/level-world/reference/character-update-script-scheduler/original-functions.json": "cae0f9fa724b6c1ff28437a08277dba680499d569fb9d43d50fdc2f5025903d3",
+    "port/level-world/reference/character-update-script-scheduler/NOTES.md": "0242afe42303cd35074adb0145559481c6ad902f900028a24f3924f933397574"
+  },
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/character_update_script_scheduler.cpp",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/tests/character_update_script_scheduler.cpp",
+    "-o",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/build/character-update-script-scheduler-parent-asan/host",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-g"
+  ],
+  "stdout": "{\"name\":\"state_12\",\"status\":0,\"decision\":1,\"service_calls\":0,\"map_size\":0,\"eviction_threshold\":0,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[],\"entries\":[]}\n{\"name\":\"state_2\",\"status\":0,\"decision\":2,\"service_calls\":0,\"map_size\":0,\"eviction_threshold\":0,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[],\"entries\":[]}\n{\"name\":\"field_1480\",\"status\":0,\"decision\":3,\"service_calls\":0,\"map_size\":0,\"eviction_threshold\":0,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[],\"entries\":[]}\n{\"name\":\"field_3e4\",\"status\":0,\"decision\":4,\"service_calls\":0,\"map_size\":0,\"eviction_threshold\":0,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[],\"entries\":[]}\n{\"name\":\"oid29_threshold\",\"status\":0,\"decision\":5,\"service_calls\":2,\"map_size\":24,\"eviction_threshold\":24,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3],\"entries\":[[-100,65536],[-99,65537],[-98,65538],[-97,65539],[-96,65540],[-95,65541],[-94,65542],[-93,65543],[-92,65544],[-91,65545],[-90,65546],[-89,65547],[-88,65548],[-87,65549],[-86,65550],[-85,65551],[-84,65552],[-83,65553],[-82,65554],[-81,65555],[-80,65556],[-79,65557],[-78,65558],[-77,65559]]}\n{\"name\":\"oid29_over_threshold\",\"status\":0,\"decision\":5,\"service_calls\":4,\"map_size\":24,\"eviction_threshold\":24,\"eviction_attempted\":1,\"evicted_key\":-100,\"evicted_character\":65536,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,1,2,3],\"entries\":[[-99,65537],[-98,65538],[-97,65539],[-96,65540],[-95,65541],[-94,65542],[-93,65543],[-92,65544],[-91,65545],[-90,65546],[-89,65547],[-88,65548],[-87,65549],[-86,65550],[-85,65551],[-84,65552],[-83,65553],[-82,65554],[-81,65555],[-80,65556],[-79,65557],[-78,65558],[-77,65559],[-76,65560]]}\n{\"name\":\"ordinary_threshold\",\"status\":0,\"decision\":5,\"service_calls\":2,\"map_size\":8,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3],\"entries\":[[-100,65536],[-99,65537],[-98,65538],[-97,65539],[-96,65540],[-95,65541],[-94,65542],[-93,65543]]}\n{\"name\":\"ordinary_over_threshold\",\"status\":0,\"decision\":5,\"service_calls\":4,\"map_size\":8,\"eviction_threshold\":8,\"eviction_attempted\":1,\"evicted_key\":-100,\"evicted_character\":65536,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,1,2,3],\"entries\":[[-99,65537],[-98,65538],[-97,65539],[-96,65540],[-95,65541],[-94,65542],[-93,65543],[-92,65544]]}\n{\"name\":\"load_failed\",\"status\":0,\"decision\":5,\"service_calls\":2,\"map_size\":0,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3],\"entries\":[]}\n{\"name\":\"not_monster\",\"status\":0,\"decision\":6,\"service_calls\":3,\"map_size\":0,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3,4],\"entries\":[]}\n{\"name\":\"mini_boss\",\"status\":0,\"decision\":6,\"service_calls\":4,\"map_size\":0,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3,4,5],\"entries\":[]}\n{\"name\":\"boss\",\"status\":0,\"decision\":6,\"service_calls\":5,\"map_size\":0,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3,4,5,6],\"entries\":[]}\n{\"name\":\"online_byte\",\"status\":0,\"decision\":7,\"service_calls\":6,\"map_size\":0,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3,4,5,6,7],\"entries\":[]}\n{\"name\":\"field_3ec_zero\",\"status\":0,\"decision\":8,\"service_calls\":6,\"map_size\":0,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,3,4,5,6,7],\"entries\":[]}\n{\"name\":\"timestamp_high_bit\",\"status\":0,\"decision\":9,\"service_calls\":7,\"map_size\":1,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":4026531840,\"timestamp_key\":-268435456,\"calls\":[0,3,4,5,6,7,8],\"entries\":[[-268435456,4096]]}\n{\"name\":\"timestamp_duplicate\",\"status\":0,\"decision\":10,\"service_calls\":7,\"map_size\":1,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":100,\"timestamp_key\":100,\"calls\":[0,3,4,5,6,7,8],\"entries\":[[100,4096]]}\n{\"name\":\"timestamp_insert_after_existing\",\"status\":0,\"decision\":9,\"service_calls\":7,\"map_size\":2,\"eviction_threshold\":8,\"eviction_attempted\":0,\"evicted_key\":0,\"evicted_character\":0,\"timestamp_word\":200,\"timestamp_key\":200,\"calls\":[0,3,4,5,6,7,8],\"entries\":[[-100,65536],[200,4096]]}\n{\"name\":\"oid29_non_special_level\",\"status\":0,\"decision\":5,\"service_calls\":4,\"map_size\":8,\"eviction_threshold\":8,\"eviction_attempted\":1,\"evicted_key\":-100,\"evicted_character\":65536,\"timestamp_word\":0,\"timestamp_key\":0,\"calls\":[0,1,2,3],\"entries\":[[-99,65537],[-98,65538],[-97,65539],[-96,65540],[-95,65541],[-94,65542],[-93,65543],[-92,65544]]}\n",
+  "stderr": "scheduler_guard_cases=15\nscheduler_effect_cases=3\nhost_cases=18\n",
+  "executable_sha256": "a3aacb1e3dd16c297e4738e067ee39cd9666bae3ea0adbe9b5138d819ff9eaac"
+}

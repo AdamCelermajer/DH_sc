@@ -1,0 +1,120 @@
+{
+  "all_checks_passed": true,
+  "scope": "immutable BRES image/material string views and local effect-ID links; no shader state or GPU behavior",
+  "totals": {
+    "bres_files": 2904,
+    "image_records": 3662,
+    "exact_texture_filename_matches": 3444,
+    "unmatched_texture_references": 218,
+    "pvr2_prefixed_filename_candidates": 42,
+    "effect_records": 3873,
+    "material_records": 4329,
+    "resolved_local_effects": 3854,
+    "external_effect_references": 475,
+    "external_effect_basename_matches": 475
+  },
+  "unique_unmatched_texture_filenames": 101,
+  "unmatched_texture_samples": [
+    [
+      "tex_faerie_001.tga",
+      44
+    ],
+    [
+      "env_underworld_alpha.tga",
+      14
+    ],
+    [
+      "env_crypt_alpha.tga",
+      9
+    ],
+    [
+      "env_earth_temple_alpha.tga",
+      7
+    ],
+    [
+      "env_testing.tga",
+      6
+    ],
+    [
+      "tex_lighteffect.tga",
+      4
+    ],
+    [
+      "env_swamp_alpha.tga",
+      4
+    ],
+    [
+      "spell_wind_vortex.tga",
+      4
+    ],
+    [
+      "deco_cata_dif.tga",
+      4
+    ],
+    [
+      "ground_cata_dif.tga",
+      4
+    ],
+    [
+      "lights.tga",
+      4
+    ],
+    [
+      "props_cata_dif.tga",
+      4
+    ],
+    [
+      "wall_cata_dif.tga",
+      4
+    ],
+    [
+      "env_darktemple_alpha.tga",
+      3
+    ],
+    [
+      "spell_water_whirlpool.tga",
+      3
+    ],
+    [
+      "spell_water_02.tga",
+      3
+    ],
+    [
+      "spell_water_round_splash.tga",
+      3
+    ],
+    [
+      "spell_wind_01.tga",
+      3
+    ],
+    [
+      "env_castle_alpha.tga",
+      2
+    ],
+    [
+      "wood_fence.tga",
+      2
+    ],
+    [
+      "explosion_white_01.tga",
+      2
+    ],
+    [
+      "radial_white.tga",
+      2
+    ],
+    [
+      "smoke_04.tga",
+      2
+    ],
+    [
+      "spell_earth_dirt_01.tga",
+      2
+    ],
+    [
+      "spell_earth_dust.tga",
+      2
+    ]
+  ],
+  "bres_manifest_sha256": "e29d8ab805626f1baf1b69d42963f345861ef2bc25ceb59dc67f127a1c50ebe8"
+}

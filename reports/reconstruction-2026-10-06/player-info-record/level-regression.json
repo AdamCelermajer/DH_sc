@@ -1,0 +1,286 @@
+{
+  "validation": "PASS",
+  "host_cases": 8,
+  "original_arm_cases": 8,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Executes the original PlayerInfo::SetCharacterLevel, NetStructMemberType<int>::SetValue and NetStructMember::SetChanged instructions. The only adapter is the synthetic vtable/global-serial binding; SetChanged itself is not intercepted. Stack residue at the source local read is explicit.",
+  "comparisons": [
+    {
+      "inputs": [
+        -1,
+        100,
+        0,
+        10,
+        55,
+        0
+      ],
+      "mark_order": [
+        -1,
+        784
+      ],
+      "matched": true,
+      "result": {
+        "value": 100,
+        "serial": 12,
+        "revision": 11,
+        "field10": 55,
+        "field14": 55,
+        "stamp": 55,
+        "changed": 1,
+        "temporary_marked": 1,
+        "member_marked": 1,
+        "member_value_changed": 1,
+        "marks": [
+          {
+            "member_offset": -1
+          },
+          {
+            "member_offset": 784
+          }
+        ]
+      }
+    },
+    {
+      "inputs": [
+        10,
+        10,
+        10,
+        22,
+        7,
+        0
+      ],
+      "mark_order": [],
+      "matched": true,
+      "result": {
+        "value": 10,
+        "serial": 22,
+        "revision": 1234605616436508552,
+        "field10": 286331153,
+        "field14": 572662306,
+        "stamp": 7,
+        "changed": 0,
+        "temporary_marked": 0,
+        "member_marked": 0,
+        "member_value_changed": 0,
+        "marks": []
+      }
+    },
+    {
+      "inputs": [
+        7,
+        7,
+        0,
+        31,
+        99,
+        0
+      ],
+      "mark_order": [
+        -1
+      ],
+      "matched": true,
+      "result": {
+        "value": 7,
+        "serial": 32,
+        "revision": 1234605616436508552,
+        "field10": 286331153,
+        "field14": 572662306,
+        "stamp": 99,
+        "changed": 0,
+        "temporary_marked": 1,
+        "member_marked": 0,
+        "member_value_changed": 0,
+        "marks": [
+          {
+            "member_offset": -1
+          }
+        ]
+      }
+    },
+    {
+      "inputs": [
+        -1,
+        -1,
+        -1,
+        100,
+        4,
+        0
+      ],
+      "mark_order": [],
+      "matched": true,
+      "result": {
+        "value": -1,
+        "serial": 100,
+        "revision": 1234605616436508552,
+        "field10": 286331153,
+        "field14": 572662306,
+        "stamp": 4,
+        "changed": 0,
+        "temporary_marked": 0,
+        "member_marked": 0,
+        "member_value_changed": 0,
+        "marks": []
+      }
+    },
+    {
+      "inputs": [
+        5,
+        12,
+        12,
+        18446744073709551614,
+        2882400001,
+        255
+      ],
+      "mark_order": [
+        784
+      ],
+      "matched": true,
+      "result": {
+        "value": 12,
+        "serial": 18446744073709551615,
+        "revision": 18446744073709551614,
+        "field10": 2882400001,
+        "field14": 2882400001,
+        "stamp": 2882400001,
+        "changed": 1,
+        "temporary_marked": 0,
+        "member_marked": 1,
+        "member_value_changed": 1,
+        "marks": [
+          {
+            "member_offset": 784
+          }
+        ]
+      }
+    },
+    {
+      "inputs": [
+        -1,
+        12,
+        13,
+        18446744073709551615,
+        305419896,
+        1
+      ],
+      "mark_order": [
+        -1,
+        784
+      ],
+      "matched": true,
+      "result": {
+        "value": 12,
+        "serial": 1,
+        "revision": 0,
+        "field10": 305419896,
+        "field14": 305419896,
+        "stamp": 305419896,
+        "changed": 1,
+        "temporary_marked": 1,
+        "member_marked": 1,
+        "member_value_changed": 1,
+        "marks": [
+          {
+            "member_offset": -1
+          },
+          {
+            "member_offset": 784
+          }
+        ]
+      }
+    },
+    {
+      "inputs": [
+        10,
+        -3,
+        9,
+        1311768467463790320,
+        0,
+        0
+      ],
+      "mark_order": [
+        -1,
+        784
+      ],
+      "matched": true,
+      "result": {
+        "value": -3,
+        "serial": 1311768467463790322,
+        "revision": 1311768467463790321,
+        "field10": 0,
+        "field14": 0,
+        "stamp": 0,
+        "changed": 1,
+        "temporary_marked": 1,
+        "member_marked": 1,
+        "member_value_changed": 1,
+        "marks": [
+          {
+            "member_offset": -1
+          },
+          {
+            "member_offset": 784
+          }
+        ]
+      }
+    },
+    {
+      "inputs": [
+        8,
+        17,
+        8,
+        0,
+        4294967295,
+        255
+      ],
+      "mark_order": [
+        -1,
+        784
+      ],
+      "matched": true,
+      "result": {
+        "value": 17,
+        "serial": 2,
+        "revision": 1,
+        "field10": 4294967295,
+        "field14": 4294967295,
+        "stamp": 4294967295,
+        "changed": 1,
+        "temporary_marked": 1,
+        "member_marked": 1,
+        "member_value_changed": 1,
+        "marks": [
+          {
+            "member_offset": -1
+          },
+          {
+            "member_offset": 784
+          }
+        ]
+      }
+    }
+  ],
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\character_level_member.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\tests\\character_level_member.cpp",
+    "-o",
+    "C:\\tmp\\dh2-full-player-level-regression.exe"
+  ],
+  "source_sha256": {
+    "port/player-info-level/character_level_member.cpp": "e5d9ee9f1c5f23c98cd47edecca16fe124a92b9ed69012ce4fd99c1514247f36",
+    "port/player-info-level/tests/character_level_member.cpp": "895f3c7f98362c8d4b2441ac3e0308a2c27abd95ca652b4da75f4eebe492e507",
+    "port/player-info-level/character_level_member.hpp": "e6e3301ae0f345c73d0a5da9846579c46aa7e43365579c4918cdc6e2ad9bb5cf",
+    "port/player-info-level/tests/run_character_level_member.py": "75be018665e887f04433701c50f34062bb74927c07b871500977a741d4f1e378",
+    "port/player-info-level/reference/character-level-member/original-functions.json": "1d4f4f0dae9fb03636d8e77c7dda836f69535401ea3728f642f2187781de20ad",
+    "port/player-info-level/reference/character-level-member/NOTES.md": "3052906b76b67feec29d8fa49483fa17bf5a10c764e4c8c0de388672379c3cfb"
+  },
+  "native_wired": false
+}

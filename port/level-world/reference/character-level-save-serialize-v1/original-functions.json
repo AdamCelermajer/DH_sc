@@ -1,0 +1,82 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {"name":"ObjectBase::Serialize","address":"0x33e1f0","size":40,"sha256":"d0cac7e4de0654e2f1e69fe3a00583a79692df6484696e71a3311c852b593691"},
+    {"name":"GameObject::Serialize","address":"0x38b9e4","size":32,"sha256":"16a71e9b7c7806c6f72823a2418e656f2ec6b8c802e5394974f92d770288aa8e"},
+    {"name":"Character::Serialize","address":"0x3a65c4","size":248,"sha256":"0919be98c4899965543d3e033494f94779609ae1cd42ef51605f21f094bf7385"},
+    {"name":"IStreamBase::writeAs<Structs::CharacterProperties>","address":"0x3a3ad0","size":152,"sha256":"1b3f2749a440015b2fd759ba76829212e3a4c84e8ceb911c83fcc6b6ccbad53d"},
+    {"name":"IStreamBase::readAs<Structs::CharacterProperties>","address":"0x3a3970","size":152,"sha256":"2f0b079fed3ed33c6176197d1862c809d9566451c7c8c5d1c35c2abf4da94785"},
+    {"name":"Character::Deserialize","address":"0x3a6210","size":932,"sha256":"44d99df7b5b0ae9e0d4d7b9552277beb27025fe403603f70433e128ebc64f0fb"},
+    {"name":"LevelSavegame::Load","address":"0x46156c","size":100,"sha256":"af1d3a9ef82ba29cc2e6f55f91c46ee0a515ec74a1979719e7d963d5d1641daf"},
+    {"name":"LevelSavegame::__LoadObjects","address":"0x461e90","size":596,"sha256":"52d82f397ba20f66c05489aa918944a9ea82eb4d0f1ecb7e2b5398df8ca380c6"},
+    {"name":"Module::Serialize","address":"0x388710","size":32,"sha256":"d5b70c2c3249c807a4ec7c3fc412f2a26bfc57a3364ca10a79d1154dc579739b"},
+    {"name":"Trigger::Serialize","address":"0x398978","size":44,"sha256":"e73ff0c754f00ab05d460fd2011c54a06916b61501e818ccac77d21a0a1d509a"},
+    {"name":"TriggerObject::Serialize","address":"0x3996a4","size":4,"sha256":"ad80c3887c13e22a96d9da0a459f400d63b21fa368e331e652a860c4ffc59e44"},
+    {"name":"Container::Serialize","address":"0x39f8e0","size":48,"sha256":"00acdf7e0be80b52c0cae8b469e498c3cc379d30bcb051268026a23661249d57"},
+    {"name":"Door::Serialize","address":"0x3e7b74","size":32,"sha256":"b5943fb31358858ffb159bd617d965d7190cd1fda64d297c6621b270fab7e85f"},
+    {"name":"LevelSavegame::__SaveObjects","address":"0x462d84","size":924,"sha256":"7ce47100fb09ac9dd88fac6c0ed8c707473b7edb7fa75b14bb077728613803ae"}
+  ],
+  "character_serialize_order": [
+    "GameObject::Serialize: ObjectBase bool +0x80, bool +0x8a, GameObject int32 +0x270",
+    "Character::SM_GetState as int32",
+    "when Character::IsPlayer is false: 900-byte CharacterProperties +0x8ec, then 900-byte CharacterProperties +0xff4",
+    "12-byte Point3D +0x160, 12-byte Point3D +0x16c, bool +0x1449",
+    "12-byte Point3D +0x1468, 12-byte Point3D +0x1474",
+    "when Character +0x3fc is nonnull: int32 AI +0x24, bool AI +0x28, bool AI +0x29"
+  ],
+  "save_objects_eligibility": {
+    "walk": "ObjectManager signed-key map in ascending key order",
+    "base_gate": "non-null object and ObjectBase byte +0x28 != 0",
+    "online_gate": "when GetOnline()+5 is set, include non-Character or non-Player objects; for Character+Player, include only IsLocalPlayer objects with byte +0x81 == 0",
+    "header": "object name from +0x5c; map key alias is PlayerCharacter_0 for non-primary Character+Player entries; type word from +0x64; u64 payload length then virtual Serialize slot +0x10; patch length after call",
+    "load": "LevelSavegame::__LoadObjects resolves/reuses object by map key, calls Deserialize slot +0x14, and seeks to payload end if the virtual reader consumed a different length"
+  },
+  "source_serializer_contracts": [
+    {"family":"ObjectBase","payload_bytes":2,"order":["bool +0x80","bool +0x8a"],"types":["LightPoint","Billboard","LevelConfig"]},
+    {"family":"GameObject","payload_bytes":6,"order":["ObjectBase 2-byte body","int32 +0x270"],"types":["Decor","AnimatedDecor","Dummy","Floor","ColBox","SoundEmitter","CheckpointZone","QuestMoveInZone","RoomZone","ProjectileTrap","TriggerTrap","TimerTrap","SpawnPoint","SpawnSpot","LiftableObject","Item","Projectile","LaserTypeProjectile"]},
+    {"family":"Module","payload_bytes":7,"order":["GameObject 6-byte body","bool +0x3fc"],"types":["Module","Block"]},
+    {"family":"Trigger","payload_bytes":14,"order":["GameObject 6-byte body","int32 +0x3b8","int32 +0x3b4"],"types":["TriggerObject","TriggerPlate","TriggerZone","TriggerZoneExitLevel"]},
+    {"family":"Container","payload_bytes":7,"order":["GameObject 6-byte body","uint8 from +0x394"],"types":["OpenableContainer","SlotContainer","DestructibleContainer"]},
+    {"family":"Door","payload_bytes":10,"order":["GameObject 6-byte body","int32 enum +0x3a8"],"types":["Door"]},
+    {"family":"Character","payload_bytes":"variable: 59 + optional 6-byte AI tail for player; 3659 + optional 6-byte AI tail for non-player","order":"see character_serialize_order","types":["Character","Player"]}
+  ],
+  "native_owner_coverage": "No currently selected canonical owner exposes the full source bytes for an eligible non-Character class. NativeWorldItem is ItemObject but lacks ObjectBase +0x80/+0x8a and GameObject +0x270; generated Trigger/Door/Decor records are source descriptors, not live ObjectBase owners. Character has a typed factory adapter, but its saved property-image vptr is a runtime-relocated source address and the port has no proven compatible load-bias source.",
+  "world_item_persistence_boundary": {
+    "source_edges": [
+      "LevelSavegame::__SaveObjects 0x462d84 walks the existing ObjectManager map in signed-key order, applies ObjectBase+0x28 and online/player gates, writes name +0x5c, manager key, type +0x64, then calls virtual Serialize +0x10 and patches the payload length.",
+      "LevelSavegame::__LoadObjects 0x461e90 resolves the already-loaded object by ObjectManager key/name, calls virtual Deserialize +0x14, and seeks to the recorded payload end if the virtual reader consumes a different length. It does not construct an ItemObject from an item id.",
+      "ItemManager::PreCache 0x3eb6e4 creates five source ObjectManager objects named ItemObject_%02u_%02u per ItemAudioVisual category and calls ItemObject::InitOnce 0x3ece80, then DeSpawn 0x3eac34. Spawn 0x3eacd0 rotates one of those stable shells, sets position/destination, invokes InitAgain 0x3ec0f0, enables it, and marks its pool row active.",
+      "ItemObject has no Serialize override in the pinned function inventory; the serializer contract groups Item under GameObject. GameObject::Serialize 0x38b9e4 writes ObjectBase flags +0x80/+0x8a then GameObject +0x270. GameObject::Deserialize 0x38b91c reads +0x270, asserts it equals the already-loaded object's spawnProbRolled value, and syncs visibility."
+    ],
+    "required_existing_provider": [],
+    "selected_port_gap": "No ItemObject serializer bridge is required by the pinned source OBJS eligibility gate: ItemObject shells are not opted into the save list. NativeWorldItem/native_item_manager_pool_v1 therefore need not fabricate ObjectBase bytes or source ObjectManager identity for serialization. The exact original-engine factory/shell bridge remains a separate gameplay-parity gap, not a level-save blocker.",
+    "factory_and_shell_boundary": "object_creation_map_v1 resolves source type Item to GetNewInstance<ItemObject> thunk 0x340d38, but it is dispatch metadata only; the header explicitly leaves production construction to a class-specific owner. object_manager_runtime_owner_v1 can reserve a stable signed handle/name and retain a semantic GameObject identity, but explicitly implements no source factory, ObjectHandle resolution, or ObjectBase storage. item_manager_pool_v1 is the existing single canonical V4 association/round-robin owner: its active slot binds stable NativeWorldItem identity to the V4 Item pointer and tracks the five-slot cursor, but allocates projection shells lazily and has no ObjectManager name/key or ItemObject InitOnce owner. `source_handle_ledger_v1` shell rows are fixtures only, not live Item factory receipts.",
+    "first_missing_provider": "None for Item OBJS save/load: the source gate excludes these shells. If original-engine ItemObject factory parity is pursued, it still needs an executable ObjectManager::Spawn('Item') factory and retained five-shell ItemManager owner; current semantic handle and V4 projection owners are not that source runtime.",
+    "resume_assessment": "The GL/EGL restore path can reuse the still-live Player V4 world_items vector and recreate NativeWorldItem physics projections through ensure_native_world_items. Terminal Level teardown clears native_world_items and its pool; no selected LevelSavegame OBJS load/save path snapshots or restores those V4 world items. This is an in-process renderer/session restore only, not level unload/reload or durable world persistence.",
+    "evidence_scope": "Static IDA decompilation of the pinned ARMv7 ELF. Constructor/lifecycle details are source-field evidence; no live original ItemObject save/load capture is claimed."
+  },
+  "item_shell_save_eligibility": {
+    "source_edges": [
+      "LevelSavegame::__SaveObjects gates every row on ObjectBase byte +0x28 being nonzero before it writes the object header or calls Serialize.",
+      "ObjectBase constructor 0x33f310 initializes byte +0x28 to 0. ItemObject constructor 0x3ec324 and GameObject constructor 0x38c398 do not set it; the only ItemObject-family stores found at this offset are the base initialization and GameObject::InitPost's conditional clear.",
+      "GameObject::DeclareProperties 0x38cee8 binds +0x15c to skip_checkpoint. GameObject::InitPost 0x38be5c clears +0x28 when skip_checkpoint is set. It never sets +0x28 true.",
+      "Contrasting save-enabled classes set +0x28 true in their constructors (for example Container 0x3a0810, Trigger 0x39904c, and Door 0x3e83b4). ItemManager PreCache creates ItemObject shells through ItemObject's own constructor/InitOnce path, which has no such opt-in."
+    ],
+    "port_conclusion": "Pre-cached and spawned ItemObject shells remain outside LevelSavegame OBJS under the observed source lifecycle. Building an ObjectBase serializer bridge for NativeWorldItem would invent save eligibility and identity; do not implement that bridge. Current V4 inventory/profile save remains the relevant persistence owner after pickup. A separate world-item checkpoint persistence owner is not evidenced by ItemManager (its source function inventory contains only constructor, PreCache, Spawn, DeSpawn, and Flush).",
+    "evidence_scope": "Static pinned ARMv7 ELF decompilation plus scoped instruction scan for ObjectBase +0x28 stores in ObjectBase/GameObject/ItemObject functions; no runtime save capture claimed."
+  },
+  "property_write_evidence": "The pinned writeAs<CharacterProperties> passes sizeof(T)=900 directly to the stream virtual write. The load path calls Object::Deserialize virtual +0x14 for the bounded OBJS payload; Character::Deserialize then readAs<CharacterProperties> passes 900 bytes directly to stream virtual read at offsets +0x8ec and +0xff4. The first word is copied as part of the image; neither serializer routine relocates or skips it. Each image contains a 32-bit ARM vptr plus 224 int32 property words. A port PropertyState sheet is only the 896-byte value payload and cannot stand in for the complete source image.",
+  "character_property_image_lifecycle": {
+    "functions": [
+      {"name":"Character::Character","address":"0x3aa1b4","size":1416,"sha256":"4bc5ec77dbf4b7fa5ed5b2a9939c2a289cd4765f044fd8ffe0fc64a8f347e505"},
+      {"name":"Character::InitAll","address":"0x3b35f0","size":40,"sha256":"a0cb579c5d560843ef584d20f1564de1e6e507f661201dfef7b63b6d0b6a2d9b"},
+      {"name":"Character::InitSpawned","address":"0x3b379c","size":136,"sha256":"cfca6e8b4d35bfdc2f4bce13e234c2a79768f7ae917d29b86ba289c29ccbed36"},
+      {"name":"Character::InitPost","address":"0x3b4d60","size":2100,"sha256":"129a54e1eda59bd3a2028819242ed3042f5b26c17cc0961398f29277f77b62f3"},
+      {"name":"Character::InitFinal","address":"0x3b4978","size":568,"sha256":"42533b13357d2d5b61015fd1c2bc940b351c87c77b8568788b83c56a875771ce"},
+      {"name":"CharProperties::CharProperties","address":"0x3df084","size":128,"sha256":"804979f245fd9e6903ff44aba0ee23413f6d79349b3e3c38c42b36a25befe9fb"},
+      {"name":"CharProperties::_LoadFromCharTable","address":"0x3df250","size":72,"sha256":"dcd845b526c6f92966c3982b6d41f69d46c859cb1790e53521712736ca6ce3a4"}
+    ],
+    "observation": "Character::Character at 0x3aa1b4 calls CharProperties::CharProperties C2 at 0x3df084 with this=Character+0x560. C2 loads _ZTVN7Structs19CharacterPropertiesE through the GOT, adds 8, and stores that addresspoint at owner+0x8, +0x38c, +0x710, and +0xa94 (Character+0x568, +0x8ec, +0xc70, and +0xff4); thus both serialized 900-byte images are initialized before table copies. _LoadFromCharTable at 0x3df250 copies 0x380 bytes from row+4 to destination+4, preserving the initialized first word. The addresspoint RVA is 0x96bbc0, but libDungeonHunter2.so is ELF32 ET_DYN and the GOT pointer is R_ARM_RELATIVE at 0x997424, so the live vptr is load-bias + 0x96bbc0, not a stable raw 0x96bbc0 token. Serialize/Deserialize copy the vptr without relocation. This proves constructor origin but not cross-ASLR save compatibility or a port-available live vptr; keep production non-player save gated until an exact source-compatible header source is available. Player saves omit both images by source design."
+  },
+  "fixture_scope": "Host regression synthesizes provider field spans to verify emitted order/length and fail-closed behavior. It does not claim a live original-runtime serialization capture. Original function sizes and hashes pin the static ELF evidence."
+}

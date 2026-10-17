@@ -1,0 +1,53 @@
+{
+  "status": "PASS",
+  "arm_comparisons": 245,
+  "distinct_pinned_words": 288,
+  "native_policy_checks": 17,
+  "source_sha256": {
+    "player_metadata_prepare_v1.cpp": "47301ef3537458cc8c46657a42a94ed3f39c99ced4bc68ceee440e232cc0e14d",
+    "player_metadata_prepare_v1.hpp": "164747130e70120d173b3ddbe7c82b949d9a51d743bb483499d40172e67b6a4c",
+    "tests/player_metadata_prepare_v1_host.cpp": "7edd0c82d814f6c125224b8e891612c7200b82102ee264fa624b6255df70f2cf",
+    "tests/run_player_metadata_prepare_v1.py": "63d2e3e1eea74fc4e2561c733588934b2705199eb16db099cfc476e5282eb1f4",
+    "reference/player-metadata-prepare-v1/original-functions.json": "a743db68243d5f58c82d0d0fa9afd2203654d9faab9aaf4e6a7d55933c4a07c1",
+    "port/player-info-level/tests/player_metadata_prepare_v1_integration.cpp": "fa9425ebab5b3df9d77ff13470866f70e957d11d6491c9d99f1975cf23e54fbd",
+    "port/android-native/app/src/main/cpp/native_player_profile.cpp": "dc4c283eb2256176f16b3a1cd175b2d0a186ee7aef68540854705f24136eca77",
+    "port/android-native/app/src/main/cpp/native_player_profile.hpp": "aec77ef995b4c071b7eed11a418b2580f52ea4dad200dbd92750e635aa03f256"
+  },
+  "binary_sha256": {
+    "metadata_host.exe": "3d9095f61d07326c751471701d906af141d20838bd15be253959018b4f60ad53",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1bff274e1c39d3e4b4727920693c51873492adeaebd4be0f62b2eae11f426d86",
+    "libdh2_level_world.dll": "3ba3e5ba9fe7dcd44e5b636786a7eab3a796155312bf7cf550136663c1fac884",
+    "metadata_composition.exe": "17a9ee833a23ac0dc805f0f5586eee9205774dc4682bc52c4150ab99a7adb836"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\40df62e5382f2961b65318f4f1b290d9\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_metadata_prepare_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_metadata_prepare_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_metadata_prepare_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/40df62e5382f2961b65318f4f1b290d9/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_metadata_prepare_v1.cpp.obj"
+    }
+  ],
+  "scope": "Bounded selected-player normal metadata path after GetPlayer; original name/class/level setters and member bodies execute. Active, allocation, indexed Save constructor, Debug/GameState and C++ string platform helpers are declared providers. Stops before current-Level/Character decision, not whole Manage5072.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "android_compilation": false,
+  "live_gameplay": false,
+  "mismatches": [],
+  "selected_composition": {
+    "validation": "PASS",
+    "checks": 46,
+    "real_record_deletions": 4,
+    "metadata_deleting_calls": 3,
+    "corrupt_unpublished_allocation_retained": true,
+    "two_distinct_slots": true,
+    "scope": "Actual selected Factory/Record/Activity/Prepare/Save index readers with native Metadata transport and synthetic profiles; platform lease map is declared test adapter, not NativeHostPlayer/live teardown"
+  },
+  "cache_sha256": {
+    "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+  }
+}

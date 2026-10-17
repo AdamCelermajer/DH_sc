@@ -1,0 +1,32 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character14_InitEquipmentEv",
+      "elf_address": "0x3b395c",
+      "size": 276,
+      "sha256": "5cd18623a37e0ab1321d45fcfb910761c8aaa4a8808cf43db9c79e647eb4736c"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventoryC1Ev",
+      "elf_address": "0x3ff200",
+      "size": 304,
+      "sha256": "31ad44df59ae03bd3aa2dbbe54a71b4f77fdf62532a64875136379353999b153"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    }
+  ],
+  "upstream_commit": "791e961b12233100b303038c961666834f4beb9d",
+  "upstream_kernel": "port/level-world/player_initial_grants_v2.cpp:dh2_player_initial_equipment_v2",
+  "scope": "Whole _InitEquipment caller and real nested _GetProperty valid-id cached sheet read. Online singleton/record, count, AddLoot, IsEquippable, virtual CharacterAutoEquip and Skin bodies are declared callee fixtures. ItemInventory constructor and InitPost are statically pinned, not dynamically executed."
+}

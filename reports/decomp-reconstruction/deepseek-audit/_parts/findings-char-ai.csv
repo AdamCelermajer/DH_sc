@@ -1,0 +1,6 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x370020,PlayerManager::_PackInventory(PlayerInfo &),game-character/src/g1-game-character-PlayerManager-025dba-1.cpp,453,high,compare,"      while ( v8 - 1 > 1 )
+      {
+        EquippedItem = (ItemInstance *)ItemInventory::GetEquippedItem(v5, v8);","    for (int slot = 0; slot < numSlots; ++slot) {
+        if (slot - 1 > 1) {
+            ItemInstance* item = inventory->GetEquippedItem(static_cast<unsigned int>(slot));","recovered/native/hexrays-all/chunk_005.c:6958 tests the slot with an UNSIGNED comparison (v8 is unsigned int), so slot 0 (0-1 = 0xFFFFFFFF > 1) takes the per-item fold branch; the port's 'int slot' makes 'slot - 1 > 1' false at slot 0, so slot 0 is folded through the slots-1+2 sum branch instead. The sum is then XORed twice (slot 0 and slot 1) and cancels out and slot 0's own item id is never folded, so the packed-inventory hash differs from the original and stops changing when only slots 0/1/2 (the hand slots) change; the replicated counter unk_4a0 and the replicated item-id array unk_3b0 are then left stale, so equipment changes stop being replicated."

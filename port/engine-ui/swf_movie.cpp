@@ -1,10 +1,12 @@
 #include "swf_movie.hpp"
 #include "swf_frame_connection.hpp"
+#include "authored_animation_pool_v1.hpp"
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_player.h"
 #include "gameswf/gameswf_root.h"
 #include "gameswf/gameswf_sprite.h"
 #include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_text.h"
 #include "gameswf/gameswf_types.h"
 #include "gameswf/gameswf_movie_def.h"
 #include "gameswf/gameswf_render.h"
@@ -13,9 +15,11 @@
 #include "base/tu_file.h"
 #include "base/image.h"
 #include <cmath>
+#include <algorithm>
 #include <limits>
 #include <exception>
 #include <set>
+#include <array>
 #include <cstring>
 #include <functional>
 #include <mutex>
@@ -37,6 +41,16 @@ struct SwfMovie::Impl:gameswf::render_handler {
  SwfServices service{};gameswf::gc_ptr<gameswf::player> player;
  gameswf::gc_ptr<gameswf::root> root;std::vector<gameswf::gc_ptr<gameswf::root>> shared;
  std::vector<gameswf::gc_ptr<gameswf::sprite_instance>> hud_pins;
+ struct AuthoredAnimationStyle {
+  std::string name;gameswf::gc_ptr<gameswf::sprite_instance> source;
+  authored_animation_pool_v1::StylePool pool;
+  std::array<gameswf::gc_ptr<gameswf::sprite_instance>,8> clips{};
+  std::array<gameswf::gc_ptr<gameswf::edit_text_character>,8> text_fields{};
+ };
+ struct AuthoredPlayback {bool active{};std::size_t style{},clone{};float elapsed_ms{},x{},y{};std::uint32_t frame{};std::string text;std::uint8_t r{},g{},b{},a{255};};
+ authored_animation_pool_v1::State authored_pool{};
+ std::array<AuthoredPlayback,authored_animation_pool_v1::playback_context_count> authored_playbacks{};
+ std::vector<AuthoredAnimationStyle> authored_styles;
  std::vector<std::string> messages;std::string failure;SwfDraw state{};
  struct DisplayHook {
   Impl* owner{};gameswf::gc_ptr<gameswf::character> character;
@@ -115,6 +129,23 @@ struct SwfMovie::Impl:gameswf::render_handler {
   }}
  };
  void fail(const std::string&s){if(failure.empty())failure=s.empty()?"Required SWF provider rejected delivery":s;}
+ void advance_authored_animations(float seconds){
+  if(!root||!std::isfinite(seconds)||seconds<0)return;
+  // The retained live-player HUD path runs during a source Level gameplay
+  // session. FlashAnimManager::Update selects its fixed 33 ms cadence there.
+  constexpr float frame_ms=33.f;
+  for(std::size_t i=0;i<authored_playbacks.size();++i){auto& playback=authored_playbacks[i];
+   if(!playback.active||playback.style>=authored_styles.size())continue;
+   auto& style=authored_styles[playback.style];if(playback.clone>=style.clips.size())continue;
+   auto* clip=style.clips[playback.clone].get_ptr();if(!clip)continue;
+   playback.elapsed_ms+=seconds*1000.f;
+   while(playback.elapsed_ms>frame_ms){playback.elapsed_ms-=frame_ms;++playback.frame;
+    if(playback.frame>=static_cast<std::uint32_t>(std::max(0,clip->get_frame_count()))){
+     authored_animation_pool_v1::stop(authored_pool,style.pool, i);playback.active=false;break;
+    }
+   }
+  }
+ }
  bool finish(std::string&e){if(!failure.empty()){e=failure;return false;}e.clear();return true;}
  static void log(bool error,const char*s){if(!active)return;active->messages.emplace_back(s?s:"");if(active->service.diagnostic)active->service.diagnostic(active->service.context,error,s?s:"");}
  static tu_file*open(const char*uri){if(!active)return nullptr;auto&p=*active;std::vector<std::uint8_t>b;std::string e;
@@ -159,7 +190,6 @@ struct SwfMovie::Impl:gameswf::render_handler {
 };
 SwfMovie::Impl*SwfMovie::Impl::active=nullptr;
 std::recursive_mutex SwfMovie::Impl::scope_gate;
-#include "swf_movie_combat_flash_v1.inc"
 SwfMovie::SwfMovie():impl_(new Impl){}SwfMovie::~SwfMovie()=default;
 SwfMovie::SwfMovie(SwfMovie&&)noexcept=default;SwfMovie&SwfMovie::operator=(SwfMovie&&)noexcept=default;
 bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movie,const SwfServices&s,std::string&e){auto p=std::make_shared<Impl>();p->service=s;Impl::Scope scope(p.get());if(!scope.entered){e="SWF core busy";return false;}
@@ -179,13 +209,110 @@ bool SwfMovie::load(const std::vector<std::string>&shared,const std::string&movi
  if(!as->attach_root(p->root.get_ptr(),e)||!p->finish(e))return false;
  input_.reset();action_script_.reset();viewport_.reset();impl_=std::move(p);action_script_=std::move(as);return true;
 }
-bool SwfMovie::advance(float seconds,std::string&e){auto owner=impl_;if(!owner||!owner->root||!std::isfinite(seconds)||seconds<0){e="Invalid SWF advance";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->advance(seconds);return owner->finish(e);}
+bool SwfMovie::advance(float seconds,std::string&e){auto owner=impl_;if(!owner||!owner->root||!std::isfinite(seconds)||seconds<0){e="Invalid SWF advance";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->advance(seconds);owner->advance_authored_animations(seconds);return owner->finish(e);}
 bool SwfMovie::display(std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::string&e){auto owner=impl_;if(!owner||!owner->root||w<=0||h<=0){e="Invalid SWF viewport";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}owner->root->set_display_viewport(x,y,w,h);owner->root->display();return owner->finish(e);}
 bool SwfMovie::display_clip(const char*path,std::string&e){auto owner=impl_;if(!owner||!owner->root){e="SWF movie not loaded";return false;}auto&r=*owner->root;return display_clip(path,r.m_viewport_x0,r.m_viewport_y0,r.m_viewport_width,r.m_viewport_height,e);}
 bool SwfMovie::display_clip(const char*path,std::int32_t x,std::int32_t y,std::int32_t w,std::int32_t h,std::string&e){auto owner=impl_;if(w<=0||h<=0){e="Invalid SWF viewport";return false;}Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}auto*c=owner->find(path);if(!c){e="SWF clip not found";return false;}auto&r=*owner->root;r.set_display_viewport(x,y,w,h);const auto&bounds=r.m_def->m_frame_size;owner->begin_display(r.m_background_color,x,y,w,h,bounds.m_x_min,bounds.m_x_max,bounds.m_y_min,bounds.m_y_max);c->display();owner->end_display();return owner->finish(e);}
 bool SwfMovie::clip(const char*path,SwfClipInfo&out,std::string&e){auto owner=impl_;Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}auto*c=owner->find(path);if(!c){e="SWF clip not found";return false;}SwfClipInfo r;r.id=c->get_id();r.depth=c->get_depth();r.frame=c->get_current_frame();r.frames=c->get_frame_count();r.visible=c->get_visible();r.local=matrix(c->get_matrix());r.world=matrix(c->get_world_matrix());out=r;return owner->finish(e);}
 bool SwfMovie::set_number(const char*path,double n,std::string&e){auto owner=impl_;Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}if(!owner->root||!path){e="Invalid SWF variable path";return false;}auto*env=owner->root->get_root_movie()->get_environment();if(!env){e="SWF environment missing";return false;}const ::array<gameswf::with_stack_entry> with;env->set_variable(path,gameswf::as_value(n),with);return owner->finish(e);}
 bool SwfMovie::set_visible(const char*path,bool v,std::string&e){auto owner=impl_;Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}auto*c=owner->find(path);if(!c){e="SWF clip not found";return false;}c->set_visible(v);return owner->finish(e);}
+bool SwfMovie::authored_animation_style_id(const char* style,std::int32_t& id,std::string& e){
+ auto owner=impl_;if(!owner||!owner->root||!style){e="Source FlashAnimManager style query is invalid";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ std::vector<std::string> names;
+ std::function<void(gameswf::character*)> collect=[&](gameswf::character* c){
+  if(!c)return;const char* name=c->get_name().c_str();if(std::strncmp(name,"anim_",5)==0)names.emplace_back(name);
+  if(auto* sprite=dynamic_cast<gameswf::sprite_instance*>(c))
+   for(int i=0;i<sprite->m_display_list.size();++i)collect(sprite->m_display_list.get_character(i));
+ };
+ collect(owner->root->get_root_movie());
+ for(std::size_t i=0;i<names.size();++i)if(names[i]==style){
+  if(i>std::size_t(std::numeric_limits<std::int32_t>::max())){e="Source animation id exceeds signed range";return false;}
+  id=static_cast<std::int32_t>(i);return owner->finish(e);
+ }
+ e=std::string("Source FlashAnimManager animation style is absent: ")+style;return false;
+}
+bool SwfMovie::play_authored_animation_text(const char* style,std::uint32_t slot,
+ float x,float y,const char* text,std::uint8_t r,std::uint8_t g,std::uint8_t b,
+ std::uint8_t a,std::string& e){
+ auto owner=impl_;if(!owner||!owner->root||!style||!text||
+    (slot>=authored_animation_pool_v1::playback_context_count&&slot!=std::numeric_limits<std::uint32_t>::max())||
+    !std::isfinite(x)||!std::isfinite(y)){e="Invalid authored animation request";return false;}
+ static constexpr const char* styles[]={"anim_sct_normaldamage","anim_sct_xp","anim_sct_normaldamageleft",
+  "anim_sct_normaldamageright","anim_sct_crit","anim_sct_critleft","anim_sct_critright",
+  "anim_sct_block","anim_sct_stun","anim_sct_dot"};
+ bool known=false;for(const auto* candidate:styles)known|=std::strcmp(style,candidate)==0;
+ if(!known){e="Unknown source scrolling-combat-text style";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ auto* source=dynamic_cast<gameswf::sprite_instance*>(owner->find(style));
+ if(!source){e=std::string("Source scrolling animation style instance unavailable: ")+style;return false;}
+ std::size_t style_id=owner->authored_styles.size();
+ for(std::size_t i=0;i<owner->authored_styles.size();++i)
+  if(owner->authored_styles[i].name==style){style_id=i;break;}
+ if(style_id==owner->authored_styles.size()){
+  Impl::AuthoredAnimationStyle record;record.name=style;record.source=source;
+  owner->authored_styles.push_back(std::move(record));
+ }
+ auto& animation_style=owner->authored_styles[style_id];
+ if(animation_style.source.get_ptr()!=source){e="Source animation style identity changed while movie remained loaded";return false;}
+ std::size_t context_id{},clone_id{};bool create_clone{};
+ if(slot==std::numeric_limits<std::uint32_t>::max()){
+  if(!authored_animation_pool_v1::acquire(owner->authored_pool,animation_style.pool,
+       static_cast<std::uint32_t>(style_id),context_id,clone_id,create_clone)){
+   e="Source FlashAnimManager has no free playback context";return false;
+  }
+ }else{
+  context_id=slot;
+  // The original manager chooses contexts internally; explicit indices are a
+  // compatibility/testing seam. Clone selection still follows source policy.
+  if(!authored_animation_pool_v1::acquire_at(owner->authored_pool,animation_style.pool,
+       static_cast<std::uint32_t>(style_id),context_id,clone_id,create_clone)){
+   e="Source FlashAnimManager has no free playback context";return false;
+  }
+ }
+ auto& clip=animation_style.clips[clone_id];auto& field=animation_style.text_fields[clone_id];
+ auto abandon=[&](){authored_animation_pool_v1::stop(owner->authored_pool,animation_style.pool,context_id);
+  if(create_clone)animation_style.pool.clones[clone_id].created=false;};
+ if(create_clone){
+  const std::string name="_clone_"+std::to_string(clone_id);
+  auto* parent=dynamic_cast<gameswf::sprite_instance*>(source->get_parent());
+  if(!parent){abandon();e="Source animation style has no parent movieclip";return false;}
+  auto* clone=dynamic_cast<gameswf::sprite_instance*>(source->clone_display_object(
+      tu_string(name.c_str()),parent->get_highest_depth()+1));
+  if(!clone){abandon();e="Source animation clone failed";return false;}
+  auto* text_field=dynamic_cast<gameswf::edit_text_character*>(clone->find_target(gameswf::as_value("_text")));
+  if(!text_field){if(auto* parent=dynamic_cast<gameswf::sprite_instance*>(clone->get_parent()))parent->remove_display_object(clone);abandon();e="Source scrolling animation _text field unavailable";return false;}
+  clip=clone;field=text_field;
+ }
+ if(!clip||!field){abandon();e="Source animation clone record is inconsistent";return false;}
+ auto& playback=owner->authored_playbacks[context_id];playback={};playback.active=true;
+ playback.style=style_id;playback.clone=clone_id;playback.x=x;playback.y=y;
+ playback.text=text;playback.r=r;playback.g=g;playback.b=b;playback.a=a;
+ field->m_color.set(r,g,b,a);field->set_text_value(tu_string(text));
+ return owner->finish(e);
+}
+bool SwfMovie::display_authored_animations(std::string& e){
+ auto owner=impl_;auto connection=viewport_;
+ if(!owner||!owner->root||!connection){e="Required retained combat-text movie/viewport unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ float rectangle[4];if(!connection->display_rectangle(rectangle,e))return false;
+ const auto& v=connection->state().viewport;
+ for(std::size_t i=0;i<owner->authored_playbacks.size();++i){
+  const auto& playback=owner->authored_playbacks[i];if(!playback.active||playback.style>=owner->authored_styles.size())continue;
+  const auto& style=owner->authored_styles[playback.style];if(playback.clone>=style.clips.size())continue;
+  auto* clip=style.clips[playback.clone].get_ptr();auto* field=style.text_fields[playback.clone].get_ptr();if(!clip||!field)continue;
+  if(auto* parent=dynamic_cast<gameswf::sprite_instance*>(clip->get_parent())){
+   gameswf::matrix transform=style.source->get_matrix();transform.m_[0][2]+=playback.x;transform.m_[1][2]+=playback.y;
+   gameswf::cxform color;parent->move_display_object(clip->get_depth(),false,color,true,transform,
+       clip->get_ratio(),clip->get_clip_depth(),clip->get_blend_mode());
+  }
+  clip->goto_frame(static_cast<int>(playback.frame));field->m_color.set(playback.r,playback.g,playback.b,playback.a);
+  field->set_text_value(tu_string(playback.text.c_str()));
+  owner->begin_display(owner->root->m_background_color,v[0],v[1],v[2],v[3],rectangle[0],rectangle[1],rectangle[2],rectangle[3]);
+  const bool was_visible=clip->get_visible();clip->set_visible(true);clip->display();clip->set_visible(was_visible);owner->end_display();
+ }
+ return owner->finish(e);
+}
 bool SwfMovie::hide_menu_state_clips(std::vector<std::string>& names,std::string&e){
  auto owner=impl_;Impl::Scope scope(owner.get());
  if(!scope.entered){e="SWF core busy";return false;}
@@ -218,11 +345,6 @@ bool SwfMovie::update_viewport(FlashCamera40& camera,std::string&e){
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
  return connection->camera_update(camera,e)&&owner->finish(e);
 }
-bool SwfMovie::set_source_bounds(const std::int32_t xywh[4],std::int32_t aspect_mode,std::string&e){
- auto owner=impl_;auto connection=viewport_;if(!owner||!connection){e="Required source viewport connection unavailable";return false;}
- Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
- return connection->set_bounds(xywh,aspect_mode,e)&&owner->finish(e);
-}
 bool SwfMovie::display_source_clip(const char* path,std::string&e){
  auto owner=impl_;auto connection=viewport_;if(!owner||!connection){e="Required source viewport connection unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
@@ -232,11 +354,19 @@ bool SwfMovie::display_source_clip(const char* path,std::string&e){
  owner->begin_display(owner->root->m_background_color,v[0],v[1],v[2],v[3],rectangle[0],rectangle[1],rectangle[2],rectangle[3]);
  clip->display();owner->end_display();return owner->finish(e);
 }
-#include "swf_movie_stage_clip_v5.inc"
 bool SwfMovie::screen_to_logical(float point[2],std::string&e){
  auto owner=impl_;auto connection=viewport_;if(!owner||!connection){e="Required source viewport connection unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
  return connection->screen_to_logical(point,e)&&owner->finish(e);
+}
+bool SwfMovie::source_display_rectangle(float rectangle[4],std::int32_t viewport[4],std::string&e){
+ auto owner=impl_;auto connection=viewport_;
+ if(!owner||!owner->root||!connection||!rectangle||!viewport){e="Required retained source viewport unavailable";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ if(!connection->display_rectangle(rectangle,e))return false;
+ const auto& source=connection->state().viewport;
+ for(unsigned i=0;i<4;++i)viewport[i]=source[i];
+ return owner->finish(e);
 }
 bool SwfMovie::hud_bind(const char* path,const char* digest,SwfHudClip& handle,std::string&e){
  auto owner=impl_;if(!owner||!owner->root){e="SWF movie not loaded";return false;}
@@ -278,7 +408,7 @@ bool SwfMovie::connect_input(const char* path,std::shared_ptr<SwfInputHistory> h
 bool SwfMovie::advance_frames(std::int32_t milliseconds,SwfFrameConnection& frames,std::string& e){
  auto owner=impl_;if(!owner||!owner->root||milliseconds<0){e="Required retained source frame/time unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
- try{return frames.advance(owner->root.get_ptr(),float(milliseconds)*.001f,false,e)&&owner->finish(e);}
+ try{if(!frames.advance(owner->root.get_ptr(),float(milliseconds)*.001f,false,e))return false;owner->advance_authored_animations(float(milliseconds)*.001f);return owner->finish(e);}
  catch(const std::exception& exception){e=exception.what();return false;}
 }
 bool SwfMovie::menu_action_script(void* context,bool (*apply)(void*,SwfAsGraph&,std::string&),std::string& e){
@@ -315,21 +445,29 @@ bool SwfMovie::menu_input_behavior(std::uint32_t flags,std::string& e){
  return input->set_flags(flags,e)&&owner->finish(e);
 }
 bool SwfMovie::input_cursor(const SwfCursor16& cursor,std::string& e){
+ return input_cursor(cursor,0,e);
+}
+bool SwfMovie::input_cursor(const SwfCursor16& cursor,std::uint32_t cursor_index,std::string& e){
  auto owner=impl_;auto input=input_;if(!owner||!input){e="Source input owner unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
- try{return input->cursor(cursor,0,e)&&owner->finish(e);}catch(const std::exception& x){e=x.what();return false;}
+ if(cursor_index>=4){e="Source input cursor index outside 0..3";return false;}
+ try{return input->cursor(cursor,cursor_index,e)&&owner->finish(e);}catch(const std::exception& x){e=x.what();return false;}
 }
 bool SwfMovie::input_advance(std::int32_t ms,std::string& e){
  auto owner=impl_;auto input=input_;if(!owner||!input||ms<0){e="Source input owner/time unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
- try{return input->update(ms,false,e)&&owner->finish(e);}catch(const std::exception& x){e=x.what();return false;}
+ try{if(!input->update(ms,false,e))return false;owner->advance_authored_animations(float(ms)*.001f);return owner->finish(e);}catch(const std::exception& x){e=x.what();return false;}
 }
 bool SwfMovie::input_cancel(float x,float y,std::string& e){
+ return input_cancel(x,y,0,e);
+}
+bool SwfMovie::input_cancel(float x,float y,std::uint32_t cursor_index,std::string& e){
  auto owner=impl_;auto input=input_;if(!owner||!input){e="Source input owner unavailable";return false;}
  Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
- if(!input->enable(false,0,e))return false;
- const bool cleared=input->cursor({x,y,0.f,0},0,e)&&input->reset_focus(0,e);
- std::string restore;const bool enabled=input->enable(true,0,restore);
+ if(cursor_index>=4){e="Source input cursor index outside 0..3";return false;}
+ if(!input->enable(false,cursor_index,e))return false;
+ const bool cleared=input->cursor({x,y,0.f,0},cursor_index,e)&&input->reset_focus(cursor_index,e);
+ std::string restore;const bool enabled=input->enable(true,cursor_index,restore);
  if(!cleared)return false;if(!enabled){e=restore;return false;}
  return owner->finish(e);
 }
@@ -339,6 +477,15 @@ bool SwfMovie::input_raw_position(int& x,int& y,std::string& e){
  if(Impl::active!=impl_.get()||!input_){e="Raw cursor read outside retained input scope";return false;}
  float xy[2]{};std::int32_t index=0;if(!input_->raw_cursor(xy,index,e))return false;
  x=static_cast<int>(xy[0]);y=static_cast<int>(xy[1]);return true;
+}
+bool SwfMovie::input_key_event(std::uint32_t key_code,bool down,std::string& e){
+ auto owner=impl_;if(!owner||!owner->player||key_code==gameswf::key::INVALID||
+    key_code>=gameswf::key::KEYCOUNT){e="Malformed retained GameSWF key event";return false;}
+ Impl::Scope scope(owner.get());if(!scope.entered){e="SWF core busy";return false;}
+ try{
+  owner->player->notify_key_event(static_cast<gameswf::key::code>(key_code),down);
+  return owner->finish(e);
+ }catch(const std::exception& failure){e=failure.what();return false;}
 }
 gameswf::font*SwfMovie::borrowed_font(std::int32_t id)const{return impl_&&impl_->root?impl_->root->m_def->get_font(id):nullptr;}
 const std::vector<std::string>&SwfMovie::diagnostics()const{return impl_->messages;}

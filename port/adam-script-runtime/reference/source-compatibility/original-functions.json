@@ -1,0 +1,78 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_bounded_source_bodies": 0,
+    "native_player_active": false,
+    "source": [
+      "port/adam-script-runtime/script_runtime.h",
+      "port/adam-script-runtime/script_runtime.c"
+    ],
+    "tests": [
+      "port/adam-script-runtime/tests/source_compatibility.cpp",
+      "port/adam-script-runtime/tests/run_source_compatibility_host.py"
+    ]
+  },
+  "attribution": {
+    "adam_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "paths": [
+      "port/script-runtime/script_runtime.c",
+      "port/script-runtime/script_runtime_return_v1.c",
+      "port/script-runtime/script_runtime_return_v3.c",
+      "port/script-runtime/script_return_observer_v1.h",
+      "port/script-runtime/script_return_observer_v3.h"
+    ],
+    "scope": "Narrow source file status, required-service epoch and typed ordered ReturnValues observation; existing VM/libraries retained."
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance8loadFileER12StreamBuffer",
+      "elf_address": "0x31acf4",
+      "size": 244,
+      "sha256": "1cc5464357d685df3e8c502334f3dcbef7a595cf118f19de6b32e826b04e4f02",
+      "scope": "Source protocol evidence only; original ARM body not executed or credited in host adapter gate."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance8loadFileER11IFileStream",
+      "elf_address": "0x31ade8",
+      "size": 240,
+      "sha256": "a06f6aed1d52f412d7aeb96882278f1426da23ec749c47216c5fde96548d92bf",
+      "scope": "Source protocol evidence only; original ARM body not executed or credited in host adapter gate."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Error8setErrorEP9lua_Statei",
+      "elf_address": "0x31a8ac",
+      "size": 108,
+      "sha256": "cc2c5b87b7715baf78a20858c1f9176ab3058ee07dc472e5fbc3985f7faa7124",
+      "scope": "Source protocol evidence only; original ARM body not executed or credited in host adapter gate."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Value13_setFromStackEP9lua_Statei",
+      "elf_address": "0x31c9c8",
+      "size": 252,
+      "sha256": "bc735bb9f63289538c7b6e4591b7e747e3cb147c3b9449c57f27b21c3d127a8b",
+      "scope": "Source protocol evidence only; original ARM body not executed or credited in host adapter gate."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues13_addFromStackEP9lua_Statei",
+      "elf_address": "0x31b4ac",
+      "size": 208,
+      "sha256": "cb18a2a8b2c67a16249e653c549dece004a75026fa10489df1550d09fe7dd6c9",
+      "scope": "Source protocol evidence only; original ARM body not executed or credited in host adapter gate."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance5pCallERKNS1_9ArgumentsERNS1_12ReturnValuesE",
+      "elf_address": "0x31ab4c",
+      "size": 156,
+      "sha256": "549fe70dcf05602b5bd0ea19b52a93aa5b11106dd585283f5ecb4dd572009723",
+      "scope": "Source protocol evidence only; original ARM body not executed or credited in host adapter gate."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance6pCall_EjRNS1_12ReturnValuesE",
+      "elf_address": "0x31aa78",
+      "size": 156,
+      "sha256": "1d013d99872b06106c398ff099c6c84008b24e2e83637a20952eb14816f098ea",
+      "scope": "Source protocol evidence only; original ARM body not executed or credited in host adapter gate."
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "IncUpdateQueue app-owned timing and readiness caller with bounded replacement queue storage. Source virtual predicates/GetDt are explicit live services.",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI14IncUpdateQueueEv",
+      "demangled": "CharAI::IncUpdateQueue()",
+      "elf_address": "0x3ce9b8",
+      "size": 568,
+      "sha256": "21bec4ac7bfa0298978d7e854e4a48fee4a16b1ff815c71920f8441f11dac71b",
+      "scope": "Complete IncUpdateQueue caller semantics in bounded native queue storage; other ranges are support evidence/providers. Original deque allocator/registration/destruction are not reconstructed."
+    },
+    {
+      "original_symbol": "_ZN6CharAI8IsMyTurnEPKS_",
+      "demangled": "CharAI::IsMyTurn(CharAI const*)",
+      "elf_address": "0x3cc484",
+      "size": 288,
+      "sha256": "c64b83f2cfc69629118563c5b21dfb93be8a27a3e50282f022e4efca22804f0e",
+      "scope": "Complete IncUpdateQueue caller semantics in bounded native queue storage; other ranges are support evidence/providers. Original deque allocator/registration/destruction are not reconstructed."
+    },
+    {
+      "original_symbol": "_ZNKSt4priv20_Deque_iterator_baseIP6CharAIE11_M_subtractERKS3_",
+      "demangled": "std::priv::_Deque_iterator_base<CharAI*>::_M_subtract(std::priv::_Deque_iterator_base<CharAI*> const&) const",
+      "elf_address": "0x3cb49c",
+      "size": 68,
+      "sha256": "b576532d6b53caa8f2bad02c29ba3ab863085da18345cfa566a53ed64c9154b0",
+      "scope": "Complete IncUpdateQueue caller semantics in bounded native queue storage; other ranges are support evidence/providers. Original deque allocator/registration/destruction are not reconstructed."
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "demangled": "Character::IsFaerie() const",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4",
+      "scope": "Complete IncUpdateQueue caller semantics in bounded native queue storage; other ranges are support evidence/providers. Original deque allocator/registration/destruction are not reconstructed."
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsFollowerEv",
+      "demangled": "Character::IsFollower() const",
+      "elf_address": "0x3a307c",
+      "size": 24,
+      "sha256": "58a4e95c6ea102b9992c0c39ce6539574f727e45fe525c8a1041e67f4816456d",
+      "scope": "Complete IncUpdateQueue caller semantics in bounded native queue storage; other ranges are support evidence/providers. Original deque allocator/registration/destruction are not reconstructed."
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsZonableEv",
+      "demangled": "Character::IsZonable() const",
+      "elf_address": "0x3a36e4",
+      "size": 64,
+      "sha256": "bfb46b114bdb841084033e50956c8ae23f7707973594c74902ba7f05c29883ab",
+      "scope": "Complete IncUpdateQueue caller semantics in bounded native queue storage; other ranges are support evidence/providers. Original deque allocator/registration/destruction are not reconstructed."
+    }
+  ],
+  "unsupported": [
+    "Original deque allocation/block representation; source CharAI queue registration/destruction; native per-actor provider binding and all game completion."
+  ]
+}

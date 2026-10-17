@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "release_id": 403267664,
+  "url": "https://github.com/Noamcelermajer/DH_sc/releases/tag/native-camera-frustum-2026-10-05",
+  "tag": "native-camera-frustum-2026-10-05",
+  "commit": "41e75b7e33c5b7f8ccf592c36a493a9b6e27b89e",
+  "draft": false,
+  "prerelease": true,
+  "published_at": "2026-10-05T00:11:42Z",
+  "assets": [
+    {
+      "name": "crypt-source-camera-culling-reviewed-source.zip",
+      "state": "uploaded",
+      "bytes": 2144816,
+      "sha256": "sha256:8fcde7c2f770428cfc8d9426b94dd408c42bff791d5e38d212333a2054ec2c6b",
+      "url": "https://github.com/Noamcelermajer/DH_sc/releases/download/native-camera-frustum-2026-10-05/crypt-source-camera-culling-reviewed-source.zip"
+    },
+    {
+      "name": "crypt-source-camera-culling.apk",
+      "state": "uploaded",
+      "bytes": 25219583,
+      "sha256": "sha256:80ed755e81ed8ddbcd30093999c094e40cc160b98f312f8ba36f18635794fbff",
+      "url": "https://github.com/Noamcelermajer/DH_sc/releases/download/native-camera-frustum-2026-10-05/crypt-source-camera-culling.apk"
+    }
+  ]
+}

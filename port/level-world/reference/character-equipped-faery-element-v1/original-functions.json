@@ -1,0 +1,53 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character24_GetEquippedFaeryElementERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6dc4",
+      "size": 52,
+      "sha256": "ee88eddf019c657872b3fff81dd431897f57d342b609d27876936b49e4c1d96f",
+      "scope": "complete callback control; reused SG/GetCharFaery and mandatory pushInteger boundaries"
+    },
+    {
+      "original_symbol": "_ZNK9Character21SG_GetCurrentFaerieIdEi",
+      "elf_address": "0x3bb98c",
+      "size": 76,
+      "sha256": "d229aba4d734ad8f8f8432b087de47591bd30b6fb92fb7681197040450fe481b",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794",
+      "scope": "reused or named external dependency; no new body credit"
+    }
+  ],
+  "attribution": {
+    "repository": "AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "files": {
+      "port/level-world/character_faery_element_v3.hpp": "22a1a536c5d614247c8dd2ef87f271ea1ae7ed0a43a1bd9edf3f72ad2c3c2cfe",
+      "port/level-world/character_faery_element_v3.cpp": "c6f892c516c6203626dca04a284e5d8c03fda4605a73da7cc7022e20a7a19f07"
+    },
+    "reused": "two-call equipped element algorithm; ignores Arguments and delivers signed element",
+    "adaptations": "existing CurrentSpell SavedBindings/selected SG adapter, retained canonical FaeryRow, actual GetCharFaery provider; alignment/alias/lifetime/failure guards; sole selected C VM"
+  },
+  "new_complete_original_callers": 1,
+  "new_complete_dependency_bodies": 0,
+  "native_wired": false
+}

@@ -1,0 +1,40 @@
+{
+  "host_build": true,
+  "complete_engine": false,
+  "original_animator_equivalence": false,
+  "source_sha256": {
+    "animation-layers/layers.cpp": "4af4d79e5fcbd1b9233701837694fc5e69bfd0ca8eba210e1fcfae1d058a0568",
+    "animation-mixing/mixing.cpp": "356e356741497dd002f917e4ce7109eb2340f6093d230a388f30df25d8113ef5",
+    "animation-pose/pose.cpp": "95bbbbd840a5e119a31454a5fe7723fea69b0c3cbd5b581d699813ec28a3cab1",
+    "animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",
+    "skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
+    "asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "scene-payloads/scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",
+    "engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "animation-layers/layers.hpp": "4da137989196e3c376a2fb3e0ad66cb199af51869918dc44abfee3b43fb60a1d",
+    "animation-mixing/mixing.hpp": "e694a012b78b14f049bb1010c44291a3893c37ac2aec4bec294d3a09fcc07a06",
+    "animation-pose/pose.hpp": "7a5518739ea390580bbf1f006e50c2a1448b67b6acb220ed317f6fffc6623c83",
+    "animation-values/values.hpp": "52adf318f1641714fe57d2205ebca310f3934d0a73f6f76223419cd8bfbdcf26",
+    "skin-payloads/skin.hpp": "65f95933766b6dfb9461c4faede0e806cf3403672fc311c6a3f1e93d54780e36",
+    "asset-payloads/payloads.hpp": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+    "scene-payloads/scene.hpp": "344df64661ef2ace357eb2f9c21f6fc89c750af637835dec4557edae9fbced0e",
+    "engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "layers-host.so": "59355b4d1ee77c5b6490f147b90d2b3fd61e9eda702555d3f413ddc4f165e502"
+  },
+  "safety": {
+    "address_sanitizer": true,
+    "undefined_behavior_sanitizer": true,
+    "corruption_truncation_probes": 3000,
+    "seed": 20261002,
+    "fixture_sha256": {
+      "first": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "second": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903",
+      "model": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98"
+    },
+    "test_sha256": "005c326276e37781e8ff5724f6a64d50fa72e7f8c77373990b6b99d274197000"
+  }
+}

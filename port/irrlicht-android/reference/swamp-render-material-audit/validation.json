@@ -1,0 +1,1038 @@
+{
+  "pass": true,
+  "scope": "Audits source AlphaMap channel/UV and Irrlicht material mismatch. This does not identify the serialized CurrentTechnique variant or original GL blend/depth state.",
+  "source_archive": {
+    "sha256": "b3ff974e2b74f50387465d5665f60d56ac79c29a449c6299745461998045c4d8",
+    "shader_members": {
+      "vertex": {
+        "archive_member": "dh2-reconstruction/recovered/assets/source-data/com.gameloft.android.GAND.GloftD2SS/files/shaders.pak.contents/GL_Diffuse_L1_iPhone_VS.glsl",
+        "bytes": 6633,
+        "sha256": "1e04da1687b9171cac7aa694966f045bd16b04148a9a3a39b95d9ad4ad25b84c",
+        "contract_checks": {
+          "diffuse_specular_uv_from_texcoord0": true,
+          "lightmap_uv_from_texcoord1": true
+        }
+      },
+      "fragment": {
+        "archive_member": "dh2-reconstruction/recovered/assets/source-data/com.gameloft.android.GAND.GloftD2SS/files/shaders.pak.contents/GL_Diffuse_L1_iPhone_FS.glsl",
+        "bytes": 3483,
+        "sha256": "a39f0025f0605e3bc4e81c984e8cc9b110639bb5901b2cf9b0798d65871e2686",
+        "contract_checks": {
+          "alpha_sampler_blue_channel": true,
+          "AT_strict_discard_threshold_0_8": true,
+          "AL_variant_does_not_use_that_AT_discard": true,
+          "alpha_sampler_shares_uv0": true
+        }
+      }
+    },
+    "shader_text_copied_into_repository": false
+  },
+  "source_cache_inputs": {
+    "data/3d/modules/swamp/swamp.bdae": {
+      "bytes": 5585024,
+      "sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d"
+    },
+    "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae": {
+      "bytes": 18792,
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    "data/3d/textures/env_swamp.tga": {
+      "bytes": 524348,
+      "sha256": "f3eb432f6f2332b65a2bbeeb26528c3a6e3075ada4df9c6425aa1934816b4e4e"
+    },
+    "data/3d/textures/pvr2_env_swamp_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "928622d0ef735d0cda4120b5bbe66e2d58e56d81cd7646579a23f683c20e76a0"
+    },
+    "data/3d/textures/env_swamp_spec.tga": {
+      "bytes": 131132,
+      "sha256": "cd892b928ea9671bff1bf49154cecb3ee2271064aa2236127cb5b3542e95c0fc"
+    }
+  },
+  "material_draws_and_uvs": {
+    "validation": "PASS",
+    "selected_scene_sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d",
+    "uv_source": "primitive.attributes[4] copied by android-app/scene_buffers.cpp into SceneMesh vertices[5*vertex+3..4]",
+    "draws": [
+      {
+        "draw_index": 5,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk01-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk01-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.000975999981,
+          0.49902299
+        ],
+        "v": [
+          0.87597698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 6,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk02-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk02-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.37597701,
+          0.49902299
+        ],
+        "v": [
+          0.87597698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 7,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk03-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk03-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 384,
+        "u": [
+          0.000975999981,
+          0.74902302
+        ],
+        "v": [
+          0.294427007,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 8,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk04-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk04-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.000975999981,
+          0.49902299
+        ],
+        "v": [
+          0.75097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 9,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk05-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk05-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 150,
+        "u": [
+          0.0732420012,
+          0.49902299
+        ],
+        "v": [
+          0.314453006,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 10,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk06-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk06-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 360,
+        "u": [
+          0.000975999981,
+          0.49902299
+        ],
+        "v": [
+          0.294427007,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 11,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk07-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk07-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.25097701,
+          0.49902299
+        ],
+        "v": [
+          0.75097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 12,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk08-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk08-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 2130,
+        "u": [
+          0.125976995,
+          0.99902302
+        ],
+        "v": [
+          0.5,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 14,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk09-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk09-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 1050,
+        "u": [
+          0.000975999981,
+          0.99902302
+        ],
+        "v": [
+          0.50097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 15,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk10-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk10-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.000975999981,
+          0.49902299
+        ],
+        "v": [
+          0.87597698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 16,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk11-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk11-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.000975999981,
+          0.49902299
+        ],
+        "v": [
+          0.87597698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 17,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk12-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk12-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.37597701,
+          0.49902299
+        ],
+        "v": [
+          0.87597698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 18,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk13-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk13-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.37597701,
+          0.49902299
+        ],
+        "v": [
+          0.87597698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 19,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk14-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk14-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 78,
+        "u": [
+          0.25097701,
+          0.74902302
+        ],
+        "v": [
+          0.75097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 20,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk15-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk15-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 636,
+        "u": [
+          0.000975999981,
+          0.99902302
+        ],
+        "v": [
+          0.50097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 21,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk16-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk16-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 396,
+        "u": [
+          0.000975999981,
+          0.99902302
+        ],
+        "v": [
+          0.50097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 22,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk17-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk17-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 978,
+        "u": [
+          0.537109017,
+          0.99902302
+        ],
+        "v": [
+          0.50097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 23,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk18-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk18-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 1344,
+        "u": [
+          0.25097701,
+          0.99902302
+        ],
+        "v": [
+          0.50097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 25,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk19-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk19-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 588,
+        "u": [
+          0.0732420012,
+          0.99902302
+        ],
+        "v": [
+          0.314453006,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 26,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk20-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk20-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.25097701,
+          0.49902299
+        ],
+        "v": [
+          0.75097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 27,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk21-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk21-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 498,
+        "u": [
+          0.000975999981,
+          0.74902302
+        ],
+        "v": [
+          0.294427007,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 28,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk22-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk22-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 414,
+        "u": [
+          0.125976995,
+          0.99902302
+        ],
+        "v": [
+          0.50097698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 29,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk23-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk23-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.37597701,
+          0.49902299
+        ],
+        "v": [
+          0.87597698,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 30,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk24-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk24-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 546,
+        "u": [
+          0.125976995,
+          0.5
+        ],
+        "v": [
+          0.450195014,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 31,
+        "material": "Material__11610",
+        "node": "_mesh_4of4tchunk25-node_PIVOT",
+        "geometry": "_mesh_4of4tchunk25-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 138,
+        "u": [
+          0.000975999981,
+          0.49902299
+        ],
+        "v": [
+          0.314453006,
+          0.99902302
+        ],
+        "alpha_sampler_ref": false
+      },
+      {
+        "draw_index": 32,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s192-node_PIVOT",
+        "geometry": "_mesh_alpha_s192-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 192,
+        "u": [
+          0.000975999981,
+          0.373057991
+        ],
+        "v": [
+          0.00778699992,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 33,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s193-node_PIVOT",
+        "geometry": "_mesh_alpha_s193-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 108,
+        "u": [
+          0.290062994,
+          0.373057991
+        ],
+        "v": [
+          0.00778699992,
+          0.251702011
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 34,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s194-node_PIVOT",
+        "geometry": "_mesh_alpha_s194-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 120,
+        "u": [
+          0.000975999981,
+          0.37402299
+        ],
+        "v": [
+          0.00778699992,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 35,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s195-node_PIVOT",
+        "geometry": "_mesh_alpha_s195-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 135,
+        "u": [
+          0.000975999981,
+          0.373154998
+        ],
+        "v": [
+          0.25097701,
+          0.73339802
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 36,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s196-node_PIVOT",
+        "geometry": "_mesh_alpha_s196-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 318,
+        "u": [
+          0.000975999981,
+          0.379267007
+        ],
+        "v": [
+          0.00778699992,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 37,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s197-node_PIVOT",
+        "geometry": "_mesh_alpha_s197-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 198,
+        "u": [
+          0.251953006,
+          0.379267007
+        ],
+        "v": [
+          0.501953006,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 38,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s198-node_PIVOT",
+        "geometry": "_mesh_alpha_s198-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 270,
+        "u": [
+          0.000975999981,
+          0.379267007
+        ],
+        "v": [
+          0.00778699992,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 39,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s199-node_PIVOT",
+        "geometry": "_mesh_alpha_s199-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 210,
+        "u": [
+          0.000975999981,
+          0.373046994
+        ],
+        "v": [
+          0.125976995,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 40,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s200-node_PIVOT",
+        "geometry": "_mesh_alpha_s200-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 237,
+        "u": [
+          0.000975999981,
+          0.373154998
+        ],
+        "v": [
+          0.25097701,
+          0.73339802
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 41,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s201-node_PIVOT",
+        "geometry": "_mesh_alpha_s201-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 36,
+        "u": [
+          0.000975999981,
+          0.379267007
+        ],
+        "v": [
+          0.125976995,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 42,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s202-node_PIVOT",
+        "geometry": "_mesh_alpha_s202-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 90,
+        "u": [
+          0.000975999981,
+          0.379267007
+        ],
+        "v": [
+          0.125976995,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 43,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s203-node_PIVOT",
+        "geometry": "_mesh_alpha_s203-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 303,
+        "u": [
+          0.000975999981,
+          0.37402299
+        ],
+        "v": [
+          0.00778699992,
+          0.73339802
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 44,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s204-node_PIVOT",
+        "geometry": "_mesh_alpha_s204-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 36,
+        "u": [
+          0.251953006,
+          0.37402299
+        ],
+        "v": [
+          0.37597701,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 45,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s205-node_PIVOT",
+        "geometry": "_mesh_alpha_s205-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 54,
+        "u": [
+          0.290062994,
+          0.373057991
+        ],
+        "v": [
+          0.00778699992,
+          0.251702011
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 46,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s206-node_PIVOT",
+        "geometry": "_mesh_alpha_s206-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 78,
+        "u": [
+          0.251953006,
+          0.373057991
+        ],
+        "v": [
+          0.00778699992,
+          0.623046994
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 47,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s256-node_PIVOT",
+        "geometry": "_mesh_alpha_s256-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 6,
+        "u": [
+          0.25097701,
+          0.37402299
+        ],
+        "v": [
+          0.25097701,
+          0.37402299
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 48,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s257-node_PIVOT",
+        "geometry": "_mesh_alpha_s257-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 6,
+        "u": [
+          0.25097701,
+          0.37402299
+        ],
+        "v": [
+          0.25097701,
+          0.37402299
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 49,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s258-node_PIVOT",
+        "geometry": "_mesh_alpha_s258-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 6,
+        "u": [
+          0.25097701,
+          0.37402299
+        ],
+        "v": [
+          0.25097701,
+          0.37402299
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 50,
+        "material": "Material__11611",
+        "node": "_mesh_alpha_s259-node_PIVOT",
+        "geometry": "_mesh_alpha_s259-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 6,
+        "u": [
+          0.25097701,
+          0.37402299
+        ],
+        "v": [
+          0.25097701,
+          0.37402299
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 51,
+        "material": "Material__11611",
+        "node": "_mesh_arbre_bas_427-node_PIVOT",
+        "geometry": "_mesh_arbre_bas_427-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 48,
+        "u": [
+          0.000975999981,
+          0.124022998
+        ],
+        "v": [
+          0.73535198,
+          0.74902302
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 52,
+        "material": "Material__11611",
+        "node": "_mesh_arbres_bas_13-node_PIVOT",
+        "geometry": "_mesh_arbres_bas_13-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 48,
+        "u": [
+          0.000975999981,
+          0.124022998
+        ],
+        "v": [
+          0.73535198,
+          0.74902302
+        ],
+        "alpha_sampler_ref": true
+      },
+      {
+        "draw_index": 53,
+        "material": "Material__11611",
+        "node": "_mesh_bas_arcbre-node_PIVOT",
+        "geometry": "_mesh_bas_arcbre-mesh",
+        "uv_attribute_id": 3,
+        "uv_components": 2,
+        "uv_data_type": 6,
+        "uv_used_index_occurrences": 48,
+        "u": [
+          0.000975999981,
+          0.124022998
+        ],
+        "v": [
+          0.73535198,
+          0.74902302
+        ],
+        "alpha_sampler_ref": true
+      }
+    ],
+    "draw_counts": {
+      "Material__11610": 25,
+      "Material__11611": 22
+    },
+    "texture_sampling_boundary": "SceneMesh exports one UV pair from slot 4; checked material exports identify AlphaMap and Diffuse images but do not bind per-sampler UV sets or establish source technique selection"
+  },
+  "decoded_alpha_map": {
+    "source_path": "data/3d/textures/pvr2_env_swamp_alpha.tga",
+    "bytes": 262204,
+    "sha256": "928622d0ef735d0cda4120b5bbe66e2d58e56d81cd7646579a23f683c20e76a0",
+    "width": 1024,
+    "height": 1024,
+    "format_code": 1,
+    "channel_stats": {
+      "pixels": 1048576,
+      "decoded_channel_zero_counts": {
+        "R": 747498,
+        "G": 747486,
+        "B": 751652,
+        "A": 751531
+      },
+      "blue_fractional_alpha_texels_1_to_254": 152654,
+      "blue_alpha_channel_difference": {
+        "different_texels": 124368,
+        "max_abs_difference": 35,
+        "mean_abs_difference": 0.4915122985839844,
+        "p95_abs_difference": 4
+      },
+      "blue_red_channel_difference": {
+        "different_texels": 82403,
+        "max_abs_difference": 33,
+        "mean_abs_difference": 0.2982196807861328,
+        "p95_abs_difference": 2
+      },
+      "blue_zero_alpha_nonzero": 382,
+      "blue_nonzero_alpha_zero": 261,
+      "AT_lt_0_8_discard_count_if_this_variant_is_selected": 865368
+    }
+  },
+  "material_contract": {
+    "Material__11610": "Diffuse+Specular; AlphaMap unbound; retains existing opaque diffuse path",
+    "Material__11611": "Diffuse+Specular+AlphaMap BRES references; 22 visible draws; alpha behavior changed only for this resolved paired-sampler material",
+    "serialized_alpha_ref": 0.0,
+    "serialized_diffuse_color": [
+      0.8,
+      0.8,
+      0.8,
+      0.1
+    ],
+    "object_alpha": 1.0,
+    "CurrentTechnique": "type-code 20 on both source materials; the local checked reader retains opaque raw records and cannot decode the selected AL-vs-AT variant"
+  },
+  "renderer_mismatch": {
+    "current_app_alpha_channel": "decoded PVRTC alpha byte",
+    "source_fragment_alpha_channel": "decoded PVRTC blue byte",
+    "current_irrlicht_material": "EMT_TRANSPARENT_ALPHA_CHANNEL_REF over an EMT_SOLID base renderer",
+    "irrlicht_alpha_ref": 0.0,
+    "irrlicht_effective_blending": false,
+    "consequence": "With strict Color.a < uAlphaRef and alpha ref zero, transparent texels are not discarded; fractional texels are also written without source AL blending."
+  },
+  "port_preview_policy": {
+    "Material__11611": "Map the recovered AL fractional-output branch as a diagnostic preview, using B-channel mask, Irrlicht SRC_ALPHA/ONE_MINUS_SRC_ALPHA blending and EZW_AUTO (Irrlicht suppresses depth writes for the transparent pass by default). AL-vs-AT selection and exact original blend/depth state are unresolved.",
+    "AT_branch": "Its source shader threshold is exactly 0.8 if selected; do not apply it without proving the material technique selection.",
+    "Material__11610": "Unchanged opaque diffuse mapping because its AlphaMap image reference is absent."
+  },
+  "pre_correction_source_sha256": {
+    "port/irrlicht-android/swamp-smoke/main.cpp": "8a90798f21703a95f4e0f737305a962d8e79d4170e3310079e972c4e41867d77",
+    "port/irrlicht-android/swamp-smoke/alpha_map_policy.hpp": "1a6daaea5e3ca9405d89f103d084adfa37565393c69f9c04c9a29097ff0d07ed",
+    "port/irrlicht-android/swamp-smoke/tests/alpha_map_policy.cpp": "d44a6336791d62f384d6ddb141ee12a777c17376f33a43c6d1b3b8cef4330a37",
+    "port/irrlicht-android/swamp-smoke/tests/run_host.py": "15867b362ad6d06989569bded03d34622bb2edd809bdcf8496b256b189a85c8e",
+    "port/android-app/swamp_render_policy.hpp": "ffacf497790a24265f88850fbdd6dfac86876c2a453379bc6c2983dbcfb4fe6f",
+    "port/irrlicht-android/swamp-smoke/README.md": "c495b3116877b1896b3df5eadaa984be9853174e53e382809fd78baa24843db6"
+  },
+  "source_sha256_when_regenerated": {
+    "port/irrlicht-android/swamp-smoke/main.cpp": "6c27ff72c9b72a00ccbe631863431d5c1c1ffcf675748fcc647e6179007ced89",
+    "port/irrlicht-android/swamp-smoke/alpha_map_policy.hpp": "0b0d267f9d1be496f37a7bb22fe8ac03f14e9316eb680a40a5db430a54162cde",
+    "port/irrlicht-android/swamp-smoke/tests/alpha_map_policy.cpp": "a0e86352cc78023b28247a9e6789da0be3202b9b285e489e28ab43f7f981a84e",
+    "port/irrlicht-android/swamp-smoke/tests/run_host.py": "a2e975661f385325d4bac1bd83e4a176ceaa2ddfb5ab36047a7de34ab3f2d58d",
+    "port/android-app/swamp_render_policy.hpp": "ffacf497790a24265f88850fbdd6dfac86876c2a453379bc6c2983dbcfb4fe6f",
+    "port/irrlicht-android/swamp-smoke/README.md": "0188d63256524ea187b154ce8016a37a849eaad573b1b1d857202cc6aad4b720"
+  },
+  "host_tools": {
+    "uv_probe_source": "port/irrlicht-android/reference/swamp-render-material-audit/uv_probe.cpp",
+    "uv_probe_executable_sha256": "dd9ca17c90dc8a47a5a14726c20c8cfb9a21c85cecda89da1806efe650410302",
+    "texture_decoder": "port/texture-assets/build/dh2_texture_assets.dll",
+    "texture_decoder_sha256": "4db7a3c8de6d47911216fd31b9f008b64ce9de5d0d76936bd5fc249001ced3a0"
+  }
+}

@@ -1,0 +1,106 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "state_machine": false,
+  "comparison": "Original ARM32 vs compiled ARM64 and host: exact float bits except signed zero",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_sha256": "4726c6fdbe528b51bab06cc18cd2aef1efb6191e621bf61fa889812683d2ef3a",
+  "arm64_sha256": "c7435bb40dba9446f2fcbe4728995ee805a5b4b5512467a36cd2912f56d0e100",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "seed": 20261002,
+  "calls": {
+    "normalize": 106,
+    "position blend": 106,
+    "position add": 106,
+    "scale blend": 106,
+    "scale add": 106,
+    "scalar blend": 106,
+    "scalar add": 106,
+    "quaternion add": 100
+  },
+  "comparisons": 842,
+  "mismatches": 0,
+  "source_sha256": {
+    "mixing.cpp": "356e356741497dd002f917e4ce7109eb2340f6093d230a388f30df25d8113ef5",
+    "mixing.hpp": "e694a012b78b14f049bb1010c44291a3893c37ac2aec4bec294d3a09fcc07a06",
+    "math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "test_sha256": "c3b97c02ed8e1886a6b56246966f991abd2d8fdb42c69099d6f5438ea65569fc",
+  "function_evidence": [
+    {
+      "elf_address": "0x00366594",
+      "size": 140,
+      "name": "normalize",
+      "symbol": "_ZN6glitch7collada25CSceneNodeAnimatorBlender16normalizeWeightsEv",
+      "sha256": "a80169f90c62f768255b85656e7a113ea49d1450614a041711326a0fa6f0f59b"
+    },
+    {
+      "elf_address": "0x00626b4c",
+      "size": 228,
+      "name": "position blend",
+      "symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE15getBlendedValueEPvPfiSB_",
+      "sha256": "8d832904cba008fa3b75d2b287b80b08f6e35aa988becc45e56aca132e88ebf1"
+    },
+    {
+      "elf_address": "0x0062a754",
+      "size": 228,
+      "name": "position add",
+      "symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_23CSceneNodePositionMixinIfEEEEE13getAddedValueEPvPfiSB_",
+      "sha256": "550e57008c73bc47313b15cbc23dc5f16ea3e68678a35a3712cf63849c19aa12"
+    },
+    {
+      "elf_address": "0x006275fc",
+      "size": 228,
+      "name": "scale blend",
+      "symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE15getBlendedValueEPvPfiSB_",
+      "sha256": "99516faa30b73dc450953a36cd8d409833e48ed36dfdeafaaa1bc974901aed7b"
+    },
+    {
+      "elf_address": "0x0062b204",
+      "size": 228,
+      "name": "scale add",
+      "symbol": "_ZNK6glitch7collada15animation_track10CVirtualExINS1_13CApplyValueExINS_4core8vector3dIfEENS1_20CSceneNodeScaleMixinIfEEEEE13getAddedValueEPvPfiSB_",
+      "sha256": "036360026c2dec4f247924acd68c6baab4d1aefa380c321f3a1c7a648ce0d7d7"
+    },
+    {
+      "elf_address": "0x006e3124",
+      "size": 96,
+      "name": "scalar blend",
+      "symbol": "_ZNK6glitch7collada15animation_track8CFloatEx15getBlendedValueEPvPfiS3_",
+      "sha256": "917bedd5636238b32a7ab65fb280e7711a5332dafa2889eadf92a02eb0cd721d"
+    },
+    {
+      "elf_address": "0x006e3184",
+      "size": 96,
+      "name": "scalar add",
+      "symbol": "_ZNK6glitch7collada15animation_track8CFloatEx13getAddedValueEPvPfiS3_",
+      "sha256": "d7269ffa2c5e508f0138a343dada19e464ad0616af0ffc98c6238d52810f98fb"
+    },
+    {
+      "elf_address": "0x00613378",
+      "size": 528,
+      "name": "quaternion add",
+      "symbol": "_ZN6glitch7collada15animation_track8CBlenderINS_4core10quaternionELi1ES4_E15getAddedValueExEPvPfiS6_",
+      "sha256": "6954c21242148cdff8e416377b81993c3e0082a4d5b1d7ec5e7f9d28a5a5ee4a"
+    }
+  ],
+  "main_instruction_addresses_seen": 443,
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "import_calls": {
+    "__aeabi_fadd": 19933,
+    "__aeabi_fcmpeq": 87,
+    "__aeabi_fmul": 22660,
+    "__aeabi_fcmpgt": 495,
+    "__aeabi_fcmplt": 366,
+    "__aeabi_fdiv": 750,
+    "__aeabi_fsub": 1720,
+    "__aeabi_fcmpge": 215,
+    "acosf": 214,
+    "sinf": 642,
+    "sqrtf": 1
+  },
+  "dependency_model": "Host C arithmetic/libm; actual original normalization/mixing and quaternion math execute"
+}

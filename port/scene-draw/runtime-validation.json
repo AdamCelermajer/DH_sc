@@ -1,0 +1,21 @@
+{
+  "scope": "isolated static BRES draw descriptors on an x86_64 Android emulator; no game renderer",
+  "android_runtime_tested": true,
+  "android_release": "17",
+  "android_api": 37,
+  "abi_list": "x86_64,arm64-v8a",
+  "page_size": 16384,
+  "emulator": true,
+  "remote_hashes_match_local": true,
+  "binary_sha256": "f504cfdc89196b7d66fbe8b274b2683c2ef9f8604566bf12f19f8a86affdd711",
+  "sample_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+  "sample_bytes": 16856,
+  "result": {
+    "nodes": 7,
+    "draw_commands": 2,
+    "triangles": 4,
+    "unresolved_geometry": 0,
+    "unresolved_materials": 0
+  },
+  "exit_code": 0
+}

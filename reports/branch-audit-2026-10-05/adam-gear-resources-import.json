@@ -1,0 +1,67 @@
+{
+  "repository": "https://github.com/AdamCelermajer/DH_sc",
+  "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+  "author": "Adam Celermajer",
+  "paths": [
+    {
+      "path": "port/game-data/player_gear_effects_v5.hpp",
+      "upstream_sha256": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7",
+      "bytes": 1677,
+      "adaptations": [],
+      "current_sha256": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7"
+    },
+    {
+      "path": "port/game-data/player_gear_effects_v5.cpp",
+      "upstream_sha256": "863f410ae216da1e43399be9c8983999475dd9af7a6e03ce30d062c67fa9ad42",
+      "bytes": 4978,
+      "adaptations": [],
+      "current_sha256": "863f410ae216da1e43399be9c8983999475dd9af7a6e03ce30d062c67fa9ad42"
+    },
+    {
+      "path": "port/game-data/loot_power_resources_v7.hpp",
+      "upstream_sha256": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+      "bytes": 1616,
+      "adaptations": [],
+      "current_sha256": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b"
+    },
+    {
+      "path": "port/game-data/loot_power_resources_v7.cpp",
+      "upstream_sha256": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+      "bytes": 7114,
+      "adaptations": [],
+      "current_sha256": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244"
+    },
+    {
+      "path": "port/game-data/tests/player_gear_effects_v5.cpp",
+      "upstream_sha256": "536ad0a2dc99227f9aa10d6ea33f11cfb1e7200d920389bcc6e26129342dcb42",
+      "bytes": 5982,
+      "adaptations": [],
+      "current_sha256": "536ad0a2dc99227f9aa10d6ea33f11cfb1e7200d920389bcc6e26129342dcb42"
+    },
+    {
+      "path": "port/game-data/tests/player_gear_effects_v5_original.py",
+      "upstream_sha256": "3b280ff632468e1aeaab2d1d281ab1e974bd2c362a1e90f3f8d241e4caced942",
+      "bytes": 3735,
+      "adaptations": [],
+      "current_sha256": "3b280ff632468e1aeaab2d1d281ab1e974bd2c362a1e90f3f8d241e4caced942"
+    }
+  ],
+  "scope": "Exact Adam V5 effects and V7 resource imports, current selected-library host tested. V4 borrows the caller property/RNG authority. Required localization/visual/AddPower and live player/loot binding remain open.",
+  "current_host_report": "adam-integrated-host.json",
+  "adapted_oracle_generators": [
+    {
+      "path": "port/game-data/tests/item_power_tables_v5_original.py",
+      "upstream_sha256": "96d8a38a8c24df00cbee5820a150968f7cbcc0cd3ba56b6a37e4db0a9d8815cb",
+      "current_sha256": "109dfd9abf467f8eb91ed8401c72ebab0f7a014a049ae2de0644ad0dbac3d81d",
+      "change": "Public original range metadata, explicit ELF/cache/APK inputs, preserved fixture guard and APK ARM64 membership/TLS fixture proof.",
+      "receipt": "adam-power-actual-arm64.json"
+    },
+    {
+      "path": "port/game-data/tests/item_gear_properties_v5_original.py",
+      "upstream_sha256": "1eecb1954a1d7d2b79071c6fd0af8b60ba8b102b1fa9bf6438d74dcd9a354376",
+      "current_sha256": "c84fa374112f56a031f1c94fd528fe4cf5f07f0fe539f2709b197879bedfc5a1",
+      "change": "Public range metadata, explicit ELF/cache/APK inputs, resolved junction path, preserved golden guard and packaged ARM64/TLS fixture proof.",
+      "receipt": "adam-gear-actual-arm64.json"
+    }
+  ]
+}

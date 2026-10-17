@@ -1,0 +1,46 @@
+{
+  "validation": "PASS",
+  "cases": 440,
+  "distinct_original_words": 268,
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\40df62e5382f2961b65318f4f1b290d9\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registration_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registration_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_offline_registration_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/40df62e5382f2961b65318f4f1b290d9/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_offline_registration_v1.cpp.obj"
+    }
+  ],
+  "source_sha256": {
+    "player_offline_registration_v1.cpp": "fa83179dcc8a16ca0038949db791597658d95e2adc1dbfa58342166f6fcb317e",
+    "player_offline_registration_v1.hpp": "754e1a607dcbc8d9a935502153ae327f020e1eb163ec966de19b887fd0f60a1a",
+    "player_offline_registry_v1.cpp": "106ce685378d6c604a363afca90839f21bb11f9b313ec47268fab72053a0ca53",
+    "player_offline_registry_v1.hpp": "1c414fc5c0c7d76f0754c005ea633ca744acbd5b1360e2db230317e74910ea7e",
+    "tests/player_offline_registration_v1_host.cpp": "abf80d0f10e50271cdfa049dbc6bf8881a6281cbccb1928c650bcb61d5c6fb9e",
+    "tests/player_offline_registry_v1_host.cpp": "24716b571681e8b0355aa15dad830eb46e1f2e5abe5e2808902425073acb4556",
+    "tests/run_player_offline_registration_v1.py": "575d88556c62499ec2763271e125cad4c2570fed35d63c6669de663390dd218b",
+    "reference/player-offline-registration-v1/original-functions.json": "6b4e932b58f4cb4a2cd1061d3917ec40390e73981585e32c311915c9070a101b"
+  },
+  "binary_sha256": {
+    "registration_host.exe": "2401ca122a881e5f61af8e249ff0c8fb963543638b8bd27acc7041338cc69af6",
+    "registry_composition.exe": "8d0fa7cc30e9c724e7cd41dfdbbe5d71b0a17bfc99badbebf3efecbc6b8b60e3",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "03d6a96d38c88550692d57e77429ab0b5668b1ffb0069702fcc3d2b9fbadc8aa",
+    "libdh2_level_world.dll": "8583960da185bcd23c24a460a4991962b43470909442bc07ae5f70d05199cd23"
+  },
+  "scope": "Offline branches of original membership/AddPlayer/renumber/CheckLocalControllers callers execute, including actual nested AddPlayer and renumber bodies. Lifecycle/map/input/joining/HUD boundaries are declared fixtures in the ARM caller comparison. Separate selected composition connects actual reconstructed lifecycle/input/map/slot/hosting modules. Network branches and complete Character/gameplay registration remain outside this gate.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "failure_policies": {
+    "validation": "PASS",
+    "failure_and_reentry_cases": 72
+  },
+  "selected_composition": {
+    "validation": "PASS",
+    "checks": 68,
+    "byte_allocations": 42,
+    "byte_frees": 42,
+    "scope": "Actual selected full records, input owner, registration, canonical map, authored slot selection and hosting-level composition. Native joining, network, Character660 and gameplay remain open."
+  }
+}

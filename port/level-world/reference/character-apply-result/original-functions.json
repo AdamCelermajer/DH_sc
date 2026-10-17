@@ -1,0 +1,356 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "elf_address": "0x3b10b4",
+      "size": 3388,
+      "sha256": "ee29784fc33effd4a01e9098593d2348dbfaf35bb9d0568a121d89c52aefd1da",
+      "scope": "bounded caller"
+    },
+    {
+      "original_symbol": "_Z9GetOnlinev",
+      "elf_address": "0x7fd794",
+      "size": 4,
+      "sha256": "39e1051e33bd200a0ebe62d8a3340b45bba86b3a31ac8822e6d4f2c7b60a152e",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+      "elf_address": "0x3140ec",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNSt4priv12_String_baseIcSaIcEE19_M_deallocate_blockEv",
+      "elf_address": "0x3139ac",
+      "size": 52,
+      "sha256": "a253cd9243de86ccebdf90d3972ae68307d0585ee02ab438976b847e99b8bdda",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN11Application15IsSavedOptionOnEPKc",
+      "elf_address": "0x320e14",
+      "size": 48,
+      "sha256": "2072285102a538d8c1784dedda939e3a30a7bf97d98877339b67ba91d250d2d5",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNK9Character27GetEffectiveThreatPerDamageEv",
+      "elf_address": "0x3bd394",
+      "size": 40,
+      "sha256": "0fdea6b457655923c2347fadb4eea38ed16039ba7fb5c15ad262e2ecbc759381",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+      "elf_address": "0x3d7c68",
+      "size": 308,
+      "sha256": "710b6a40b61b134ddc8b165a38ac5bd0784dd1b2915ec4fce53d2e1bb4825193",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN9Character6HitForEjP10GameObject",
+      "elf_address": "0x3a8bc4",
+      "size": 1704,
+      "sha256": "b01deb99cff30fee694bd246951f00f863c82a3c0135b3302290a475443f8230",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNK9Character15GetFXBloodDeathEv",
+      "elf_address": "0x3a3368",
+      "size": 104,
+      "sha256": "7a6239cc54d9642427474fa6642511f0add25af696a9dfa76eac17d66ccf79e9",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNK9Character10GetFXBloodEv",
+      "elf_address": "0x3a33d0",
+      "size": 104,
+      "sha256": "8c0a591694c9972a41943dee403e259883eeef5edf0c6e086024640283081056",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN15VisualFXManager13PlayAnimFXSetEiRK7Point3DIfES3_PK10GameObjectPNS_13AnimFXSetDataE",
+      "elf_address": "0x495888",
+      "size": 512,
+      "sha256": "e95030850f8385edc888e56195ae7b7241e33bb293e1d92d9317eda862bd2c05",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12PROPS_AddDotEiii",
+      "elf_address": "0x3e2720",
+      "size": 828,
+      "sha256": "6b6d2ed89201118bff63db834b8cdd14294adbd130bc9f352369a941e34baee1",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine18SM_SetDodgingStateEPvb",
+      "elf_address": "0x3c5b3c",
+      "size": 292,
+      "sha256": "9e387d189d2001d9c18824db3e98073868382e329ccbcaaef2ebb65c433a8c3a",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine19SM_SetBlockingStateEPvb",
+      "elf_address": "0x3c5c60",
+      "size": 292,
+      "sha256": "15737fc3be4e763fe19ee57530b5d88db634f4e85f4dd5e33fc995e95d19ad00",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine17SM_SetInjureStateEPvb",
+      "elf_address": "0x3c5d84",
+      "size": 284,
+      "sha256": "828292384e34298a1ce747dd5db6d1f5f6b052b97459e0722382d7ea795fa0a9",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine20SM_SetKnockBackStateEbPvb",
+      "elf_address": "0x3c5ea0",
+      "size": 348,
+      "sha256": "5d5962b60e4e662106a73d7014b598dd7d8c5480d2227f5d45e291da12885750",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetStunStateEjbPvb",
+      "elf_address": "0x3c5ffc",
+      "size": 328,
+      "sha256": "1ecdd250add8334f6d9f347ac774bb8aa713c9f1d340feadf2f53a61a32c6701",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine16SM_SetScareStateEjbPvb",
+      "elf_address": "0x3c6144",
+      "size": 328,
+      "sha256": "8a7ce3e3a1b359d9b40931fa0ffdda9905bb9af395d4aed562b90ef5348edf35",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_DebuffSlowEj",
+      "elf_address": "0x3e2a5c",
+      "size": 368,
+      "sha256": "7d6720fb28ed3e98da8446ade1ff1b0e90ba90de1fdffa2380ca379f4bc70154",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN9Character26F_ApplyScrollingCombatTextERKNS_12AttackResultEPS_S3_",
+      "elf_address": "0x3af77c",
+      "size": 1468,
+      "sha256": "b173f2cfeac3a2aab44ac6eadf2a825b2a7a7307cbe2ee40f36ff788ae803aae",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN9Character18F_ApplyCombatSoundERKNS_12AttackResultEPS_S3_",
+      "elf_address": "0x3afee0",
+      "size": 728,
+      "sha256": "c0ffb86f1351a968ad84842b6aedb4af863e8ce5c20b2948ca9c37e63b51ca07",
+      "scope": "external named provider boundary; body not credited"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15OnCombatResultsEP9CharacterS1_Pv",
+      "elf_address": "0x3d0da4",
+      "size": 36,
+      "sha256": "5067f1345298145e58dd56b51079e486ca8cbac690426c74ab09947d68cb0024",
+      "scope": "mapping evidence only; body not implemented or credited"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv",
+      "elf_address": "0x33dd10",
+      "size": 20,
+      "sha256": "e747e9aff56cd8e56b5a34d6570c86fbf70910645922ff428d0b43b9e6d3a821",
+      "scope": "mapping evidence only; body not implemented or credited"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "elf_address": "0x33f310",
+      "size": 436,
+      "sha256": "e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67",
+      "scope": "mapping evidence only; body not implemented or credited"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBaseC1ENS_6GO_IDSE",
+      "elf_address": "0x33f15c",
+      "size": 436,
+      "sha256": "0ee65c6207e36d8093719ec258764d35eeecf7bcefe76b5db93889c74b23518a",
+      "scope": "constructor raw word110 producer evidence only; body not implemented or credited"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager29GetNumPlayerCharactersOfClassEi",
+      "elf_address": "0x36ea50",
+      "size": 104,
+      "sha256": "e9eba9fb4e376a82aa3e29d3924da40c7330a9659addcfe40e270411af5fd251",
+      "scope": "PlayerManager player-count field producer/consumer mapping evidence only; body not implemented or credited"
+    }
+  ],
+  "literals": [
+    {
+      "text": "NoDamages",
+      "elf_address": "0x8c3ca8",
+      "sha256": "f6ef7fdac58c49a15afed4d77636fb5dbfeaf8c0bc041c9e87dac933e33d7390"
+    },
+    {
+      "text": "GOD",
+      "elf_address": "0x8c3cb8",
+      "sha256": "5a4f9c4034bab0db0d1bd03701bb615364d606e7351500988b6ed22e71d91342"
+    },
+    {
+      "text": "isTracingThreatChange",
+      "elf_address": "0x8c3ce8",
+      "sha256": "63844deab8af03d687d2e697a4cd2a890e9c7c8002f0217c0c8d68ca74d0bedf"
+    },
+    {
+      "text": "isTracingChar_Attack",
+      "elf_address": "0x8c3cc0",
+      "sha256": "cbef8d6cf0b5da751e4aeb4295d2b148332e8ac4ed5f2b6bc7282da88c4d9744"
+    }
+  ],
+  "new_complete_caller_bodies": 0,
+  "new_complete_dependency_bodies": 0,
+  "new_bounded_source_callers": 1,
+  "native_wired": false,
+  "vtables": [
+    {
+      "original_symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 812,
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "address_point_offset": 8,
+      "slots": [
+        {
+          "offset": "0x28",
+          "target": "0x3a49f0"
+        },
+        {
+          "offset": "0x34",
+          "target": "0x3a2ed4"
+        }
+      ]
+    },
+    {
+      "original_symbol": "_ZTV6CharAI",
+      "elf_address": "0x966790",
+      "size": 212,
+      "sha256": "096f8a9b1e2962bdb42ab6d5f413d66ab120e144fc43e3348234e492a2d2dd57",
+      "address_point_offset": 8,
+      "slots": [
+        {
+          "offset": "0xb4",
+          "target": "0x3d0da4"
+        }
+      ]
+    }
+  ],
+  "supported_domain": "Retained nonnull actors, offline current mode byte0, every reached player predicate false, PlayerManager player count <=1, mask400000 clear when damage branch reached, finite source threat getter. All nonplayer status and impact FX caller continuations require real typed service providers. Self arguments share one live Actor projection.",
+  "excluded_boundaries": [
+    {
+      "status": "unsupported_network",
+      "pc": "0x3b1440"
+    },
+    {
+      "status": "unsupported_gold",
+      "pc": "0x3b1a00"
+    },
+    {
+      "status": "unsupported_coop_scaling",
+      "pc": "0x3b1580"
+    },
+    {
+      "status": "unsupported_player",
+      "pcs": [
+        "0x3b1a2c",
+        "0x3b16d8",
+        "0x3b17ec",
+        "0x3b1bf0",
+        "0x3b1b80",
+        "0x3b1c60",
+        "0x3b1758",
+        "0x3b13e0"
+      ]
+    },
+    {
+      "status": "unsupported_threat_value",
+      "pc": "0x3b15cc",
+      "note": "Port dependency-domain guard, not an original branch: the actual GetEffectiveThreat getter int32/256 is always finite."
+    }
+  ],
+  "raw_field_mapping": {
+    "attacker_combo": "halfword14d0",
+    "defender_damage_suppression": "byte14f0",
+    "defender_push_death": "byte53b",
+    "defender_direct_hit_gate": "word110 == -1; ObjectBase::IsRemotelyUpdated consumes word110, not a PyData OID"
+  },
+  "mapping_ranges": [
+    {
+      "elf_address": "0x391c50",
+      "size": 12,
+      "sha256": "d383dd9b74ee319d810682f64c78bb986b3b57175a129e702625a299289706fa",
+      "bytes": "103196e51871c5e5103185e5",
+      "scope": "Online GameObject creation copies parent word110; mapping evidence only"
+    }
+  ]
+}

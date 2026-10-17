@@ -1,0 +1,90 @@
+{
+  "schema": "dh2-imported-resource-corpus-replay/v1",
+  "validation": "PASS",
+  "historical_bdae_records_replayed": 2901,
+  "historical_bdae_rows_identical": true,
+  "current_local_bdae_files": 2904,
+  "current_error_count": 0,
+  "current_block_records": 23648,
+  "additional_local_paths": [
+    "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+    "defaulteffects.bdae",
+    "gl_diffuse_l1_vc_iphone.bdae"
+  ],
+  "current_source_file_index_sha256": "bc4ed59ee6c953f28b4f536df437be5b54b8504d81c41d66c897461a11c96833",
+  "historical_block_census_sha256": "e7ab02ba0e728a0e105e5cc392b8f41e295aab63335a7a057d4b10d03092abe1",
+  "current_block_census_sha256": "6a851adc9ff18c42c2da5e37db19368ddf39c7588c13b4ce8740bd8b0737734c",
+  "historical_fixup_census_sha256": "6ad3497110321c269c0a2068026f74bcb88301d9cd76212ac25f77f573a4a284",
+  "current_fixup_census_sha256": "9a55707b5e8e6166b25765458835acbd036bb5c456b08640e147a5862472f5fc",
+  "fixup_comparison_by_top_level_key": {
+    "all_fixup_entries": true,
+    "files": true,
+    "files_with_target_by_category": true,
+    "fixup_field_source_regions": true,
+    "fixup_field_source_to_target_regions": true,
+    "nonfirst_entries_only": true,
+    "nonfirst_files_with_target_by_category": true,
+    "payload_row_coverage": true,
+    "payload_row_reference_coverage_by_source": true,
+    "payload_target_sources": true,
+    "payload_to_payload_fixups": true,
+    "schema": true,
+    "scope": false
+  },
+  "tool_sha256": {
+    "port/engine-resources/block-table-audit/fixup-target-audit/scan_fixup_targets.py": "6fac73c0d5f0cfb05e88f8586f37f0c6916ec966fc75001525ba3e3fe0abe864",
+    "port/engine-resources/tools/census_bres_block_tables.py": "166eddd9cb9eca3821b19f050b6246c9d599a86c610f638ba448acff340ce1b2"
+  },
+  "scope": "Read-only census of actual cached bytes; no reader-context behavior, original allocator or native runtime proof. Additional local files are separately listed; historical corpus counts remain historical.",
+  "fixup_data_fields_identical": true,
+  "all_fixup_entries": {
+    "block_payload": {
+      "entry_percent": 2.035809,
+      "fixup_entries": 52467
+    },
+    "block_table": {
+      "entry_percent": 0.058397,
+      "fixup_entries": 1505
+    },
+    "eof_endpoint": {
+      "entry_percent": 0.002716,
+      "fixup_entries": 70
+    },
+    "fixup_table": {
+      "entry_percent": 0.112564,
+      "fixup_entries": 2901
+    },
+    "header": {
+      "entry_percent": 0.0,
+      "fixup_entries": 0
+    },
+    "main_image": {
+      "entry_percent": 97.739063,
+      "fixup_entries": 2518937
+    },
+    "out_of_file": {
+      "entry_percent": 0.0,
+      "fixup_entries": 0
+    },
+    "pre_fixup_gap": {
+      "entry_percent": 0.0,
+      "fixup_entries": 0
+    },
+    "trailer": {
+      "entry_percent": 0.051451,
+      "fixup_entries": 1326
+    }
+  },
+  "environment_path_metadata_differences": {
+    "asset_root": {
+      "historical": "C:\\Users\\NacWorkstation\\Documents\\Codex\\2026-10-03\\let\\work\\cache-recovery\\extracted\\com.gameloft.android.GAND.GloftD2SS\\files",
+      "current": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files"
+    },
+    "block_table_census_path": {
+      "historical": "C:\\Users\\NacWorkstation\\Documents\\Codex\\2026-10-03\\let\\work\\DH_sc\\port\\engine-resources\\block-table-audit\\census.json",
+      "current": "port\\engine-resources\\block-table-audit\\census.json"
+    }
+  },
+  "fixup_scope_fields_identical_except_environment_paths": true,
+  "total_fixup_entries_reclassified": 2577206
+}

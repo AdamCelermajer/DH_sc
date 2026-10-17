@@ -1,0 +1,1697 @@
+[
+  {
+    "args": [
+      "shell",
+      "getconf",
+      "PAGE_SIZE"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "16384\n"
+  },
+  {
+    "args": [
+      "shell",
+      "getprop",
+      "ro.build.version.sdk"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "37\n"
+  },
+  {
+    "args": [
+      "install",
+      "-r",
+      "port\\android-native\\build\\native-player-ais-r2-2026-10-05\\crypt-native-player-ais.apk"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Performing Streamed Install\nSuccess\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pm",
+      "path",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "package:/data/app/~~-RntjwspifojKt9lvd0wZw==/com.example.dh2-s6OHhcLLnEWoHSicNOFv9w==/base.apk\n"
+  },
+  {
+    "args": [
+      "shell",
+      "sha256sum",
+      "/data/app/~~-RntjwspifojKt9lvd0wZw==/com.example.dh2-s6OHhcLLnEWoHSicNOFv9w==/base.apk"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "aee78d528868cbde8355f968b3f45466a525f3f4548b0eb7fb3e39e98d366abf  /data/app/~~-RntjwspifojKt9lvd0wZw==/com.example.dh2-s6OHhcLLnEWoHSicNOFv9w==/base.apk\n"
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "free\n"
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "lock",
+      "0"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "mkdir",
+      "-p",
+      "/sdcard/Android/data/com.example.dh2/files/mods/worlds"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "rm",
+      "-f",
+      "/sdcard/Android/data/com.example.dh2/files/mods/worlds/crypt01.dwld"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "1791226123.991488700\n"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "force-stop",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--es",
+      "world",
+      "crypt01.dwld",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }\nWarning: Activity not started, intent has been delivered to currently running top-most instance.\nStatus: ok\nLaunchState: UNKNOWN (0)\nActivity: com.android.systemui/com.android.wm.shell.packageupdate.PackageUpdateActivity\nTotalTime: 0\nWaitTime: 69\nComplete\n"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "force-stop",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--es",
+      "world",
+      "crypt01.dwld",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }\nStatus: ok\nLaunchState: COLD\nActivity: com.example.dh2/.MainActivity\nTotalTime: 2864\nWaitTime: 2880\nComplete\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31879\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31879\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226123.991488700",
+      "--pid=31879",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "6a552e51287fd049748c242de800ec4b9a9d2919cb979f7b519540bb1a3d7017"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31879\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226123.991488700",
+      "--pid=31879",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "b25510207cbd76e1166a160b796e06a53b4de45cbac82f7b80c3586c7d59e612"
+  },
+  {
+    "args": [
+      "push",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-player-ais-r2-2026-10-05\\crypt-foundations\\near-authored-trigger.dwld",
+      "/sdcard/Android/data/com.example.dh2/files/mods/worlds/crypt01.dwld"
+    ],
+    "returncode": 0,
+    "stderr": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-player-ais-r2-2026-10-05\\crypt-foundations\\near-authored-trigger.dwld: 1 file pushed, 0 skipped. 0.7 MB/s (1048 bytes in 0.001s)\n",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "1791226128.749564500\n"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "force-stop",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--es",
+      "world",
+      "crypt01.dwld",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }\nStatus: ok\nLaunchState: COLD\nActivity: com.example.dh2/.MainActivity\nTotalTime: 2552\nWaitTime: 2572\nComplete\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "6fccb88e187b8d2485518b0d8f6521b8900fa515456e39debdde6c1cbf84b964"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "a1beb682b57ada83f24b0a11a89a7c3f840b90e2a046af0195dc0dcc51d8573c"
+  },
+  {
+    "args": [
+      "shell",
+      "uiautomator",
+      "dump",
+      "/sdcard/dh2-crypt-script-window.xml"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "UI hierchary dumped to: /sdcard/dh2-crypt-script-window.xml\n"
+  },
+  {
+    "args": [
+      "shell",
+      "cat",
+      "/sdcard/dh2-crypt-script-window.xml"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "<?xml version='1.0' encoding='UTF-8' standalone='yes' ?><hierarchy rotation=\"0\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"0\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"android:id/content\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.widget.LinearLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,0][1080,2424]\" drawing-order=\"1\" hint=\"\"><node index=\"0\" text=\"Dungeon Hunter 2 \u00e2\u20ac\u201d Native 3D source\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,142][1080,225]\" drawing-order=\"1\" hint=\"\" /><node index=\"1\" text=\"\" resource-id=\"\" class=\"android.widget.Spinner\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"true\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"true\" long-clickable=\"true\" password=\"false\" selected=\"false\" bounds=\"[0,225][1080,288]\" drawing-order=\"2\" hint=\"\"><node index=\"0\" text=\"worlds/crypt01.dwld\" resource-id=\"android:id/text1\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,228][954,285]\" drawing-order=\"1\" hint=\"\" /></node><node index=\"2\" text=\"worlds/crypt01.dwld&#10;Crypt | 8 rooms | 13 monsters | 84 scenery objects&#10;21612 triangles. Drag the movement control to walk.\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,288][1080,441]\" drawing-order=\"3\" hint=\"\" /><node index=\"3\" text=\"\" resource-id=\"\" class=\"android.widget.FrameLayout\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"4\" hint=\"\"><node index=\"0\" text=\"\" resource-id=\"\" class=\"android.view.SurfaceView\" package=\"com.example.dh2\" content-desc=\"DH2 native texture viewport\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][1080,2308]\" drawing-order=\"1\" hint=\"\" /><node index=\"1\" text=\"HP 165.1 / 165.1   MP 27.3 / 27.3\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"Player health and mana\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,441][558,506]\" drawing-order=\"2\" hint=\"\" /><node index=\"2\" text=\"\" resource-id=\"\" class=\"android.view.View\" package=\"com.example.dh2\" content-desc=\"Movement control\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[42,1846][462,2266]\" drawing-order=\"3\" hint=\"\" /><node index=\"3\" text=\"ATTACK\" resource-id=\"\" class=\"android.widget.Button\" package=\"com.example.dh2\" content-desc=\"Attack nearby enemy\" checkable=\"false\" checked=\"false\" clickable=\"true\" enabled=\"true\" focusable=\"true\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[723,2077][1017,2245]\" drawing-order=\"4\" hint=\"\" /></node><node index=\"4\" text=\"Dungeon Hunter 2 \u00c2\u00a9 Gameloft SE. Published by GOAT Games Company Limited.\" resource-id=\"\" class=\"android.widget.TextView\" package=\"com.example.dh2\" content-desc=\"\" checkable=\"false\" checked=\"false\" clickable=\"false\" enabled=\"true\" focusable=\"false\" focused=\"false\" scrollable=\"false\" long-clickable=\"false\" password=\"false\" selected=\"false\" bounds=\"[0,2308][1080,2361]\" drawing-order=\"5\" hint=\"\" /></node></node></node></node></hierarchy>"
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "touchscreen",
+      "motionevent",
+      "DOWN",
+      "252",
+      "2222"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "72323ae116334cb9cd23df620bddaa95a7098454fd30dbef1e9c64ec64152a75"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "d7d4bea57c634dd3c57911507f7303b28cb9a0a166e93bf5051c25fded4f8bd5"
+  },
+  {
+    "args": [
+      "shell",
+      "input",
+      "touchscreen",
+      "motionevent",
+      "UP",
+      "252",
+      "2222"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "54708466083b65febe6e030b43bec121bc9d5edc491890fd0dd9880a05fc0fb0"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "2064e8076460f8f8271f484d80dfabefc15e723507db83859ccebd75da2fb50e"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "335c434699e065d4295de94cae9ac09fce059fa2c9932cb8d294c0309e60205a"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "bf3add9ea92c9a645994ac1044b0ad7d569750ee73b6e4de3be3cca13d5394bb"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "efe63b9aa28796bd6ac097e4dea089977f67b754163e97495ae88870ae949645"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-f",
+      "0x20000000",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--ei",
+      "object_index",
+      "0",
+      "--ei",
+      "combat_target_index",
+      "78",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stderr": "Warning: Activity not started, intent has been delivered to currently running top-most instance.\n",
+    "stdout": "Starting: Intent { flg=0x20000000 cmp=com.example.dh2/.MainActivity (has extras) }\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "2650b1a85cfc2f3c8b483a2a2b665eeb1c6f4fe22cf521765728665fbb4f95b8"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "abfd9f8dd63adbd816e755223fa649c5f7e226046840b3c9194a8b8ef1acb8b6"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "4569e97c33c94f168d77ee2cc93a2a1336879c05a9dba6c6a6f09d2f9bc69c65"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "9ead189d5ff31b9f386d038a6acd7d58fda40b4b0c360509e227e3e355d3f970"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "9ead189d5ff31b9f386d038a6acd7d58fda40b4b0c360509e227e3e355d3f970"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "89116c934621bb3534120f78750a6139b7c595a202f829200737ae83d4e722d6"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-f",
+      "0x20000000",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--ei",
+      "object_index",
+      "78",
+      "--ei",
+      "combat_target_index",
+      "0",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stderr": "Warning: Activity not started, intent has been delivered to currently running top-most instance.\n",
+    "stdout": "Starting: Intent { flg=0x20000000 cmp=com.example.dh2/.MainActivity (has extras) }\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "cdcf82611f0746a12a51c6722fa3fde3bc6012d9edcaf9ee2771dc94492ac1f6"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "f7ded2c7e093830123134cb1525528f47a6750059c3c2b3c9513ab80b6e003b7"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "17f6114f7a0353837d4e7b532461ee39354afce59ce7671cd34166f2b2c5fb5a"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "6ea355deb05139ddcd1a1e40717aa435b7e59698d7e03bf4a6ed10ba5f8755f1"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "6ea355deb05139ddcd1a1e40717aa435b7e59698d7e03bf4a6ed10ba5f8755f1"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "c9403c8321635388be84e65005b37ccfc0781356a6830425739ee91a66eef766"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-f",
+      "0x20000000",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--ei",
+      "object_index",
+      "79",
+      "--ei",
+      "combat_target_index",
+      "-2",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stderr": "Warning: Activity not started, intent has been delivered to currently running top-most instance.\n",
+    "stdout": "Starting: Intent { flg=0x20000000 cmp=com.example.dh2/.MainActivity (has extras) }\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "4d7b33f4d43a7404f261f4cb7d8b25599e91de68078459dccfc86b32e31deb55"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "39612e5b99b51e27327f882040ca16af13820dba9c2d88de2a7f77e61b0384ea"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "0a6d3a8998d6307c211a87f0e1f08202529c412c4ce0549182bd6b2cb2a229d7"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "091dbd427031c05e3914fa975b42373b347eb704f8650f96eb18530b81c42a55"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "091dbd427031c05e3914fa975b42373b347eb704f8650f96eb18530b81c42a55"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "c5ea42ce990fb66f7a7475ced90118502fd64005ceccc1cabe26726a71daaa08"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-f",
+      "0x20000000",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--ei",
+      "object_index",
+      "-1",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stderr": "Warning: Activity not started, intent has been delivered to currently running top-most instance.\n",
+    "stdout": "Starting: Intent { flg=0x20000000 cmp=com.example.dh2/.MainActivity (has extras) }\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "e8bd6d81750a973f0b02939ea99c51503eba3ac1ba6e56fc926093109a300026"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "337bae5aee05dce4aa35d13142b9354bbda8507c649c8a532f6b6861890e16e9"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "d542975ad5641e8eb1c908b90bea8a0d3c5094d8a548c9b546dffc16d3685e75"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "616c1be58973a235ee4b2fdc32aa6c8c92037c943019d2e5dd1163a7c5071a25"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "616c1be58973a235ee4b2fdc32aa6c8c92037c943019d2e5dd1163a7c5071a25"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "979c82001d86ca7b276340d86ff19f072a9bc4dd8596fa9eb6904266f668e4e9"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_CHARACTER_HIT",
+      "-p",
+      "com.example.dh2",
+      "--es",
+      "character_name",
+      "_prim_Monster_SURPRISE_01",
+      "--ei",
+      "raw_damage",
+      "256"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_CHARACTER_HIT flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "b167457b82b476dd401ae3a5ed6b07ddfa8f4a69b57dc2621311849344f131c6"
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_RELOAD_WORLD",
+      "-p",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_RELOAD_WORLD flg=0x400000 pkg=com.example.dh2 }\nBroadcast completed: result=0\n"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "e08d244880c85362ca14edb7273626f5dd2817c08e7f339a1edb81a3eaa9504f"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "57ad4c4a1a2cdf15fe40fa730b78c49b51e082b29bd90bc3ab8e66f901c8bd97"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "591909728a9a343c9411504ed936469a9e67dc5e469d8997264dcf099d94eb9f"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "878db61480fe92d2c471a16c93b08c0e8ab582e87ce306a3f653218d149581db"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "cae594993e15e7bd91092d37390dae319e161e97e28f6eca83c715c9ee5b6370"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "1d6814eab3557c1dc6af843dcb03a2a7510ca96f1bf3bd41aa817c9793ff9f4e"
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "lock",
+      "1"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "dff596ec52c28ddd54e160c1e50cacf1e142ef50e00e920888158b0696db554e"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "8f531a0df1b3f0c23355fc906c278ea810381d220bf87caf6ce0d13fc5fe3294"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "d54bbda0589a915e39c5e143c140ee3049e553afb68a4730d34f1c1727e2c62b"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "d45fabee57980ba1328ef3a6dd85ce1848fdfe5dca2b264c26a71742b2e514cc"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "f30c98704bd31e1058e68a60421fc6f8f618d3128618c6c1b42ca0eadc7dfaca"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "6a833e2aa6e7978cf653b075877a8dedd9d68b8d110ce0864076503c15125b0c"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "a123fcb6f1972911bcc12bd79bd2724dffedb35ef28b04eacc7f13e8a0a78fa2"
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "31975\n"
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791226128.749564500",
+      "--pid=31975",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": "[stored separately]",
+    "stdout_utf8_sha256": "af90757a33cf0dc0166e2ac68bf8dcdc2ce178f716a8bf16f2c1bd2c9aa8fc30"
+  },
+  {
+    "args": [
+      "shell",
+      "rm",
+      "-f",
+      "/sdcard/Android/data/com.example.dh2/files/mods/worlds/crypt01.dwld"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "free"
+    ],
+    "returncode": 0,
+    "stderr": "",
+    "stdout": ""
+  }
+]

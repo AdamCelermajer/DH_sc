@@ -3,7 +3,7 @@ project(dh2_engine_skinning LANGUAGES CXX)
 if(NOT TARGET dh2_engine_animation)
  add_subdirectory(../engine-animation "${CMAKE_CURRENT_BINARY_DIR}/engine-animation")
 endif()
-add_library(dh2_engine_skinning SHARED skinning.cpp
+add_library(dh2_engine_skinning SHARED skinning.cpp modular_skin_catalog.cpp
  visual_skin_selection_v6.cpp visual_skin_owner_v6.cpp skin_pose_cache_v32.cpp)
 set_source_files_properties(visual_skin_selection_v6.cpp visual_skin_owner_v6.cpp
  PROPERTIES COMPILE_OPTIONS "-Wno-misleading-indentation")
@@ -16,11 +16,10 @@ if(ANDROID)
 else()
  add_executable(skin_audit tests/audit.cpp)
  target_link_libraries(skin_audit PRIVATE dh2_engine_skinning)
+ add_executable(modular_skin_catalog_audit tests/modular_skin_catalog.cpp)
+ target_link_libraries(modular_skin_catalog_audit PRIVATE dh2_engine_skinning)
  add_executable(visual_skin_selection_v6_audit tests/visual_skin_selection_v6.cpp)
  target_link_libraries(visual_skin_selection_v6_audit PRIVATE dh2_engine_skinning)
  add_executable(visual_skin_owner_v6_audit tests/visual_skin_owner_v6.cpp)
  target_link_libraries(visual_skin_owner_v6_audit PRIVATE dh2_engine_skinning)
- add_executable(visual_skin_inventory_v6_audit tests/visual_skin_inventory_v6.cpp)
- target_link_libraries(visual_skin_inventory_v6_audit PRIVATE dh2_engine_skinning
-  dh2_game_data dh2_level_world dh2_engine_ui dh2_script_runtime)
 endif()

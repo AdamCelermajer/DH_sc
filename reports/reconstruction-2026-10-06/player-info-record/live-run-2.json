@@ -1,0 +1,489 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "aac39ae52ed5d36eeae31f699997877052610e8f2edf63dc66462952f65e4542",
+  "serial": "emulator-5558",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "a0843d41c8b73f81a5ffc3e4c0f9d6940eaf0b95485a9b59d566cbd27a3d6270",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "5c46b37a5d4bcfca9402233b1c52b7b04bcdb7a3c8d346914ea8ebcd592cd86d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "c3f8d33059ae62a19489e51874efee514ea789033bb4cadd36befd909cc5cc1e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "a416cb1abd60a6bc7604684a8c48f8e8c39a02ce1ab1f6f6fbe8f0ca7b4d521f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "476752c2f404822bf0ebe429f3c7224e86b6b2e55322ddcb608fc75e42a5282a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "e1f44bd06a4944d216a8656c6b63b7cfd508eee72e6803aead078f49f0ba43d4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "efff50ba140adaeb5c855a2f5456bc4aa3e89dabf0d5bfc52e391169912ce832",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "8d80c3f926e027d3a16ce5f892a155c19a994683142566b0405098b913bbc113",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "234bec4002b7f8749dc8863928684eccdb4cfc30a268c12f84af19bf534e9c4f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "015d403ac4ca2e93dc50eb86fabfaa8091b6baa1a2ab887774af820de4da0fc0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "dc8a7c0388eae6f868dcc1f0bdf4d423442671848df78c607816913d6a9fd621",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "b79c1123d466f7df43ad37c91b7649fbcc0e346b48316866c37a7cc811b492b0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "fab32129fc39b3be08ceecebb1f5de2e6894f0a67a4fbb484151ed96947ef9bf",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "2f1d5fe828ead9019475ad33e9561b78877527af5071f8c1231a0ad2bbbd2453",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "579958cddc588552d277e4e98b9d2238c53aa76d56c2b089db4a3266f34e7b7d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "07a19e4e59f9e9626fdbaa1d6878fd0ef900a91070e7f69f0f58ba6ccc80c48b",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "scope": "Actual original menu/name/class/Start Single Player taps, selected source profile creation/Assign, development Crypt continuation, connected source HUD, occupied-slot reopen and Home/resume. Full NativeStartGame/campaign/SG4/InitPost/gameplay controls remain open.",
+  "private_transaction_directory": "files/.menu-ui-smoke-2ac8d4ec499149dc97326ce5b3a9275b",
+  "personal_saves_pulled": false,
+  "cases": [
+    {
+      "class_index": 2,
+      "created": {
+        "slot": 0,
+        "class": 290,
+        "preset": "MagePlayerBase",
+        "cached_property2": 49,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 36095,
+        "max_HP": 36096,
+        "MP": 20095,
+        "max_MP": 20096,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 0,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "occupied_after_restart": {
+        "slot": 0,
+        "class": 290,
+        "preset": "MagePlayerBase",
+        "cached_property2": 49,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 36095,
+        "max_HP": 36096,
+        "MP": 20095,
+        "max_MP": 20096,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x100000001",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": -1,
+          "class": -1,
+          "Character660": 0,
+          "slot664": 0,
+          "shared_counter": 13,
+          "temporary_backing_policy": "zero",
+          "role": "manager fallback"
+        }
+      },
+      "normal_back_to_main": true,
+      "Home_resume_same_class_and_character": true
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "2-main-initial.png",
+      "sha256": "72204638297a319e1840c805cb5f671ed05541e8cc9279eb199a8b3c32260f8d"
+    },
+    {
+      "file": "2-main-empty.png",
+      "sha256": "72204638297a319e1840c805cb5f671ed05541e8cc9279eb199a8b3c32260f8d"
+    },
+    {
+      "file": "2-name-empty.png",
+      "sha256": "1d6783fbb5ba6b0894510d30e3a97995b3cc77d43d735bafb8cbd8bb5376b01d"
+    },
+    {
+      "file": "2-name-synthetic.png",
+      "sha256": "10c917a778a429f6036034c07e8abb00f75e02186283fac4f8b0809c0fa13646"
+    },
+    {
+      "file": "2-class-MagePlayerBase.png",
+      "sha256": "cf4d4801e4d9de7685430710418146b6f119b2ab6c9d95f2e1e3ace0d8749009"
+    },
+    {
+      "file": "2-start-new.png",
+      "sha256": "6b527ca8d11bd7cab6a18cae9c7dae8e1dd5f2660fe13ba4943d7f3d63b17bd7"
+    },
+    {
+      "file": "2-crypt-new.png",
+      "sha256": "cbf36740f7bc1d243bf3f0cb482dae0ef10efe8d86e768e1e7fd8d67cfbd0a89"
+    },
+    {
+      "file": "2-main-back.png",
+      "sha256": "54696d80cc22b1eb3f1f839c2285622271f439516aede0a7545aaade622965ea"
+    },
+    {
+      "file": "2-start-occupied.png",
+      "sha256": "6b527ca8d11bd7cab6a18cae9c7dae8e1dd5f2660fe13ba4943d7f3d63b17bd7"
+    },
+    {
+      "file": "2-crypt-occupied.png",
+      "sha256": "a0afc06fa4885627f4979d61f5129447a2dd7ec505168a00779116a8cbb16bf9"
+    },
+    {
+      "file": "2-crypt-resumed.png",
+      "sha256": "f3cac3a5d928f58c80c54d1d8a7c81350d5f7ff7624cca41e46d8ab612468bc2"
+    },
+    {
+      "file": "2-main-final.png",
+      "sha256": "54696d80cc22b1eb3f1f839c2285622271f439516aede0a7545aaade622965ea"
+    }
+  ],
+  "api": 37,
+  "page_size": 16384,
+  "abi": "x86_64",
+  "original_files_preserved": 2,
+  "focused_window_receipts": [
+    {
+      "phase": "fresh launch",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap main",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap key_a",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap name_confirm",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap class_right",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap class_right",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap class_confirm",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap single_player",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from settled Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "fresh launch",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap main",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap single_player",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Home from Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Home/resume",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from settled Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    }
+  ],
+  "visual_readiness_receipts": [
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    },
+    {
+      "stage": "name",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        378,
+        1330,
+        472
+      ]
+    },
+    {
+      "stage": "name",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        378,
+        1330,
+        472
+      ]
+    },
+    {
+      "stage": "class",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        949,
+        1330,
+        1043
+      ]
+    },
+    {
+      "stage": "class",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        949,
+        1330,
+        1043
+      ]
+    },
+    {
+      "stage": "class",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        949,
+        1330,
+        1043
+      ]
+    },
+    {
+      "stage": "start",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        493,
+        1904,
+        587
+      ]
+    },
+    {
+      "stage": "crypt",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        2121,
+        920,
+        2291,
+        959
+      ]
+    },
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    },
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    },
+    {
+      "stage": "start",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        493,
+        1904,
+        587
+      ]
+    },
+    {
+      "stage": "crypt",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        2121,
+        920,
+        2291,
+        959
+      ]
+    },
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    }
+  ],
+  "synthetic_primary_profiles_created": 1,
+  "synthetic_files_archived": 1,
+  "original_files_restored_and_device_checksums_verified": true,
+  "source_events_sha256": "49b0b9d4c172ddd34f14ff1a634cb3cd037ed48d88780a7c4d12c59bab6e6b9b"
+}

@@ -1,0 +1,114 @@
+{
+  "validation": "PASS",
+  "module": 0,
+  "path_mask": 2,
+  "source_module_zero_surfaces": 2,
+  "mapped_surfaces": 2,
+  "mapped_triangles": 99,
+  "graph_nodes": 133,
+  "graph_edges": 430,
+  "start": {
+    "found": true,
+    "actor_floor": 0,
+    "source_surface": 0,
+    "flags": 0,
+    "height": 255,
+    "node_id": "_floor_obj_4of4_brdwalk_sw_-node"
+  },
+  "moved": {
+    "found": true,
+    "actor_floor": 0,
+    "source_surface": 0,
+    "flags": 0,
+    "height": 255,
+    "node_id": "_floor_obj_4of4_brdwalk_sw_-node"
+  },
+  "water": {
+    "found": true,
+    "actor_floor": 1,
+    "source_surface": 1,
+    "flags": 2,
+    "height": 10,
+    "node_id": "_floor_water_obj_4of4_brdwalk_sw_-node"
+  },
+  "water_point": [
+    636.4,
+    2140,
+    10
+  ],
+  "water_source_surface": 1,
+  "outside": {
+    "found": false
+  },
+  "source_floor_queries": 3,
+  "rejection_checks": 7,
+  "scope": "actual-cache module-zero source triangles converted to native PFFloor C/B/A winding with source IDs and decoded masks retained; no actor physics or gameplay session",
+  "host_build": true,
+  "compiler": "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.EXE",
+  "source_queries": {
+    "start": {
+      "found": true,
+      "source_surface": 0,
+      "module_index": 0,
+      "flags": 0,
+      "height": 255.0,
+      "node_id": "_floor_obj_4of4_brdwalk_sw_-node"
+    },
+    "moved": {
+      "found": true,
+      "source_surface": 0,
+      "module_index": 0,
+      "flags": 0,
+      "height": 255.00001525878906,
+      "node_id": "_floor_obj_4of4_brdwalk_sw_-node"
+    },
+    "water": {
+      "found": true,
+      "source_surface": 1,
+      "module_index": 0,
+      "flags": 2,
+      "height": 10.0,
+      "node_id": "_floor_water_obj_4of4_brdwalk_sw_-node"
+    },
+    "water_mask0": {
+      "found": false
+    },
+    "outside": {
+      "found": false
+    }
+  },
+  "comparison": "initial, one-unit moved, and water source-surface/flags/node/height match within 1e-4; mask0 does not admit the water surface and actor runtime rejects it; outside point rejected by both",
+  "source_cache_sha256": {
+    "data/scene/001_swamp.mlx": "e3694600f07184567efcdecb79826da8bfe7aa09b7f1505b1bc13eb1eb68a041",
+    "data/3d/modules/swamp/swamp.bdae": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d"
+  },
+  "source_library_sha256": "ed90df387b5b1c3c101d381fdd8345571b884921e5f4728e494f60bf1a72f067",
+  "source_snapshot_sha256": "8e00e4a415552f8160137ab2f4c33c71b4d0e0da5b1e63185e1985e60340f66e",
+  "executable_sha256": "a6fcf7fb9317659388a357f6494f1c52b7efd1a73109ecdcf029fff815cd99ba",
+  "source_sha256": {
+    "port/irrlicht-android/game/tests/swamp_actor_floor_bridge_host.cpp": "24943c0aa8ceddf10892a9e693c63e88462bc20e1324a41de7b649780fbbf3a1",
+    "port/irrlicht-android/game/swamp_actor_floor_bridge.cpp": "1620ee5b1d42911667a0dc29a93d738631fc7b17aad4aeed90bca2f17a10faa5",
+    "port/asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/scene-materials/scene.cpp": "2e9b93fa4fb414731c5729e8280b02b6f26be66af37f2cf36fb6b425bfa26ada",
+    "port/level-world/floors.cpp": "d4dc2d56875cd2f06d5492a19430282845cd472e0a30edbab6105c022984ad55",
+    "port/level-world/floor_source.cpp": "483c7bbaa71536b148a79d8ed38c11ac0930ae499ef52607fc32f899e6252aea",
+    "port/level-world/octree.cpp": "c2d630197ef49a190fdde5ab52bf52d919c41aeb766b9de1aa47749664e2a5c1",
+    "port/level-world/selector.cpp": "b4cc745ade1732c555a8019a5c4dc2e65a9e4a6e1445718381ff72faa27134b1",
+    "port/level-world/collision.cpp": "828f8ec6ff4c0de9388c21930e8aa7774dce324661430b6c384653c3e4c2f9a5",
+    "port/level-world/navigation.cpp": "f39f65eb39f315c10e0f4e917df3bd453599572bfdf4646948c927b0d8bcffaa",
+    "port/level-world/navigation_world.cpp": "e12ab20917f787732cd4795bdd21ecb787a264cf6c9043593f7b6c6d71d88e16",
+    "port/level-world/navigation_motion.cpp": "ddfef4bcc72719fb01e77e0b7296dfafe3fd06417fc8a2da22292caa177df577",
+    "port/level-world/navigation_search.cpp": "c7464583741b171b1a22ce19c092ce09d055aec2507c57076c499ebde13f1579",
+    "port/level-world/navigation_path.cpp": "3e898bf804d38b0b91f2f4cdefcfb001796cf170ccee4966efd74cf9cd3522ce",
+    "port/level-world/navigation_controller.cpp": "e48a96e0a733c7e6bf4a70b7d889176dc018d6eecd2e2ba85b61c457ed417810",
+    "port/level-world/navigation_heading.cpp": "8067293e41a4bdaddebafbc9f996ac9484b77f9968290bc3f500bf3bf7c60bc4",
+    "port/level-world/navigation_objects.cpp": "fd3a1c4d33af78262b22a55b92ded760c482cb1b9b60dc049c122e6c7627affa",
+    "port/level-world/navigation_producers.cpp": "034e4ef93faf4de950f280f09dd96f8983a7081551bc4b802d1713b23b4e908e",
+    "port/level-world/navigation_avoidance.cpp": "1e30e3e2b6e90466e5f1060cc4656439221460de6e03bbdf40c0f6a79fbc5fcc",
+    "port/irrlicht-android/game/swamp_actor_floor_bridge.hpp": "920c26b0582f311d79fa609acfa69d1e165f8c22becf1426a3d7ae90c49c5de7",
+    "port/irrlicht-android/game/swamp_source_navigation_view.hpp": "8f94e26162d769dca759fd7af0a21d652862177cd1daf4c8d2c91e84299bd984"
+  },
+  "host_executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\irrlicht-android\\build\\swamp-room-roles-root\\floor-bridge\\swamp-actor-floor-bridge.exe"
+}

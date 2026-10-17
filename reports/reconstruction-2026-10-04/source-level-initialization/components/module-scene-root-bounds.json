@@ -1,0 +1,167 @@
+{
+  "validation": "PASS",
+  "scope": "Source-derived static SWAMP module scene-root AABB adapter. It reuses the checked Module root binding/subtree walker and original transformBoxEx-compatible floor bounds kernel; explicit owner position represents live GameObject+0x160.",
+  "limitations": [
+    "Does not construct original Irrlicht/glitch runtime objects or execute source vtables.",
+    "Verified cache has static type-3 geometry only; other instance types are counted and ignored, and nonzero ignored count invalidates this fixture.",
+    "Mesh bounds are read from serialized SMesh min/max and host-checked against every primitive's position stream.",
+    "The adapter does not derive Module-to-RoomZone membership or infer room identity from DACT indices."
+  ],
+  "original_source": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "functions": {
+      "VisualObject_constructor": {
+        "original_symbol": "_ZN12VisualObjectC1EP10GameObjectRKSsS3_",
+        "address": "0x472a0c",
+        "size": 592,
+        "sha256": "009dcf6e02d189677a66323fc1b3319734ce8913147232978c3ec55b23cdd0f9"
+      },
+      "AssetManager_loadSceneNode": {
+        "original_symbol": "_ZN12AssetManager13loadSceneNodeEPKcS1_bi",
+        "address": "0x50a504",
+        "size": 60,
+        "sha256": "30e371642cbd20699145ba5dccfebf01216b8b310ebf69c1194a5c67db9b9f71"
+      },
+      "SceneManager_LoadScene": {
+        "original_symbol": "_ZN12SceneManager9LoadSceneEPKcS1_bb",
+        "address": "0x3596f8",
+        "size": 832,
+        "sha256": "a3400f512e2359c9e9489575dc3b3ba5e4504c7a7737d52d9c5847950efe847e"
+      },
+      "RootSceneNode_ResetPositionFromFile": {
+        "original_symbol": "_ZN13RootSceneNode21ResetPositionFromFileEv",
+        "address": "0x35cc0c",
+        "size": 208,
+        "sha256": "b0b86b777910bf5a185ec53ef8bd889375315eb548245c9704ace61702f4e1fc"
+      },
+      "VisualObject_SyncPosition": {
+        "original_symbol": "_ZN12VisualObject12SyncPositionEv",
+        "address": "0x470cb8",
+        "size": 20,
+        "sha256": "0b12b65c824cb133ae35c2b3ebb9dc90b447e2c56cee89b2a1a57ac88723762a"
+      },
+      "VisualObject_SetPosition": {
+        "original_symbol": "_ZN12VisualObject11SetPositionERK7Point3DIfE",
+        "address": "0x470c24",
+        "size": 96,
+        "sha256": "b84dbc014302a72aab383009c9ddfc99afbc87f27b58eb3c7fd4c3b80f735015"
+      },
+      "Module_InitPost": {
+        "original_symbol": "_ZN6Module8InitPostEv",
+        "address": "0x388b20",
+        "size": 312,
+        "sha256": "d438871fa9b54d30df1000f53681149d23a0c72cf502f248008c584285d0a281"
+      },
+      "RootSceneNode_constructor": {
+        "original_symbol": "_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE",
+        "address": "0x35d824",
+        "size": 236,
+        "sha256": "f32bc6225098758a56760923eada3eb07ab19ad7269c635e82d887455244c29a"
+      },
+      "RootSceneNode_RefreshBoundingBox": {
+        "original_symbol": "_ZN13RootSceneNode18RefreshBoundingBoxEv",
+        "address": "0x35c854",
+        "size": 156,
+        "sha256": "afe4b5e093ece2de3a96cb51a4a0868839e74f86067890b24a17ba43bb4413ff"
+      },
+      "CSceneNode_computeBoundingBox": {
+        "original_symbol": "_ZNK6glitch7collada10CSceneNode18computeBoundingBoxERNS_4core8aabbox3dIfEE",
+        "address": "0x65cf8c",
+        "size": 452,
+        "sha256": "4e1299de7971229aefacd396a668b1b775d650fe38b9dc9fa55d59b4e7b48dde"
+      },
+      "ISceneNode_getTransformedBoundingBox": {
+        "original_symbol": "_ZNK6glitch5scene10ISceneNode25getTransformedBoundingBoxEv",
+        "address": "0x59770c",
+        "size": 124,
+        "sha256": "3ac37225aa9d7b429a9f40792c29254043fb1aa970ece65873bd6f22b357296d"
+      },
+      "RootSceneNode_vptr_gate": {
+        "vtable": "_ZTV13RootSceneNode",
+        "symbol_address": "0x95fdd8",
+        "constructor_address_point": "0x95fdf4",
+        "constructor_store_bytes": "1c3083e2003084e5",
+        "vtable_got_slot": "0x9983a0",
+        "relocation": [
+          ".rel.dyn",
+          23,
+          ""
+        ],
+        "virtual_targets": {
+          "0x30": "0x5839b0",
+          "0x34": "0x59770c",
+          "0xa0": "0x597124"
+        }
+      },
+      "callsite_evidence": {
+        "VisualObject_node_select_reset": "selected node pointer is converted to reset=true before SceneManager::LoadScene",
+        "ResetPositionFromFile": "selected child is reset to position zero, identity rotation, unit scale; outer root position zero and selected root absolute transform updated",
+        "owner_sync": "VisualObject::SyncPosition passes owner GameObject +0x160 XYZ to VisualObject::SetPosition",
+        "Module_bounds": "Module::InitPost invokes RootSceneNode vptr+0x34 getTransformedBoundingBox"
+      }
+    }
+  },
+  "source_sha256": {
+    "port/level-world/module_scene_root_bounds.hpp": "f64b78f4059934c9713d2ea8a2e3c3d49e5da3fa5484cd3b063fafe869cfc044",
+    "port/level-world/module_scene_root_bounds.cpp": "e9edc0796b0bb7bbe320d903b02d442215fc0012affe61e690f72f6fe4d7c33d",
+    "port/level-world/tests/module_scene_root_bounds_host.cpp": "5bd9de8f01920d11e5492b76e3c84a9231cf68b4f8b985d1816424a6ffa90cea",
+    "port/level-world/tests/run_module_scene_root_bounds.py": "7ba0b85bfae3cf9bd9d332f1c5ce340bab18400d026ae76ef6a78871bbc1bb22",
+    "port/level-world/reference/module-scene-root-bounds/original-functions.json": "fb7c5731acf397b6dffeca93b33a4f47d92f7110756c6a75ec215c3a2dc0d6ce",
+    "port/level-world/reference/module-scene-root-bounds/NOTES.md": "297f5b20691ff459878a49f070f09c01ff622d4ee1393a7b5985ef4a0332933c"
+  },
+  "compile_inputs_sha256": {
+    "port/level-world/tests/module_scene_root_bounds_host.cpp": "5bd9de8f01920d11e5492b76e3c84a9231cf68b4f8b985d1816424a6ffa90cea",
+    "port/level-world/module_scene_root_bounds.cpp": "e9edc0796b0bb7bbe320d903b02d442215fc0012affe61e690f72f6fe4d7c33d",
+    "port/level-world/floor_source.cpp": "483c7bbaa71536b148a79d8ed38c11ac0930ae499ef52607fc32f899e6252aea",
+    "port/world-data/world.cpp": "7da41e07d04239793b330bc48ffda6de02647e264bc5bdccfd95e7bc5ed8e93c",
+    "port/world-data/world_scene.cpp": "31b8e508fb7c9d175364a3b2b6ea71a05d38270a9f5153b9113d0365173500ed",
+    "port/scene-payloads/scene.cpp": "886a3bbf7cf5dd76137abcd1281de71c4f9b8f7b1b02a6cde6c40c700b6033c2",
+    "port/scene-materials/scene.cpp": "2e9b93fa4fb414731c5729e8280b02b6f26be66af37f2cf36fb6b425bfa26ada",
+    "port/asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/level-world/module_scene_root_bounds.hpp": "f64b78f4059934c9713d2ea8a2e3c3d49e5da3fa5484cd3b063fafe869cfc044",
+    "port/level-world/octree.hpp": "b7e01f0bb6f117baa579a5c956d7d00259cbbd0e2fd63d839a3f002cb48fb6fc",
+    "port/level-world/collision.hpp": "87c4b94767d11a7aa276e0e5507d2455e0f3471f49d6b22eb83ef035afca178d",
+    "port/level-world/floor_source.hpp": "84e227bc57ea1d6ffb02ec79f7a1d48a949f08e896881b3fa05d4d2e3c907262",
+    "port/level-world/selector.hpp": "3f46e5b20bd7aab7fcd3a7c6efa7f46ac451a18abd9bc0b69ab2df771fe2c23a",
+    "port/world-data/world.hpp": "bec29bd39e2bb47463d0c45819d9106f3327e039cc0cfca766701b1f5fb5feff",
+    "port/world-data/world_scene.hpp": "18ed3d45700823b7e00ca12ef96e792034bc39c174b41d48508d14721db1c11d",
+    "port/scene-payloads/scene.hpp": "b783de3cf30be5bc56506bcf1dc15189e4ed119fd6021951dafb686975d0b525",
+    "port/scene-materials/scene.hpp": "c869cb708659096a90dfa68c26b4d7b65cb279ca50a59e7522772540c17b16b6",
+    "port/asset-payloads/payloads.hpp": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+    "port/engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "port/engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "cache_inputs_sha256": {
+    "data/scene/001_swamp.mlx": "e3694600f07184567efcdecb79826da8bfe7aa09b7f1505b1bc13eb1eb68a041",
+    "data/3d/modules/swamp/swamp.bdae": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d"
+  },
+  "command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-fno-rtti",
+    "port/level-world/tests/module_scene_root_bounds_host.cpp",
+    "port/level-world/module_scene_root_bounds.cpp",
+    "port/level-world/floor_source.cpp",
+    "port/world-data/world.cpp",
+    "port/world-data/world_scene.cpp",
+    "port/scene-payloads/scene.cpp",
+    "port/scene-materials/scene.cpp",
+    "port/asset-payloads/payloads.cpp",
+    "port/engine-resources/resources.cpp",
+    "port/engine-math/math.cpp"
+  ],
+  "stdout": "module 0 root=_module_obj_4of4_brdwalk_sw_00-node nodes=103 instances=52 buffers=54 bounds=[-3023.690,-3000.000,-35.033]-[3000.000,3000.710,3742.400]\nmodule 1 root=_module_obj_3of4_brdwalk_sw_00-node nodes=100 instances=52 buffers=55 bounds=[-9000.010,-3000.002,-128.474]-[-2999.979,3000.000,3600.000]\nmodule 2 root=_module_obj_1of4_brdwalk_nse_00-node nodes=83 instances=44 buffers=46 bounds=[-9000.900,2999.799,-28.057]-[-2994.301,9000.499,3600.000]\nmodule 3 root=_module_corner_ruin_ws_00-node nodes=59 instances=59 buffers=59 bounds=[-9000.000,9000.000,-57.643]-[-2999.950,15000.000,3600.000]\nmodule 4 root=_module_merchantcamp_ruins_swe_00-node nodes=59 instances=59 buffers=62 bounds=[-15000.000,8953.260,-75.766]-[-9000.000,15019.460,3600.000]\nmodule 5 root=_module_corner_brdwalk_se_00-node nodes=49 instances=49 buffers=52 bounds=[-15000.130,14999.870,-110.592]-[-8999.830,21000.871,3600.000]\nmodule 6 root=_module_deadend_brdwalk_w_00-node nodes=42 instances=42 buffers=43 bounds=[-9000.120,14999.840,-239.154]-[-2999.120,21000.150,3600.000]\nmodule 7 root=_module_bossroom_ruins_ns_-node nodes=12 instances=9 buffers=9 bounds=[-21024.949,9000.000,-947.893]-[-14997.860,15000.010,3600.000]\nmodule 8 root=_module_obj_2of4_brdwalk_sw_00-node nodes=108 instances=55 buffers=56 bounds=[-3000.000,3000.000,-140.658]-[3000.000,9000.004,3600.000]\nPASS: original module/root placement bounds adapter, all 9 SWAMP modules\n",
+  "production_bounds_match_vertex_extents": true,
+  "module_count": 9,
+  "owner_translation_replays": 9,
+  "unsupported_scaled_module_rejection": true
+}

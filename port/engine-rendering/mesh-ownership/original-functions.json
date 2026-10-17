@@ -1,0 +1,600 @@
+{
+  "schema": "dh2-mesh-owner-provenance-v1",
+  "hash_basis": "SHA-256 covers exactly range_size bytes at elf_va after mapping through the APK ELF PT_LOAD table. ARM listing rows are emitted for each exact function interval; vtable pointer data records cover exact four-byte words.",
+  "source_apk": "C:\\Users\\NacWorkstation\\Downloads\\Dungeon-Hunter-2-HD-v1-0-2.apk",
+  "source_apk_sha256": "32c2d027b585a42547311cd95da6a3975fdb3174e663e513d42a7f49d1a4c200",
+  "source_elf_member": "lib/armeabi-v7a/libDungeonHunter2.so",
+  "source_elf_size": 15938284,
+  "source_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "elf_class": "ELF32",
+  "elf_endianness": "little",
+  "elf_machine": "ARM",
+  "pt_load_segments": [
+    {
+      "p_offset": 0,
+      "p_vaddr": 0,
+      "p_filesz": 9785648,
+      "p_memsz": 9785648,
+      "p_flags": 5,
+      "p_align": 4096
+    },
+    {
+      "p_offset": 9785648,
+      "p_vaddr": 9789744,
+      "p_filesz": 300364,
+      "p_memsz": 914688,
+      "p_flags": 6,
+      "p_align": 4096
+    }
+  ],
+  "functions": [
+    {
+      "key": "collada_mesh_constructor",
+      "symbol": "glitch::collada::CMesh constructor; creates and stores primitive mesh buffers",
+      "mangled": "_ZN6glitch7collada5CMeshC1ERKNS0_16CColladaDatabaseEPNS_5video12IVideoDriverERKNS0_9SGeometryERKNS0_13SBufferConfigESD_b",
+      "elf_va": "0x00645588",
+      "range_size": 1504,
+      "elf_file_offset": 6575496,
+      "range_sha256": "f84f873b135b3507caae483dfa74e54d829dd0a31f9a517049e3c999d13cea0a",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        6,
+        387
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "glitch::collada::CMesh constructor; creates and stores primitive mesh buffers"
+    },
+    {
+      "key": "meshbuffer_constructor_c1",
+      "symbol": "scene::CMeshBuffer C1 constructor called by the Collada mesh constructor",
+      "mangled": "_ZN6glitch5scene11CMeshBufferC1EPNS_5video12IVideoDriverERNS_7collada5SMeshEjRKNS5_13SBufferConfigESA_b",
+      "elf_va": "0x006bd9f8",
+      "range_size": 2680,
+      "elf_file_offset": 7068152,
+      "range_sha256": "175e56defbf9666c5cb012f976f63d79989b717a03b354c6543a0ab70b48a551",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        389,
+        1064
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "scene::CMeshBuffer C1 constructor called by the Collada mesh constructor"
+    },
+    {
+      "key": "meshbuffer_add_stream",
+      "symbol": "builds stream records and dispatches buffer creation or cached-buffer reuse",
+      "mangled": "_ZN6glitch5scene12_GLOBAL__N_19addStreamEPNS_5video12IVideoDriverERNS_7collada5SMeshERNS5_11SMeshBufferEcPNS2_17SVertexStreamDataEhRKNS5_13SBufferConfigE",
+      "elf_va": "0x006bccf0",
+      "range_size": 656,
+      "elf_file_offset": 7064816,
+      "range_sha256": "6b31fed2a17e981495a87a9a3dcb4ab7a65aefcf249972cb1590dedf1dc58034",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1066,
+        1235
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "builds stream records and dispatches buffer creation or cached-buffer reuse"
+    },
+    {
+      "key": "scene_mesh_add_buffer",
+      "symbol": "stores mesh-buffer, material, and attribute-map intrusive references",
+      "mangled": "_ZN6glitch5scene5CMesh13addMeshBufferERKN5boost13intrusive_ptrINS0_11CMeshBufferEEERKNS3_INS_5video9CMaterialEEERKNS3_INS8_27CMaterialVertexAttributeMapEEE",
+      "elf_va": "0x006bc664",
+      "range_size": 116,
+      "elf_file_offset": 7063140,
+      "range_sha256": "fcb68af2a1cf66c15681f00f3df53abc8e2bb43b0925a700d9af59016516de3b",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1237,
+        1271
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "stores mesh-buffer, material, and attribute-map intrusive references"
+    },
+    {
+      "key": "scene_mesh_sbuffer_destructor",
+      "symbol": "releases one scene::CMesh buffer/material/attribute record",
+      "mangled": "_ZN6glitch5scene5CMesh7SBufferD1Ev",
+      "elf_va": "0x006bbe18",
+      "range_size": 48,
+      "elf_file_offset": 7061016,
+      "range_sha256": "6720b6c92e718ebdf6548bc62834855e6dcc80737a44d8f1258526c61e31b012",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1273,
+        1290
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "releases one scene::CMesh buffer/material/attribute record"
+    },
+    {
+      "key": "scene_mesh_destructor",
+      "symbol": "destroys the scene mesh and its buffer vector",
+      "mangled": "_ZN6glitch5scene5CMeshD1Ev",
+      "elf_va": "0x006bc248",
+      "range_size": 52,
+      "elf_file_offset": 7062088,
+      "range_sha256": "d8900f426d8dff34aa828fac9e80de676a79c09d6665054775744edef608b495",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1292,
+        1310
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "destroys the scene mesh and its buffer vector"
+    },
+    {
+      "key": "scene_mesh_get_buffer_count",
+      "symbol": "scene mesh buffer-count accessor",
+      "mangled": "_ZNK6glitch5scene5CMesh18getMeshBufferCountEv",
+      "elf_va": "0x006bbb38",
+      "range_size": 40,
+      "elf_file_offset": 7060280,
+      "range_sha256": "e17dbfb88a307d7813f7e2bc7f1f479f631821e26c0d11e9d940b013996cfcc8",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1312,
+        1327
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "scene mesh buffer-count accessor"
+    },
+    {
+      "key": "scene_mesh_get_buffer",
+      "symbol": "scene mesh-buffer accessor",
+      "mangled": "_ZNK6glitch5scene5CMesh13getMeshBufferEj",
+      "elf_va": "0x006bbb60",
+      "range_size": 88,
+      "elf_file_offset": 7060320,
+      "range_sha256": "1fc6a695254e1ce5ec878026cdb90695982f65e320c83038d86272ebb7a9a572",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1329,
+        1356
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "scene mesh-buffer accessor"
+    },
+    {
+      "key": "scene_mesh_get_material",
+      "symbol": "scene material accessor",
+      "mangled": "_ZNK6glitch5scene5CMesh11getMaterialEj",
+      "elf_va": "0x006bbbb8",
+      "range_size": 88,
+      "elf_file_offset": 7060408,
+      "range_sha256": "d8fc507d73d5953a8f9b2d1d3a1698ca550b1fdbe9ba8df9751e7ce3d2a69f93",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1358,
+        1385
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "scene material accessor"
+    },
+    {
+      "key": "scene_mesh_get_attribute_map",
+      "symbol": "scene material attribute-map accessor",
+      "mangled": "_ZNK6glitch5scene5CMesh29getMaterialVertexAttributeMapEj",
+      "elf_va": "0x006bbc10",
+      "range_size": 88,
+      "elf_file_offset": 7060496,
+      "range_sha256": "c9245420c10f17163ab33c35d20dc57d804cd57560d8a2e21cd28d9313cb9481",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1387,
+        1414
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "scene material attribute-map accessor"
+    },
+    {
+      "key": "scene_mesh_set_material",
+      "symbol": "replaces a scene mesh buffer material and attribute map",
+      "mangled": "_ZN6glitch5scene5CMesh11setMaterialEjRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKNS3_INS4_27CMaterialVertexAttributeMapEEE",
+      "elf_va": "0x006bbd6c",
+      "range_size": 172,
+      "elf_file_offset": 7060844,
+      "range_sha256": "9765f5e6c82e85c653a63b3f2be4c9a1e1d7ca2359ad86a84d368f52a041020d",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1416,
+        1464
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "replaces a scene mesh buffer material and attribute map"
+    },
+    {
+      "key": "collada_mesh_get_buffer_count",
+      "symbol": "Collada mesh buffer-count accessor",
+      "mangled": "_ZNK6glitch7collada5CMesh18getMeshBufferCountEv",
+      "elf_va": "0x00644a44",
+      "range_size": 40,
+      "elf_file_offset": 6572612,
+      "range_sha256": "52a08bc76416efe96ce9d7388fac9d095ee59a9c5e4b6f7a66cc922486332ae9",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1466,
+        1481
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "Collada mesh buffer-count accessor"
+    },
+    {
+      "key": "collada_mesh_get_buffer",
+      "symbol": "Collada mesh-buffer accessor",
+      "mangled": "_ZNK6glitch7collada5CMesh13getMeshBufferEj",
+      "elf_va": "0x00644a6c",
+      "range_size": 92,
+      "elf_file_offset": 6572652,
+      "range_sha256": "6d3c180342aae9983be5783acad1b45a9b591a7cca38a8e0799f7aaa37cd876b",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1483,
+        1511
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "Collada mesh-buffer accessor"
+    },
+    {
+      "key": "collada_mesh_get_material",
+      "symbol": "Collada material accessor",
+      "mangled": "_ZNK6glitch7collada5CMesh11getMaterialEj",
+      "elf_va": "0x00644ac8",
+      "range_size": 92,
+      "elf_file_offset": 6572744,
+      "range_sha256": "96873dc610a0f2dd9700edf88075da4e63dac10c67b8d8913fe1339af46244ac",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1513,
+        1541
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "Collada material accessor"
+    },
+    {
+      "key": "collada_mesh_get_attribute_map",
+      "symbol": "Collada material attribute-map accessor",
+      "mangled": "_ZNK6glitch7collada5CMesh29getMaterialVertexAttributeMapEj",
+      "elf_va": "0x00644b24",
+      "range_size": 92,
+      "elf_file_offset": 6572836,
+      "range_sha256": "b2e6831366ce593ad138509b5f3585398410b953169add830342f16feddf95f3",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1543,
+        1571
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "Collada material attribute-map accessor"
+    },
+    {
+      "key": "collada_mesh_set_material",
+      "symbol": "replaces a Collada mesh material and attribute map",
+      "mangled": "_ZN6glitch7collada5CMesh11setMaterialEjRKN5boost13intrusive_ptrINS_5video9CMaterialEEERKNS3_INS4_27CMaterialVertexAttributeMapEEE",
+      "elf_va": "0x00644bdc",
+      "range_size": 172,
+      "elf_file_offset": 6573020,
+      "range_sha256": "76c8842f932be0929cb30a07de16b85f38510e58f584c98cbeeb18342a0e6161",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1573,
+        1621
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "replaces a Collada mesh material and attribute map"
+    },
+    {
+      "key": "collada_mesh_sbuffer_destructor",
+      "symbol": "releases one Collada mesh-buffer/material/attribute record",
+      "mangled": "_ZN6glitch7collada5CMesh7SBufferD1Ev",
+      "elf_va": "0x00644c88",
+      "range_size": 48,
+      "elf_file_offset": 6573192,
+      "range_sha256": "a318e6e9a99323630dc26c2f80cb2a3c37965d865dd6eb1b0e24a6ebb7822de3",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1623,
+        1640
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "releases one Collada mesh-buffer/material/attribute record"
+    },
+    {
+      "key": "collada_mesh_destructor",
+      "symbol": "destroys Collada buffer records and database subobject",
+      "mangled": "_ZN6glitch7collada5CMeshD1Ev",
+      "elf_va": "0x00644cfc",
+      "range_size": 80,
+      "elf_file_offset": 6573308,
+      "range_sha256": "52b53beea4cd0c689e3c9f127e824fd59b13c473c57f51ba665d50bc7f7948b9",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1642,
+        1667
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "destroys Collada buffer records and database subobject"
+    },
+    {
+      "key": "scene_mesh_node_render",
+      "symbol": "scene mesh-node material selection and buffer draw calls",
+      "mangled": "_ZN6glitch5scene14CMeshSceneNode6renderEPv",
+      "elf_va": "0x00585370",
+      "range_size": 612,
+      "elf_file_offset": 5788528,
+      "range_sha256": "956cb761a5060b3f9e8991ee531a93bb0592abe2521bd639405e81f3d42327f2",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1669,
+        1827
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "scene mesh-node material selection and buffer draw calls"
+    },
+    {
+      "key": "collada_mesh_node_render",
+      "symbol": "Collada mesh-node material selection and buffer draw calls",
+      "mangled": "_ZN6glitch7collada14CMeshSceneNode6renderEPv",
+      "elf_va": "0x00646730",
+      "range_size": 504,
+      "elf_file_offset": 6580016,
+      "range_sha256": "b10c961f8baaeb25d47c50528b3a9d867df7bf41981555654c31a6c08b11114f",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1829,
+        1960
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "Collada mesh-node material selection and buffer draw calls"
+    },
+    {
+      "key": "meshbuffer_destructor",
+      "symbol": "releases CMeshBuffer-owned stream, primitive, and related references",
+      "mangled": "_ZN6glitch5scene11CMeshBufferD1Ev",
+      "elf_va": "0x006bc8c4",
+      "range_size": 344,
+      "elf_file_offset": 7063748,
+      "range_sha256": "46db43a9d0dab9e34267ff8310ed3f0ceb5a34a1dd253d84c33c9a669f6b24e5",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        1962,
+        2053
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "releases CMeshBuffer-owned stream, primitive, and related references"
+    },
+    {
+      "key": "vertex_streams_destructor",
+      "symbol": "drops each stream-record IBuffer reference",
+      "mangled": "_ZN6glitch5video14CVertexStreamsD1Ev",
+      "elf_va": "0x005a0a1c",
+      "range_size": 60,
+      "elf_file_offset": 5900828,
+      "range_sha256": "4c248aae757b3bf8699f3747e28501a046d0f6fb43b622d7212b2eaf991cfc10",
+      "pt_load_segment_index": 0,
+      "source_listing_lines": [
+        2055,
+        2075
+      ],
+      "listing_byte_comparison": "range_rows_match_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm",
+      "decoder_mode": "arm",
+      "scope_note": "drops each stream-record IBuffer reference"
+    }
+  ],
+  "supporting_data_ranges": [
+    {
+      "name": "scene_mesh_vtable_get_buffer_count",
+      "elf_va": "0x00988070",
+      "elf_virtual_address": "0x00988070",
+      "elf_file_offset": 9990256,
+      "range_size": 4,
+      "range_sha256": "0eb2f276e3d13c8d647c39c7ba5e5b54405c3a10187e30af54b7c7e326c0583f",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x006bbb38",
+      "target_symbol": "scene::CMesh::getMeshBufferCount",
+      "source_listing_lines": [
+        2077,
+        2079
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "scene_mesh_vtable_get_buffer",
+      "elf_va": "0x00988074",
+      "elf_virtual_address": "0x00988074",
+      "elf_file_offset": 9990260,
+      "range_size": 4,
+      "range_sha256": "e326caffcb71723aa2935134a51e451b4762b55d76db7921fb4731d53d8523e2",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x006bbb60",
+      "target_symbol": "scene::CMesh::getMeshBuffer",
+      "source_listing_lines": [
+        2081,
+        2083
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "scene_mesh_vtable_get_material",
+      "elf_va": "0x00988078",
+      "elf_virtual_address": "0x00988078",
+      "elf_file_offset": 9990264,
+      "range_size": 4,
+      "range_sha256": "9f7b15645b9ce33ec3fa886f254c31c02a87ae853da46922c752efa379439fec",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x006bbbb8",
+      "target_symbol": "scene::CMesh::getMaterial",
+      "source_listing_lines": [
+        2085,
+        2087
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "scene_mesh_vtable_get_attribute_map",
+      "elf_va": "0x0098807c",
+      "elf_virtual_address": "0x0098807c",
+      "elf_file_offset": 9990268,
+      "range_size": 4,
+      "range_sha256": "0207f4ea9fcd547e4cb3f366714caf020b3e4e5ec473b9a5026b9e9c991fd4a0",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x006bbc10",
+      "target_symbol": "scene::CMesh::getMaterialVertexAttributeMap",
+      "source_listing_lines": [
+        2089,
+        2091
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "collada_mesh_vtable_get_buffer_count",
+      "elf_va": "0x0097f078",
+      "elf_virtual_address": "0x0097f078",
+      "elf_file_offset": 9953400,
+      "range_size": 4,
+      "range_sha256": "6dc4cb0ac6c5c46b612a130c9db744c1e258c6771c375f0a80b0b66466a6c38f",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x00644a44",
+      "target_symbol": "collada::CMesh::getMeshBufferCount",
+      "source_listing_lines": [
+        2093,
+        2095
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "collada_mesh_vtable_get_buffer",
+      "elf_va": "0x0097f07c",
+      "elf_virtual_address": "0x0097f07c",
+      "elf_file_offset": 9953404,
+      "range_size": 4,
+      "range_sha256": "9119da75669b4f3645104d68849d48076687054b4ea74727ae44aeb06da67adf",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x00644a6c",
+      "target_symbol": "collada::CMesh::getMeshBuffer",
+      "source_listing_lines": [
+        2097,
+        2099
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "collada_mesh_vtable_get_material",
+      "elf_va": "0x0097f080",
+      "elf_virtual_address": "0x0097f080",
+      "elf_file_offset": 9953408,
+      "range_size": 4,
+      "range_sha256": "55b2384d8055b23251e1d9b4652f45f96c564afa214edb95fb5042c595a73a85",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x00644ac8",
+      "target_symbol": "collada::CMesh::getMaterial",
+      "source_listing_lines": [
+        2101,
+        2103
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "collada_mesh_vtable_get_attribute_map",
+      "elf_va": "0x0097f084",
+      "elf_virtual_address": "0x0097f084",
+      "elf_file_offset": 9953412,
+      "range_size": 4,
+      "range_sha256": "20bf21ed5db38419ee25eb36aed3163e7ca8c13d61f419d17e561e3f7b53e11e",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x00644b24",
+      "target_symbol": "collada::CMesh::getMaterialVertexAttributeMap",
+      "source_listing_lines": [
+        2105,
+        2107
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "collada_mesh_vtable_set_transform",
+      "elf_va": "0x0097f0ac",
+      "elf_virtual_address": "0x0097f0ac",
+      "elf_file_offset": 9953452,
+      "range_size": 4,
+      "range_sha256": "a62f3345d80044e535f41cf1c6572c33869de5d27388706504a89dcd90fd6a77",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x006676c8",
+      "target_symbol": "collada::IMesh::setTransform",
+      "source_listing_lines": [
+        2109,
+        2111
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    },
+    {
+      "name": "opengles2_driver_vtable_create_buffer",
+      "elf_va": "0x00977b98",
+      "elf_virtual_address": "0x00977b98",
+      "elf_file_offset": 9923480,
+      "range_size": 4,
+      "range_sha256": "e661eab6d53d2a6cc64a8a8312f4f8eb67ec01274403199111adb9c72b9c1c99",
+      "pt_load_segment_index": 1,
+      "raw_word": "0x005b13f4",
+      "target_symbol": "CCommonGLDriver::createBuffer",
+      "source_listing_lines": [
+        2113,
+        2115
+      ],
+      "listing_byte_comparison": "raw_word_matches_original_APK_ELF_PT_LOAD_bytes",
+      "source_assembly": "reference/original-functions.asm"
+    }
+  ]
+}

@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character26_GetCurrentEquippedFaeryIdERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6da0",
+      "size": 36,
+      "sha256": "6748a9ab3d74f2fa0de9281529bf8c0f6cdd0bce68c4654a59c0aa77c151faed",
+      "scope": "Complete source callback body; the saved-selection getter and pushInteger are explicit providers."
+    },
+    {
+      "original_symbol": "_ZN9Character29_GetCurrentEquippedFaeryLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6df8",
+      "size": 56,
+      "sha256": "a7c11f8aaa70f316da48d6702d888efb0deac878d727a9372481f6edeb6393a8",
+      "scope": "Complete source callback body; saved-selection, saved-level and pushInteger are explicit providers."
+    },
+    {
+      "original_symbol": "_ZNK9Character21SG_GetCurrentFaerieIdEi",
+      "elf_address": "0x3bb98c",
+      "size": 76,
+      "sha256": "d229aba4d734ad8f8f8432b087de47591bd30b6fb92fb7681197040450fe481b",
+      "scope": "Named external dependency. Reuse character_current_spell_v1::saved_services; no dependency body credit here."
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_GetFaerieLevelEji",
+      "elf_address": "0x3bbc18",
+      "size": 64,
+      "sha256": "0ff287e841e223bb44b130794581c6c6b6c45560d5332e360b0c6fd9128d2b7f",
+      "scope": "Named external dependency. Reuse character_current_spell_v1::saved_services; no dependency body credit here."
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "elf_address": "0x37cb24",
+      "size": 104,
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68",
+      "scope": "Explicit ARM oracle output boundary; no pushInteger body credit."
+    }
+  ],
+  "source_call_order": {
+    "GetCurrentEquippedFaeryId": [
+      "SG_GetCurrentFaerieId(-1)",
+      "ReturnValues::pushInteger(selected_id)"
+    ],
+    "GetCurrentEquippedFaeryLevel": [
+      "SG_GetCurrentFaerieId(-1)",
+      "SG_GetFaerieLevel(selected_id,-1)",
+      "ReturnValues::pushInteger(selected_level)"
+    ],
+    "arguments": "Both callback bodies ignore the Arguments object and use the captured Character pointer."
+  },
+  "attribution": {
+    "source_binary_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "reused_selected_source": "port/level-world/character_current_spell_v1.hpp/.cpp SavedBindings and saved_services",
+    "adaptation": "Two thin callback adapters over the one existing PlayerSavegame projection; no current-spell validation step and no second save owner."
+  },
+  "dependency_body_credit": 0,
+  "native_wired": false
+}

@@ -1,0 +1,48 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_ZNK15SavegameManager9hasOptionEPKc",
+      "address": "0x46d4a8",
+      "bytes": 48,
+      "sha256": "7c65d3095b378f2170591c06f1ec33abc34d96677c5c3b4e0ca6fc67f40add31",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZNK15SavegameManager9getOptionEPKc",
+      "address": "0x46d474",
+      "bytes": 52,
+      "sha256": "3fcab59a9826462cc9e0219b962a0313718d2a02e9f2e76d909ad333adf27d7c",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZNK15SavegameManager15isOptionToggledEPKc",
+      "address": "0x46d418",
+      "bytes": 92,
+      "sha256": "69b6f703d2114682a0547048cc2fcc7d3c43fa7f44e45fd52a87894ea39d96f9",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZN11Application14GetSavedOptionEPKc",
+      "address": "0x320e44",
+      "bytes": 48,
+      "sha256": "8331be7f3725447f70f125af44c323ea99e75cf792de5db166837e9d1cc3010c",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZN11Application15IsSavedOptionOnEPKc",
+      "address": "0x320e14",
+      "bytes": 48,
+      "sha256": "2072285102a538d8c1784dedda939e3a30a7bf97d98877339b67ba91d250d2d5",
+      "scope": "caller"
+    },
+    {
+      "symbol": "_ZN15SavegameManagerC1Ev",
+      "address": "0x46cd4c",
+      "bytes": 140,
+      "sha256": "99cfb00e6c427703b4defdeba4d658bc692b8f7063c1f8adc3f233673cfef691",
+      "scope": "empty-map constructor field evidence only"
+    }
+  ],
+  "lookup_boundary": "Original _M_find is explicitly modeled as the genuine owner map lookup. Native uses its one maintained std::map. No whole original allocator/tree or constructor body credit."
+}

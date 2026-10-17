@@ -1,0 +1,403 @@
+{
+  "native_adapter": true,
+  "new_complete_caller_bodies": 0,
+  "new_complete_dependency_bodies": 0,
+  "reused_original_evidence": [
+    {
+      "path": "port/level-world/reference/character-script-set-level/original-functions.json",
+      "sha256": "44fb7960ac5f9a4d92d02ad03530b01991cc55a0d10907759e3c0564cab5cd5f",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "functions": [
+        {
+          "original_symbol": "_ZN9Character9_SetLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+          "elf_address": "0x3b73a4",
+          "size": 260,
+          "sha256": "43e4305f7d220b89be31959d5d86bd3e6338bbaded7e7cb7baceb0380178ea69",
+          "scope": "New complete callback caller; dependency bodies external"
+        },
+        {
+          "original_symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+          "elf_address": "0x37baf8",
+          "size": 88,
+          "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463",
+          "scope": "Original88B Argument index instructions execute in oracle; no new helper body"
+        },
+        {
+          "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+          "elf_address": "0x31bbf0",
+          "size": 144,
+          "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de",
+          "scope": "Named live Value number provider; no new body"
+        },
+        {
+          "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+          "elf_address": "0x4c4bdc",
+          "size": 84,
+          "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794",
+          "scope": "Named real design query provider; no new body"
+        },
+        {
+          "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+          "elf_address": "0x3e0810",
+          "size": 68,
+          "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9",
+          "scope": "Named real property recalculation provider; no new body"
+        },
+        {
+          "original_symbol": "_ZN9Character7RegenHPEi",
+          "elf_address": "0x3bdca4",
+          "size": 236,
+          "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d",
+          "scope": "Named real HP regeneration provider; no new body"
+        },
+        {
+          "original_symbol": "_ZN9Character7RegenMPEi",
+          "elf_address": "0x3bdbb8",
+          "size": 236,
+          "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a",
+          "scope": "Named real MP regeneration provider; no new body"
+        }
+      ]
+    },
+    {
+      "path": "port/level-world/reference/character-regeneration/original-functions.json",
+      "sha256": "3709d0a69f5bc1af6d1f993f49ae2f9794a9dbff06ccfc8513a4bc5d5cb3783c",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "functions": [
+        {
+          "original_symbol": "_ZN9Character7RegenHPEi",
+          "elf_address": "0x3bdca4",
+          "size": 236,
+          "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d",
+          "scope": "complete caller body"
+        },
+        {
+          "original_symbol": "_ZN9Character7RegenMPEi",
+          "elf_address": "0x3bdbb8",
+          "size": 236,
+          "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a",
+          "scope": "complete caller body"
+        },
+        {
+          "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+          "elf_address": "0x3dedb4",
+          "size": 292,
+          "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f",
+          "scope": "external dependency evidence only"
+        },
+        {
+          "original_symbol": "_ZN14CharProperties9PROPS_AddEii",
+          "elf_address": "0x3e0708",
+          "size": 144,
+          "sha256": "0e4a2cdfe4feef368849e8823b05d451f55b4178b762f3fa9fcaf27d8abf79c3",
+          "scope": "external dependency evidence only"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches4loadEv",
+          "elf_address": "0x337888",
+          "size": 512,
+          "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+          "scope": "external dependency evidence only"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+          "elf_address": "0x337a88",
+          "size": 196,
+          "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+          "scope": "external dependency evidence only"
+        },
+        {
+          "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+          "elf_address": "0x3140ec",
+          "size": 52,
+          "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+          "scope": "external dependency evidence only"
+        },
+        {
+          "original_symbol": "_ZNSsD1Ev",
+          "elf_address": "0x318254",
+          "size": 68,
+          "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+          "scope": "external dependency evidence only"
+        },
+        {
+          "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+          "elf_address": "0x337288",
+          "size": 380,
+          "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+          "scope": "external dependency evidence only"
+        },
+        {
+          "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+          "elf_address": "0x3369a8",
+          "size": 212,
+          "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+          "scope": "external dependency evidence only"
+        }
+      ]
+    },
+    {
+      "path": "port/level-world/reference/debug-switches-runtime/original-functions.json",
+      "sha256": "8b5d37629bb6f8313afee8e47179b92fb3260fda6424a7f4fc57ed2f974f340c",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "functions": [
+        {
+          "original_symbol": "_ZN13DebugSwitches4loadEv",
+          "elf_address": "0x337888",
+          "size": 512,
+          "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+          "elf_address": "0x337a88",
+          "size": 196,
+          "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9SetSwitchERKSsb",
+          "elf_address": "0x337ddc",
+          "size": 236,
+          "sha256": "1653c8daee8e1628a83fb5836064799d57507147e05c372e831c39a8883bece3",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches13_loadSwitchesEP11IFileStream",
+          "elf_address": "0x3374e4",
+          "size": 932,
+          "sha256": "4b934bce6a21a2152962d7b056b6656062cb181c923eeca57ab3783810e20f34",
+          "scope": "bounded source binary switch-loop branch"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches4saveEv",
+          "elf_address": "0x337d54",
+          "size": 136,
+          "sha256": "bb52db94b17bd5240c3398df62ba12a9da4d67dc4b75dcf436c8994e2ba4b829",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+          "elf_address": "0x3369a8",
+          "size": 212,
+          "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+          "elf_address": "0x337288",
+          "size": 380,
+          "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+          "elf_address": "0x3140ec",
+          "size": 52,
+          "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNSsD1Ev",
+          "elf_address": "0x318254",
+          "size": 68,
+          "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader6readAsIiEET_P11IStreamBase",
+          "elf_address": "0x3364ec",
+          "size": 184,
+          "sha256": "461597c8f50bde14e013316c8820011152d5a9dc2b785302426839031690cc5b",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader6readAsIhEET_P11IStreamBase",
+          "elf_address": "0x3365a4",
+          "size": 184,
+          "sha256": "3319d06774aaf85f768a7364b3f935cc0b61aecef70e8b615361b45c4f21549e",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader10readStringEP11IStreamBasePcy",
+          "elf_address": "0x317734",
+          "size": 244,
+          "sha256": "7a5ddf3ee51d3f11ea0aea9b3666862146edec1c8681f8e1f5587acba9e8ea52",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitchesC2Ev",
+          "elf_address": "0x335f94",
+          "size": 56,
+          "sha256": "a464b492a141b0921b85dc23c1afc195df57c318f0df2719493adbc6869d4ef6",
+          "scope": "external provider evidence"
+        }
+      ]
+    },
+    {
+      "path": "port/level-world/reference/debug-switches-persistence/original-functions.json",
+      "sha256": "a746cbee7d0f060fee353c4596e19b38b5ddd8ffc32fe98c2d16c72767182854",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "functions": [
+        {
+          "original_symbol": "_ZN13DebugSwitches13_saveSwitchesEP11IFileStream",
+          "elf_address": "0x337b4c",
+          "size": 520,
+          "sha256": "0da7ccbd9117dd3ee21f29d9acacedfa552a2f10485c1aa19bc49cc417c386f4",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches4saveEv",
+          "elf_address": "0x337d54",
+          "size": 136,
+          "sha256": "bb52db94b17bd5240c3398df62ba12a9da4d67dc4b75dcf436c8994e2ba4b829",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader7writeAsIiEEvP11IStreamBaseT_",
+          "elf_address": "0x33665c",
+          "size": 188,
+          "sha256": "3b21fed5b8fd0bcf27b7f2d5f61a28f3115106114d881863051321feacc8d927",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader7writeAsIhEEvP11IStreamBaseT_",
+          "elf_address": "0x336718",
+          "size": 188,
+          "sha256": "ab2bff238634bdc6f485a6a2d0fa0e61bd091532ee64d0a8702e88c3ecf0db98",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader11writeStringEP11IStreamBasePKcy",
+          "elf_address": "0x317490",
+          "size": 184,
+          "sha256": "2d50a9a9250385a8ab7e99d72b3ec2e853a47725d561518977b3d19d3c6d27c3",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches4loadEv",
+          "elf_address": "0x337888",
+          "size": 512,
+          "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+          "scope": "reused complete Runtime caller evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+          "elf_address": "0x337a88",
+          "size": 196,
+          "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+          "scope": "reused complete Runtime caller evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9SetSwitchERKSsb",
+          "elf_address": "0x337ddc",
+          "size": 236,
+          "sha256": "1653c8daee8e1628a83fb5836064799d57507147e05c372e831c39a8883bece3",
+          "scope": "reused complete Runtime caller evidence"
+        },
+        {
+          "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+          "elf_address": "0x3369a8",
+          "size": 212,
+          "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+          "elf_address": "0x337288",
+          "size": 380,
+          "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+          "elf_address": "0x3140ec",
+          "size": 52,
+          "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZNSsD1Ev",
+          "elf_address": "0x318254",
+          "size": 68,
+          "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+          "scope": "external dependency evidence"
+        }
+      ]
+    }
+  ],
+  "additional_dependencies": [
+    "maintained dh2_class_recalc_base live Ckernel",
+    "maintained dh2_property_add live Ckernel",
+    "maintained dh2_pycst_get actualcache lookup",
+    "finite-domain binary32 to signed32 conversion",
+    "owned standard native string allocation",
+    "external real Debug filesystem/save providers"
+  ],
+  "android_wired": false,
+  "application_design_provenance": {
+    "scope": "Original producer callsites/literals only, not a complete application or constants-loader reconstruction",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "functions": [
+      {
+        "original_symbol": "_ZN11ApplicationC1Ev",
+        "elf_address": "0x32d79c",
+        "size": 484,
+        "sha256": "e05316cb38c8aa5b97535ced0906b6d820a4439dddc1a0b101865eb5e7faffc6",
+        "scope": "Read-only producer callsite/literal evidence; no new caller or dependency body"
+      },
+      {
+        "original_symbol": "_ZN11ApplicationC2Ev",
+        "elf_address": "0x32d980",
+        "size": 484,
+        "sha256": "44b5592f4e6e9b7ca38e2b826f45d63447f0928abb31cc1f634540160cc67c09",
+        "scope": "Read-only producer callsite/literal evidence; no new caller or dependency body"
+      },
+      {
+        "original_symbol": "_ZN11Application8PostInitEv",
+        "elf_address": "0x32f7e8",
+        "size": 628,
+        "sha256": "0387dace44d32551cb6531d9fe0bddcef7a5853ca3adecabdb755e6e16587043",
+        "scope": "Read-only producer callsite/literal evidence; no new caller or dependency body"
+      },
+      {
+        "original_symbol": "_ZN15PyDataConstantsC1EP19DataReloaderManager",
+        "elf_address": "0x4c36b8",
+        "size": 80,
+        "sha256": "28264ff8cf9bdaf17657bb2be858661cdf0a79fe0d42026f12bccbad4f122674",
+        "scope": "Read-only producer callsite/literal evidence; no new caller or dependency body"
+      },
+      {
+        "original_symbol": "_ZN15PyDataConstants4LoadEv",
+        "elf_address": "0x4c3708",
+        "size": 2608,
+        "sha256": "df25a746961cd4577e43d667bb8fb6ff46492bb0aac477e7fa1100e4058c805d",
+        "scope": "Read-only producer callsite/literal evidence; no new caller or dependency body"
+      }
+    ],
+    "facts": [
+      "Application constructors initialize +0x2c to null (C1 store0x32d80c, C2 store0x32d9f0).",
+      "Application::PostInit allocates 36 bytes, calls PyDataConstants C1 with Application+0x28 DataReloaderManager, and installs the resulting manager at +0x2c (store0x32f858).",
+      "PyDataConstants ctor retains DataReloaderManager at+0x1c and starts loading stage+0x20 at0.",
+      "PyDataConstants Load stage4 resolves the original design file and reload name through the pinned PC-relative literals.",
+      "SetLevel retains Application after its first number query, then uses fresh manager+0x2c reads (0x3b7424, upper clamp0x3b7480). Native binding must retain actual parsed design bytes, not an app maximum default."
+    ],
+    "literals": [
+      {
+        "ldr_address": "0x4c3d28",
+        "relative_word_address": "0x4c40b4",
+        "add_pc_address": "0x4c3d34",
+        "resolved_address": "0x8d8810",
+        "text": "pydata/design_pycst.bin"
+      },
+      {
+        "ldr_address": "0x4c3d4c",
+        "relative_word_address": "0x4c40b8",
+        "add_pc_address": "0x4c3d58",
+        "resolved_address": "0x8d8828",
+        "text": "design_pycst.bin"
+      }
+    ],
+    "player_globals": "Host PlayerInfo/current-Level owners use the separate lua_script_level_queries producer evidence; this adapter does not install them."
+  }
+}

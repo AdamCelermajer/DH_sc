@@ -1,0 +1,125 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 1,
+    "new_callback_bodies": 1,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_script_set_level.hpp",
+      "port/level-world/character_script_set_level.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_script_set_level.cpp",
+      "port/level-world/tests/run_character_script_set_level_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character9_SetLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b73a4",
+      "size": 260,
+      "sha256": "43e4305f7d220b89be31959d5d86bd3e6338bbaded7e7cb7baceb0380178ea69",
+      "scope": "New complete callback caller; dependency bodies external"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+      "elf_address": "0x37baf8",
+      "size": 88,
+      "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463",
+      "scope": "Original88B Argument index instructions execute in oracle; no new helper body"
+    },
+    {
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de",
+      "scope": "Named live Value number provider; no new body"
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794",
+      "scope": "Named real design query provider; no new body"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9",
+      "scope": "Named real property recalculation provider; no new body"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d",
+      "scope": "Named real HP regeneration provider; no new body"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a",
+      "scope": "Named real MP regeneration provider; no new body"
+    }
+  ],
+  "design_literals": [
+    {
+      "pc_add_address": "0x3b7410",
+      "literal_address": "0x3b74a0",
+      "elf_address": "0x8c1758",
+      "text": "CharacterDesign",
+      "sha256": "ffe1d6d9dc4065809e1b15b2a4f3109a63ca17a59b17136c487bedbe24c68023"
+    },
+    {
+      "pc_add_address": "0x3b7414",
+      "literal_address": "0x3b74a4",
+      "elf_address": "0x8c4530",
+      "text": "MaxLevelDVeryHard",
+      "sha256": "b5b7f553367d99c5dc76a131dcc05383daae22789f51cfb13541e4d2e51c8ec3"
+    }
+  ],
+  "verified_imports": {
+    "0x30e4cc": "__aeabi_f2iz"
+  },
+  "application_got": {
+    "base_pc_add": "0x3b73b8",
+    "base_literal": "0x3b7498",
+    "symbol_literal": "0x3b749c",
+    "slot": "0x99828c",
+    "target": "0x99f72c",
+    "symbol_names": [
+      "_ZN9SingletonI11ApplicationE6s_instE"
+    ]
+  },
+  "authored_design_constant": {
+    "path": "data/pydata/design_pycst.bin",
+    "bytes": 3999,
+    "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+    "constant": {
+      "group": "CharacterDesign",
+      "name": "MaxLevelDVeryHard",
+      "value": 100
+    },
+    "existing_original_reader_report": "reports/pydata-constant-reader-trace.json",
+    "existing_report_sha256": "16d2a8d6a0b35fbf5447278ce1739e5135b468da9942df62e27a282b4af6b4d3",
+    "scope": "Existing actual660B original constant reader report over unchanged cache; named GetInt fixture consumes validateddecodedvalue, GetInt lookup/registry body not implemented here"
+  },
+  "source_order": [
+    "initial_count/type3_gate",
+    "fresh_argument0_getNumber",
+    "capture_application",
+    "GetInt_MaxLevelDVeryHard",
+    "wrap32_shift8",
+    "f2iz_first_number",
+    "signed_limit_less_than_number",
+    "clamped_fresh_GetInt_else_fresh_argument0/f2iz",
+    "base_level_word_store_0x5b8",
+    "RecalcProperties_true",
+    "RegenHP_minus1",
+    "RegenMP_minus1"
+  ]
+}

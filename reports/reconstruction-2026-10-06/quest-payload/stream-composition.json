@@ -1,0 +1,80 @@
+{
+  "validation": "PASS",
+  "host": {
+    "validation": "PASS",
+    "checks": 6561,
+    "canonical_quests": 384,
+    "canonical_objectives_actions": 1164,
+    "full_qest_bytes": 2826,
+    "typed_read_calls": 2286,
+    "one_retained_absolute_cursor": true,
+    "selected_qest_quest_factory_list": true,
+    "selected_typed_readers": true,
+    "native_policy_guards": true,
+    "android_compilation": false,
+    "live_gameplay": false
+  },
+  "scope": "Native campaign cursor adapter over the actual selected profile-index library.\n\nNo ARM parity, complete typed readers, Android or live save loading is claimed.\nAll inputs are synthetic; no user save is opened.\n",
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/native_quest_cursor.cpp": "54c37c6b75a92a9413a355e505d413856acc90e35c54ad1344ddaa7e233b0ed8",
+    "port/android-native/app/src/main/cpp/native_quest_cursor.hpp": "bab3ad5a08a39ab8fc6e007fe369ae49c33d7f50179080313eb5853d0ab11464",
+    "port/android-native/tests/native_quest_payload_stream.cpp": "c13fb59adaa485844ef9f605e8d92b3af3a9f7477552370161ce99938ece913e",
+    "port/android-native/tools/run_native_quest_cursor_host.py": "988c4866df25a14503061d11f9a53338a232535a05346080827e2b3244fb1e05",
+    "port/game-data/player_profile_index_v1.cpp": "e794d0229dfbd9c970f30eace3408ea88e32bbd2bcca4db37f99460191fbc5ef",
+    "port/game-data/player_profile_index_v1.hpp": "5bfcb8b934cce80ef507f8a96a0db0e9eaacc344e046d3c1817e2c398add0ef7",
+    "port/game-data/player_saved_quests_v1.hpp": "1cc384115af55b38e89d0ddae7b83b7636abd21af1d91c09e0b7a82f1cd3eacd"
+  },
+  "binary_sha256": {
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a": "e5dbc3ab2f69e932ab7d39f4c680d1d6ffc3d7c62e97655ec5d4b70a12fe05c0",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll": "1247a68e1d554efa24affe9a865d25ff48cf05dd2b4aaed23577bf4710cde528",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\libdh2_level_world.dll.a": "4521b62dd0ddf097f15449a68d76b694c4842427290fbfe6879d7c47fd88defb",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\adam-script-runtime\\libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\engine-skinning\\engine-animation\\libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\engine-skinning\\engine-animation\\scene-materials\\libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\engine-skinning\\libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\libdh2_level_world.dll": "7449226dda23e17ed74114f6ab8b6f2e021764ca908d63663247b1c0564daaf5",
+    "C:\\tmp\\dh2-native-quest-payload-stream-selected\\host.exe": "f7e3bb13ac6742282056f66246f01422f95ff42ad099b6755aa6904f0a8dd4a1"
+  },
+  "compiler_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O2",
+    "-IC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\tests\\native_quest_payload_stream.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_quest_cursor.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\libdh2_level_world.dll.a",
+    "-o",
+    "C:\\tmp\\dh2-native-quest-payload-stream-selected\\host.exe"
+  ],
+  "selected_profile_index_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_profile_index_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_profile_index_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/player_profile_index_v1.cpp.obj"
+    }
+  ],
+  "binary_imports": [
+    "libgcc_s_seh-1.dll",
+    "libstdc++-6.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll",
+    "api-ms-win-crt-filesystem-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "libdh2_game_data.dll",
+    "libdh2_level_world.dll"
+  ],
+  "android_compilation": false,
+  "live_gameplay": false
+}

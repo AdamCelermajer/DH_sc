@@ -1,9 +1,9 @@
 # Native character animation-event routing
 
 `character_animation_events.cpp` reconstructs the Character/CharAI dispatcher
-for events 0x22 through 0x27. It is compiled into the source world module, but
-has not yet been wired to the live Android Prince. The saved 6d9782be APK does
-not contain this work. Actual state-specific AI consumers remain unfinished.
+for events 0x22 through 0x27. Android now uses its 0x22 path for completed
+Monster Died animations through the retained AIS VM and actor Coordinator; the
+Player path and other state-specific AI consumers remain unfinished.
 
 The [original instruction corpus](native-reference/probe.json) executes
 Character.RaiseEvent at 0x3a4d5c, CharAI.RaiseAIEvent at 0x3cbb34, the source

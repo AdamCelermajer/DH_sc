@@ -1,0 +1,28 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x4556c4,Script_ShowFlash::IsBlocking(void),game-app/src/g1-game-app-pack10-ec557a-0.cpp,220,low,compare,"LDR             R3, [R3,#8]
+CMP             R3, #0
+BLE             loc_455700
+LDR             R0, [R2,#0x78]
+CMP             R3, R0
+MOVLE           R0, #0
+MOVGT           R0, #1",return static_cast<std::uint32_t>(args->Loop) > m_menu->m_animOverCount;,"recovered/native/hexrays-all/chunk_014.c:13663 (`return v3 > *(_DWORD *)(v1 + 120);` after the `v3 > 0` guard) is compiled as a SIGNED compare: the real ARM code at 0x4556c4 is `CMP R3,R0` with `MOVLE/MOVGT` (recovered/native/ida-asm/asm_chunk_004.asm, ""starts at 4556C4"") and the sibling Script_HideFlash::IsBlocking (0x455708, chunk_014.c:13679, identical body) is reconstructed as a signed compare with that exact reasoning in its own comment. Here the reconstruction casts Loop to uint32_t, so it is an unsigned compare: with m_animOverCount (MenuBase +0x78) at or above 0x80000000 the original blocks the script while this version does not (and vice versa for a negative Loop, which the >0 guard already excludes). Practically unreachable, but it is a genuine signed/unsigned divergence from the original and inconsistent with the sibling function."
+0x32ade8,Application::_Draw(void),game-app/src/g1-game-app-Application-b291be-2.cpp,757,low,call,"LDR             R11, [R3,#0x10]
+MOVW            R3, #0xFFFF
+LDR             R10, [R11,#0xDC]
+LDRH            R2, [R10,#0x2E] ; bool
+CMP             R2, R3
+BEQ             loc_32B1BC
+...
+BL              _ZN6glitch5video24CMaterialRendererManager19getMaterialInstanceEtb
+BL              _ZNK6glitch5video9CMaterial12getTechniqueEv
+BL              _ZN6glitch5video12IVideoDriver11setMaterialERKN5boost13intrusive_ptrINS0_9CMaterialEEEhPKNS3_INS0_19CVertexAttributeMapEEE","const bool boundingBoxes = ReadDebugSwitch(""IsRenderingGlitchBoundingBoxes"");
+if (boundingBoxes) {
+    DBG_TraverseAllGlitchNode(
+        scene->rootNode, &DBG_DrawGlitchNodeBoundingBox,","recovered/native/hexrays-all/chunk_002.c:9015-9035: inside `if (v15)` (the IsRenderingGlitchBoundingBoxes switch) the original first reads the driver's material-renderer manager (driver+0xDC), takes renderer index *(uint16*)(manager+0x2E) (creating renderer type 1 when it is 0xFFFF), gets the material instance, selects technique = material ? getTechnique() : 255 and calls IVideoDriver::setMaterial(driver, &mat, technique, 0) (asm 0x32B110..0x32B168), then traverses the scene and releases the intrusive_ptr. The reconstruction only traverses; the whole material setup and the intrusive_ptr release are missing, so the debug bounding boxes are drawn with whatever material was current instead of the unlit debug material. Debug-switch-only path, hence low."
+0x32ade8,Application::_Draw(void),game-app/src/g1-game-app-Application-b291be-2.cpp,776,medium,call,"LDR             PC, [R3,#0x14]        ; driver slot +0x14 (R4 = videoDriver)
+LDR             R3, [R9]
+MOV             R0, R9
+LDR             PC, [R3,#0xC]         ; gui slot +0x0C (R9 = IDevice+0x18)","if (gui != nullptr) {
+    gui->drawAll();  // IDevice +0x18, vtable +0x0c
+}
+driver->beginScene2D();  // +0x14","recovered/native/hexrays-all/chunk_002.c:9046-9047: the original calls the video driver's vtable slot +0x14 first and only then the gui environment's slot +0x0C (drawAll); the reconstruction performs them in the opposite order (gui->drawAll() at line 776 before driver->beginScene2D() at line 778), which is confirmed by the listing (asm_chunk_001.asm, Application::_Draw, 0x32AF..: `LDR PC,[R3,#0x14]` then `LDR PC,[R3,#0xC]`). The gui environment is therefore drawn before the 2D pass is begun instead of inside it, so the Flash/GUI layer is rendered with the 3D pass state rather than the 2D state."

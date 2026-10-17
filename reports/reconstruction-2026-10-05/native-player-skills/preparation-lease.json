@@ -1,0 +1,3394 @@
+{
+  "validation": "PASS",
+  "adapter_new_complete_original_bodies": 0,
+  "attribution": {
+    "adam_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "reused_design": "stable nullable vector/instance/Arguments/path ownership; current decoded tables and source caller retained"
+  },
+  "host_report": {
+    "validation": "PASS",
+    "table_counts": [
+      36,
+      127,
+      4,
+      16
+    ],
+    "selectors": [
+      [
+        -2147483647,
+        3,
+        0
+      ],
+      [
+        -2,
+        3,
+        0
+      ],
+      [
+        -1,
+        3,
+        0
+      ],
+      [
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        1,
+        1
+      ],
+      [
+        2,
+        2,
+        2
+      ],
+      [
+        3,
+        3,
+        3
+      ],
+      [
+        4,
+        4,
+        0
+      ],
+      [
+        35,
+        35,
+        0
+      ],
+      [
+        36,
+        3,
+        0
+      ],
+      [
+        127,
+        3,
+        0
+      ],
+      [
+        2147483647,
+        3,
+        0
+      ]
+    ],
+    "cases": [
+      {
+        "name": "KnightPlayerBase",
+        "scenario": "normal",
+        "skill_list": 14,
+        "faery_list": 1,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_bashdown",
+            0,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_bashdown",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_ground_slam",
+            1065353216,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_ground_slam",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_charge",
+            1073741824,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_charge",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_potion_addict",
+            1077936128,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_potion_addict",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_hardiness",
+            1082130432,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_hardiness",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_fast_metabolism",
+            1084227584,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_fast_metabolism",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_leadership",
+            1086324736,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_leadership",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_combat_master",
+            1088421888,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_combat_master",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_celest",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_celest",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_rocky",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_rocky",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_wetty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_wetty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_windy",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_windy",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_hotty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_hotty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "instances": [
+          [
+            "prince_warrior_bashdown",
+            0
+          ],
+          [
+            "prince_warrior_ground_slam",
+            1
+          ],
+          [
+            "prince_warrior_charge",
+            2
+          ],
+          [
+            "prince_warrior_potion_addict",
+            3
+          ],
+          [
+            "prince_warrior_hardiness",
+            4
+          ],
+          [
+            "prince_warrior_fast_metabolism",
+            5
+          ],
+          [
+            "prince_warrior_leadership",
+            6
+          ],
+          [
+            "prince_warrior_combat_master",
+            7
+          ],
+          [
+            "faerie_celest",
+            4294967295
+          ],
+          [
+            "faerie_rocky",
+            4294967295
+          ],
+          [
+            "faerie_wetty",
+            4294967295
+          ],
+          [
+            "faerie_windy",
+            4294967295
+          ],
+          [
+            "faerie_hotty",
+            4294967295
+          ]
+        ],
+        "source_result": {
+          "skills": 16,
+          "faeries": 5,
+          "nulls": 8,
+          "allocated": 13,
+          "init_vcb": 1
+        },
+        "constant_queries": 10,
+        "loaded_bytes": 195132
+      },
+      {
+        "name": "KnightPlayerBase",
+        "scenario": "load_false",
+        "skill_list": 14,
+        "faery_list": 1,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_bashdown",
+            0,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_bashdown",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_ground_slam",
+            1065353216,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_ground_slam",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_charge",
+            1073741824,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_charge",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_potion_addict",
+            1077936128,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_potion_addict",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_hardiness",
+            1082130432,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_hardiness",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_fast_metabolism",
+            1084227584,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_fast_metabolism",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_leadership",
+            1086324736,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_leadership",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_warrior_combat_master",
+            1088421888,
+            2
+          ],
+          [
+            15,
+            "prince_warrior_combat_master",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_celest",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_celest",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_rocky",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_rocky",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_wetty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_wetty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_windy",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_windy",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_hotty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_hotty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "instances": [],
+        "source_result": {
+          "skills": 16,
+          "faeries": 5,
+          "nulls": 21,
+          "allocated": 0,
+          "init_vcb": 1
+        },
+        "constant_queries": 10,
+        "loaded_bytes": 195132
+      },
+      {
+        "name": "KnightPlayerBase",
+        "scenario": "repeat",
+        "skill_list": 14,
+        "faery_list": 1,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "instances": [
+          [
+            "prince_warrior_bashdown",
+            0
+          ],
+          [
+            "prince_warrior_ground_slam",
+            1
+          ],
+          [
+            "prince_warrior_charge",
+            2
+          ],
+          [
+            "prince_warrior_potion_addict",
+            3
+          ],
+          [
+            "prince_warrior_hardiness",
+            4
+          ],
+          [
+            "prince_warrior_fast_metabolism",
+            5
+          ],
+          [
+            "prince_warrior_leadership",
+            6
+          ],
+          [
+            "prince_warrior_combat_master",
+            7
+          ],
+          [
+            "faerie_celest",
+            4294967295
+          ],
+          [
+            "faerie_rocky",
+            4294967295
+          ],
+          [
+            "faerie_wetty",
+            4294967295
+          ],
+          [
+            "faerie_windy",
+            4294967295
+          ],
+          [
+            "faerie_hotty",
+            4294967295
+          ]
+        ],
+        "source_result": {
+          "skills": 0,
+          "faeries": 0,
+          "nulls": 0,
+          "allocated": 0,
+          "init_vcb": 1
+        },
+        "constant_queries": 0,
+        "loaded_bytes": 195132
+      },
+      {
+        "name": "MagePlayerBase",
+        "scenario": "normal",
+        "skill_list": 21,
+        "faery_list": 2,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_coldray",
+            0,
+            2
+          ],
+          [
+            15,
+            "prince_mage_coldray",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_stone_escape",
+            1065353216,
+            2
+          ],
+          [
+            15,
+            "prince_mage_stone_escape",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_cyclone",
+            1073741824,
+            2
+          ],
+          [
+            15,
+            "prince_mage_cyclone",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_chain_lightning",
+            1077936128,
+            2
+          ],
+          [
+            15,
+            "prince_mage_chain_lightning",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_staffmaster",
+            1082130432,
+            2
+          ],
+          [
+            15,
+            "prince_mage_staffmaster",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_magi_shielding",
+            1084227584,
+            2
+          ],
+          [
+            15,
+            "prince_mage_magi_shielding",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_elemental_mastery",
+            1086324736,
+            2
+          ],
+          [
+            15,
+            "prince_mage_elemental_mastery",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_faeryblood",
+            1088421888,
+            2
+          ],
+          [
+            15,
+            "prince_mage_faeryblood",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_celest",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_celest",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_rocky",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_rocky",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_wetty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_wetty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_windy",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_windy",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_hotty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_hotty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "instances": [
+          [
+            "prince_mage_coldray",
+            0
+          ],
+          [
+            "prince_mage_stone_escape",
+            1
+          ],
+          [
+            "prince_mage_cyclone",
+            2
+          ],
+          [
+            "prince_mage_chain_lightning",
+            3
+          ],
+          [
+            "prince_mage_staffmaster",
+            4
+          ],
+          [
+            "prince_mage_magi_shielding",
+            5
+          ],
+          [
+            "prince_mage_elemental_mastery",
+            6
+          ],
+          [
+            "prince_mage_faeryblood",
+            7
+          ],
+          [
+            "faerie_celest",
+            4294967295
+          ],
+          [
+            "faerie_rocky",
+            4294967295
+          ],
+          [
+            "faerie_wetty",
+            4294967295
+          ],
+          [
+            "faerie_windy",
+            4294967295
+          ],
+          [
+            "faerie_hotty",
+            4294967295
+          ]
+        ],
+        "source_result": {
+          "skills": 16,
+          "faeries": 5,
+          "nulls": 8,
+          "allocated": 13,
+          "init_vcb": 1
+        },
+        "constant_queries": 10,
+        "loaded_bytes": 209062
+      },
+      {
+        "name": "MagePlayerBase",
+        "scenario": "load_false",
+        "skill_list": 21,
+        "faery_list": 2,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_coldray",
+            0,
+            2
+          ],
+          [
+            15,
+            "prince_mage_coldray",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_stone_escape",
+            1065353216,
+            2
+          ],
+          [
+            15,
+            "prince_mage_stone_escape",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_cyclone",
+            1073741824,
+            2
+          ],
+          [
+            15,
+            "prince_mage_cyclone",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_chain_lightning",
+            1077936128,
+            2
+          ],
+          [
+            15,
+            "prince_mage_chain_lightning",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_staffmaster",
+            1082130432,
+            2
+          ],
+          [
+            15,
+            "prince_mage_staffmaster",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_magi_shielding",
+            1084227584,
+            2
+          ],
+          [
+            15,
+            "prince_mage_magi_shielding",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_elemental_mastery",
+            1086324736,
+            2
+          ],
+          [
+            15,
+            "prince_mage_elemental_mastery",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_mage_faeryblood",
+            1088421888,
+            2
+          ],
+          [
+            15,
+            "prince_mage_faeryblood",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_celest",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_celest",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_rocky",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_rocky",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_wetty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_wetty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_windy",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_windy",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_hotty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_hotty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "instances": [],
+        "source_result": {
+          "skills": 16,
+          "faeries": 5,
+          "nulls": 21,
+          "allocated": 0,
+          "init_vcb": 1
+        },
+        "constant_queries": 10,
+        "loaded_bytes": 209062
+      },
+      {
+        "name": "MagePlayerBase",
+        "scenario": "repeat",
+        "skill_list": 21,
+        "faery_list": 2,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "instances": [
+          [
+            "prince_mage_coldray",
+            0
+          ],
+          [
+            "prince_mage_stone_escape",
+            1
+          ],
+          [
+            "prince_mage_cyclone",
+            2
+          ],
+          [
+            "prince_mage_chain_lightning",
+            3
+          ],
+          [
+            "prince_mage_staffmaster",
+            4
+          ],
+          [
+            "prince_mage_magi_shielding",
+            5
+          ],
+          [
+            "prince_mage_elemental_mastery",
+            6
+          ],
+          [
+            "prince_mage_faeryblood",
+            7
+          ],
+          [
+            "faerie_celest",
+            4294967295
+          ],
+          [
+            "faerie_rocky",
+            4294967295
+          ],
+          [
+            "faerie_wetty",
+            4294967295
+          ],
+          [
+            "faerie_windy",
+            4294967295
+          ],
+          [
+            "faerie_hotty",
+            4294967295
+          ]
+        ],
+        "source_result": {
+          "skills": 0,
+          "faeries": 0,
+          "nulls": 0,
+          "allocated": 0,
+          "init_vcb": 1
+        },
+        "constant_queries": 0,
+        "loaded_bytes": 209062
+      },
+      {
+        "name": "RoguePlayerBase",
+        "scenario": "normal",
+        "skill_list": 27,
+        "faery_list": 3,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_jump_kick",
+            0,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_jump_kick",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_vicious_strike",
+            1065353216,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_vicious_strike",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_quickness",
+            1073741824,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_quickness",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_roundhouse",
+            1077936128,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_roundhouse",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_ambidextrous",
+            1082130432,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_ambidextrous",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_acrobat",
+            1084227584,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_acrobat",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_combomaster",
+            1086324736,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_combomaster",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_findweakness",
+            1088421888,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_findweakness",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_celest",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_celest",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_rocky",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_rocky",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_wetty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_wetty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_windy",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_windy",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_hotty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_hotty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "instances": [
+          [
+            "prince_rogue_jump_kick",
+            0
+          ],
+          [
+            "prince_rogue_vicious_strike",
+            1
+          ],
+          [
+            "prince_rogue_quickness",
+            2
+          ],
+          [
+            "prince_rogue_roundhouse",
+            3
+          ],
+          [
+            "prince_rogue_ambidextrous",
+            4
+          ],
+          [
+            "prince_rogue_acrobat",
+            5
+          ],
+          [
+            "prince_rogue_combomaster",
+            6
+          ],
+          [
+            "prince_rogue_findweakness",
+            7
+          ],
+          [
+            "faerie_celest",
+            4294967295
+          ],
+          [
+            "faerie_rocky",
+            4294967295
+          ],
+          [
+            "faerie_wetty",
+            4294967295
+          ],
+          [
+            "faerie_windy",
+            4294967295
+          ],
+          [
+            "faerie_hotty",
+            4294967295
+          ]
+        ],
+        "source_result": {
+          "skills": 16,
+          "faeries": 5,
+          "nulls": 8,
+          "allocated": 13,
+          "init_vcb": 1
+        },
+        "constant_queries": 10,
+        "loaded_bytes": 196405
+      },
+      {
+        "name": "RoguePlayerBase",
+        "scenario": "load_false",
+        "skill_list": 27,
+        "faery_list": 3,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_jump_kick",
+            0,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_jump_kick",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_vicious_strike",
+            1065353216,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_vicious_strike",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_quickness",
+            1073741824,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_quickness",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_roundhouse",
+            1077936128,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_roundhouse",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_ambidextrous",
+            1082130432,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_ambidextrous",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_acrobat",
+            1084227584,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_acrobat",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_combomaster",
+            1086324736,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_combomaster",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "prince_rogue_findweakness",
+            1088421888,
+            2
+          ],
+          [
+            15,
+            "prince_rogue_findweakness",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_celest",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_celest",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_rocky",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_rocky",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_wetty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_wetty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_windy",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_windy",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            15,
+            "_commons",
+            0,
+            -1
+          ],
+          [
+            16,
+            "faerie_hotty",
+            3212836864,
+            2
+          ],
+          [
+            15,
+            "faerie_hotty",
+            0,
+            -1
+          ],
+          [
+            16,
+            "DeclareSkill",
+            0,
+            0
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "instances": [],
+        "source_result": {
+          "skills": 16,
+          "faeries": 5,
+          "nulls": 21,
+          "allocated": 0,
+          "init_vcb": 1
+        },
+        "constant_queries": 10,
+        "loaded_bytes": 196405
+      },
+      {
+        "name": "RoguePlayerBase",
+        "scenario": "repeat",
+        "skill_list": 27,
+        "faery_list": 3,
+        "events": [
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            2,
+            "",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/skills/",
+            0,
+            -1
+          ],
+          [
+            3,
+            "data/scripts/ai/",
+            0,
+            -1
+          ],
+          [
+            0,
+            "",
+            0,
+            -1
+          ],
+          [
+            1,
+            "Lua_LoadMemUsage",
+            0,
+            -1
+          ],
+          [
+            19,
+            "",
+            0,
+            -1
+          ]
+        ],
+        "skills": [
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          true,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false,
+          false
+        ],
+        "faeries": [
+          true,
+          true,
+          true,
+          true,
+          true
+        ],
+        "instances": [
+          [
+            "prince_rogue_jump_kick",
+            0
+          ],
+          [
+            "prince_rogue_vicious_strike",
+            1
+          ],
+          [
+            "prince_rogue_quickness",
+            2
+          ],
+          [
+            "prince_rogue_roundhouse",
+            3
+          ],
+          [
+            "prince_rogue_ambidextrous",
+            4
+          ],
+          [
+            "prince_rogue_acrobat",
+            5
+          ],
+          [
+            "prince_rogue_combomaster",
+            6
+          ],
+          [
+            "prince_rogue_findweakness",
+            7
+          ],
+          [
+            "faerie_celest",
+            4294967295
+          ],
+          [
+            "faerie_rocky",
+            4294967295
+          ],
+          [
+            "faerie_wetty",
+            4294967295
+          ],
+          [
+            "faerie_windy",
+            4294967295
+          ],
+          [
+            "faerie_hotty",
+            4294967295
+          ]
+        ],
+        "source_result": {
+          "skills": 0,
+          "faeries": 0,
+          "nulls": 0,
+          "allocated": 0,
+          "init_vcb": 1
+        },
+        "constant_queries": 0,
+        "loaded_bytes": 196405
+      }
+    ],
+    "host_cases": 9,
+    "selector_cases": 12,
+    "guards": 61,
+    "timer_field_lease_guards": 20,
+    "provider_failure_cases": 120,
+    "lua_executed": false,
+    "native_wired": false
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "cases": 9,
+    "selector_cases": 12,
+    "mismatches": 0,
+    "observations": [
+      {
+        "name": "KnightPlayerBase",
+        "scenario": "normal",
+        "external_calls": 60,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 13,
+        "fresh_constant_queries": 10,
+        "matched": true
+      },
+      {
+        "name": "KnightPlayerBase",
+        "scenario": "load_false",
+        "external_calls": 60,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 0,
+        "fresh_constant_queries": 10,
+        "matched": true
+      },
+      {
+        "name": "KnightPlayerBase",
+        "scenario": "repeat",
+        "external_calls": 8,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 0,
+        "fresh_constant_queries": 0,
+        "matched": true
+      },
+      {
+        "name": "MagePlayerBase",
+        "scenario": "normal",
+        "external_calls": 60,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 13,
+        "fresh_constant_queries": 10,
+        "matched": true
+      },
+      {
+        "name": "MagePlayerBase",
+        "scenario": "load_false",
+        "external_calls": 60,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 0,
+        "fresh_constant_queries": 10,
+        "matched": true
+      },
+      {
+        "name": "MagePlayerBase",
+        "scenario": "repeat",
+        "external_calls": 8,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 0,
+        "fresh_constant_queries": 0,
+        "matched": true
+      },
+      {
+        "name": "RoguePlayerBase",
+        "scenario": "normal",
+        "external_calls": 60,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 13,
+        "fresh_constant_queries": 10,
+        "matched": true
+      },
+      {
+        "name": "RoguePlayerBase",
+        "scenario": "load_false",
+        "external_calls": 60,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 0,
+        "fresh_constant_queries": 10,
+        "matched": true
+      },
+      {
+        "name": "RoguePlayerBase",
+        "scenario": "repeat",
+        "external_calls": 8,
+        "skill_slots": 16,
+        "faery_slots": 5,
+        "constructors": 0,
+        "fresh_constant_queries": 0,
+        "matched": true
+      }
+    ],
+    "selectors": [
+      {
+        "raw": -2147483647,
+        "skill": 3,
+        "faery": 0
+      },
+      {
+        "raw": -2,
+        "skill": 3,
+        "faery": 0
+      },
+      {
+        "raw": -1,
+        "skill": 3,
+        "faery": 0
+      },
+      {
+        "raw": 0,
+        "skill": 0,
+        "faery": 0
+      },
+      {
+        "raw": 1,
+        "skill": 1,
+        "faery": 1
+      },
+      {
+        "raw": 2,
+        "skill": 2,
+        "faery": 2
+      },
+      {
+        "raw": 3,
+        "skill": 3,
+        "faery": 3
+      },
+      {
+        "raw": 4,
+        "skill": 4,
+        "faery": 0
+      },
+      {
+        "raw": 35,
+        "skill": 35,
+        "faery": 0
+      },
+      {
+        "raw": 36,
+        "skill": 3,
+        "faery": 0
+      },
+      {
+        "raw": 127,
+        "skill": 3,
+        "faery": 0
+      },
+      {
+        "raw": 2147483647,
+        "skill": 3,
+        "faery": 0
+      }
+    ],
+    "verified_imports": {
+      "0x30e964": "__aeabi_i2f"
+    },
+    "original_instructions_seen": {
+      "_ZN6CharAI18SetSkillsAndSpellsEv": 377,
+      "_ZNK9Character16GetCharSkillListEv": 10,
+      "_ZNK9Character12GetCharSkillEi": 25,
+      "_ZNK9Character16GetCharFaeryListEv": 10,
+      "_ZNK9Character12GetCharFaeryEi": 45,
+      "_ZN17CharAISkillScriptC1EP9CharacterPKcj": 32,
+      "_ZNK9Character18GetCharSkillListIdEv": 13,
+      "_ZNK9Character18GetCharFaeryListIdEv": 13
+    },
+    "scope": "Original caller, list ID/list/Skill/Faery getters and child constructor execute over all retained cache rows. Debug, Lua, source String/Arguments/Value, allocation/reserve and constant lookup are named modeled providers; Lua does not execute."
+  },
+  "source_sha256": {
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/game-data/class_tables.hpp": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/properties.hpp": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+    "port/game-data/skill_tables.cpp": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+    "port/game-data/skill_tables.hpp": "8004113c312d881f7e2f5e83252c3531300c68a88c902bfa35f241339a1facab",
+    "port/game-data/tests/run_skill_tables_host.py": "267feb737fdd789dddb3180cd46aadb063dea3b138b46d1031daf5ff10a6a8e7",
+    "port/level-world/character_ai_set_skills_and_spells.cpp": "7e69c2ac7589b8e0c964548c886206b2b7c1e33d1a096d560f31b56dadfa66b5",
+    "port/level-world/character_ai_set_skills_and_spells.hpp": "5690c7ba63ec9294fa0f02e31c4e359faf4b4f38f45c19f6f7fc6285c7313e53",
+    "port/level-world/character_ai_skill_script_constructor.cpp": "ed5b38d079f1cba7f0692ec675c7755572823c4a1f35a3059dd3a55f3a1510fb",
+    "port/level-world/character_ai_skill_script_constructor.hpp": "1a1f10d29b5bba0fabb05a9069982a38de384e2100efef6fe40fd2e6bb956a5c",
+    "port/level-world/character_faery_selection.cpp": "3eefe1e3dc4312363cf4dec1fca4fd31af5f8b5cb8c97c4cabf733f220bb7764",
+    "port/level-world/character_faery_selection.hpp": "351ca88b792c1eacdc5f0358b4b1245c96d1c4937ce4c97efc1949368d23a27d",
+    "port/level-world/character_player_skills_preparation_v3.cpp": "64976cdb79acb35551f01b8d2a46a5f1afb2a2959cde158ae8009b6b200e2754",
+    "port/level-world/character_player_skills_preparation_v3.hpp": "f0dbd9fb93861cb4e8a2f8c3707fedd2c192bf2157f051421591d0fb632b94ba",
+    "port/level-world/character_skill_cooldown_services.cpp": "12cd73f290f4dd2754b4cafcf6258f9c53152ae7d677c7fe61315603b99df393",
+    "port/level-world/character_skill_cooldown_services.hpp": "5f2bea042897ace60b062e667727db0efd6a916bff809e5f854da8485b57ec5f",
+    "port/level-world/player_skill_tables_adapter.cpp": "57dfec1ed0d8b9c90d9011ec6f9b57e9f7facf83878f5bb2be05ffda2fa53838",
+    "port/level-world/player_skill_tables_adapter.hpp": "aa486d3b4938a5fe4316b32733e3f3f979e21e67cfcba18e72a52f22abe3cbb9",
+    "port/level-world/reference/player-skills-preparation-v3/NOTES.md": "70d843d41cc7ab4f8c58b746e87684be5622ea983b249aee5d3f60e02fbd8a1e",
+    "port/level-world/reference/player-skills-preparation-v3/original-functions.json": "53d2cb661c1ed68c16c1f4bd8ea7702d50f06747d47befae12d97e9a699ea60d",
+    "port/level-world/tests/character_player_skills_preparation_v3.cpp": "56a85f306bbc83432491e06765c6a6ecca26ad72cd2953143925e0b8b3d75963",
+    "port/level-world/tests/elf_import_identity.py": "b6e4bec2dcc844e74d96dc617bbd13de69dab1797006e7cc4d300dfb069a66d7",
+    "port/level-world/tests/run_character_ai_set_skills_and_spells_host.py": "983db4d61a2cc2588da49f9435bbda4af1d9033207bcbaec0cb3b57eba8251b3",
+    "port/level-world/tests/run_character_player_skills_preparation_v3_host.py": "8a430793a2863ecbdd66f89950ba7163eb811d76ab3b0ab465df21d6422de57e",
+    "port/pydata-constants/constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
+    "port/pydata-constants/constants.h": "bf5ea5bcb1ac5112c71c0351e7841721bba6c20f761ac5891af28bb344270fa6"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache_input_sha256": {
+    "data/pydata/character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "data/pydata/character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "data/pydata/character_classes_pycst.bin": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+    "data/pydata/character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "data/pydata/character_properties_extra_pystructnames.bin": "864d6bcd58ab6671e2354613b50f2fa618bdf8f6adc667020cbc75c20b443d42",
+    "data/pydata/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "data/pydata/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "data/pydata/character_properties_pycst.bin": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+    "data/pydata/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "data/pydata/faeries_pyarray.bin": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+    "data/pydata/faeries_pyarraynames.bin": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+    "data/pydata/faeries_pycst.bin": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5",
+    "data/pydata/faeries_pystructnames.bin": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b",
+    "data/pydata/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "data/pydata/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "data/pydata/skills_pycst.bin": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1",
+    "data/pydata/skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9",
+    "data/scripts/skills/_commons.luac": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+    "data/scripts/skills/faerie_celest.luac": "4ba609b50179669e73ab2c256fd2aa27d3740d05f85835464906353e2e0bdd7d",
+    "data/scripts/skills/faerie_hotty.luac": "74203596081458abf514627c81f8c914990026b6cd35e1ea5f7bc8532e0e2cb5",
+    "data/scripts/skills/faerie_rocky.luac": "c406df3e43dc36b010ad27d35f4fb3024aba94bf988acf4d6aae77bd23794099",
+    "data/scripts/skills/faerie_wetty.luac": "ecf30512862a1de28af4bea0e309a8c8beec3e93fe2a12b21e90aff5f7ee23d2",
+    "data/scripts/skills/faerie_windy.luac": "da0cf493790834d073fe401456c5f0eb1984789cb71f965a9b4667bb2fe78aec",
+    "data/scripts/skills/prince_mage_chain_lightning.luac": "cf71fca1dda047016f19e83d5232f2d75d30d35a1e58dbbb74d0b2c6d2778d56",
+    "data/scripts/skills/prince_mage_coldray.luac": "7afbe301d99522929e666017d7adc63596ad332ec8be69f78abec9733f364447",
+    "data/scripts/skills/prince_mage_cyclone.luac": "d04c7053e2b15d27f3cf027b316b1004d053423d78804b54e2c3df20fa32af3e",
+    "data/scripts/skills/prince_mage_elemental_mastery.luac": "1b44cec1778a6c2e36fda33e65451139b3798cdc9b2eeeef834a03148fff99c2",
+    "data/scripts/skills/prince_mage_faeryblood.luac": "d511b0ca716553f011c5a947091b42cfd497a437b5e8f38ffae9b22295728bb7",
+    "data/scripts/skills/prince_mage_magi_shielding.luac": "793497741d59bce7ad4320d8f32aa2b4de373529e1ba0a2fd6e9680d13c0efd6",
+    "data/scripts/skills/prince_mage_staffmaster.luac": "b61c7b5a0d7039d0384f0b84aef66a7f460721fd7736882a7b1a9607eca0f84b",
+    "data/scripts/skills/prince_mage_stone_escape.luac": "6390612bbf175bd72dd400fa2d01fbc00614f0c1fc7038f35b3a4d7ce697f881",
+    "data/scripts/skills/prince_rogue_acrobat.luac": "aa41df8f3e75420fb2c6e4ddd0281e5aa76b7266402ac09c6fa318d737a9a1d7",
+    "data/scripts/skills/prince_rogue_ambidextrous.luac": "c8a9c731db8988e381a9f5c94589fd0dc0026e43ed13d7fd0dadcd347222d864",
+    "data/scripts/skills/prince_rogue_combomaster.luac": "892d3825dcf2a3e0cb1ca97faad6f0e3bcb162bf0a59a63596cba586db3dcd90",
+    "data/scripts/skills/prince_rogue_findweakness.luac": "d6fa4b5c86ab7072ddf0ab22657429c8ccd1f93682403939e240154f631469a6",
+    "data/scripts/skills/prince_rogue_jump_kick.luac": "7065b8f542f24033abaab2cab91812b40e863a873f3339dec4891343d52f31f1",
+    "data/scripts/skills/prince_rogue_quickness.luac": "01a516c99ec5c8be9921718bab85c7ae1a68c64aeb098bd5b05e7562f106113d",
+    "data/scripts/skills/prince_rogue_roundhouse.luac": "a26fb81a4fe1573a4d2fba1277919277f065f2bdc29e8e691eccf995f1cd5a85",
+    "data/scripts/skills/prince_rogue_vicious_strike.luac": "8ab262b65496f70c64c7adcaa099b8d29cdd3b7bd293de2b355f1ac610a2b467",
+    "data/scripts/skills/prince_warrior_bashdown.luac": "d9f41ce04e8e9c632df2377571ff85f76aacad168bb0bebdb111ccb6f8f4dde3",
+    "data/scripts/skills/prince_warrior_charge.luac": "62345c14aef6ea218c2a9725b1c312acf37f4214f9bc712521b6a3edacbf8fe1",
+    "data/scripts/skills/prince_warrior_combat_master.luac": "3dc445fd5c3d52bd26f2079d3b5b797e712675373e81b84e98c4d7bb95eff697",
+    "data/scripts/skills/prince_warrior_fast_metabolism.luac": "c65e154d082fc6d2414e91c7007f8442df30037f43ed706fa45a204472704c64",
+    "data/scripts/skills/prince_warrior_ground_slam.luac": "ed21121df8541350451072aff53a44abd03274ba0a0c0a7ceb0784f748463780",
+    "data/scripts/skills/prince_warrior_hardiness.luac": "4a94206eedf3acd35651a0bb83bbf16fe4be81fc87ec7b5802f3c3c956b75352",
+    "data/scripts/skills/prince_warrior_leadership.luac": "6c7ec5c934e095b21237e995fb43975f05becb64d97e877d59f7ea49a87563d0",
+    "data/scripts/skills/prince_warrior_potion_addict.luac": "81df7fda3d598d90a28def7884f07b1b4720adca8eb61d26671f997ed418899d"
+  },
+  "compiler_commands": [
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe",
+      "-std=c11",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\pydata-constants\\constants.c",
+      "-o",
+      "C:\\tmp\\dh2-player-skills-preparation-v3-final.constants.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\player_skill_tables_adapter.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_player_skills_preparation_v3.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_skill_cooldown_services.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_set_skills_and_spells.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_skill_script_constructor.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_faery_selection.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\data.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\skill_tables.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_player_skills_preparation_v3.cpp",
+      "C:\\tmp\\dh2-player-skills-preparation-v3-final.constants.o",
+      "-o",
+      "C:\\tmp\\dh2-player-skills-preparation-v3-final.exe"
+    ]
+  ],
+  "executable_sha256": "e5ed5374963fa68fa259efc17157507459505beaa3aee3fd35325fca84506feb",
+  "lua_executed": false,
+  "native_wired": false,
+  "scope": "Host base/class property resolution uses maintained cached-sheet APIs. Debug/VM/AIS external effects are explicit controlled providers, not a live player Session. Cache files are read, no giant assets are copied."
+}

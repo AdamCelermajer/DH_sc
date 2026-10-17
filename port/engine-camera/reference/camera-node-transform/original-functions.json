@@ -1,0 +1,57 @@
+{
+  "schema": "dh2-camera-node-transform-slice-v1",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "CCameraSceneNode::recalculateMatrices and buildCameraLookAtMatrix, with getAbsolutePosition executed and the later frustum calls explicitly intercepted as source-service boundaries.",
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5scene16CCameraSceneNode19recalculateMatricesEv",
+      "demangled": "glitch::scene::CCameraSceneNode::recalculateMatrices()",
+      "elf_address": "0x00583280",
+      "size": 692,
+      "sha256": "36148fa669a57933611fbaf108ef01b64bc24911ad9534366667801d7fa9f4f6"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core23buildCameraLookAtMatrixIfEENS0_8CMatrix4IT_EERKNS0_8vector3dIS3_EES8_S8_",
+      "demangled": "glitch::core::CMatrix4<float> glitch::core::buildCameraLookAtMatrix<float>(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&)",
+      "elf_address": "0x00582e64",
+      "size": 1052,
+      "sha256": "05925cbfa6ca7d5408a7f003567c7d20474d3e42c362dd386786b719772de499"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode19getAbsolutePositionEv",
+      "demangled": "glitch::scene::ISceneNode::getAbsolutePosition() const",
+      "elf_address": "0x00597180",
+      "size": 28,
+      "sha256": "838bfc1189afc8ba78d01b2649377fcff42faa12c4169d1b57cfcf2e2b641faf"
+    }
+  ],
+  "call_boundaries": [
+    {
+      "address": "0x00582348",
+      "symbol": "_ZN6glitch5scene12SViewFrustum17setTransformStateENS_5video22E_TRANSFORMATION_STATE",
+      "captured_arguments": "r0=camera+0x168, r1=0",
+      "reason": "Transform-state storage and matrix composition are not owned by this slice."
+    },
+    {
+      "address": "0x00582904",
+      "symbol": "_ZN6glitch5scene16CCameraSceneNode19recalculateViewAreaEv",
+      "captured_arguments": "r0=camera",
+      "reason": "The existing frustum runtime owns setFrom/bounds separately; this slice verifies caller order and view-cache production."
+    }
+  ],
+  "imported_float_symbols": {
+    "0x0030e3ac": "__aeabi_fsub",
+    "0x0030ed6c": "__aeabi_fmul",
+    "0x0030eba4": "__aeabi_fadd",
+    "0x0030ec94": "__aeabi_fdiv",
+    "0x0030df8c": "__aeabi_fcmpeq",
+    "0x0030e124": "sqrtf",
+    "0x0030e4b4": "__aeabi_fcmpge",
+    "0x0030e9ac": "__aeabi_fcmple"
+  },
+  "boundaries": [
+    "The scene graph that updates ISceneNode absolute position is not reconstructed here; the original getAbsolutePosition leaf reads its cached position at +0x54.",
+    "Frustum transform-state composition, projection production and rendering remain separate source work.",
+    "No upstream Irrlicht handedness or matrix convention is substituted."
+  ]
+}

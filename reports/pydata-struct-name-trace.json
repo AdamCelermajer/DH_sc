@@ -1,0 +1,1874 @@
+{
+  "complete_game": false,
+  "scripts_executed": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "test_sha256": "237fdac94338a6e09736733abf36f5797e694fccf004266b02ad87713e370f4a",
+  "registration_trace_sha256": "d72e8b22b1d2fa5e58c60306535eed77c9d3079d3f5f188603fed534f7178b4d",
+  "tables": [
+    {
+      "registered_name": "AIProps",
+      "namespace": "Structs",
+      "class": "AIProps",
+      "lookup_elf_address": "0x004af590",
+      "names_elf_address": "0x009a677c",
+      "string_object_bytes": 24,
+      "count": 15,
+      "names": [
+        "AttackDelay",
+        "CombatBeat",
+        "CombatMusic",
+        "DelayedLoad",
+        "Flags",
+        "InteractRadius",
+        "LeashDistance",
+        "MeleeRadius",
+        "OnAggroSFX",
+        "Script",
+        "SelfFX",
+        "Trophy",
+        "Type",
+        "ViewRadius",
+        "ViewRadiusNoAggro"
+      ]
+    },
+    {
+      "registered_name": "AIFactions",
+      "namespace": "Structs",
+      "class": "AIFactions",
+      "lookup_elf_address": "0x004af4ec",
+      "names_elf_address": "0x009a6914",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "factions"
+      ]
+    },
+    {
+      "registered_name": "AnimTpl",
+      "namespace": "Structs",
+      "class": "AnimTpl",
+      "lookup_elf_address": "0x004af420",
+      "names_elf_address": "0x009a6a4c",
+      "string_object_bytes": 24,
+      "count": 3,
+      "names": [
+        "Loop",
+        "Steps",
+        "Type"
+      ]
+    },
+    {
+      "registered_name": "CamAnimSet",
+      "namespace": "Structs",
+      "class": "CamAnimSet",
+      "lookup_elf_address": "0x004af354",
+      "names_elf_address": "0x009a6a94",
+      "string_object_bytes": 24,
+      "count": 5,
+      "names": [
+        "CamAnims",
+        "Crit",
+        "Idle",
+        "Shake",
+        "Template"
+      ]
+    },
+    {
+      "registered_name": "CharAnim",
+      "namespace": "Structs",
+      "class": "CharAnim",
+      "lookup_elf_address": "0x004af284",
+      "names_elf_address": "0x009a6b0c",
+      "string_object_bytes": 24,
+      "count": 37,
+      "names": [
+        "Attack",
+        "AttackStatic",
+        "Blocking",
+        "DeadlyGreatKB",
+        "Despawn",
+        "DespawnGreatKB",
+        "Died",
+        "Dodging",
+        "GreatKnockedBack",
+        "Idle",
+        "IdleFromOOC",
+        "IdleOOC",
+        "IdleSneak",
+        "IdleToOOC",
+        "Injured",
+        "Interact",
+        "KnockedBack",
+        "LiftDrop",
+        "LiftIdle",
+        "LiftMove",
+        "Limbus",
+        "MenuIdle",
+        "MenuOnSelect",
+        "PreSpawn",
+        "Revived",
+        "Reviving",
+        "Run",
+        "Run180",
+        "RunSneak",
+        "Scared",
+        "Spawn",
+        "Spells",
+        "Stunned",
+        "Template",
+        "Walk",
+        "Walk180",
+        "WalkSneak"
+      ]
+    },
+    {
+      "registered_name": "ClassFuncList",
+      "namespace": "Structs",
+      "class": "ClassFuncList",
+      "lookup_elf_address": "0x004af1e0",
+      "names_elf_address": "0x009a6efc",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "CharacterProperties",
+      "namespace": "Structs",
+      "class": "CharacterProperties",
+      "lookup_elf_address": "0x004af110",
+      "names_elf_address": "0x009a743c",
+      "string_object_bytes": 24,
+      "count": 224,
+      "names": [
+        "AIFaction",
+        "AI",
+        "AnimTable",
+        "ModelFile",
+        "ModularVisual",
+        "ClassString",
+        "ClassDescString",
+        "Effects",
+        "Sounds",
+        "Loot",
+        "Dialogs",
+        "RespawnTime",
+        "Scale_X",
+        "Scale_Y",
+        "Scale_Z",
+        "Melee_Scale",
+        "Collision_Scale",
+        "FX_Scale",
+        "Name",
+        "Level",
+        "LevelMax",
+        "LevelMin",
+        "LevelOffset",
+        "KillCount",
+        "MPLevelKillCount",
+        "DeathCount",
+        "ClassID",
+        "StatAutoAssignScheme",
+        "SkillTree",
+        "FaeryList",
+        "RangeMinDistance",
+        "RangeMaxDistance",
+        "RangeProjectileID",
+        "XP",
+        "Max_XP",
+        "Value_XP",
+        "HP",
+        "HP_Bonus",
+        "Max_HP",
+        "Regen_HP",
+        "CombatRegen_HP",
+        "MP",
+        "MP_Bonus",
+        "Max_MP",
+        "Regen_MP",
+        "CombatRegen_MP",
+        "Speed_Modifier_Walk",
+        "Speed_Modifier_Rotation",
+        "Speed_Modifier_Attack",
+        "Opacity_Modifier",
+        "Rating_Attack",
+        "Rating_Attack_Bonus_Sword",
+        "Rating_Attack_Bonus_Axe",
+        "Rating_Attack_Bonus_Mace",
+        "Rating_Attack_Bonus_Dagger",
+        "Rating_Attack_Bonus_Range",
+        "Rating_Attack_Bonus_Staff",
+        "Rating_Attack_Bonus_Wand",
+        "Rating_Attack_Bonus_Dual",
+        "Rating_Defense",
+        "Rating_Dodge",
+        "Rating_Block",
+        "Rating_Block_Bonus_Shield",
+        "Rating_Critical",
+        "Rating_Critical_Bonus_Sword",
+        "Rating_Critical_Bonus_Axe",
+        "Rating_Critical_Bonus_Mace",
+        "Rating_Critical_Bonus_Dagger",
+        "Rating_Critical_Bonus_Range",
+        "Rating_Critical_Bonus_Staff",
+        "Rating_Critical_Bonus_Wand",
+        "Physical_Armor",
+        "Physical_Armor_Bonus_Shield",
+        "Magical_Armor",
+        "Resistance_Fire",
+        "Resistance_Water",
+        "Resistance_Lightning",
+        "Resistance_Earth",
+        "Resistance_Air",
+        "Damage_Min_Main_Hand",
+        "Damage_Max_Main_Hand",
+        "Damage_Min_Off_Hand",
+        "Damage_Max_Off_Hand",
+        "Damage_Bonus_Sword",
+        "Damage_Bonus_Axe",
+        "Damage_Bonus_Mace",
+        "Damage_Bonus_Dagger",
+        "Damage_Bonus_Range",
+        "Damage_Bonus_Staff",
+        "Damage_Bonus_Wand",
+        "Damage_Bonus_Dual",
+        "Damage_Bonus_TwoHand",
+        "Damage_Bonus_Stunned",
+        "Damage_Bonus_Sneaking",
+        "Damage_Bonus_Combo",
+        "Damage_Elemental_Min_Main_Hand",
+        "Damage_Elemental_Max_Main_Hand",
+        "Damage_Elemental_Type_Main_Hand",
+        "Damage_Elemental_Min_Off_Hand",
+        "Damage_Elemental_Max_Off_Hand",
+        "Damage_Elemental_Type_Off_Hand",
+        "Damage_Fire_Min_Main_Hand",
+        "Damage_Fire_Max_Main_Hand",
+        "Damage_Fire_Min_Off_Hand",
+        "Damage_Fire_Max_Off_Hand",
+        "Damage_Water_Min_Main_Hand",
+        "Damage_Water_Max_Main_Hand",
+        "Damage_Water_Min_Off_Hand",
+        "Damage_Water_Max_Off_Hand",
+        "Damage_Lightning_Min_Main_Hand",
+        "Damage_Lightning_Max_Main_Hand",
+        "Damage_Lightning_Min_Off_Hand",
+        "Damage_Lightning_Max_Off_Hand",
+        "Damage_Earth_Min_Main_Hand",
+        "Damage_Earth_Max_Main_Hand",
+        "Damage_Earth_Min_Off_Hand",
+        "Damage_Earth_Max_Off_Hand",
+        "Damage_Air_Min_Main_Hand",
+        "Damage_Air_Max_Main_Hand",
+        "Damage_Air_Min_Off_Hand",
+        "Damage_Air_Max_Off_Hand",
+        "Damage_Block_Mitigation",
+        "Damage_Crit_Intensification",
+        "Dot_Min_Damage",
+        "Dot_Max_Damage",
+        "Dot_Duration",
+        "Dot_Tick_Damage_Normal",
+        "Dot_Tick_Damage_Fire",
+        "Dot_Tick_Damage_Water",
+        "Dot_Tick_Damage_Lightning",
+        "Dot_Tick_Damage_Earth",
+        "Dot_Tick_Damage_Air",
+        "Leech_HP",
+        "Leech_MP",
+        "Hurt_Resist_Chance",
+        "Hurt_Target_Chance",
+        "Push_Resist_Chance",
+        "Push_Target_Chance",
+        "Stun_Resist_Chance",
+        "Stun_Target_Chance",
+        "Stun_Duration",
+        "Fear_Resist_Chance",
+        "Fear_Target_Chance",
+        "Fear_Duration",
+        "Slow_Resist_Chance",
+        "Slow_Target_Chance",
+        "Slow_Duration",
+        "Diminishing_Return",
+        "Stat_Points",
+        "Stat_Strength",
+        "Stat_Dexterity",
+        "Stat_Endurance",
+        "Stat_Energy",
+        "Prereq_Strength",
+        "Prereq_Dexterity",
+        "Prereq_Endurance",
+        "Prereq_Energy",
+        "Skill_Points",
+        "Spell_Rating_Attack",
+        "Spell_Rating_Attack_Bonus_Fire",
+        "Spell_Rating_Attack_Bonus_Water",
+        "Spell_Rating_Attack_Bonus_Lightning",
+        "Spell_Rating_Attack_Bonus_Earth",
+        "Spell_Rating_Attack_Bonus_Air",
+        "Spell_Rating_Dodge",
+        "Spell_Rating_Critical",
+        "Spell_Damage_Bonus_Fire",
+        "Spell_Damage_Bonus_Water",
+        "Spell_Damage_Bonus_Lightning",
+        "Spell_Damage_Bonus_Earth",
+        "Spell_Damage_Bonus_Air",
+        "Spell_Damage_Crit_Intensification",
+        "SnS_Level",
+        "SnS_ManaCost",
+        "SnS_MinDamage",
+        "SnS_MaxDamage",
+        "SnS_Duration",
+        "SnS_Cooldown",
+        "SnS_Dot_Elemental_Type",
+        "SnS_Dot_Min_Damage",
+        "SnS_Dot_Max_Damage",
+        "SnS_Dot_Duration",
+        "SnS_Hurt_Target_Chance",
+        "SnS_Push_Target_Chance",
+        "SnS_Stun_Target_Chance",
+        "SnS_Stun_Duration",
+        "SnS_Fear_Target_Chance",
+        "SnS_Fear_Duration",
+        "SnS_Slow_Target_Chance",
+        "SnS_Slow_Duration",
+        "TempProp1",
+        "TempProp2",
+        "Potion_HP_Modifier",
+        "Potion_MP_Modifier",
+        "Special_Loot_Max_Potions",
+        "Special_Loot_Gold_Multiplier",
+        "Special_Loot_Magical_Chance",
+        "Special_Transmute_Efficiency",
+        "Special_Sneak",
+        "Special_Sneak_Detection",
+        "Special_Bonus_To_XP",
+        "Special_Merchant_Price",
+        "Special_Equip_Main_In_Offhand",
+        "Special_Equip_2H_In_One",
+        "Threat_PerDamage",
+        "Threat_PerHeal",
+        "Threat_PerDamageToFriendly",
+        "Menu_Average_Melee_To_Hit",
+        "Menu_Average_Spell_To_Hit",
+        "Menu_Melee_Damage_Reduction",
+        "Visual_AlphaFadeInSpawn",
+        "Visual_AlphaFadeOutDespawn",
+        "Visual_BlinkWhenHit",
+        "Achievement_Transmute_Count",
+        "Achievement_Block_Count",
+        "Achievement_Evade_Count",
+        "Achievement_SkillUse_Count",
+        "Achievement_Break_Count",
+        "Achievement_Chests_Count",
+        "Achievement_Potions_Count",
+        "Achievement_Sell_Count",
+        "Achievement_Spent_Count",
+        "Achievement_KnockedDown_Count",
+        "Achievement_PickUp_Count"
+      ]
+    },
+    {
+      "registered_name": "StatAutoAssignTargetList",
+      "namespace": "Structs",
+      "class": "StatAutoAssignTargetList",
+      "lookup_elf_address": "0x004af0e0",
+      "names_elf_address": "0x009eabb8",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "StatListList",
+      "namespace": "Structs",
+      "class": "StatListList",
+      "lookup_elf_address": "0x004af03c",
+      "names_elf_address": "0x009eabd0",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "CharTemplate",
+      "namespace": "Structs",
+      "class": "CharTemplate",
+      "lookup_elf_address": "0x004aef98",
+      "names_elf_address": "0x009eac04",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "CharInfo"
+      ]
+    },
+    {
+      "registered_name": "Rect",
+      "namespace": "Structs",
+      "class": "Rect",
+      "lookup_elf_address": "0x004aeecc",
+      "names_elf_address": "0x009eadb4",
+      "string_object_bytes": 24,
+      "count": 4,
+      "names": [
+        "Height",
+        "PosX",
+        "PosY",
+        "Width"
+      ]
+    },
+    {
+      "registered_name": "DesignSettings",
+      "namespace": "Structs",
+      "class": "DesignSettings",
+      "lookup_elf_address": "0x004aedfc",
+      "names_elf_address": "0x009eae14",
+      "string_object_bytes": 24,
+      "count": 43,
+      "names": [
+        "AdditionalLeaderIconBonus",
+        "AggroTargetSwitchPct",
+        "AutoZoomRefPoint",
+        "AutoZoomStep",
+        "CombatMusicTrigger",
+        "CoopCamLimits_Bottom",
+        "CoopCamLimits_Sides",
+        "CoopCamLimits_Top",
+        "DefaultLevelWhenInvalid",
+        "DefaultOnlineMultiLevelHack",
+        "EnemyClickSensitivity",
+        "EnemySpottedAggro",
+        "ExtraMonsterDamageMultiplyerPerPlayer",
+        "ExtraMonsterHealthMultiplyerPerPlayer",
+        "LeaderIconBonus2Players",
+        "LeaderIconBonus3Players",
+        "LeaderIconBonus4Players",
+        "MiniMapZoomMaxLimit",
+        "MiniMapZoomMinLimit",
+        "NPCClickSensitivity",
+        "ObjectClickSensitivity",
+        "PlayerRotationSpeed",
+        "PlayerRunToWalkPercent",
+        "PlayerWalkToRunPercent",
+        "QuestMarker",
+        "QuestMarkerCompleted",
+        "QuestMarkerSecondary",
+        "QuestMarkerSecondaryCompleted",
+        "StateFeared",
+        "StatePoisonned",
+        "StateSlowed",
+        "StateStunned",
+        "TargetAttack",
+        "TargetMove",
+        "XP_LevelBonusScaleFactorPerLevelPct",
+        "XP_LevelMalusScaleFactorPerLevelPct",
+        "XP_LevelScaleFactorMaxPct",
+        "XP_LevelScaleFactorMinPct",
+        "XP_LevelScaleMaxLevelDiff",
+        "XP_MaxDistanceToReceiveXP",
+        "XP_PerPlayerReductionPct",
+        "ZoomMaxLimit",
+        "ZoomMinLimit"
+      ]
+    },
+    {
+      "registered_name": "GameDifficulty",
+      "namespace": "Structs",
+      "class": "GameDifficulty",
+      "lookup_elf_address": "0x004aed30",
+      "names_elf_address": "0x009eb21c",
+      "string_object_bytes": 24,
+      "count": 5,
+      "names": [
+        "DamageInputModifier",
+        "DamageOutputModifier",
+        "MaxPotionModifier",
+        "RespawnTimeModifier",
+        "XPRewardModifier"
+      ]
+    },
+    {
+      "registered_name": "GameOption",
+      "namespace": "Structs",
+      "class": "GameOption",
+      "lookup_elf_address": "0x004aec64",
+      "names_elf_address": "0x009eb294",
+      "string_object_bytes": 24,
+      "count": 7,
+      "names": [
+        "Default",
+        "Label",
+        "Max",
+        "Min",
+        "Step",
+        "Type",
+        "ValueStr"
+      ]
+    },
+    {
+      "registered_name": "DialogActor",
+      "namespace": "Structs",
+      "class": "DialogActor",
+      "lookup_elf_address": "0x004aeb98",
+      "names_elf_address": "0x009eb5dc",
+      "string_object_bytes": 24,
+      "count": 3,
+      "names": [
+        "FrameID",
+        "FrameLabel",
+        "Name"
+      ]
+    },
+    {
+      "registered_name": "DialogStepList",
+      "namespace": "Structs",
+      "class": "DialogStepList",
+      "lookup_elf_address": "0x004aeaf4",
+      "names_elf_address": "0x009eb6cc",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "steps"
+      ]
+    },
+    {
+      "registered_name": "AnimFXTpl",
+      "namespace": "Structs",
+      "class": "AnimFXTpl",
+      "lookup_elf_address": "0x004aea28",
+      "names_elf_address": "0x009eb804",
+      "string_object_bytes": 24,
+      "count": 4,
+      "names": [
+        "ForceCache",
+        "LoopAFX",
+        "Steps",
+        "Type"
+      ]
+    },
+    {
+      "registered_name": "CharEffect",
+      "namespace": "Structs",
+      "class": "CharEffect",
+      "lookup_elf_address": "0x004ae95c",
+      "names_elf_address": "0x009eb864",
+      "string_object_bytes": 24,
+      "count": 5,
+      "names": [
+        "BloodDeathEffect",
+        "BloodEffect",
+        "FootprintEffect",
+        "SwooshEffect",
+        "TriggerFloorFX"
+      ]
+    },
+    {
+      "registered_name": "FootstepEffect",
+      "namespace": "Structs",
+      "class": "FootstepEffect",
+      "lookup_elf_address": "0x004ae890",
+      "names_elf_address": "0x009eb8dc",
+      "string_object_bytes": 24,
+      "count": 4,
+      "names": [
+        "Effect",
+        "Floortype",
+        "RunSound",
+        "WalkSound"
+      ]
+    },
+    {
+      "registered_name": "FaeryList",
+      "namespace": "Structs",
+      "class": "FaeryList",
+      "lookup_elf_address": "0x004ae7ec",
+      "names_elf_address": "0x009eb9e4",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "List"
+      ]
+    },
+    {
+      "registered_name": "Faery",
+      "namespace": "Structs",
+      "class": "Faery",
+      "lookup_elf_address": "0x004ae720",
+      "names_elf_address": "0x009eb93c",
+      "string_object_bytes": 24,
+      "count": 7,
+      "names": [
+        "Description",
+        "Elemental",
+        "ModelFile",
+        "Name",
+        "SpellScript",
+        "SpellType",
+        "Type"
+      ]
+    },
+    {
+      "registered_name": "FontColorDef",
+      "namespace": "Structs",
+      "class": "FontColorDef",
+      "lookup_elf_address": "0x004ae660",
+      "names_elf_address": "0x009eba14",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "glowcolor",
+        "textcolor"
+      ]
+    },
+    {
+      "registered_name": "DestructibleContainer",
+      "namespace": "Structs",
+      "class": "DestructibleContainer",
+      "lookup_elf_address": "0x004ae594",
+      "names_elf_address": "0x009eba44",
+      "string_object_bytes": 24,
+      "count": 15,
+      "names": [
+        "AirResist",
+        "DamageReduction",
+        "EarthResist",
+        "Effect",
+        "FireResist",
+        "HitPoints",
+        "InteractSound",
+        "KeepSolid",
+        "LightningResist",
+        "Loot",
+        "Script",
+        "TrapChance",
+        "TrapType",
+        "Visual",
+        "WaterResist"
+      ]
+    },
+    {
+      "registered_name": "Door",
+      "namespace": "Structs",
+      "class": "Door",
+      "lookup_elf_address": "0x004ae53c",
+      "names_elf_address": "0x009ebbac",
+      "string_object_bytes": 24,
+      "count": 4,
+      "names": [
+        "Script",
+        "SoundClose",
+        "SoundOpen",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "ExplosiveTrap",
+      "namespace": "Structs",
+      "class": "ExplosiveTrap",
+      "lookup_elf_address": "0x004ae470",
+      "names_elf_address": "0x009ebc0c",
+      "string_object_bytes": 24,
+      "count": 4,
+      "names": [
+        "Damage",
+        "Effect",
+        "Script",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "GameObjectDamage",
+      "namespace": "Structs",
+      "class": "GameObjectDamage",
+      "lookup_elf_address": "0x004ae3a4",
+      "names_elf_address": "0x009ebc6c",
+      "string_object_bytes": 24,
+      "count": 5,
+      "names": [
+        "Damage",
+        "ImmunityDelay",
+        "Max",
+        "Min",
+        "Type"
+      ]
+    },
+    {
+      "registered_name": "LiftableObject",
+      "namespace": "Structs",
+      "class": "LiftableObject",
+      "lookup_elf_address": "0x004ae300",
+      "names_elf_address": "0x009ebd90",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "OpenableContainer",
+      "namespace": "Structs",
+      "class": "OpenableContainer",
+      "lookup_elf_address": "0x004ae234",
+      "names_elf_address": "0x009ebda8",
+      "string_object_bytes": 24,
+      "count": 8,
+      "names": [
+        "Effect",
+        "InteractSound",
+        "KeepSolid",
+        "Loot",
+        "Script",
+        "TrapChance",
+        "TrapType",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "ProjectileTrap",
+      "namespace": "Structs",
+      "class": "ProjectileTrap",
+      "lookup_elf_address": "0x004ae1dc",
+      "names_elf_address": "0x009ebe68",
+      "string_object_bytes": 24,
+      "count": 8,
+      "names": [
+        "Damage",
+        "Delay",
+        "HurtChance",
+        "IsActive",
+        "Projectile",
+        "Script",
+        "Sound",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "TimerTrap",
+      "namespace": "Structs",
+      "class": "TimerTrap",
+      "lookup_elf_address": "0x004ae110",
+      "names_elf_address": "0x009ebf28",
+      "string_object_bytes": 24,
+      "count": 6,
+      "names": [
+        "Damage",
+        "Delay",
+        "HurtChance",
+        "Script",
+        "Sound",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "TriggerObject",
+      "namespace": "Structs",
+      "class": "TriggerObject",
+      "lookup_elf_address": "0x004ae044",
+      "names_elf_address": "0x009ebfb8",
+      "string_object_bytes": 24,
+      "count": 4,
+      "names": [
+        "InteractionType",
+        "Script",
+        "Sound",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "TriggerPlate",
+      "namespace": "Structs",
+      "class": "TriggerPlate",
+      "lookup_elf_address": "0x004adf78",
+      "names_elf_address": "0x009ec018",
+      "string_object_bytes": 24,
+      "count": 7,
+      "names": [
+        "Behavior",
+        "IsActive",
+        "SoundOff",
+        "SoundOn",
+        "SpecificObject",
+        "TriggerType",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "TriggerTrap",
+      "namespace": "Structs",
+      "class": "TriggerTrap",
+      "lookup_elf_address": "0x004adeac",
+      "names_elf_address": "0x009ec0c0",
+      "string_object_bytes": 24,
+      "count": 5,
+      "names": [
+        "Damage",
+        "HurtChance",
+        "Script",
+        "Sound",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "HelpPage",
+      "namespace": "Structs",
+      "class": "HelpPage",
+      "lookup_elf_address": "0x004addec",
+      "names_elf_address": "0x009ec138",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "HelpStringCategory",
+        "HelpStringText"
+      ]
+    },
+    {
+      "registered_name": "HintPage",
+      "namespace": "Structs",
+      "class": "HintPage",
+      "lookup_elf_address": "0x004add2c",
+      "names_elf_address": "0x009ec168",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "HintAvatarID",
+        "HintStringID"
+      ]
+    },
+    {
+      "registered_name": "ItemPowerEntryList",
+      "namespace": "Structs",
+      "class": "ItemPowerEntryList",
+      "lookup_elf_address": "0x004adc88",
+      "names_elf_address": "0x009ec1c8",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "ItemPowerRef",
+      "namespace": "Structs",
+      "class": "ItemPowerRef",
+      "lookup_elf_address": "0x004adbbc",
+      "names_elf_address": "0x009ec228",
+      "string_object_bytes": 24,
+      "count": 8,
+      "names": [
+        "Palette",
+        "SpecialEffect",
+        "AttrBonusList",
+        "Description",
+        "GoldBonusMultiplier",
+        "SortingOrder",
+        "GoldBonus",
+        "AttrMonopoly"
+      ]
+    },
+    {
+      "registered_name": "ItemBonusAttrList",
+      "namespace": "Structs",
+      "class": "ItemBonusAttrList",
+      "lookup_elf_address": "0x004adb18",
+      "names_elf_address": "0x009eec40",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "FastTravelDestination",
+      "namespace": "Structs",
+      "class": "FastTravelDestination",
+      "lookup_elf_address": "0x004ada4c",
+      "names_elf_address": "0x009eec58",
+      "string_object_bytes": 24,
+      "count": 5,
+      "names": [
+        "DescriptionId",
+        "EntryPointId",
+        "LevelName",
+        "LocationType",
+        "StringId"
+      ]
+    },
+    {
+      "registered_name": "LevelDeclaration",
+      "namespace": "Structs",
+      "class": "LevelDeclaration",
+      "lookup_elf_address": "0x004ad980",
+      "names_elf_address": "0x009eecd0",
+      "string_object_bytes": 24,
+      "count": 15,
+      "names": [
+        "Dbg_IsStable",
+        "DynamicBusRouting",
+        "Hub",
+        "IsRandom",
+        "LevelDescription",
+        "LevelFile",
+        "LevelName",
+        "LevelState",
+        "MapName",
+        "MonsterLvlMax",
+        "MonsterLvlMaxHard",
+        "MonsterLvlMaxNightmare",
+        "MonsterLvlMin",
+        "MonsterLvlMinHard",
+        "MonsterLvlMinNightmare"
+      ]
+    },
+    {
+      "registered_name": "ItemAudioVisual",
+      "namespace": "Structs",
+      "class": "ItemAudioVisual",
+      "lookup_elf_address": "0x004ad928",
+      "names_elf_address": "0x009eee38",
+      "string_object_bytes": 24,
+      "count": 3,
+      "names": [
+        "AudioDrop",
+        "AudioPickup",
+        "Visual"
+      ]
+    },
+    {
+      "registered_name": "TileOffsetList",
+      "namespace": "Structs",
+      "class": "TileOffsetList",
+      "lookup_elf_address": "0x004ad884",
+      "names_elf_address": "0x009f2318",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "Inventory",
+      "namespace": "Structs",
+      "class": "Inventory",
+      "lookup_elf_address": "0x004ad7e0",
+      "names_elf_address": "0x009f23a8",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "MaxItems"
+      ]
+    },
+    {
+      "registered_name": "ItemListEntryList",
+      "namespace": "Structs",
+      "class": "ItemListEntryList",
+      "lookup_elf_address": "0x004ad73c",
+      "names_elf_address": "0x009f2288",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "Item",
+      "namespace": "Structs",
+      "class": "Item",
+      "lookup_elf_address": "0x004ad66c",
+      "names_elf_address": "0x009eefe8",
+      "string_object_bytes": 24,
+      "count": 38,
+      "names": [
+        "Name",
+        "Material",
+        "ModularModule",
+        "AudioVisualID",
+        "Type",
+        "BaseStat",
+        "BaseProp",
+        "BaseElement",
+        "EquipmentSlottingType",
+        "Value",
+        "GoldValueMultiplier",
+        "LevelRequirement",
+        "StrengthRequirement",
+        "DexterityRequirement",
+        "EnduranceRequirement",
+        "EnergyRequirement",
+        "ClassRequirement",
+        "Param1",
+        "Param2",
+        "Param3",
+        "Param4",
+        "Param5",
+        "Param6",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        "",
+        ""
+      ]
+    },
+    {
+      "registered_name": "ItemTypeListList",
+      "namespace": "Structs",
+      "class": "ItemTypeListList",
+      "lookup_elf_address": "0x004ad5c8",
+      "names_elf_address": "0x009f23c0",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "Loot",
+      "namespace": "Structs",
+      "class": "Loot",
+      "lookup_elf_address": "0x004ad4fc",
+      "names_elf_address": "0x009f21c8",
+      "string_object_bytes": 24,
+      "count": 5,
+      "names": [
+        "RollType",
+        "NumRandomItemProbs",
+        "RandomLootEntries",
+        "FixedLootEntries",
+        "SubLoots"
+      ]
+    },
+    {
+      "registered_name": "Merchant",
+      "namespace": "Structs",
+      "class": "Merchant",
+      "lookup_elf_address": "0x004ad430",
+      "names_elf_address": "0x009f2360",
+      "string_object_bytes": 24,
+      "count": 3,
+      "names": [
+        "BuyMultiplier",
+        "SellMultiplier",
+        "MerchandiseList"
+      ]
+    },
+    {
+      "registered_name": "NumProbList",
+      "namespace": "Structs",
+      "class": "NumProbList",
+      "lookup_elf_address": "0x004ad38c",
+      "names_elf_address": "0x009f22d0",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list_entries"
+      ]
+    },
+    {
+      "registered_name": "Projectile",
+      "namespace": "Structs",
+      "class": "Projectile",
+      "lookup_elf_address": "0x004ad2c0",
+      "names_elf_address": "0x009f23d8",
+      "string_object_bytes": 24,
+      "count": 20,
+      "names": [
+        "Dedicated",
+        "DisappearOnHit",
+        "ExpireFX",
+        "ExpireSFX",
+        "FriendlyFire",
+        "ImpactFX",
+        "ImpactSFX",
+        "IsLaser",
+        "IsMagic",
+        "MaxDistance",
+        "MaxRotation",
+        "Model",
+        "ObjectImpactFX",
+        "ObjectImpactSFX",
+        "StayOnFloor",
+        "TargetLock",
+        "TimeBetweenHit",
+        "Timer",
+        "Velocity",
+        "VelocityDamping"
+      ]
+    },
+    {
+      "registered_name": "SkillList",
+      "namespace": "Structs",
+      "class": "SkillList",
+      "lookup_elf_address": "0x004ad21c",
+      "names_elf_address": "0x009f3ce4",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "List"
+      ]
+    },
+    {
+      "registered_name": "Skill",
+      "namespace": "Structs",
+      "class": "Skill",
+      "lookup_elf_address": "0x004ad150",
+      "names_elf_address": "0x009f3cfc",
+      "string_object_bytes": 24,
+      "count": 15,
+      "names": [
+        "Anim",
+        "AnimIsMoving",
+        "DisplayProps",
+        "ElementalType",
+        "FairieDependantText",
+        "Flags",
+        "Level",
+        "Script",
+        "SkillAssignable",
+        "SkillCurrLevel",
+        "SkillDescription",
+        "SkillIcon",
+        "SkillName",
+        "SkillNextLevel",
+        "Type"
+      ]
+    },
+    {
+      "registered_name": "CharSounds",
+      "namespace": "Structs",
+      "class": "CharSounds",
+      "lookup_elf_address": "0x004ad084",
+      "names_elf_address": "0x009f4020",
+      "string_object_bytes": 24,
+      "count": 6,
+      "names": [
+        "Die",
+        "Hurt",
+        "ImpactVsFlesh",
+        "ImpactVsMetal",
+        "IsFlesh",
+        "IsMetallic"
+      ]
+    },
+    {
+      "registered_name": "Listener",
+      "namespace": "Structs",
+      "class": "Listener",
+      "lookup_elf_address": "0x004acfb8",
+      "names_elf_address": "0x009f40f8",
+      "string_object_bytes": 24,
+      "count": 6,
+      "names": [
+        "Anchor",
+        "MaxDistance",
+        "Orientation",
+        "RefDistance",
+        "RolloffFactor",
+        "UpVector"
+      ]
+    },
+    {
+      "registered_name": "SoundBank",
+      "namespace": "Structs",
+      "class": "SoundBank",
+      "lookup_elf_address": "0x004acef8",
+      "names_elf_address": "0x009f3e94",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "MaxPlayback",
+        "MaxPlaybackBehavior"
+      ]
+    },
+    {
+      "registered_name": "SoundGroup",
+      "namespace": "Structs",
+      "class": "SoundGroup",
+      "lookup_elf_address": "0x004ace38",
+      "names_elf_address": "0x009f3e64",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "EnteringBus",
+        "Positioning3D"
+      ]
+    },
+    {
+      "registered_name": "Sound",
+      "namespace": "Structs",
+      "class": "Sound",
+      "lookup_elf_address": "0x004acd6c",
+      "names_elf_address": "0x009f3ec4",
+      "string_object_bytes": 24,
+      "count": 9,
+      "names": [
+        "Bank",
+        "Channel",
+        "FileName",
+        "Format",
+        "Group",
+        "LoadType",
+        "Priority",
+        "Repeat",
+        "Volume"
+      ]
+    },
+    {
+      "registered_name": "SpawnGroup",
+      "namespace": "Structs",
+      "class": "SpawnGroup",
+      "lookup_elf_address": "0x004acca0",
+      "names_elf_address": "0x009f41d0",
+      "string_object_bytes": 24,
+      "count": 3,
+      "names": [
+        "ActiveSpotOnly",
+        "Delay",
+        "Spawns"
+      ]
+    },
+    {
+      "registered_name": "Trophy",
+      "namespace": "Structs",
+      "class": "Trophy",
+      "lookup_elf_address": "0x004acc48",
+      "names_elf_address": "0x009f4218",
+      "string_object_bytes": 24,
+      "count": 7,
+      "names": [
+        "Desc",
+        "GLIndex",
+        "GLLive",
+        "Grade",
+        "Label",
+        "Name",
+        "Type"
+      ]
+    },
+    {
+      "registered_name": "v2CondAnd",
+      "namespace": "Structs",
+      "class": "v2CondAnd",
+      "lookup_elf_address": "0x004acbfc",
+      "names_elf_address": "0x009f4d4c",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "Conds",
+        "Type"
+      ]
+    },
+    {
+      "registered_name": "v2Event",
+      "namespace": "Structs",
+      "class": "v2Event",
+      "lookup_elf_address": "0x004acb30",
+      "names_elf_address": "0x009f51d0",
+      "string_object_bytes": 24,
+      "count": 3,
+      "names": [
+        "Level",
+        "Script",
+        "Triggers"
+      ]
+    },
+    {
+      "registered_name": "v2Quest",
+      "namespace": "Structs",
+      "class": "v2Quest",
+      "lookup_elf_address": "0x004aca64",
+      "names_elf_address": "0x009f5038",
+      "string_object_bytes": 24,
+      "count": 17,
+      "names": [
+        "Name",
+        "Description",
+        "PostDescription",
+        "StaticObjective",
+        "PreReqs",
+        "Objectives",
+        "Rewards",
+        "RewardsHard",
+        "RewardsVeryHard",
+        "AcceptType",
+        "EndType",
+        "TargetLevel",
+        "Repeatable",
+        "State",
+        "Scripts",
+        "Priority",
+        "Act"
+      ]
+    },
+    {
+      "registered_name": "WldMapLocation",
+      "namespace": "Structs",
+      "class": "WldMapLocation",
+      "lookup_elf_address": "0x004ac998",
+      "names_elf_address": "0x009f60f4",
+      "string_object_bytes": 24,
+      "count": 3,
+      "names": [
+        "Name",
+        "State",
+        "LocationLevels"
+      ]
+    },
+    {
+      "registered_name": "WorldMapLocker",
+      "namespace": "Structs",
+      "class": "WorldMapLocker",
+      "lookup_elf_address": "0x004ac8d8",
+      "names_elf_address": "0x009f613c",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "OnState",
+        "QuestID"
+      ]
+    },
+    {
+      "registered_name": "ColladaFile",
+      "namespace": "Structs",
+      "class": "ColladaFile",
+      "lookup_elf_address": "0x004ac834",
+      "names_elf_address": "0x009eac1c",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "Name"
+      ]
+    },
+    {
+      "registered_name": "ColladaFile",
+      "namespace": "Structs",
+      "class": "ColladaFile",
+      "lookup_elf_address": "0x004ac834",
+      "names_elf_address": "0x009eac1c",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "Name"
+      ]
+    },
+    {
+      "registered_name": "ColladaFile",
+      "namespace": "Structs",
+      "class": "ColladaFile",
+      "lookup_elf_address": "0x004ac834",
+      "names_elf_address": "0x009eac1c",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "Name"
+      ]
+    },
+    {
+      "registered_name": "ColladaFile",
+      "namespace": "Structs",
+      "class": "ColladaFile",
+      "lookup_elf_address": "0x004ac834",
+      "names_elf_address": "0x009eac1c",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "Name"
+      ]
+    },
+    {
+      "registered_name": "ColladaFile",
+      "namespace": "Structs",
+      "class": "ColladaFile",
+      "lookup_elf_address": "0x004ac834",
+      "names_elf_address": "0x009eac1c",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "Name"
+      ]
+    },
+    {
+      "registered_name": "LangSheetList",
+      "namespace": "Structs",
+      "class": "LangSheetList",
+      "lookup_elf_address": "0x004ac634",
+      "names_elf_address": "0x009f619c",
+      "string_object_bytes": 24,
+      "count": 1,
+      "names": [
+        "list"
+      ]
+    },
+    {
+      "registered_name": "SoundAutoGen",
+      "namespace": "Structs",
+      "class": "SoundAutoGen",
+      "lookup_elf_address": "0x004ac574",
+      "names_elf_address": "0x009f3f9c",
+      "string_object_bytes": 24,
+      "count": 2,
+      "names": [
+        "Id",
+        "Type"
+      ]
+    }
+  ],
+  "table_count": 71,
+  "names": 636,
+  "original_lookup_checks": 693,
+  "function_evidence": [
+    {
+      "elf_address": "0x004ddeb8",
+      "symbol": "_GLOBAL__I_.._.._sources_Data_PyData_PyDataStructs.cpp",
+      "size": 51576,
+      "sha256": "f0ffd9520467dfa0d3fc4b46e3b856612b252faca65490eec19f5a7b6b43b07f"
+    },
+    {
+      "elf_address": "0x003140ec",
+      "symbol": "_ZNSsC1EPKcRKSaIcE",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a"
+    },
+    {
+      "elf_address": "0x003116e8",
+      "symbol": "_ZNSs19_M_range_initializeEPKcS0_",
+      "size": 72,
+      "sha256": "45075e105c133d266caf029231a17938018bb62a8a095f967f74e12f09d34d07"
+    },
+    {
+      "elf_address": "0x0031167c",
+      "symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj",
+      "size": 108,
+      "sha256": "bd4931d0fa0bb58d37743dda6bcb4ea26f84fc82fc5901be1d2ade1dad8eac22"
+    },
+    {
+      "elf_address": "0x004c8bb0",
+      "symbol": "_ZNSsC1ERKSaIcE",
+      "size": 44,
+      "sha256": "26a24e94385998cd4d34777c37a2b12e2367e3231adffc3cd9b5dfefe7b652d7"
+    },
+    {
+      "elf_address": "0x004af590",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_7AIPropsEEEiPKc",
+      "size": 88,
+      "sha256": "af7dea61411980fd85399f288bdaea93051187219bdc2f987510abc0d569b081"
+    },
+    {
+      "elf_address": "0x004af4ec",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10AIFactionsEEEiPKc",
+      "size": 48,
+      "sha256": "582bfb37d9b0a7a3c5f8ae7e43e98a9cdf19927e91da35e03502716f5f991d90"
+    },
+    {
+      "elf_address": "0x004af420",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_7AnimTplEEEiPKc",
+      "size": 88,
+      "sha256": "b83c85a7dae137452737f2b8784d44decb769e5b879066eacd514d79ccf4b36c"
+    },
+    {
+      "elf_address": "0x004af354",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10CamAnimSetEEEiPKc",
+      "size": 88,
+      "sha256": "b919a3965d05d9752adb496489f55cd19e640d0ff83127c8d778f60ba5e85db6"
+    },
+    {
+      "elf_address": "0x004af284",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_8CharAnimEEEiPKc",
+      "size": 92,
+      "sha256": "a28aa63007659a28220c18fc4d2c085b39b93ce30f006ce91b2fa7ffca7b851f"
+    },
+    {
+      "elf_address": "0x004af1e0",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_13ClassFuncListEEEiPKc",
+      "size": 48,
+      "sha256": "7a744d8449ab3d45574851e0265b64317a231016fd7508152ed23e678add169f"
+    },
+    {
+      "elf_address": "0x004af110",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_19CharacterPropertiesEEEiPKc",
+      "size": 92,
+      "sha256": "5714e1f84c72bb4ceb3addb1d1524e128f6db9f5c660bebf31fd264e26b9bfb5"
+    },
+    {
+      "elf_address": "0x004af0e0",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_24StatAutoAssignTargetListEEEiPKc",
+      "size": 48,
+      "sha256": "56b8b32a8e9e0ef8b05dc85dfd7fc97a961ecde92c3865eda55ece01aa064f97"
+    },
+    {
+      "elf_address": "0x004af03c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_12StatListListEEEiPKc",
+      "size": 48,
+      "sha256": "fea107257ec2aa78bc3d2b33c8fc0eb4394dd4879f0df51b402a2810f204e5e4"
+    },
+    {
+      "elf_address": "0x004aef98",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_12CharTemplateEEEiPKc",
+      "size": 48,
+      "sha256": "431ce9ac3603c83c4e002c7103045a529905b21b7dd6f0c1e8f65dc41c28ba39"
+    },
+    {
+      "elf_address": "0x004aeecc",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_4RectEEEiPKc",
+      "size": 88,
+      "sha256": "d8846894024c00c0c8f1243d6599614a8779f6058d3d01d3f5a7909aa925fbfb"
+    },
+    {
+      "elf_address": "0x004aedfc",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14DesignSettingsEEEiPKc",
+      "size": 92,
+      "sha256": "6aaa3ee53086308afd1bbe498d3a2948ae757e70887f729c36ed8321aa11f4e3"
+    },
+    {
+      "elf_address": "0x004aed30",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14GameDifficultyEEEiPKc",
+      "size": 88,
+      "sha256": "ca47573bb02d7c0b78eabd08a66c2879e7b2c567fde1daa29d62d9d92bbaf041"
+    },
+    {
+      "elf_address": "0x004aec64",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10GameOptionEEEiPKc",
+      "size": 88,
+      "sha256": "18340b072d81c1b314c538a0912d91d493aa3efcf17c55859d9703ac8deaae2d"
+    },
+    {
+      "elf_address": "0x004aeb98",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_11DialogActorEEEiPKc",
+      "size": 88,
+      "sha256": "351df16de9be40d1c7e794e9dbac57679e23683116d4b8b1bc3ec3b86e5fd118"
+    },
+    {
+      "elf_address": "0x004aeaf4",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14DialogStepListEEEiPKc",
+      "size": 48,
+      "sha256": "c78f22b7a3e1d843e85216eb7d4c8bb55ea96cf6184febe72b2734343f20966a"
+    },
+    {
+      "elf_address": "0x004aea28",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_9AnimFXTplEEEiPKc",
+      "size": 88,
+      "sha256": "40231216f4f6577237acc0fe41fa88300a18d6ca8dac9ff80ff7e05954a7e9ee"
+    },
+    {
+      "elf_address": "0x004ae95c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10CharEffectEEEiPKc",
+      "size": 88,
+      "sha256": "96dbe2573ec867d9ff8723cacab1e9143b52beea87367537c1d2bcb6fe79a3bc"
+    },
+    {
+      "elf_address": "0x004ae890",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14FootstepEffectEEEiPKc",
+      "size": 88,
+      "sha256": "546392bb45fa9dc92c9b1d27a02fd2820e2c6137e858adc9a9246b7f8964da99"
+    },
+    {
+      "elf_address": "0x004ae7ec",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_9FaeryListEEEiPKc",
+      "size": 48,
+      "sha256": "84aa527dda2cedc34aa21b921d60ba5090a06205332be5ff1c3065981b5c4d68"
+    },
+    {
+      "elf_address": "0x004ae720",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_5FaeryEEEiPKc",
+      "size": 88,
+      "sha256": "131738a39422c57aee3a8ce56a88c5d03a38b64300387527f881d49522409c7b"
+    },
+    {
+      "elf_address": "0x004ae660",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_12FontColorDefEEEiPKc",
+      "size": 76,
+      "sha256": "e217a82b04a2041197ca55f4a347939898604175c2eee405f23166d8df603b24"
+    },
+    {
+      "elf_address": "0x004ae594",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_21DestructibleContainerEEEiPKc",
+      "size": 88,
+      "sha256": "4d75da17c5dd5da31f536e15fc65c25455cc48c4857354113df766a85967f540"
+    },
+    {
+      "elf_address": "0x004ae53c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_4DoorEEEiPKc",
+      "size": 88,
+      "sha256": "38764838047642bb9f07793cc6da766900b2129100ea84d40cc24c783a7dd142"
+    },
+    {
+      "elf_address": "0x004ae470",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_13ExplosiveTrapEEEiPKc",
+      "size": 88,
+      "sha256": "834301ac6cb42a850832486189845f223119978bc895c0269921cf46a01a642a"
+    },
+    {
+      "elf_address": "0x004ae3a4",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_16GameObjectDamageEEEiPKc",
+      "size": 88,
+      "sha256": "542e90db0b0aa1840820069628a0988273ee2163cf6ebf5dac2590683a40a92f"
+    },
+    {
+      "elf_address": "0x004ae300",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14LiftableObjectEEEiPKc",
+      "size": 48,
+      "sha256": "0f92cdead37fa4e8d3e18d815e50deb5618fd1303b1824ee86f6a0a4f139b4e1"
+    },
+    {
+      "elf_address": "0x004ae234",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_17OpenableContainerEEEiPKc",
+      "size": 88,
+      "sha256": "09d02f093c7a912ca0ee51831a145b4d83c41fa9522c7d9ec4405d62d65410db"
+    },
+    {
+      "elf_address": "0x004ae1dc",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14ProjectileTrapEEEiPKc",
+      "size": 88,
+      "sha256": "1a2fbfb293d3c94b1f3d53ea577a9a1c62fb7791286699021f274dd4d7b42d44"
+    },
+    {
+      "elf_address": "0x004ae110",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_9TimerTrapEEEiPKc",
+      "size": 88,
+      "sha256": "cd1e5580d41e7449e24a81010334d74d09d9ec3ef937d78c1632ca4d1c1fa73c"
+    },
+    {
+      "elf_address": "0x004ae044",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_13TriggerObjectEEEiPKc",
+      "size": 88,
+      "sha256": "318ce960bd979bca078d8be827dc21b45eec2aa5d2052ae5ae209efe0f98bc59"
+    },
+    {
+      "elf_address": "0x004adf78",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_12TriggerPlateEEEiPKc",
+      "size": 88,
+      "sha256": "a129bf10a5faee698f2a92d30a45b978d83ff2c0b0b7e37ab8451390f4e109b8"
+    },
+    {
+      "elf_address": "0x004adeac",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_11TriggerTrapEEEiPKc",
+      "size": 88,
+      "sha256": "a5ff0ead2fb6c6c10d6028fb347a231d812486e2538098b11c301ca01d33a187"
+    },
+    {
+      "elf_address": "0x004addec",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_8HelpPageEEEiPKc",
+      "size": 76,
+      "sha256": "8c82738afd2020faadaac0b01ab541cb49c7fd6e63ea7b78b9fd8a3e0cc13d2f"
+    },
+    {
+      "elf_address": "0x004add2c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_8HintPageEEEiPKc",
+      "size": 76,
+      "sha256": "99e6db7e7ca87172c78acc4cce9cdf820a909e2601d075b0dd209b96581b9217"
+    },
+    {
+      "elf_address": "0x004adc88",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_18ItemPowerEntryListEEEiPKc",
+      "size": 48,
+      "sha256": "ac5be5b2db2db9b19c07b46caedc6db1b5dd8bc24a8642fa4bb20fa97810917e"
+    },
+    {
+      "elf_address": "0x004adbbc",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_12ItemPowerRefEEEiPKc",
+      "size": 88,
+      "sha256": "2b56396663a18d3bf2274474d5d7f9079c6afe40a8d662bcb21b1851c66e1fd5"
+    },
+    {
+      "elf_address": "0x004adb18",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_17ItemBonusAttrListEEEiPKc",
+      "size": 48,
+      "sha256": "f2b2841f757f9a13c9cc6c3bba069c5395478abef2690840da36592adf30a38f"
+    },
+    {
+      "elf_address": "0x004ada4c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_21FastTravelDestinationEEEiPKc",
+      "size": 88,
+      "sha256": "73c5fe341bd8373ae06b8b5820b8df181a2811519b84685c244227cfd7415e38"
+    },
+    {
+      "elf_address": "0x004ad980",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_16LevelDeclarationEEEiPKc",
+      "size": 88,
+      "sha256": "aa9f2cf19d1a04faf868d58384fc12a3d59c8009290a3ee6706e514018678f8e"
+    },
+    {
+      "elf_address": "0x004ad928",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_15ItemAudioVisualEEEiPKc",
+      "size": 88,
+      "sha256": "fd029cddeb161d26445e985f1ad27ff894b29e827bd0333501c02350fc4d7300"
+    },
+    {
+      "elf_address": "0x004ad884",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14TileOffsetListEEEiPKc",
+      "size": 48,
+      "sha256": "8ed4ae4c19d60544d73b2cf727ea08a2ba030dc341f6ceee6599f24e1b12b0cd"
+    },
+    {
+      "elf_address": "0x004ad7e0",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_9InventoryEEEiPKc",
+      "size": 48,
+      "sha256": "cebeb661e613a3bab8589cfc9b6673b788c4e3007df3f78d3d2d174ed344d4ed"
+    },
+    {
+      "elf_address": "0x004ad73c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_17ItemListEntryListEEEiPKc",
+      "size": 48,
+      "sha256": "1438cbb2c6c6f2f89e07302e1726f5f20a70a06228882ce93bc1f7de41ab8881"
+    },
+    {
+      "elf_address": "0x004ad66c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_4ItemEEEiPKc",
+      "size": 92,
+      "sha256": "db851498d97c19df1908d6ccf18bd67ee827e0da425237a55b2d3360252a1d2f"
+    },
+    {
+      "elf_address": "0x004ad5c8",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_16ItemTypeListListEEEiPKc",
+      "size": 48,
+      "sha256": "0065ce990fc59f629b309ad518f494588a502174269c78637bfbc00d458a0bb1"
+    },
+    {
+      "elf_address": "0x004ad4fc",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_4LootEEEiPKc",
+      "size": 88,
+      "sha256": "f4db9398815614f8ab30ed091d00cf0ab5adfd30412174b5939f2bac20dbca38"
+    },
+    {
+      "elf_address": "0x004ad430",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_8MerchantEEEiPKc",
+      "size": 88,
+      "sha256": "e5be4f34b63c0f81f204b6391ce46349d7e0761a9af8238c5dd27f61ca7e16c4"
+    },
+    {
+      "elf_address": "0x004ad38c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_11NumProbListEEEiPKc",
+      "size": 48,
+      "sha256": "7f62d734189f88ba19c807ddf6a8c26f3b384d0dd213b02a119c9b1ebf40e9da"
+    },
+    {
+      "elf_address": "0x004ad2c0",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10ProjectileEEEiPKc",
+      "size": 88,
+      "sha256": "0946d64a56c785735ded915c9f59a21df752aa5837cd8b2cb55a0d267f0874f6"
+    },
+    {
+      "elf_address": "0x004ad21c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_9SkillListEEEiPKc",
+      "size": 48,
+      "sha256": "6034761e9b38be0c063e8a6b86ea946c3ce7989a93a683c13e359db399c32f19"
+    },
+    {
+      "elf_address": "0x004ad150",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_5SkillEEEiPKc",
+      "size": 88,
+      "sha256": "f768c45098652a06553f9a29a693f20354b0107ea5e07a7235931721140d6027"
+    },
+    {
+      "elf_address": "0x004ad084",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10CharSoundsEEEiPKc",
+      "size": 88,
+      "sha256": "eaea817c7eda147ea612cc392904ca42b1a2fbf11d675577f305a1b72069d2af"
+    },
+    {
+      "elf_address": "0x004acfb8",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_8ListenerEEEiPKc",
+      "size": 88,
+      "sha256": "d55e306637a176d33517812a0daef0290c563227a084d7a5d7c526c79962aa14"
+    },
+    {
+      "elf_address": "0x004acef8",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_9SoundBankEEEiPKc",
+      "size": 76,
+      "sha256": "18f403a26a09269a2c23da135a9d887c632a0077e4d1c20f962b91f433b2d388"
+    },
+    {
+      "elf_address": "0x004ace38",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10SoundGroupEEEiPKc",
+      "size": 76,
+      "sha256": "c4340f48933015d323a2295177e0afa615c1378b76c4f468b6064b56a21a0e16"
+    },
+    {
+      "elf_address": "0x004acd6c",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_5SoundEEEiPKc",
+      "size": 88,
+      "sha256": "ba3d34ec03522934a59a5a057898f0d235bb60244b0374d5a5d8795c6783048e"
+    },
+    {
+      "elf_address": "0x004acca0",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_10SpawnGroupEEEiPKc",
+      "size": 88,
+      "sha256": "0d954dec28976f22ad21e393a0014fc52bd0a9836facafa3666054d3a49b82f2"
+    },
+    {
+      "elf_address": "0x004acc48",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_6TrophyEEEiPKc",
+      "size": 88,
+      "sha256": "5e7bb5552de66b9a682f9bd866fd1d53195606d755f078a27c3ffbbece5e2dd9"
+    },
+    {
+      "elf_address": "0x004acbfc",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_9v2CondAndEEEiPKc",
+      "size": 76,
+      "sha256": "6d98e2e4c087fd2cb8f132a39119938eab26a921abfdf47434800dce028cc00a"
+    },
+    {
+      "elf_address": "0x004acb30",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_7v2EventEEEiPKc",
+      "size": 88,
+      "sha256": "7ceaacaaf1fe9fb5107b7b3e3b252979862b02731d98c215446a73d42005d1ce"
+    },
+    {
+      "elf_address": "0x004aca64",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_7v2QuestEEEiPKc",
+      "size": 88,
+      "sha256": "5278c4cca4f1595827821aafaba964e9079ddda89291d3e5e69bc1bc44159103"
+    },
+    {
+      "elf_address": "0x004ac998",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14WldMapLocationEEEiPKc",
+      "size": 88,
+      "sha256": "f47096d8826358964cf629628b3178ab1cfaa5a569e5092740c033bea4a0ba96"
+    },
+    {
+      "elf_address": "0x004ac8d8",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_14WorldMapLockerEEEiPKc",
+      "size": 76,
+      "sha256": "372797ce2467f4a3ef7f2ed2562894d605d065a18efe0e25eb182fb6ae1eaacc"
+    },
+    {
+      "elf_address": "0x004ac834",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_11ColladaFileEEEiPKc",
+      "size": 48,
+      "sha256": "aae603d4be4ba598ee6d1f8efe1cbfba0450b8e6cb3d3c941660b0018bd00aca"
+    },
+    {
+      "elf_address": "0x004ac634",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_13LangSheetListEEEiPKc",
+      "size": 48,
+      "sha256": "f7aad6c7440e0e5b3aea6809cd67f7b701cd11e8e6bbf7f71bef550d2cc76cec"
+    },
+    {
+      "elf_address": "0x004ac574",
+      "symbol": "_ZN7Structs19GetMemberIDByStringINS_12SoundAutoGenEEEiPKc",
+      "size": 76,
+      "sha256": "ac85455a579336d0a4f5ed2c1e15df470f37451fa168d57ce31fb1c081199b68"
+    }
+  ],
+  "dependency_calls": {
+    "strlen": 1176,
+    "memcpy": 1176,
+    "original_pool_allocation_model": 275,
+    "__aeabi_atexit": 343,
+    "strcmp": 29209
+  },
+  "exit_handler_registrations": 343,
+  "modeled_heap_bytes": 13296,
+  "stack_restoration": true,
+  "dependency_model": "Actual original 51,576-byte static initializer, string constructors, range initialization, allocation-block selection and all registered Structs GetMemberIDByString bodies execute. Pool/operator-new allocation, bounded strlen/memcpy/strcmp and exit-handler registration are explicit models. Destructors, map-manager lookup, object record layout/access, cache struct-name overrides, scripts and gameplay are not executed."
+}

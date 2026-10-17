@@ -1,0 +1,248 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "constructor_scalar_offsets": [
+    "0xb8",
+    "0xbc",
+    "0xc0",
+    "0xb4",
+    "0xa0",
+    "0xac",
+    "0xc4",
+    "0xc8",
+    "0xcc",
+    "0xd0",
+    "0xd4"
+  ],
+  "constructor_scalar_words": [
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0,
+    0
+  ],
+  "owner_98": 0,
+  "tree_empty": true,
+  "pending_published": true,
+  "final_dispatch": "AISPlayerIPhone",
+  "service_calls": [
+    {
+      "operation": "allocate",
+      "bytes": 216,
+      "hint": 0
+    },
+    {
+      "operation": "lua_construct",
+      "skip_bind": 1,
+      "owner_before": 3452816845
+    }
+  ],
+  "executed_pinned_function_words": 87,
+  "import_calls": {},
+  "scope": "Original factory and CharAIScript stores, zero-count vector construction/allocator branch execute. Allocation and real Lua construction are explicit providers. Invalid-assertion/old-pending replacement branches are not executed.",
+  "original_load_and_init": {
+    "source_return": 1,
+    "load_phase_28": 7,
+    "active_equals_pending": true,
+    "timer_ids": [
+      0,
+      1
+    ],
+    "events": [
+      {
+        "operation": "select_player",
+        "phase": 0,
+        "active": 0,
+        "pending": 0
+      },
+      {
+        "operation": "allocate",
+        "phase": 0,
+        "active": 0,
+        "pending": 0
+      },
+      {
+        "operation": "lua_construct",
+        "phase": 0,
+        "active": 0,
+        "pending": 0
+      },
+      {
+        "operation": "bind_ais",
+        "phase": 1,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "set_character",
+        "phase": 2,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "load_common",
+        "phase": 3,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "is_dead",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "design_tick",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "start_timer",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "design_tick",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "start_timer",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "refresh_vitals",
+        "phase": 7,
+        "active": 1,
+        "pending": 1
+      },
+      {
+        "operation": "configure_skills",
+        "phase": 7,
+        "active": 1,
+        "pending": 1
+      },
+      {
+        "operation": "update_skills",
+        "phase": 7,
+        "active": 1,
+        "pending": 1
+      }
+    ],
+    "executed_pinned_function_words": 266,
+    "import_calls": {},
+    "scope": "Original load/init phase stores, actual factory/CharAIScript/vector bodies, OnInit timer caller and Default Player init/post/final leaves execute. Selector facts, binding/file, stats/configure/update and design/timer allocation are explicit providers."
+  },
+  "original_split_load_init": {
+    "load_phase_28": 7,
+    "active_equals_pending": true,
+    "load_events": [
+      {
+        "operation": "select_player",
+        "phase": 0,
+        "active": 0,
+        "pending": 0
+      },
+      {
+        "operation": "allocate",
+        "phase": 0,
+        "active": 0,
+        "pending": 0
+      },
+      {
+        "operation": "lua_construct",
+        "phase": 0,
+        "active": 0,
+        "pending": 0
+      },
+      {
+        "operation": "bind_ais",
+        "phase": 1,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "set_character",
+        "phase": 2,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "load_common",
+        "phase": 3,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "is_dead",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "design_tick",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "start_timer",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "design_tick",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      },
+      {
+        "operation": "start_timer",
+        "phase": 5,
+        "active": 0,
+        "pending": 1
+      }
+    ],
+    "finish_events": [
+      {
+        "operation": "refresh_vitals",
+        "phase": 7,
+        "active": 1,
+        "pending": 1
+      },
+      {
+        "operation": "configure_skills",
+        "phase": 7,
+        "active": 1,
+        "pending": 1
+      },
+      {
+        "operation": "update_skills",
+        "phase": 7,
+        "active": 1,
+        "pending": 1
+      }
+    ],
+    "load_performs_init_process": false,
+    "repeated_load_no_services": true,
+    "load_and_init_active_guard_no_services": true,
+    "explicit_finish_init_final": 0,
+    "constructor_calls": 1,
+    "vitals_calls": 1,
+    "configure_calls": 1,
+    "executed_pinned_function_words": 267,
+    "import_calls": {},
+    "scope": "Actual original LoadScriptProcess followed by actual InitScriptProcess. The void source wrappers have no meaningful r0 return; native wrapper completion is 1. Profile/equipment/slot-grant bodies are not supplied by this fixture."
+  }
+}

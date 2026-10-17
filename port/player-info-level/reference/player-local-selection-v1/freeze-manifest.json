@@ -1,0 +1,55 @@
+{
+  "validation": "PASS",
+  "whitelist": [
+    "port/player-info-level/player_local_selection_v1.cpp",
+    "port/player-info-level/player_local_selection_v1.hpp",
+    "port/player-info-level/player_manager_host_level.cpp",
+    "port/player-info-level/player_manager_host_level.hpp",
+    "port/player-info-level/reference/player-local-selection-v1/NOTES.md",
+    "port/player-info-level/reference/player-local-selection-v1/original-functions.json",
+    "port/player-info-level/reports/player-local-selection-v1-selected-host.json",
+    "port/player-info-level/tests/player_local_selection_v1.cpp",
+    "port/player-info-level/tests/player_local_selection_v1_original.py",
+    "port/player-info-level/tests/run_player_local_selection_v1_host.py",
+    "port/player-info-level/reference/player-local-selection-v1/freeze-manifest.json"
+  ],
+  "files_sha256": {
+    "port/player-info-level/player_local_selection_v1.cpp": "403d8da351d73d5b83d91b1162e7fd4c9287285df30084c00e357bdb283cc6e7",
+    "port/player-info-level/player_local_selection_v1.hpp": "722b1d36b234f084d16d5798965d375bba11dd35a3cd63767a884e07aaa9103c",
+    "port/player-info-level/player_manager_host_level.cpp": "efbfede4c686e4342ef38bb7170c248ef9560a95f2f2205e6ffb2b0e8376e506",
+    "port/player-info-level/player_manager_host_level.hpp": "eeb927c0d0856d4d52e7ea45f038e9f36b7950a4cfc4ca7c1413a7739865ee64",
+    "port/player-info-level/reference/player-local-selection-v1/NOTES.md": "fa7727e9f76e09956884ac7db2642f2a61df97a4daaa122afd34efe6cc4b9fae",
+    "port/player-info-level/reference/player-local-selection-v1/original-functions.json": "bef2f77043e0a1d1831fb62722ef1a4cec8a3ad7711368a289b444c455b94aa1",
+    "port/player-info-level/reports/player-local-selection-v1-selected-host.json": "dffbc1bb76e80b00421b42f699ce2b65ea4b2f997573149c767f687ed55176f9",
+    "port/player-info-level/tests/player_local_selection_v1.cpp": "5eece6853aa390e3d42b27f8eae7f9ce6cff84b0e027e4e47933ac702edae078",
+    "port/player-info-level/tests/player_local_selection_v1_original.py": "d0ebe5107b34efadc045dfe9cf19c1815c050cf1affdcafdbfb56160060983ea",
+    "port/player-info-level/tests/run_player_local_selection_v1_host.py": "11948009f0a783755c405a3c27b91121146fd2d74f5662bc6a7e6d75becf92e7"
+  },
+  "modified_existing_authority": [
+    "port/player-info-level/player_manager_host_level.cpp",
+    "port/player-info-level/player_manager_host_level.hpp"
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "project_inputs": 576,
+  "production_frozen": true,
+  "source_before_after_equal": true,
+  "selected_world_cmake_sha256": "a028075ea0a4e3c2fc83187fd313a9ad863a3ae090b112358f0b5086a20a9b6f",
+  "selected_data_cmake_sha256": "5fa28a798a73b36afa91a680b1fd0af76b6ba39b1def063cd5cc566cff0feaac",
+  "guarded_shared_source_sha256": {
+    "port/game-data/class_tables.cpp": "2ce809b6f057fb40747ebdc8a31ecd3d1cd99529bfe79221efc5aea31ac652fd",
+    "port/game-data/class_tables.hpp": "cad8938b4edda851ccc2a2a3ed4b6b2bdbc31fa0cfaa997119e78630698c8af2",
+    "port/level-world/player_skill_property_services_v1.cpp": "db6d2b15ba744534df15ecc242fe6a8cf47a57e7a4261e9e42524a3ae60eb314",
+    "port/level-world/player_skill_property_services_v1.hpp": "712b9922b0b3ca851326d7dc810d52bd15482d2ccd806740d640cc5d135244f6"
+  },
+  "host_report_keys": [
+    "host_report",
+    "original_comparison",
+    "source_sha256",
+    "source_before_after_equal",
+    "selected_compiler_objects",
+    "selected_commands",
+    "binary_sha256"
+  ],
+  "native_registration": false,
+  "scope": "Complete original _GetInternalIDByLocalID, GetLocalPlayer and AssignSaveSlotToPlayer callers execute, including the nested actual GetPlayerByInternalID body. Online/GameState/Matching.Get/IsInRoom/NetManager/initialized and _GetNetPlayerInfo callees are declared query fixtures. The compiled provider calls the existing actual selected host-level public selector over the sole canonical registry. No PlayerInfo construction, registration, Character creation, profile load or write is claimed. Mandatory borrowed SavegameManager and PlayerInfo fields preserve distinct roles and reached write prefixes. Native registration, controller lifecycle and full profile loading remain outside this host proof."
+}

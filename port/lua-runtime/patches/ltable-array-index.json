@@ -1,0 +1,22 @@
+{
+  "source": "vendor/lua-5.1.4/src/ltable.c",
+  "replacements": [
+    {
+      "before": "#include <math.h>",
+      "after": "#include <math.h>\n#include <limits.h>"
+    },
+    {
+      "before": "cast(unsigned int, key-1)",
+      "after": "(cast(unsigned int, key) - 1u)"
+    },
+    {
+      "before": "    lua_number2int(k, n);\n    if (luai_numeq(cast_num(k), n))\n      return k;",
+      "after": "    if ((double)n >= (double)INT_MIN && (double)n < (double)INT_MAX + 1.0) {\n      lua_number2int(k, n);\n      if (luai_numeq(cast_num(k), n))\n        return k;\n    }"
+    },
+    {
+      "before": "      lua_number2int(k, n);\n      if (luai_numeq(cast_num(k), nvalue(key))) /* index is int? */\n        return luaH_getnum(t, k);  /* use specialized version */",
+      "after": "      if ((double)n >= (double)INT_MIN && (double)n < (double)INT_MAX + 1.0) {\n        lua_number2int(k, n);\n        if (luai_numeq(cast_num(k), nvalue(key))) /* index is int? */\n          return luaH_getnum(t, k);  /* use specialized version */\n      }"
+    }
+  ],
+  "reason": "Subtract in unsigned arithmetic so INT_MIN lookups do not overflow. Check range before converting numeric keys to int, keeping large, infinite and NaN keys in the existing hash path. Positive array indices retain their original behavior. Modern safety repair, not an established original-engine patch. Applied to a generated build copy; the imported upstream file stays byte-identical."
+}

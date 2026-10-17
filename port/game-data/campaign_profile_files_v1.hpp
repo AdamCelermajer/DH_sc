@@ -11,10 +11,4 @@ bool campaign_profile_exists_v1(const std::string& directory,std::uint32_t slot,
 // Native bounded policy rejects nonregular files, IO errors and files>32MiB.
 bool read_campaign_profile_v1(const std::string& directory,std::uint32_t slot,
     CampaignProfileFileV1&,std::string&);
-// Original DeleteAllSlotFiles uses getFilesMatching's substring search for
-// dh2_%03u, including checkpoint/level saves. Caller must flush owned save
-// jobs first. No recursive deletion; reject matching nonregular entries.
-// deleted reports actual committed removals, including a failure prefix.
-bool erase_campaign_slot_files_v1(const std::string& directory,std::uint32_t slot,
-    std::uint32_t& deleted,std::string&);
 }

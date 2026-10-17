@@ -1,52 +1,150 @@
 #include "character_enemy_spotted.hpp"
+
+#include <cstddef>
 #include <cstring>
+#include <limits>
+
+namespace dh2::character_enemy_spotted {
 namespace {
-using namespace dh2::character;
-template<class T>bool aligned(const T* p){return p&&reinterpret_cast<std::uintptr_t>(p)%alignof(T)==0;}
-bool valid(const EnemySpottedState16* s){
- if(!aligned(s)||!aligned(s->ai)||s->ai->reserved||!aligned(s->ai->target))return false;
- for(auto x:s->ai->reserved_bytes)if(x)return false;
- const auto* target=s->ai->target;const auto* owner=target->owner;
- return !target->reserved&&!target->reserved8&&aligned(owner)&&!owner->reserved16&&!owner->reserved;
+static_assert(sizeof(float) == 4 && std::numeric_limits<float>::is_iec559);
+float floating(std::uint32_t bits) {
+    float value;
+    std::memcpy(&value, &bits, sizeof(value));
+    return value;
 }
-int call(EnemySpottedState16* s,const EnemySpottedServices24* svc,const EnemySpottedRequest48& req,std::uint32_t& value){if(!valid(s))return 2;value=0;return svc->invoke(svc->context,s,&req,&value)?2:0;}
-EnemySpottedRequest48 request(std::uint32_t service,std::uintptr_t subject,std::uintptr_t enemy){EnemySpottedRequest48 result{};result.service=service;result.subject=subject;result.enemy=enemy;return result;}
-int debug(EnemySpottedState16* s,const EnemySpottedServices24* svc,const char* name){
- std::uint32_t ignored=0;auto req=request(enemy_debug_load,0,0);if(call(s,svc,req,ignored))return 2;
- req=request(enemy_debug_construct,0,0);req.text=name;if(call(s,svc,req,ignored))return 2;
- req.service=enemy_debug_query;if(call(s,svc,req,ignored))return 2;
- req.service=enemy_debug_destroy;return call(s,svc,req,ignored);
+bool overlap(const void* a, std::size_t an, const void* b, std::size_t bn) {
+    const auto x = reinterpret_cast<std::uintptr_t>(a);
+    const auto y = reinterpret_cast<std::uintptr_t>(b);
+    if (x > UINTPTR_MAX - an || y > UINTPTR_MAX - bn) return true;
+    return x < y + bn && y < x + an;
 }
-float floating(std::uint32_t word){float result;std::memcpy(&result,&word,4);return result;}
+struct EntryHold {
+    State* state;
+    ~EntryHold() { state->in_progress = 0; }
+};
+struct ActiveHold {
+    const Services& services;
+    ActiveAIS active;
+    void* hold;
+    ~ActiveHold() {
+        if (hold) services.release_active(services.context, &active, hold);
+    }
+};
+}  // namespace
+
+Status on_enemy_spotted(State* state, std::uintptr_t enemy,
+                       const Services* services, Result* result) {
+    if (!state || !services || !result || !enemy) return Status::invalid_argument;
+    const void* objects[] = {state, services, result};
+    const std::size_t sizes[] = {sizeof(*state), sizeof(*services), sizeof(*result)};
+    for (unsigned i = 0; i < 3; ++i)
+        for (unsigned j = 0; j < i; ++j)
+            if (overlap(objects[i], sizes[i], objects[j], sizes[j]))
+                return Status::invalid_argument;
+    if (!state->ai_identity) return Status::invalid_argument;
+    if (state->in_progress) return Status::reentrant_call;
+    const auto ai = state->ai_identity;  // Original r7 is fixed, not reread.
+    const Services bound = *services;
+    *result = {};
+    state->in_progress = 1;
+    EntryHold entry{state};
+    auto done = [&](Decision decision) {
+        result->decision = decision;
+        return Status::complete;
+    };
+    auto query = [&](auto callback, std::uint32_t& count,
+                     std::uintptr_t identity, std::uint32_t& value) {
+        if (!identity) return Status::invalid_live_projection;
+        if (!callback) return Status::service_unavailable;
+        ++count;
+        value = 0;
+        return callback(bound.context, state, identity, &value)
+            ? Status::service_failed : Status::complete;
+    };
+    auto debug = [&](DebugPoint point) {
+        if (!bound.debug_switch) return Status::complete;
+        ++result->debug_queries;
+        return bound.debug_switch(bound.context, state, point)
+            ? Status::service_failed : Status::complete;
+    };
+    Status status = debug(DebugPoint::entry);
+    if (status != Status::complete) return status;
+    const auto group = state->group_identity;
+    if (group) {
+        const auto owner = state->owner_identity;
+        if (!owner) return Status::invalid_live_projection;
+        if (!bound.group_enemy_spotted) return Status::service_unavailable;
+        ++result->group_calls;
+        if (bound.group_enemy_spotted(bound.context, state, group, owner, enemy))
+            return Status::service_failed;
+    }
+
+    std::uint32_t value = 0;
+    status = query(bound.is_awaiting_to_spawn, result->awaiting_spawn_queries, enemy, value);
+    if (status != Status::complete) return status;
+    if (value) return done(Decision::enemy_awaiting_spawn);
+    status = query(bound.is_awaiting_to_spawn, result->awaiting_spawn_queries, state->owner_identity, value);
+    if (status != Status::complete) return status;
+    if (value) return done(Decision::owner_awaiting_spawn);
+    status = query(bound.is_in_limbus, result->limbus_queries, enemy, value);
+    if (status != Status::complete) return status;
+    if (value) return done(Decision::enemy_in_limbus);
+    status = query(bound.is_in_limbus, result->limbus_queries, state->owner_identity, value);
+    if (status != Status::complete) return status;
+    if (value) return done(Decision::owner_in_limbus);
+
+    status = query(bound.is_in_combat, result->combat_queries, ai, value);
+    if (status != Status::complete) return status;
+    bool inspect_aggro = true;
+    if (value) {
+        status = query(bound.is_player, result->player_queries, enemy, value);
+        if (status != Status::complete) return status;
+        inspect_aggro = value != 0;
+    }
+    if (inspect_aggro) {
+        if (!bound.get_aggro) return Status::service_unavailable;
+        ++result->aggro_queries;
+        if (bound.get_aggro(bound.context, state, ai, enemy, &result->aggro_bits))
+            return Status::service_failed;
+        // Original __aeabi_fcmpeq(value, +0.0f); NaN is not equal, -0 is.
+        if (floating(result->aggro_bits) == 0.0f) {
+            const auto owner = state->owner_identity;
+            if (!owner) return Status::invalid_live_projection;
+            if (!bound.initial_aggro) return Status::service_unavailable;
+            ++result->initial_aggro_reads;
+            std::uint32_t amount = 0;
+            if (bound.initial_aggro(bound.context, state, &amount))
+                return Status::service_failed;
+            if (!bound.add_aggro) return Status::service_unavailable;
+            ++result->aggro_adds;
+            if (bound.add_aggro(bound.context, state, owner, enemy, amount,
+                                &result->added_delta_bits))
+                return Status::service_failed;
+            // Original __aeabi_fcmpgt(delta, +0.0f). It changes diagnostic
+            // calls only; neither branch vetoes the selected AIS callback.
+            if (floating(result->added_delta_bits) > 0.0f) {
+                status = debug(DebugPoint::positive_aggro_added);
+                if (status != Status::complete) return status;
+            }
+        }
+    }
+
+    // Original active AIS load at 0x3d1618 occurs after all previous services.
+    const ActiveAIS active = state->active;
+    if (!active.identity) return done(Decision::no_active_ais);
+    if (!active.callee) return Status::invalid_live_projection;
+    if (!bound.retain_active || !bound.dispatch_active || !bound.release_active)
+        return Status::service_unavailable;
+    ActiveHold selected{bound, active, nullptr};
+    ++result->active_retains;
+    const auto retained = bound.retain_active(bound.context, state, &selected.active,
+                                             &selected.hold);
+    if (retained || !selected.hold) return Status::active_lifetime_failed;
+    result->dispatched_active = selected.active;
+    ++result->active_dispatches;
+    if (bound.dispatch_active(bound.context, state, &selected.active,
+                              selected.hold, enemy)) return Status::service_failed;
+    return done(Decision::dispatched);
 }
-extern "C" int dh2_character_enemy_spotted(EnemySpottedState16* s,std::uintptr_t enemy,const EnemySpottedServices24* svc){
- if(!valid(s)||!enemy||!aligned(svc)||!svc->invoke)return 1;
- if(debug(s,svc,"isTracingCharAIEvents"))return 2;
- std::uint32_t value=0;
- if(!valid(s))return 2;
- const auto group=s->group;
- if(group){auto req=request(enemy_group_spotted,group,enemy);req.other=s->ai->target->owner->identity;if(call(s,svc,req,value))return 2;}
- auto req=request(enemy_awaiting_spawn,enemy,0);if(call(s,svc,req,value))return 2;if(value)return 0;
- if(!valid(s))return 2;
- req=request(enemy_awaiting_spawn,s->ai->target->owner->identity,0);if(call(s,svc,req,value))return 2;if(value)return 0;
- req=request(enemy_in_limbus,enemy,0);if(call(s,svc,req,value))return 2;if(value)return 0;
- if(!valid(s))return 2;
- req=request(enemy_in_limbus,s->ai->target->owner->identity,0);if(call(s,svc,req,value))return 2;if(value)return 0;
- if(!valid(s))return 2;
- req=request(enemy_in_combat,s->ai->target->identity,0);if(call(s,svc,req,value))return 2;
- bool aggro=true;
- if(value){req=request(enemy_is_player,enemy,0);if(call(s,svc,req,value))return 2;aggro=value!=0;}
- if(aggro){
-  if(!valid(s))return 2;
-  req=request(enemy_get_aggro,s->ai->target->identity,enemy);if(call(s,svc,req,value))return 2;
-  if(floating(value)==0.0f){
-   if(!valid(s)||!aligned(svc->initial_threat))return 2;
-   req=request(enemy_add_aggro,s->ai->target->owner->identity,enemy);req.word=*svc->initial_threat;
-   if(call(s,svc,req,value))return 2;
-   if(floating(value)>0.0f&&debug(s,svc,"isTracingThreatChange"))return 2;
-  }
- }
- if(!valid(s))return 2;
- const auto active=s->ai->active;if(!active)return 0;
- req=request(enemy_active_dispatch,active,enemy);return call(s,svc,req,value);
-}
+
+}  // namespace dh2::character_enemy_spotted

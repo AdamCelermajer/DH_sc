@@ -48,6 +48,9 @@ struct RuntimeRequest {
  const float* target_absolute_position;
  std::uint64_t key;
  std::uint32_t character_flags,dt_ms;
+ // Optional typed GameObject+0x1b4 projection, written at the recovered
+ // UpdatePath phase before rotation/subobjects. It is not an object overlay.
+ std::uint8_t* source_game_object_moving=nullptr;
 };
 enum Phase : std::uint32_t {not_started=0,path_phase=1,rotation_phase=2,subobjects_phase=3,target_phase=4,completed=5};
 struct RuntimeResult {
@@ -55,26 +58,11 @@ struct RuntimeResult {
  subobjects::Result subobjects;
  std::uint32_t phase,failed_event,visual_rotation_requested,physical_stop_applied;
 };
-static_assert(sizeof(RuntimeState)==472&&sizeof(RuntimePolicy)==36&&sizeof(RuntimeRequest)==128&&sizeof(RuntimeResult)==104);
+static_assert(sizeof(RuntimeState)==472&&sizeof(RuntimePolicy)==36&&sizeof(RuntimeRequest)==136&&sizeof(RuntimeResult)==104);
 // Borrowed actor phase: pre-frame snapshots -> path/Stop -> rotation ->
 // subobjects -> target cache. No scene sample, world Step, AI/FSM or ownership.
 // 0 completed,1 malformed,2 capacity,3 service failure. Malformed top-level
 // requests do not mutate state or invoke services. Later failures report the
 // reached phase; native world/scene side effects are not rolled back.
 int update_actor(RuntimeResult&,const RuntimeRequest&,std::string& error);
-// Generic GameObject successor: explicit actual virtual policies replace
-// Character+520/Property224 decoding. Borrows the SAME generic Root storage;
-// no Character animation-root identity or synthetic property sheet exists.
-struct GenericVisualBorrowV4 {
- void* context{};visual::Root* root{};
- bool(*update_world)(void*,std::string&){};
- bool(*set_rotation)(void*,const float*,std::string&){};
-};
-struct GenericRuntimeRequestV4 {
- RuntimeRequest actor;
- move::Policy actual_virtual_policy{};
- float actual_rotation_speed{};
- GenericVisualBorrowV4 visual;
-};
-int update_gameobject_v4(RuntimeResult&,const GenericRuntimeRequestV4&,std::string& error);
 }

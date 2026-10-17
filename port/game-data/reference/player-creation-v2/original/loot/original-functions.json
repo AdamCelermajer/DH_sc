@@ -8,6 +8,42 @@
       "sha256": "c7727fe007375f3e480a2890eddc64e978cfaa4b7d50852e3b0342f1f2cd7fc5"
     },
     {
+      "original_symbol": "_ZN13ItemInventory20_IsLootEntryUsingPctERKN7Structs9LootEntryE",
+      "elf_address": "0x4027a4",
+      "size": 176,
+      "sha256": "fa09df1450ac036676b085adc55437f7b31781432e8ef5bb992011a645ece485"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory17_GetEffectiveProbERKN7Structs9LootEntryE",
+      "elf_address": "0x402854",
+      "size": 124,
+      "sha256": "dab454445d86e18e416812d190483578c58a924a74be70b01e23c4ace5e2f9b2"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory19_GetRandomLootEntryERKSt6vectorIPKN7Structs9LootEntryESaIS4_EE",
+      "elf_address": "0x4028d0",
+      "size": 400,
+      "sha256": "20b8acab70e95a93c9834af2fc63f24fd55826d1224c59c58b44341b190fa17a"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory19_GetRandomLootEntryERKN7Structs4LootE",
+      "elf_address": "0x402a60",
+      "size": 380,
+      "sha256": "01f35c8a212d113dc259893fd659f28ba070f74d95951a31f0930aa6f9f9c7dc"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory10_DoPctRollERKN7Structs9LootEntryE",
+      "elf_address": "0x402bdc",
+      "size": 264,
+      "sha256": "de4bbc84687fd9c1c94052a3257871e52421475e732423d460ff78ee488fee1f"
+    },
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib.clone.1",
+      "elf_address": "0x401afc",
+      "size": 148,
+      "sha256": "c9a2f24f7c691def06040a7dab766218420d67fe8ce514386961e4a9e33d0c86"
+    },
+    {
       "original_symbol": "_ZN7Structs9LootEntry4readEP11IStreamBase",
       "elf_address": "0x4fec08",
       "size": 760,

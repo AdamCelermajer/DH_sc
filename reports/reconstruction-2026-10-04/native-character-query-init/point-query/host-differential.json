@@ -1,0 +1,86 @@
+{
+  "status": "passed",
+  "compiler": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+  "compile_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_aggro_point_query_host.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_target_search.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_character_list.cpp",
+    "-o",
+    "port\\level-world\\build\\character-aggro-point-query-differential-parent\\host\\character-aggro-point-query-host.exe"
+  ],
+  "compile_stdout": "",
+  "compile_stderr": "",
+  "host_stdout": "",
+  "host_stderr": "",
+  "fixture_input": "port\\level-world\\build\\character-aggro-point-query-differential-parent\\host\\fixtures.bin",
+  "fixture_input_sha256": "98580bf62dc1d94cc0bb369fcb2cc92f6e9bf489b3c5d29086087a348479d69e",
+  "host_output": "port\\level-world\\build\\character-aggro-point-query-differential-parent\\host\\host-results.bin",
+  "host_output_sha256": "0e65d1f91ae935e707afcc25cff6d12ace96805204537ef20f1efb4466683f2a",
+  "host_executable": "port\\level-world\\build\\character-aggro-point-query-differential-parent\\host\\character-aggro-point-query-host.exe",
+  "host_executable_sha256": "78a59fbc55e490e2607afadaf46f8b5ad94596aa53975f8f361d9ff636394dfe",
+  "linked_sources": [
+    {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_aggro_point_query_host.cpp",
+      "sha256": "8738e2f045e27885f00d9ee8f9b025ccdc2acdb89a8f8419833ceef0862bcfdb"
+    },
+    {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_target_search.cpp",
+      "sha256": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70"
+    },
+    {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_character_list.cpp",
+      "sha256": "fe15f152e10f23175c53fb0af8eee36ddcf94f65bd643e6ba4447820916fe1d2"
+    }
+  ],
+  "comparisons": [
+    {
+      "name": "filters-radius-closest-and-growth",
+      "pop_order_count": 10,
+      "pop_order_equal": true,
+      "service_events": 41,
+      "service_trace_equal": true
+    },
+    {
+      "name": "authored-target-position-and-negative-radius",
+      "pop_order_count": 1,
+      "pop_order_equal": true,
+      "service_events": 4,
+      "service_trace_equal": true
+    },
+    {
+      "name": "live-link-mutation-during-interactive",
+      "pop_order_count": 1,
+      "pop_order_equal": true,
+      "service_events": 5,
+      "service_trace_equal": true
+    },
+    {
+      "name": "source-cone-threshold-and-opposite-side",
+      "pop_order_count": 1,
+      "pop_order_equal": true,
+      "service_events": 10,
+      "service_trace_equal": true
+    },
+    {
+      "name": "empty-list",
+      "pop_order_count": 0,
+      "pop_order_equal": true,
+      "service_events": 1,
+      "service_trace_equal": true
+    }
+  ],
+  "mismatches": [],
+  "result_pop_order_compared": true,
+  "target_info_distance_angle_flags_reserved_compared": true,
+  "actor_service_trace_compared": true,
+  "debug_override_path": "excluded: only the no-active-diagnostic-switch boundary has providers",
+  "scope": "The real typed host ObjectListMethods/CharacterList query and heap kernel were compiled from linked production sources and run over byte-identical actor/list facts serialized from the five original ARM fixture cases. Popped TargetInfo rows and actor-owned callback/mutation order match the original-instruction oracle exactly."
+}

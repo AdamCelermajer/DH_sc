@@ -1,0 +1,134 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateRegenEv",
+      "elf_address": "0x3cb77c",
+      "size": 68,
+      "sha256": "0ccbe38eb368843376656a045580c82b96cab8a909e7d18bd02389a49da645fd"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv",
+      "elf_address": "0x33dd10",
+      "size": 20,
+      "sha256": "e747e9aff56cd8e56b5a34d6570c86fbf70910645922ff428d0b43b9e6d3a821"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI13AI_IsInCombatEv",
+      "elf_address": "0x3d4bc4",
+      "size": 112,
+      "sha256": "7e917c97faa26805e240a111a5719d87b9d14946aa3acd7b08657116d00c3ce3"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI11AI_HasAggroEv",
+      "elf_address": "0x3d49f0",
+      "size": 16,
+      "sha256": "b246911c152844ecbe7ebd31fbb303d55ce8c7f782650b61098737f50d3e9252"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsAggroedEv",
+      "elf_address": "0x3d4a00",
+      "size": 16,
+      "sha256": "854336dabcc98143cafa0997ba54fede004764db15c7a37e4f68f187b66327ad"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine14SM_IsAttackingEv",
+      "elf_address": "0x3c02d0",
+      "size": 24,
+      "sha256": "4873bc9e588299d4fd02aafec23e59f15966b80eb5db2bc7dc5960d64d7514e3"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN9Character9RegenTickEb",
+      "elf_address": "0x3bdd90",
+      "size": 356,
+      "sha256": "0069c310faaf445c6eaa602830fa86bde64f5cf1f48510b470ad48721f7ea0d7"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties10HandleDotsEv",
+      "elf_address": "0x3df3f0",
+      "size": 144,
+      "sha256": "8c1603abda13d653817965595ad27ef785b110c6d7291dbe884d2f96c0262dd0"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnUpdateEv",
+      "elf_address": "0x3dc798",
+      "size": 64,
+      "sha256": "b4b2accbca71efc2e95e37357589e0c2e722873cac3f1395065000d8561a8913"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBaseC1ENS_6GO_IDSE",
+      "elf_address": "0x33f15c",
+      "size": 436,
+      "sha256": "0ee65c6207e36d8093719ec258764d35eeecf7bcefe76b5db93889c74b23518a"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "elf_address": "0x33f310",
+      "size": 436,
+      "sha256": "e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67"
+    }
+  ],
+  "vtables": [
+    {
+      "symbol": "_ZTV9Character",
+      "address": "0x965f30",
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "slot": "0x54",
+      "target": "0x33dd10"
+    },
+    {
+      "symbol": "_ZTV9AISPlayer",
+      "address": "0x966bf8",
+      "sha256": "e06d1749abc126f7956c405fb021a1c33f50123b6c8a3a82dc950e6670b36e89",
+      "slot": "0x18",
+      "target": "0x3dc798"
+    },
+    {
+      "symbol": "_ZTV15AISPlayerIPhone",
+      "address": "0x966cd0",
+      "sha256": "37a14b52341cb03869d86f17604a0c8f9982ee25f004d7ea55981cce96aa9a47",
+      "slot": "0x18",
+      "target": "0x3dc798"
+    }
+  ],
+  "new_source_callers": [
+    "Character::RegenTick(bool)",
+    "CharAI::_UpdateRegen",
+    "CharAI::AI_IsInCombat"
+  ],
+  "query_leaf_body_credit": 0,
+  "attribution": {
+    "upstream_commit": "791e961b12233100b303038c961666834f4beb9d",
+    "reuse": "Existing maintained CharAI event route, remote getter, HandleDots, regeneration/Debug/property/DoT attack kernels; aggro count/state leaves use actual typed fields; no Adam private VM/timer owner imported"
+  }
+}

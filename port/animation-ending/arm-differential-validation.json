@@ -1,0 +1,52 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "character_callback_effects_tested": false,
+  "comparison": "Original ARM32 vs compiled ARM64/host extra-time and pending fields: exact integers",
+  "extra_time_checks": 495,
+  "blender_notice_checks": 1980,
+  "direct_animator_notice_checks": 495,
+  "active_getter_calls": 1980,
+  "mismatches": 0,
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "seed": 20261002,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_sha256": "dc6c02b80b3e82f1602ea5c21ef1be8c14558a50a01ed3e2a07af21e55bd346c",
+  "arm64_sha256": "da3eabb5e2ef6bc96f9427b38d662a02ad4f6f80b56527cf54e9265a0c791e97",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "function_evidence": [
+    {
+      "elf_address": "0x003c90f8",
+      "size": 112,
+      "name": "CharAnimator::CalculateExtraTime",
+      "symbol": "_ZN12CharAnimator18CalculateExtraTimeEPN6glitch5scene19ITimelineControllerE",
+      "sha256": "185ecb91e9c83c3b6a0bf63f171d763d32c49485286159e15f39e94382e545db"
+    },
+    {
+      "elf_address": "0x00366628",
+      "size": 160,
+      "name": "AnimatorBlender::_HandleAnimEnding",
+      "symbol": "_ZN15AnimatorBlender17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+      "sha256": "ebe253955c0d30ff759ae75315a7c4e30fee07b61cc0fe7e978b6dd2ecbadfd6"
+    },
+    {
+      "elf_address": "0x00366224",
+      "size": 112,
+      "name": "Animator::_HandleAnimEnding",
+      "symbol": "_ZN8Animator17_HandleAnimEndingEPN6glitch5scene19ITimelineControllerE",
+      "sha256": "01aabdb4296894e061ea3a39b886deb8c375fd7c5d736046e31c936ec4c8be07"
+    }
+  ],
+  "source_sha256": {
+    "ending.cpp": "9d9401d0341ad90f929c47d8a29e5506049a03f6b6a501365c6505ca5d1f015c",
+    "ending.hpp": "ee575bf5103b3513542bc8c7a0b6d449683891c7f68ca5d876799beaafb49074"
+  },
+  "test_sha256": "1cae6ee12ab183a8c823659fc549e23e1a78a969c6529ed7586d062ea199ae72",
+  "import_calls": {
+    "__aeabi_fmul": 2964,
+    "__aeabi_f2iz": 2964
+  },
+  "dependency_model": "Actual original extra-time and ending bodies execute; active timeline getter is a controlled pointer-return stub; bounded float arithmetic/casts use the existing host dependency model"
+}

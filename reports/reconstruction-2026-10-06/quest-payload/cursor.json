@@ -1,0 +1,65 @@
+{
+  "validation": "PASS",
+  "host": {
+    "validation": "PASS",
+    "checks": 30,
+    "absolute_campaign_cursor": true,
+    "retained_whole_profile": true,
+    "source_typed_readers": false
+  },
+  "scope": "Native campaign cursor adapter over the actual selected profile-index library.\n\nNo ARM parity, complete typed readers, Android or live save loading is claimed.\nAll inputs are synthetic; no user save is opened.\n",
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/native_quest_cursor.cpp": "54c37c6b75a92a9413a355e505d413856acc90e35c54ad1344ddaa7e233b0ed8",
+    "port/android-native/app/src/main/cpp/native_quest_cursor.hpp": "bab3ad5a08a39ab8fc6e007fe369ae49c33d7f50179080313eb5853d0ab11464",
+    "port/android-native/tests/native_quest_cursor.cpp": "651bea742320d93b752865951878fcfa3e9f8edd79c19b38a25cf6c666acc348",
+    "port/android-native/tools/run_native_quest_cursor_host.py": "652b5fe00381f961552d459925330e0b2505aaf497ed0a12da01e4161e9a0e4f",
+    "port/game-data/player_profile_index_v1.cpp": "e794d0229dfbd9c970f30eace3408ea88e32bbd2bcca4db37f99460191fbc5ef",
+    "port/game-data/player_profile_index_v1.hpp": "5bfcb8b934cce80ef507f8a96a0db0e9eaacc344e046d3c1817e2c398add0ef7",
+    "port/game-data/player_saved_quests_v1.hpp": "1cc384115af55b38e89d0ddae7b83b7636abd21af1d91c09e0b7a82f1cd3eacd"
+  },
+  "binary_sha256": {
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a": "e5dbc3ab2f69e932ab7d39f4c680d1d6ffc3d7c62e97655ec5d4b70a12fe05c0",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll": "1247a68e1d554efa24affe9a865d25ff48cf05dd2b4aaed23577bf4710cde528",
+    "C:\\tmp\\dh2-native-quest-cursor-selected\\host.exe": "968342c102ce04eaf466e192a6b94cea35f4e6c0fedcd63b30349e114f31e5c6"
+  },
+  "compiler_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O2",
+    "-IC:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\tests\\native_quest_cursor.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_quest_cursor.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+    "-o",
+    "C:\\tmp\\dh2-native-quest-cursor-selected\\host.exe"
+  ],
+  "selected_profile_index_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_profile_index_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_profile_index_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/player_profile_index_v1.cpp.obj"
+    }
+  ],
+  "binary_imports": [
+    "libgcc_s_seh-1.dll",
+    "libstdc++-6.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-convert-l1-1-0.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll",
+    "api-ms-win-crt-filesystem-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "libdh2_game_data.dll"
+  ],
+  "android_compilation": false,
+  "live_gameplay": false
+}

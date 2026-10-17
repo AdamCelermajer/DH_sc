@@ -1,0 +1,1974 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 105,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": {
+    "init_with_bounding_box": {
+      "original_symbol": "_ZN4Zone19InitWithBoundingBoxERKN6glitch4core8aabbox3dIfEE",
+      "address": "0x397594",
+      "size": 392,
+      "sha256": "1c3b3d096ee00a944f5c79cae0460656c565763e895b4ebf6cddb174a2c32274"
+    },
+    "room_zone_ctor": {
+      "original_symbol": "_ZN8RoomZoneC1EN10ObjectBase6GO_IDSE",
+      "address": "0x396558",
+      "size": 108,
+      "sha256": "9bbd25d193786a5755621c726deb342582cf72b15d54c59440b0d3e0b49d2733"
+    },
+    "zone_ctor": {
+      "original_symbol": "_ZN4ZoneC2EN10ObjectBase6GO_IDSEbb",
+      "address": "0x397ca0",
+      "size": 116,
+      "sha256": "008890a76addfa7bbbbbcf7c8e1b3839027ad708e90142f98aa88acefcfd749c"
+    },
+    "module_init_post": {
+      "original_symbol": "_ZN6Module8InitPostEv",
+      "address": "0x388b20",
+      "size": 312,
+      "sha256": "d438871fa9b54d30df1000f53681149d23a0c72cf502f248008c584285d0a281"
+    },
+    "root_bounds_getter": {
+      "original_symbol": "_ZNK6glitch5scene15CEmptySceneNode14getBoundingBoxEv",
+      "address": "0x5839b0",
+      "size": 8,
+      "sha256": "e71667d8a8daeadd8dc78417f1d900abf298c975c0988faebec1fd089b12dfd4"
+    },
+    "root_transformed_bounds_getter": {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode25getTransformedBoundingBoxEv",
+      "address": "0x59770c",
+      "size": 124,
+      "sha256": "3ac37225aa9d7b429a9f40792c29254043fb1aa970ece65873bd6f22b357296d"
+    },
+    "root_refresh_bounds": {
+      "original_symbol": "_ZN13RootSceneNode18RefreshBoundingBoxEv",
+      "address": "0x35c854",
+      "size": 156,
+      "sha256": "afe4b5e093ece2de3a96cb51a4a0868839e74f86067890b24a17ba43bb4413ff"
+    },
+    "root_refresh_adjustment_getter": {
+      "original_symbol": "_ZNK6glitch5scene10ISceneNode11getPositionEv",
+      "address": "0x597124",
+      "size": 8,
+      "sha256": "e7c5f4d5032caa61ba641b7edd3239a66346a177b7adf75338e1aafe8aa8dc70"
+    },
+    "root_constructor": {
+      "original_symbol": "_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE",
+      "address": "0x35d824",
+      "size": 236,
+      "sha256": "f32bc6225098758a56760923eada3eb07ab19ad7269c635e82d887455244c29a"
+    },
+    "set_position": {
+      "original_symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "address": "0x393db4",
+      "size": 220,
+      "sha256": "b2e7a850ec235757fe9b1406e0491006cc8ef1dda76927eb2e336374d93e26e7"
+    },
+    "root_vtable_bounds_slot": {
+      "vtable_symbol": "_ZTV13RootSceneNode",
+      "vtable_address": "0x95fdd8",
+      "constructor_symbol": "_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE",
+      "constructor_address": "0x35d824",
+      "constructor_vptr_instructions": "add r3,r3,#0x1c; str r3,[r4]",
+      "vptr_got_slot": "0x9983a0",
+      "vptr_got_relocation": {
+        "section": ".rel.dyn",
+        "type_id": 23,
+        "symbol": ""
+      },
+      "itanium_address_point": "0x95fdf4",
+      "address_point_header_words": [
+        0,
+        0
+      ],
+      "local_bounds_slot_offset": "0x30",
+      "local_bounds_slot_address": "0x95fe24",
+      "local_bounds_target": "0x5839b0",
+      "transformed_bounds_slot_offset": "0x34",
+      "transformed_bounds_slot_address": "0x95fe28",
+      "transformed_bounds_target": "0x59770c"
+    },
+    "root_vtable_refresh_adjustment_slot": {
+      "vtable_symbol": "_ZTV13RootSceneNode",
+      "vtable_address": "0x95fdd8",
+      "itanium_address_point": "0x95fdf4",
+      "slot_offset": "0xa0",
+      "slot_address": "0x95fe94",
+      "target": "0x597124",
+      "target_symbol": "_ZNK6glitch5scene10ISceneNode11getPositionEv",
+      "semantic_boundary": "ISceneNode::getPosition returns the RootSceneNode position at +0xac; RefreshBoundingBox subtracts it from all six root-local bounds"
+    },
+    "module_room_zone_callsite": {
+      "module_init_post_symbol": "_ZN6Module8InitPostEv",
+      "virtual_call_address": "0x388b6c",
+      "virtual_call_bytes": "34f093e5",
+      "root_vptr_slot": "0x34",
+      "resolved_target": "0x59770c",
+      "zone_init_address": "0x388c30",
+      "zone_init_call_bytes": "573a00eb",
+      "room_zone_constructor_bool_args": [
+        0,
+        1
+      ],
+      "zone_visual_flag_store_address": "0x397ccc",
+      "zone_visual_flag_store_bytes": "8053c6e5",
+      "zone_visual_flag_result": 0
+    }
+  },
+  "arithmetic_import_identity_and_order": [
+    "__aeabi_fsub",
+    "__aeabi_fsub",
+    "__aeabi_fsub",
+    "__aeabi_fadd",
+    "__aeabi_fmul",
+    "__aeabi_fadd",
+    "__aeabi_fmul",
+    "__aeabi_fadd",
+    "__aeabi_fmul"
+  ],
+  "source_sha256": {
+    "port/level-world/module_room_zone_bounds.hpp": "5ba7755229af957daddf3624ae12c7ece9d24e193183ca7c37b6396deaeb986e",
+    "port/level-world/module_room_zone_bounds.cpp": "9fbd3afe92868a124fd68fcb56f2051e0f22d7dd860afb649203a145a7fac154",
+    "port/level-world/tests/module_room_zone_bounds.cpp": "92aedb4dbb56a256ddc06a1877d440131610b6d2e7215a1bc8bba8fc9ac22bfa",
+    "port/level-world/tests/run_module_room_zone_bounds.py": "a0197f62c50d43461c90f114e16877ff6808d07fd56d37d2870c7e5ffde05c8d"
+  },
+  "scope": "Module::InitPost's RootSceneNode bounding-box argument through the RoomZone-specific Zone::InitWithBoundingBox path: exact dimensions/min/max writes and the exact SetPosition(center,true) call. SetPosition is intercepted by address and ABI, not executed; physical/visual adapters, RootSceneNode bounds production/world transform, and Module-to-runtime-room identity remain external providers.",
+  "room_zone_constructor_gate": "RoomZone ctor passes Zone(flag_380=false, flag_381=true); optional visual branch excluded.",
+  "optional_visual_guard": {
+    "status": 4,
+    "calls": 0,
+    "request_update": 0,
+    "center": [
+      0,
+      0,
+      0
+    ],
+    "dimensions": [
+      1326593110,
+      1326593111,
+      1326593112
+    ],
+    "relative_minimum": [
+      1327641686,
+      1327641687,
+      1327641688
+    ],
+    "relative_maximum": [
+      1328690262,
+      1328690263,
+      1328690264
+    ]
+  },
+  "set_position_failure_case": {
+    "status": 3,
+    "calls": 1,
+    "request_update": 1,
+    "center": [
+      1077936128,
+      1082130432,
+      1084227584
+    ],
+    "dimensions": [
+      1082130432,
+      1082130432,
+      1082130432
+    ],
+    "relative_minimum": [
+      1065353216,
+      1073741824,
+      1077936128
+    ],
+    "relative_maximum": [
+      1084227584,
+      1086324736,
+      1088421888
+    ]
+  },
+  "cases": [
+    {
+      "name": "zero_box",
+      "input_bits": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000"
+      ]
+    },
+    {
+      "name": "asymmetric_positive",
+      "input_bits": [
+        "0x3f800000",
+        "0x40000000",
+        "0x40400000",
+        "0x40a00000",
+        "0x40c00000",
+        "0x40e00000"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x40400000",
+        "0x40800000",
+        "0x40a00000"
+      ]
+    },
+    {
+      "name": "mixed_negative",
+      "input_bits": [
+        "0xc1200000",
+        "0xc0a00000",
+        "0xbf800000",
+        "0x3f400000",
+        "0x40000000",
+        "0x40800000"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xc0940000",
+        "0xbfc00000",
+        "0x3fc00000"
+      ]
+    },
+    {
+      "name": "reversed_input_is_not_normalized",
+      "input_bits": [
+        "0x40800000",
+        "0x40000000",
+        "0x3f800000",
+        "0x3f800000",
+        "0x3f000000",
+        "0x00000000"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x40200000",
+        "0x3fa00000",
+        "0x3f000000"
+      ]
+    },
+    {
+      "name": "negative_zero_edges",
+      "input_bits": [
+        "0x80000000",
+        "0x80000000",
+        "0x80000000",
+        "0x00000000",
+        "0x00000000",
+        "0x00000000"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x00000000",
+        "0x00000000",
+        "0x00000000"
+      ]
+    },
+    {
+      "name": "large_cancellation",
+      "input_bits": [
+        "0x7effffff",
+        "0x7efffffe",
+        "0xfeffffff",
+        "0xfeffffff",
+        "0x7effffff",
+        "0x7efffffe"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x00000000",
+        "0x7efffffe",
+        "0xf2800000"
+      ]
+    },
+    {
+      "name": "infinite_endpoints",
+      "input_bits": [
+        "0xff800000",
+        "0xff800000",
+        "0xff800000",
+        "0x7f800000",
+        "0x7f800000",
+        "0x7f800000"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xffc00000",
+        "0xffc00000",
+        "0xffc00000"
+      ]
+    },
+    {
+      "name": "nan_endpoints",
+      "input_bits": [
+        "0x7fc00001",
+        "0xffc12345",
+        "0x3f800000",
+        "0x3f800000",
+        "0x7fc00002",
+        "0xbf800000"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x7fc00001",
+        "0x7fc00002",
+        "0x00000000"
+      ]
+    },
+    {
+      "name": "subnormal_edges",
+      "input_bits": [
+        "0x00000001",
+        "0x80000001",
+        "0x007fffff",
+        "0x00800000",
+        "0x00000001",
+        "0x807fffff"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x00400000",
+        "0x00000000",
+        "0x00000000"
+      ]
+    },
+    {
+      "name": "seeded_bits_000",
+      "input_bits": [
+        "0xfba0e847",
+        "0xc9dfca01",
+        "0xcf05de6a",
+        "0x90fac1a7",
+        "0x62a6e279",
+        "0xd8616b7d"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xfb20e847",
+        "0x6226e279",
+        "0xd7e16b9e"
+      ]
+    },
+    {
+      "name": "seeded_bits_001",
+      "input_bits": [
+        "0x80718ecc",
+        "0x310d09e8",
+        "0xe2e239bb",
+        "0x38298425",
+        "0x7496736b",
+        "0x21047ef1"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x37a98425",
+        "0x7416736b",
+        "0xe26239bb"
+      ]
+    },
+    {
+      "name": "seeded_bits_002",
+      "input_bits": [
+        "0x6c639c7f",
+        "0x11ca18a5",
+        "0x775817b0",
+        "0x97973dec",
+        "0x013a098a",
+        "0x04911d21"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x6be39c7f",
+        "0x114a18a5",
+        "0x76d817b0"
+      ]
+    },
+    {
+      "name": "seeded_bits_003",
+      "input_bits": [
+        "0x20367724",
+        "0x19397ee8",
+        "0x04ef18d6",
+        "0x92be102c",
+        "0xb7d94a5e",
+        "0x5d902eb3"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x1fb67724",
+        "0xb7594a5e",
+        "0x5d102eb3"
+      ]
+    },
+    {
+      "name": "seeded_bits_004",
+      "input_bits": [
+        "0x38f58f91",
+        "0x99359324",
+        "0x570e1d35",
+        "0xf2971ade",
+        "0x6b573ceb",
+        "0x71904f49"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf2171ade",
+        "0x6ad73ceb",
+        "0x71104f49"
+      ]
+    },
+    {
+      "name": "seeded_bits_005",
+      "input_bits": [
+        "0x551de82d",
+        "0x4ce009d9",
+        "0xf7fec0ee",
+        "0x3e12356a",
+        "0x8927e0e0",
+        "0x2dc1ff5d"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x549de82d",
+        "0x4c6009d9",
+        "0xf77ec0ee"
+      ]
+    },
+    {
+      "name": "seeded_bits_006",
+      "input_bits": [
+        "0x069ee488",
+        "0x48361a98",
+        "0x6e6303f9",
+        "0x146b05e4",
+        "0x2c2746f1",
+        "0xa4370643"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x13eb05e4",
+        "0x47b61a98",
+        "0x6de303f9"
+      ]
+    },
+    {
+      "name": "seeded_bits_007",
+      "input_bits": [
+        "0x41fd505e",
+        "0x64cd31aa",
+        "0x006be2fe",
+        "0x5f9a9fa7",
+        "0x4793a651",
+        "0xbdec7c38"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x5f1a9fa7",
+        "0x644d31aa",
+        "0xbd6c7c38"
+      ]
+    },
+    {
+      "name": "seeded_bits_008",
+      "input_bits": [
+        "0x291c497f",
+        "0x0ff682eb",
+        "0x1fc84f36",
+        "0x4e5779b4",
+        "0x7196409f",
+        "0x6ea1cbcf"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x4dd779b4",
+        "0x7116409f",
+        "0x6e21cbcf"
+      ]
+    },
+    {
+      "name": "seeded_bits_009",
+      "input_bits": [
+        "0xd1b6507b",
+        "0x79daa18a",
+        "0x74856ca3",
+        "0x318fe562",
+        "0xd758f226",
+        "0x3fc04309"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xd136507b",
+        "0x795aa18a",
+        "0x74056ca3"
+      ]
+    },
+    {
+      "name": "seeded_bits_010",
+      "input_bits": [
+        "0xce55b684",
+        "0xb2d8b887",
+        "0x4ab4afce",
+        "0x892ef6cf",
+        "0x5cfac4e8",
+        "0xadcc7ddb"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xcdd5b684",
+        "0x5c7ac4e8",
+        "0x4a34afce"
+      ]
+    },
+    {
+      "name": "seeded_bits_011",
+      "input_bits": [
+        "0x653b5e09",
+        "0x699a15e3",
+        "0xb1716453",
+        "0x43407f8f",
+        "0xd009d7e9",
+        "0x7fbd8a68"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x64bb5e09",
+        "0x691a15e3",
+        "0x7ffd8a68"
+      ]
+    },
+    {
+      "name": "seeded_bits_012",
+      "input_bits": [
+        "0xd5637de2",
+        "0xbf3dffcc",
+        "0xc30e0210",
+        "0x96c0e45c",
+        "0x98699848",
+        "0x80d9a7ec"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xd4e37de2",
+        "0xbebdffcc",
+        "0xc28e0210"
+      ]
+    },
+    {
+      "name": "seeded_bits_013",
+      "input_bits": [
+        "0x8c58e2d7",
+        "0xc4476d36",
+        "0x965b454c",
+        "0x112581bc",
+        "0x965ce5be",
+        "0xe22d0ecf"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x10a54b83",
+        "0xc3c76d36",
+        "0xe1ad0ecf"
+      ]
+    },
+    {
+      "name": "seeded_bits_014",
+      "input_bits": [
+        "0xdde947b6",
+        "0xda4c6735",
+        "0x63c625d4",
+        "0x72a7c0ee",
+        "0xffb4e5db",
+        "0x534b5d4d"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x7227c0ee",
+        "0xfff4e5db",
+        "0x634625d4"
+      ]
+    },
+    {
+      "name": "seeded_bits_015",
+      "input_bits": [
+        "0xe394bef4",
+        "0x16bcf8b5",
+        "0x23ca52ce",
+        "0xf8826eaf",
+        "0xeb329257",
+        "0x0464446b"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf8026eaf",
+        "0xeab29257",
+        "0x234a52ce"
+      ]
+    },
+    {
+      "name": "seeded_bits_016",
+      "input_bits": [
+        "0xad3c7d99",
+        "0x7a650a09",
+        "0x3b0232e0",
+        "0x9d467d75",
+        "0x6e87b834",
+        "0xc0569f65"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xacbc7d99",
+        "0x79e50a0a",
+        "0xbfd67ed8"
+      ]
+    },
+    {
+      "name": "seeded_bits_017",
+      "input_bits": [
+        "0xf7cbc3d1",
+        "0xb16ccf83",
+        "0x78587b69",
+        "0x3336b6a2",
+        "0x49a36099",
+        "0x3fe5595a"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf74bc3d1",
+        "0x49236099",
+        "0x77d87b69"
+      ]
+    },
+    {
+      "name": "seeded_bits_018",
+      "input_bits": [
+        "0x80510fa0",
+        "0x1351c102",
+        "0x79b14acf",
+        "0x825230f1",
+        "0x81748f93",
+        "0x564656bc"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x81dc52e5",
+        "0x12d1c102",
+        "0x79314acf"
+      ]
+    },
+    {
+      "name": "seeded_bits_019",
+      "input_bits": [
+        "0xae89eaf5",
+        "0x1710737a",
+        "0xcefb42ef",
+        "0x44afabea",
+        "0x2446a6b9",
+        "0x00c1c3e7"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x442fabea",
+        "0x23c6a6b9",
+        "0xce7b42ef"
+      ]
+    },
+    {
+      "name": "seeded_bits_020",
+      "input_bits": [
+        "0xf07a6645",
+        "0xd831d2c3",
+        "0x2a9a443b",
+        "0xf58ddaad",
+        "0xbe558fad",
+        "0xfb2d7775"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf50df9fa",
+        "0xd7b1d2c3",
+        "0xfaad7775"
+      ]
+    },
+    {
+      "name": "seeded_bits_021",
+      "input_bits": [
+        "0x020ac083",
+        "0xcd9a3092",
+        "0x9bd2dbc8",
+        "0xf7a2c5d0",
+        "0x7a9a5a5b",
+        "0xb4dbc8d2"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf722c5d0",
+        "0x7a1a5a5b",
+        "0xb45bc8d2"
+      ]
+    },
+    {
+      "name": "seeded_bits_022",
+      "input_bits": [
+        "0xdaa6ac6b",
+        "0x4ab4efc1",
+        "0x4ffe4f5e",
+        "0x66e83f91",
+        "0xe0c6e207",
+        "0xfb7d5f13"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x66683f90",
+        "0xe046e207",
+        "0xfafd5f13"
+      ]
+    },
+    {
+      "name": "seeded_bits_023",
+      "input_bits": [
+        "0xc0e57b87",
+        "0x9467cf77",
+        "0xfb96ab40",
+        "0xc03e0020",
+        "0xa939d58d",
+        "0xb56d77f2"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xc0a23dcc",
+        "0xa8b9d58d",
+        "0xfb16ab40"
+      ]
+    },
+    {
+      "name": "seeded_bits_024",
+      "input_bits": [
+        "0xbf5d78d4",
+        "0x23a42543",
+        "0x16262a19",
+        "0x05b4b4a8",
+        "0xc660e070",
+        "0x9faa3325"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xbedd78d4",
+        "0xc5e0e070",
+        "0x9f2a3310"
+      ]
+    },
+    {
+      "name": "seeded_bits_025",
+      "input_bits": [
+        "0x5c882bab",
+        "0x22b0bbaf",
+        "0x4fc37bf2",
+        "0x457fb4c2",
+        "0x0f665506",
+        "0xa47e6f06"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x5c082bab",
+        "0x2230bbaf",
+        "0x4f437bf2"
+      ]
+    },
+    {
+      "name": "seeded_bits_026",
+      "input_bits": [
+        "0xdee3fc67",
+        "0x035ae07d",
+        "0xf1d0533a",
+        "0xc7f6bca0",
+        "0xfa7c0b82",
+        "0x6ffbc931"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xde63fc67",
+        "0xf9fc0b82",
+        "0xf14096a7"
+      ]
+    },
+    {
+      "name": "seeded_bits_027",
+      "input_bits": [
+        "0xcca9cd89",
+        "0x668c70e4",
+        "0x5f184e26",
+        "0x445c0611",
+        "0x2b44b95a",
+        "0xcc471934"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xcc29cd1b",
+        "0x660c70e4",
+        "0x5e984e26"
+      ]
+    },
+    {
+      "name": "seeded_bits_028",
+      "input_bits": [
+        "0x9e25009e",
+        "0xff298a28",
+        "0x53e74c2f",
+        "0x5cd1b444",
+        "0xf55102ed",
+        "0x22226576"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x5c51b444",
+        "0xfea98a35",
+        "0x53674c2f"
+      ]
+    },
+    {
+      "name": "seeded_bits_029",
+      "input_bits": [
+        "0x5bebed21",
+        "0xf50f34c7",
+        "0x9c486300",
+        "0x8e7f4d7b",
+        "0xcc8f2802",
+        "0x7084161f"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x5b6bed21",
+        "0xf48f34c7",
+        "0x7004161f"
+      ]
+    },
+    {
+      "name": "seeded_bits_030",
+      "input_bits": [
+        "0x3cbb5536",
+        "0xab45d5f5",
+        "0xcaf95181",
+        "0xadadd13b",
+        "0xd5943294",
+        "0x4b38f6f1"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x3c3b5536",
+        "0xd5143294",
+        "0x49f138c2"
+      ]
+    },
+    {
+      "name": "seeded_bits_031",
+      "input_bits": [
+        "0x95bd1387",
+        "0x97dc5acb",
+        "0x44b8f9fd",
+        "0x28a50e7a",
+        "0x7ec4854f",
+        "0xa071d47c"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x28250e7a",
+        "0x7e44854f",
+        "0x4438f9fd"
+      ]
+    },
+    {
+      "name": "seeded_bits_032",
+      "input_bits": [
+        "0x4da20390",
+        "0xd548725f",
+        "0xf4c3c8e7",
+        "0xc11704e1",
+        "0x719ee4d9",
+        "0x6a697247"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x4d220390",
+        "0x711ee4d9",
+        "0xf443c8e0"
+      ]
+    },
+    {
+      "name": "seeded_bits_033",
+      "input_bits": [
+        "0xb668d773",
+        "0x355ecb7c",
+        "0x519b87d7",
+        "0x820a5e1e",
+        "0xbcf522f6",
+        "0x667efd5e"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xb5e8d773",
+        "0xbc752138",
+        "0x65fefd5e"
+      ]
+    },
+    {
+      "name": "seeded_bits_034",
+      "input_bits": [
+        "0x5efd1544",
+        "0x022ca1d4",
+        "0xfd45d0b1",
+        "0xf8090e21",
+        "0x840da9ab",
+        "0x49f06ee1"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf7890e21",
+        "0x8382df8e",
+        "0xfcc5d0b1"
+      ]
+    },
+    {
+      "name": "seeded_bits_035",
+      "input_bits": [
+        "0xaf9d3f3c",
+        "0x21032d33",
+        "0x387f9fe3",
+        "0x30290d7c",
+        "0x58583b62",
+        "0xd6b7bd90"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x2f34dbbc",
+        "0x57d83b62",
+        "0xd637bd90"
+      ]
+    },
+    {
+      "name": "seeded_bits_036",
+      "input_bits": [
+        "0x10d4adf5",
+        "0x58c17438",
+        "0x31539615",
+        "0xbc8c46c2",
+        "0x074336d8",
+        "0xf99e12d0"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xbc0c46c2",
+        "0x58417438",
+        "0xf91e12d0"
+      ]
+    },
+    {
+      "name": "seeded_bits_037",
+      "input_bits": [
+        "0x78c40377",
+        "0xb4a46737",
+        "0x8044321b",
+        "0xcee12caa",
+        "0x52c6b9f9",
+        "0xd895b8f4"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x78440377",
+        "0x5246b9f9",
+        "0xd815b8f4"
+      ]
+    },
+    {
+      "name": "seeded_bits_038",
+      "input_bits": [
+        "0xbd9f51f1",
+        "0xb9e729dc",
+        "0xf54d2503",
+        "0xa1c103f2",
+        "0xe997c93a",
+        "0x7308cf22"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xbd1f51f1",
+        "0xe917c93a",
+        "0xf4c49811"
+      ]
+    },
+    {
+      "name": "seeded_bits_039",
+      "input_bits": [
+        "0x11e65b87",
+        "0x28d3b954",
+        "0x217dfaaf",
+        "0xe0a28c40",
+        "0x295692af",
+        "0x489f3caf"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe0228c40",
+        "0x292037ac",
+        "0x481f3caf"
+      ]
+    },
+    {
+      "name": "seeded_bits_040",
+      "input_bits": [
+        "0x28da6e5a",
+        "0x257c7dd2",
+        "0x276b33d9",
+        "0x186e54da",
+        "0xed05e659",
+        "0xa07859df"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x285a6e5a",
+        "0xec85e659",
+        "0x26eb2ff8"
+      ]
+    },
+    {
+      "name": "seeded_bits_041",
+      "input_bits": [
+        "0xdab66a12",
+        "0x19b096ec",
+        "0xc1357976",
+        "0x50f5cc6b",
+        "0xb0dddab5",
+        "0x64b6684d"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xda366a03",
+        "0xb05ddab5",
+        "0x6436684d"
+      ]
+    },
+    {
+      "name": "seeded_bits_042",
+      "input_bits": [
+        "0x7df01cf9",
+        "0xa8b2087a",
+        "0xab8ddd28",
+        "0xa3f6f40a",
+        "0xbe28e780",
+        "0x45467012"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x7d701cf9",
+        "0xbda8e780",
+        "0x44c67012"
+      ]
+    },
+    {
+      "name": "seeded_bits_043",
+      "input_bits": [
+        "0x90a28823",
+        "0x21cd24ba",
+        "0x1c66abfe",
+        "0xb058fc67",
+        "0x9b03cd02",
+        "0x0e9c234e"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xafd8fc67",
+        "0x214d209c",
+        "0x1be6abfe"
+      ]
+    },
+    {
+      "name": "seeded_bits_044",
+      "input_bits": [
+        "0x390909cd",
+        "0x1fb3c1bf",
+        "0x7f8923ef",
+        "0xe3837abb",
+        "0xc310d216",
+        "0x95b2d48d"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe3037abb",
+        "0xc290d216",
+        "0x7fc923ef"
+      ]
+    },
+    {
+      "name": "seeded_bits_045",
+      "input_bits": [
+        "0x98b32c10",
+        "0x3cc4e172",
+        "0x98f8808b",
+        "0xbaafde2b",
+        "0x5020db93",
+        "0x7cfa0797"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xba2fde2b",
+        "0x4fa0db93",
+        "0x7c7a0797"
+      ]
+    },
+    {
+      "name": "seeded_bits_046",
+      "input_bits": [
+        "0xe597a16d",
+        "0x8e74e38d",
+        "0x26f2c7a7",
+        "0x8846f9cd",
+        "0x5a0df8bb",
+        "0xefb21ab6"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe517a16d",
+        "0x598df8bb",
+        "0xef321ab6"
+      ]
+    },
+    {
+      "name": "seeded_bits_047",
+      "input_bits": [
+        "0x9475e392",
+        "0xeb846dc1",
+        "0xf0b41529",
+        "0xf7e5b84c",
+        "0xea216659",
+        "0x6cffaba5"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf765b84c",
+        "0xeb189a8c",
+        "0xf033157d"
+      ]
+    },
+    {
+      "name": "seeded_bits_048",
+      "input_bits": [
+        "0x64ed9f61",
+        "0x57d7697e",
+        "0xb217b5b1",
+        "0xa7acd405",
+        "0x4b9fe86f",
+        "0xf50385fa"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x646d9f61",
+        "0x5757697f",
+        "0xf48385fa"
+      ]
+    },
+    {
+      "name": "seeded_bits_049",
+      "input_bits": [
+        "0xe417ad8f",
+        "0xf981118d",
+        "0x111e0b2e",
+        "0x83ae244c",
+        "0x0d78836f",
+        "0x3274b910"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe397ad8f",
+        "0xf901118d",
+        "0x31f4b910"
+      ]
+    },
+    {
+      "name": "seeded_bits_050",
+      "input_bits": [
+        "0xcf3805da",
+        "0xc5cd127e",
+        "0x55e38baf",
+        "0xc4b5b081",
+        "0x5138a25d",
+        "0x4b007b91"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xceb805e0",
+        "0x50b8a25b",
+        "0x55638bb3"
+      ]
+    },
+    {
+      "name": "seeded_bits_051",
+      "input_bits": [
+        "0x76a22725",
+        "0xbf964795",
+        "0x739ad83b",
+        "0x04466325",
+        "0xbba3e283",
+        "0x45022862"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x76222725",
+        "0xbf16eb78",
+        "0x731ad83b"
+      ]
+    },
+    {
+      "name": "seeded_bits_052",
+      "input_bits": [
+        "0x72a3821b",
+        "0xcc695eec",
+        "0x0554e2f3",
+        "0x88492965",
+        "0xb552001a",
+        "0x11971f88"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x7223821b",
+        "0xcbe95eec",
+        "0x11171f88"
+      ]
+    },
+    {
+      "name": "seeded_bits_053",
+      "input_bits": [
+        "0xc20946a5",
+        "0x0dcfa1f1",
+        "0xf0a354c7",
+        "0x9dbb8229",
+        "0x4ef89300",
+        "0xa15c04c1"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xc18946a5",
+        "0x4e789300",
+        "0xf02354c7"
+      ]
+    },
+    {
+      "name": "seeded_bits_054",
+      "input_bits": [
+        "0x91cd0ba9",
+        "0x64641914",
+        "0x61c75b0b",
+        "0x723c9fa3",
+        "0x8951c560",
+        "0x9bb7d25f"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x71bc9fa3",
+        "0x63e41914",
+        "0x61475b0b"
+      ]
+    },
+    {
+      "name": "seeded_bits_055",
+      "input_bits": [
+        "0x54eef2b6",
+        "0xb4aa7b7c",
+        "0x884ca575",
+        "0x904f418b",
+        "0x87fd449d",
+        "0x3ce603c5"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x546ef2b6",
+        "0xb42a7b7c",
+        "0x3c6603c5"
+      ]
+    },
+    {
+      "name": "seeded_bits_056",
+      "input_bits": [
+        "0xbfcac646",
+        "0x2c2db632",
+        "0x42da354d",
+        "0xc64cdcad",
+        "0x14930636",
+        "0xeb162404"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xc5cce303",
+        "0x2badb632",
+        "0xea962404"
+      ]
+    },
+    {
+      "name": "seeded_bits_057",
+      "input_bits": [
+        "0xe3abe143",
+        "0x4f2b5638",
+        "0x029268aa",
+        "0x3cfe6f84",
+        "0x1aee6957",
+        "0x2dec330a"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe32be143",
+        "0x4eab5638",
+        "0x2d6c330a"
+      ]
+    },
+    {
+      "name": "seeded_bits_058",
+      "input_bits": [
+        "0x99eedab5",
+        "0x700b23a6",
+        "0x3549f1ca",
+        "0x42f76e72",
+        "0x1ed41a41",
+        "0xee3ab67a"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x42776e72",
+        "0x6f8b23a6",
+        "0xedbab67a"
+      ]
+    },
+    {
+      "name": "seeded_bits_059",
+      "input_bits": [
+        "0x14abf8fc",
+        "0x974c5867",
+        "0x1a055cbd",
+        "0x33f716a7",
+        "0xb2630129",
+        "0xcede8794"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x337716a7",
+        "0xb1e30129",
+        "0xce5e8794"
+      ]
+    },
+    {
+      "name": "seeded_bits_060",
+      "input_bits": [
+        "0xcf194853",
+        "0x129c79f6",
+        "0xa70b7cb6",
+        "0x6321a45c",
+        "0xb9c5ba01",
+        "0x4c861539"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x62a1a45c",
+        "0xb945ba01",
+        "0x4c061539"
+      ]
+    },
+    {
+      "name": "seeded_bits_061",
+      "input_bits": [
+        "0x69bf27a6",
+        "0xe4ea5cbe",
+        "0xae0157b4",
+        "0x9eb91778",
+        "0x56df4d09",
+        "0x04690941"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x693f27a6",
+        "0xe46a5cbe",
+        "0xad8157b4"
+      ]
+    },
+    {
+      "name": "seeded_bits_062",
+      "input_bits": [
+        "0x464cc24d",
+        "0xc34dd896",
+        "0x2594c9e3",
+        "0xf96dd9f7",
+        "0x9ceea8f4",
+        "0x69ecfbdf"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf8edd9f7",
+        "0xc2cdd896",
+        "0x696cfbdf"
+      ]
+    },
+    {
+      "name": "seeded_bits_063",
+      "input_bits": [
+        "0x35042c12",
+        "0xa2cfc588",
+        "0x49a65e04",
+        "0x622f196c",
+        "0x76f4b6a0",
+        "0x76300ca5"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x61af196c",
+        "0x7674b6a0",
+        "0x75b00ca5"
+      ]
+    },
+    {
+      "name": "seeded_bits_064",
+      "input_bits": [
+        "0x27ce62d0",
+        "0x664f5e9d",
+        "0xf0412101",
+        "0xe74b8227",
+        "0xcf164748",
+        "0x85353273"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe6cb8227",
+        "0x65cf5e9d",
+        "0xefc12101"
+      ]
+    },
+    {
+      "name": "seeded_bits_065",
+      "input_bits": [
+        "0x7c3e4c27",
+        "0x0abbe64e",
+        "0x5a182e41",
+        "0x68c4ca57",
+        "0x62b36a4a",
+        "0xece2c2da"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x7bbe4c27",
+        "0x62336a4a",
+        "0xec62c2da"
+      ]
+    },
+    {
+      "name": "seeded_bits_066",
+      "input_bits": [
+        "0xf5b3c9f5",
+        "0x8e5f4f51",
+        "0x652c6924",
+        "0xd9458ee4",
+        "0xd74629e8",
+        "0xda566ba8"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xf533c9f5",
+        "0xd6c629e8",
+        "0x64ac6921"
+      ]
+    },
+    {
+      "name": "seeded_bits_067",
+      "input_bits": [
+        "0x489f0776",
+        "0x8bdd7906",
+        "0x735d08d9",
+        "0x2e673293",
+        "0xe0f4a811",
+        "0x3db3ee43"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x481f0776",
+        "0xe074a811",
+        "0x72dd08d9"
+      ]
+    },
+    {
+      "name": "seeded_bits_068",
+      "input_bits": [
+        "0x729b0e20",
+        "0xdeebb5a5",
+        "0x28059712",
+        "0x738d0e6b",
+        "0x2064cb35",
+        "0x157311dc"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x7333d1f3",
+        "0xde6bb5a5",
+        "0x27859712"
+      ]
+    },
+    {
+      "name": "seeded_bits_069",
+      "input_bits": [
+        "0x4e13ccdd",
+        "0x40bb14ee",
+        "0x76d794e9",
+        "0x27f9bb4c",
+        "0x05f3467c",
+        "0x22e92ca8"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x4d93ccdd",
+        "0x403b14ee",
+        "0x765794e9"
+      ]
+    },
+    {
+      "name": "seeded_bits_070",
+      "input_bits": [
+        "0x27e624b7",
+        "0x624e8be8",
+        "0x302d0d0a",
+        "0xa80164cc",
+        "0x082af1a5",
+        "0x9684e092"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xa5e52708",
+        "0x61ce8be8",
+        "0x2fad0d0a"
+      ]
+    },
+    {
+      "name": "seeded_bits_071",
+      "input_bits": [
+        "0x318ab85c",
+        "0xc72ab919",
+        "0x097a5538",
+        "0x5216ff35",
+        "0xa5c66e63",
+        "0xbe2aed8f"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x5196ff35",
+        "0xc6aab919",
+        "0xbdaaed8f"
+      ]
+    },
+    {
+      "name": "seeded_bits_072",
+      "input_bits": [
+        "0xdae8f332",
+        "0x29c551d8",
+        "0x5c1353c8",
+        "0x4873f085",
+        "0x3c13b6e4",
+        "0xdfead7a0"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xda68f332",
+        "0x3b93b6e4",
+        "0xdf69b0f8"
+      ]
+    },
+    {
+      "name": "seeded_bits_073",
+      "input_bits": [
+        "0x2c012208",
+        "0xed7e7a44",
+        "0x7c6936b0",
+        "0x74290554",
+        "0xd4f958a3",
+        "0x6b93606b"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x73a90554",
+        "0xecfe7a44",
+        "0x7be936b0"
+      ]
+    },
+    {
+      "name": "seeded_bits_074",
+      "input_bits": [
+        "0x06131842",
+        "0xc0026b22",
+        "0xa73627b2",
+        "0x39318248",
+        "0xdc46e6f7",
+        "0xcad797ae"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x38b18248",
+        "0xdbc6e6f7",
+        "0xca5797ae"
+      ]
+    },
+    {
+      "name": "seeded_bits_075",
+      "input_bits": [
+        "0xcf217e7f",
+        "0x129f2489",
+        "0xb54be2ce",
+        "0xe5e11538",
+        "0x5e87ce33",
+        "0xc87d75d1"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe5611538",
+        "0x5e07ce33",
+        "0xc7fd75d1"
+      ]
+    },
+    {
+      "name": "seeded_bits_076",
+      "input_bits": [
+        "0xaba1fd87",
+        "0xf1bdc102",
+        "0xe65c02b5",
+        "0x26a0cdd7",
+        "0xf471b284",
+        "0xf32a358d"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xab21d554",
+        "0xf3f7a08c",
+        "0xf2aa358d"
+      ]
+    },
+    {
+      "name": "seeded_bits_077",
+      "input_bits": [
+        "0x788a766b",
+        "0xf09a6855",
+        "0xa73b9997",
+        "0xf4df10d2",
+        "0x314b14e8",
+        "0xa8d01ce5"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x7809975a",
+        "0xf01a6855",
+        "0xa8679018"
+      ]
+    },
+    {
+      "name": "seeded_bits_078",
+      "input_bits": [
+        "0xde111738",
+        "0xf15705ff",
+        "0x1bbf0bff",
+        "0x374aede0",
+        "0xc44d3756",
+        "0x8fbcaa23"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xdd911738",
+        "0xf0d705ff",
+        "0x1b3f0bfe"
+      ]
+    },
+    {
+      "name": "seeded_bits_079",
+      "input_bits": [
+        "0x09231a37",
+        "0x80345d63",
+        "0xb3416612",
+        "0x916a995d",
+        "0xff3df0cb",
+        "0xf182e28b"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x90ea98ba",
+        "0xfebdf0cb",
+        "0xf102e28b"
+      ]
+    },
+    {
+      "name": "seeded_bits_080",
+      "input_bits": [
+        "0xa40cc4d3",
+        "0x290336a6",
+        "0x1834a2b1",
+        "0x4ec12b7b",
+        "0xab3a52c4",
+        "0xb9abacf1"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x4e412b7b",
+        "0xaab21f5a",
+        "0xb92bacf1"
+      ]
+    },
+    {
+      "name": "seeded_bits_081",
+      "input_bits": [
+        "0xc32e80a0",
+        "0x4f73adf0",
+        "0x967edcb4",
+        "0xe4808ae5",
+        "0xb103664e",
+        "0x3e2f0eef"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe4008ae5",
+        "0x4ef3adf0",
+        "0x3daf0eef"
+      ]
+    },
+    {
+      "name": "seeded_bits_082",
+      "input_bits": [
+        "0x2ba5ff92",
+        "0xda765c8b",
+        "0x38b18a78",
+        "0x5a858a82",
+        "0x7df24860",
+        "0xad94b781"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x5a058a82",
+        "0x7d724860",
+        "0x38318a76"
+      ]
+    },
+    {
+      "name": "seeded_bits_083",
+      "input_bits": [
+        "0x22a59768",
+        "0xedf85067",
+        "0x966ef762",
+        "0xb845fd7f",
+        "0x7beb7dcf",
+        "0xc87eb18a"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xb7c5fd7f",
+        "0x7b6b7dcf",
+        "0xc7feb18a"
+      ]
+    },
+    {
+      "name": "seeded_bits_084",
+      "input_bits": [
+        "0x591af53f",
+        "0xadc34725",
+        "0x36cb5cb5",
+        "0x167d2d62",
+        "0x81802436",
+        "0xc323b880"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x589af53f",
+        "0xad434725",
+        "0xc2a3b880"
+      ]
+    },
+    {
+      "name": "seeded_bits_085",
+      "input_bits": [
+        "0x9c765908",
+        "0x250af6e6",
+        "0xff91bcf3",
+        "0xfd2856b8",
+        "0x5f98dcbc",
+        "0x788b7a39"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xfca856b8",
+        "0x5f18dcbc",
+        "0xffd1bcf3"
+      ]
+    },
+    {
+      "name": "seeded_bits_086",
+      "input_bits": [
+        "0x2b7a0aba",
+        "0x7a10ab01",
+        "0x4cf7290e",
+        "0xa0de83b8",
+        "0x1fd53383",
+        "0xb7e06683"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x2afa0ab3",
+        "0x7990ab01",
+        "0x4c77290e"
+      ]
+    },
+    {
+      "name": "seeded_bits_087",
+      "input_bits": [
+        "0xb8731210",
+        "0xe688624d",
+        "0x1ae2b632",
+        "0x3b8f6409",
+        "0x9080dd2d",
+        "0xba8fd7be"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x3b0d7de5",
+        "0xe608624d",
+        "0xba0fd7be"
+      ]
+    },
+    {
+      "name": "seeded_bits_088",
+      "input_bits": [
+        "0xc5dfa183",
+        "0xfdc49644",
+        "0x57259d36",
+        "0x614916ac",
+        "0x244bf6c9",
+        "0x8d16aef2"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x60c916ac",
+        "0xfd449644",
+        "0x56a59d36"
+      ]
+    },
+    {
+      "name": "seeded_bits_089",
+      "input_bits": [
+        "0xc71b317d",
+        "0x824e1967",
+        "0xb0a928b2",
+        "0xd7497b14",
+        "0x92e175f6",
+        "0x5938ac2b"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xd6c97b14",
+        "0x926175f6",
+        "0x58b8ac2b"
+      ]
+    },
+    {
+      "name": "seeded_bits_090",
+      "input_bits": [
+        "0x9923c452",
+        "0x93f63eba",
+        "0x3dcff8ac",
+        "0x8ddfd4b2",
+        "0xe06aba7c",
+        "0x4e3a3619"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x98a3c454",
+        "0xdfeaba7c",
+        "0x4dba3619"
+      ]
+    },
+    {
+      "name": "seeded_bits_091",
+      "input_bits": [
+        "0x305f7ea4",
+        "0x5e8e99fc",
+        "0xb7e1311a",
+        "0xae14dfd5",
+        "0x96c1cdf6",
+        "0x1d9cff31"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x2fd630a7",
+        "0x5e0e99fc",
+        "0xb761311a"
+      ]
+    },
+    {
+      "name": "seeded_bits_092",
+      "input_bits": [
+        "0xe3e52151",
+        "0xeb9db3f5",
+        "0x4c1029d0",
+        "0xc77e9fa8",
+        "0x44dc5708",
+        "0x5a153874"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xe3652151",
+        "0xeb1db3f5",
+        "0x59953874"
+      ]
+    },
+    {
+      "name": "seeded_bits_093",
+      "input_bits": [
+        "0x2f8ffd2b",
+        "0x250a1836",
+        "0x14476fb9",
+        "0x2fc6d7b0",
+        "0xca28a35e",
+        "0x3604e31b"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x2fab6a6e",
+        "0xc9a8a35e",
+        "0x3584e31b"
+      ]
+    },
+    {
+      "name": "seeded_bits_094",
+      "input_bits": [
+        "0xc2606a2e",
+        "0x45046e29",
+        "0x36aaa020",
+        "0x278c0c08",
+        "0xbcde841c",
+        "0x9033c027"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0xc1e06a2e",
+        "0x44846dba",
+        "0x362aa020"
+      ]
+    },
+    {
+      "name": "seeded_bits_095",
+      "input_bits": [
+        "0xa0ac630f",
+        "0x9ddb8501",
+        "0xdb9d3dfa",
+        "0x3eb6152d",
+        "0xc1aac97f",
+        "0x3ef3c5f1"
+      ],
+      "matches": true,
+      "set_position_center_bits": [
+        "0x3e36152d",
+        "0xc12ac97f",
+        "0xdb1d3dfa"
+      ]
+    }
+  ]
+}

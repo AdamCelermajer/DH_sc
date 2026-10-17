@@ -1,0 +1,53 @@
+{
+  "validation": "PASS",
+  "comparisons": 5200,
+  "ordered_services": 12683,
+  "failure_reentry_guards": 12,
+  "mismatches": 0,
+  "sanitizer_findings": 0,
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "source_sha256": {
+    "viewport.hpp": "372e0a5aa123edf40c2a7ec6a0d9ae2f97a8af891f05f5dbd9996aaabb51ffd5",
+    "viewport.cpp": "ba2ccdba830d992463f1f61bc02501fb5d7fff65b2c4b246ca5df490e3758ba9",
+    "tests\\viewport.cpp": "6e5ce43ad41e5b136d5c3565b1e9f3ddc254c3218e92b5f02bc779d873eb1cfc"
+  },
+  "gold_sha256": "ba12fd0e90048d62c1dad24c5a011210538c0d39d7cc6126c70eedc9e4742e29",
+  "executable": "/tmp/dh2-source-viewport-2026-10-05/viewport-audit",
+  "executable_sha256": "b71ba2dacd05e46b07af64c6a0e0bc4b627a3a9aaa5808da398edcb575eea233",
+  "compile_command": [
+    "wsl",
+    "-d",
+    "Ubuntu-22.04",
+    "-e",
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-I/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/viewport.cpp",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/tests/viewport.cpp",
+    "-o",
+    "/tmp/dh2-source-viewport-2026-10-05/viewport-audit"
+  ],
+  "compiler_provenance": true,
+  "dependency_inventory": "\tlinux-vdso.so.1 (0x00007ffff1ea0000)\n\tlibasan.so.6 => /lib/x86_64-linux-gnu/libasan.so.6 (0x0000738ad1a00000)\n\tlibstdc++.so.6 => /lib/x86_64-linux-gnu/libstdc++.so.6 (0x0000738ad1600000)\n\tlibm.so.6 => /lib/x86_64-linux-gnu/libm.so.6 (0x0000738ad2400000)\n\tlibubsan.so.1 => /lib/x86_64-linux-gnu/libubsan.so.1 (0x0000738ad0e00000)\n\tlibgcc_s.so.1 => /lib/x86_64-linux-gnu/libgcc_s.so.1 (0x0000738ad19e0000)\n\tlibc.so.6 => /lib/x86_64-linux-gnu/libc.so.6 (0x0000738ad0a00000)\n\t/lib64/ld-linux-x86-64.so.2 (0x0000738ad2530000)\n",
+  "runner_sha256": "9965ba8c8c25d373f9ebb49c53dd3227ea8ca61af0f0e840ae5ab4f04f6001aa",
+  "limits": {
+    "gpu_pixels": false,
+    "whole_menu_camera_owner": false,
+    "original_as_object_publication": false,
+    "driver_orientation_producer": false,
+    "original_weak_player_ownership": false
+  },
+  "scope": "Real original-gold coupled viewport arithmetic/state/services; required provider failures and synchronous publication reentry are native guards."
+}

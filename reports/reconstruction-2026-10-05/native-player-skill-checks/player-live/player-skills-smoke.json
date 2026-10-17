@@ -1,0 +1,218 @@
+{
+  "validation": "PASS",
+  "scope": "Live native Player preparation, optional saved-skill/property/check integration and original framework cooldown shell fixture. Full Player AIS/profile/starter grant/skill activation/combat loop remains unfinished.",
+  "apk_sha256": "8fad77165f2c0a254794991c3300149fe5a4b02a250d4d053bc49b6c332b05b2",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "6e90bfdb49f1e8dd4c666d948696e3da17f05f96d277814cc8e3d7e3c8e2be67",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "744c64e9731c990990e3ff803f1b7d71dbcffaf13cf4669491a2c3c3374f6bdd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "045d6aa7a71a956bd16c6fbbb87b55be192e60df1d31f749731981ad4af903fb",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "b0f1f78e68a6045b91360cc1ba88ba2bca3724fbe3213e91227120771ad3a0b0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "e376aad907f47803a1ba527f7d29584819a3e01e69e3db1d4cd87ecacf34bb11",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "b776ac4593c61ff126fd507dc3ef5b1f4e92a7581647241ff5bc140d97d3327f",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "serial": "emulator-5558",
+  "api": 37,
+  "page_size": 16384,
+  "abi": "x86_64",
+  "packaged_original_resources_verified": 34,
+  "initial": {
+    "source_skill_slots": 16,
+    "source_faery_slots": 5,
+    "nonnull_instances": 13,
+    "source_paths": 15,
+    "source_declaration_calls": 26,
+    "completed_knight_updates": 8,
+    "update_boundary": "GetCurrentSpellInfo",
+    "saved_skill_rows": 16,
+    "update_vm_status": -5,
+    "full_skill_update_complete": false
+  },
+  "screenshots": [
+    {
+      "file": "player-skills-initial.png",
+      "sha256": "4787a4136683fb66c350713b952664dab289a9985ff2436e810b316b871251dd"
+    },
+    {
+      "file": "player-skills-restored.png",
+      "sha256": "0f0074aeab9b0616fd605a98a749f7e9065528fe3c874ac8adf9d0b568fb5b05"
+    }
+  ],
+  "skill_checks": [
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6976,
+      "SnS_Level": 0,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_combat_master",
+      "slot": 7,
+      "saved_level": 0,
+      "usable": 0,
+      "active": 1,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6976,
+      "SnS_Level": 0,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6976,
+      "SnS_Level": 0,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6976,
+      "SnS_Level": 0,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6976,
+      "SnS_Level": 0,
+      "temporary_mana_cost": 1024
+    }
+  ],
+  "cooldown_fixture": {
+    "script": "prince_warrior_bashdown",
+    "slot": 0,
+    "field18": 0,
+    "native_timer_id": 0,
+    "duration_ms": 12000,
+    "full_skill_use": false
+  },
+  "restore": {
+    "same_process": "8419",
+    "same_vm": "0x71e3f8236350",
+    "reload_and_rotation": true,
+    "preparation_count": 1,
+    "blocked_update_attempts": 1
+  },
+  "cooldown_expiry": {
+    "callback_count": 1,
+    "slot0_field18": -1,
+    "same_native_timer_id": 0
+  },
+  "cooldown_rearm_verified": true,
+  "log_sha256": "0e801f57c016ff9bd88d5aef4db66155b92bd469d0d6f7899f88a4b066d1560f"
+}

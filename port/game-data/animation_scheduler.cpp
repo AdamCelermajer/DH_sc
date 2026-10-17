@@ -49,7 +49,14 @@ bool AnimationScheduler::activate_with_services(const AnimationTables& table,std
  if(step.redir==1)return enter_with_services(table,step.anim,stack.size(),random,enabled,services);
  if(step.redir!=0||step.anim<0)throw std::runtime_error("Animation scheduler has no clip");
  current=step;playing=true;
- return !services.prepare||services.prepare(services.context,*this);
+ if(services.prepare&&!services.prepare(services.context,*this))return false;
+ // The selected frame index is already stored, and prepare has now installed
+ // its active playback slot. This callback is separate from the preceding
+ // selection event 0x26 and from Character::RaiseEvent(38).
+ if(services.frame_step&&
+    !services.frame_step(services.context,*this,index,static_cast<std::uint32_t>(sequence.steps.size())))
+  throw std::runtime_error("Animation frame-step observer rejected the selected source step");
+ return true;
 }
 bool AnimationScheduler::start_with_services(const AnimationTables& table,std::int32_t id,AnimationRandom& random,
                                             std::string& error,const AnimationSelectionServices& services,bool enabled){
@@ -78,7 +85,7 @@ bool AnimationScheduler::complete_with_services(const AnimationTables& table,Ani
  error.clear();
  auto emit=[&](std::uint32_t event){if(services.event)services.event(services.context,*this,event);};
  auto finish=[&](){return !services.finish||services.finish(services.context,*this);};
- if(stack.empty())return finish();
+ if(stack.empty()||!playing)return finish();
  try{
   std::function<bool(std::size_t)> update=[&](std::size_t depth)->bool{
    if(depth>=stack.size())throw std::runtime_error("Animation completion stack disappeared");
@@ -88,13 +95,18 @@ bool AnimationScheduler::complete_with_services(const AnimationTables& table,Ani
    const auto type=sequence.type;const auto count=sequence.steps.size();
    if(!count||count>10000)throw std::runtime_error("Animation completion has invalid state");
    emit(0x27);
+   // ANIM_Stop can run synchronously from a Character animation event. Its
+   // root-depth reset and controller stop abort this stale completion pass.
+   if(!playing)return finish();
    if(depth>=stack.size())throw std::runtime_error("Animation completion callback replaced its stack");
    const bool skip_end_event=type==1&&stack[depth].step+1!=count;
    if(!skip_end_event)emit(0x25);
+   if(!playing)return finish();
    if(depth>=stack.size())throw std::runtime_error("Animation completion callback replaced its stack");
    if(type==1)++stack[depth].step;
    if(type==1&&stack[depth].step<count){
     emit(0x23);
+    if(!playing)return finish();
     if(services.selection){if(!activate_with_services(table,stack.back().step,random,enabled,*services.selection))return false;}
     else {activate(table,random,enabled);if(services.prepare&&!services.prepare(services.context,*this))return false;}
     return finish();
@@ -111,6 +123,7 @@ bool AnimationScheduler::complete_with_services(const AnimationTables& table,Ani
    }
    if(stack[depth].loops>0)--stack[depth].loops;
    emit(0x23);
+   if(!playing)return finish();
    // Repeat differs from ordinary sequential advance: a queued ANIM_Set skips
    // old Initialize, including RNG and old PlayClip/NewAnim side effects.
    if(!services.has_pending||!services.has_pending(services.context)){

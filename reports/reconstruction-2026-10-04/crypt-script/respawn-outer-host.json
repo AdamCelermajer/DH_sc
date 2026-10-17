@@ -1,0 +1,35 @@
+{
+  "validation": "PASS",
+  "executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-respawn-outer-root-final\\test.exe",
+  "host_report": {
+    "character_respawn_outer_cases": 29,
+    "property_id": 11,
+    "group_kernel_reused": true,
+    "suppression_skips_property": true,
+    "rejected_property_skips_group": true,
+    "arm_signed_shift_and_mul": true,
+    "outer_alias_bounds_checked": true,
+    "hosting_timer_policy_wired": false,
+    "mismatches": 0
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_respawn_outer.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_respawn_outer.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_group_respawn.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-respawn-outer-root-final\\test.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/tests/character_respawn_outer.cpp": "681dd1383e4ff2e2b6239b8bc5e33ba16e97bde34c2af403828fd7c2df852ec1",
+    "port/level-world/character_respawn_outer.cpp": "0ba762b065907ad4dcbef038e9035c2296de5576d76fca01e6dbf768658e4839",
+    "port/level-world/character_group_respawn.cpp": "d3343a8d1f8c73686b75eb315e8fc207d5871e14b1153b42b8e43929f66a3779"
+  },
+  "group_kernel_reused": true,
+  "hosting_and_limbus_timer_policy_wired": false
+}

@@ -1,5 +1,10 @@
 # Reconstructed resource-loading checkpoint
 
+Imported [split-reader and block/fixup research](../../docs/BRANCH-AUDIT-2026-10-05.md)
+adds evidence and read-only census tools. Its reader-context C++ candidate is
+still unmerged and untested against the original initializer; the verified
+implementation scope below remains unchanged.
+
 This module adds buildable C++ for **35 complete original function bodies**: 11 memory-reader methods, eight subfile-reader methods, and 16 Collada database accessors. It also reconstructs the **whole-buffer branch** of `glitch::res::File::Init()`, exposing immutable BRES offset views for ARM64. The other branches of that function, original object ownership/constructors, nested resource schemas, mesh construction and rendering remain unfinished. This component is not a complete engine or game.
 
 `original-functions.json` maps every translated body to its original mangled symbol, address, size and machine-code SHA-256. `reference/original-functions.asm` contains the complete original ranges, including the still-unimplemented branches of `File::Init()`. The interfaces in `resources.hpp` are independently reconstructed port interfaces; they are not the original studio headers or a replacement ABI for the existing ARM32 library.

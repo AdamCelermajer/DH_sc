@@ -1,48 +1,67 @@
 #pragma once
+
 #include "data.hpp"
-#include <memory>
+
 namespace dh2::data {
-struct SkillProjection76 {std::uint32_t words[19];};
-struct SkillSpan16 {const std::uint8_t* data;std::uint32_t bytes,reserved;};
-struct SkillSpans48 {SkillSpan16 display,script,icon;};
-struct SkillSummary16 {std::uint32_t lists,skills,list_end,records_end;};
-static_assert(sizeof(SkillProjection76)==76&&sizeof(SkillSpan16)==16&&sizeof(SkillSpans48)==48);
-// Header and three source pointer words are zero in the scalar projection;
-// vector counts/string lengths and raw bool bytes remain exact. All dynamic
-// payloads are owned separately and retain embedded NUL/string suffix bytes.
-struct SkillRecord {SkillProjection76 scalar;std::vector<std::int32_t> display_props;
- std::string script,icon;};
-class SkillTables {
- struct Snapshot;std::shared_ptr<const Snapshot> snapshot_;
-public:
- class Borrow {
-  friend class SkillTables;std::shared_ptr<const Snapshot> snapshot_;
-  explicit Borrow(std::shared_ptr<const Snapshot> p):snapshot_(std::move(p)){}
- public:
-  Borrow()=default;explicit operator bool()const noexcept{return bool(snapshot_);}
-  const std::vector<std::vector<std::int32_t>>& lists()const;
-  const std::vector<SkillRecord>& skills()const;
-  const std::vector<std::string>& list_names()const;
-  const std::vector<std::string>& skill_names()const;
-  const std::vector<std::string>& list_fields()const;
-  const std::vector<std::string>& skill_fields()const;
-  std::int32_t list_index(const char*)const;std::int32_t skill_index(const char*)const;
-  std::int32_t list_field(const char*)const;std::int32_t skill_field(const char*)const;
-  std::size_t list_table_consumed()const;std::size_t records_consumed()const;
-  std::size_t names_consumed()const;std::size_t schema_consumed()const;
- };
- // Complete first SkillList and following Skill table plus two name/schema
- // blocks. No synthesized IDs/defaults/reference rewriting. Error is atomic;
- // reload is denied while a Borrow pins. Suffixes are left for their owner.
- bool load(Bytes records,Bytes names,Bytes schema,std::string& error);
- Borrow borrow()const{return Borrow(snapshot_);}
+
+struct IntegerListRow {
+    std::string name;
+    std::vector<std::int32_t> members;
 };
-}
-// 0success/1malformed, atomic outputs. Input may be unaligned; outputs must be
-// aligned and disjoint from inputs/each other. Dynamic spans borrow input bytes.
-extern "C" unsigned dh2_skill_decode_record(dh2::data::SkillProjection76*,
- dh2::data::SkillSpans48*,std::uint32_t* used,const std::uint8_t*,std::uint32_t);
-extern "C" unsigned dh2_skill_decode_list(dh2::data::SkillSpan16*,std::uint32_t* used,
- const std::uint8_t*,std::uint32_t);
-extern "C" unsigned dh2_skill_tables_measure(dh2::data::SkillSummary16*,
- const std::uint8_t*,std::uint32_t);
+
+// Owned projection of the serialized Skill record. `script_length` and
+// `skill_icon_length` preserve the source length words independently from
+// their host-owned byte strings. No ARM32 pointer or object layout is exposed.
+struct SkillRow {
+    std::string table_name;
+    std::int32_t anim = 0;
+    bool anim_is_moving = false;
+    std::vector<std::int32_t> display_props;
+    std::int32_t elemental_type = 0;
+    bool fairie_dependant_text = false;
+    std::int32_t flags = 0;
+    std::int32_t level = 0;
+    std::int32_t script_length = 0;
+    std::string script;
+    bool skill_assignable = false;
+    std::int32_t skill_curr_level = 0;
+    std::int32_t skill_description = 0;
+    std::int32_t skill_icon_length = 0;
+    std::string skill_icon;
+    std::int32_t skill_name = 0;
+    std::int32_t skill_next_level = 0;
+    std::int32_t type = 0;
+};
+
+// Serialized `Name` is a signed source selector, not a pointer. The row's
+// readable table name is kept separately as `table_name`.
+struct FaeryRow {
+    std::string table_name;
+    std::int32_t description = 0;
+    std::int32_t elemental = 0;
+    std::int32_t model_file = 0;
+    std::int32_t name_id = 0;
+    std::int32_t spell_script_length = 0;
+    std::string spell_script;
+    std::int32_t spell_type = 0;
+    std::int32_t type = 0;
+};
+
+struct SkillTables {
+    std::vector<IntegerListRow> skill_lists;
+    std::vector<SkillRow> skills;
+};
+
+struct FaeryTables {
+    std::vector<IntegerListRow> faery_lists;
+    std::vector<FaeryRow> faeries;
+};
+
+// Decode each table's actual cache record, parallel names sections and schema
+// sections. Loads are transactional: malformed input leaves `output` intact.
+bool load_skill_tables(Bytes records, Bytes names, Bytes schema,
+                       SkillTables& output, std::string& error);
+bool load_faery_tables(Bytes records, Bytes names, Bytes schema,
+                       FaeryTables& output, std::string& error);
+
+}  // namespace dh2::data

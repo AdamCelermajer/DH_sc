@@ -1,0 +1,122 @@
+{
+  "date": "2026-10-03",
+  "apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+  "apk_bytes": 5465698,
+  "device_results": [
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "api": 37,
+      "page_size_bytes": 16384,
+      "abi": "x86_64",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "cycles": [
+        {
+          "cycle": 1,
+          "returned": true,
+          "hud_unchanged": true,
+          "preview": {
+            "file": "cycle-01-loaded.png",
+            "bytes": 2094406,
+            "sha256": "4f403dcb371b7ae7856affc562be9802e0e57fe1b814aaa7f033d5ccdd90e09d"
+          },
+          "orbit": {
+            "file": "cycle-01-orbit.png",
+            "bytes": 2392227,
+            "sha256": "302dc4828d32c62ffec4c2ac431963cfae138f578b8bd5c32b4f28155a600a1f"
+          }
+        },
+        {
+          "cycle": 2,
+          "returned": true,
+          "hud_unchanged": true,
+          "preview": {
+            "file": "cycle-02-loaded.png",
+            "bytes": 2094406,
+            "sha256": "4f403dcb371b7ae7856affc562be9802e0e57fe1b814aaa7f033d5ccdd90e09d"
+          },
+          "orbit": {
+            "file": "cycle-02-orbit.png",
+            "bytes": 2422575,
+            "sha256": "6d5f24c143eb58f24a66edd82a0f8f66420f087dddd4c6f2e34d70a38d1dadfa"
+          }
+        },
+        {
+          "cycle": 3,
+          "returned": true,
+          "hud_unchanged": true,
+          "preview": {
+            "file": "cycle-03-loaded.png",
+            "bytes": 2094406,
+            "sha256": "4f403dcb371b7ae7856affc562be9802e0e57fe1b814aaa7f033d5ccdd90e09d"
+          },
+          "orbit": {
+            "file": "cycle-03-orbit.png",
+            "bytes": 2437390,
+            "sha256": "da289bae253dd037201f104d60bb8272ca8f6813880984b8195db717c7b74af3"
+          }
+        }
+      ],
+      "filtered_error_log_entries": 0,
+      "evidence_directory": "build/village-current-apk-16k-fixed"
+    },
+    {
+      "serial": "emulator-5556",
+      "android_release": "17",
+      "api": 37,
+      "page_size_bytes": 4096,
+      "abi": "x86_64",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "cycles": [
+        {
+          "cycle": 1,
+          "returned": true,
+          "hud_unchanged": true,
+          "preview": {
+            "file": "cycle-01-loaded.png",
+            "bytes": 2094406,
+            "sha256": "4f403dcb371b7ae7856affc562be9802e0e57fe1b814aaa7f033d5ccdd90e09d"
+          },
+          "orbit": {
+            "file": "cycle-01-orbit.png",
+            "bytes": 2440955,
+            "sha256": "5913ae3012623853c8ecf7534cb37073d0dbb98ab4acf0628f1036b3ca3e5323"
+          }
+        },
+        {
+          "cycle": 2,
+          "returned": true,
+          "hud_unchanged": true,
+          "preview": {
+            "file": "cycle-02-loaded.png",
+            "bytes": 2094406,
+            "sha256": "4f403dcb371b7ae7856affc562be9802e0e57fe1b814aaa7f033d5ccdd90e09d"
+          },
+          "orbit": {
+            "file": "cycle-02-orbit.png",
+            "bytes": 2439775,
+            "sha256": "36cd2de10b1951adc945b98f67dff4154dec46deeb19d7ac9560cddc29016abe"
+          }
+        },
+        {
+          "cycle": 3,
+          "returned": true,
+          "hud_unchanged": true,
+          "preview": {
+            "file": "cycle-03-loaded.png",
+            "bytes": 2094406,
+            "sha256": "4f403dcb371b7ae7856affc562be9802e0e57fe1b814aaa7f033d5ccdd90e09d"
+          },
+          "orbit": {
+            "file": "cycle-03-orbit.png",
+            "bytes": 2431535,
+            "sha256": "2c63510b9c143834d714a11d88af9cb6b486594bc5e28ae10b1106362ab6e415"
+          }
+        }
+      ],
+      "filtered_error_log_entries": 0,
+      "evidence_directory": "build/village-current-apk-4k-fixed"
+    }
+  ],
+  "fold7_tested": false
+}

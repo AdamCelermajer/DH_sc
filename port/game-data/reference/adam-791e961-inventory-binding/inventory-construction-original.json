@@ -1,0 +1,23 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ItemInventoryC1Ev",
+      "elf_address": "0x3ff200",
+      "size": 304,
+      "sha256": "31ad44df59ae03bd3aa2dbbe54a71b4f77fdf62532a64875136379353999b153"
+    },
+    {
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079"
+    },
+    {
+      "original_symbol": "_ZN9Character14_InitEquipmentEv",
+      "elf_address": "0x3b395c",
+      "size": 276,
+      "sha256": "5cd18623a37e0ab1321d45fcfb910761c8aaa4a8808cf43db9c79e647eb4736c"
+    }
+  ]
+}

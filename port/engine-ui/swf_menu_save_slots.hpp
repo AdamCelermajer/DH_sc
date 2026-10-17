@@ -4,12 +4,6 @@
 #include <string>
 namespace gameswf {struct fn_call;struct as_object;}
 namespace dh2::ui {
-// Front-only pending-loader callback; does not assign or mutate a Player.
-bool swf_front_pending_start_v1(const gameswf::fn_call&,std::int32_t& difficulty,std::string& error);
-// Front-only fresh-profile producer. The returned slot is independent from
-// canonical gameplay assignment/start, which retains separate ownership.
-bool swf_front_create_save_slot_v1(const gameswf::fn_call&,void*,
-    bool (*create)(void*,const char*,const char*,std::uint32_t&,std::string&),std::string&);
 // Canonical save/game owners supply these values after loading the profile and
 // resolving localized class/location and the selected difficulty's quest act.
 // This structure transfers menu presentation only; it does not own a Player.
@@ -38,12 +32,4 @@ bool swf_front_save_slot_details(const gameswf::fn_call&,const SwfFrontSaveSlotS
 // Genuine no-campaign branch of NativeGetSaveSlotDetails. The production
 // files directory is inspected; existing saves require the full profile owner.
 bool swf_front_save_slot_details(const gameswf::fn_call&,const std::string& files_directory,std::string& error);
-struct SwfFrontEraseSlotServicesV1 {
-    void* context{};
-    bool (*flush_jobs)(void*,std::string&){};
-    bool (*erase_files)(void*,std::uint32_t,std::string&){};
-};
-// NativeEraseSaveSlot: AS number -> signed integer, negative no-op; flush
-// before deleting all slot files. AS result is untouched, including failures.
-bool swf_front_erase_save_slot_v1(const gameswf::fn_call&,const SwfFrontEraseSlotServicesV1&,std::string&);
 }

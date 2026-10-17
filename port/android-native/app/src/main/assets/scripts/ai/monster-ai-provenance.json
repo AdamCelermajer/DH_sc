@@ -1,0 +1,22 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "inputs": [
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/_commons.luac",
+      "source_path": "data/scripts/ai/_commons.luac",
+      "asset_path": "scripts/ai/_commons.luac",
+      "bytes": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
+    },
+    {
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/scripts/ai/monster.luac",
+      "source_path": "data/scripts/ai/monster.luac",
+      "asset_path": "scripts/ai/monster.luac",
+      "bytes": 7393,
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d"
+    }
+  ],
+  "unchanged_original_source": true,
+  "native_actor_wired": false,
+  "scope": "Exact baseline sources for AISExternal monster callbacks; packaging alone does not establish live actor execution or complete AIS lifecycle."
+}

@@ -40,5 +40,32 @@ const std::int32_t* property(const CharacterTable& table,const std::string& name
  if(row==table.names.end()||column==table.fields.end()||std::size_t(row-table.names.begin())>=table.rows.size()||column-table.fields.begin()>=224)return nullptr;
  return &table.rows[row-table.names.begin()][column-table.fields.begin()];
 }
+bool possible_class_specialization_text_ids(const CharacterTable& table,
+ std::int32_t current_class,std::array<std::int32_t,4>& out,std::string& error){
+ error.clear();
+ if(current_class<0){error="Current source class row is negative";return false;}
+ const auto name_column=std::find(table.fields.begin(),table.fields.end(),"ClassString");
+ const auto description_column=std::find(table.fields.begin(),table.fields.end(),"ClassDescString");
+ if(name_column==table.fields.end()||description_column==table.fields.end()){
+  error="Character table lacks specialization text fields";return false;
+ }
+ const auto name_index=std::size_t(name_column-table.fields.begin());
+ const auto description_index=std::size_t(description_column-table.fields.begin());
+ if(name_index>=224||description_index>=224){error="Specialization text field exceeds source row width";return false;}
+ const auto first=std::uint64_t(std::uint32_t(current_class))+1u;
+ const auto second=first+1u;
+ if(second>=table.rows.size()||second>=table.names.size()){
+  error="Source specialization rows exceed the retained Character table";return false;
+ }
+ const auto& first_row=table.rows[std::size_t(first)];
+ const auto& second_row=table.rows[std::size_t(second)];
+ const std::array<std::int32_t,4> candidate={
+  first_row[name_index],first_row[description_index],
+  second_row[name_index],second_row[description_index]};
+ if(std::any_of(candidate.begin(),candidate.end(),[](std::int32_t id){return id<0;})){
+  error="Source specialization row has a negative localization id";return false;
+ }
+ out=candidate;return true;
+}
 const std::string* lookup(const Dictionary& table,const std::string& name){auto item=std::find(table.names.begin(),table.names.end(),name);if(item==table.names.end()||std::size_t(item-table.names.begin())>=table.values.size())return nullptr;return &table.values[item-table.names.begin()];}
 }

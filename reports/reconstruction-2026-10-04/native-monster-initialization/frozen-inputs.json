@@ -1,0 +1,71 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "46e372a41d900666ed17899bb62674f3bf68c1b35212c2251f974359406465ab",
+  "compiled_source_archive_sha256": "cddfd5777ece9c59ff47c2dc1b60f380980c8236923141f5d390cb2651309879",
+  "compiled_source_archive_bytes": 807445,
+  "actual_repository_compiler_inputs": 430,
+  "component_source_hash_checks": 266,
+  "components": {
+    "monster-session": {
+      "report_sha256": "51a75bbd2ba34f7ce3c107797423dd581fa7137f33292424d8e735ce86f3e8f3",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": true,
+      "native_live": true
+    },
+    "character-level-runtime": {
+      "report_sha256": "5ade5a151bc79751074fea543d0518b4337b5de12a38c588f1bbc39c52ba3a38",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": true,
+      "native_live": true
+    },
+    "native-debug-files": {
+      "report_sha256": "06754561a20b2055119c1759afffe233aa44f5e6726b4ce86cb24bc826989e14",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": true,
+      "native_live": true
+    },
+    "player-manager-host-level": {
+      "report_sha256": "02e7c235bd83462df88589d4c4d18c7106e57ecb1e27ac52a8dd44515853dbe6",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": true,
+      "native_live": true
+    },
+    "update-all-skills": {
+      "report_sha256": "f091e93d67b924dbcb2bec65ff80165d6d7c5eed1be6497d694ec104ddec03da",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": true,
+      "native_live": false
+    },
+    "lua-weak-mode-gc": {
+      "report_sha256": "5c4b20dbc338e3e4f3c1cedcaf984d14d4bc2df313d5900017b34be163727143",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": true,
+      "native_live": true
+    },
+    "character-list": {
+      "report_sha256": "902ce91f070ff8324105f97228dd372d5815c7987ea90df336e81f292e98ac62",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": false,
+      "native_live": false
+    },
+    "faery-selection": {
+      "report_sha256": "35d9b525fccbaa375551cf2c75967a818f75a0fbbb3b17aa3ca5e430ce341df2",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": false,
+      "native_live": false
+    },
+    "skill-script-constructor": {
+      "report_sha256": "cacd9198406f5acf0604e41afa5b9bddcb37dd64475effa9381bc48e03c97832",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": false,
+      "native_live": false
+    },
+    "dot-tick": {
+      "report_sha256": "5d5e708d0177c826463c42290889db6f4407ddbaebcd5bfbd7dbdce369a36c8d",
+      "current_source_hashes_verified": true,
+      "linked_in_apk": false,
+      "native_live": false
+    }
+  },
+  "scope": "APK inputs frozen as exact raw source bytes. Independent component proofs validate bounded behavior; native_live is limited to the original OnInit/private Debug/level initialization and retention test, not complete AI or combat."
+}

@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "compiler": "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+  "compile_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++11",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-exceptions",
+    "-fno-rtti",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\crypt_spawn_trigger.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\crypt_spawn_trigger.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\trigger-contact\\trigger_contact.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\zone-contact-runtime\\zone_geometry.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\script-runtime\\script_runtime.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\pydata-scripts\\native\\pydata_scripts.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\crypt-spawn-trigger\\crypt_spawn_trigger_host.exe"
+  ],
+  "test_command": [
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\crypt-spawn-trigger\\crypt_spawn_trigger_host.exe",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts_pyscriptnames.bin",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts_pyscripts.bin",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts\\007_crypt_01_pyscriptnames.bin",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts\\007_crypt_01_pyscripts.bin"
+  ],
+  "source": {
+    "mgp_cache_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\3d\\modules\\crypt\\mgp\\crypt_straight_c_ns_01.mgp",
+    "mgp_sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2",
+    "layout_cache_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\scene\\x07_crypt_backup.mlx",
+    "layout_sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7",
+    "trigger_name": "_prim_TriggerZone_GhostAmbush01",
+    "script_name": "GhostAmbush01",
+    "local_position": [
+      -1405.23,
+      300.262,
+      608.062
+    ],
+    "scale": [
+      5.06089,
+      1.43277,
+      1.0
+    ],
+    "rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "canonical_backup_module_position": [
+      0.0,
+      19200.0,
+      0.0
+    ],
+    "resolved_backup_world_position": [
+      -1405.23,
+      19500.262,
+      608.062
+    ],
+    "transform_note": "This is the authored x07 backup layout fixture. Runtime-generated layouts must pass the loader-resolved owner transform to the adapter."
+  },
+  "pydata_tables": {
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts_pyscriptnames.bin": "96c9ba8b4cf6afef1318495f2fa18ca4e6e125b187f4bad086e109d22fcbf3bd",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts_pyscripts.bin": "39bd1a0c3c7b55c996688687b69504c0446175b3b3451bc1e7481ab18135551a",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts\\007_crypt_01_pyscriptnames.bin": "0270ad4f4fb2d2fe9ed0b6cefe208f5431b38504937aff0ea1aafabffd6f8b13",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\scripts\\007_crypt_01_pyscripts.bin": "78666c2e163441f806f9fae017030b475613d849f74b833fa6ed58000c5ec3cc"
+  },
+  "scope": "host-only exact trigger geometry/contact and original GhostAmbush01 scheduler activation; no emulator or Android runtime integration"
+}

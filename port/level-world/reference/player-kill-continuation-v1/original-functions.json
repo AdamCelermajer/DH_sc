@@ -1,0 +1,216 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character4KillEP10GameObjectb",
+      "elf_address": "0x3a5b18",
+      "size": 1776,
+      "sha256": "5d0c8880d8d9fa1d5e73d3be9b69320b019f3dfcee5babbd79b6700de76abf6b"
+    },
+    {
+      "original_symbol": "_ZN9Character9Ctrl_KillEP10GameObjectb",
+      "elf_address": "0x3ad528",
+      "size": 76,
+      "sha256": "1b242e0090fb2cfa8f7b50c59bd2285f341ec0368ca7bc7e84294cf8d0516c53"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_SetEii",
+      "elf_address": "0x3e07a0",
+      "size": 104,
+      "sha256": "e8dba6a3ac25d476f2bded4744830d789ad77a4b18271d7ae04b14f111422051"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12PROPS_AddIntEii",
+      "elf_address": "0x3e0798",
+      "size": 8,
+      "sha256": "0bd5ce810e2f1f26510b70a87c6528abb381a9c39ab4f0ecedc7e3725c0bd6b2"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_AddEii",
+      "elf_address": "0x3e0708",
+      "size": 144,
+      "sha256": "0e4a2cdfe4feef368849e8823b05d451f55b4178b762f3fa9fcaf27d8abf79c3"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties8_GetTypeEi",
+      "elf_address": "0x3deed8",
+      "size": 56,
+      "sha256": "2767da71c9c875e51ac9db94b0947e106cac232f998cba6be36d4fd5a4b945bb"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "elf_address": "0x3deca0",
+      "size": 276,
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties14RecalcPropertyEi",
+      "elf_address": "0x3dfe60",
+      "size": 1972,
+      "sha256": "9df07709d1780dd22c056b6bdca240de845b4c118b7b4b3d6719595193ec9030"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character",
+      "elf_address": "0x36effc",
+      "size": 44,
+      "sha256": "9788e4a17e601db1483855dcde27c82c74471c4108bc232e4d19d0a4323beb0e"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager20GetPlayerByCharacterEPK9Characterb",
+      "elf_address": "0x36eea8",
+      "size": 340,
+      "sha256": "cb9f2652621dd1127f9cb1b041f3eedcea2769410054fe187912164986df306e"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "elf_address": "0x36e478",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    },
+    {
+      "original_symbol": "_Z9GetOnlinev",
+      "elf_address": "0x7fd794",
+      "size": 4,
+      "sha256": "39e1051e33bd200a0ebe62d8a3340b45bba86b3a31ac8822e6d4f2c7b60a152e"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_11TrophyTableEEEiPKc",
+      "elf_address": "0x3a3f70",
+      "size": 116,
+      "sha256": "81f6774029edf802605a25e14b6fe4aa6cfecb5048bc5010c68ed41e01e1a7fc"
+    },
+    {
+      "original_symbol": "_ZN13TrophyManager12UnlockTrophyEi",
+      "elf_address": "0x3813b8",
+      "size": 272,
+      "sha256": "91c7e3d9598fd6f223d534bb6243bc317e9f6b74b07554f6a526a32fa9cc1432"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo7IsLocalEv",
+      "elf_address": "0x80f1ec",
+      "size": 80,
+      "sha256": "803c5c96831e9c31302e8c30e8afce0403e69dcbe5340e668c880db532914fe6"
+    },
+    {
+      "original_symbol": "_ZN9CMatching3GetEv",
+      "elf_address": "0x800f8c",
+      "size": 280,
+      "sha256": "681035becb75cb210697eaba3b69e1efe37e1082e9f6e27308ec17731f5ffefb"
+    },
+    {
+      "original_symbol": "_ZN9CMatching8IsServerEv",
+      "elf_address": "0x7fe4e0",
+      "size": 100,
+      "sha256": "ca848fe764a3496aa2546d73e2df38a759a68737a01e371806d6570c85b35cb4"
+    },
+    {
+      "original_symbol": "_ZNK14CMatchingLocal11GetMemberIdEv",
+      "elf_address": "0x801b30",
+      "size": 12,
+      "sha256": "a3746700f81b4fb9ba4d52829e0a0b8cfa8b5d6f4efb931ca7c43195685b98dc"
+    },
+    {
+      "original_symbol": "_ZNK14CMatchingLocal17GetServerMemberIdEv",
+      "elf_address": "0x801b48",
+      "size": 12,
+      "sha256": "4904069873249eed60ca33ebb49e650df26ccb0e59dd6c2b4e0368dbbce03972"
+    }
+  ],
+  "cache_inputs_sha256": {
+    "data/pydata/skills_pyarray.bin": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6",
+    "data/pydata/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "data/pydata/skills_pycst.bin": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1",
+    "data/pydata/skills_pystructnames.bin": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9",
+    "data/pydata/faeries_pyarray.bin": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a",
+    "data/pydata/faeries_pyarraynames.bin": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+    "data/pydata/faeries_pycst.bin": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5",
+    "data/pydata/faeries_pystructnames.bin": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b",
+    "data/pydata/character_properties_extra_pystructnames.bin": "864d6bcd58ab6671e2354613b50f2fa618bdf8f6adc667020cbc75c20b443d42",
+    "data/pydata/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "data/pydata/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "data/pydata/character_properties_pycst.bin": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+    "data/pydata/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "data/pydata/character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "data/pydata/character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "data/pydata/character_classes_pycst.bin": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+    "data/pydata/character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "data/pydata/effects_pyarraynames.bin": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+    "data/pydata/projectiles_pyarraynames.bin": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950",
+    "data/pydata/design_pycst.bin": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+    "data/pydata/ai_pycst.bin": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+    "DebugSwitches.savegame": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+    "data/scripts/ai/_commons.luac": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+    "data/scripts/skills/_commons.luac": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+    "data/scripts/skills/faerie_celest.luac": "4ba609b50179669e73ab2c256fd2aa27d3740d05f85835464906353e2e0bdd7d",
+    "data/scripts/skills/faerie_hotty.luac": "74203596081458abf514627c81f8c914990026b6cd35e1ea5f7bc8532e0e2cb5",
+    "data/scripts/skills/faerie_rocky.luac": "c406df3e43dc36b010ad27d35f4fb3024aba94bf988acf4d6aae77bd23794099",
+    "data/scripts/skills/faerie_wetty.luac": "ecf30512862a1de28af4bea0e309a8c8beec3e93fe2a12b21e90aff5f7ee23d2",
+    "data/scripts/skills/faerie_windy.luac": "da0cf493790834d073fe401456c5f0eb1984789cb71f965a9b4667bb2fe78aec",
+    "data/scripts/skills/prince_mage_chain_lightning.luac": "cf71fca1dda047016f19e83d5232f2d75d30d35a1e58dbbb74d0b2c6d2778d56",
+    "data/scripts/skills/prince_mage_coldray.luac": "7afbe301d99522929e666017d7adc63596ad332ec8be69f78abec9733f364447",
+    "data/scripts/skills/prince_mage_cyclone.luac": "d04c7053e2b15d27f3cf027b316b1004d053423d78804b54e2c3df20fa32af3e",
+    "data/scripts/skills/prince_mage_elemental_mastery.luac": "1b44cec1778a6c2e36fda33e65451139b3798cdc9b2eeeef834a03148fff99c2",
+    "data/scripts/skills/prince_mage_faeryblood.luac": "d511b0ca716553f011c5a947091b42cfd497a437b5e8f38ffae9b22295728bb7",
+    "data/scripts/skills/prince_mage_magi_shielding.luac": "793497741d59bce7ad4320d8f32aa2b4de373529e1ba0a2fd6e9680d13c0efd6",
+    "data/scripts/skills/prince_mage_staffmaster.luac": "b61c7b5a0d7039d0384f0b84aef66a7f460721fd7736882a7b1a9607eca0f84b",
+    "data/scripts/skills/prince_mage_stone_escape.luac": "6390612bbf175bd72dd400fa2d01fbc00614f0c1fc7038f35b3a4d7ce697f881",
+    "data/scripts/skills/prince_rogue_acrobat.luac": "aa41df8f3e75420fb2c6e4ddd0281e5aa76b7266402ac09c6fa318d737a9a1d7",
+    "data/scripts/skills/prince_rogue_ambidextrous.luac": "c8a9c731db8988e381a9f5c94589fd0dc0026e43ed13d7fd0dadcd347222d864",
+    "data/scripts/skills/prince_rogue_combomaster.luac": "892d3825dcf2a3e0cb1ca97faad6f0e3bcb162bf0a59a63596cba586db3dcd90",
+    "data/scripts/skills/prince_rogue_findweakness.luac": "d6fa4b5c86ab7072ddf0ab22657429c8ccd1f93682403939e240154f631469a6",
+    "data/scripts/skills/prince_rogue_jump_kick.luac": "7065b8f542f24033abaab2cab91812b40e863a873f3339dec4891343d52f31f1",
+    "data/scripts/skills/prince_rogue_quickness.luac": "01a516c99ec5c8be9921718bab85c7ae1a68c64aeb098bd5b05e7562f106113d",
+    "data/scripts/skills/prince_rogue_roundhouse.luac": "a26fb81a4fe1573a4d2fba1277919277f065f2bdc29e8e691eccf995f1cd5a85",
+    "data/scripts/skills/prince_rogue_vicious_strike.luac": "8ab262b65496f70c64c7adcaa099b8d29cdd3b7bd293de2b355f1ac610a2b467",
+    "data/scripts/skills/prince_warrior_bashdown.luac": "d9f41ce04e8e9c632df2377571ff85f76aacad168bb0bebdb111ccb6f8f4dde3",
+    "data/scripts/skills/prince_warrior_charge.luac": "62345c14aef6ea218c2a9725b1c312acf37f4214f9bc712521b6a3edacbf8fe1",
+    "data/scripts/skills/prince_warrior_combat_master.luac": "3dc445fd5c3d52bd26f2079d3b5b797e712675373e81b84e98c4d7bb95eff697",
+    "data/scripts/skills/prince_warrior_fast_metabolism.luac": "c65e154d082fc6d2414e91c7007f8442df30037f43ed706fa45a204472704c64",
+    "data/scripts/skills/prince_warrior_ground_slam.luac": "ed21121df8541350451072aff53a44abd03274ba0a0c0a7ceb0784f748463780",
+    "data/scripts/skills/prince_warrior_hardiness.luac": "4a94206eedf3acd35651a0bb83bbf16fe4be81fc87ec7b5802f3c3c956b75352",
+    "data/scripts/skills/prince_warrior_leadership.luac": "6c7ec5c934e095b21237e995fb43975f05becb64d97e877d59f7ea49a87563d0",
+    "data/scripts/skills/prince_warrior_potion_addict.luac": "81df7fda3d598d90a28def7884f07b1b4720adca8eb61d26671f997ed418899d",
+    "data/pydata/animations_dictionary_pyarraynames.bin": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+    "data/pydata/animations_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    "data/pydata/animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "data/pydata/animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "data/pydata/animations_pystructnames.bin": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134",
+    "data/pydata/animations_pycst.bin": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+  },
+  "cache_pin_origin": {
+    "retained_session_report": "port/level-world/build/player-skill-session-v1/validation.json",
+    "retained_session_report_sha256": "dbe654331bac88cdf6cd2751a7a82fa6441ac6caaebf0c0f23772aced369c3b0",
+    "additional_exact_animation_inputs": [
+      "data/pydata/animations_dictionary_pyarraynames.bin",
+      "data/pydata/animations_dictionary_pyarray.bin",
+      "data/pydata/animations_pyarray.bin",
+      "data/pydata/animations_pyarraynames.bin",
+      "data/pydata/animations_pystructnames.bin",
+      "data/pydata/animations_pycst.bin"
+    ]
+  }
+}

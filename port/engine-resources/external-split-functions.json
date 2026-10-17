@@ -1,0 +1,65 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "package_reference_assembly": "reference/engine-branch-original-functions.asm",
+  "source_file_sha256": {
+    "glitch_res_File-f1a5a74c764a-001.asm": "53677ce0dbce044fede72b2165857f9bb145217d06532f52d07075f71b47fac5",
+    "glitch_collada_CResFileManager-ac8fc0a26e72-001.asm": "e9fd1e6892d9d17a0c428474f69d38cbfcf672b0e09a4ba8ab2a91b64bbd5c9e"
+  },
+  "functions": [
+    {
+      "symbol": "_ZN6glitch3res4File4InitEv",
+      "demangled": "glitch::res::File::Init()",
+      "elf_address": "0x0069a40c",
+      "size": 1108,
+      "mode": "arm",
+      "arm_bytes_sha256": "e36600c917439651bfec9dedadfdf85537210401a6c00e0a5f96617e7f50a05a",
+      "package_reference": "reference/engine-branch-original-functions.asm",
+      "port_scope": "null-context whole-buffer branch ported; selector-zero-reference context and both aggregate/per-row allocation layouts are represented by a bounded value helper, not differentially compared"
+    },
+    {
+      "symbol": "_ZN6glitch3res4File4InitEPNS0_10FileReaderE",
+      "demangled": "glitch::res::File::Init(glitch::res::FileReader*)",
+      "elf_address": "0x0069a880",
+      "size": 1036,
+      "mode": "arm",
+      "arm_bytes_sha256": "2c8604d4442f9c5f8caace3a10a8b12c4f250614c125eca8c841a923e49aa495",
+      "package_reference": "reference/engine-branch-original-functions.asm",
+      "port_scope": "external/split FileReader producer mapped; bounded context helper models both allocation layouts, but virtual-call producer and original ownership are not ported"
+    },
+    {
+      "symbol": "_ZN6glitch7collada15CResFileManager3getEPKcb",
+      "demangled": "glitch::collada::CResFileManager::get(char const*, bool)",
+      "elf_address": "0x0065a9a8",
+      "size": 692,
+      "mode": "arm",
+      "arm_bytes_sha256": "62a918d472da5807ba14390942d578cd99130a7929117f900cb0bbc0b5060854",
+      "source_listing_from_package_dir": "../../../recovery/dh2-reconstruction/recovered/native/assembly/libDungeonHunter2.so/glitch_collada_CResFileManager-ac8fc0a26e72-001.asm",
+      "package_reference": null,
+      "relationship": "Called by File::Init(FileReader*) only when the auxiliary name length exceeds one; this branch is skipped by all recovered BRES files."
+    },
+    {
+      "symbol": "_ZN6glitch2io9IReadFile17getExternalBufferEPKcPl",
+      "demangled": "glitch::io::IReadFile::getExternalBuffer(char const*, long*)",
+      "elf_address": "0x0056eb38",
+      "size": 8,
+      "mode": "arm",
+      "arm_bytes_sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877",
+      "source_listing_from_package_dir": "../../../recovery/dh2-reconstruction/recovered/native/assembly/libDungeonHunter2.so/glitch_io_IReadFile-70a72c9cfecf-001.asm",
+      "package_reference": null,
+      "relationship": "Base implementation returns null; no override was found under this symbol in the recovered symbol index."
+    }
+  ],
+  "cache_census": {
+    "files": 2901,
+    "total_fixups": 2577206,
+    "header_plus_20_zero": 2901,
+    "header_plus_52_zero": 2901,
+    "header_plus_44_and_48_both_zero": 1396,
+    "header_plus_44_and_48_both_nonzero": 1505,
+    "auxiliary_length_one": 2901,
+    "auxiliary_single_nul_name": 2901,
+    "existing_differential_branch": "null-context whole-buffer only",
+    "reader_initializer_branch": "non-null context built from the copied fixup table and block tables"
+  }
+}

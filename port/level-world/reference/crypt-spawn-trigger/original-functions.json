@@ -1,0 +1,180 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "record_scope_definition": "Each function record hashes its complete original ELF function range. Evidence mapping is not a claim of full original-source reconstruction or live Android integration; see NOTES.md.",
+  "source_reconstruction_scope": "Renderer-independent Crypt GhostAmbush01 TriggerZone geometry and the bounded offline one-player absolute-AABB contact/rising-edge path for its ordinary one-shot script.",
+  "port_sources": [
+    "port/level-world/crypt_spawn_trigger.hpp",
+    "port/level-world/crypt_spawn_trigger.cpp",
+    "port/level-world/tests/crypt_spawn_trigger.cpp",
+    "port/level-world/tests/run_crypt_spawn_trigger_host.py",
+    "port/trigger-contact/trigger_contact.hpp",
+    "port/trigger-contact/trigger_contact.cpp",
+    "port/zone-contact-runtime/zone_geometry.hpp",
+    "port/zone-contact-runtime/zone_geometry.cpp",
+    "port/script-runtime/script_runtime.hpp",
+    "port/script-runtime/script_runtime.cpp"
+  ],
+  "caller_facts": [
+    "The direct Crypt record is _prim_TriggerZone_GhostAmbush01, script GhostAmbush01, count 1, delay 0, with ordinary script mode and empty move-out/all-player/effect fields.",
+    "The record omits dimensions, so Zone::DeclareProperties supplies (200,200,200). Its authored object scale is (5.06089,1.43277,1).",
+    "Zone::InitPost calls GameObject::SetRelativeAABB, then UpdateAbsoluteAABB stores each local face plus the resolved GameObject position. The Crypt faces exceed SetRelativeAABB's small-extent padding boundary.",
+    "TriggerZone::Update reaches Trigger::GetNumPlayerActivating -> GameObject::GetNumPlayerTouching -> GameObject::IsTouching(GameObject const*). That path skips null Character entries and compares absolute AABBs inclusively; it does not invoke Zone::IsInside.",
+    "The host fixture uses only the authored x07_crypt_backup.mlx placement of this module at (0,19200,0), unit scale, zero rotation. Runtime-generated layouts must supply their own resolved owner world position and scale.",
+    "GhostAmbush01 resolves from local Crypt table index 2 to global script ID 17 in the original common + 007_crypt_01 table pair.",
+    "The one-shot activation count is checked before later contact sampling, so the edge latch is preserved after the first accepted edge."
+  ],
+  "unsupported": [
+    "This adapter does not resolve generated level/module placement; callers provide the final GameObject world position and scale.",
+    "Zone::IsInside and its PhysicalObject guard remain a separate predicate. The trigger's AABB activation path must not acquire that guard.",
+    "No scene node, _colzone node, selector, Irrlicht collision callback, or renderer state is inferred or required by this contact path.",
+    "Online activation, multi-player policy, move-out scripts, all-player scripts, one-player effects, and associated-door bindings are outside this source record's bounded ordinary one-player slice.",
+    "The host fixture validates original script-table activation but does not prove full Android runtime wiring, frame-order behavior, rendered level completion, or the separate GhostAmbushHallway template path."
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZN4Zone17DeclarePropertiesEv",
+      "demangled": "Zone::DeclareProperties()",
+      "elf_address": "0x397df8",
+      "size": 164,
+      "sha256": "e2fe147d411d63836d5cab8cf9f97cd9f67316b82ad99a3e468d1afc76bbd905",
+      "scope": "complete function",
+      "port_coverage": "source default evidence for inherited Zone dimensions (200,200,200)"
+    },
+    {
+      "original_symbol": "_ZN4Zone8InitPostEv",
+      "demangled": "Zone::InitPost()",
+      "elf_address": "0x39771c",
+      "size": 1044,
+      "sha256": "84aa1650b4ee777be69d545516ff1681a9a9e74386fb569a37f100f4d69966bd",
+      "scope": "complete function",
+      "port_coverage": "local Zone AABB arithmetic is reproduced by the existing zone_geometry kernel and consumed by the new Crypt adapter"
+    },
+    {
+      "original_symbol": "_ZN10GameObject15SetRelativeAABBERK4aabbIfEb",
+      "demangled": "GameObject::SetRelativeAABB(aabb<float> const&, bool)",
+      "elf_address": "0x38b110",
+      "size": 280,
+      "sha256": "0c55f8bb203ac3d1c126f9bdaf956b7ba42237aaa7d7d01e55f2079768d903cf",
+      "scope": "complete function",
+      "port_coverage": "source mapping: copies the relative box and invokes UpdateAbsoluteAABB; authored Crypt dimensions exceed its small-box padding branch"
+    },
+    {
+      "original_symbol": "_ZN10GameObject18UpdateAbsoluteAABBEv",
+      "demangled": "GameObject::UpdateAbsoluteAABB()",
+      "elf_address": "0x38aac8",
+      "size": 152,
+      "sha256": "8bdb0944ef983e11a5d18d269aab552dea3f691fa7b03abcc0f56c1b75471297",
+      "scope": "complete function",
+      "port_coverage": "the new adapter reproduces componentwise translation of local faces by resolved owner world position"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject10IsTouchingEPKS_",
+      "demangled": "GameObject::IsTouching(GameObject const*) const",
+      "elf_address": "0x38b518",
+      "size": 280,
+      "sha256": "2ce5fe45de9bbaa3c36f3759ff59d6ed30819aafe1816f8936ceb55c0bf5075d",
+      "scope": "complete function",
+      "port_coverage": "the existing trigger-contact kernel implements its inclusive absolute-AABB overlap; Crypt host tests exercise boundary contact"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject20GetNumPlayerTouchingEv",
+      "demangled": "GameObject::GetNumPlayerTouching() const",
+      "elf_address": "0x38b6d4",
+      "size": 132,
+      "sha256": "3eb42cbb8de0fe3bd936c811e04b84cdf85f55d9d7b98bc57bb7edd1eaddb271",
+      "scope": "complete function",
+      "port_coverage": "the Crypt adapter mirrors the non-null Character filter and caller-supplied absolute Character bounds for its one-player slice"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject13MeetConditionEv",
+      "demangled": "GameObject::MeetCondition() const",
+      "elf_address": "0x38ab60",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47",
+      "scope": "complete function",
+      "port_coverage": "source body returns true; the existing offline trigger kernel adds no unsupported condition evaluator"
+    },
+    {
+      "original_symbol": "_ZN4Zone8IsInsideEP10GameObject",
+      "demangled": "Zone::IsInside(GameObject*)",
+      "elf_address": "0x3970c8",
+      "size": 1228,
+      "sha256": "087300ca0d5cce82561fda4788bc4214e4db40b93e92b6e79f2736527a0bdd05",
+      "scope": "complete function",
+      "port_coverage": "separate zone_contact-runtime projection preserves its PhysicalObject guard; TriggerZone contact does not call this method"
+    },
+    {
+      "original_symbol": "_ZN7Trigger6UpdateEv",
+      "demangled": "Trigger::Update()",
+      "elf_address": "0x398838",
+      "size": 60,
+      "sha256": "bb02075437bc971a7898ee940f0e97488fa45c7f9097c26c927ac53cd8f021e6",
+      "scope": "complete function",
+      "port_coverage": "timer-update source mapping; the authored trigger delay is zero and the bounded adapter receives the current timer fact"
+    },
+    {
+      "original_symbol": "_ZNK7Trigger11CanActivateEv",
+      "demangled": "Trigger::CanActivate() const",
+      "elf_address": "0x3987ac",
+      "size": 48,
+      "sha256": "2a9df38aa92acc0e1509b4ed2b457fe73114b1245e1859958e59778357efafa3",
+      "scope": "complete function",
+      "port_coverage": "the offline trigger-contact kernel projects the count, timer, and enabled gates"
+    },
+    {
+      "original_symbol": "_ZNK7Trigger22GetNumPlayerActivatingEv",
+      "demangled": "Trigger::GetNumPlayerActivating() const",
+      "elf_address": "0x3987f8",
+      "size": 4,
+      "sha256": "0d746106b365ca42fbd8f455899e61e62813fa744167b5ccd1eb30e2f4876930",
+      "scope": "complete function",
+      "port_coverage": "tail-call mapping evidence to GameObject::GetNumPlayerTouching"
+    },
+    {
+      "original_symbol": "_ZN7Trigger8ActivateEv",
+      "demangled": "Trigger::Activate()",
+      "elf_address": "0x398794",
+      "size": 24,
+      "sha256": "af18dbe6e3fd23d937f213198ebe66da60c3a2f1dc63b312d317222a1900075a",
+      "scope": "complete function",
+      "port_coverage": "increments source activation count and copies configured delay; script-runtime enter_trigger consumes the one-shot count"
+    },
+    {
+      "original_symbol": "_ZNK11TriggerZone21IsDoorClosedActivatedEv",
+      "demangled": "TriggerZone::IsDoorClosedActivated() const",
+      "elf_address": "0x39b27c",
+      "size": 36,
+      "sha256": "0fa95abc72e95fa7d60c71d62491872c3e7f05904d21ab36ec007e49e36d460b",
+      "scope": "complete function",
+      "port_coverage": "gate mapping evidence; the authored Crypt trigger has no associated door and the adapter does not infer one"
+    },
+    {
+      "original_symbol": "_ZNK11TriggerZone23SafeStartScriptOnlyOnceEi",
+      "demangled": "TriggerZone::SafeStartScriptOnlyOnce(int) const",
+      "elf_address": "0x39b2a0",
+      "size": 84,
+      "sha256": "bd8fd84932849d7be95ec9cc17f326aca5d9cae042f43455af92e227721fdcac",
+      "scope": "complete function",
+      "port_coverage": "ordinary trigger script start/already-running outcome is projected through script-runtime::enter_trigger"
+    },
+    {
+      "original_symbol": "_ZN11TriggerZone6UpdateEv",
+      "demangled": "TriggerZone::Update()",
+      "elf_address": "0x39b458",
+      "size": 756,
+      "sha256": "804ad8da69c6bb32ebad43d589a4952de073344424d81767b45ca4a8dc12b34f",
+      "scope": "complete function",
+      "port_coverage": "bounded offline one-player gates/contact edge are projected by the new Crypt adapter through trigger-contact; online and other modes remain unsupported"
+    },
+    {
+      "original_symbol": "_ZN11TriggerZone8InitPostEv",
+      "demangled": "TriggerZone::InitPost()",
+      "elf_address": "0x39c0a8",
+      "size": 544,
+      "sha256": "e23e7b64d70411c10cbca384ff8645816e611d1144124ef11b7c6a2e7cc429a6",
+      "scope": "complete function",
+      "port_coverage": "calls Trigger::InitPost/Zone::InitPost and resolves authored script properties; full PropertyMap template resolution is outside this adapter"
+    }
+  ]
+}

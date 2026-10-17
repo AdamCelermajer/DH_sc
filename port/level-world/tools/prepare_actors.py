@@ -24,7 +24,7 @@ def images(raw):
 def fixed(text,width):
  raw=text.encode('ascii');assert 0<len(raw)<width;return raw.ljust(width,b'\0')
 def main():
- p=argparse.ArgumentParser();p.add_argument('cache',type=Path);p.add_argument('--project',type=Path,default=Path(__file__).resolve().parents[2]/'android-native');a=p.parse_args()
+ p=argparse.ArgumentParser();p.add_argument('cache',type=Path);p.add_argument('--project',type=Path,default=Path(__file__).resolve().parents[2]/'android-native');p.add_argument('--include-gated-spawns',action='store_true',help='retain directly resolved auto_spawn=0 actors whose authored AI state is Limbus in DACT v2');a=p.parse_args()
  with a.cache.open('rb') as f:assert hashlib.file_digest(f,'sha256').hexdigest()==EXPECTED
  assets=a.project/'app/src/main/assets';layout=json.loads((assets/'worlds/crypt01-provenance.json').read_text());assert layout['cache_sha256']==EXPECTED
  records=[];inputs=[];payloads={};aliases=[];skipped=[]
@@ -45,27 +45,32 @@ def main():
   raw=payloads['data/'+TABLES[0]];assert struct.unpack_from('<I',raw)[0]==len(names)
   for obj in layout['objects']:
    kind=obj.get('gametype');room=layout['rooms'][obj['room']];clip='';template=''
+   direct=kind=='Character' and obj.get('_templateName')=='Monster' and bool(obj.get('charpropsname')) and not obj.get('activate_cond')
+   gated=bool(direct and obj.get('auto_spawn')=='0' and obj.get('ai_state')=='Limbus')
    if kind=='AnimatedDecor':model=Path(obj['dae'].replace('\\','/')).name;tag=2
-   elif kind=='Character' and obj.get('_templateName')=='Monster' and obj.get('charpropsname') and not obj.get('activate_cond') and obj.get('auto_spawn','1')!='0':
+   elif direct and (obj.get('auto_spawn','1')!='0' or (a.include_gated_spawns and gated)):
     template=obj['charpropsname'];index=names.index(template);values=struct.unpack_from('<224i',raw,4+index*896);properties=dict(zip(fields,values));model_id=properties['ModelFile'];assert 0<=model_id<len(models)
     model=Path(models[model_id]).name;clip=IDLE[model];tag=1
    else:skipped.append({'name':obj['name'],'room':obj['room'],'type':kind,'reason':'scripts, templates, conditional actors or other game object factory pending'});continue
    position=vector(obj['position']);offset=room['position'];position=[position[i]+offset[i] for i in range(3)];rotation=vector(obj['rotation']);scale=vector(obj['scale'])
    if tag==1:scale=[scale[i]*properties['Scale_'+axis]/100 for i,axis in enumerate('XYZ')]
    assert all(0<v<=100 for v in scale)
-   records.append({'kind':tag,'room':obj['room'],'name':obj['name'],'character':template,'model':model,'clip':clip,'position':position,'rotation_degrees':rotation,'scale':scale,'animation_table':properties['AnimTable'] if tag==1 else None})
+   records.append({'kind':tag,'room':obj['room'],'name':obj['name'],'character':template,'model':model,'clip':clip,'position':position,'rotation_degrees':rotation,'scale':scale,'animation_table':properties['AnimTable'] if tag==1 else None,'gated_spawn':gated if tag==1 else False,'source_ai_state':obj.get('ai_state') if tag==1 else None,'source_auto_spawn':obj.get('auto_spawn','1') if tag==1 else None})
    model_raw=read(model,'actors');textures=images(model_raw)
    if clip:read(clip,'actors')
    for name in sorted(textures):read(name,'textures')
-  # DACT,v1,count,reserved. Fixed 256-byte record: kind,room,name[64],
-  # character[64],model[64],position/rotation/scale (9 floats),20 reserved bytes.
-  data=struct.pack('<4sIII',b'DACT',1,len(records),0)
+  # DACT,count,reserved. Fixed 256-byte record: kind,room,name[64],
+  # character[64],model[64],position/rotation/scale (9 floats). v1 leaves
+  # 20 reserved bytes; v2 stores gated_spawn at236 and leaves16 reserved.
+  version=2 if a.include_gated_spawns else 1
+  data=struct.pack('<4sIII',b'DACT',version,len(records),0)
   for row in records:
    template=row['character'].encode().ljust(64,b'\0');assert len(template)==64
-   data+=struct.pack('<II',row['kind'],row['room'])+fixed(row['name'],64)+template+fixed(row['model'],64)+struct.pack('<9f',*row['position'],*row['rotation_degrees'],*row['scale'])+bytes(20)
+   tail=struct.pack('<I',int(row['gated_spawn']))+bytes(16) if version==2 else bytes(20)
+   data+=struct.pack('<II',row['kind'],row['room'])+fixed(row['name'],64)+template+fixed(row['model'],64)+struct.pack('<9f',*row['position'],*row['rotation_degrees'],*row['scale'])+tail
   assert len(data)==16+len(records)*256
   for name,raw in payloads.items():destination=assets/name;destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(raw)
   (assets/'worlds/crypt01.dact').write_bytes(data)
-  report={'cache_sha256':EXPECTED,'descriptor_sha256':hashlib.sha256(data).hexdigest(),'character_table_rows':len(names),'character_fields':len(fields),'model_dictionary_rows':len(models),'records':records,'skipped':skipped,'inputs':inputs,'texture_aliases':aliases,'idle_selection':'explicit development clips; original CharAnim state mapping pending','script_conditions_executed':False}
+  report={'cache_sha256':EXPECTED,'descriptor_version':version,'descriptor_sha256':hashlib.sha256(data).hexdigest(),'character_table_rows':len(names),'character_fields':len(fields),'model_dictionary_rows':len(models),'records':records,'skipped':skipped,'inputs':inputs,'texture_aliases':aliases,'idle_selection':'explicit development clips; Android selects states through the original CharAnim table','script_conditions_executed':False,'gated_spawn_count':sum(r['gated_spawn'] for r in records),'gated_spawn_policy':'authored direct-property Limbus actors; hide-until-Spawn is explicit development presentation, not a recovered visibility service; source SpawnCharacter state dispatch required'}
   (assets/'actor-provenance.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'objects':len(records),'monsters':sum(r['kind']==1 for r in records),'decors':sum(r['kind']==2 for r in records),'skipped':len(skipped),'inputs':len(inputs),'texture_aliases':aliases}))
 if __name__=='__main__':main()

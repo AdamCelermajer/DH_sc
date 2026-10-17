@@ -1,0 +1,89 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI21IsScriptProcessLoadedEv",
+      "elf_address": "0x3cb458",
+      "size": 20,
+      "sha256": "3237ba645c298932386a0f77afcdead3df1eea763288bc7468c4b2f1b4c02e94",
+      "scope": "source gate/caller"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI16AI_IsSkillUsableEj",
+      "elf_address": "0x3d8358",
+      "size": 284,
+      "sha256": "26c060734fdea9266a673b4a585a9ef49a17b51e552002edf6b4bc853743873e",
+      "scope": "source gate/caller"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11_SkillFocusEv",
+      "elf_address": "0x3d808c",
+      "size": 40,
+      "sha256": "78bfc3b05693b2d13360a7e55673c2fc1acfdc0e135b7b0b39ff7c977fc46668",
+      "scope": "source gate/caller"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11_SkillEventEv",
+      "elf_address": "0x3d8bf8",
+      "size": 40,
+      "sha256": "e6ae60569613882df422bd19922e0a38e118c280e5f1767594ba6e1590787120",
+      "scope": "source gate/caller"
+    },
+    {
+      "original_symbol": "_ZN6CharAI10_SkillBlurEv",
+      "elf_address": "0x3d8b7c",
+      "size": 40,
+      "sha256": "a45d595e1bec8b296132de2f17768425db000d5a05ca1bb3551c5faadb7680e4",
+      "scope": "source gate/caller"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_BeginSkillEj",
+      "elf_address": "0x3d86bc",
+      "size": 428,
+      "sha256": "07f9880765e3246c9b29f75f02dbb681ffcd0f2cfb9e2ada082c3286fc6eb258",
+      "scope": "audit only"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c4480",
+      "size": 324,
+      "sha256": "32171bb0105dcd0bfcabfe810a5dc9ee44e7b562a7832398a55f4be74da914c1",
+      "scope": "audit only, no new body credit"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c434c",
+      "size": 308,
+      "sha256": "e6761dc6c5d6f43b695b678924ee23ce4e7ef2af0bf2a15d96e222f389de5841",
+      "scope": "audit only, no new body credit"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill7OnEventEiP9CharacterP16CharStateMachineiPv",
+      "elf_address": "0x3c0ac8",
+      "size": 60,
+      "sha256": "bfb0054d5e809585c598ce6bc42976d3440f2a559039f84e0218e5a9ee763f31",
+      "scope": "audit only, no new body credit"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17LoadScriptProcessEv",
+      "elf_address": "0x3cf1f0",
+      "size": 436,
+      "sha256": "737c53f97392fdd9d21349694eef1c6b5a189f14864f0075e4a68e67d8e8c564",
+      "scope": "audit only, no new body credit"
+    },
+    {
+      "original_symbol": "_ZN6CharAI22LoadNInitScriptProcessEb",
+      "elf_address": "0x3cf3a4",
+      "size": 76,
+      "sha256": "55367c650fe7526b36840fca97aee781cf9d8a5276ed3b3c580c90b3799f34a4",
+      "scope": "audit only, no new body credit"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17InitScriptProcessEb",
+      "elf_address": "0x3ce7c0",
+      "size": 80,
+      "sha256": "2c61c145a786157363337b77b877321f1c0c8804d5dcc606963d355f2dab5c5f",
+      "scope": "audit only, no new body credit"
+    }
+  ]
+}

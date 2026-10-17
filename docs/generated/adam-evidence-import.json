@@ -1,0 +1,2041 @@
+{
+  "schema": "dh2-adam-evidence-import/v1",
+  "source": {
+    "repository": "https://github.com/AdamCelermajer/DH_sc",
+    "commit": "45c5348e807607a2825211bb8f26248067ba9106",
+    "tag": "native-checkpoint-2026-10-04",
+    "checkout_verified": true
+  },
+  "destination": {
+    "branch": "reconstruction/android17-irrlicht-rebuild-2026-10-03",
+    "head": "99780b4bee0f6044c195602cf71f55a58d50d05c",
+    "working_tree_note": "Generated from the shared working tree; this is a provenance audit, not a clean-commit claim."
+  },
+  "scope": "Evidence-only restore: missing mapped-function manifests, documentation-linked reports/reference files, and reproducibility probe/generator inputs. No implementation source overwritten; no APK, shared-library binary, source ZIP, Drive content, or private agreement included. Git index was not modified by this import.",
+  "summary": {
+    "document_link_targets_found_in_adam": 147,
+    "mapping_manifests_missing_before_import": 128,
+    "reference_probe_sources_missing_before_import": 15,
+    "unique_candidate_paths": 277,
+    "files_copied": 277,
+    "already_present_byte_identical": 0,
+    "preexisting_conflicts_left_untouched": 0,
+    "bytes_copied": 3677855,
+    "missing_link_occurrences_before_import": 214,
+    "unique_missing_targets_before_import": 160,
+    "link_occurrences_resolved_from_adam": 201,
+    "unique_link_targets_imported_from_adam": 147,
+    "missing_link_occurrences_after_import": 13,
+    "unique_unresolved_targets_after_import": 13
+  },
+  "imported_files": [
+    {
+      "path": "port/engine-animation/reference/animation-blend/original-functions.json",
+      "size_bytes": 1875,
+      "sha256": "a1aa5ed1188a8f1747d53406d03fc7ca2582521c6db55c9f6bf58bd70318bace",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/animation-blend/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/compiled-transforms/NOTES.md",
+      "size_bytes": 6957,
+      "sha256": "de6d848a6fb3dfd218d430e357ad3ecf459334ba644f3b1c17370d70fae8dfc1",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/compiled-transforms/NOTES.md"
+    },
+    {
+      "path": "port/engine-animation/reference/compiled-transforms/interpolation-policy/original-functions.json",
+      "size_bytes": 10032,
+      "sha256": "4e832d95769dbbc2db8e1f43c36fcc30077f2d87670149ee929a21ce5b6fa473",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/compiled-transforms/interpolation-policy/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/compiled-transforms/interpolation-policy/probe.py",
+      "size_bytes": 7849,
+      "sha256": "ee4510174f7afafeb45ab08e1ceaba8bf3592f6231477036fcdace56906dba50",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/compiled-transforms/interpolation-policy/probe.py"
+    },
+    {
+      "path": "port/engine-animation/reference/compiled-transforms/original-functions.json",
+      "size_bytes": 7123,
+      "sha256": "9f89ea4c6cb4e3226148f2fc1ad1e7db98da8fa708090c5239ca0ab398968d60",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/compiled-transforms/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/component-angle/original-functions.json",
+      "size_bytes": 4839,
+      "sha256": "b6b52a9d35651c2241e01ac608fd8f35a319640acd4e5215318a0dbfbd230506",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/component-angle/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/component-applicator/NOTES.md",
+      "size_bytes": 8335,
+      "sha256": "dc8ae0a92f752efad2e7a97f58b3996fe8045c3357024aa7f10f3f231359a92b",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/component-applicator/NOTES.md"
+    },
+    {
+      "path": "port/engine-animation/reference/component-applicator/original-functions.json",
+      "size_bytes": 15108,
+      "sha256": "759eda4ee61c92960c7527bb980b952f90fa12f5af4c7dc846a6a3e3ceb788e6",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/component-applicator/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/component-transforms/NOTES.md",
+      "size_bytes": 3576,
+      "sha256": "07771744e35178d66636359c6869a41e75d6aba29d048f4d079c1d674f5014ba",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/component-transforms/NOTES.md"
+    },
+    {
+      "path": "port/engine-animation/reference/component-transforms/original-functions.json",
+      "size_bytes": 34896,
+      "sha256": "fdb058cb42615047ba5a440be82bb9ca61e2d88a5eb31ced602a287a889e5694",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/component-transforms/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/dynamic-compiled-transforms/NOTES.md",
+      "size_bytes": 6779,
+      "sha256": "9e8785f9c65af3d94dfe839c4b3365e74606ebb514142e8da3d880fdd99f1a44",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/dynamic-compiled-transforms/NOTES.md"
+    },
+    {
+      "path": "port/engine-animation/reference/dynamic-compiled-transforms/original-functions.json",
+      "size_bytes": 17259,
+      "sha256": "583c32e52dcbbebd5bae9887c868cef6338d82b0e2cf2552f4c6d9ef01103cb7",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/dynamic-compiled-transforms/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/events/binding.asm",
+      "size_bytes": 4735,
+      "sha256": "018aa44536b66976298e5755699212826a92d67cec111ebc1c1f09bf880aa2c4",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/events/binding.asm"
+    },
+    {
+      "path": "port/engine-animation/reference/events/original-functions.json",
+      "size_bytes": 5266,
+      "sha256": "e5022de6e7bb1b187790a2676e92330a8973a7b4329452e88d75cf91ce1aff94",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/events/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/original-functions.asm",
+      "size_bytes": 32683,
+      "sha256": "42b58e4da2b1a0492160f4d7d26be2c5aab262b8d63ba20df38fd1334e9a9994",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/original-functions.asm"
+    },
+    {
+      "path": "port/engine-animation/reference/prince-registration/NOTES.md",
+      "size_bytes": 9597,
+      "sha256": "9efa703fe52c1a4863464de58f94a685e5742ba646f38c6c99d4c5b13426dafc",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/prince-registration/NOTES.md"
+    },
+    {
+      "path": "port/engine-animation/reference/prince-registration/load-probe.py",
+      "size_bytes": 6063,
+      "sha256": "84dfc8f81f1549a4f58d2905d53fdf4972ff87be136622c2b6455f2d209a0714",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/prince-registration/load-probe.py"
+    },
+    {
+      "path": "port/engine-animation/reference/prince-registration/original-functions.json",
+      "size_bytes": 8035,
+      "sha256": "bfc4921ed04ff19a8ff0972515de9e41dffe3da44471e48833af300f6cbaf234",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/prince-registration/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reference/prince-registration/probe.py",
+      "size_bytes": 10870,
+      "sha256": "c826883d2ecaa63a9925dec1b8e2daeba0c4726d501806ea99a93b242b5c708c",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/prince-registration/probe.py"
+    },
+    {
+      "path": "port/engine-animation/reference/prince-registration/reader-probe.cpp",
+      "size_bytes": 1533,
+      "sha256": "8b6851d6b5e91586f6015735044f228e98af93979fc60146ebed62c4af4e60c1",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/prince-registration/reader-probe.cpp"
+    },
+    {
+      "path": "port/engine-animation/reference/unbound-targets/original-functions.asm",
+      "size_bytes": 12108,
+      "sha256": "9f64e50191029654eb1b652eb543c0e0ab5528903e7c7ecd8506316dce11ca61",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/unbound-targets/original-functions.asm"
+    },
+    {
+      "path": "port/engine-animation/reference/unbound-targets/original-functions.json",
+      "size_bytes": 1399,
+      "sha256": "0fd66a89265c97c5574b9ecc70f3642e27146dabb5d85bcffc4f903c363b26b5",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reference/unbound-targets/original-functions.json"
+    },
+    {
+      "path": "port/engine-animation/reports/character-input-audit.json",
+      "size_bytes": 1516,
+      "sha256": "edc20ebbaf190e290a52672c09fa49ae7eb476c7457c044b03a4f63893dbf0f8",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reports/character-input-audit.json"
+    },
+    {
+      "path": "port/engine-animation/reports/events-arm64-differential.json",
+      "size_bytes": 2396,
+      "sha256": "9269e29cb390112ec7d7d4cd3facf4529062132d9e744b2fe10930781a577425",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reports/events-arm64-differential.json"
+    },
+    {
+      "path": "port/engine-animation/reports/lerp-differential.json",
+      "size_bytes": 416,
+      "sha256": "768ec48962d0143662169c07382d1951d3f4e3fd7c7430a2bbfdc59931e3eec5",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-animation/reports/lerp-differential.json"
+    },
+    {
+      "path": "port/engine-skinning/reference/original-functions.asm",
+      "size_bytes": 69800,
+      "sha256": "6e71b3d683fccf49669488aff0edfcace0fb5f8a2ff1f57ea41795b61f4c54d3",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-skinning/reference/original-functions.asm"
+    },
+    {
+      "path": "port/engine-skinning/reports/arm64-differential.json",
+      "size_bytes": 580,
+      "sha256": "8d30cc5ba058b09588805e7195968d79dcb9fa014ae03f59931c5977825af2ed",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-skinning/reports/arm64-differential.json"
+    },
+    {
+      "path": "port/engine-skinning/reports/host-audit.json",
+      "size_bytes": 200,
+      "sha256": "3bf3e5db44488638ce1d30b0d6a451725f2f89fb7cd4db2d930ee5a8cd1931c6",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-skinning/reports/host-audit.json"
+    },
+    {
+      "path": "port/engine-skinning/reports/objects-arm64-differential.json",
+      "size_bytes": 677,
+      "sha256": "0b6fd7c4c03693295e3fe540eb38c06a208c268c2d5ae2667f9ed4da4ea1c5ec",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-skinning/reports/objects-arm64-differential.json"
+    },
+    {
+      "path": "port/engine-textures/reference/original-functions.asm",
+      "size_bytes": 44929,
+      "sha256": "781339e4701c9c07a9005025e90360708c5a4901406cf9f1cce0c7235f8036b0",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-textures/reference/original-functions.asm"
+    },
+    {
+      "path": "port/engine-textures/reports/build-validation.json",
+      "size_bytes": 951,
+      "sha256": "5e7f0ebe4f56eb51ec291e37e35dfa9185d4527604b03941c86baa985f028736",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-textures/reports/build-validation.json"
+    },
+    {
+      "path": "port/engine-textures/reports/cache-audit.json",
+      "size_bytes": 146676,
+      "sha256": "eea125c3146a1f49715cd059409d382e42bcd4295c8f8395148fe532b0026579",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-textures/reports/cache-audit.json"
+    },
+    {
+      "path": "port/engine-textures/reports/differential.json",
+      "size_bytes": 5250,
+      "sha256": "80e37606fa648405da8ef0136cdfbb41a4542d824b6b495b0b69c7392a54d9a5",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/engine-textures/reports/differential.json"
+    },
+    {
+      "path": "port/game-data/reference/aggro/NOTES.md",
+      "size_bytes": 3111,
+      "sha256": "9e71edf36fd3b2f9e41c7db256304622ae4b71d6f6db437e7b9a4033cdd574fb",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/aggro/NOTES.md"
+    },
+    {
+      "path": "port/game-data/reference/aggro/original-functions.json",
+      "size_bytes": 3475,
+      "sha256": "6783108b8a19f7603c06a3b9768e7c90b2fbdee8e471adf41585877093ba1bf1",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/aggro/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/ai-reader/original-functions.json",
+      "size_bytes": 341,
+      "sha256": "cc4d4c20c63f16634dfc745d208d36d45a8985551d98b117cceb5476449fa9de",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/ai-reader/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/ai-target/NOTES.md",
+      "size_bytes": 4926,
+      "sha256": "dde708c484ee4f430def0c73681cc46d3322677432d819b7e72fc71459ad551f",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/ai-target/NOTES.md"
+    },
+    {
+      "path": "port/game-data/reference/ai-target/original-functions.json",
+      "size_bytes": 2952,
+      "sha256": "663d337b6c43299b1dd5cc08b53e2659930455c4b08c8c7c42979c191858454f",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/ai-target/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/animation-readers/original-functions.json",
+      "size_bytes": 2381,
+      "sha256": "1d000eea6ee7ca6eeec512738502edd3935af5a60554ffea4162766d95d29bac",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/animation-readers/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/classes/original-functions.json",
+      "size_bytes": 4720,
+      "sha256": "ab9bd88c7dc0bc5f727e4311aa286a19ae90a715d3162627db6895d6ea44e11b",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/classes/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/classes/property-layout.json",
+      "size_bytes": 2494,
+      "sha256": "202d082e0f1dfc74c41b2641ced816de03636da32c2f8d082a5f26441c71e193",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/classes/property-layout.json"
+    },
+    {
+      "path": "port/game-data/reference/combat-application/death-fsm-functions.json",
+      "size_bytes": 974,
+      "sha256": "f4cc903645a556a4a20016deabd9e7c586054533362f1af1742a032ff3573bae",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat-application/death-fsm-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/combat-application/original-functions.json",
+      "size_bytes": 1653,
+      "sha256": "c5f44a6db408d54aa315963073972f10a7a3c67cb395e5d687772012053861a5",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat-application/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/combat-events/original-functions.json",
+      "size_bytes": 5928,
+      "sha256": "49eb2ecbb55964c18a016618094634188a118b5d61720424ead97758d73d6868",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat-events/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/combat-events/range-capability/original-functions.asm",
+      "size_bytes": 1088,
+      "sha256": "9d55c1b89a10fc58290d2b18105f19fd97bd04850d498ae8d6ba4658f0c75cf7",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat-events/range-capability/original-functions.asm"
+    },
+    {
+      "path": "port/game-data/reference/combat-events/range-capability/original-functions.json",
+      "size_bytes": 554,
+      "sha256": "90d36fedcf872713641df3fd5c038f1600ae637a99a21725457b392984e61d70",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat-events/range-capability/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/combat-result/controller.asm",
+      "size_bytes": 32704,
+      "sha256": "83265b1747d8664505ac44263afae804ebb67d04be6fb823ebad3ec393c7a81c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat-result/controller.asm"
+    },
+    {
+      "path": "port/game-data/reference/combat-result/original-functions.json",
+      "size_bytes": 1020,
+      "sha256": "e9b8314c3751b67462dbee866a43d6307490f1aa4cb6f65cbda1507d1dc45800",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat-result/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/combat/original-functions.json",
+      "size_bytes": 7944,
+      "sha256": "aa5993164dd2522f74ae9e24d0cd1e28f9894cb07670e4eba475df4cd5f0e7ba",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/combat/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/completion/original-functions.json",
+      "size_bytes": 1223,
+      "sha256": "7b5b725574c5d2a05a7dfc9787ede7cd88f99778aabc1b1f9e07aa6997cb9922",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/completion/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/health/original-functions.json",
+      "size_bytes": 2248,
+      "sha256": "989e72f0f4616b5ad765a61b6d9180c6a8832142bbc3f8ac813a4a85a47dc249",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/health/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/items/original-functions.json",
+      "size_bytes": 6669,
+      "sha256": "fa7bfee6b23afc96b25fccc9f0a21011cdeb29b2070be193645b9068db3fffc8",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/items/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/items/registration/original-functions.json",
+      "size_bytes": 818,
+      "sha256": "9c2ad4d7bb22367f79d7c8bcbdf38cda0ad8a23a8dc249ffe98076e5c8ffdcbe",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/items/registration/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/original-functions.asm",
+      "size_bytes": 175831,
+      "sha256": "1067e21fa0142cff3a27f161cc44d3d058ac4846d4e0a9d3fdf0d98e3680e161",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/original-functions.asm"
+    },
+    {
+      "path": "port/game-data/reference/player-defender/original-functions.json",
+      "size_bytes": 1680,
+      "sha256": "a42c7e5f8e72d664971f94a0b5253c4f64870d746ded779fcdc3290607a85850",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/player-defender/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/player-initialization/original-functions.json",
+      "size_bytes": 984,
+      "sha256": "167750812ab121edd27114599da950cc7872d1416e83b9d9409021eb16fc4add",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/player-initialization/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/properties/original-functions.json",
+      "size_bytes": 5290,
+      "sha256": "899a3de301e5ed7715a0162d25ef5f416ec1ba065705a2ccd1214a53a00bb3a0",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/properties/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/properties/property-rules.json",
+      "size_bytes": 33167,
+      "sha256": "62563819c67aa6a4fc911784fc0b291265d2243c791b0cf66dda246f340383ce",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/properties/property-rules.json"
+    },
+    {
+      "path": "port/game-data/reference/selection/original-functions.json",
+      "size_bytes": 1622,
+      "sha256": "b8deeaf83e43f13a595d82a55c02e989844411ca4419275ec8fc95de5cda3495",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/selection/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reference/vitals/original-functions.json",
+      "size_bytes": 1915,
+      "sha256": "739ef2b594647711a3311dcc2232157e92d28a4c1cba4c70a4d09c5cc04aa363",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reference/vitals/original-functions.json"
+    },
+    {
+      "path": "port/game-data/reports/aggro-arm64-differential.json",
+      "size_bytes": 5079,
+      "sha256": "3cf012f81f16502a1424f3dc9f01b917c992838febc7c3e8dc376e9fe927a9fc",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/aggro-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/aggro-host-audit.json",
+      "size_bytes": 283,
+      "sha256": "9b715ed06a834166638cf08672f34424df4554e18e76d7690fcf1781602a0264",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/aggro-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/aggro-packaged-arm64-differential.json",
+      "size_bytes": 5108,
+      "sha256": "b95499311db787cc8a295cd833fcdf5a4dff045732a843942517761a18ac2234",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/aggro-packaged-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/aggro-studio-arm64-differential.json",
+      "size_bytes": 5108,
+      "sha256": "983271695a41f260a484e94687ea974fe646552b585fba43ae68b8f5040bb6d1",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/aggro-studio-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/ai-arm64-differential.json",
+      "size_bytes": 965,
+      "sha256": "665507879bfff71b3523562eb548b1dd3ae53b2c4ae18802d4a1ae58f4d32676",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/ai-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/animation-random-arm64-differential.json",
+      "size_bytes": 470,
+      "sha256": "5070bbcf17f51421c512dcd5d77d077aa6d6be500b0d20fee937692c749fd83e",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/animation-random-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/animation-scheduler-host-audit.json",
+      "size_bytes": 359,
+      "sha256": "ac2fae7976ad26791e4ca345fad5f3bdc23b732315da8f3b243bed1e2685653f",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/animation-scheduler-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/animation-tables-host-audit.json",
+      "size_bytes": 433,
+      "sha256": "bf45d95212c10945d1c996b0920aba6fbce86ac53130f664dee39c43ba04d8e2",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/animation-tables-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/classes-arm64-differential.json",
+      "size_bytes": 113129,
+      "sha256": "e52983dcccb39f401aac5c32e5312f9554185525cd890d0d87a66d19ec8a9293",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/classes-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/classes-host-audit.json",
+      "size_bytes": 441,
+      "sha256": "b070ff8c1f49d0b0b046512889443d1b4dc24b67df0a63b419a97d6013d494bc",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/classes-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/classes-regression-vitals.json",
+      "size_bytes": 113129,
+      "sha256": "5468ae99351d485c2c675aec290084abbb00b92a0042cd1422de46468ed8082f",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/classes-regression-vitals.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-application-arm64-differential.json",
+      "size_bytes": 30424,
+      "sha256": "1fbe59202a22034fe7273d5f93285e785039d736a80132c8fb057e04cd80f6d0",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-application-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-application-host-audit.json",
+      "size_bytes": 340,
+      "sha256": "2229366a5d0d2f48d98f6b32075ead2ffa1cfc9f0583f22a1eeb7b2a588b1738",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-application-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-arm64-differential.json",
+      "size_bytes": 2040,
+      "sha256": "39785e1962be855fc940d3370e490829f4d1bba42e332b2447a52920f43ed0ba",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-events-application-arm64-differential.json",
+      "size_bytes": 6635,
+      "sha256": "2799bd2a1e82f07504644d59224e6d848a689c2304e253ad5fd2dbd544f72320",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-events-application-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-events-arm64-differential.json",
+      "size_bytes": 4658,
+      "sha256": "09837818f31a0053672ab7117905f9a4c54ccbba475a14aa8a0bd11998f5f28b",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-events-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-host-audit.json",
+      "size_bytes": 370,
+      "sha256": "6477c47efc85de9ce1669132b9dbf487135711b7152d5d542eef7214268ddca8",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-result-arm64-differential.json",
+      "size_bytes": 3098,
+      "sha256": "098fc5bd6d7fab84c869e774e4bf5486e9d77ef0a93208959bf12b1b20f6bbac",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-result-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/combat-result-host-audit.json",
+      "size_bytes": 265,
+      "sha256": "7d0cb9541510f5f23cad1f36da4516d04cb93cae853086c56ab8197b0ed5c931",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/combat-result-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/completion-arm64-differential.json",
+      "size_bytes": 563,
+      "sha256": "9c6f54b6f84d456445cb1e6041bca4ea5a5704bc3be9fe3dcc558eccf6c34f5c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/completion-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/health-arm64-differential.json",
+      "size_bytes": 3397,
+      "sha256": "5b5ed3c323f7cc0ec5d9d90168021ab0edd820e0069d67446507953cecb3af6c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/health-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/host-audit.json",
+      "size_bytes": 222,
+      "sha256": "364a1a089c570ac20635b72c43af55f3afc8b4a200b1bd099f9e08ead87e9b58",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/player-application-arm64-differential.json",
+      "size_bytes": 419585,
+      "sha256": "63b55c224734cbafb076c88689b66b22856ad390b641256615fe0da4c7e01f61",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/player-application-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/player-application-host-audit.json",
+      "size_bytes": 480,
+      "sha256": "aac12b25ad59fd04ff6a3fb1e12593f8ff8a1545eb9d3b332992fb1fcebf521d",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/player-application-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/player-defender-arm64-differential.json",
+      "size_bytes": 97766,
+      "sha256": "6fc5587608f4b0ecac7e6924464e6f1e4f0b2dc02a626c5a563e50b4d02cad98",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/player-defender-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/player-defender-host-audit.json",
+      "size_bytes": 334,
+      "sha256": "a3501102929c7f1f24b905e11d7ba10147d6c26f4df10d1f5e10cd93b67bcc92",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/player-defender-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/player-defender-monster-regression.json",
+      "size_bytes": 340,
+      "sha256": "2229366a5d0d2f48d98f6b32075ead2ffa1cfc9f0583f22a1eeb7b2a588b1738",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/player-defender-monster-regression.json"
+    },
+    {
+      "path": "port/game-data/reports/player-defender-player-regression.json",
+      "size_bytes": 333,
+      "sha256": "8d384ae57e4924789dc410b99b2d2386c5139c12f742abc1492d11ff3bee5d7c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/player-defender-player-regression.json"
+    },
+    {
+      "path": "port/game-data/reports/properties-arm64-differential.json",
+      "size_bytes": 2871,
+      "sha256": "55d89e8051ccfb5e5380fe7c786f6c2f13714949c6fc6460ca8ee8662113d81e",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/properties-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/properties-host-audit.json",
+      "size_bytes": 363,
+      "sha256": "1fb62f739cb6530397ea0e1b4f7842d9038d858b106ab224226e384ba496d987",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/properties-host-audit.json"
+    },
+    {
+      "path": "port/game-data/reports/vitals-arm64-differential.json",
+      "size_bytes": 4704,
+      "sha256": "1803696c230c33a00837097a203a237329e60dbf7dc8c0f06e4b955081f3d13c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/vitals-arm64-differential.json"
+    },
+    {
+      "path": "port/game-data/reports/vitals-host-audit.json",
+      "size_bytes": 430,
+      "sha256": "3cde3f532deeeefa9bc196a6e5ae4d6a233b06de3c813d63e71b21426de7560d",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/game-data/reports/vitals-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reference/actor-playback-events/NOTES.md",
+      "size_bytes": 8133,
+      "sha256": "542c69d7c9a82cee2e9c76a6aee041e70e985245b5045c504ac3a4aff051ef63",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/actor-playback-events/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/actor-playback-events/generate_original.py",
+      "size_bytes": 10044,
+      "sha256": "1e7aa3e6dfb12251558a9852e11f6c991b074a2098b657154eea30cc74c232b1",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/actor-playback-events/generate_original.py"
+    },
+    {
+      "path": "port/level-world/reference/actor-playback-events/original-functions.json",
+      "size_bytes": 7099,
+      "sha256": "156b1aad01dd0793ce9ccc50d1e8f734921170be2f719c1cbd813646d390d780",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/actor-playback-events/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/actor-playback/NOTES.md",
+      "size_bytes": 7158,
+      "sha256": "0bdabd113b3a0a449aab07baf37aa723b12a5f4ecc11c72a11dab7e43e7db1ab",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/actor-playback/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/actor-rotation/original-functions.json",
+      "size_bytes": 1211,
+      "sha256": "c0f31e60d3a13916b76dcd52318eebf627c3a17ff6d7cff933ba2005b3d95601",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/actor-rotation/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/actor-runtime/original-functions.json",
+      "size_bytes": 989,
+      "sha256": "abe0fa2e6ce8d22bde871e3a87f2c92e7dcb13f40c91f2970e95784dbb23916e",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/actor-runtime/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/animation-blend-composition-reentry/original-functions.json",
+      "size_bytes": 4660,
+      "sha256": "26744b7f25da5f080576a8f5dd79026fb38f887c3894b22336b5ab4359d03471",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-blend-composition-reentry/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/animation-blend-composition-reentry/probe_actor_actions.py",
+      "size_bytes": 4544,
+      "sha256": "01683f0177638a3de0911f91ea405cbdd01fb998c638ea6c3193dfa409934376",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-blend-composition-reentry/probe_actor_actions.py"
+    },
+    {
+      "path": "port/level-world/reference/animation-blend-composition-reentry/probe_original.py",
+      "size_bytes": 7947,
+      "sha256": "ed3a649da088a3c0c528618cb5b133cce602f0705f578f230c73458a6f524a1c",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-blend-composition-reentry/probe_original.py"
+    },
+    {
+      "path": "port/level-world/reference/animation-blend-composition-reentry/probe_selection.py",
+      "size_bytes": 6071,
+      "sha256": "c0be4c820a8ca4b1821f80d0e94ee60147c84b9a31beb3aeb18b3056bff8aeb4",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-blend-composition-reentry/probe_selection.py"
+    },
+    {
+      "path": "port/level-world/reference/animation-blend-composition-reentry/review.md",
+      "size_bytes": 7246,
+      "sha256": "cd07c543691113f4de6305f8e0c7074cd7aa02a0c864c9ce542fa65f6a19270f",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-blend-composition-reentry/review.md"
+    },
+    {
+      "path": "port/level-world/reference/animation-blend-composition/original-functions.json",
+      "size_bytes": 28570,
+      "sha256": "bdfd13c1f7ab13b56efa30e1b008c6deacdff8bae6781e56e77a57b4fa769e0d",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-blend-composition/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/animation-blend-composition/probe_original.py",
+      "size_bytes": 5686,
+      "sha256": "da0be457c9025d971b1770aeeead59098c7eef97c2b9688d20798b5756ce4317",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-blend-composition/probe_original.py"
+    },
+    {
+      "path": "port/level-world/reference/animation-event-routing/NOTES.md",
+      "size_bytes": 3002,
+      "sha256": "f22e2271e14987f07369e731c55da0cd9cbcac16328e24b0f5e1a2284e44ad61",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-event-routing/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/animation-event-routing/native-reference/original-functions.json",
+      "size_bytes": 3136,
+      "sha256": "94d1d937835fcfcd8036dbb6a733e278feb247bf175825f928f8d1ec6fbb09f2",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-event-routing/native-reference/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/animation-event-routing/original-functions.json",
+      "size_bytes": 3136,
+      "sha256": "94d1d937835fcfcd8036dbb6a733e278feb247bf175825f928f8d1ec6fbb09f2",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/animation-event-routing/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/body-transform/NOTES.md",
+      "size_bytes": 2585,
+      "sha256": "75233926f3fee39d9f4fbb3c63b61d5853ed0ecdb125c531a49df5f2b131e847",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/body-transform/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/body-transform/original-functions.json",
+      "size_bytes": 331,
+      "sha256": "aef8c53bc4fc020de8f04c7f297dae4dda22407a283f904641206fdf248cf89c",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/body-transform/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-events/discover.py",
+      "size_bytes": 1550,
+      "sha256": "06cc6d9ac7f98ba570222eb6476c2f19f548ddb7c6e136750b75283ea5dcfde7",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-events/discover.py"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-events/original-functions.json",
+      "size_bytes": 3493,
+      "sha256": "14d0f53c1a512db5327533aceeeb19d56a9f15d4502bc2523f2f757953736e58",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-events/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-frame/debug_producer.py",
+      "size_bytes": 1302,
+      "sha256": "eeb6b56eb4620a26d0540ee2aa4b3dc90db1b46ce5eb636e6c2b4ded5474275b",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-frame/debug_producer.py"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-frame/original-functions.json",
+      "size_bytes": 1365,
+      "sha256": "d971d0978a459c79a0a66f012d950c40f3726e75b3628cdb1483c2d2d59a6dd2",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-frame/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-frame/producers/original-functions.json",
+      "size_bytes": 2020,
+      "sha256": "b4686f3b3b14b7e994042b485dbbb21cf06d122ef6e93022b176929aada5f53b",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-frame/producers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-update/live-producers/original-functions.json",
+      "size_bytes": 1409,
+      "sha256": "0220a8ca178ef1e8cd9d98f7d8cbcb660caf0ec7759f6c580eb624e8e5f01e6f",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-update/live-producers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-update/original-functions.json",
+      "size_bytes": 1639,
+      "sha256": "ffc0446e8ec606dd1f03d1454f1938f9a840729370cb420010ee38f4e7fdcc2c",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-update/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-update/producers/original-functions.json",
+      "size_bytes": 2236,
+      "sha256": "542d499926c587a8ba5924e8d25c11b107c582e2c44c446fcfeaff042493a984",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-update/producers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-update/producers/trace.py",
+      "size_bytes": 1883,
+      "sha256": "4f6d6f041590b9e79065802f4f5a126124093503f200ff65acfe663e47423fbc",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-update/producers/trace.py"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-update/property-getter/original-functions.json",
+      "size_bytes": 326,
+      "sha256": "b5f2b058d745939e9eca8af6d62cd43065ec7d4cee1961517a36b5796998d1c4",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-update/property-getter/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-update/state-getter/original-functions.json",
+      "size_bytes": 337,
+      "sha256": "8b140aa964ee2aaf9609fafd132fecc7f13d13528ad5f3b51ecb1d48f7448901",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-update/state-getter/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-ai-update/virtual-producers/original-functions.json",
+      "size_bytes": 536,
+      "sha256": "c7b73ad62629d9ff95820a45f3e244fb89006a7d7144cbcad1779b781383fc3c",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-ai-update/virtual-producers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-animation-ai/NOTES.md",
+      "size_bytes": 11066,
+      "sha256": "806f2981382802bc73ccca14ff933571f52ed22116119430460190a17bab4142",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-animation-ai/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-animation-ai/constructors/original-functions.json",
+      "size_bytes": 526,
+      "sha256": "812aac323a154e116522e5530f3ba5ecaa3e901d8ec036415c76fd2d9015fb13",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-animation-ai/constructors/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-animation-ai/helpers/original-functions.json",
+      "size_bytes": 2260,
+      "sha256": "b831a42c6942667f5e926e8fb12a72e76e5732b03f680a412fa3d47bf39ca7f9",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-animation-ai/helpers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-animation-ai/original-functions.json",
+      "size_bytes": 4047,
+      "sha256": "efb178a5d3c64dcb7f49c1a96e6ec9e40588b63367843c52e59297a8eaeed7c9",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-animation-ai/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-animation-ai/virtuals/original-functions.json",
+      "size_bytes": 743,
+      "sha256": "32963bfc9e4dce1f8c7a5d94a301b7fce3c749b8784def3c6a0748248387b0fe",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-animation-ai/virtuals/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-body-config/NOTES.md",
+      "size_bytes": 4614,
+      "sha256": "32432464a26dc4d47692ff951e9c6dce4334dbd8059d0875ec201cc1f1524741",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-body-config/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-body-config/original-functions.json",
+      "size_bytes": 5110,
+      "sha256": "42cc63821c53abea892f92525b23f174601e8f25fbca8c4fc87773361099a3af",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-body-config/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-combat-queries/NOTES.md",
+      "size_bytes": 6611,
+      "sha256": "791317637808ec68cc3a07ce6b733632fd342d4aa642dd3e237fd41787ccf5e4",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-combat-queries/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-combat-queries/original-functions.json",
+      "size_bytes": 1851,
+      "sha256": "913858966a29d69c9c3fa3e28780f487131a8e2631ea91b11426493c59a46070",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-combat-queries/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-controller-commands/original-functions.json",
+      "size_bytes": 2757,
+      "sha256": "6452219c57d3dfb3afdb55c950b9adf8a7ce92d5ad671ef283fbc68d07083566",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-controller-commands/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-path-commands/original-functions.json",
+      "size_bytes": 985,
+      "sha256": "2316a56189c87e6ce63f182a3959d481fbd7ed43fc6f1bcdb3aaec8e31935876",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-path-commands/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-scene/NOTES.md",
+      "size_bytes": 8321,
+      "sha256": "b42e2baa0172a9663a5635ead51a972b83dd5ee93ec3a584a3c8ea571d63266a",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-scene/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-scene/initialization/original-functions.json",
+      "size_bytes": 2095,
+      "sha256": "ba13cf96da9bd40d3d02cb8d4610875ef14f99336d25e0d1a82cba52af2bb5ef",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-scene/initialization/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-scene/original-functions.json",
+      "size_bytes": 4121,
+      "sha256": "e278f96cea2cd6dbcb1915fe55714a7d69fc03752f4333c192e0c395b87c7546",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-scene/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-collision/application-producer/original-functions.json",
+      "size_bytes": 536,
+      "sha256": "70f4837c228290cfd657ac6c775a124a06551aea01e7a1a96cbc3f283e32d15e",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-collision/application-producer/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-collision/original-functions.json",
+      "size_bytes": 994,
+      "sha256": "478c44a8f02f55dade12a054729dc0f09f45ba85d32453753d7a22fc691dd572",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-collision/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-lifecycle/NOTES.md",
+      "size_bytes": 10347,
+      "sha256": "0121affcb7b7941011ae8d1a225f7b093326428b50f7152c771bec5f852d0047",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-lifecycle/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-script-lifecycle/helpers/original-functions.json",
+      "size_bytes": 1599,
+      "sha256": "d27fbabb47d621bef95aa51920d52cea5d87bad408d3c2f05043ab01ce480799",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-lifecycle/helpers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-lifecycle/original-functions.json",
+      "size_bytes": 4325,
+      "sha256": "69e36a972a8b65dead4d20235f1f7d83125bca761b406354282dea3d88795eb7",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-lifecycle/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-lifecycle/steps/original-functions.json",
+      "size_bytes": 1196,
+      "sha256": "741834fe821ce661f631ad7896b339ce0fe11f53f34f3e439e4cb5bd8eb9b08f",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-lifecycle/steps/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-lifecycle/termination/original-functions.json",
+      "size_bytes": 1375,
+      "sha256": "c728a66cb2fd9cbe4a26ff264af115a64882ae78cf8ebff05835b83c00682870",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-lifecycle/termination/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/cache-teardown/original-functions.json",
+      "size_bytes": 338,
+      "sha256": "ac89c73b38bf40cd3f18472faa1232a487fdd1686feb1c3445d927c2cf0609e4",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/cache-teardown/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/character-bindings/original-functions.json",
+      "size_bytes": 852,
+      "sha256": "a5e96fbc34efda537bcf7bdaeb3a6c2a1f224e7858f84d3c74a229b0ee0851af",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/character-bindings/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/default-factories/original-functions.json",
+      "size_bytes": 556,
+      "sha256": "b631bc7f5aa041d0354316eb968da1e46c1f92a2dda65918c6cba603d0e76872",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/default-factories/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/file-ownership/original-functions.json",
+      "size_bytes": 2166,
+      "sha256": "166453ed72269fa845a5830df784d91710d8d90dcfe050a6b9cb6e6abc8a577c",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/file-ownership/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/init/original-functions.json",
+      "size_bytes": 534,
+      "sha256": "ae565b32902f259681b6dc5c9c859fe046c9c716a0555f42c42db9b27938af52",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/init/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/original-functions.json",
+      "size_bytes": 6421,
+      "sha256": "10880a02cec8279ef6050ca60e4f80d187e0afeef12c1eb0853784cfb12a5f6a",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/probe.py",
+      "size_bytes": 11378,
+      "sha256": "aeb913836038112a8969d31a10cde54fd38a0c44e2317e867ad14828a63dffc7",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/probe.py"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/registration/original-functions.json",
+      "size_bytes": 3618,
+      "sha256": "a21267d4bdfd6019f3c95aa247b148d27d666a9689c49903798a3700c5907ba5",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/registration/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/vm-libraries/original-functions.json",
+      "size_bytes": 1356,
+      "sha256": "3a1016b1e1905106f670f809e8ac0e8d6ceff762371838dcddfe29fecaa18ad1",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/vm-libraries/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/vm/original-functions.json",
+      "size_bytes": 522,
+      "sha256": "ae2b74b938a437d39db5ec8cfd0b677d39e21594a26eb7073ef59ed9ad54c0a6",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/vm/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-ownership/vm_core_probe.py",
+      "size_bytes": 4116,
+      "sha256": "b7d1201a5443ecb39758191e73448ed5d1c7ccf0e0dbfdf8c33e7b4285ef7f40",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-ownership/vm_core_probe.py"
+    },
+    {
+      "path": "port/level-world/reference/character-script-selection/NOTES.md",
+      "size_bytes": 3161,
+      "sha256": "a32d406d27f92ba9b512659aa5bd1e31c50c79c13c0effc1f7e64edecceff562",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-selection/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-script-selection/original-functions.json",
+      "size_bytes": 1866,
+      "sha256": "2d8028a786176029b312b0adfaf12703ab0b9ec05bed7de5bc74e94a1b50a463",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-selection/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-update/ai-events/original-functions.json",
+      "size_bytes": 330,
+      "sha256": "d52364aee8118c1eb0850d84282a1f6ef73e9895635fd7cb42363ad7c6cb5cfd",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-update/ai-events/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-update/dispatch/original-functions.json",
+      "size_bytes": 1808,
+      "sha256": "2bbde4b05e0ffccb226b03661fe4a306f1ede5966309b0da8bbd620c3a6181db",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-update/dispatch/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-update/helpers/original-functions.json",
+      "size_bytes": 2003,
+      "sha256": "e63e7a414a875f658f1d601013094e95c22d3d9aeffb3c9fbbb9ff6a2d9fe854",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-update/helpers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-script-update/original-functions.json",
+      "size_bytes": 326,
+      "sha256": "31bca02314b45fb8d37225c592970989a20ab3897ec76183baed578ac5614f56",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-script-update/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-stance/NOTES.md",
+      "size_bytes": 1397,
+      "sha256": "9441e45bef1a03729381acb5d4ab6876c11634f9e28ed0a2305a13d53542afc7",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-stance/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-state/NOTES.md",
+      "size_bytes": 9696,
+      "sha256": "71efd26fb8bf66bee956ec0c8d47b488311c5593da2f9def68407f9397e9e329",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-state/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/character-state/original-functions.json",
+      "size_bytes": 7451,
+      "sha256": "69053d978ceacfbf7edb4cb533df27f0cbf9002fa5504003c3c4262dccd7b9e9",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-state/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-target-search/original-functions.json",
+      "size_bytes": 7983,
+      "sha256": "3a14e52171d0830f5ba38d6f14e88ec8d1209381afb4f9c58bf8799d1890cdf0",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-target-search/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-timer-discovery/original-functions.json",
+      "size_bytes": 6654,
+      "sha256": "bdb56fb9d288bcacf46ba27e22df04252cf76fcdabddc41ca902f8369353e9a9",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-timer-discovery/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/character-timers/NOTES.md",
+      "size_bytes": 2360,
+      "sha256": "ebb3c97561535a6bd4aa841e31c76cdcce7f0e811aafe4169e739636f00624c5",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/character-timers/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/collision/NOTES.md",
+      "size_bytes": 3953,
+      "sha256": "54c2baab37cca9a50d8c09d1f05093044d7566685c05acd95502a25acf825e75",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/collision/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/collision/original-functions.json",
+      "size_bytes": 2203,
+      "sha256": "2e7b3367556426c00a13741f86f442259451783b2afb258ccbbeb66473bd93e1",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/collision/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/controller-physical/NOTES.md",
+      "size_bytes": 2410,
+      "sha256": "eccde8a181c91e162e2ee86570f89b58ad0aa9176a6759c25a40f5519be42ac8",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/controller-physical/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/decor-body-config/NOTES.md",
+      "size_bytes": 5962,
+      "sha256": "049a5825464d6f67bc0c3cda15d232061ee4ab74186c9a8182e6ef6bcc5af9e3",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/decor-body-config/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/decor-body-config/original-functions.json",
+      "size_bytes": 4836,
+      "sha256": "9e3c79c0851f2e2a6e65790154b38a9bd1a5986ac26e4ab84031db3c39979e0d",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/decor-body-config/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/decor-scene/NOTES.md",
+      "size_bytes": 5255,
+      "sha256": "2128d77f66256dea43ee381db37e8b6ab1c5232fdc1ca73905f012043ee0b946",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/decor-scene/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/decor-scene/original-functions.json",
+      "size_bytes": 3986,
+      "sha256": "27c6069587f899a591c721d264510c034057d2ddd082f1dc70cb5de068a6f075",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/decor-scene/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/floor-records/NOTES.md",
+      "size_bytes": 4520,
+      "sha256": "7a0de6ab221e33d01a8ecb545274cfcf2f64c4d296fcf5ce9144a00047db48f8",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/floor-records/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/floor-records/original-functions.json",
+      "size_bytes": 4263,
+      "sha256": "0bc0dda828aa2d3bf875f82881efa1252806d092b3a24d59c00710a05e17838c",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/floor-records/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/floor-source/NOTES.md",
+      "size_bytes": 3593,
+      "sha256": "7e3f4671d81275230b46ca0b56f9ea5b408781a3dbb97efc52f8104b6c9f9786",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/floor-source/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/floor-source/original-functions.json",
+      "size_bytes": 5065,
+      "sha256": "d65bdf1592fe4a59c3d96e3252a761bdd298c419374b93cdd0f266c4dc233f7b",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/floor-source/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/frame-order/NOTES.md",
+      "size_bytes": 12857,
+      "sha256": "d66b1c6f256c5471e215fc163a4b5b589d9a93a9a8d99300534ced46963144d5",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/frame-order/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/irrlicht-lineage/NOTES.md",
+      "size_bytes": 9931,
+      "sha256": "b34b21659d9b5c3f5219ff80e34be60492ec2fe2bb2f364cae2d72153d215f0e",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/irrlicht-lineage/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/irrlicht-lineage/original-functions.json",
+      "size_bytes": 3352,
+      "sha256": "f49b946ee12ddd4a0350a4e95617739732560574ffd3fadd3e8ce186531631bd",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/irrlicht-lineage/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/irrlicht-lineage/probe_original.py",
+      "size_bytes": 2501,
+      "sha256": "3c17c8a6d1348f7807e1b1300882134c29e9857dfcfe3392b4a12b11dfd26590",
+      "kind": "reference_probe",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/irrlicht-lineage/probe_original.py"
+    },
+    {
+      "path": "port/level-world/reference/move-state/NOTES.md",
+      "size_bytes": 6100,
+      "sha256": "2bf260661b30b64a9ad1976dcfb952d89ef7cdc813dd9b2552f86be7cb438c2a",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/move-state/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/move-state/original-functions.json",
+      "size_bytes": 5687,
+      "sha256": "27836e193a102acba3d0c68cc413c0dee4ef901487c22dc7312f2528d6fd37af",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/move-state/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-avoidance/NOTES.md",
+      "size_bytes": 5337,
+      "sha256": "610e1925af3b2ac906c47fc35570f531b483e07b465e98478ab2fbd289096e73",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-avoidance/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-avoidance/original-functions.json",
+      "size_bytes": 1515,
+      "sha256": "110e4bebc1ba79d81d4d3572e2910aa9861684ff893bb7ccb9c57ccc181010a2",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-avoidance/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-controller/NOTES.md",
+      "size_bytes": 3735,
+      "sha256": "81c1fd51e65123a519cb48721c0ad65d3321b53df8b344233e614f1e62e35b5f",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-controller/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-controller/original-functions.json",
+      "size_bytes": 1423,
+      "sha256": "39299e5a33cc30b4e6b9d442aa41292a66a59bfd9bb72c0c183e3f6b2bf8c2d3",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-controller/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-heading/NOTES.md",
+      "size_bytes": 3116,
+      "sha256": "4f63915494729b3e74762d904b08b83b209bcec240eb0b7fdd437b7e8fbc837e",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-heading/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-heading/original-functions.json",
+      "size_bytes": 577,
+      "sha256": "563e5e17cf7418f31361bcef41e42b078721b73190d96c050eeb8def498d14fa",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-heading/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-link/NOTES.md",
+      "size_bytes": 4875,
+      "sha256": "20dff256222e83fbca3d1f3af2b8a160ad82c68cdfb486834ae9bdf9023aacd7",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-link/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-link/original-functions.json",
+      "size_bytes": 5034,
+      "sha256": "f2798364beaaa2ac4fd62c12a92d4bcae014afb7757e9befd1087871f1967867",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-link/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-motion/NOTES.md",
+      "size_bytes": 6225,
+      "sha256": "98485b9af61e0d9b7c98c50b39a031d6069f2595038cb898901426006462652c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-motion/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-motion/original-functions.json",
+      "size_bytes": 14826,
+      "sha256": "ec093c58c490cf6325eb94c6e11ebc9d8a88145b1db0c862c128129bef8ff293",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-motion/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-objects/NOTES.md",
+      "size_bytes": 4923,
+      "sha256": "a1c9db2f97fd1f09ec3eff32ae2e4687996ee668ff5ec8bb8e03116acb8daea8",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-objects/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-objects/original-functions.json",
+      "size_bytes": 2268,
+      "sha256": "b25b9f0eb0a22b00b0256ee2723f7e9671d85f163cb4d5848825135bb6770426",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-objects/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-path/NOTES.md",
+      "size_bytes": 5560,
+      "sha256": "777e5fd1f94cb3c910d3088db2c2ad321a7947c972d2e059bc985d03b7fc75f4",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-path/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-path/original-functions.json",
+      "size_bytes": 14493,
+      "sha256": "fac626b308dbe7844dee8af53c02b597d128eb7b57356a66656735c10c7baa37",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-path/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-producers/NOTES.md",
+      "size_bytes": 4449,
+      "sha256": "2522fc4daea42e369c40c1dbea3f3686bed6b8320d2eedea54fe1d78fb1b78a4",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-producers/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-producers/original-functions.json",
+      "size_bytes": 3804,
+      "sha256": "95043d88f78d2350b3c0db23c0c05b7d1cbad3c66b8fbc905f5f79d1109401f0",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-producers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-search/NOTES.md",
+      "size_bytes": 4174,
+      "sha256": "8f1b5acb25c7452ef0402816a0961dc6ba7a43885c8f153e5bfbe4f3266df394",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-search/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-search/original-functions.json",
+      "size_bytes": 6185,
+      "sha256": "34f03ef58395e611769cc85ae438bb3562ad7441c00a0926299e1da4a9e568d1",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-search/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation-world/NOTES.md",
+      "size_bytes": 5153,
+      "sha256": "65e889312b12095d887711f2b82e94015a63451d93e0139e78506e1d0a8f0e1c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-world/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation-world/original-functions.json",
+      "size_bytes": 11866,
+      "sha256": "cd0b05670361226c581013c44255dc340fa69c742b520799fdcf7f4f0c55aab6",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation-world/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/navigation/NOTES.md",
+      "size_bytes": 3590,
+      "sha256": "a9d8828bfea8311a5ae1f474f7f91ff23ec07bdf68965a9f4b34aa7d0878bdaa",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/navigation/original-functions.json",
+      "size_bytes": 3619,
+      "sha256": "261dfcccc4cc5ae8c1bbf006879303f4a25df3adf27f8e2ee0f0ed21060d2aac",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/navigation/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/octree/NOTES.md",
+      "size_bytes": 3306,
+      "sha256": "01170cafdea5b4d8fd219077d459aeb6512987a9641f3a723f27cf7649529865",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/octree/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/octree/original-functions.json",
+      "size_bytes": 2350,
+      "sha256": "7d5a80048d6af6dfbb7a5e918a03ecf78824a124019b15cf5a15542cff067272",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/octree/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/original-functions.asm",
+      "size_bytes": 37197,
+      "sha256": "ca705f56ab1eb3507baf35f7f652de4275c52fca63b607bc2510cc56ceeed44d",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/original-functions.asm"
+    },
+    {
+      "path": "port/level-world/reference/physical-controls/NOTES.md",
+      "size_bytes": 5973,
+      "sha256": "b114043dfc4d7635639213ef22a1f2b73c9500638af35b73e508b3bce2584210",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/physical-controls/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/physical-controls/original-functions.json",
+      "size_bytes": 1856,
+      "sha256": "6da89aada10dafc40d6ebc1c69c234f2e0fa549dfa60de623d9251865bf6b20e",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/physical-controls/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/physical-lifecycle/callers/original-functions.json",
+      "size_bytes": 1293,
+      "sha256": "3ef6fdbc943276e7929e7ff2b4413802e4eecf21f2ee68299632ab224cb7998f",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/physical-lifecycle/callers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/physical-lifecycle/original-functions.json",
+      "size_bytes": 964,
+      "sha256": "dbd9310186f86cfa2e5840e7c78782018390eeabc44c9fba78943729c051079e",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/physical-lifecycle/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/physical-world/original-functions.json",
+      "size_bytes": 2387,
+      "sha256": "60085199c4132dd2bbb1ecaf46fd98ee8ec3514b142e6c0277fd2c2564442bdc",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/physical-world/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-ai/attack-gate/original-functions.json",
+      "size_bytes": 968,
+      "sha256": "9688f07d413b295b3ac4c7e8da44cd6b3e3f90e8362854fd332c0229bb406367",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-ai/attack-gate/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-ai/equipment-query/original-functions.json",
+      "size_bytes": 337,
+      "sha256": "baef7de3af5f8153c7f99430bafaa24d6e53cdd6838537626675e3168fd3c2ad",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-ai/equipment-query/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-ai/original-functions.json",
+      "size_bytes": 7403,
+      "sha256": "ea53c9c339e3e36a0d7113a8ef600f87261ad608f8b579daaead9233c71cc54c",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-ai/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-attack-services/equipment/original-functions.json",
+      "size_bytes": 1048,
+      "sha256": "f561fd12b86a4fc467af926d509a202cb24356bd4f74e4f86296d3d7ac224fb3",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-attack-services/equipment/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-attack-services/helpers/original-functions.json",
+      "size_bytes": 1917,
+      "sha256": "dc4e204813739562326725803cca18ccbf204107fbc624c501c609d6bc4b3d35",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-attack-services/helpers/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-attack-services/leaf/original-functions.json",
+      "size_bytes": 1768,
+      "sha256": "eb94d6a024af6f88652ea61ce472b78c8f5416a6cd052624db7ae7cd6c39402e",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-attack-services/leaf/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-attack-services/producer/original-functions.json",
+      "size_bytes": 1249,
+      "sha256": "46b3590677682757d8365ca710248f818b712dd7215138c08479d3a2501f4b14",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-attack-services/producer/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-attack-services/reader/original-functions.json",
+      "size_bytes": 1013,
+      "sha256": "934aeaac7d68d33524bb1ce14452a80b5e606d46853cc842b511285bee68fa93",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-attack-services/reader/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-attack-services/reference/original-functions.json",
+      "size_bytes": 2211,
+      "sha256": "999c8aeaa737b870a7a1c53aa99b1b5944d5265ed88dccc9035d90a2a4e8254d",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-attack-services/reference/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/prince-live-attack/original-functions.json",
+      "size_bytes": 2388,
+      "sha256": "6c7739b643853d6f2352c6523554f651e1bba2b673c9a55a271b6676a91adfb1",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/prince-live-attack/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/selector/NOTES.md",
+      "size_bytes": 4277,
+      "sha256": "3ed63cca345c06728eaf6754943202f162db81b149ec3f6ac78ec497f100ce3c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/selector/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/selector/original-functions.json",
+      "size_bytes": 2847,
+      "sha256": "c9c3cd73426f89a10665880e7186b3741e78f039caab857397227f5675a127a5",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/selector/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/subobjects-update/NOTES.md",
+      "size_bytes": 4826,
+      "sha256": "81e3b73aa0b3090cf1b1cb36b4a3be6d6a9a29541059d66481a40a8a5666b439",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/subobjects-update/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/subobjects-update/original-functions.json",
+      "size_bytes": 4722,
+      "sha256": "09789a4263c48f3d2c40d0429ef06b514b4332dddb098c6b2fc40a88499845cd",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/subobjects-update/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/visual-motion/NOTES.md",
+      "size_bytes": 7360,
+      "sha256": "01a49b4aba2f83ef28d12ff14f0340a3b0d0c1cdedcdcc8f26e204717a3c7eb9",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/visual-motion/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/visual-motion/original-functions.json",
+      "size_bytes": 10899,
+      "sha256": "ac3a7dafbc9dfd058eff838bd58d7254bd84c280f09595874a9314947bda0d87",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/visual-motion/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reference/visual-timeline/NOTES.md",
+      "size_bytes": 6931,
+      "sha256": "72242ec71e536f16450dee099811d4f3ef7eb3e2795d2526518a9df3ab23b9db",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/visual-timeline/NOTES.md"
+    },
+    {
+      "path": "port/level-world/reference/visual-timeline/original-functions.json",
+      "size_bytes": 6644,
+      "sha256": "52c9d8ddfcefebd5f997b916ad4adb09bfd3c99195439c7e8912451ab424b5b1",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reference/visual-timeline/original-functions.json"
+    },
+    {
+      "path": "port/level-world/reports/actor-blended-occurrences-host-audit.json",
+      "size_bytes": 85820,
+      "sha256": "1f6227e675a4c17316adf80f03bcbd28314c25484e5fb318793399b32b5efcc5",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/actor-blended-occurrences-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/actor-clips-host-audit.json",
+      "size_bytes": 6444,
+      "sha256": "b113e09e4eb0c104276a66f7b3c576729d0c62fe2d3298ef860f09ea0f2e6df7",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/actor-clips-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/actor-playback-host-audit.json",
+      "size_bytes": 2226,
+      "sha256": "127a6c845f96a533f10a3608ada27eea41df246a6a8c2349b48708bafcec8b63",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/actor-playback-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/actor-runtime-host-audit.json",
+      "size_bytes": 1728,
+      "sha256": "4950e77559bd3156cbddb20dffc0b7bc3100d16bec935f08061aadcc1b96eabf",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/actor-runtime-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/actor-state-input-provenance.json",
+      "size_bytes": 12618,
+      "sha256": "aa4f4b053e8536bf2a19181490a6e903ce952566e982b20d4bf7495c7e6d35f1",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/actor-state-input-provenance.json"
+    },
+    {
+      "path": "port/level-world/reports/actor-timing-source-validation.json",
+      "size_bytes": 45341,
+      "sha256": "53066406382d114278f9a8269d5d67ff754601928a7383fe3d6869965fa56253",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/actor-timing-source-validation.json"
+    },
+    {
+      "path": "port/level-world/reports/character-combat-source-validation.json",
+      "size_bytes": 176816,
+      "sha256": "27b9a0ea9ec9f4537a21769d92197b4a737e05682c06d829d7933769b6189867",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/character-combat-source-validation.json"
+    },
+    {
+      "path": "port/level-world/reports/character-timing-source-validation.json",
+      "size_bytes": 383618,
+      "sha256": "1caf4c19da91649cfc6021a2f1e42b6ebfd98ea255b5444627bacdefff4cd6b7",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/character-timing-source-validation.json"
+    },
+    {
+      "path": "port/level-world/reports/collision-arm64-differential.json",
+      "size_bytes": 1427,
+      "sha256": "d530d9e966c48d26e161f4c3ebdd8a8d2fb29f2a90ab2de00654c9f1e83450ba",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/collision-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/host-audit.json",
+      "size_bytes": 443,
+      "sha256": "d5f2cab9e3ec90699d50a1ab26d41630cce5ccc67a84bfcc30797dc6403ee8bb",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/idle-options-host-audit.json",
+      "size_bytes": 1096,
+      "sha256": "90368360db22eb95b7f348f738aec75aa7dca32e3357dd25dce658e7139093f1",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/idle-options-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/live-actor-source-validation.json",
+      "size_bytes": 103165,
+      "sha256": "9e1a03ca347ca1ff737bb6c529cffef9adc98bf8c36a8b61a06de42959a95115",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/live-actor-source-validation.json"
+    },
+    {
+      "path": "port/level-world/reports/locomotion-audit.json",
+      "size_bytes": 539,
+      "sha256": "c9899e121d0527580e2c522d26697736cc009393840e30589daf91804f9f7954",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/locomotion-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/navigation-arm64-differential.json",
+      "size_bytes": 1635,
+      "sha256": "cfa3369fcb68700e5eb7047ec587f795a85aaf6be28b3e24ba6fde492e928b0d",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/navigation-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/navigation-collision-arm64-differential.json",
+      "size_bytes": 2384,
+      "sha256": "a7b041c470fbd2546422d7c0c0697592e8153a2f17562066929e12092cea5858",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/navigation-collision-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/navigation-host-audit.json",
+      "size_bytes": 203,
+      "sha256": "2744148b058476f23a741cc5176c9f9b2011340460635f2199ce1d022bc011c6",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/navigation-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/navigation-packaged-arm64-differential.json",
+      "size_bytes": 1635,
+      "sha256": "2e2656b4ff6f9c34b823d46fbc3a1d91e636e34480e01084678359f569c74658",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/navigation-packaged-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/navigation-selector-arm64-differential.json",
+      "size_bytes": 2522,
+      "sha256": "7d8e8b6972ec6c91b7c6a45963cef90184f8c1ec9e57b69719c4e13bce27c6ed",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/navigation-selector-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/navigation-studio-arm64-differential.json",
+      "size_bytes": 1635,
+      "sha256": "612220c56e99b05eac289fa261c91a915ed88c1b01354b0dd4ee3764dad036a7",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/navigation-studio-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/object-input-provenance.json",
+      "size_bytes": 67099,
+      "sha256": "311703e439347808c5b37373bdb793a390d1d05d17feb8d750cc62e5f91d4117",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/object-input-provenance.json"
+    },
+    {
+      "path": "port/level-world/reports/objects-host-audit.json",
+      "size_bytes": 3719,
+      "sha256": "0404a27fa5d286d64bb448d8748d48efdc712f9621f994afa7e742366fa31816",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/objects-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/octree-arm64-differential.json",
+      "size_bytes": 1330,
+      "sha256": "91389d89965a033674758d9de896ddbe888da4e9a194e20d467a695a430bffc0",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/octree-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/octree-host-audit.json",
+      "size_bytes": 442,
+      "sha256": "022461e0dcc86451719fb2a26fd915eff0db4e99df9242ef7616ee6bd216cb89",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/octree-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/octree-packaged-arm64-differential.json",
+      "size_bytes": 1330,
+      "sha256": "bbf1de9462a0632ecdcbe45adfbb2435c601eb73bbb6f8ee357a14a97508a79d",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/octree-packaged-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/octree-studio-arm64-differential.json",
+      "size_bytes": 1330,
+      "sha256": "364f5479a6a594c94cd23a76f3dc3125ca85a2a6976c905514f71ce5b04041ab",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/octree-studio-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/physics-backend-source-validation.json",
+      "size_bytes": 454479,
+      "sha256": "22fb9d53590aa9b6aacbd8e56b71123002828585fd7b9d146d1e6edfd3e6c4d4",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/physics-backend-source-validation.json"
+    },
+    {
+      "path": "port/level-world/reports/player-combat-host-audit.json",
+      "size_bytes": 2642,
+      "sha256": "f29bfee2a95138b9e1c103eb9fafcb637c814b8ed113ceeb1637dfa036641a81",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/player-combat-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/player-death-host-audit.json",
+      "size_bytes": 462,
+      "sha256": "1818a28daaec0a751e6196055e6040b5aedb2501cf98ebe7eed27fcf92e51061",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/player-death-host-audit.json"
+    },
+    {
+      "path": "port/level-world/reports/player-defender-attack-pose-regression.json",
+      "size_bytes": 2051,
+      "sha256": "51207f0b9c9fb35d70e07cf8aab00b69cc60263549ab7b7f3663bc8642187bd6",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/player-defender-attack-pose-regression.json"
+    },
+    {
+      "path": "port/level-world/reports/prince-animation-assets-staged.json",
+      "size_bytes": 904,
+      "sha256": "8a74a73a4731d6eea8ed1f89f740753580aad6ffa44529af68af77db0158f1db",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/prince-animation-assets-staged.json"
+    },
+    {
+      "path": "port/level-world/reports/selector-arm64-differential.json",
+      "size_bytes": 1858,
+      "sha256": "9bba61f0c957192b09a747402decb2c45a58367be2756e709ee8f4b0dbb045c9",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/selector-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/selector-packaged-arm64-differential.json",
+      "size_bytes": 1858,
+      "sha256": "dbd436c327b340e00aec330867560708ac5bdd3042bac59f71d9a0257d526e29",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/selector-packaged-arm64-differential.json"
+    },
+    {
+      "path": "port/level-world/reports/selector-studio-arm64-differential.json",
+      "size_bytes": 1858,
+      "sha256": "95588e2f0aba63ad8006c6997930689524627790c0dc8b9b13059f4af69f7e2f",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/level-world/reports/selector-studio-arm64-differential.json"
+    },
+    {
+      "path": "port/physics-backend/reference/original-functions.json",
+      "size_bytes": 59276,
+      "sha256": "bd3c355ea86859375f56f741db0deb6e5a47adc2410b7bd725baea1608342a2d",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/physics-backend/reference/original-functions.json"
+    },
+    {
+      "path": "port/scene-materials/reports/transform-differential.json",
+      "size_bytes": 418,
+      "sha256": "eee1b737dfc374193cbcdae841f3ecc79d313eb11ce94fcda26e0ed1b388207c",
+      "kind": "document_link_target",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/scene-materials/reports/transform-differential.json"
+    },
+    {
+      "path": "port/script-runtime/reference/function-alias/original-functions.json",
+      "size_bytes": 3760,
+      "sha256": "5528f8975e8484f7a0af7642ef8ab499e19c980447018ce0c8887460a3cbbaa8",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/function-alias/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/bridge/original-functions.json",
+      "size_bytes": 1387,
+      "sha256": "e2c8c182d0779602c071901fadcf5bfb58ae2faf79a1fe17be9bafe4af7941ca",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/bridge/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/call-policy/original-functions.json",
+      "size_bytes": 1029,
+      "sha256": "2c0face64a7ac253ad1c340d9305ab60c424bcd5130eade13f264c88b224c755",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/call-policy/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/character-registration/original-functions.json",
+      "size_bytes": 583,
+      "sha256": "99eb5bc67d094f51ec162e0a0a1ed3b80df3357ef5ee078f0d7cd6d174f24b53",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/character-registration/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/core/original-functions.json",
+      "size_bytes": 1588,
+      "sha256": "e4fca44ded34364cc5c689f15f4b691f9e6c586e329366fcaf3b19cdc83d0fec",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/core/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/helpers/original-functions.json",
+      "size_bytes": 2116,
+      "sha256": "797bbaf34491951bcf17e1c8196ae7b92e0fce3ec280346c525808509e16d051",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/helpers/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/registration/original-functions.json",
+      "size_bytes": 1033,
+      "sha256": "68509b7d4df263099178bbe11e908d597e56babd1d2c8a8dec5e6626ed8075ba",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/registration/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/return-discard/original-functions.json",
+      "size_bytes": 1342,
+      "sha256": "255a7fd65b1254ed1cf1620c9d1eb3cd9b7449e107ba93719d79528c87ba48b7",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/return-discard/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/script-timer/original-functions.json",
+      "size_bytes": 332,
+      "sha256": "907195bb6152d8e9712e2e093f4a37f530624bcb4d6f0068f65131f59756545e",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/script-timer/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/game-bindings/timer-dispatch/original-functions.json",
+      "size_bytes": 327,
+      "sha256": "ce0c39af14493b9b849db45eb3483e745a115416d19cf6b19e1c0ed0fe611a26",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/game-bindings/timer-dispatch/original-functions.json"
+    },
+    {
+      "path": "port/script-runtime/reference/original-lua/original-functions.json",
+      "size_bytes": 895,
+      "sha256": "26a08a34c76e8ba5ef19b1751bd6ed660ac1882edb5dd6f73fc783918d362078",
+      "kind": "mapping_manifest",
+      "source_url": "https://github.com/AdamCelermajer/DH_sc/blob/45c5348e807607a2825211bb8f26248067ba9106/port/script-runtime/reference/original-lua/original-functions.json"
+    }
+  ],
+  "already_present_files": [],
+  "conflicts_not_overwritten": [],
+  "unresolved_links_after_import": [
+    {
+      "document": "compatibility/README.md",
+      "target": "compatibility/work/decoded-original",
+      "reason": "Historical compatibility payload intentionally excluded from this evidence-only import."
+    },
+    {
+      "document": "compatibility/README.md",
+      "target": "compatibility/work/decompiled-java",
+      "reason": "Historical compatibility payload intentionally excluded from this evidence-only import."
+    },
+    {
+      "document": "compatibility/README.md",
+      "target": "compatibility/work/patched",
+      "reason": "Historical compatibility payload intentionally excluded from this evidence-only import."
+    },
+    {
+      "document": "compatibility/README.md",
+      "target": "compatibility/work/history",
+      "reason": "Historical compatibility payload intentionally excluded from this evidence-only import."
+    },
+    {
+      "document": "compatibility/README.md",
+      "target": "compatibility/FILE-MANIFEST.json",
+      "reason": "Historical compatibility payload intentionally excluded from this evidence-only import."
+    },
+    {
+      "document": "compatibility/README.md",
+      "target": "compatibility/work/notices",
+      "reason": "Historical compatibility payload intentionally excluded from this evidence-only import."
+    },
+    {
+      "document": "port/android-native/README.md",
+      "target": "port/android-native/build/checkpoints/dh2-native-prince-bank-4f5b7d11.apk",
+      "reason": "Generated APK/source-archive checkpoint omitted; binaries/archives not part of this source-evidence import."
+    },
+    {
+      "document": "port/android-native/README.md",
+      "target": "port/android-native/build/checkpoints/dh2-native-prince-bank-4f5b7d11-source.zip",
+      "reason": "Generated APK/source-archive checkpoint omitted; binaries/archives not part of this source-evidence import."
+    },
+    {
+      "document": "port/android-native/README.md",
+      "target": "port/android-native/build/checkpoints/dh2-native-character-timing-6d9782be.apk",
+      "reason": "Generated APK/source-archive checkpoint omitted; binaries/archives not part of this source-evidence import."
+    },
+    {
+      "document": "port/android-native/README.md",
+      "target": ".local-inputs/character-timing-authored-delay.json",
+      "reason": "Owner-local source input is not in the public Adam checkout; not copied."
+    },
+    {
+      "document": "port/android-native/README.md",
+      "target": "port/android-native/build/checkpoints/dh2-native-character-timing-6d9782be-source.zip",
+      "reason": "Generated APK/source-archive checkpoint omitted; binaries/archives not part of this source-evidence import."
+    },
+    {
+      "document": "port/android-native/README.md",
+      "target": "port/android-native/build/checkpoints/dh2-native-character-combat-2241cfe9.apk",
+      "reason": "Generated APK/source-archive checkpoint omitted; binaries/archives not part of this source-evidence import."
+    },
+    {
+      "document": "port/android-native/README.md",
+      "target": "port/android-native/build/checkpoints/dh2-native-actor-f6840449.apk",
+      "reason": "Generated APK/source-archive checkpoint omitted; binaries/archives not part of this source-evidence import."
+    }
+  ]
+}

@@ -1,0 +1,127 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "record_scope_definition": "Each function record identifies a complete original assembly range and its hash. This pins evidence; it does not claim full source reconstruction or runtime integration. Per-function port coverage and unsupported boundaries are described alongside each record and in NOTES.md.",
+  "source_reconstruction_scope": "Renderer-independent projection of an already decoded Character template selection into a CharacterTable row and ClassID/ClassName. This does not reproduce cache binary readers, RNG selection, 224-property resolution, class formulas, actor construction, or runtime integration.",
+  "port_sources": [
+    "port/level-world/character_template_factory.hpp",
+    "port/level-world/character_template_factory.cpp",
+    "port/level-world/tests/character_template_factory.cpp",
+    "port/level-world/tests/run_character_template_factory_host.py"
+  ],
+  "caller_facts": [
+    "Four source MGP records `_prim_tmp_ambusher01` through `_prim_tmp_ambusher04` use `char_template_pydata=Charater_Templates` and `char_template=GothicusCrypt_Ghosts`.",
+    "The editor-only `_templateName=MonsterCommonType1` is not the runtime CharacterTable property key; the source records do not author `charpropsname`.",
+    "The cached template has ordered CharInfo slots [35, 35, 35, 35, 37]. Duplicate IDs are retained as distinct authored slots.",
+    "CharacterTable row 35 is Crypt_Ghost and row 37 is Crypt_Ghost_RE; each has ClassID 18, which maps to class row BaseMonster.",
+    "Both selected property rows also use AI row 68, animation-table row 24, and model-file row 44. Their only differing raw CharacterProperties field is RespawnTime at field index 11 (0 versus 5120).",
+    "A source-selected template slot is a required caller input. The exact per-actor selection is unresolved without the original RNG state and actor initialization call order."
+  ],
+  "unsupported": [
+    "This kernel does not decode the original binary tables; its Catalog must preserve CharacterTable row order and the original template slots.",
+    "The original random draw and its per-actor seed/call-order effects are not reproduced. No default variant is selected.",
+    "The kernel does not resolve the 224 default/type/base/gear/saved property fields, evaluate ClassID formulas, instantiate Character objects, or integrate into the renderer/actor factory.",
+    "MGP editor template inheritance/asset placement semantics beyond the observed exact runtime key are not reconstructed."
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays18Charater_Templates4readEP11IStreamBase",
+      "demangled": "Arrays::Charater_Templates::read(IStreamBase*)",
+      "elf_address": "0x4b3f5c",
+      "size": 332,
+      "sha256": "e2e2cbae5939d9882f0d41cce4050e6aa44eee1c2808d9ab6e7350e60c4c8b48",
+      "scope": "complete function",
+      "port_coverage": "input evidence: the port consumes a decoded ordered template record; this native table reader is not reimplemented by the C++ kernel"
+    },
+    {
+      "original_symbol": "_ZN7Structs12CharTemplate4readEP11IStreamBase",
+      "demangled": "Structs::CharTemplate::read(IStreamBase*)",
+      "elf_address": "0x4dcd38",
+      "size": 344,
+      "sha256": "f0a4e0e1ac0fae2a567e89de5f567e2b60e62f995b81eb5c47092b458ef52713",
+      "scope": "complete function",
+      "port_coverage": "input evidence: CharInfo slot count and ordered values are preserved by the existing cache reader and by TemplateRecord"
+    },
+    {
+      "original_symbol": "_ZN7Structs12CharInfoName4readEP11IStreamBase",
+      "demangled": "Structs::CharInfoName::read(IStreamBase*)",
+      "elf_address": "0x4f1c90",
+      "size": 112,
+      "sha256": "bb4749d2127f4d5788498a16648dd0706400ca3d6888eb23453e8c2db4bcf2ef",
+      "scope": "complete function",
+      "port_coverage": "input evidence: each selected signed CharInfo value is treated as a CharacterTable row ID"
+    },
+    {
+      "original_symbol": "_ZN9Character26SafeGetCharPropsTemplateIdEv",
+      "demangled": "Character::SafeGetCharPropsTemplateId()",
+      "elf_address": "0x3b36ec",
+      "size": 176,
+      "sha256": "27abbdde0a88b75da2eef918445b914d28cbdd4bdb52072614c85882c78a40f6",
+      "scope": "complete function",
+      "port_coverage": "bounded projection: exact runtime template key lookup; ambiguous or missing keys fail closed"
+    },
+    {
+      "original_symbol": "_ZN9Character18SafeGetCharPropsIdEv",
+      "demangled": "Character::SafeGetCharPropsId()",
+      "elf_address": "0x3b3d38",
+      "size": 728,
+      "sha256": "81064f2b90877e862e4956c7502ecab84f6802b5d207a5daeb3dcade373c82cd",
+      "scope": "complete function",
+      "port_coverage": "bounded projection only after caller supplies selected slot: ID-to-CharacterTable row/name/class mapping is implemented; native random selection is not"
+    },
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib",
+      "demangled": "Random::GetRandom(int, bool)",
+      "elf_address": "0x33ff90",
+      "size": 196,
+      "sha256": "fc93b6feb58616e89b16d0bee33193af6b6cc36b6b29442fdca3e75c832ab665",
+      "scope": "complete function",
+      "port_coverage": "not reproduced: evidence boundary for native weighted-slot selection; no RNG state/draw is fabricated"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14CharacterTable4readEP11IStreamBase",
+      "demangled": "Arrays::CharacterTable::read(IStreamBase*)",
+      "elf_address": "0x4b4340",
+      "size": 324,
+      "sha256": "114e5785de05fc00c84c205edfc7365b359990d124aec051cc65f18219cc048d",
+      "scope": "complete function",
+      "port_coverage": "input evidence: the Catalog contract preserves array row-index identity; this native table reader is not reimplemented here"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetClassNameEv",
+      "demangled": "Character::GetClassName() const",
+      "elf_address": "0x3a56a4",
+      "size": 124,
+      "sha256": "0fabedf8afd10eef01e2dbc763dbe4d92b1d3c4c81c71254aeda2d030a3c023f",
+      "scope": "complete function",
+      "port_coverage": "bounded projection: ClassID row and class name are returned; class formula application is outside this kernel"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties23PROPS_ApplyClassToSheetEiPN7Structs19CharacterPropertiesE",
+      "demangled": "CharProperties::PROPS_ApplyClassToSheet(int, Structs::CharacterProperties*)",
+      "elf_address": "0x3df314",
+      "size": 164,
+      "sha256": "bbc9c129ae6c640f43c683f3d9448b133ac26cd2586c2842a3df3085791c86d3",
+      "scope": "complete function",
+      "port_coverage": "downstream source dependency only: the separate game-data class-table subsystem owns formula application"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties14RecalcPropertyEi",
+      "demangled": "CharProperties::RecalcProperty(int)",
+      "elf_address": "0x3dfe60",
+      "size": 1972,
+      "sha256": "9df07709d1780dd22c056b6bdca240de845b4c118b7b4b3d6719595193ec9030",
+      "scope": "complete function",
+      "port_coverage": "downstream source dependency only: 224-property default/type/base/gear/saved resolution is not implemented in this kernel"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+      "demangled": "CharProperties::RecalcProperties(bool)",
+      "elf_address": "0x3e0810",
+      "size": 68,
+      "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9",
+      "scope": "complete function",
+      "port_coverage": "downstream source dependency only: whole-sheet property recalculation is not implemented in this kernel"
+    }
+  ]
+}

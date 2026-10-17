@@ -86,20 +86,27 @@ class SwfMovie {
  bool clip(const char* path,SwfClipInfo&,std::string&);
  bool set_number(const char* path,double,std::string&);
  bool set_visible(const char* path,bool,std::string&);
+ // Play a source animation clone at authored-stage twips. The movie owns the
+ // source 12 global playback contexts and each style's 8 clone slots; a
+ // saturated style reuses its existing eighth clone, while context saturation
+ // fails closed. UINT32_MAX requests the source's automatic context allocator.
+ bool play_authored_animation_text(const char* style,std::uint32_t slot,
+     float x_twips,float y_twips,const char* text,std::uint8_t r,std::uint8_t g,
+     std::uint8_t b,std::uint8_t a,std::string&);
+ bool authored_animation_style_id(const char* style,std::int32_t& id,std::string&);
+ bool display_authored_animations(std::string&);
  // PostLoad/RegisterState visibility stage only; does not fabricate native
  // menu instances, run Create, or install stack/lifecycle ownership.
  bool hide_menu_state_clips(std::vector<std::string>& names,std::string&);
  // Live connections retain the exact Impl graph and execute inside its core
  // Scope. Authored source bounds replace the inspection viewport setter.
  bool connect_viewport(const ViewportState64&,const SwfViewportDriver&,std::string&);
-  bool update_viewport(FlashCamera40&,std::string&);
-  bool set_source_bounds(const std::int32_t xywh[4],std::int32_t aspect_mode,std::string&);
+ bool update_viewport(FlashCamera40&,std::string&);
  bool display_source_clip(const char* path,std::string&);
- // Modern letterboxed panel policy: clip authored overscan to the movie stage,
- // retaining the existing source projection and pointer conversion.
- bool display_source_stage_clip_v5(const char* path,std::string&);
-  bool screen_to_logical(float point[2],std::string&);
-  bool source_display_rectangle(float rectangle[4],std::int32_t viewport[4],std::string&);
+ bool screen_to_logical(float point[2],std::string&);
+ // Retained source-stage projection and current renderer viewport, in the
+ // same coordinate order used by display_source_clip and pointer conversion.
+ bool source_display_rectangle(float rectangle[4],std::int32_t viewport[4],std::string&);
  bool hud_bind(const char* path,const char* verified_movie_sha256,SwfHudClip&,std::string&);
  bool hud_goto(const SwfHudClip&,std::int32_t,const HudSpriteCoreServices&,std::string&);
  bool hud_play(const SwfHudClip&,std::int32_t,const HudSpriteCoreServices&,std::string&);
@@ -120,9 +127,14 @@ class SwfMovie {
                     std::uint32_t& selection,const SwfViewportDriver&,const SwfInputCoreServices&,std::string&);
  bool input_rectangle(const std::int32_t xywh[4],std::string&);
  bool input_cursor(const SwfCursor16&,std::string&);
+ bool input_cursor(const SwfCursor16&,std::uint32_t cursor_index,std::string&);
  bool input_cancel(float x,float y,std::string&);
+ bool input_cancel(float x,float y,std::uint32_t cursor_index,std::string&);
  bool input_advance(std::int32_t milliseconds,std::string&);
  bool input_raw_position(int& x,int& y,std::string&);
+ // Deliver a source GameSWF key event to its retained root. Codes use
+ // gameswf::key::code so Android adapters do not leak platform key values.
+ bool input_key_event(std::uint32_t key_code,bool down,std::string&);
  gameswf::font* borrowed_font(std::int32_t resource_id) const; // invalidated by destruction/reload
  const std::vector<std::string>& diagnostics() const;
  std::uintptr_t player_identity() const noexcept; // retained graph identity, no VM operation

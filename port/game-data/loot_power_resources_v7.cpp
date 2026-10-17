@@ -37,6 +37,45 @@ struct LootPowerResourcesV7::Snapshot {
  std::vector<std::vector<LootQuantityChoiceV7>> quantities;
  std::vector<std::string> list_names,monopoly_names,quantity_names;
 };
+bool select_source_quantity_array_v7(Bytes records,Bytes names,
+                                     std::size_t loot_table_end,
+                                     Bytes& selected,std::string& error){
+ try{
+  if(!records.data||loot_table_end>records.size)
+   throw std::runtime_error("Invalid source NumProbArray cache boundary");
+  Reader name_reader(names);
+  for(unsigned i=0;i<7;++i)name_reader.strings();
+  const auto expected_count=name_reader.strings().size();
+  if(!expected_count||expected_count>65536)
+   throw std::runtime_error("Source quantity names count outside bounds");
+  // PyDataArrays::reloadData calls LootTable, MerchantTable, then
+  // NumProbArray on this same stream. The LootTable owner stops before the
+  // merchant bytes; consuming the actual MerchantTable puts us at the source
+  // NumProbArray callback boundary without a cache-specific offset.
+  Reader tail({records.data+loot_table_end,records.size-loot_table_end});
+  const auto merchants=tail.count();
+  for(std::uint32_t row=0;row<merchants;++row){
+   tail.take(8); // Merchant's two signed scalar words.
+   const auto entries=tail.count();
+   if(entries>(tail.b.size-tail.at)/8)
+    throw std::runtime_error("Truncated source MerchantTable entries");
+   tail.take(std::size_t(entries)*8); // MerchandiseListEntry: two u32 words.
+  }
+  const auto selected_offset=loot_table_end+tail.at;
+  Reader quantities({records.data+selected_offset,records.size-selected_offset});
+  if(quantities.count()!=expected_count)
+   throw std::runtime_error("Source NumProbArray count differs from its names");
+  for(std::size_t row=0;row<expected_count;++row){
+   const auto entries=quantities.count();
+   if(entries>(quantities.b.size-quantities.at)/4)
+    throw std::runtime_error("Truncated source NumProbArray entries");
+   quantities.take(std::size_t(entries)*4);
+  }
+  quantities.end();
+  selected={records.data+selected_offset,quantities.b.size};
+  error.clear();return true;
+ }catch(const std::exception& x){error=x.what();return false;}
+}
 bool LootPowerResourcesV7::load(const LootPowerInputsV7& input,ItemPowerTablesV5::Borrow powers,std::string& error){
  try{
   if(snapshot_&&snapshot_.use_count()!=1)throw std::runtime_error("Power creation resources have live borrowers");

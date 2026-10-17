@@ -1,0 +1,144 @@
+{
+  "validation": "PASS",
+  "original_elf": {
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "function_ranges_verified": 5,
+    "functions": [
+      {
+        "symbol": "_ZN9Character8_SetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+        "address": "0x3b7eac",
+        "size": 492,
+        "sha256": "c76adc68db53c9dc679d5ea3c669f88d95177385dd413a76f89fe41553d31b21"
+      },
+      {
+        "symbol": "_ZN9Character11_ClearPropsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+        "address": "0x3b82e4",
+        "size": 328,
+        "sha256": "f345908236abac169f1593c9eb77bc7a34b143349309e9713edd7586512d792e"
+      },
+      {
+        "symbol": "_ZN9Character8_GetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+        "address": "0x3b9d8c",
+        "size": 440,
+        "sha256": "aca6d61d2d0a5e330c79a38a01dde437fde4a4a14216edd969a3846f1879b08f"
+      },
+      {
+        "symbol": "_ZN9Character15_ApplyPropClassERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+        "address": "0x3babdc",
+        "size": 460,
+        "sha256": "37671f1fc224366a32d34868360b04a4b6a90d336645ce3c2df60f6d360427df"
+      },
+      {
+        "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+        "address": "0x3dedb4",
+        "size": 292,
+        "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+      }
+    ]
+  },
+  "original_contract_scope": {
+    "property_schema_count": 224,
+    "temporary_sheet": "One caller-owned process-wide CharProperties::s_temp shared by all Character skill VMs",
+    "clear_props_true": "Copies the current Character property sheet into s_temp before the temporary class operation",
+    "set_prop_third_argument": "The observed Lua boolean true follows the source callback fallthrough to the Character property setter; source skill SetProp writes type-8 fields 172..190",
+    "get_prop": "With no selector or false, reads the current Character resolved sheet. With true, reads s_temp. The raw selected-sheet getter is used for every schema-valid property ID, not only type-8 fields.",
+    "apply_prop_class": "Skill class formulas use the current Character resolved sheet as their source-property snapshot and write into the selected owner or s_temp sheet; this adapter admits only class rows proven to write type-8 skill fields 172..190.",
+    "unresolved": [
+      "External identity-selected sheet objects",
+      "Registered buff owners/groups and their live lifecycle",
+      "Full callback-level ARM execution of the four callbacks"
+    ]
+  },
+  "source_range_verification_is_not_callback_execution": true,
+  "verified_class_application_oracle": {
+    "sha256": "e52983dcccb39f401aac5c32e5312f9554185525cd890d0d87a66d19ec8a9293",
+    "bit_exact_entire_property_sheet_cases": 3120,
+    "buff_snapshot_cases": 1560,
+    "original_character_sheet_cases": 448,
+    "separate_from_full_callback_ARM_differential": true
+  },
+  "compiler_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\adam-script-runtime",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\player_skill_property_services_v1.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\player_skill_property_services_v1.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\data.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\player-skill-property-services-v1\\player_skill_property_services_v1.exe"
+  ],
+  "compiler": "g++.EXE (MinGW-W64 x86_64-ucrt-posix-seh, built by Brecht Sanders, r7) 15.2.0",
+  "compiler_output": "",
+  "synthetic_host_output": "player_skill_property_services_v1 PASS checks=20 supported_callbacks=4 shared_temp=caller_owned source_skill_fields=172-190 external_identity_sheet=unresolved buff_owner=unavailable actual_bashdown_data=not_requested",
+  "actual_cache_output": "player_skill_property_services_v1 PASS checks=21 supported_callbacks=4 shared_temp=caller_owned source_skill_fields=172-190 external_identity_sheet=unresolved buff_owner=unavailable actual_bashdown_data=PASS",
+  "actual_cache_pydata": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata",
+  "source_cache_elf_sha256_before": {
+    "port/level-world/player_skill_property_services_v1.hpp": "3935943508a6cabb00986ec8370b359a1168f0f073e873efa8ab6a09190851f5",
+    "port/level-world/player_skill_property_services_v1.cpp": "aa7368c244009e688c17cc68b7f1391a2e0e78422db153851a44a341a66b8ea7",
+    "port/level-world/character_native_bindings.hpp": "3754dc6bbe1ea2bc2f8f50ffd2b1c482d69eb5ec766c1129a9324345f42e263a",
+    "port/level-world/tests/player_skill_property_services_v1.cpp": "a1f13c59bb67763bc1fa8326eff16e8f5d930e6e88cb8119afec7af7a878c5e8",
+    "port/level-world/tests/run_player_skill_property_services_v1_host.py": "0551d1e9aa294ad84e5609bef8bb9ce6cf3a95983ae699088c3a014e112e24f1",
+    "port/level-world/reference/player-skill-property-services-v1/original-functions.json": "b8eefd0369eba11f506ae3adb78f6dd6188f1692e105a13bbebc416bbbc38e5f",
+    "port/adam-script-runtime/script_runtime.h": "72b3640d4c3e898631fc0826ad8d336673c64ca4c7dad7fee54147c846708c62",
+    "port/game-data/class_tables.hpp": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/properties.hpp": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/reports/classes-arm64-differential.json": "e52983dcccb39f401aac5c32e5312f9554185525cd890d0d87a66d19ec8a9293",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\test_strategy\\libDungeonHunter2.so": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+  },
+  "source_cache_elf_sha256_after": {
+    "port/level-world/player_skill_property_services_v1.hpp": "3935943508a6cabb00986ec8370b359a1168f0f073e873efa8ab6a09190851f5",
+    "port/level-world/player_skill_property_services_v1.cpp": "aa7368c244009e688c17cc68b7f1391a2e0e78422db153851a44a341a66b8ea7",
+    "port/level-world/character_native_bindings.hpp": "3754dc6bbe1ea2bc2f8f50ffd2b1c482d69eb5ec766c1129a9324345f42e263a",
+    "port/level-world/tests/player_skill_property_services_v1.cpp": "a1f13c59bb67763bc1fa8326eff16e8f5d930e6e88cb8119afec7af7a878c5e8",
+    "port/level-world/tests/run_player_skill_property_services_v1_host.py": "0551d1e9aa294ad84e5609bef8bb9ce6cf3a95983ae699088c3a014e112e24f1",
+    "port/level-world/reference/player-skill-property-services-v1/original-functions.json": "b8eefd0369eba11f506ae3adb78f6dd6188f1692e105a13bbebc416bbbc38e5f",
+    "port/adam-script-runtime/script_runtime.h": "72b3640d4c3e898631fc0826ad8d336673c64ca4c7dad7fee54147c846708c62",
+    "port/game-data/class_tables.hpp": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/properties.hpp": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/reports/classes-arm64-differential.json": "e52983dcccb39f401aac5c32e5312f9554185525cd890d0d87a66d19ec8a9293",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata\\character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\test_strategy\\libDungeonHunter2.so": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+  },
+  "host_executable_sha256": "aac45c9d6dff21dbb06b366307e46c0d985eb2767d8ee80bfdd34a8a1864e8c3",
+  "actual_cache_data_exercised": true,
+  "native_wired": false,
+  "full_player_skill_lifecycle": false,
+  "limits": [
+    "No registered buff owner/groups are supplied.",
+    "The caller owns and shares one process-global temporary sheet across skill VMs.",
+    "External identity-selected sheets are unsupported.",
+    "SetProp/ApplyPropClass are restricted to recovered type-8 runtime skill fields/classes.",
+    "Only the class-formula engine has a separate ARM differential; the four property callbacks are byte-pinned, not instruction-by-instruction compared here."
+  ]
+}

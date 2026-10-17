@@ -52,7 +52,7 @@ bool project_menu_save_slot_v1(const dh2::data::MenuProfileMetadataV1& profile,
     if(!services.local_date(services.context,profile.location.save_date,calendar,error))return false;
     if(!format_save_slot_local_date_v1(calendar,language,details.last_save,error))return false;
     // LevelTables original scalar row: localized location ID at offset 0x24.
-    if(!services.string_id(services.context,levels.levels[level_id].scalar.words[9],details.player_location,error))return false;
+    if(!services.string_id(services.context,static_cast<std::uint32_t>(levels.levels[level_id].level_name_id),details.player_location,error))return false;
     output=std::move(details);error.clear();return true;
 }
 }

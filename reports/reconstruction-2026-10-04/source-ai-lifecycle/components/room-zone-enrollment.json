@@ -1,0 +1,1873 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 22,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8RoomZone16AddInitialObjectEP10GameObject",
+      "elf_address": "0x396a90",
+      "size": 436,
+      "sha256": "0a6feb395a7f8567ec3ee9cd3eb99d8dcf9fad714598e0d616c650f49b05b27b"
+    },
+    {
+      "original_symbol": "_ZN10GameObject11ZoneEnteredEv",
+      "elf_address": "0x38c710",
+      "size": 128,
+      "sha256": "f03d1a29fc92f14804746fdc58bc20b24cba4394b9f35ddf3095fa0bf06e58e7"
+    },
+    {
+      "original_symbol": "_ZN10GameObject10ZoneExitedEv",
+      "elf_address": "0x38c69c",
+      "size": 116,
+      "sha256": "829d2970dcaae93f02f309b2b65d7f4de3b6f51a4ada06f46b9769ccad0f4c8d"
+    },
+    {
+      "original_symbol": "_ZN8RoomZone12RemoveObjectEP10GameObject",
+      "elf_address": "0x3968cc",
+      "size": 76,
+      "sha256": "9ace7a169aa70411024bf7d0e9b4e609a1e9fe1da4922f12ac460881f5dfd874"
+    },
+    {
+      "original_symbol": "_ZN8RoomZone9AddObjectEP10GameObject",
+      "elf_address": "0x39672c",
+      "size": 116,
+      "sha256": "b8e9f89a3c394b3b8bcfe6092fde1987ae09cc5586adae9f35f58f88b56fe1d2"
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/room_zone_enrollment.cpp": "992a33364b8f7c9307d0b06d684c2f18121a6ab5b868acbb25a6afbeb7d6c4dc",
+    "port/level-world/room_zone_enrollment.hpp": "d4bd8777964b673191fa4ab74c81f55438007d8bb842aada802d107e18331e73",
+    "port/level-world/tests/room_zone_enrollment.cpp": "b504fc5dd97e7e3476889cee148dd1aab36fca40ece68eb65823cb22af0d8004",
+    "port/level-world/tests/run_room_zone_enrollment_host.py": "4bacae83a485fd9588c7a9b7a1f0a0df57824a5f438ec0297cc63c4685fe6584"
+  },
+  "scope": "RoomZone::AddInitialObject membership decision and ordered mutation/list-owner callbacks, plus GameObject ZoneEntered/ZoneExited raw-byte and vtable callback leaves. Spatial values are source-plane XY. Zone AABB production, debug logging, and owner/list storage implementation remain explicit providers.",
+  "cases": [
+    {
+      "name": "all_edges_equal",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "exclude_below_min_x",
+      "input": {
+        "mode": "add",
+        "x": -0.01,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 2,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 1
+      }
+    },
+    {
+      "name": "exclude_above_max_x",
+      "input": {
+        "mode": "add",
+        "x": 0.01,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 2,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 2
+      }
+    },
+    {
+      "name": "exclude_below_min_y",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": -0.01,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 2,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 3
+      }
+    },
+    {
+      "name": "exclude_above_max_y",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.01,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 2,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "nan_world_x",
+      "input": {
+        "mode": "add",
+        "x": "NaN",
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 2,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 1
+      }
+    },
+    {
+      "name": "nan_bound",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": "NaN",
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 2,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 1
+      }
+    },
+    {
+      "name": "not_zonable",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 0,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            0
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            0
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 0
+      }
+    },
+    {
+      "name": "raw_nonzero_zonable",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 4294967295,
+        "zonable_second": 2147483648,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            4294967295
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            2147483648
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            4294967295
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            2147483648
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "remove_prior_room",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 38010880,
+        "in_room": 1,
+        "in_zone": 1,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            38010880,
+            0,
+            1
+          ],
+          [
+            1,
+            34668544,
+            38010880,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            38010880,
+            0,
+            1
+          ],
+          [
+            1,
+            34668544,
+            38010880,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "existing_same_room",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            1,
+            34668544,
+            35782656,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            1,
+            34668544,
+            35782656,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "member_byte_without_previous_room",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 1,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "pointer_without_room_member_skips_removal",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 38010880,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            38010880,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            38010880,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "fresh_position_after_virtual",
+      "input": {
+        "mode": "add",
+        "x": 1.5,
+        "y": 0.0,
+        "min_x": -1,
+        "min_y": 0.0,
+        "max_x": 3,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 1,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "fresh_bound_after_virtual",
+      "input": {
+        "mode": "add",
+        "x": 1,
+        "y": 0.0,
+        "min_x": -1,
+        "min_y": 0.0,
+        "max_x": 3,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 2,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 2,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 1
+      }
+    },
+    {
+      "name": "fresh_pointer_after_virtual",
+      "input": {
+        "mode": "add",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 38010880,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 0,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 5,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 1,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            38010880,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 1,
+        "calls": [
+          [
+            0,
+            34668544,
+            38010880,
+            0,
+            1
+          ],
+          [
+            0,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            35782656,
+            0,
+            1
+          ],
+          [
+            2,
+            34668544,
+            35782656,
+            0,
+            0
+          ]
+        ],
+        "room": 35782656,
+        "in_room": 1,
+        "in_zone": 1,
+        "float_compares": 4
+      }
+    },
+    {
+      "name": "entered_schedules_and_pins",
+      "input": {
+        "mode": "enter",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 1,
+        "zone_update": 1,
+        "physical": 40894464,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 0,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 34668544,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1,
+        "float_compares": 0
+      }
+    },
+    {
+      "name": "entered_without_update_flag",
+      "input": {
+        "mode": "enter",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 1,
+        "zone_update": 0,
+        "physical": 40894464,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 34668544,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1,
+        "float_compares": 0
+      }
+    },
+    {
+      "name": "exited_updates_without_active_flag",
+      "input": {
+        "mode": "exit",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 1,
+        "zoning": 1,
+        "zone_update": 0,
+        "physical": 40894464,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 0,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            0
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 34668544,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            0
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 0
+      }
+    },
+    {
+      "name": "exited_disabled_uses_fallback_true",
+      "input": {
+        "mode": "exit",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 1,
+        "zoning": 0,
+        "zone_update": 0,
+        "physical": 40894464,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 0,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 0,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0
+      },
+      "original": {
+        "result": 34668544,
+        "calls": [
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "float_compares": 0
+      }
+    },
+    {
+      "name": "entry_fresh_flags_fallback",
+      "input": {
+        "mode": "enter",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 1,
+        "zone_update": 1,
+        "physical": 40894464,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 3,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 0,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 34668544,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1,
+        "float_compares": 0
+      }
+    },
+    {
+      "name": "entry_fresh_in_zone_zero",
+      "input": {
+        "mode": "enter",
+        "x": 0.0,
+        "y": 0.0,
+        "min_x": 0.0,
+        "min_y": 0.0,
+        "max_x": 0.0,
+        "max_y": 0.0,
+        "old_room": 0,
+        "in_room": 0,
+        "in_zone": 0,
+        "zoning": 1,
+        "zone_update": 1,
+        "physical": 40894464,
+        "zonable_first": 1,
+        "zonable_second": 1,
+        "mutation": 4,
+        "fail": -1
+      },
+      "host": {
+        "accepted": 0,
+        "rejection": 0,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1
+      },
+      "original": {
+        "result": 34668544,
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            40894464,
+            0
+          ],
+          [
+            0,
+            34668544,
+            0,
+            0,
+            1
+          ],
+          [
+            4,
+            34668544,
+            0,
+            0,
+            1
+          ]
+        ],
+        "room": 0,
+        "in_room": 0,
+        "in_zone": 1,
+        "float_compares": 0
+      }
+    }
+  ],
+  "host_failure_cases": [
+    {
+      "name": "fail_first_eligibility",
+      "failed_operation": 0,
+      "host_status": 3,
+      "calls": [
+        [
+          0,
+          34668544,
+          0,
+          0,
+          0
+        ]
+      ],
+      "room": 0,
+      "in_room": 0,
+      "in_zone": 0,
+      "assertion": "service_failed; prior writes retained"
+    },
+    {
+      "name": "fail_old_room_removal",
+      "failed_operation": 1,
+      "host_status": 3,
+      "calls": [
+        [
+          0,
+          34668544,
+          38010880,
+          0,
+          1
+        ],
+        [
+          1,
+          34668544,
+          38010880,
+          0,
+          0
+        ]
+      ],
+      "room": 38010880,
+      "in_room": 1,
+      "in_zone": 1,
+      "assertion": "service_failed; prior writes retained"
+    },
+    {
+      "name": "fail_zone_manager_after_enter_write",
+      "failed_operation": 3,
+      "host_status": 3,
+      "calls": [
+        [
+          3,
+          34668544,
+          0,
+          40894464,
+          0
+        ]
+      ],
+      "room": 0,
+      "in_room": 0,
+      "in_zone": 1,
+      "assertion": "service_failed; prior writes retained"
+    },
+    {
+      "name": "fail_state_callback_after_enter_write",
+      "failed_operation": 4,
+      "host_status": 3,
+      "calls": [
+        [
+          0,
+          34668544,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          34668544,
+          35782656,
+          0,
+          1
+        ],
+        [
+          4,
+          34668544,
+          35782656,
+          0,
+          1
+        ]
+      ],
+      "room": 35782656,
+      "in_room": 1,
+      "in_zone": 1,
+      "assertion": "service_failed; prior writes retained"
+    },
+    {
+      "name": "fail_append_after_enrollment_writes",
+      "failed_operation": 2,
+      "host_status": 3,
+      "calls": [
+        [
+          0,
+          34668544,
+          0,
+          0,
+          1
+        ],
+        [
+          0,
+          34668544,
+          35782656,
+          0,
+          1
+        ],
+        [
+          4,
+          34668544,
+          35782656,
+          0,
+          1
+        ],
+        [
+          2,
+          34668544,
+          35782656,
+          0,
+          0
+        ]
+      ],
+      "room": 35782656,
+      "in_room": 1,
+      "in_zone": 1,
+      "assertion": "service_failed; prior writes retained"
+    }
+  ]
+}

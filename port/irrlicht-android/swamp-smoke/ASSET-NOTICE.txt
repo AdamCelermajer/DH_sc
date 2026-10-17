@@ -1,0 +1,15 @@
+Local test package asset provenance
+
+This diagnostic APK includes a minimal selected set of game data supplied by
+the repository owner from the original Dungeon Hunter 2 cache. The selected
+files retain their original provenance and rights. This project does not
+assert that the game or its assets are open source, and this notice does not
+grant a license to redistribute the game data or this cache-bearing APK.
+
+Keep this build for local reconstruction, compatibility testing and review by
+the rights holder. The `third-party-notices` package directory contains the
+separate notices and license texts for Irrlicht OGL-ES r6038, Box2D 2.0.1, and
+their bundled third-party code. Those notices do not apply to the game cache
+files.
+
+This is a provenance record, not a legal opinion.

@@ -1,0 +1,206 @@
+{
+  "scope": "Fixed Win32 input ownership, reached stores, channel and stick updates; original external soft-float and libm calls use declared host fixtures. No generic virtual providers or native singleton allocation claimed.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11InputDeviceC2ENS_4TypeE",
+      "elf_address": "0x34ca64",
+      "size": 48,
+      "sha256": "9cb017f1ad13869f0102bc20b034ecd771ea9f8b29eff2fd766389a25c347d39"
+    },
+    {
+      "original_symbol": "_ZN11InputDeviceC1ENS_4TypeE",
+      "elf_address": "0x34ca94",
+      "size": 48,
+      "sha256": "9270b4d73649841f20a4afb9a248faf81239f4e0d4ef2c514b0cfd2a60438082"
+    },
+    {
+      "original_symbol": "_ZN5MouseC1Ev",
+      "elf_address": "0x34cb70",
+      "size": 172,
+      "sha256": "6ee2979ab7d13df54ec9fb9be12e1af97ad0dbf39984e11827fa425c21cee768"
+    },
+    {
+      "original_symbol": "_ZN5MouseC2Ev",
+      "elf_address": "0x34cac4",
+      "size": 172,
+      "sha256": "6f2b7eb294c551330fa9432f0ac76e7fa2bd78ae57c803bdd12625e4fec374dd"
+    },
+    {
+      "original_symbol": "_ZN8KeyboardC1Ev",
+      "elf_address": "0x34cc94",
+      "size": 120,
+      "sha256": "415b896be2279d031414fbd21d50892fd3e618351a8e3bf84d1d1ff59d3085fb"
+    },
+    {
+      "original_symbol": "_ZN8KeyboardC2Ev",
+      "elf_address": "0x34cc1c",
+      "size": 120,
+      "sha256": "4cd2f99199e8f71409c84c1a4b27cf2f3ef3ae904c4be1378b7770ce4c4023d3"
+    },
+    {
+      "original_symbol": "_ZN7GamepadC1Ev",
+      "elf_address": "0x34ce88",
+      "size": 380,
+      "sha256": "08e61a8f0f63a0d32ca77f99acf50ba7f79c85cdc7c887da849716b46b48ee5d"
+    },
+    {
+      "original_symbol": "_ZN7GamepadC2Ev",
+      "elf_address": "0x34cd0c",
+      "size": 380,
+      "sha256": "e85d5ba23e2f9713f399fb25c5de2bd89f2a9224183a9dd6096ca00a47a76292"
+    },
+    {
+      "original_symbol": "_ZN12InputManagerC2Eiii",
+      "elf_address": "0x34d6bc",
+      "size": 64,
+      "sha256": "97ecc98b2a65ecd30029cc56446dae8158335fa2bb7dda99cb6b25919b7e6aa0"
+    },
+    {
+      "original_symbol": "_ZN12InputManagerC1Eiii",
+      "elf_address": "0x34d6fc",
+      "size": 64,
+      "sha256": "d626f98dc8d7d83a8566943aa6d40562757de745c2272e27f4293dbe53dc2441"
+    },
+    {
+      "original_symbol": "_ZN17InputManagerWin32C1Ev",
+      "elf_address": "0x34dd18",
+      "size": 140,
+      "sha256": "5cc5bc5fdb35a15ffddbd9640886051f1cc4266e89dcf8700641057efed41ab4"
+    },
+    {
+      "original_symbol": "_ZN17InputManagerWin32C2Ev",
+      "elf_address": "0x34de68",
+      "size": 140,
+      "sha256": "9d2f25ecbc5423f75771e1ef21ced2c2f7e211727ec9ebe8feb3cca4c3071f4d"
+    },
+    {
+      "original_symbol": "_ZN17InputManagerWin328GetMouseEi",
+      "elf_address": "0x34da9c",
+      "size": 12,
+      "sha256": "317d21432d566f48884ad12cc6aa1e3b1505c7cadce7a2c1e5498cc644013025"
+    },
+    {
+      "original_symbol": "_ZN17InputManagerWin3211GetKeyboardEi",
+      "elf_address": "0x34daa8",
+      "size": 8,
+      "sha256": "8f29a8b2228890b63bbc9e75ff06b88af801c3f364a010e80a6ec6ba013b4f81"
+    },
+    {
+      "original_symbol": "_ZN17InputManagerWin3210GetGamepadEi",
+      "elf_address": "0x34dbb4",
+      "size": 168,
+      "sha256": "21006abc9779996af2f339a0550fb01b1413a0f61a6a91e53458346cb345d72b"
+    },
+    {
+      "original_symbol": "_ZNK12InputManager12GetNumMousesEv",
+      "elf_address": "0x34d744",
+      "size": 8,
+      "sha256": "68a639b2dffac301817461b8b1e1e2fbca60e4b4db136a34b582411c8b7d17ba"
+    },
+    {
+      "original_symbol": "_ZNK12InputManager15GetNumKeyboardsEv",
+      "elf_address": "0x34d74c",
+      "size": 8,
+      "sha256": "fdc1710f100ccf2b13937a27e7f23ccda5a1973826c8d8f3b7db09e6988fe8a4"
+    },
+    {
+      "original_symbol": "_ZNK12InputManager14GetNumGamepadsEv",
+      "elf_address": "0x34d754",
+      "size": 8,
+      "sha256": "687b83fbb1b1084c4b61325547b5f8fadfb354f0d8aa39fcef5ecb6ba6b86ed1"
+    },
+    {
+      "original_symbol": "_ZN12InputManager24GetConnectedGamepadCountEv",
+      "elf_address": "0x34d75c",
+      "size": 88,
+      "sha256": "c905fc90d4876f4baffaf77348357a2a6de79572015fa9acef8a4e999be3ee99"
+    },
+    {
+      "original_symbol": "_ZN12InputManager24GetFirstConnectedGamepadEv",
+      "elf_address": "0x34d7b4",
+      "size": 108,
+      "sha256": "def826e2e5966aa2c3396d2e8abcd721aeabc736606fcddcf83ecec0f308ad5c"
+    },
+    {
+      "original_symbol": "_ZN12InputManager11UpdateFrameEf",
+      "elf_address": "0x34d820",
+      "size": 208,
+      "sha256": "9f61e041d007909d54b8d853ca0bdd85d3f356cf97925e826da0fa33b2d12edd"
+    },
+    {
+      "original_symbol": "_ZN17InputManagerWin3211UpdateFrameEf",
+      "elf_address": "0x34dc90",
+      "size": 4,
+      "sha256": "ef9740026b4aa5b9a9df032f80b9525bfafd88b11f3a1ac061b9e574adf6c0bc"
+    },
+    {
+      "original_symbol": "_ZN8Keyboard11UpdateFrameEf",
+      "elf_address": "0x34c91c",
+      "size": 112,
+      "sha256": "b24f543253903102b919b2dabba4088b180804bee86ff5243e10011337b46267"
+    },
+    {
+      "original_symbol": "_ZN5Mouse11UpdateFrameEf",
+      "elf_address": "0x34c98c",
+      "size": 216,
+      "sha256": "23727219053e2b208f6d429a61e7b5335ff3b96bd61d304bd63bb88b1e5949f6"
+    },
+    {
+      "original_symbol": "_ZN7Gamepad11UpdateFrameEf",
+      "elf_address": "0x34d124",
+      "size": 1432,
+      "sha256": "157f82e8cbb314122cf6595972c73729809309016d9fc5f2b9bdfbc0eb0bbdbe"
+    },
+    {
+      "original_symbol": "_ZN7Point3DIfE9normalizeEv",
+      "elf_address": "0x34d0b0",
+      "size": 116,
+      "sha256": "c9abef302688a7784df5db5ea10b96d23733b47ba5f0f90ba3ac87f8fb1f5b0f"
+    },
+    {
+      "original_symbol": "_ZN7Point3DIfEdVERKf",
+      "elf_address": "0x34d04c",
+      "size": 68,
+      "sha256": "91099adb536453150b9b783a298bf0a1d67d9735a12c51b07b6e9ebb27dfbea1"
+    },
+    {
+      "original_symbol": "_ZNK7Point3DIfEeqERKS0_",
+      "elf_address": "0x312b6c",
+      "size": 140,
+      "sha256": "7a7324bb4140a95035e5f81755a092f692635fbd5c7d640806ff33ff82d58b63"
+    }
+  ],
+  "vtables": [
+    {
+      "original_symbol": "_ZTV11InputDevice",
+      "elf_address": "0x95ca18",
+      "size": 12
+    },
+    {
+      "original_symbol": "_ZTV8Keyboard",
+      "elf_address": "0x95c9f8",
+      "size": 12
+    },
+    {
+      "original_symbol": "_ZTV5Mouse",
+      "elf_address": "0x95ca08",
+      "size": 12
+    },
+    {
+      "original_symbol": "_ZTV7Gamepad",
+      "elf_address": "0x95c9e8",
+      "size": 12
+    },
+    {
+      "original_symbol": "_ZTV12InputManager",
+      "elf_address": "0x95ca28",
+      "size": 32
+    },
+    {
+      "original_symbol": "_ZTV17InputManagerWin32",
+      "elf_address": "0x95ca60",
+      "size": 32
+    }
+  ]
+}

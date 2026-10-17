@@ -1,0 +1,6999 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 41,
+    "mismatches": 0
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 48,
+    "mismatches": 0,
+    "results": [
+      {
+        "case": "actual_mode0_loaded0",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "actual_mode0_loaded1",
+        "arguments": [
+          0,
+          1,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {},
+          "second": {},
+          "calls": []
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {},
+          "second": {},
+          "calls": []
+        }
+      },
+      {
+        "case": "actual_mode1_loaded0",
+        "arguments": [
+          1,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "actual_mode1_loaded1",
+        "arguments": [
+          1,
+          1,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": []
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": []
+        }
+      },
+      {
+        "case": "actual_mode2_loaded0",
+        "arguments": [
+          2,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "actual_mode2_loaded1",
+        "arguments": [
+          2,
+          1,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "isTracingChar_Stats": 0
+          },
+          "second": {},
+          "calls": []
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": []
+        }
+      },
+      {
+        "case": "actual_mode3_loaded0",
+        "arguments": [
+          3,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "actual_mode3_loaded1",
+        "arguments": [
+          3,
+          1,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "isTracingChar_Stats": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              2,
+              10099992,
+              0,
+              0,
+              2,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingChar_Stats": 1,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              2,
+              10099992,
+              0,
+              0,
+              2,
+              1,
+              0,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_1_1",
+        "arguments": [
+          1,
+          0,
+          1,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 268632064,
+          "position": 665,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              6,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              19,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 268632064,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              6,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              19,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              0,
+              0,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_1_3",
+        "arguments": [
+          3,
+          0,
+          1,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 268632064,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingChar_Stats": 1
+          },
+          "second": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              18,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              19,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 268632064,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              18,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              19,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_2_1",
+        "arguments": [
+          1,
+          0,
+          2,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_2_3",
+        "arguments": [
+          3,
+          0,
+          2,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_3_1",
+        "arguments": [
+          1,
+          0,
+          3,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "ChangedKey": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ChangedKey": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_3_3",
+        "arguments": [
+          3,
+          0,
+          3,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "ChangedKey": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ChangedKey": 1,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_4_1",
+        "arguments": [
+          1,
+          0,
+          4,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "ChangedKey": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ChangedKey": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_4_3",
+        "arguments": [
+          3,
+          0,
+          4,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "ChangedKey": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ChangedKey": 1,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_5_1",
+        "arguments": [
+          1,
+          0,
+          5,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_5_3",
+        "arguments": [
+          3,
+          0,
+          5,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_6_1",
+        "arguments": [
+          1,
+          0,
+          6,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitchesFile": 1,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              8,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "fresh_key_global_6_3",
+        "arguments": [
+          3,
+          0,
+          6,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "isTracingDebugSwitchesFile": 1,
+            "isTracingDebugSwitches": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 665,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "DontUsePlayerSeed": 0,
+            "DumpQuestInformationOnce": 0,
+            "EnablePlayerHeadLight": 1,
+            "ForceAll4Players": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDisablingMinimap": 0,
+            "IsLevelUpdatePaused": 0,
+            "IsUsingCharacterShowRoom": 0,
+            "IsUsingGamepadTweaker": 0,
+            "IsUsingToggleDisplayMode": 0,
+            "RENDERING_DisableAllLighting": 0,
+            "RENDERING_DisableAllSpecular": 0,
+            "RENDERING_DisableGpuSkinning": 0,
+            "RENDERING_EnableShadowProjection": 1,
+            "RENDERING_EnableXray": 1,
+            "TestMultiPlayerLight": 1,
+            "ToggleGamepadScreenShot": 1,
+            "isTracingChar_Stats": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              20,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              21,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              22,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              23,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              24,
+              1,
+              1,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "missing_file_0",
+        "arguments": [
+          0,
+          0,
+          0,
+          1,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "missing_file_1",
+        "arguments": [
+          1,
+          0,
+          0,
+          1,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              1,
+              0,
+              0,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "missing_file_2",
+        "arguments": [
+          2,
+          0,
+          0,
+          1,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "isTracingChar_Stats": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingChar_Stats": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "missing_file_3",
+        "arguments": [
+          3,
+          0,
+          0,
+          1,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "isTracingChar_Stats": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingChar_Stats": 1,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              7,
+              1,
+              0,
+              1
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file0",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file1",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file2",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "96a296d224f285c67bee93c30f8a309157f0daa35dc5b87e410b78630a09cfc7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file3",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "709e80c88487a2411e1ee4dfb9f22a861492d20c4765150c0c794abd70f8147c",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file4",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "df3f619804a92fdb4057192dc43dd748ea778adc52bc498ce80524c014b81119",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file5",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "8855508aade16ec573d21e6a485dfd0a7624085c1a14b5ecdd6485de0c6839a4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file6",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "b0f66adc83641586656866813fd9dd0b8ebb63796075661ba45d1aa8089e1d44",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file7",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "837885c8f8091aeaeb9ec3c3f85a6ff470a415e610b8ba3e49f9b33c9cf9d619",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file8",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "af5570f5a1810b7af78caf4bc70a660f0df51e42baf91d4de5b2328de0e83dfc",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file9",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "3e7077fd2f66d689e0cee6a7cf5b37bf2dca7c979af356d0a31cbc5c85605c7d",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file10",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "01d448afd928065458cf670b60f5a594d735af0172c8d67f22a81680132681ca",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "source_short_file11",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "71b6c1d53832f789a7f2435a7c629245fa3761ad8487775ebf4957330213a706",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 0,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "v1",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "bd5d22dc2ac9d483181c061788c83162e68ea6f0b03f20c93ce02fad4651fde6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 20,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "New": 1,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 20,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "New": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "v1_latest",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "f1f84751935f89a09ec07330f4ebe55184372fa9b54f1b0e34db82fec0ea24e5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 20,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "New": 1,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 20,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "New": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "v2",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "da0b6d5128c56ed091a9ca3f182fff58543087d5f89d48b8d05e70c659c355dd",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 24,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "New": 1,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 24,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "New": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "v2_latest",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "72dc1e688a7f289ccfbd5c8a035588bf5b2eb3fbd0bbca3acbf799000cd87a7d",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 24,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "New": 1,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 24,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "New": 1,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "negative_modules",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "942ebf2d0f3f5b835798cab919a03106103a198039481ee0a96a68d4658a897f",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 16,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 16,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "negative_switches",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "c7ca68373e5ab6e640681e0e471f024688319a868699bdc43dd52d07a78f58bb",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 16,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 16,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "duplicate_keys",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "dec23f0d7cbdd5c513f56fe10efd01ac6814480af034f733250eb40d3f70e844",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 40,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "Dup": 1,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 40,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "Dup": 1,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "forced_flags",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "3ae77932662adbaf2b9130611447c3eff795cf6f4de18d35b066fe73d191d0fe",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 115,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              4,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 115,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              4,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "captured_default_owner",
+        "arguments": [
+          0,
+          0,
+          7,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "3ae77932662adbaf2b9130611447c3eff795cf6f4de18d35b066fe73d191d0fe",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 268632064,
+          "position": 115,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {
+            "isTracingDebugSwitches": 0
+          },
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              4,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 268632064,
+          "position": 115,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {
+            "isTracingDebugSwitches": 0
+          },
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              4,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              5,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "trace_keys_true",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "c408d9c37623254e4780970d3deba52210e16085fb59e54fdbde539a5c579604",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 83,
+          "first": {
+            "isTracingDebugSwitchesFile": 1,
+            "isTracingDebugSwitches": 1,
+            "Keep": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              2,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              2,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 83,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "Keep": 0,
+            "isTracingDebugSwitches": 1,
+            "isTracingDebugSwitchesFile": 1
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              2,
+              1,
+              1,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              2,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "empty_switches",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "37bd71b415d9c22c218c62e4466d37f06454aeab39312bd801cbeff8e53d3711",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 16,
+          "first": {
+            "isTracingDebugSwitches": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 16,
+          "first": {
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              0,
+              0,
+              0,
+              0
+            ]
+          ]
+        }
+      },
+      {
+        "case": "embedded_nul",
+        "arguments": [
+          0,
+          0,
+          0,
+          0,
+          "isTracingChar_Stats"
+        ],
+        "file_sha256": "3f2a2598338d6245d6f8530de4623f2cc15abc44fcb2049c4ef0d42d39b255e3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 33,
+          "first": {
+            "isTracingDebugSwitchesFile": 0,
+            "isTracingDebugSwitches": 0,
+            "Before": 1,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 77,
+          "loaded": 1,
+          "singleton": 10099992,
+          "position": 33,
+          "first": {
+            "Before": 1,
+            "ConnectToAlphaServer": 0,
+            "ConnectToBetaServer": 0,
+            "IsDeactivatingFlashMenus": 0,
+            "IsDeactivatingFlashMenusRender": 0,
+            "IsDeactivatingFlashMenusUpdate": 0,
+            "isTracingDebugSwitches": 0,
+            "isTracingDebugSwitchesFile": 0
+          },
+          "second": {},
+          "calls": [
+            [
+              0,
+              10099992,
+              268697600,
+              0,
+              0,
+              0,
+              0,
+              0
+            ],
+            [
+              2,
+              10099992,
+              0,
+              0,
+              3,
+              1,
+              1,
+              0
+            ],
+            [
+              1,
+              10099992,
+              268697600,
+              268763136,
+              3,
+              1,
+              1,
+              0
+            ]
+          ]
+        }
+      }
+    ],
+    "executed_scope": "Actual complete original512B load,196B GetSwitch and236B SetSwitch instructions, including internal nested recursion and stores. Actual932B _loadSwitches instructions execute only evidenced WSBD versions1/2 with nonpositive module count, bounded names and valid switch loops (plus source<=11B early-return). Data primitive184/184/244B, string52/68B, map-find212B/operator[]380B and save136B entries are explicitly named provider fixtures. Source getter/setter instructions write/read actual fake-container bool cells; map/storage allocation bodies are outside the comparison. Filesystem virtual size/position/open/close are explicit memory-stream fixtures. Unknown original imports fail. No full932B/text/module/save/file/map/string body claim.",
+    "new_complete_callers": 3,
+    "new_complete_dependency_bodies": 0
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/level-world/debug_switches_runtime.cpp": "df695288c131f169cfabbd7efec398c4bce94cd054f335951ca63b03e14d4d6a",
+    "port/level-world/tests/debug_switches_runtime.cpp": "7ec11a9ec0f6bf6fe2ed8ae17144ad0f63a7b8bcc8d2cb64e8fd51d78b1fc2f6",
+    "port/level-world/debug_switches_runtime.hpp": "92c296a3ee0dec9313adaf99e47e7fbc17b537e3248b2de69ed1531d811d25fc",
+    "port/level-world/tests/run_debug_switches_runtime_host.py": "9460956dd4ddf339aa2032cbce83e7bec31695a0e8f1be4b42a8e5a0dd1fbf94",
+    "port/level-world/reference/debug-switches-runtime/original-functions.json": "8b5d37629bb6f8313afee8e47179b92fb3260fda6424a7f4fc57ed2f974f340c",
+    "port/level-world/reference/debug-switches-runtime/NOTES.md": "c442df2b94c20663248e9601671ffe47888864b68d9fc952d4f8cf52c0e97cd2"
+  },
+  "reused_primitive_sha256": "e39dc86328b2f90d282d0e0b3a33a7ddf9aa394eb86b0820309cd4ba239cb4d7",
+  "cache_debug_configuration": {
+    "path": "DebugSwitches.savegame",
+    "bytes": 665,
+    "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+    "header_hex": "575342440000020000000000",
+    "rows": [
+      {
+        "name": "ConnectToAlphaServer",
+        "value": 0
+      },
+      {
+        "name": "ConnectToBetaServer",
+        "value": 0
+      },
+      {
+        "name": "DontUsePlayerSeed",
+        "value": 0
+      },
+      {
+        "name": "DumpQuestInformationOnce",
+        "value": 0
+      },
+      {
+        "name": "EnablePlayerHeadLight",
+        "value": 1
+      },
+      {
+        "name": "ForceAll4Players",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenus",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenusRender",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenusUpdate",
+        "value": 0
+      },
+      {
+        "name": "IsDisablingMinimap",
+        "value": 0
+      },
+      {
+        "name": "IsLevelUpdatePaused",
+        "value": 0
+      },
+      {
+        "name": "IsUsingCharacterShowRoom",
+        "value": 0
+      },
+      {
+        "name": "IsUsingGamepadTweaker",
+        "value": 0
+      },
+      {
+        "name": "IsUsingToggleDisplayMode",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableAllLighting",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableAllSpecular",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableGpuSkinning",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_EnableShadowProjection",
+        "value": 1
+      },
+      {
+        "name": "RENDERING_EnableXray",
+        "value": 1
+      },
+      {
+        "name": "TestMultiPlayerLight",
+        "value": 1
+      },
+      {
+        "name": "ToggleGamepadScreenShot",
+        "value": 1
+      },
+      {
+        "name": "isTracingDebugSwitches",
+        "value": 0
+      },
+      {
+        "name": "isTracingDebugSwitchesFile",
+        "value": 0
+      }
+    ],
+    "fully_consumed": true,
+    "requested_key_present": false,
+    "parsing_scope": "Actual cache and accepted original binary switch-loop branches are decoded into maintained owned maps; complete load/GetSwitch/SetSwitch callers, bounded loader branch only. No whole original file/STL/string/save dependency body claim."
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\debug_switches_runtime.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\debug_switches_runtime.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\debug-switches-runtime-root\\host.exe"
+  ],
+  "native_wired": false,
+  "new_complete_caller_bodies": 3,
+  "new_complete_dependency_bodies": 0
+}

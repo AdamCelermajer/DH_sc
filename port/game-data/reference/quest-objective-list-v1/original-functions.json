@@ -1,0 +1,107 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ObjectiveListC1Ev",
+      "elf_address": "0x47a3d4",
+      "size": 20,
+      "sha256": "9448dc4c8e2d0453cdbef676eba4b5322852c33e65e1691a7da41e8bd20e21d9"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveListC2Ev",
+      "elf_address": "0x47a3c0",
+      "size": 20,
+      "sha256": "9448dc4c8e2d0453cdbef676eba4b5322852c33e65e1691a7da41e8bd20e21d9"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList12AssignPyDataEPN7Structs20v2QuestObjectiveStubEi",
+      "elf_address": "0x47aa48",
+      "size": 108,
+      "sha256": "4a0207c99f9abd934bc845c3ef57f5029fc9e826082009575f052b1fcdcef5e9"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList25CreateObjectiveWithPyDataEPN7Structs20v2QuestObjectiveStubE",
+      "elf_address": "0x47a3e8",
+      "size": 44,
+      "sha256": "f59a7afeeab1a110d79a2bf9bdb1418bec55ea4cbc052ce4e13f921a4d5aaade"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList8SetOwnerEP9Character",
+      "elf_address": "0x47a414",
+      "size": 48,
+      "sha256": "6d336b2ae4c801b65e8e6283038084e31ff6a8fd78b6becd85004017a17e1210"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList9_loadDataEP11IStreamBase",
+      "elf_address": "0x47a798",
+      "size": 44,
+      "sha256": "b57c45ccd1240a442306d3566dd3b41280cc219c7468569f8f32ce95c80a999b"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveListD1Ev",
+      "elf_address": "0x47a8cc",
+      "size": 116,
+      "sha256": "0beb15180b83018e9bb6446d72ab0dbdc7bb53ff1acdfa7061385d40c56c0428"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveListD2Ev",
+      "elf_address": "0x47a940",
+      "size": 116,
+      "sha256": "e57a89a63a7736824d083deaf9394046ca0bd34c797595b6f9aa98fd678b6d93"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList9LoopOnAllEM9ObjectiveFvP11IStreamBaseES2_",
+      "elf_address": "0x47a6f8",
+      "size": 116,
+      "sha256": "e7cca41229b5e30d77b0d34c9c0b9522460bca4eb4a4f41079169eee3d208af6"
+    }
+  ],
+  "dispatch_table": {
+    "elf_address": "0x969908",
+    "size": 56,
+    "entries": [
+      4706348,
+      4706256,
+      4706168,
+      4706080,
+      4701984,
+      4705988,
+      4702064,
+      4706708,
+      4706620,
+      4706532,
+      4706440,
+      4701892,
+      4701812,
+      0
+    ],
+    "sha256": "abd21f3d88b3ad5636d8b8fb0fe3a53a90f166c3af3ccaa8f1994cb6be695626"
+  },
+  "cache": {
+    "v2quests_pyarray.bin": {
+      "bytes": 21817,
+      "sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36"
+    },
+    "v2quests_pyarraynames.bin": {
+      "bytes": 1357,
+      "sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4"
+    }
+  },
+  "reused_decoder": {
+    "path": "port/quest-data/quests.c",
+    "sha256": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "header_sha256": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2",
+    "attribution": "Existing repository quest-data reader and original differential extraction are reused unchanged."
+  },
+  "prior_original_reference": {
+    "path": "port/quest-data/differential-validation.json",
+    "sha256": "3fb1a4542dc5c9d1401c62f11f246811c3bd1031fa0291ec5b7df5dce0be0ec7"
+  },
+  "remaining_external": {
+    "allocation": "0x31056c",
+    "deallocation": "0x310440",
+    "delete_virtual_slot": "0x4",
+    "objective_stream_member": "explicit direct/virtual ARM member pointer"
+  },
+  "scope": "Whole ObjectiveList callers using actual retained QuestTable definitions.\n\nC1/C2, AssignPyData, CreateObjectiveWithPyData, SetOwner, _loadData, the full\nmember-pointer stream LoopOnAll, and D1/D2 execute versus pinned original ARM.\nThe actual immutable QuestTable adapter and unchanged decoder feed native calls;\nsource fixtures use the matching prior original decoder projections, pinned to\nthose exact private cache hashes. Type substitutions are explicit synthetic\ntest generations; original factory dispatch table is pinned. Array alloc/free,\ntype factories, deleting virtual4 and stream member bodies are observing fixture\nproviders. They do not validate missing Objective actions/Compile or gameplay.\nAssignment/destructor callback prefixes and source captured/live backing order\nare compared; invalid native backing stops at original fault boundaries. The\nsingle List owns its pointer publication, and factory records own sole scalar\nfields/ActionRef. Lost arrays stay in the provider arena as in the source.\nNo Android compilation, native hookup or live gameplay is claimed.\n"
+}

@@ -1,0 +1,337 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "complete_engine": false,
+  "complete_functions_reconstructed": 35,
+  "partial_functions_reconstructed": 1,
+  "stream_comparisons": 10449,
+  "stream_cases": {
+    "dh2_memory_all_in_memory": 6,
+    "dh2_memory_valid": 7,
+    "dh2_memory_size": 6,
+    "dh2_memory_position": 6,
+    "dh2_memory_name": 6,
+    "dh2_memory_full_path": 6,
+    "dh2_memory_buffer": 8,
+    "dh2_limit_size": 1,
+    "dh2_limit_position": 1,
+    "dh2_limit_name": 1,
+    "dh2_limit_full_path": 1,
+    "dh2_memory_read": 1200,
+    "dh2_memory_async": 1200,
+    "dh2_memory_async_at": 1200,
+    "dh2_limit_read": 1200,
+    "dh2_limit_async": 1200,
+    "dh2_limit_async_at": 1200,
+    "dh2_memory_seek": 1600,
+    "dh2_limit_seek": 1600
+  },
+  "bres_corpus": {
+    "files": 2904,
+    "bytes": 143626856,
+    "fixups": 2579645,
+    "native_pointer_values_compared": 5159290,
+    "library_pointer_comparisons": 27823,
+    "libraries": {
+      "animation": 49060,
+      "animation_clip": 2417,
+      "camera": 76,
+      "light": 45,
+      "image": 3662,
+      "effect": 3873,
+      "material": 4329,
+      "geometry": 10933,
+      "controller": 727,
+      "emitter": 415,
+      "gnps_emitter": 0,
+      "force": 149,
+      "coronas": 0
+    },
+    "versions": {
+      "0,0,0,777": 2904
+    },
+    "headers": {
+      "bulk_blocks": 1505,
+      "no_tail_bytes": 1459,
+      "no_bulk_blocks": 1399,
+      "tail_bytes": 1445
+    },
+    "ordered_asset_manifest_sha256": "08359a9045303b9d915a66f78dc7d4773c4ff0daefad225586f003c7a39b1ef3"
+  },
+  "synthetic_bres": {
+    "files": 1,
+    "bytes": 8192,
+    "fixups": 19,
+    "native_pointer_values_compared": 38,
+    "library_pointer_comparisons": 41,
+    "libraries": {
+      "animation": 3,
+      "animation_clip": 3,
+      "camera": 3,
+      "light": 3,
+      "image": 3,
+      "effect": 3,
+      "material": 3,
+      "geometry": 3,
+      "controller": 3,
+      "emitter": 3,
+      "gnps_emitter": 3,
+      "force": 3,
+      "coronas": 3
+    },
+    "versions": {
+      "0,0,0,777": 1
+    },
+    "headers": {
+      "no_bulk_blocks": 1,
+      "no_tail_bytes": 1
+    },
+    "ordered_asset_manifest_sha256": "ba13ba8fe1354013c3177e9cedca16b38f4b62ca3cf952b985490a514b61ddf3"
+  },
+  "malformed_or_capacity_cases": 17,
+  "safe_negative_read_case": true,
+  "mismatches": 0,
+  "arm64_pointers_above_4gib": true,
+  "dependencies": "Only imported libc copies/zeroing and the ARM32 caller completion fixture are modeled; engine routines execute original instructions.",
+  "limitations": [
+    "Whole-buffer relocation only; split allocations/external resource bases unimplemented.",
+    "SCollada library boundaries/strides recovered; nested payload schemas and rendering unimplemented.",
+    "Original constructors/string/shared ownership ABI unimplemented; port borrows buffers/names.",
+    "Safe bounds checks intentionally reject invalid original copies/indices.",
+    "No Android device execution or game integration for this component."
+  ],
+  "original_import_calls": {
+    "memcpy": 3945,
+    "caller_completion": 4634
+  },
+  "arm64_import_calls": {
+    "memcpy": 3945
+  },
+  "coverage": [
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile9getBufferEPl",
+      "scope": "complete function",
+      "instruction_addresses_executed": 5,
+      "range_instruction_addresses": 5
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile13isAllInMemoryEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile7isValidEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 8,
+      "range_instruction_addresses": 8
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_",
+      "scope": "complete function",
+      "instruction_addresses_executed": 13,
+      "range_instruction_addresses": 13
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_",
+      "scope": "complete function",
+      "instruction_addresses_executed": 23,
+      "range_instruction_addresses": 23
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile4seekElb",
+      "scope": "complete function",
+      "instruction_addresses_executed": 15,
+      "range_instruction_addresses": 15
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile7getSizeEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile6getPosEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile11getFileNameEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io15CMemoryReadFile11getFullPathEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZN6glitch2io15CMemoryReadFile4readEPvj",
+      "scope": "complete function",
+      "instruction_addresses_executed": 22,
+      "range_instruction_addresses": 22
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getVersionEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 5,
+      "range_instruction_addresses": 5
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase23getAnimationClipLibraryEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 5,
+      "range_instruction_addresses": 5
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getSceneEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 5,
+      "range_instruction_addresses": 5
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase12getAnimationEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 6,
+      "range_instruction_addresses": 6
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase16getAnimationClipEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase9getCameraEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getLightEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getImageEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase9getEffectEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase11getMaterialEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase11getGeometryEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 6,
+      "range_instruction_addresses": 6
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase13getControllerEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase8getForceEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 6,
+      "range_instruction_addresses": 6
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getEmitterEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase14getGNPSEmitterEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZNK6glitch7collada16CColladaDatabase10getCoronasEi",
+      "scope": "complete function",
+      "instruction_addresses_executed": 7,
+      "range_instruction_addresses": 7
+    },
+    {
+      "original_symbol": "_ZN6glitch3res4File4InitEv",
+      "scope": "whole-buffer branch only",
+      "instruction_addresses_executed": 65,
+      "range_instruction_addresses": 277
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile4readEPvj",
+      "scope": "complete function",
+      "instruction_addresses_executed": 38,
+      "range_instruction_addresses": 38
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile9readAsyncEPvjPFviiPNS0_9IReadFileES2_ES2_",
+      "scope": "complete function",
+      "instruction_addresses_executed": 20,
+      "range_instruction_addresses": 20
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile9readAsyncEPvjlPFviiPNS0_9IReadFileES2_ES2_",
+      "scope": "complete function",
+      "instruction_addresses_executed": 29,
+      "range_instruction_addresses": 29
+    },
+    {
+      "original_symbol": "_ZN6glitch2io14CLimitReadFile4seekElb",
+      "scope": "complete function",
+      "instruction_addresses_executed": 35,
+      "range_instruction_addresses": 35
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile7getSizeEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile6getPosEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 4,
+      "range_instruction_addresses": 4
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile11getFileNameEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    },
+    {
+      "original_symbol": "_ZNK6glitch2io14CLimitReadFile11getFullPathEv",
+      "scope": "complete function",
+      "instruction_addresses_executed": 2,
+      "range_instruction_addresses": 2
+    }
+  ],
+  "elapsed_seconds": 37.58,
+  "sha256": {
+    "resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "original-functions.json": "716e2613288386cf11c60f073142b88adc0d70ced12df3d81add732472fbacc1",
+    "tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "tests/differential.py": "3dff51e0d2c9845aa9e60806fd2955b850752e988b7011c804959594748744b2",
+    "tests/fixtures.cpp": "e746c14f03dab55cc5bc9b6abb2cfabdbdb4d521c96e7606ce0239b8afa01ed3",
+    "arm64_test_library": "8f77906361ae245f803465efbeb6d2f83e808d009e3f18d145e57fea3c1ad3af"
+  }
+}

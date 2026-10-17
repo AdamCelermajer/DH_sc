@@ -1,0 +1,1 @@
+Implements the three full source bodies. Validation: 80 original ARM cases, 337/337 instructions covered, ordered FP operands/outputs match; seven host guards pass. Imported FP routines are IEEE models; historical Bionic details and NaN payload identity are unclaimed.

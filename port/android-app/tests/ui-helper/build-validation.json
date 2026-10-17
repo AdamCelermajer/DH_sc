@@ -1,0 +1,11 @@
+{
+  "test_only": true,
+  "target_sdk": 37,
+  "apk_sha256": "f7d4e58807733fb3f1a557b40133a8569be86adb87f0b89b6eba29e327d7306f",
+  "bytes": 12685,
+  "source_sha256": {
+    "Snapshot.java": "97b8de3fc57db0b046afa3704b84a928093266f809830feac7eafe208a752869",
+    "AndroidManifest.xml": "daac43ec723b1a57ca432ec28b87e7de1956117950c077cdba1e3d4fee25db7b",
+    "build.py": "6fdb0680bf2a353357e9d92f5d13b3f4183e606563238ac0da68e2e3026196c3"
+  }
+}

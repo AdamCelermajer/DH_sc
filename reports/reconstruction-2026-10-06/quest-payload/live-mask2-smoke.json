@@ -1,0 +1,66 @@
+{
+  "validation": "PASS",
+  "apk": {
+    "sha256": "7a3fc9bd7077bc10e5a8a958e2dde3dfdd8deedf2e065790a0a0c4c5eda72d4c",
+    "bytes": 148094153,
+    "abis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "all_load_segments_minimum_alignment": 16384
+  },
+  "device": {
+    "api": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "classes": [
+    {
+      "class": "Warrior",
+      "class_index": 0,
+      "native_class": 263,
+      "preset": "KnightPlayerBase",
+      "profile_created_and_entered_crypt": true,
+      "source_character_sg_load_mask2_calls": 1,
+      "save_and_both_embedded_quest_owner_fields_match": true,
+      "same_owner_after_home_resume_without_replay": true,
+      "occupied_slot_reopened_after_restart": true,
+      "back_returned_to_menu": true
+    },
+    {
+      "class": "Rogue",
+      "class_index": 1,
+      "native_class": 325,
+      "preset": "RoguePlayerBase",
+      "profile_created_and_entered_crypt": true,
+      "source_character_sg_load_mask2_calls": 1,
+      "save_and_both_embedded_quest_owner_fields_match": true,
+      "same_owner_after_home_resume_without_replay": true,
+      "occupied_slot_reopened_after_restart": true,
+      "back_returned_to_menu": true
+    },
+    {
+      "class": "Mage",
+      "class_index": 2,
+      "native_class": 290,
+      "preset": "MagePlayerBase",
+      "profile_created_and_entered_crypt": true,
+      "source_character_sg_load_mask2_calls": 1,
+      "save_and_both_embedded_quest_owner_fields_match": true,
+      "same_owner_after_home_resume_without_replay": true,
+      "occupied_slot_reopened_after_restart": true,
+      "back_returned_to_menu": true
+    }
+  ],
+  "controls": {
+    "movement_steps": 9,
+    "blocked_steps": 2,
+    "attack_response": "Walk closer to an enemy",
+    "full_combat_verified": false
+  },
+  "home_resume_retains_character_save_quest_owner": true,
+  "device_saves_restored_and_checksums_verified": true,
+  "personal_saves_pulled": false,
+  "captured_screenshot_count": 37,
+  "scope": "Original menu/name/class/Start UI, selected source profile creation/Assign, development Crypt, controls, occupied-slot restart, Back and Home/resume. The source Character Save association performs standalone SG_Load(2) once and is retained without replay on resume. Full InitPost interstitial, mask 4, real campaign restore and full combat remain open."
+}

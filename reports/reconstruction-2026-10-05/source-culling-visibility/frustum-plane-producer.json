@@ -1,0 +1,637 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 141,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/engine-camera/frustum.cpp": "a8720172cafd16d6a2521164ca1c0300b7e9cd39e66b2aaa70a2ea72f6898f04",
+    "port/engine-camera/frustum.hpp": "0cc8e9e50cef9309fb9d59ba88d4c23ecea30d83019f923824df70c851188ba8",
+    "port/engine-camera/tests/frustum_host.cpp": "8c8dc3bc987517ab3a88239f87c443d3c9de3ee8a68c1aa65b21554aa49f62cd",
+    "port/engine-camera/tests/run_frustum_host.py": "6d0cccf6c05ed84b9b46a18e7cf69044a6ca6ba733c260194eaba5a87e4d7304",
+    "port/engine-camera/reference/frustum-producer/original-functions.json": "5ceacd2a719b5c13479ef52094391f078e0972ab7f08952e2d2b0959725ca9b1"
+  },
+  "compile_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-ffp-contract=off",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\frustum.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\tests\\frustum_host.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\build\\frustum-producer-parent\\frustum-host.exe"
+  ],
+  "host_guards": {
+    "host_guard_cases": 8,
+    "math_calls": [
+      20,
+      12,
+      42,
+      6,
+      6
+    ]
+  },
+  "covered_active_instructions": 144,
+  "active_instructions": 144,
+  "import_calls_per_case": {
+    "sqrtf": 6,
+    "__aeabi_fdiv": 6,
+    "__aeabi_fadd": 20,
+    "__aeabi_fsub": 12,
+    "__aeabi_fmul": 42
+  },
+  "operation_order": "aaaassssssssaaaassssmmamaqdmmmmmmamaqdmmmmmmamaqdmmmmmmamaqdmmmmmmamaqdmmmmmmamaqdmmmm",
+  "nan_comparison": "classification only; payload/sign propagation is outside the external libm model",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_function": {
+    "original_symbol": "_ZN6glitch5scene12SViewFrustum7setFromERKNS_4core8CMatrix4IfEE",
+    "demangled": "glitch::scene::SViewFrustum::setFrom(glitch::core::CMatrix4<float> const&)",
+    "elf_address": "0x005826c0",
+    "size": 580,
+    "sha256": "5270c5a55f1d81173b2f3acc0bfb3633ab7bf4001fbb99878cd740582362e66a",
+    "implemented_prefix_size": 576,
+    "implemented_prefix_sha256": "764ee7e845e89f01f57c763c2f2c74b190e49e3bf18e5368f178ca5aed437447",
+    "scope": "Bounded complete plane extraction/normalization prefix; the final 4-byte tail branch is excluded."
+  },
+  "tail_boundary": {
+    "tail_branch_address": "0x00582900",
+    "target_address": "0x005823d4",
+    "original_branch_bytes": "b3feffea"
+  },
+  "source_results": [
+    {
+      "name": "identity",
+      "matched": true
+    },
+    {
+      "name": "perspective-like",
+      "matched": true
+    },
+    {
+      "name": "signed-skew",
+      "matched": true
+    },
+    {
+      "name": "all-zero-degenerate",
+      "matched": true
+    },
+    {
+      "name": "negative-zero-boundary",
+      "matched": true
+    },
+    {
+      "name": "zero-normal-nonzero-d",
+      "matched": true
+    },
+    {
+      "name": "subnormal-boundary",
+      "matched": true
+    },
+    {
+      "name": "max-finite-and-overflow",
+      "matched": true
+    },
+    {
+      "name": "infinity",
+      "matched": true
+    },
+    {
+      "name": "nan-payloads",
+      "matched": true
+    },
+    {
+      "name": "tiny-finite",
+      "matched": true
+    },
+    {
+      "name": "large-finite",
+      "matched": true
+    },
+    {
+      "name": "cancellation",
+      "matched": true
+    },
+    {
+      "name": "random-0",
+      "matched": true
+    },
+    {
+      "name": "random-1",
+      "matched": true
+    },
+    {
+      "name": "random-2",
+      "matched": true
+    },
+    {
+      "name": "random-3",
+      "matched": true
+    },
+    {
+      "name": "random-4",
+      "matched": true
+    },
+    {
+      "name": "random-5",
+      "matched": true
+    },
+    {
+      "name": "random-6",
+      "matched": true
+    },
+    {
+      "name": "random-7",
+      "matched": true
+    },
+    {
+      "name": "random-8",
+      "matched": true
+    },
+    {
+      "name": "random-9",
+      "matched": true
+    },
+    {
+      "name": "random-10",
+      "matched": true
+    },
+    {
+      "name": "random-11",
+      "matched": true
+    },
+    {
+      "name": "random-12",
+      "matched": true
+    },
+    {
+      "name": "random-13",
+      "matched": true
+    },
+    {
+      "name": "random-14",
+      "matched": true
+    },
+    {
+      "name": "random-15",
+      "matched": true
+    },
+    {
+      "name": "random-16",
+      "matched": true
+    },
+    {
+      "name": "random-17",
+      "matched": true
+    },
+    {
+      "name": "random-18",
+      "matched": true
+    },
+    {
+      "name": "random-19",
+      "matched": true
+    },
+    {
+      "name": "random-20",
+      "matched": true
+    },
+    {
+      "name": "random-21",
+      "matched": true
+    },
+    {
+      "name": "random-22",
+      "matched": true
+    },
+    {
+      "name": "random-23",
+      "matched": true
+    },
+    {
+      "name": "random-24",
+      "matched": true
+    },
+    {
+      "name": "random-25",
+      "matched": true
+    },
+    {
+      "name": "random-26",
+      "matched": true
+    },
+    {
+      "name": "random-27",
+      "matched": true
+    },
+    {
+      "name": "random-28",
+      "matched": true
+    },
+    {
+      "name": "random-29",
+      "matched": true
+    },
+    {
+      "name": "random-30",
+      "matched": true
+    },
+    {
+      "name": "random-31",
+      "matched": true
+    },
+    {
+      "name": "random-32",
+      "matched": true
+    },
+    {
+      "name": "random-33",
+      "matched": true
+    },
+    {
+      "name": "random-34",
+      "matched": true
+    },
+    {
+      "name": "random-35",
+      "matched": true
+    },
+    {
+      "name": "random-36",
+      "matched": true
+    },
+    {
+      "name": "random-37",
+      "matched": true
+    },
+    {
+      "name": "random-38",
+      "matched": true
+    },
+    {
+      "name": "random-39",
+      "matched": true
+    },
+    {
+      "name": "random-40",
+      "matched": true
+    },
+    {
+      "name": "random-41",
+      "matched": true
+    },
+    {
+      "name": "random-42",
+      "matched": true
+    },
+    {
+      "name": "random-43",
+      "matched": true
+    },
+    {
+      "name": "random-44",
+      "matched": true
+    },
+    {
+      "name": "random-45",
+      "matched": true
+    },
+    {
+      "name": "random-46",
+      "matched": true
+    },
+    {
+      "name": "random-47",
+      "matched": true
+    },
+    {
+      "name": "random-48",
+      "matched": true
+    },
+    {
+      "name": "random-49",
+      "matched": true
+    },
+    {
+      "name": "random-50",
+      "matched": true
+    },
+    {
+      "name": "random-51",
+      "matched": true
+    },
+    {
+      "name": "random-52",
+      "matched": true
+    },
+    {
+      "name": "random-53",
+      "matched": true
+    },
+    {
+      "name": "random-54",
+      "matched": true
+    },
+    {
+      "name": "random-55",
+      "matched": true
+    },
+    {
+      "name": "random-56",
+      "matched": true
+    },
+    {
+      "name": "random-57",
+      "matched": true
+    },
+    {
+      "name": "random-58",
+      "matched": true
+    },
+    {
+      "name": "random-59",
+      "matched": true
+    },
+    {
+      "name": "random-60",
+      "matched": true
+    },
+    {
+      "name": "random-61",
+      "matched": true
+    },
+    {
+      "name": "random-62",
+      "matched": true
+    },
+    {
+      "name": "random-63",
+      "matched": true
+    },
+    {
+      "name": "random-64",
+      "matched": true
+    },
+    {
+      "name": "random-65",
+      "matched": true
+    },
+    {
+      "name": "random-66",
+      "matched": true
+    },
+    {
+      "name": "random-67",
+      "matched": true
+    },
+    {
+      "name": "random-68",
+      "matched": true
+    },
+    {
+      "name": "random-69",
+      "matched": true
+    },
+    {
+      "name": "random-70",
+      "matched": true
+    },
+    {
+      "name": "random-71",
+      "matched": true
+    },
+    {
+      "name": "random-72",
+      "matched": true
+    },
+    {
+      "name": "random-73",
+      "matched": true
+    },
+    {
+      "name": "random-74",
+      "matched": true
+    },
+    {
+      "name": "random-75",
+      "matched": true
+    },
+    {
+      "name": "random-76",
+      "matched": true
+    },
+    {
+      "name": "random-77",
+      "matched": true
+    },
+    {
+      "name": "random-78",
+      "matched": true
+    },
+    {
+      "name": "random-79",
+      "matched": true
+    },
+    {
+      "name": "random-80",
+      "matched": true
+    },
+    {
+      "name": "random-81",
+      "matched": true
+    },
+    {
+      "name": "random-82",
+      "matched": true
+    },
+    {
+      "name": "random-83",
+      "matched": true
+    },
+    {
+      "name": "random-84",
+      "matched": true
+    },
+    {
+      "name": "random-85",
+      "matched": true
+    },
+    {
+      "name": "random-86",
+      "matched": true
+    },
+    {
+      "name": "random-87",
+      "matched": true
+    },
+    {
+      "name": "random-88",
+      "matched": true
+    },
+    {
+      "name": "random-89",
+      "matched": true
+    },
+    {
+      "name": "random-90",
+      "matched": true
+    },
+    {
+      "name": "random-91",
+      "matched": true
+    },
+    {
+      "name": "random-92",
+      "matched": true
+    },
+    {
+      "name": "random-93",
+      "matched": true
+    },
+    {
+      "name": "random-94",
+      "matched": true
+    },
+    {
+      "name": "random-95",
+      "matched": true
+    },
+    {
+      "name": "random-96",
+      "matched": true
+    },
+    {
+      "name": "random-97",
+      "matched": true
+    },
+    {
+      "name": "random-98",
+      "matched": true
+    },
+    {
+      "name": "random-99",
+      "matched": true
+    },
+    {
+      "name": "random-100",
+      "matched": true
+    },
+    {
+      "name": "random-101",
+      "matched": true
+    },
+    {
+      "name": "random-102",
+      "matched": true
+    },
+    {
+      "name": "random-103",
+      "matched": true
+    },
+    {
+      "name": "random-104",
+      "matched": true
+    },
+    {
+      "name": "random-105",
+      "matched": true
+    },
+    {
+      "name": "random-106",
+      "matched": true
+    },
+    {
+      "name": "random-107",
+      "matched": true
+    },
+    {
+      "name": "random-108",
+      "matched": true
+    },
+    {
+      "name": "random-109",
+      "matched": true
+    },
+    {
+      "name": "random-110",
+      "matched": true
+    },
+    {
+      "name": "random-111",
+      "matched": true
+    },
+    {
+      "name": "random-112",
+      "matched": true
+    },
+    {
+      "name": "random-113",
+      "matched": true
+    },
+    {
+      "name": "random-114",
+      "matched": true
+    },
+    {
+      "name": "random-115",
+      "matched": true
+    },
+    {
+      "name": "random-116",
+      "matched": true
+    },
+    {
+      "name": "random-117",
+      "matched": true
+    },
+    {
+      "name": "random-118",
+      "matched": true
+    },
+    {
+      "name": "random-119",
+      "matched": true
+    },
+    {
+      "name": "random-120",
+      "matched": true
+    },
+    {
+      "name": "random-121",
+      "matched": true
+    },
+    {
+      "name": "random-122",
+      "matched": true
+    },
+    {
+      "name": "random-123",
+      "matched": true
+    },
+    {
+      "name": "random-124",
+      "matched": true
+    },
+    {
+      "name": "random-125",
+      "matched": true
+    },
+    {
+      "name": "random-126",
+      "matched": true
+    },
+    {
+      "name": "random-127",
+      "matched": true
+    }
+  ],
+  "operation_trace_key": {
+    "a": "fadd",
+    "s": "fsub",
+    "m": "fmul",
+    "d": "fdiv",
+    "q": "sqrtf"
+  },
+  "scope": "576-byte SViewFrustum::setFrom plane extraction and six-plane normalization prefix. The final 4-byte branch to recalculateBoundingBox is excluded. Imported fadd/fsub/fmul/fdiv/sqrtf are explicit IEEE binary32 helper models; no historical Bionic libm claim. Camera/frustum ownership and later plane intersection/bounds routines are not implemented."
+}

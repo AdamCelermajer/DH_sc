@@ -1,0 +1,52 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_bodies": 2,
+    "native_wired": false,
+    "source": [
+      "port/level-world/game_object_set_visible.hpp",
+      "port/level-world/game_object_set_visible.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/game_object_set_visible.cpp",
+      "port/level-world/tests/run_game_object_set_visible_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObject10SetVisibleEb",
+      "demangled": "GameObject::SetVisible(bool)",
+      "elf_address": "0x38b0f0",
+      "size": 32,
+      "sha256": "2a8fb1ffd94aced95272d222e42a98747dff5c52f79256153b51fd6678d9e431",
+      "active_code_size": 32
+    },
+    {
+      "original_symbol": "_ZN12VisualObject10SetVisibleEb",
+      "demangled": "VisualObject::SetVisible(bool)",
+      "elf_address": "0x471368",
+      "size": 104,
+      "sha256": "1b974cb7301cb5bf65de1c31c4ecc964c13ffa455f84bcd28658b1539c60180a",
+      "active_code_size": 96
+    }
+  ],
+  "supporting_functions": [
+    {
+      "original_symbol": "_ZN12VisualObject14SyncVisibilityEv",
+      "demangled": "VisualObject::SyncVisibility()",
+      "elf_address": "0x4713d0",
+      "size": 108,
+      "sha256": "c12bd8d5cb7bc0e53560e134f53a090760751b352a917f89beaace5c29e3032d",
+      "scope": "mandatory external provider; not credited"
+    },
+    {
+      "original_symbol": "_ZN12SceneManager13ForceRegisterEv",
+      "demangled": "SceneManager::ForceRegister()",
+      "elf_address": "0x350ee0",
+      "size": 16,
+      "sha256": "6bb5fe1ca94ff51b7bd5b371bb54e6b79e447967c98e99fe5c63adc1d586a757",
+      "scope": "mandatory external provider; not credited"
+    }
+  ]
+}

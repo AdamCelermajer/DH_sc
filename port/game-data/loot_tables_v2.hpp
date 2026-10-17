@@ -30,6 +30,12 @@ public:
  Borrow borrow()const{return Borrow(snapshot_);}
 };
 struct LootRandom8V2 {std::uint32_t seed,calls;};
+// Live owners borrow their existing random stream through this call boundary.
+// The legacy LootRandom8V2 overload below exists only for frozen host fixtures.
+struct InventoryRandomServiceV4 {
+ void* context{};
+ bool (*next)(void*,std::int32_t bound,std::uint32_t stream,std::int32_t& value,std::string& error){};
+};
 }
 extern "C" {
 // Source 4fe794/4fec08 stream projection. Bounded native malformed-span guards

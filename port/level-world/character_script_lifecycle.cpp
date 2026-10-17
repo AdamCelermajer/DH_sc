@@ -42,7 +42,8 @@ struct Kernel {
  }
  void init_process(std::uint32_t final){
   call(script_refresh_vitals,0,0,s.owner);call(script_configure_skills);call(script_update_skills);
-  call(script_ai_init_post);if(final)call(script_ai_init_final);
+  // CharAI::InitPost/InitFinal run on the owning Character.
+  call(script_ai_init_post,0,0,s.owner);if(final)call(script_ai_init_final,0,0,s.owner);
  }
  void timers(){
   if(call(script_owner_is_dead,0,0,s.owner).word)return;

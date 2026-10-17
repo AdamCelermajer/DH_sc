@@ -17,6 +17,15 @@ struct Mesh {
     std::uint32_t stream, buffers;
     float minimum[3], maximum[3];
 };
+// The nine observed type-1 records contain five opaque words followed by the
+// exact payload of the adjacent type-0 geometry. The original
+// constructGeometry rejects type 1; this bounded view exposes the serialized
+// alias for inspection without treating it as a runtime type-1 mesh schema.
+struct Type1Geometry {
+    Mesh embedded_mesh;
+    std::uint32_t opaque_header[5];
+    std::uint32_t source_mesh_geometry;
+};
 struct Attribute {
     const std::uint8_t* data;
     std::uint32_t type, components, stride, vertices;
@@ -41,12 +50,15 @@ struct Animation {
 
 extern "C" {
 dh2::assets::Error dh2_mesh_open(dh2::assets::Mesh*, const dh2::resources::BresView*, std::int32_t geometry);
+dh2::assets::Error dh2_type1_geometry_open(dh2::assets::Type1Geometry*, const dh2::resources::BresView*, std::int32_t geometry);
 dh2::assets::Error dh2_mesh_attribute(const dh2::assets::Mesh*, std::int32_t, dh2::assets::Attribute*);
 dh2::assets::Error dh2_mesh_primitive(const dh2::assets::Mesh*, std::int32_t, dh2::assets::Primitive*);
 // Raw numeric values, without shader normalization or coordinate transforms.
 bool dh2_attribute_read(const dh2::assets::Attribute*, std::uint32_t vertex, float* components);
 bool dh2_index_read(const dh2::assets::Primitive*, std::uint32_t index, std::uint32_t*);
 std::uint32_t dh2_animation_segments(const dh2::resources::BresView*);
+bool dh2_animation_segment_range(const dh2::resources::BresView*, std::int32_t segment,
+                                std::int32_t* start_ms, std::int32_t* end_ms);
 dh2::assets::Error dh2_animation_open(dh2::assets::Animation*, const dh2::resources::BresView*, std::int32_t animation, std::int32_t segment);
 const char* dh2_animation_target(const dh2::assets::Animation*);
 std::uint32_t dh2_animation_type(const dh2::assets::Animation*, std::int32_t channel);

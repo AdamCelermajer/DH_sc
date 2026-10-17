@@ -1,0 +1,27 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "arm64_library_sha256": "09c633721f284e7942d4fdaeb597af58dcf33f84824e9c822afd7cf3ccb69406",
+  "gold_sha256": "da4c00dddc1e930c7de136ef898e22563b9b0d2191e4172e9bc416ded813894f",
+  "actual_item_records": 1322,
+  "item_both_hands_comparisons": 2644,
+  "power_comparisons": 880,
+  "power_dispatch_types": 55,
+  "source_raw_sheet_calls": 13548,
+  "vitals_entire_owner_comparisons": 512,
+  "reset_defaults_comparisons": 1,
+  "comparisons": 4037,
+  "mismatches": 0,
+  "source_sha256": {
+    "port/game-data/item_gear_properties_v5.hpp": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+    "port/game-data/item_gear_properties_v5.cpp": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+    "port/game-data/properties.cpp": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+    "port/game-data/class_tables.cpp": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+    "port/game-data/data.cpp": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+    "port/game-data/tests/item_gear_properties_v5_original.py": "1eecb1954a1d7d2b79071c6fd0af8b60ba8b102b1fa9bf6438d74dcd9a354376"
+  },
+  "scope": "Real original gear arithmetic and vitals cap versus optimized native ARM64.\nOriginal _IsPropertySet/GetDefault/Add/Set/Resolve execute. Item records come\nfrom the real cache via its original loader. Power-entry vectors are explicit\ncaller projections, not a claimed ItemPower table decoder or powered owner.\n",
+  "ItemPower_decoder_parity": false,
+  "visual_Skin_factory_parity": false,
+  "item_presentation_parity": false
+}

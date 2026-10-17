@@ -1,0 +1,156 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 4
+  },
+  "original_arm_cases": 24,
+  "mismatches": 0,
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_association.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_association.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-ai-association-root\\host.exe"
+  ],
+  "cases": [
+    {
+      "initial_fill": 0,
+      "owner": 1,
+      "matched": true
+    },
+    {
+      "initial_fill": 0,
+      "owner": 268566528,
+      "matched": true
+    },
+    {
+      "initial_fill": 0,
+      "owner": 2147483647,
+      "matched": true
+    },
+    {
+      "initial_fill": 0,
+      "owner": 4294967295,
+      "matched": true
+    },
+    {
+      "initial_fill": 17,
+      "owner": 1,
+      "matched": true
+    },
+    {
+      "initial_fill": 17,
+      "owner": 268566528,
+      "matched": true
+    },
+    {
+      "initial_fill": 17,
+      "owner": 2147483647,
+      "matched": true
+    },
+    {
+      "initial_fill": 17,
+      "owner": 4294967295,
+      "matched": true
+    },
+    {
+      "initial_fill": 90,
+      "owner": 1,
+      "matched": true
+    },
+    {
+      "initial_fill": 90,
+      "owner": 268566528,
+      "matched": true
+    },
+    {
+      "initial_fill": 90,
+      "owner": 2147483647,
+      "matched": true
+    },
+    {
+      "initial_fill": 90,
+      "owner": 4294967295,
+      "matched": true
+    },
+    {
+      "initial_fill": 165,
+      "owner": 1,
+      "matched": true
+    },
+    {
+      "initial_fill": 165,
+      "owner": 268566528,
+      "matched": true
+    },
+    {
+      "initial_fill": 165,
+      "owner": 2147483647,
+      "matched": true
+    },
+    {
+      "initial_fill": 165,
+      "owner": 4294967295,
+      "matched": true
+    },
+    {
+      "initial_fill": 238,
+      "owner": 1,
+      "matched": true
+    },
+    {
+      "initial_fill": 238,
+      "owner": 268566528,
+      "matched": true
+    },
+    {
+      "initial_fill": 238,
+      "owner": 2147483647,
+      "matched": true
+    },
+    {
+      "initial_fill": 238,
+      "owner": 4294967295,
+      "matched": true
+    },
+    {
+      "initial_fill": 255,
+      "owner": 1,
+      "matched": true
+    },
+    {
+      "initial_fill": 255,
+      "owner": 268566528,
+      "matched": true
+    },
+    {
+      "initial_fill": 255,
+      "owner": 2147483647,
+      "matched": true
+    },
+    {
+      "initial_fill": 255,
+      "owner": 4294967295,
+      "matched": true
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/character_ai_association.cpp": "adbea7da6fb2d4fe5f063aa97377bfb43207678ebe9cca3430f49852fb625437",
+    "port/level-world/character_ai_association.hpp": "3701763347ffede660e32e8c930bc0826d7935912e992dd587513ad0da60ac95",
+    "port/level-world/character_ai_initialization.hpp": "d16d4a5b2848a9a5e037fc03999cebc44b689543b114edb0d22a50865aac72bd",
+    "port/level-world/tests/character_ai_association.cpp": "bb38310395fe2186f3ce8ab993c1773f32dcaf99c46405ddda01d26c3d1877e1",
+    "port/level-world/tests/run_character_ai_association_host.py": "5b5a41e261deff705cfccf5964367557c6b3624bae910135cd9da739fcc70fc4",
+    "port/level-world/reference/character-ai-association/original-functions.json": "438f317a8097f82b3a485494e6163d660178536edfceea92f743b767c4a1de37",
+    "port/level-world/reference/character-ai-association/NOTES.md": "d7d5c1be17de12a725f274fa1e74d9dfe42be1c2b0de2a3dcaf3e0f4e80d2ba1"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "native_wired": false,
+  "scope": "Actual148B CharAI::SetCharacter executes valid nonnull branch; all bytes except owner04 retained. Source Character constructor BL callsites verified; whole Character constructors and null diagnostics not reconstructed. Native identities above4GiB pass host contract."
+}

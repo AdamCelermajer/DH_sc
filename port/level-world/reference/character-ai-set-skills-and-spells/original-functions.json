@@ -1,0 +1,77 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_bounded_source_bodies": 1,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_ai_set_skills_and_spells.hpp",
+      "port/level-world/character_ai_set_skills_and_spells.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_ai_set_skills_and_spells.cpp",
+      "port/level-world/tests/run_character_ai_set_skills_and_spells_host.py"
+    ]
+  },
+  "functions": [
+    {"original_symbol":"_ZN6CharAI18SetSkillsAndSpellsEv","demangled":"CharAI::SetSkillsAndSpells()","elf_address":"0x3ce044","size":1916,"sha256":"ca650d7059d273436362d2d10ba973fbbc0fe1dfd632b86857e982470593ded2","scope":"Complete bounded caller body. The runner executes its loops, empty/nonempty vector branches, source path save/set/restore, debug query order, skill/faery record gates, declaration/load/constructor branches, cleanup, and final active-AIS +0xcc dispatch. Named leaves are hooked at their original callee boundaries."},
+    {"original_symbol":"_ZN13DebugSwitches4loadEv","demangled":"DebugSwitches::load()","elf_address":"0x337888","size":512,"sha256":"3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803","scope":"Named provider boundary observed twice on the normal path; persistence body is outside this caller claim."},
+    {"original_symbol":"_ZN13DebugSwitches9GetSwitchERKSs","demangled":"DebugSwitches::GetSwitch(std::string const&) const","elf_address":"0x337a88","size":196,"sha256":"34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487","scope":"Named query boundary observed twice with exact Lua_LoadMemUsage key; result discarded by source caller."},
+    {"original_symbol":"_ZNK9Character16GetCharSkillListEv","demangled":"Character::GetCharSkillList() const","elf_address":"0x3bc5fc","size":48,"sha256":"7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210","scope":"Typed list-view provider boundary. Caller consumes returned count and reserves its destination."},
+    {"original_symbol":"_ZNK9Character12GetCharSkillEi","demangled":"Character::GetCharSkill(int) const","elf_address":"0x3bc784","size":220,"sha256":"dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad","scope":"Typed per-slot row provider boundary. Caller reads gate +0x24 and name +0x28."},
+    {"original_symbol":"_ZNK9Character16GetCharFaeryListEv","demangled":"Character::GetCharFaeryList() const","elf_address":"0x3ae5dc","size":48,"sha256":"05234890042d96d3204fdd2ad4e37847b3c5a92150438c3dc1c40f13ac502b07","scope":"Typed faery-list-view provider boundary. Caller consumes count and reserves its destination."},
+    {"original_symbol":"_ZNK9Character12GetCharFaeryEi","demangled":"Character::GetCharFaery(int) const","elf_address":"0x3aeac0","size":540,"sha256":"fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f","scope":"Caller runner hooks this exact getter to a source-shaped row fixture. Its independent selector body is tested in character-faery-selection; this report does not credit its 540-byte body as executed."},
+    {"original_symbol":"_ZNSt6vectorIP17CharAISkillScriptSaIS1_EE7reserveEj","demangled":"std::vector<CharAISkillScript*>::reserve(unsigned int)","elf_address":"0x3cd584","size":204,"sha256":"b0162a77a29a3ca47815be12b1abe88ca0e4cb23d8c5e3afa071aafaad65d633","scope":"Vector allocation boundary. The test adapter supplies stable backing storage and preserves the source begin/end/capacity projection."},
+    {"original_symbol":"_ZN3sfc6script3lua9ArgumentsC1Ev","demangled":"sfc::script::lua::Arguments::Arguments()","elf_address":"0x3192b4","size":56,"sha256":"ecff21dac0d948631c7d396560380f046c04bfa519f31879dcc4f96f0ceb26bb","scope":"Arguments value-vector creation is represented by a provider boundary. The source caller's setup and destruction order are executed."},
+    {"original_symbol":"_ZN3sfc6script3lua9Arguments10pushStringEPKc","demangled":"sfc::script::lua::Arguments::pushString(char const*)","elf_address":"0x39ec10","size":104,"sha256":"5ca3d6060080cbdec9f5b09f1ecd1d2e8e6532174fdbf0cf59dc59b3bd7a0307","scope":"Typed Arguments setup provider boundary; source passes the empty string."},
+    {"original_symbol":"_ZN3sfc6script3lua9Arguments11pushIntegerEi","demangled":"sfc::script::lua::Arguments::pushInteger(int)","elf_address":"0x3cdd78","size":180,"sha256":"483cbe87eabf700aabba2356c996d5ad1173e0a505066bd35a4a75a0d45b7204","scope":"Typed Arguments setup provider boundary; source passes signed -1."},
+    {"original_symbol":"_ZN3sfc6script3lua9ArgumentsD1Ev","demangled":"sfc::script::lua::Arguments::~Arguments()","elf_address":"0x319228","size":56,"sha256":"b2161d9478508698d32ed1a10ec04f7f3fac21c378911d12f99e3756b6151744","scope":"Arguments teardown boundary reached once for each constructed list argument object."},
+    {"original_symbol":"_ZN3sfc6script3lua5Value9setStringEPKc","demangled":"sfc::script::lua::Value::setString(char const*)","elf_address":"0x31c46c","size":48,"sha256":"9de10720c2d691b9d514139a2afc73cc9aff0ccf99419213629de294bf559a96","scope":"Source Value mutation boundary for each declared script's name argument."},
+    {"original_symbol":"_ZN3sfc6script3lua5Value9setNumberEf","demangled":"sfc::script::lua::Value::setNumber(float)","elf_address":"0x31b5e8","size":16,"sha256":"e6051f936693b6c02e69a0a20ccc8bb7374424886d0b02369985736207be7554","scope":"Source Value mutation boundary. Skill loop passes slot converted by __aeabi_i2f; faery loop passes the source -1.0 literal."},
+    {"original_symbol":"_ZN9LuaScript4LoadEPKc","demangled":"LuaScript::Load(char const*)","elf_address":"0x37b574","size":44,"sha256":"cd9ec4280f7e48da11034c6005df78f232e0ef350df4e78f0e434a60c805828e","scope":"Named script-provider boundary; runner covers true and false named-script results and ignored _commons result."},
+    {"original_symbol":"_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsE","demangled":"LuaScript::Call(char const*, Arguments const&)","elf_address":"0x37c41c","size":120,"sha256":"e9a24628fc5e1790fd128bed17d3e6d82744c40691fc3e2e17ef67262e1ac031","scope":"Declaration call provider boundary with exact DeclareSkill name and stack Arguments identity."},
+    {"original_symbol":"_ZN9LuaScript4CallEPKc","demangled":"LuaScript::Call(char const*)","elf_address":"0x37c514","size":112,"sha256":"bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc","scope":"Zero-argument DeclareSkill provider boundary after each named row's append."},
+    {"original_symbol":"_Znwj15MemoryHintState","demangled":"operator new(unsigned int, MemoryHintState)","elf_address":"0x310570","size":4,"sha256":"b7330ca7e9765d241ce9356767bcc60211d56d244a09941d26895b422bae8901","scope":"Allocation boundary; caller passes exactly 0x1c bytes and hint zero."},
+    {"original_symbol":"_ZN17CharAISkillScriptC1EP9CharacterPKcj","demangled":"CharAISkillScript::CharAISkillScript(Character*, char const*, unsigned int)","elf_address":"0x3cde2c","size":336,"sha256":"e755548faab63d7cf4f2cb9b89529661532ef7752e67019871d075623daa2959","scope":"Child constructor boundary. The skill caller passes the slot; the faery caller passes UINT32_MAX. The constructor body has a separate source comparison."},
+    {"original_symbol":"_ZNSsC1EPKcRKSaIcE","demangled":"std::string::string(char const*, std::allocator<char> const&)","elf_address":"0x3140ec","size":52,"sha256":"526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a","scope":"Temporary debug-key construction boundary; key contents are captured and checked by the observer."},
+    {"original_symbol":"_ZNSs9_M_assignEPKcS0_","demangled":"std::string::_M_assign(char const*, char const*)","elf_address":"0x3109e0","size":192,"sha256":"0dec702175815372c1050956647c127d6a120d13c7e55234ee29385735be3e7c","scope":"Captured source script-path set/restore boundary. Exact begin/end byte ranges are observed and copied by the fixture adapter."},
+    {"original_symbol":"_ZNSs19_M_range_initializeEPKcS0_","demangled":"std::string::_M_range_initialize(char const*, char const*)","elf_address":"0x3116e8","size":72,"sha256":"45075e105c133d266caf029231a17938018bb62a8a095f967f74e12f09d34d07","scope":"Initial AIS script-path capture boundary; source pointers and bytes are recorded."},
+    {"original_symbol":"_ZNSsD1Ev","demangled":"std::string::~string()","elf_address":"0x318254","size":68,"sha256":"aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef","scope":"Manifested helper evidence; local temporary cleanup in the caller takes the small-allocation deallocation path observed separately."}
+  ],
+  "data_evidence": [
+    {"symbol":"_ZTV10AISDefault","elf_address":"0x966970","size":216,"fact":"address point is symbol+8 and slot+0xcc resolves to AISDefault::InitVCB at ELF 0x3dc7d8"},
+    {"symbol":"_ZTV11AISExternal","elf_address":"0x966a48","size":216,"fact":"address point is symbol+8 and slot+0xcc resolves to AISExternal::InitVCB at ELF 0x3dcec8"},
+    {"symbol":"_ZN13DebugSwitches5s_instE","elf_address":"0x9a1d18","size":48,"fact":"the caller obtains the live DebugSwitches singleton through its relocated global slot; queries discard the returned flag"},
+    {"symbol":"gAssertLevel","elf_address":"0x99f914","size":4,"fact":"assertion level gates only malformed null-active-AIS diagnostics; ordinary test fixtures set it to zero"}
+  ],
+  "caller_facts": {
+    "source_path": "data/scripts/skills/",
+    "saved_path_restored_before_second_debug_query": true,
+    "debug_key": "Lua_LoadMemUsage",
+    "list_order": ["skills", "faeries"],
+    "list_population_only_when_destination_is_empty": true,
+    "skill_row_gate_and_name_offsets": ["0x24", "0x28"],
+    "faery_row_gate_and_name_offsets": ["0x14", "0x18"],
+    "named_load_false_appends_null": true,
+    "null_gate_appends_null_without_declare": true,
+    "skill_declare_number": "current slot converted by __aeabi_i2f",
+    "faery_declare_number": -1.0,
+    "faery_child_slot_argument": "UINT32_MAX",
+    "faery_gate_field": "serialized SpellScript byte length at row +0x14",
+    "faery_script_name_field": "SpellScript bytes at row +0x18",
+    "crypt_ghost_fallback_faeries": {
+      "list_row": 0,
+      "member_indices": [2, 4, 5, 6, 3],
+      "spell_script_lengths": [0, 0, 0, 0, 0],
+      "consequence": "Five null entries are appended; gated script/declaration/constructor path is skipped for these rows."
+    },
+    "final_dispatch": "fresh active AIS virtual slot +0xcc (InitVCB)"
+  },
+  "limitations": [
+    "The original caller's direct callee bodies are not all executed in this report; named providers are intercepted at their verified source call boundaries.",
+    "GetCharFaery's selector is independently source-compared in character-faery-selection and is intercepted here with source-shaped row fixtures.",
+    "Arguments/Value construction and Lua VM behavior are not claimed as original full-body execution by this caller report.",
+    "Ghost fallback FaeryList row0's five members have empty SpellScript fields; the caller therefore appends nulls for them. The caller runner's synthetic nonempty faery rows exercise the complementary load/constructor branch.",
+    "The bounded portable caller is not Android-wired and does not claim all skill/fairy scripts or their runtime callbacks are reconstructed."
+  ]
+}

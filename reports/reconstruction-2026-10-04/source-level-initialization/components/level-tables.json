@@ -1,0 +1,3964 @@
+{
+  "validation": "PASS",
+  "record_comparisons": 84,
+  "range_query_comparisons": 153,
+  "rejection_cases": 12,
+  "mismatches": 0,
+  "host": {
+    "validation": "PASS",
+    "rejection_cases": 12,
+    "fast_travel": [
+      {
+        "name": "a01_SWAMP_CAMP",
+        "description_id": 1703959,
+        "entrypoint_id": 1,
+        "level_name": "SWAMP",
+        "location_type": 0,
+        "string_id": 1703958
+      },
+      {
+        "name": "a02_SWAMP_CAVE_WITCH_ENTRANCE",
+        "description_id": 1703973,
+        "entrypoint_id": 0,
+        "level_name": "SWAMP_CAVE_WITCH_A",
+        "location_type": 1,
+        "string_id": 1703972
+      },
+      {
+        "name": "a03_SWAMP_WATER_TEMPLE_01_ENTRANCE",
+        "description_id": 1703977,
+        "entrypoint_id": 0,
+        "level_name": "WATER_TEMPLE_01",
+        "location_type": 1,
+        "string_id": 1703976
+      },
+      {
+        "name": "a04_SWAMP_CAVE_TROLL_ENTRANCE",
+        "description_id": 1703967,
+        "entrypoint_id": 0,
+        "level_name": "SWAMP_CAVE_TROLL_A",
+        "location_type": 1,
+        "string_id": 1703966
+      },
+      {
+        "name": "a05_DARKWOOD_ENTRANCE",
+        "description_id": 1703938,
+        "entrypoint_id": 0,
+        "level_name": "DARKWOOD",
+        "location_type": 0,
+        "string_id": 1703937
+      },
+      {
+        "name": "a06_DARKWOOD_GOTHICUS_VILLAGE",
+        "description_id": 1703941,
+        "entrypoint_id": 11,
+        "level_name": "DARKWOOD",
+        "location_type": 0,
+        "string_id": 1703940
+      },
+      {
+        "name": "a07_DARKWOOD_CATHEDRAL",
+        "description_id": 1704019,
+        "entrypoint_id": 0,
+        "level_name": "ABBEY_RUINS_01",
+        "location_type": 1,
+        "string_id": 1704018
+      },
+      {
+        "name": "a08_DARKWOOD_INFECTED_VILLAGE_01_ENTRANCE",
+        "description_id": 1704041,
+        "entrypoint_id": 0,
+        "level_name": "INFECTED_VILLAGE_01",
+        "location_type": 1,
+        "string_id": 1704040
+      },
+      {
+        "name": "a09_DARKWOOD_SECRET_BASEMENT_01",
+        "description_id": 1704045,
+        "entrypoint_id": 0,
+        "level_name": "SECRET_BASEMENT_01",
+        "location_type": 2,
+        "string_id": 1704044
+      },
+      {
+        "name": "a10_DARKWOOD_CRYPT_01_ENTRANCE",
+        "description_id": 1703990,
+        "entrypoint_id": 0,
+        "level_name": "GOTHICUS_CRYPT_01",
+        "location_type": 1,
+        "string_id": 1703989
+      },
+      {
+        "name": "a11_DARKWOOD_CRYPT_02_ENTRANCE",
+        "description_id": 1703995,
+        "entrypoint_id": 0,
+        "level_name": "GOTHICUS_CRYPT_02",
+        "location_type": 1,
+        "string_id": 1703994
+      },
+      {
+        "name": "a12_GOTHICUS_CASTLE_02",
+        "description_id": 1704012,
+        "entrypoint_id": 0,
+        "level_name": "GOTHICUS_CASTLE_02",
+        "location_type": 1,
+        "string_id": 1704011
+      },
+      {
+        "name": "a13_ELEMENTAL_FIRE",
+        "description_id": 1704026,
+        "entrypoint_id": 0,
+        "level_name": "ELEMENTAL_FIRE",
+        "location_type": 1,
+        "string_id": 1704025
+      },
+      {
+        "name": "a14_ELEMENTAL_EARTH",
+        "description_id": 1704032,
+        "entrypoint_id": 0,
+        "level_name": "ELEMENTAL_EARTH",
+        "location_type": 1,
+        "string_id": 1704031
+      },
+      {
+        "name": "a15_ELEMENTAL_WATER",
+        "description_id": 1704038,
+        "entrypoint_id": 0,
+        "level_name": "ELEMENTAL_WATER",
+        "location_type": 1,
+        "string_id": 1704037
+      },
+      {
+        "name": "a16_ELEMENTAL_AIR",
+        "description_id": 1704029,
+        "entrypoint_id": 0,
+        "level_name": "ELEMENTAL_AIR",
+        "location_type": 1,
+        "string_id": 1704028
+      },
+      {
+        "name": "a17_ELEMENTAL_LIGHT",
+        "description_id": 1704035,
+        "entrypoint_id": 0,
+        "level_name": "ELEMENTAL_LIGHT",
+        "location_type": 1,
+        "string_id": 1704034
+      },
+      {
+        "name": "a18_DARKWOOD_ROOT_DEN_01_ENTRANCE",
+        "description_id": 1703999,
+        "entrypoint_id": 0,
+        "level_name": "ROOT_DEN_01",
+        "location_type": 1,
+        "string_id": 1703998
+      },
+      {
+        "name": "a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE",
+        "description_id": 1704005,
+        "entrypoint_id": 0,
+        "level_name": "EARTH_TEMPLE_01",
+        "location_type": 1,
+        "string_id": 1704004
+      },
+      {
+        "name": "a20_DESERT_VILLAGE",
+        "description_id": 1704049,
+        "entrypoint_id": 0,
+        "level_name": "RED_DESERT_HUB",
+        "location_type": 0,
+        "string_id": 1704048
+      },
+      {
+        "name": "a21_DESERT_CAVE_01_ENTRANCE",
+        "description_id": 1704061,
+        "entrypoint_id": 0,
+        "level_name": "DESERT_CAVE_01",
+        "location_type": 1,
+        "string_id": 1704060
+      },
+      {
+        "name": "a22_DESERT_CAVE_02_ENTRANCE",
+        "description_id": 1704057,
+        "entrypoint_id": 0,
+        "level_name": "DESERT_CAVE_02",
+        "location_type": 1,
+        "string_id": 1704056
+      },
+      {
+        "name": "a23_DESERT_CAVE_03_ENTRANCE",
+        "description_id": 1704065,
+        "entrypoint_id": 0,
+        "level_name": "DESERT_CAVE_03",
+        "location_type": 1,
+        "string_id": 1704064
+      },
+      {
+        "name": "a24_DESERT_LIGHT_HOUSE_ENTRANCE",
+        "description_id": 1704069,
+        "entrypoint_id": 0,
+        "level_name": "LIGHT_HOUSE_01",
+        "location_type": 1,
+        "string_id": 1704068
+      },
+      {
+        "name": "a25_DESERT_FIRE_TEMPLE_ENTRANCE",
+        "description_id": 1704114,
+        "entrypoint_id": 0,
+        "level_name": "FIRE_TEMPLE_01",
+        "location_type": 1,
+        "string_id": 1704113
+      },
+      {
+        "name": "a26_ICY_VILLAGE",
+        "description_id": 1704078,
+        "entrypoint_id": 0,
+        "level_name": "ICY_HUB",
+        "location_type": 0,
+        "string_id": 1704077
+      },
+      {
+        "name": "a27_ICY_CAVERN_01_ENTRANCE",
+        "description_id": 1704087,
+        "entrypoint_id": 0,
+        "level_name": "ICY_CAVERN_01",
+        "location_type": 1,
+        "string_id": 1704086
+      },
+      {
+        "name": "a28_ICY_CAVERN_02_ENTRANCE",
+        "description_id": 1704091,
+        "entrypoint_id": 0,
+        "level_name": "ICY_CAVERN_02",
+        "location_type": 1,
+        "string_id": 1704090
+      },
+      {
+        "name": "a29_ICY_CAVERN_03_ENTRANCE",
+        "description_id": 1704094,
+        "entrypoint_id": 0,
+        "level_name": "ICY_CAVERN_03",
+        "location_type": 1,
+        "string_id": 1704094
+      },
+      {
+        "name": "a31_ICY_WIND_TEMPLE_ENTRANCE",
+        "description_id": 1704108,
+        "entrypoint_id": 0,
+        "level_name": "WIND_TEMPLE_01",
+        "location_type": 1,
+        "string_id": 1704107
+      },
+      {
+        "name": "a32_UNDERWORLD_ENTRANCE",
+        "description_id": 1704126,
+        "entrypoint_id": 1,
+        "level_name": "UNDERWORLD_HUB",
+        "location_type": 0,
+        "string_id": 1704125
+      },
+      {
+        "name": "a33_UNDERWORLD_MACHINE_ROOMS_ENTRANCE",
+        "description_id": 1704133,
+        "entrypoint_id": 0,
+        "level_name": "MACHINE_ROOMS_01",
+        "location_type": 1,
+        "string_id": 1704132
+      },
+      {
+        "name": "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE",
+        "description_id": 1704136,
+        "entrypoint_id": 0,
+        "level_name": "DARK_DUNGEON_TEMPLE_01",
+        "location_type": 1,
+        "string_id": 1704135
+      }
+    ],
+    "levels": [
+      {
+        "name": "ABBEY_ENTRANCE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "009_abbey.rule.xml",
+        "level_name_id": 1704022,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 21,
+        "monster_lvl_max_hard": 55,
+        "monster_lvl_max_nightmare": 83,
+        "monster_lvl_min": 19,
+        "monster_lvl_min_hard": 51,
+        "monster_lvl_min_nightmare": 81
+      },
+      {
+        "name": "ABBEY_RUINS_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "009a_abbey.mlx",
+        "level_name_id": 1704018,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 21,
+        "monster_lvl_max_hard": 55,
+        "monster_lvl_max_nightmare": 83,
+        "monster_lvl_min": 20,
+        "monster_lvl_min_hard": 54,
+        "monster_lvl_min_nightmare": 82
+      },
+      {
+        "name": "APPLETEMPLE",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": -1,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "050_earth_temple_demo.rule.xml",
+        "level_name_id": 1704007,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 31,
+        "monster_lvl_max_hard": 58,
+        "monster_lvl_max_nightmare": 83,
+        "monster_lvl_min": 28,
+        "monster_lvl_min_hard": 58,
+        "monster_lvl_min_nightmare": 83
+      },
+      {
+        "name": "APPLETEMPLEBACKUP",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": -1,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "x50_earth_temple_demo_BACKUP.mlx",
+        "level_name_id": 1704007,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 31,
+        "monster_lvl_max_hard": 58,
+        "monster_lvl_max_nightmare": 83,
+        "monster_lvl_min": 28,
+        "monster_lvl_min_hard": 58,
+        "monster_lvl_min_nightmare": 83
+      },
+      {
+        "name": "DARKWOOD",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 0,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "003_darkwood.mlx",
+        "level_name_id": 1703937,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 5,
+        "monster_lvl_max_hard": 44,
+        "monster_lvl_max_nightmare": 73,
+        "monster_lvl_min": 5,
+        "monster_lvl_min_hard": 42,
+        "monster_lvl_min_nightmare": 72
+      },
+      {
+        "name": "DARKWOOD_V2",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 0,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "003_darkwood.mlx",
+        "level_name_id": 1703937,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 30,
+        "monster_lvl_max_hard": 62,
+        "monster_lvl_max_nightmare": 88,
+        "monster_lvl_min": 28,
+        "monster_lvl_min_hard": 60,
+        "monster_lvl_min_nightmare": 86
+      },
+      {
+        "name": "DARKWOOD_V3",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 0,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "003_darkwood.mlx",
+        "level_name_id": 1703937,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 40,
+        "monster_lvl_max_hard": 68,
+        "monster_lvl_max_nightmare": 93,
+        "monster_lvl_min": 28,
+        "monster_lvl_min_hard": 59,
+        "monster_lvl_min_nightmare": 86
+      },
+      {
+        "name": "DARK_DUNGEON_TEMPLE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 6,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "038_dark_temple.mlx",
+        "level_name_id": 1704135,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 38,
+        "monster_lvl_max_hard": 67,
+        "monster_lvl_max_nightmare": 100,
+        "monster_lvl_min": 36,
+        "monster_lvl_min_hard": 66,
+        "monster_lvl_min_nightmare": 93
+      },
+      {
+        "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 8,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "039_dark_temple_bossroom_01.mlx",
+        "level_name_id": 1704139,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 38,
+        "monster_lvl_max_hard": 67,
+        "monster_lvl_max_nightmare": 100,
+        "monster_lvl_min": 36,
+        "monster_lvl_min_hard": 66,
+        "monster_lvl_min_nightmare": 93
+      },
+      {
+        "name": "DESERT_CAVE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 5,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "016_red_desert_cave_01.rule.xml",
+        "level_name_id": 1704060,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 16,
+        "monster_lvl_max_hard": 51,
+        "monster_lvl_max_nightmare": 80,
+        "monster_lvl_min": 15,
+        "monster_lvl_min_hard": 50,
+        "monster_lvl_min_nightmare": 78
+      },
+      {
+        "name": "DESERT_CAVE_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 5,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "017_red_desert_cave_02.rule.xml",
+        "level_name_id": 1704056,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 16,
+        "monster_lvl_max_hard": 54,
+        "monster_lvl_max_nightmare": 81,
+        "monster_lvl_min": 15,
+        "monster_lvl_min_hard": 52,
+        "monster_lvl_min_nightmare": 79
+      },
+      {
+        "name": "DESERT_CAVE_03",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 5,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "018_red_desert_cave_03.rule.xml",
+        "level_name_id": 1704064,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 17,
+        "monster_lvl_max_hard": 52,
+        "monster_lvl_max_nightmare": 80,
+        "monster_lvl_min": 15,
+        "monster_lvl_min_hard": 50,
+        "monster_lvl_min_nightmare": 78
+      },
+      {
+        "name": "EARTH_TEMPLE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "011_earth_temple_01.rule.xml",
+        "level_name_id": 1704006,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 13,
+        "monster_lvl_max_hard": 49,
+        "monster_lvl_max_nightmare": 78,
+        "monster_lvl_min": 12,
+        "monster_lvl_min_hard": 48,
+        "monster_lvl_min_nightmare": 76
+      },
+      {
+        "name": "EARTH_TEMPLE_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "012_earth_temple_02.rule.xml",
+        "level_name_id": 1704007,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 13,
+        "monster_lvl_max_hard": 49,
+        "monster_lvl_max_nightmare": 78,
+        "monster_lvl_min": 12,
+        "monster_lvl_min_hard": 48,
+        "monster_lvl_min_nightmare": 76
+      },
+      {
+        "name": "EARTH_TEMPLE_03",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "013_earth_temple_03.rule.xml",
+        "level_name_id": 1704009,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 14,
+        "monster_lvl_max_hard": 49,
+        "monster_lvl_max_nightmare": 78,
+        "monster_lvl_min": 13,
+        "monster_lvl_min_hard": 48,
+        "monster_lvl_min_nightmare": 77
+      },
+      {
+        "name": "ELEMENTAL_AIR",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "030_el_air.rule.xml",
+        "level_name_id": 1704028,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 31,
+        "monster_lvl_max_hard": 63,
+        "monster_lvl_max_nightmare": 91,
+        "monster_lvl_min": 30,
+        "monster_lvl_min_hard": 62,
+        "monster_lvl_min_nightmare": 90
+      },
+      {
+        "name": "ELEMENTAL_EARTH",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "014_el_earth.rule.xml",
+        "level_name_id": 1704031,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 18,
+        "monster_lvl_max_hard": 52,
+        "monster_lvl_max_nightmare": 80,
+        "monster_lvl_min": 16,
+        "monster_lvl_min_hard": 51,
+        "monster_lvl_min_nightmare": 79
+      },
+      {
+        "name": "ELEMENTAL_FIRE",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "032_el_fire.rule.xml",
+        "level_name_id": 1704025,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 33,
+        "monster_lvl_max_hard": 64,
+        "monster_lvl_max_nightmare": 94,
+        "monster_lvl_min": 31,
+        "monster_lvl_min_hard": 63,
+        "monster_lvl_min_nightmare": 90
+      },
+      {
+        "name": "ELEMENTAL_LIGHT",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "010_el_lightning.rule.xml",
+        "level_name_id": 1704034,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 14,
+        "monster_lvl_max_hard": 49,
+        "monster_lvl_max_nightmare": 84,
+        "monster_lvl_min": 12,
+        "monster_lvl_min_hard": 48,
+        "monster_lvl_min_nightmare": 82
+      },
+      {
+        "name": "ELEMENTAL_WATER",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "024_el_water.rule.xml",
+        "level_name_id": 1704037,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 26,
+        "monster_lvl_max_hard": 59,
+        "monster_lvl_max_nightmare": 87,
+        "monster_lvl_min": 25,
+        "monster_lvl_min_hard": 58,
+        "monster_lvl_min_nightmare": 86
+      },
+      {
+        "name": "FIRE_TEMPLE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 5,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "031_firetemple.mlx",
+        "level_name_id": 1704113,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 33,
+        "monster_lvl_max_hard": 64,
+        "monster_lvl_max_nightmare": 90,
+        "monster_lvl_min": 31,
+        "monster_lvl_min_hard": 63,
+        "monster_lvl_min_nightmare": 89
+      },
+      {
+        "name": "GOTHICUS_CASTLE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "008_gothicus_castle_01.rule.xml",
+        "level_name_id": 1704011,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 12,
+        "monster_lvl_max_hard": 48,
+        "monster_lvl_max_nightmare": 76,
+        "monster_lvl_min": 10,
+        "monster_lvl_min_hard": 47,
+        "monster_lvl_min_nightmare": 75
+      },
+      {
+        "name": "GOTHICUS_CASTLE_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "021_gothicus_castle_02.rule.xml",
+        "level_name_id": 1704011,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 22,
+        "monster_lvl_max_hard": 56,
+        "monster_lvl_max_nightmare": 83,
+        "monster_lvl_min": 20,
+        "monster_lvl_min_hard": 53,
+        "monster_lvl_min_nightmare": 81
+      },
+      {
+        "name": "GOTHICUS_CRYPT_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "007_crypt_01.rule.xml",
+        "level_name_id": 1703989,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 10,
+        "monster_lvl_max_hard": 47,
+        "monster_lvl_max_nightmare": 76,
+        "monster_lvl_min": 8,
+        "monster_lvl_min_hard": 45,
+        "monster_lvl_min_nightmare": 74
+      },
+      {
+        "name": "GOTHICUS_CRYPT_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "020_crypt_02.rule.xml",
+        "level_name_id": 1703994,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 12,
+        "monster_lvl_max_hard": 49,
+        "monster_lvl_max_nightmare": 78,
+        "monster_lvl_min": 9,
+        "monster_lvl_min_hard": 46,
+        "monster_lvl_min_nightmare": 75
+      },
+      {
+        "name": "ICY_CAVERN_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 4,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "026_icy_cavern_01.rule.xml",
+        "level_name_id": 1704086,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 26,
+        "monster_lvl_max_hard": 59,
+        "monster_lvl_max_nightmare": 88,
+        "monster_lvl_min": 24,
+        "monster_lvl_min_hard": 57,
+        "monster_lvl_min_nightmare": 84
+      },
+      {
+        "name": "ICY_CAVERN_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 4,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "027_icy_cavern_02.rule.xml",
+        "level_name_id": 1704090,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 27,
+        "monster_lvl_max_hard": 59,
+        "monster_lvl_max_nightmare": 89,
+        "monster_lvl_min": 25,
+        "monster_lvl_min_hard": 58,
+        "monster_lvl_min_nightmare": 85
+      },
+      {
+        "name": "ICY_CAVERN_03",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 4,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "028_icy_cavern_03.rule.xml",
+        "level_name_id": 1704094,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 27,
+        "monster_lvl_max_hard": 59,
+        "monster_lvl_max_nightmare": 89,
+        "monster_lvl_min": 25,
+        "monster_lvl_min_hard": 58,
+        "monster_lvl_min_nightmare": 85
+      },
+      {
+        "name": "ICY_HUB",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 0,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "025_icy_hub.mlx",
+        "level_name_id": 1704077,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 26,
+        "monster_lvl_max_hard": 59,
+        "monster_lvl_max_nightmare": 88,
+        "monster_lvl_min": 24,
+        "monster_lvl_min_hard": 57,
+        "monster_lvl_min_nightmare": 84
+      },
+      {
+        "name": "INFECTED_VILLAGE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "005_infectedvillage.mlx",
+        "level_name_id": 1704040,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 17,
+        "monster_lvl_max_hard": 52,
+        "monster_lvl_max_nightmare": 80,
+        "monster_lvl_min": 15,
+        "monster_lvl_min_hard": 50,
+        "monster_lvl_min_nightmare": 78
+      },
+      {
+        "name": "LIGHT_HOUSE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 5,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "019_light_house_01.rule.xml",
+        "level_name_id": 1704070,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 19,
+        "monster_lvl_max_hard": 53,
+        "monster_lvl_max_nightmare": 81,
+        "monster_lvl_min": 18,
+        "monster_lvl_min_hard": 52,
+        "monster_lvl_min_nightmare": 80
+      },
+      {
+        "name": "LIGHT_HOUSE_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 5,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "019_light_house_02.rule.xml",
+        "level_name_id": 1704071,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 19,
+        "monster_lvl_max_hard": 53,
+        "monster_lvl_max_nightmare": 81,
+        "monster_lvl_min": 18,
+        "monster_lvl_min_hard": 52,
+        "monster_lvl_min_nightmare": 80
+      },
+      {
+        "name": "LIGHT_HOUSE_03",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 5,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "019_light_house_03.rule.xml",
+        "level_name_id": 1704072,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 20,
+        "monster_lvl_max_hard": 54,
+        "monster_lvl_max_nightmare": 82,
+        "monster_lvl_min": 19,
+        "monster_lvl_min_hard": 53,
+        "monster_lvl_min_nightmare": 81
+      },
+      {
+        "name": "MACHINE_ROOMS_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 7,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "037_machine_rooms_01.mlx",
+        "level_name_id": 1704132,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 37,
+        "monster_lvl_max_hard": 67,
+        "monster_lvl_max_nightmare": 98,
+        "monster_lvl_min": 35,
+        "monster_lvl_min_hard": 65,
+        "monster_lvl_min_nightmare": 92
+      },
+      {
+        "name": "MULTIPLAYER_TEST",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": -1,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "101_debug_MachineRoomTestMultiPlayer.mlx",
+        "level_name_id": 1704135,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": -1,
+        "monster_lvl_max_hard": -1,
+        "monster_lvl_max_nightmare": -1,
+        "monster_lvl_min": 1,
+        "monster_lvl_min_hard": 1,
+        "monster_lvl_min_nightmare": 1
+      },
+      {
+        "name": "PORTAL_ROOM",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "003_darkwood.mlx",
+        "level_name_id": 1704018,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": -1,
+        "monster_lvl_max_hard": -1,
+        "monster_lvl_max_nightmare": -1,
+        "monster_lvl_min": 1,
+        "monster_lvl_min_hard": 1,
+        "monster_lvl_min_nightmare": 1
+      },
+      {
+        "name": "QUESTTEST",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": -1,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "102_debug_QUESTTEST.rule.xml",
+        "level_name_id": 1704135,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": -1,
+        "monster_lvl_max_hard": -1,
+        "monster_lvl_max_nightmare": -1,
+        "monster_lvl_min": 1,
+        "monster_lvl_min_hard": 1,
+        "monster_lvl_min_nightmare": 1
+      },
+      {
+        "name": "RANDOMFORALEX",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": -1,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "125_RandomForAlexB.rule.xml",
+        "level_name_id": 1704135,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": -1,
+        "monster_lvl_max_hard": -1,
+        "monster_lvl_max_nightmare": -1,
+        "monster_lvl_min": 1,
+        "monster_lvl_min_hard": 1,
+        "monster_lvl_min_nightmare": 1
+      },
+      {
+        "name": "RED_DESERT_HUB",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 0,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "015_red_desert_hub.mlx",
+        "level_name_id": 1704048,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 15,
+        "monster_lvl_max_hard": 50,
+        "monster_lvl_max_nightmare": 79,
+        "monster_lvl_min": 14,
+        "monster_lvl_min_hard": 49,
+        "monster_lvl_min_nightmare": 78
+      },
+      {
+        "name": "ROOT_DEN_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "004_root_den.rule.xml",
+        "level_name_id": 1703998,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 9,
+        "monster_lvl_max_hard": 46,
+        "monster_lvl_max_nightmare": 75,
+        "monster_lvl_min": 6,
+        "monster_lvl_min_hard": 44,
+        "monster_lvl_min_nightmare": 73
+      },
+      {
+        "name": "SECRET_BASEMENT_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 2,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "006_basement.rule.xml",
+        "level_name_id": 1704044,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 17,
+        "monster_lvl_max_hard": 52,
+        "monster_lvl_max_nightmare": 80,
+        "monster_lvl_min": 15,
+        "monster_lvl_min_hard": 50,
+        "monster_lvl_min_nightmare": 78
+      },
+      {
+        "name": "SWAMP",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 0,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "001_swamp.mlx",
+        "level_name_id": 1703958,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 4,
+        "monster_lvl_max_hard": 41,
+        "monster_lvl_max_nightmare": 71,
+        "monster_lvl_min": 1,
+        "monster_lvl_min_hard": 40,
+        "monster_lvl_min_nightmare": 70
+      },
+      {
+        "name": "SWAMP_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 1,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "022_swamp2.rule.xml",
+        "level_name_id": 1703964,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 22,
+        "monster_lvl_max_hard": 55,
+        "monster_lvl_max_nightmare": 83,
+        "monster_lvl_min": 20,
+        "monster_lvl_min_hard": 51,
+        "monster_lvl_min_nightmare": 79
+      },
+      {
+        "name": "SWAMP_CAVE_TROLL_A",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 1,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "022_swamp2_trollcave.rule.xml",
+        "level_name_id": 1703966,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 22,
+        "monster_lvl_max_hard": 55,
+        "monster_lvl_max_nightmare": 83,
+        "monster_lvl_min": 19,
+        "monster_lvl_min_hard": 51,
+        "monster_lvl_min_nightmare": 79
+      },
+      {
+        "name": "SWAMP_CAVE_WITCH_A",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 1,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "002_swamp_witchcave.rule.xml",
+        "level_name_id": 1703972,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 4,
+        "monster_lvl_max_hard": 42,
+        "monster_lvl_max_nightmare": 73,
+        "monster_lvl_min": 2,
+        "monster_lvl_min_hard": 41,
+        "monster_lvl_min_nightmare": 72
+      },
+      {
+        "name": "UNDERWORLD_HUB",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 0,
+        "is_random": false,
+        "level_description": -1,
+        "level_file": "036_underworld_hub.mlx",
+        "level_name_id": 1704125,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 36,
+        "monster_lvl_max_hard": 66,
+        "monster_lvl_max_nightmare": 96,
+        "monster_lvl_min": 34,
+        "monster_lvl_min_hard": 64,
+        "monster_lvl_min_nightmare": 90
+      },
+      {
+        "name": "VOID_MAZE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 6,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "033_voidmaze_01.rule.xml",
+        "level_name_id": 1704120,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 33,
+        "monster_lvl_max_hard": -1,
+        "monster_lvl_max_nightmare": -1,
+        "monster_lvl_min": 33,
+        "monster_lvl_min_hard": 1,
+        "monster_lvl_min_nightmare": 1
+      },
+      {
+        "name": "VOID_MAZE_02",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 6,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "034_voidmaze_02.rule.xml",
+        "level_name_id": 1704122,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 33,
+        "monster_lvl_max_hard": -1,
+        "monster_lvl_max_nightmare": -1,
+        "monster_lvl_min": 33,
+        "monster_lvl_min_hard": 1,
+        "monster_lvl_min_nightmare": 1
+      },
+      {
+        "name": "VOID_MAZE_03",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 6,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "035_voidmaze_03.rule.xml",
+        "level_name_id": 1704123,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 33,
+        "monster_lvl_max_hard": -1,
+        "monster_lvl_max_nightmare": -1,
+        "monster_lvl_min": 33,
+        "monster_lvl_min_hard": 1,
+        "monster_lvl_min_nightmare": 1
+      },
+      {
+        "name": "WATER_TEMPLE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 1,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "023_watertemple.rule.xml",
+        "level_name_id": 1703976,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 23,
+        "monster_lvl_max_hard": 57,
+        "monster_lvl_max_nightmare": 86,
+        "monster_lvl_min": 22,
+        "monster_lvl_min_hard": 55,
+        "monster_lvl_min_nightmare": 83
+      },
+      {
+        "name": "WIND_TEMPLE_01",
+        "dbg_is_stable": false,
+        "dynamic_bus_routing": "empty.vrf",
+        "hub": 4,
+        "is_random": true,
+        "level_description": -1,
+        "level_file": "029_wind_temple.rule.xml",
+        "level_name_id": 1704107,
+        "level_state": 0,
+        "map_name": 1704119,
+        "monster_lvl_max": 29,
+        "monster_lvl_max_hard": 61,
+        "monster_lvl_max_nightmare": 90,
+        "monster_lvl_min": 28,
+        "monster_lvl_min_hard": 60,
+        "monster_lvl_min_nightmare": 86
+      }
+    ],
+    "ranges": [
+      [
+        0,
+        0,
+        19,
+        21
+      ],
+      [
+        0,
+        1,
+        51,
+        55
+      ],
+      [
+        0,
+        2,
+        81,
+        83
+      ],
+      [
+        1,
+        0,
+        20,
+        21
+      ],
+      [
+        1,
+        1,
+        54,
+        55
+      ],
+      [
+        1,
+        2,
+        82,
+        83
+      ],
+      [
+        2,
+        0,
+        28,
+        31
+      ],
+      [
+        2,
+        1,
+        58,
+        58
+      ],
+      [
+        2,
+        2,
+        83,
+        83
+      ],
+      [
+        3,
+        0,
+        28,
+        31
+      ],
+      [
+        3,
+        1,
+        58,
+        58
+      ],
+      [
+        3,
+        2,
+        83,
+        83
+      ],
+      [
+        4,
+        0,
+        5,
+        5
+      ],
+      [
+        4,
+        1,
+        42,
+        44
+      ],
+      [
+        4,
+        2,
+        72,
+        73
+      ],
+      [
+        5,
+        0,
+        28,
+        30
+      ],
+      [
+        5,
+        1,
+        60,
+        62
+      ],
+      [
+        5,
+        2,
+        86,
+        88
+      ],
+      [
+        6,
+        0,
+        28,
+        40
+      ],
+      [
+        6,
+        1,
+        59,
+        68
+      ],
+      [
+        6,
+        2,
+        86,
+        93
+      ],
+      [
+        7,
+        0,
+        36,
+        38
+      ],
+      [
+        7,
+        1,
+        66,
+        67
+      ],
+      [
+        7,
+        2,
+        93,
+        100
+      ],
+      [
+        8,
+        0,
+        36,
+        38
+      ],
+      [
+        8,
+        1,
+        66,
+        67
+      ],
+      [
+        8,
+        2,
+        93,
+        100
+      ],
+      [
+        9,
+        0,
+        15,
+        16
+      ],
+      [
+        9,
+        1,
+        50,
+        51
+      ],
+      [
+        9,
+        2,
+        78,
+        80
+      ],
+      [
+        10,
+        0,
+        15,
+        16
+      ],
+      [
+        10,
+        1,
+        52,
+        54
+      ],
+      [
+        10,
+        2,
+        79,
+        81
+      ],
+      [
+        11,
+        0,
+        15,
+        17
+      ],
+      [
+        11,
+        1,
+        50,
+        52
+      ],
+      [
+        11,
+        2,
+        78,
+        80
+      ],
+      [
+        12,
+        0,
+        12,
+        13
+      ],
+      [
+        12,
+        1,
+        48,
+        49
+      ],
+      [
+        12,
+        2,
+        76,
+        78
+      ],
+      [
+        13,
+        0,
+        12,
+        13
+      ],
+      [
+        13,
+        1,
+        48,
+        49
+      ],
+      [
+        13,
+        2,
+        76,
+        78
+      ],
+      [
+        14,
+        0,
+        13,
+        14
+      ],
+      [
+        14,
+        1,
+        48,
+        49
+      ],
+      [
+        14,
+        2,
+        77,
+        78
+      ],
+      [
+        15,
+        0,
+        30,
+        31
+      ],
+      [
+        15,
+        1,
+        62,
+        63
+      ],
+      [
+        15,
+        2,
+        90,
+        91
+      ],
+      [
+        16,
+        0,
+        16,
+        18
+      ],
+      [
+        16,
+        1,
+        51,
+        52
+      ],
+      [
+        16,
+        2,
+        79,
+        80
+      ],
+      [
+        17,
+        0,
+        31,
+        33
+      ],
+      [
+        17,
+        1,
+        63,
+        64
+      ],
+      [
+        17,
+        2,
+        90,
+        94
+      ],
+      [
+        18,
+        0,
+        12,
+        14
+      ],
+      [
+        18,
+        1,
+        48,
+        49
+      ],
+      [
+        18,
+        2,
+        82,
+        84
+      ],
+      [
+        19,
+        0,
+        25,
+        26
+      ],
+      [
+        19,
+        1,
+        58,
+        59
+      ],
+      [
+        19,
+        2,
+        86,
+        87
+      ],
+      [
+        20,
+        0,
+        31,
+        33
+      ],
+      [
+        20,
+        1,
+        63,
+        64
+      ],
+      [
+        20,
+        2,
+        89,
+        90
+      ],
+      [
+        21,
+        0,
+        10,
+        12
+      ],
+      [
+        21,
+        1,
+        47,
+        48
+      ],
+      [
+        21,
+        2,
+        75,
+        76
+      ],
+      [
+        22,
+        0,
+        20,
+        22
+      ],
+      [
+        22,
+        1,
+        53,
+        56
+      ],
+      [
+        22,
+        2,
+        81,
+        83
+      ],
+      [
+        23,
+        0,
+        8,
+        10
+      ],
+      [
+        23,
+        1,
+        45,
+        47
+      ],
+      [
+        23,
+        2,
+        74,
+        76
+      ],
+      [
+        24,
+        0,
+        9,
+        12
+      ],
+      [
+        24,
+        1,
+        46,
+        49
+      ],
+      [
+        24,
+        2,
+        75,
+        78
+      ],
+      [
+        25,
+        0,
+        24,
+        26
+      ],
+      [
+        25,
+        1,
+        57,
+        59
+      ],
+      [
+        25,
+        2,
+        84,
+        88
+      ],
+      [
+        26,
+        0,
+        25,
+        27
+      ],
+      [
+        26,
+        1,
+        58,
+        59
+      ],
+      [
+        26,
+        2,
+        85,
+        89
+      ],
+      [
+        27,
+        0,
+        25,
+        27
+      ],
+      [
+        27,
+        1,
+        58,
+        59
+      ],
+      [
+        27,
+        2,
+        85,
+        89
+      ],
+      [
+        28,
+        0,
+        24,
+        26
+      ],
+      [
+        28,
+        1,
+        57,
+        59
+      ],
+      [
+        28,
+        2,
+        84,
+        88
+      ],
+      [
+        29,
+        0,
+        15,
+        17
+      ],
+      [
+        29,
+        1,
+        50,
+        52
+      ],
+      [
+        29,
+        2,
+        78,
+        80
+      ],
+      [
+        30,
+        0,
+        18,
+        19
+      ],
+      [
+        30,
+        1,
+        52,
+        53
+      ],
+      [
+        30,
+        2,
+        80,
+        81
+      ],
+      [
+        31,
+        0,
+        18,
+        19
+      ],
+      [
+        31,
+        1,
+        52,
+        53
+      ],
+      [
+        31,
+        2,
+        80,
+        81
+      ],
+      [
+        32,
+        0,
+        19,
+        20
+      ],
+      [
+        32,
+        1,
+        53,
+        54
+      ],
+      [
+        32,
+        2,
+        81,
+        82
+      ],
+      [
+        33,
+        0,
+        35,
+        37
+      ],
+      [
+        33,
+        1,
+        65,
+        67
+      ],
+      [
+        33,
+        2,
+        92,
+        98
+      ],
+      [
+        34,
+        0,
+        1,
+        -1
+      ],
+      [
+        34,
+        1,
+        1,
+        -1
+      ],
+      [
+        34,
+        2,
+        1,
+        -1
+      ],
+      [
+        35,
+        0,
+        1,
+        -1
+      ],
+      [
+        35,
+        1,
+        1,
+        -1
+      ],
+      [
+        35,
+        2,
+        1,
+        -1
+      ],
+      [
+        36,
+        0,
+        1,
+        -1
+      ],
+      [
+        36,
+        1,
+        1,
+        -1
+      ],
+      [
+        36,
+        2,
+        1,
+        -1
+      ],
+      [
+        37,
+        0,
+        1,
+        -1
+      ],
+      [
+        37,
+        1,
+        1,
+        -1
+      ],
+      [
+        37,
+        2,
+        1,
+        -1
+      ],
+      [
+        38,
+        0,
+        14,
+        15
+      ],
+      [
+        38,
+        1,
+        49,
+        50
+      ],
+      [
+        38,
+        2,
+        78,
+        79
+      ],
+      [
+        39,
+        0,
+        6,
+        9
+      ],
+      [
+        39,
+        1,
+        44,
+        46
+      ],
+      [
+        39,
+        2,
+        73,
+        75
+      ],
+      [
+        40,
+        0,
+        15,
+        17
+      ],
+      [
+        40,
+        1,
+        50,
+        52
+      ],
+      [
+        40,
+        2,
+        78,
+        80
+      ],
+      [
+        41,
+        0,
+        1,
+        4
+      ],
+      [
+        41,
+        1,
+        40,
+        41
+      ],
+      [
+        41,
+        2,
+        70,
+        71
+      ],
+      [
+        42,
+        0,
+        20,
+        22
+      ],
+      [
+        42,
+        1,
+        51,
+        55
+      ],
+      [
+        42,
+        2,
+        79,
+        83
+      ],
+      [
+        43,
+        0,
+        19,
+        22
+      ],
+      [
+        43,
+        1,
+        51,
+        55
+      ],
+      [
+        43,
+        2,
+        79,
+        83
+      ],
+      [
+        44,
+        0,
+        2,
+        4
+      ],
+      [
+        44,
+        1,
+        41,
+        42
+      ],
+      [
+        44,
+        2,
+        72,
+        73
+      ],
+      [
+        45,
+        0,
+        34,
+        36
+      ],
+      [
+        45,
+        1,
+        64,
+        66
+      ],
+      [
+        45,
+        2,
+        90,
+        96
+      ],
+      [
+        46,
+        0,
+        33,
+        33
+      ],
+      [
+        46,
+        1,
+        1,
+        -1
+      ],
+      [
+        46,
+        2,
+        1,
+        -1
+      ],
+      [
+        47,
+        0,
+        33,
+        33
+      ],
+      [
+        47,
+        1,
+        1,
+        -1
+      ],
+      [
+        47,
+        2,
+        1,
+        -1
+      ],
+      [
+        48,
+        0,
+        33,
+        33
+      ],
+      [
+        48,
+        1,
+        1,
+        -1
+      ],
+      [
+        48,
+        2,
+        1,
+        -1
+      ],
+      [
+        49,
+        0,
+        22,
+        23
+      ],
+      [
+        49,
+        1,
+        55,
+        57
+      ],
+      [
+        49,
+        2,
+        83,
+        86
+      ],
+      [
+        50,
+        0,
+        28,
+        29
+      ],
+      [
+        50,
+        1,
+        60,
+        61
+      ],
+      [
+        50,
+        2,
+        86,
+        90
+      ]
+    ]
+  },
+  "compiler_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\level_tables.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\tests\\level_tables.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\lua_script_level_queries.cpp",
+    "-o",
+    "port\\game-data\\build\\level-tables-original-root\\host.exe"
+  ],
+  "executable_sha256": "7d6dc75383272ec29db870c09999fd41698d3a82d84114d8656b0b1a9753bad9",
+  "source_sha256": {
+    "port/game-data/level_tables.cpp": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+    "port/game-data/tests/level_tables.cpp": "1854d32f864ec0f274fdc7b0efbafba2398f5c3d8f3923304056c19cde258d20",
+    "port/level-world/lua_script_level_queries.cpp": "cc8a97a495ba6f98410f3a27bd9b87ba364bb5bef46216203d78780a8d070bcd",
+    "port/game-data/level_tables.hpp": "aa20e39db0aaab7dfdd9556db275e3d41c2e3709939c9f074851907a6470f742",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/level-world/lua_script_level_queries.hpp": "8b05ca372a84272a5a71e36d0aad40c4312461cea25308257ce952a6daef1b9e",
+    "port/game-data/tests/run_level_tables_host.py": "4c5212321988077efa81dd7514ec1b89a12a0935bea2c6436e20c0988cedb672",
+    "port/level-catalogue/catalogue.py": "7d65e4c8dd953b3df1e9053f1852c281b4fc0920fe90b6742cfe4fda26a17551",
+    "port/game-data/tests/level_tables_original.py": "e6a83ea440ee2349d576891c62b6024518807066d917585d515b686409d22307"
+  },
+  "cache_sha256": {
+    "levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "levels_pystructnames.bin": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705"
+  },
+  "native_wired": false,
+  "scope": "Compare the native owned level table with the existing recovered catalogue.\n\nAll 84 original-cache records and 153 actual range queries are checked. This\ndoes not establish the native Application/current-Level/PlayerInfo producers.\n",
+  "original_comparison": {
+    "original_arm_record_comparisons": 84,
+    "mismatches": 0,
+    "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "functions": [
+      {
+        "original_symbol": "_ZN7Structs16LevelDeclaration4readEP11IStreamBase",
+        "elf_address": "0x4fca84",
+        "size": 1388,
+        "sha256": "a05430905308d2efd324869a9c8ed584cc679f3107f6950c4e19c925967f61a7"
+      },
+      {
+        "original_symbol": "_ZN7Structs21FastTravelDestination4readEP11IStreamBase",
+        "elf_address": "0x4fcff0",
+        "size": 556,
+        "sha256": "95b867b9347cb5885a8fffb8c8af65793aa18336750c8c6e33a666b564b6e571"
+      }
+    ],
+    "record_traces": [
+      {
+        "name": "a01_SWAMP_CAMP",
+        "wire_begin": 4,
+        "wire_end": 29,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a02_SWAMP_CAVE_WITCH_ENTRANCE",
+        "wire_begin": 29,
+        "wire_end": 67,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a03_SWAMP_WATER_TEMPLE_01_ENTRANCE",
+        "wire_begin": 67,
+        "wire_end": 102,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a04_SWAMP_CAVE_TROLL_ENTRANCE",
+        "wire_begin": 102,
+        "wire_end": 140,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a05_DARKWOOD_ENTRANCE",
+        "wire_begin": 140,
+        "wire_end": 168,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a06_DARKWOOD_GOTHICUS_VILLAGE",
+        "wire_begin": 168,
+        "wire_end": 196,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a07_DARKWOOD_CATHEDRAL",
+        "wire_begin": 196,
+        "wire_end": 230,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a08_DARKWOOD_INFECTED_VILLAGE_01_ENTRANCE",
+        "wire_begin": 230,
+        "wire_end": 269,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a09_DARKWOOD_SECRET_BASEMENT_01",
+        "wire_begin": 269,
+        "wire_end": 307,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a10_DARKWOOD_CRYPT_01_ENTRANCE",
+        "wire_begin": 307,
+        "wire_end": 344,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a11_DARKWOOD_CRYPT_02_ENTRANCE",
+        "wire_begin": 344,
+        "wire_end": 381,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a12_GOTHICUS_CASTLE_02",
+        "wire_begin": 381,
+        "wire_end": 419,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a13_ELEMENTAL_FIRE",
+        "wire_begin": 419,
+        "wire_end": 453,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a14_ELEMENTAL_EARTH",
+        "wire_begin": 453,
+        "wire_end": 488,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a15_ELEMENTAL_WATER",
+        "wire_begin": 488,
+        "wire_end": 523,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a16_ELEMENTAL_AIR",
+        "wire_begin": 523,
+        "wire_end": 556,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a17_ELEMENTAL_LIGHT",
+        "wire_begin": 556,
+        "wire_end": 591,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a18_DARKWOOD_ROOT_DEN_01_ENTRANCE",
+        "wire_begin": 591,
+        "wire_end": 622,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a19_DARKWOOD_EARTH_TEMPLE_01_ENTRANCE",
+        "wire_begin": 622,
+        "wire_end": 657,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a20_DESERT_VILLAGE",
+        "wire_begin": 657,
+        "wire_end": 691,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a21_DESERT_CAVE_01_ENTRANCE",
+        "wire_begin": 691,
+        "wire_end": 725,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a22_DESERT_CAVE_02_ENTRANCE",
+        "wire_begin": 725,
+        "wire_end": 759,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a23_DESERT_CAVE_03_ENTRANCE",
+        "wire_begin": 759,
+        "wire_end": 793,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a24_DESERT_LIGHT_HOUSE_ENTRANCE",
+        "wire_begin": 793,
+        "wire_end": 827,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a25_DESERT_FIRE_TEMPLE_ENTRANCE",
+        "wire_begin": 827,
+        "wire_end": 861,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a26_ICY_VILLAGE",
+        "wire_begin": 861,
+        "wire_end": 888,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a27_ICY_CAVERN_01_ENTRANCE",
+        "wire_begin": 888,
+        "wire_end": 921,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a28_ICY_CAVERN_02_ENTRANCE",
+        "wire_begin": 921,
+        "wire_end": 954,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a29_ICY_CAVERN_03_ENTRANCE",
+        "wire_begin": 954,
+        "wire_end": 987,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a31_ICY_WIND_TEMPLE_ENTRANCE",
+        "wire_begin": 987,
+        "wire_end": 1021,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a32_UNDERWORLD_ENTRANCE",
+        "wire_begin": 1021,
+        "wire_end": 1055,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a33_UNDERWORLD_MACHINE_ROOMS_ENTRANCE",
+        "wire_begin": 1055,
+        "wire_end": 1091,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "a34_UNDERWORLD_DARK_TEMPLE_01_ENTRANCE",
+        "wire_begin": 1091,
+        "wire_end": 1133,
+        "dependencies": [
+          "read_signed",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ABBEY_ENTRANCE_01",
+        "wire_begin": 1137,
+        "wire_end": 1218,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ABBEY_RUINS_01",
+        "wire_begin": 1218,
+        "wire_end": 1295,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "APPLETEMPLE",
+        "wire_begin": 1295,
+        "wire_end": 1388,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "APPLETEMPLEBACKUP",
+        "wire_begin": 1388,
+        "wire_end": 1483,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DARKWOOD",
+        "wire_begin": 1483,
+        "wire_end": 1562,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DARKWOOD_V2",
+        "wire_begin": 1562,
+        "wire_end": 1641,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DARKWOOD_V3",
+        "wire_begin": 1641,
+        "wire_end": 1720,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DARK_DUNGEON_TEMPLE_01",
+        "wire_begin": 1720,
+        "wire_end": 1802,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DARK_DUNGEON_TEMPLE_BOSSROOM",
+        "wire_begin": 1802,
+        "wire_end": 1896,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DESERT_CAVE_01",
+        "wire_begin": 1896,
+        "wire_end": 1990,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DESERT_CAVE_02",
+        "wire_begin": 1990,
+        "wire_end": 2084,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "DESERT_CAVE_03",
+        "wire_begin": 2084,
+        "wire_end": 2178,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "EARTH_TEMPLE_01",
+        "wire_begin": 2178,
+        "wire_end": 2269,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "EARTH_TEMPLE_02",
+        "wire_begin": 2269,
+        "wire_end": 2360,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "EARTH_TEMPLE_03",
+        "wire_begin": 2360,
+        "wire_end": 2451,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ELEMENTAL_AIR",
+        "wire_begin": 2451,
+        "wire_end": 2533,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ELEMENTAL_EARTH",
+        "wire_begin": 2533,
+        "wire_end": 2617,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ELEMENTAL_FIRE",
+        "wire_begin": 2617,
+        "wire_end": 2700,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ELEMENTAL_LIGHT",
+        "wire_begin": 2700,
+        "wire_end": 2788,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ELEMENTAL_WATER",
+        "wire_begin": 2788,
+        "wire_end": 2872,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "FIRE_TEMPLE_01",
+        "wire_begin": 2872,
+        "wire_end": 2953,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "GOTHICUS_CASTLE_01",
+        "wire_begin": 2953,
+        "wire_end": 3047,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "GOTHICUS_CASTLE_02",
+        "wire_begin": 3047,
+        "wire_end": 3141,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "GOTHICUS_CRYPT_01",
+        "wire_begin": 3141,
+        "wire_end": 3225,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "GOTHICUS_CRYPT_02",
+        "wire_begin": 3225,
+        "wire_end": 3309,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ICY_CAVERN_01",
+        "wire_begin": 3309,
+        "wire_end": 3398,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ICY_CAVERN_02",
+        "wire_begin": 3398,
+        "wire_end": 3487,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ICY_CAVERN_03",
+        "wire_begin": 3487,
+        "wire_end": 3576,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ICY_HUB",
+        "wire_begin": 3576,
+        "wire_end": 3654,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "INFECTED_VILLAGE_01",
+        "wire_begin": 3654,
+        "wire_end": 3740,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "LIGHT_HOUSE_01",
+        "wire_begin": 3740,
+        "wire_end": 3830,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "LIGHT_HOUSE_02",
+        "wire_begin": 3830,
+        "wire_end": 3920,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "LIGHT_HOUSE_03",
+        "wire_begin": 3920,
+        "wire_end": 4010,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "MACHINE_ROOMS_01",
+        "wire_begin": 4010,
+        "wire_end": 4097,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "MULTIPLAYER_TEST",
+        "wire_begin": 4097,
+        "wire_end": 4200,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "PORTAL_ROOM",
+        "wire_begin": 4200,
+        "wire_end": 4279,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "QUESTTEST",
+        "wire_begin": 4279,
+        "wire_end": 4370,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "RANDOMFORALEX",
+        "wire_begin": 4370,
+        "wire_end": 4460,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "RED_DESERT_HUB",
+        "wire_begin": 4460,
+        "wire_end": 4545,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "ROOT_DEN_01",
+        "wire_begin": 4545,
+        "wire_end": 4629,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "SECRET_BASEMENT_01",
+        "wire_begin": 4629,
+        "wire_end": 4713,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "SWAMP",
+        "wire_begin": 4713,
+        "wire_end": 4789,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "SWAMP_02",
+        "wire_begin": 4789,
+        "wire_end": 4871,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "SWAMP_CAVE_TROLL_A",
+        "wire_begin": 4871,
+        "wire_end": 4963,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "SWAMP_CAVE_WITCH_A",
+        "wire_begin": 4963,
+        "wire_end": 5054,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "UNDERWORLD_HUB",
+        "wire_begin": 5054,
+        "wire_end": 5139,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "VOID_MAZE_01",
+        "wire_begin": 5139,
+        "wire_end": 5226,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "VOID_MAZE_02",
+        "wire_begin": 5226,
+        "wire_end": 5313,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "VOID_MAZE_03",
+        "wire_begin": 5313,
+        "wire_end": 5400,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "WATER_TEMPLE_01",
+        "wire_begin": 5400,
+        "wire_end": 5487,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      },
+      {
+        "name": "WIND_TEMPLE_01",
+        "wire_begin": 5487,
+        "wire_end": 5574,
+        "dependencies": [
+          "read_bool",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_bool",
+          "read_signed",
+          "read_unsigned",
+          "allocate_array",
+          "read_string_ex",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed",
+          "read_signed"
+        ]
+      }
+    ],
+    "instruction_addresses_executed": 195,
+    "dependency_bodies_executed": 0,
+    "scope": "Execute original row readers on the supplied cache with named stream primitives.\n\nTop-level row-reader instructions run from the pinned ELF. Byte-stream reads,\nallocation/free and readStringEx are modeled dependencies; their bodies and\nthe original object ABI/allocator are not reconstructed by the native table.\n"
+  }
+}

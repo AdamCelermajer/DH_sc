@@ -12,13 +12,13 @@ void PlayerStatusHud::release(){
 bool PlayerStatusHud::bind(const char* hash,std::string& error){
     return bind(hash,"_root.menu_HUD_0",error);
 }
-bool PlayerStatusHud::bind(const char* hash,const char* menu,std::string& error){
+bool PlayerStatusHud::bind(const char* hash,const char* menu_path,std::string& error){
+    if(!menu_path||!*menu_path){error="Required selected authored HUD menu path";return false;}
     release();
-    if(!menu||!*menu){error="Source player status requires the selected HUD graph";return false;}
     std::array<SwfHudClip,5> candidate;
     for(unsigned i=0;i<candidate.size();++i){
         const auto* relative=hud_value_clip_path(HudValueClip(i));
-        const auto path=i==4?std::string(relative):std::string(menu)+'.'+relative;
+        const auto path=i==4?std::string(relative):std::string(menu_path)+"."+relative;
         if(!movie_.hud_bind(path.c_str(),hash,candidate[i],error))return false;
     }
     clips_=std::move(candidate);bound_=true;error.clear();return true;

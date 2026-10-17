@@ -2,7 +2,6 @@
 #include "localization.hpp"
 #include "hud_text_format_v1.hpp"
 namespace dh2::ui {
-struct LocalizationArgumentV1;
 struct HudTextEnvironmentV1 {
  LocalizationServices localization;
  void* application{};
@@ -21,15 +20,7 @@ class HudTextV1 {
  bool preload(std::uint32_t pack,std::uint32_t sheet,bool force,const LocalizationServices&,std::string&);
  bool integer_string(std::int32_t,const LocalizationServices&,std::string&,bool& is_null,std::string&);
  bool parse_ex(const char*,const HudTextVariantV1*,std::size_t,const HudTextEnvironmentV1&,std::string&,bool& changed,std::string&);
-  bool native_string(const std::string& symbol,const LocalizationServices&,LocalizationResult&,std::string&);
-  bool parsed_string_v4(const std::string&,const std::vector<LocalizationArgumentV1>&,
-                        const HudTextEnvironmentV1&,std::string&,std::string&);
- // Additive original StringManager getters for MenuBase localization. These
- // borrow THIS cache and preserve native_string/parseEx behavior unchanged.
- std::int32_t source_symbol_pack_v1()const noexcept{return 8;}
- bool source_string_index_v1(std::uint32_t sheet,std::uint32_t index,std::int32_t pack,
-                             const LocalizationServices&,std::string&,std::string&);
- bool source_string_count_v1(std::uint32_t sheet,std::int32_t pack,std::int32_t&,std::string&)const;
+ bool native_string(const std::string& symbol,const LocalizationServices&,LocalizationResult&,std::string&);
  std::int32_t pack()const{return pack_;}
  const std::vector<std::string>& pack_names()const{return pack_names_;}
  const std::string& sheet_name(std::uint32_t pack,std::uint32_t sheet)const;

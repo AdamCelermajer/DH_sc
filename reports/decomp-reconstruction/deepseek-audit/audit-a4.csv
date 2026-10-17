@@ -1,0 +1,55 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x84473c,"slim::XmlNode::findFirstChild(char const*, _List_iterator&)",port/decomp-reconstruction/core-platform/src/slim_xml.cpp,99,low,other,"if ( std::operator==<char>(v6[2], a2) )
+    return v9;","if (child->name_ == name) {
+    return child;","Original compares the list element (v6[2], an XmlNode* per the _List_iterator<XmlNode*> type) directly as the string operand of std::operator== at recovered/native/hexrays-all/chunk_056.c:6164, while the reconstruction compares the child's name_ member. The listing's operand type is ambiguous (Hex-Rays does not show a name load), so I cannot confirm which field the binary compares; low severity because it may be a decompiler typing artifact."
+0x7ad81c,"fscommand_callback_handler(gameswf::character*, char const*, char const*)",port/decomp-reconstruction/game-ui/src/n2-game-ui-RenderFX-849cdc-2.cpp,63,low,refcount,"if ( !v6[4] )
+{
+  if ( (*(_DWORD *)v6)-- == 1 )
+    gameswf::free_internal(v6);","gameswf::player* player = character->m_player.get_ptr();
+static_cast<RenderFX*>(player->m_render_fx)->FSCommand(command, args);","Original releases one reference on the holder at character+0x2C (chunk_050.c:4590-4601) and clears character+0x2C/+0x30 when the holder's byte at +4 is zero; the reconstruction does neither. After that release the original also passes *(v3+148) with v3 zeroed, so this path is undefined as printed; low severity because the holder flag's meaning and the path's reachability are not established."
+0x4604c0,"ScriptManager::SkipScript(int, bool)",port/decomp-reconstruction/game-app/src/g1-game-app-ScriptManager-b3ae8b-0.cpp,334,low,side-effect,"DebugSwitches::load((DebugSwitches *)&DebugSwitches::s_inst);
+std::string::string(&v10, ""isTracingScriptCmd"");
+DebugSwitches::GetSwitch(...);","DebugSwitches::GetInstance()->GetSwitch(std::string(""isTracingScriptCmd""));","The original reloads the debug switches (DebugSwitches::load, recovered/native/hexrays-all/chunk_015.c:1504) before the isTracingScriptCmd probe; the reconstruction calls GetSwitch without the reload, so the in-memory switch table is not refreshed here. The probe result is discarded, so the effect is limited to the reload side effect; low severity."
+0x43f630,NativeCreateSaveSlot(gameswf::fn_call const&),port/decomp-reconstruction/game-app/src/g1-game-app-global-f216b6-11.cpp,243,medium,field,"if ( v16 < 0 )
+  v16 = 0;
+...
+v17 = 1;","if (static_cast<std::int32_t>(save.m_saveDate) < 0) {
+    save.m_saveDate = 0;
+}
+...
+save.m_unlockedDifficulty = 1;","In the original, v16 is the PlayerSavegame field at object+0x3C (m_unlockedDifficulty, v15 is object+0x18), and it is only clamped to 0 when negative (recovered/native/hexrays-all/chunk_014.c:1203-1204); the flag written to 1 is v17 at object+0x194 (unk_194) (chunk_014.c:1208). The reconstruction instead tests m_saveDate (+0x38, a dead check since SG_SetSaveDate overwrites it right after) and assigns m_unlockedDifficulty = 1 unconditionally, so a new save's unlocked-difficulty value can differ and unk_194 is never set. Whether this is gameplay-visible depends on the constructor's default for +0x3C, not established here."
+0x3bdca4,Character::RegenHP(int),port/decomp-reconstruction/game-character/src/g1-game-character-Character-ee9946-19.cpp,182,low,other,"if ( a2 > 0 )
+  return CharProperties::PROPS_Add(v3, 36, a2);
+return result;","void Character::RegenHP(int amount) {
+    ...","The original returns an int (the PROPS_Add result, or the total HP when nothing is added; recovered/native/hexrays-all/chunk_008.c:18302-18304). The reconstruction is void, and the Lua binding _RegenHP (g1-game-character-Character-ee9946-11.cpp:296) returns nothing, while the original binding returns this int to the sfc callback dispatcher. Whether the dispatcher uses that value as a result count is not established here, so low severity."
+0x371294,PlayerInfo::~PlayerInfo(),port/decomp-reconstruction/game-character/src/g1-game-character-PlayerInfo-3a5de8-0.cpp,118,low,other,"do
+{
+  v4 = *((_DWORD *)v3 - 10);
+  v3 = (PlayerInfo *)((char *)v3 - 40);
+  (*(void (__fastcall **)(PlayerInfo *))(v4 + 20))(v3);
+}","PlayerInfo::~PlayerInfo() {
+    if (unk_680 != nullptr) {
+        delete unk_680;","The original destructor first runs a loop that calls vtable slot +0x14 on 40-byte elements starting at this+0x28 (recovered/native/hexrays-all/chunk_005.c:7765-7771), and then explicitly frees the buffers at +0x1080, +0x3F8 and +0x3D8 (7781-7802). The reconstruction only deletes unk_680 and leaves the rest to compiler-generated member destruction, so the virtual slot-5 calls are not reproduced. The loop as printed does not terminate in the expected direction, so its exact effect is unresolved; low severity."
+0x352d4c,"SceneManager::SceneManager(glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::io::IFileSystem>, glitch::gui::ICursorControl*, glitch::gui::IGUIEnvironment*)",port/decomp-reconstruction/game-world/src/g1-game-world-SceneManager-9fc3ac-0.cpp,345,low,field,"*(_DWORD *)(a1 + 652) = 0;
+*(_BYTE *)(a1 + 656) = 0;
+... (no store to a1 + 1168)",m_secondaryRefCount = 1;                              // +0x490,"The complete-object constructor at 0x352d4c (chunk_004.c:2986-3021) never stores to +0x490 (1168). The only store of 1 to +0x490 is in the VTT-taking constructor at 0x352c3c (chunk_004.c:2950-2955, '*(a1 + 1168) = 1'). The reconstruction's 4-argument constructor writes it, and its comment states that the C1 body matches 0x352c3c, which the pseudocode does not support. Whether the value matters depends on which constructor the game actually calls, so this is a low-severity divergence to settle with the SceneManager owner."
+0x4718f0,VisualObject::_FindModularSkinnedMeshNode(),port/decomp-reconstruction/game-world/src/g1-game-world-VisualObject-0654b6-1.cpp,209,low,other,"if ( !*((_DWORD *)this + 2) ) { ASSERT(""m_node"", VisualObject.cpp:1023) }   /* no return */
+... GetSceneNodesFromType(1298489700, &p, this->m_node)  /* r3 = [this+8] */","if (m_node == nullptr) {
+    return;
+}","The original asserts on a null m_node (chunk_015.c:14764-14779) but does not return. The ARM listing (recovered/native/ida-asm/asm_chunk_005.asm, 0x4718f0) loads r3 = [this+8] and passes it on to the scene manager search, so with assertion level 0 or 1 the search runs with a null start node and the modular node slot is written from its result. The reconstruction returns at once, so that path does nothing. This is a behaviour difference outside the documented host-only null guards: the recon comment says a null m_node returns, but the original continues past the assert. Severity low because the case is only reached when m_node is null."
+0x7fdfe0,"CEvent::Init(int, void*, int)",port/decomp-reconstruction/net-session-online/src/c_event.cpp,30,medium,field,"*((_DWORD *)this + 1) = a2;
+result = (_DWORD *)GetOnline(this);
+...
+*((_DWORD *)this + 4) = result[10];   /* COnline +0x28 */","type_ = type;
+timestamp_ = OnlineNowMs();","The original stores GetOnline()->(+0x28) into this+0x10 (chunk_052.c:15296-15301). COnline +0x28 is the counter word (c_online.hpp: counter_ at +0x28, GetCounter()), not a clock. OnlineNowMs() in the reconstruction returns GetOnline()->GetAbsoluteTime() (platform_stand_ins.hpp:29-33), which is a different quantity. The c_online.hpp comment records that this session changed CMessage::IsExpired to read the counter because the listing reads COnline +0x28, so the same field is the counter here. timestamp_ therefore holds a clock value where the original holds the counter. Anything that compares it with the counter (expiry) will disagree with the original."
+0x800808,CMatching::GetMemberIdList(),port/decomp-reconstruction/net-session-online/src/c_matching_base.cpp,173,low,field,"v3 = *(_DWORD *)(a2 + 28);
+...
+v7 = *(_DWORD *)(v6 + 368);   /* v6 steps by 432 */","const std::int32_t memberId = members_[i].id();   // id() = idMember_.GetValue(), element +0x150; members_ declared at this+0x24","Layout inconsistency rather than a behaviour difference. The original reads element i's id word at this+0x170 + 432*i (chunk_052.c:17168-17185), and CMatching::ProcessAcknowledgedPacket (chunk_052.c:16059-16068) puts element 0 at this+0x20 (v3 = this+24, element = v3+8). The reconstruction declares members_ at this+0x24 (c_matching_base.hpp:400) while the header comment at lines 394-399 gives element base 0x20 and id word 0x170. Reads and writes through members_[i] stay self-consistent inside the host object, so GetMemberIdList returns the right ids; the mismatch matters only for raw-offset access and for the claimed binary layout. Needs the offset corrected to 0x20 in the header, after checking the other members_ users."
+0x4999b8,GameCenter::ResetPlayerList(),port/decomp-reconstruction/net-session-online/src/game_center.cpp,49,medium,other,"std::list<std::string>::clear(this+9); push node(this[13]);
+for each node i in list at this[29]: free(i)   /* second list, not modelled */
+if ( *((_BYTE *)this + 21) ) return GameCenter::SetPlayerIDStatus(this, *(this + 13), ""ResetPlayerList"", 0);
+else return GameCenter::SetPlayerIDStatus(this, *(this + 13), ""ResetPlayerList"", 1);","void GameCenter::ResetPlayerList() {
+    hostUid_ = hostUidStorage_.get();
+    playerList_.clear();
+    playerList_.emplace_back(userUid_ != nullptr ? userUid_.get() : """");
+}","chunk_017.c:19067-19108. After rebuilding the player list, the original always calls GameCenter::SetPlayerIDStatus(userUid, ""ResetPlayerList"", skip), where skip is the inverse of the byte at this+21. The reconstruction never calls it, so the entry for the local user is inserted without the status text, and the status rewrite never happens. The original also walks a second node list at this+0x74 and frees its nodes, which the reconstruction does not model. Setting hostUid_ from hostUidStorage_ is a documented deviation and is not the cause. The missing SetPlayerIDStatus call changes what the player list holds after a reset."

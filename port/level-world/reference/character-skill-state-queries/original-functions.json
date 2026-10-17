@@ -1,0 +1,30 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619",
+      "scope": "complete rebuilt no-argument predicate"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558",
+      "scope": "complete rebuilt no-argument predicate"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743",
+      "scope": "real original supporting getter executes; logical pointer/word projection reused, no separate new body credit"
+    }
+  ],
+  "new_complete_caller_bodies": 2,
+  "new_complete_dependency_bodies": 0,
+  "native_wired": false,
+  "scope": "Two no-argument predicates only; no UsingSkill(skill_id) overload, coordinator lifecycle, UpdateAllSkills body or invented state IDs."
+}

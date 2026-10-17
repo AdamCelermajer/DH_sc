@@ -1,0 +1,25 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "The CharacterList source producer and exact _UpdateAggro Search(float,float,IObjectList&) call boundary. The normalized runtime query accepts a flat borrowed CharacterList and does not use PFRoom or RoomZone grouping.",
+  "file_offset_policy": "Pinned ARM32 ELF .text virtual addresses match file offsets for the recorded code ranges. The runner checks the complete library SHA, ELF symbols/ranges, vtable relocation results, and all recorded bytes before executing original ARM code.",
+  "functions": [
+    {"original_symbol":"_ZN6CharAI12_UpdateAggroEv","demangled":"CharAI::_UpdateAggro()","elf_address":"0x3cf3f0","size":2052,"sha256":"710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692","scope":"caller constructing CharacterList over ObjectManager+0x60 and invoking the Search overload"},
+    {"original_symbol":"_ZN14ObjectSearcher10TargetList6SearchEffRNS_11IObjectListE","demangled":"ObjectSearcher::TargetList::Search(float,float,ObjectSearcher::IObjectList&)","elf_address":"0x4a3428","size":100,"sha256":"940cc0a5eac7a2b4d371fed4a90b4441a86c0b53e462a792b82e94e321e181e1","scope":"passes the source owner target position/look vector, radii, cone, and IObjectList to the point-query overload"},
+    {"original_symbol":"_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE","demangled":"ObjectSearcher::TargetList::Search(Point3D<float> const&,float,Point3D<float> const&,float,ObjectSearcher::IObjectList&)","elf_address":"0x4a2f34","size":1172,"sha256":"09e52604dce572790bf238dae055d88b063b8a685d692de73e0421085ba1a0b6","scope":"source IObjectList Reset/AtEnd/Get/GetChar/Next caller and candidate search"},
+    {"original_symbol":"_ZN14ObjectSearcher13CharacterList5ResetEv","demangled":"ObjectSearcher::CharacterList::Reset()","elf_address":"0x38d4a4","size":20,"sha256":"431993b8613629a0e903c288853849bc177638b7bb8d13e8022b53265908b445","scope":"sets current from sentinel next and end from sentinel"},
+    {"original_symbol":"_ZN14ObjectSearcher13CharacterList5AtEndEv","demangled":"ObjectSearcher::CharacterList::AtEnd()","elf_address":"0x38d4b8","size":24,"sha256":"f6edf94a43490806743cec12db3891324f139e5c2bc5cadc597964b206b1348e","scope":"compares current and end iterators"},
+    {"original_symbol":"_ZN14ObjectSearcher13CharacterList4NextEv","demangled":"ObjectSearcher::CharacterList::Next()","elf_address":"0x38d4d0","size":16,"sha256":"0ce20638758d661524bcf955788932a1a4654183919a3e42beb62a0f013be600","scope":"advances current through current node next link"},
+    {"original_symbol":"_ZN14ObjectSearcher13CharacterList3GetEv","demangled":"ObjectSearcher::CharacterList::Get()","elf_address":"0x38d50c","size":12,"sha256":"60926e9f7d0bc8ab20dc66a4f665de32e52c56400960f338d9f13233eb8e4fc8","scope":"returns current node value as GameObject*"},
+    {"original_symbol":"_ZN14ObjectSearcher13CharacterList7GetCharEv","demangled":"ObjectSearcher::CharacterList::GetChar()","elf_address":"0x38d518","size":12,"sha256":"60926e9f7d0bc8ab20dc66a4f665de32e52c56400960f338d9f13233eb8e4fc8","scope":"returns the same current node value as Character*"}
+  ],
+  "vtable_ranges": [
+    {"symbol":"_ZTVN14ObjectSearcher13CharacterListE","demangled":"vtable for ObjectSearcher::CharacterList","elf_address":"0x964868","address_point":"0x964870","size":40,"sha256":"6b2662c36a5afeaabee4e5143ac0da45fd6929bae9938dd312209b9de20cef2d","slots":[{"byte_offset":"0x8","target":"0x38d4a4","name":"Reset"},{"byte_offset":"0xc","target":"0x38d4b8","name":"AtEnd"},{"byte_offset":"0x10","target":"0x38d4d0","name":"Next"},{"byte_offset":"0x18","target":"0x38d50c","name":"Get"},{"byte_offset":"0x1c","target":"0x38d518","name":"GetChar"}]}
+  ],
+  "unsupported": [
+    "The host CharacterList query is not wired into the Android actor or a native ObjectManager owner yet.",
+    "ObjectManager Character Add/Remove/destruction production and lifetime ownership are not reconstructed by this adapter.",
+    "The ARM runner executes the exact Search(float,float,IObjectList&) caller through its call boundary and directly executes the original CharacterList virtuals; it does not execute the full Search(point,...) candidate body because that function requires uninitialized game-global diagnostics/runtime services.",
+    "PFRoom/RoomZone membership and their circular registries are separate APIs and are not used as an aggro candidate list."
+  ]
+}

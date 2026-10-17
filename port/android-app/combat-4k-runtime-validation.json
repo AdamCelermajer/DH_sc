@@ -1,0 +1,242 @@
+{
+  "complete_game": false,
+  "original_gameplay_equivalence_tested": false,
+  "device": {
+    "serial": "emulator-5560",
+    "release": "17",
+    "sdk": 37,
+    "page_size": 4096,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "122af9795982829d6f15e7c45a417824b465461d6d9f9cfd660cbb3bbe55c795",
+  "installed_apk_hash_matches": true,
+  "real_damage_cases": 80,
+  "controlled_combat_cases": 216,
+  "cases": [
+    {
+      "name": "before_constants",
+      "kind": "script",
+      "bytes": 72,
+      "sha256": "ace47862f740d8626efd23bb8feffbcaef2868ad2e4daa0205c2e0923beb7e35",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "ai",
+      "kind": "constants",
+      "bytes": 1042,
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "design",
+      "kind": "constants",
+      "bytes": 3999,
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "constant_values",
+      "kind": "script",
+      "bytes": 162,
+      "sha256": "3dd8f379c9113d692d93d1047727558d3096662acaa4f950ac10a61761a59474",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_properties",
+      "kind": "properties",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "real_items",
+      "kind": "items",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "name": "real_0",
+      "kind": "script",
+      "bytes": 20736,
+      "sha256": "1f5ef4eacf0ddf58333b4d680b6da1744d0f60818379baa7c15b21455999f705",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_55",
+      "kind": "script",
+      "bytes": 21280,
+      "sha256": "8f5a5c392cbbbb6627f4a7f27be27d1557edc8c34273efc7b3cdd13929aba9e8",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_111",
+      "kind": "script",
+      "bytes": 10640,
+      "sha256": "fa37cc2390aa266aaf372a1cd0df6ec13d9d7e9e64ba77ae5677594c7d494488",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_properties",
+      "kind": "properties",
+      "bytes": 2700,
+      "sha256": "3f5dfb29872294afff63d2f37fc4173adb91e8008d630376ae87eb12438a7ae1",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "controlled_items",
+      "kind": "items",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "name": "controlled_0",
+      "kind": "script",
+      "bytes": 48328,
+      "sha256": "b89f4683208344738e837ef44eedf3a77ab3ddea7090845a9d44bc9bf98862d0",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_1",
+      "kind": "script",
+      "bytes": 43329,
+      "sha256": "a590239586fcfecdd4fd9db72339b157bba5b0444c458076c84168c6dc19a6ce",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_2",
+      "kind": "script",
+      "bytes": 46591,
+      "sha256": "f97b38e337d2be47ae24ff325c7e4a251fce3e34934551d4765602139dbbb5db",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_3",
+      "kind": "script",
+      "bytes": 41411,
+      "sha256": "d3f6e7e38649f7b3a8885f42e359817d53a8fb5960d6251fdfb5e1363c2a37c9",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_4",
+      "kind": "script",
+      "bytes": 48784,
+      "sha256": "ccfb1b90b601d941512afa8ee493138c7b03115a00608abc0cf236d5bf753b08",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_5",
+      "kind": "script",
+      "bytes": 43291,
+      "sha256": "800e0e41ade4356e68661626de91672b7c7352080b2d466ad05a6c8bc9cf37ed",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "controlled_6",
+      "kind": "script",
+      "bytes": 49310,
+      "sha256": "6f3fe0bc3641945ba07f8f8c7946a6c6a00c87cc5ecf9dfaa61a1a0c74a3578e",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "retained_actor",
+      "kind": "script",
+      "bytes": 162,
+      "sha256": "617b1f2c96e13f9d82f974b9f9657e018e39ed27e8cb401d8dee188c45651064",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "malformed",
+      "kind": "constants",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Constants rejected: malformed or unsupported integer constant file"
+    },
+    {
+      "name": "retained_constants",
+      "kind": "script",
+      "bytes": 258,
+      "sha256": "674de9918205e32e0701fdc7d2fda9ad55a48bf66b16d30075c4d587b3c100bd",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "replacement",
+      "kind": "constants",
+      "bytes": 42,
+      "sha256": "a5413c30e0f3c3d449459061bece5cef9fbd0923bd03e8d859ed04dbb8d304d0",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "replacement_query",
+      "kind": "script",
+      "bytes": 89,
+      "sha256": "5de0feebbb74ac7768542a89c623cd5639b7aca22b670b0701373022bf2ca88e",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "oversized",
+      "kind": "constants",
+      "bytes": 4194305,
+      "sha256": "95e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+      "status": "Constants rejected: File exceeds 4 MiB limit"
+    },
+    {
+      "name": "recovery",
+      "kind": "constants",
+      "bytes": 3999,
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "recovered",
+      "kind": "script",
+      "bytes": 249,
+      "sha256": "6c5d6da86da235f85dff23d9c901ae45860a3e9942e1efd55f1b0e12227e82b1",
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "visual_imports": [
+    {
+      "path": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+      "statuses": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/textures/prince-warrior.tga",
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "statuses": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/characters/prince/animations/prince_walk_dual.bdae",
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "statuses": [
+        "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "combat-ready.png",
+    "sha256": "045ec66cd127628fef34d23e829bce39cd9b3df2e6a25db36bc8716f9aeceda9"
+  },
+  "test_sha256": "28d6992a1bc6244a6b64342a10e498b51a8aade6ef44291c211a92900ae52005",
+  "corpus_report_sha256": {
+    "controlled": "b00fa48fd25fefd20c9c9511897ea9bd054eca7f3e04d228688bf7b7a74abe74",
+    "real": "587fbb4693af26ae22c7c1c995bf35be9da45c042b8428e4a4a9ec8b673d20a3"
+  },
+  "source_sha256": {
+    "scripts.cpp": "bd67122f365f31a76b708036a843d9e21eec97bd8022586a74c6b342487a3e98",
+    "src/local/dh2/sourceviewer/MainActivity.java": "c32a6014324e199a084d5f7b7d214b691227aa4c4d3f9c824981afefd5f9cfa5",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22"
+  },
+  "scope": "Built-in exact recovered combat formula uses source offline Rand, owned actor projections and real design/AI constants. Selected 80 real damage cases and all 216 controlled cases match host assertion chunks; retained actor context and malformed/replacement/oversized constant import recovery pass. Source render remains a diagnostic preview. No original Character/state machine/HP application, combat events, AI or game loop is connected."
+}

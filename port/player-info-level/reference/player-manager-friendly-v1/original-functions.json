@@ -1,0 +1,29 @@
+{
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager13GetNumPlayersEv",
+      "elf_address": "0x36d7a8",
+      "size": 108,
+      "sha256": "6574deec313751fb822b36bf2310b9c927cecad8dba59a00e150f21c8434f1b2"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager26_GetInternalIDByFriendlyIDEib",
+      "elf_address": "0x36e5b4",
+      "size": 400,
+      "sha256": "d2feabb14436afdfb486553ce155f7be4ea0bc0df657ccb155554f55bda96189"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager9GetPlayerEib",
+      "elf_address": "0x36e744",
+      "size": 32,
+      "sha256": "5d19ac5cd09da90a3037728eecc8623b843e040bab522a6abe6a2eaedb2a82a6"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    }
+  ],
+  "scope": "PlayerManager GetNumPlayers, friendly ordinal helper, GetPlayer and actual nested GetPlayerByInternalID execute pinned ARM words. Online/game-state/Matching/net owners and network final lookup are declared external query providers. Offline count is tree+6a0; all-ID network span is +6a8/+6ac. Friendly offline scan ignores local-controller+66c, optionally filters Character+660 and returns actual+670. Network route rereads GetNumPlayers, resolves each candidate with internal flag0 and reloads its span; final GetPlayer lookup passes flag0. Native bounds guards are separate from valid original ARM comparison. Character lifecycle, registration and gameplay are outside this proof."
+}

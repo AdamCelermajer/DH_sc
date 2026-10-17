@@ -1,7 +1,16 @@
 #pragma once
 #include "owned_hud_settings_v1.hpp"
+#include <array>
+#include <string_view>
 namespace gameswf {struct fn_call;}
 namespace dh2::ui {
+// Actions with complete providers in both front-menu and live gameplay UI.
+// NativeLoadSettings is intentionally absent until its live language-scene
+// refresh owner is connected.
+inline constexpr std::array<std::string_view,7> gameplay_settings_actions_v1{{
+    "NativeGetOptionParameters","NativeSetOptions","NativeSaveSettings",
+    "NativeEnterOptionMenu","NativeRefreshHudManager",
+    "NativeIsJapaneseVersion","NativeIsKorean"}};
 struct SwfMenuOptionServicesV1 {
     OwnedHudSettingsV1* settings{};
     void* context{};

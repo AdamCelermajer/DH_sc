@@ -1,0 +1,113 @@
+{
+  "test_gate": {
+    "id": "infected-village-static-preview-api37-16k-three-cycle",
+    "status": "passed_for_exact_scope_only",
+    "scope": "API 37 x86_64 emulator with 16 KiB pages; candidate APK below; three complete open, render, return cycles",
+    "not_a_gate_for": [
+      "4 KiB runtime",
+      "pinch/zoom gesture",
+      "physical devices or Fold7",
+      "original renderer visibility/material parity",
+      "gameplay activation or complete game compatibility"
+    ]
+  },
+  "candidate": {
+    "apk": "build/dh2-source-renderer-debug.apk",
+    "sha256": "1a57732eb509b6c67a358617b2301351d907e26fc7edd061a553398e38685deb",
+    "bytes": 4366281,
+    "installed_apk": "build/infected-village-candidate-16k-installed.apk",
+    "installed_apk_sha256": "1a57732eb509b6c67a358617b2301351d907e26fc7edd061a553398e38685deb",
+    "installed_hash_matches_candidate": true,
+    "target_sdk": 37,
+    "min_sdk": 26,
+    "source_manifest_sha256": "88e0c556c9c763bccb5e548c63c2a648f1e7da3b5671b84d53ce59c227156fd0",
+    "build_command": "python port/android-app/build.py --sdk ..\\emulator-test\\sdk --ndk ..\\emulator-test\\sdk\\ndk\\29.0.14206865 --cache ..\\cache\\files"
+  },
+  "passed_device_run": {
+    "serial": "emulator-5558",
+    "api": 37,
+    "abi": "x86_64",
+    "page_size_bytes": 16384,
+    "cycles": [
+      {
+        "cycle": 1,
+        "opened": true,
+        "rendered": true,
+        "returned_to_encounter": true,
+        "screenshot": "build/infected-village-candidate-16k-cycle1.png",
+        "hierarchy": "build/infected-village-candidate-16k-cycle1-hierarchy.xml",
+        "return_hierarchy": "build/infected-village-candidate-16k-cycle1-return.xml"
+      },
+      {
+        "cycle": 2,
+        "opened": true,
+        "rendered": true,
+        "returned_to_encounter": true,
+        "screenshot": "build/infected-village-candidate-16k-cycle2.png",
+        "hierarchy": "build/infected-village-candidate-16k-cycle2-hierarchy.xml",
+        "return_hierarchy": "build/infected-village-candidate-16k-cycle2-return.xml"
+      },
+      {
+        "cycle": 3,
+        "opened": true,
+        "rendered": true,
+        "returned_to_encounter": true,
+        "screenshot": "build/infected-village-candidate-16k-cycle3-orbit-stable.png",
+        "hierarchy": "build/infected-village-candidate-16k-cycle3-hierarchy.xml",
+        "return_hierarchy": "build/infected-village-candidate-16k-cycle3-return.xml"
+      }
+    ],
+    "orbit_verified": true,
+    "pitch_verified": true,
+    "orbit_pitch_evidence": [
+      "build/infected-village-candidate-16k-cycle1.png",
+      "build/infected-village-candidate-16k-cycle1-orbit-pitch.png",
+      "build/infected-village-candidate-16k-cycle1-pitch.png",
+      "build/infected-village-candidate-16k-cycle3-orbit-stable.png"
+    ],
+    "stable_overlay_verified": true,
+    "overlay_evidence": "build/infected-village-candidate-16k-cycle3-hierarchy.xml",
+    "visual_scope": "Static geometry from both authored module roots is recognizable (terrain/road, structures, and fences). This preview is not gameplay and does not establish native renderer visibility or material/effect parity.",
+    "preview_render_policy": {
+      "source_draws": 20,
+      "shown": 16,
+      "omitted_root_guide_pairs": [
+        ["_module_infectedvillage_01-node", "ColorMaterial"],
+        ["_module_infectedvillage_02-node", "ColorMaterial"]
+      ],
+      "omitted_untextured_fallback_pairs": [
+        ["_floor_infectedvillage_01-node_PIVOT", "Standard_8"],
+        ["_floor_infectedvillage_02-node_PIVOT", "Standard_8"]
+      ],
+      "policy_scope": "Diagnostic preview draw filtering only; all source records remain imported. Original native visibility is unresolved."
+    },
+    "pinch_zoom_runtime_verified": false,
+    "pinch_zoom_note": "The headless ADB input harness did not provide verified multi-pointer injection. Drag orbit and pitch are verified; pinch zoom is unverified.",
+    "filtered_logcat": {
+      "path": "build/infected-village-candidate-16k-filtered-logcat.txt",
+      "line_count": 0,
+      "result": "No matching DH2InfectedVillage, AndroidRuntime, libEGL, or OpenGLRenderer error lines were captured."
+    },
+    "full_logcat": "build/infected-village-candidate-16k-logcat.txt"
+  },
+  "four_kib_device": {
+    "serial": "emulator-5560",
+    "api": 37,
+    "page_size_bytes": 4096,
+    "status": "unavailable_no_runtime_pass",
+    "result": "ADB/UI operations stopped responding. One bounded ADB server restart and one AVD restart were attempted; the AVD did not reach boot_complete within 60 seconds. No final-candidate runtime result is claimed.",
+    "fold7_or_physical_device_tested": false
+  },
+  "known_preview_gaps": [
+    "Material__2341 sampler parameters 3 and 4 and Material__2342 sampler parameter 4 are unbound in the checked source bundle.",
+    "External effect/pass selection and lighting parity are unresolved.",
+    "Animated fog/decor, dialogs/text, music/audio, scripts, actors, collision, triggers, transitions, and gameplay are not activated.",
+    "Three exit-marker draws (_exit_east_01-node, _exit_west_01-node, _exit_west_02-node; Standard_7) remain simple gray-green fallback geometry without sampler references in the checked bindings.",
+    "Pinch/zoom was not runtime-verified; the ADB harness did not provide verified two-pointer input."
+  ],
+  "historical_initial_run_before_renderer_corrections": {
+    "apk_sha256": "17f9e27f7c879cb4ca5266f591a4159ce4ed91d66f3b3ba3ea9c7d25fe154a5d",
+    "result": "Initial rendering was dominated by a flat olive surface. This was superseded by the candidate run above.",
+    "emulator_notes": "The earlier run had incomplete visual framing and is retained only as historical evidence; it is not part of the current test gate."
+  }
+}

@@ -1,0 +1,162 @@
+{
+  "complete_game": false,
+  "scope": "Exact APK: real eight-table item imports, 106 actual item configurations in both sets and 1484 bonus/shield assertions against checked host corpus; owned generations, typed methods, malformed/oversize rejection and recovery. Authored controls do not implement inventory lifecycle, restrictions or gear contributions. Source character render import is also exercised.",
+  "device": {
+    "serial": "emulator-5558",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "2974a802e258582a13c20a0d38aad19a44ceff313170473a85c0ff68322cafdd",
+  "installed_apk_hash_matches": true,
+  "corpus_report_sha256": "7c265518190bdb4dfeb7df291cb7d0553bd150a7d1807dd039e289458f1799db",
+  "real_item_configurations": 106,
+  "real_bonus_and_shield_queries": 1484,
+  "cases": [
+    {
+      "case": "properties",
+      "kind": "properties",
+      "bytes": 2700,
+      "sha256": "d3fe9a99b03b19bebfb699b6ee22723534b3041636c46822c719f845a68c3c5a",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "before",
+      "kind": "script",
+      "bytes": 125,
+      "sha256": "d70f910c358e3dab7765bdd075b6ceda71b4bd7d8ea5643733dcc0ae026ae0e8",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_items",
+      "kind": "items",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "case": "real_queries_0",
+      "kind": "script",
+      "bytes": 48687,
+      "sha256": "bba90c73f5ce6ab9f4e11bfd4ece7a23eba7c4d7e41e6576be8d7aa8af206c9a",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_queries_20",
+      "kind": "script",
+      "bytes": 32232,
+      "sha256": "e5e350cd9dccd5107c89a3a0feee923f369f875ffd76834acade35c4eb8b7930",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "generation_a",
+      "kind": "items",
+      "bytes": 479,
+      "sha256": "d5ead7ef222586b4cc95762a75f7661074bcc853bf1a98e4b47c6507b4c5a5e1",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "case": "typed_methods",
+      "kind": "script",
+      "bytes": 1217,
+      "sha256": "1296b7365ecfe269d1d1562ed0ff05c4acae85db3df322f3a65143e9f49daa89",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "malformed",
+      "kind": "items",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Items rejected: malformed item data file"
+    },
+    {
+      "case": "retained",
+      "kind": "script",
+      "bytes": 61,
+      "sha256": "d96520a79f8e3cfcf7717cf435a6f2d80ba4f881c5044fa1024c991d6bcd9f17",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "generation_b",
+      "kind": "items",
+      "bytes": 479,
+      "sha256": "3b1ed69cd6ec556b20e14ce95523e18610ec78bbe3f26360c538df5d7bf54b29",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "case": "replacement",
+      "kind": "script",
+      "bytes": 279,
+      "sha256": "d1856149b6a7d54bd5fa86c195f68aa98274cad0b715c9b2a8eb74f5206a57d0",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "oversize",
+      "kind": "items",
+      "bytes": 4194305,
+      "sha256": "95e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+      "status": "Items rejected: File exceeds 4 MiB limit"
+    },
+    {
+      "case": "recovery",
+      "kind": "items",
+      "bytes": 479,
+      "sha256": "d5ead7ef222586b4cc95762a75f7661074bcc853bf1a98e4b47c6507b4c5a5e1",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "case": "recovered",
+      "kind": "script",
+      "bytes": 106,
+      "sha256": "00440c47e62886fd3b7cff6246b012cafdf66648c8f0aab830d2d2a660b50684",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "final_real_items",
+      "kind": "items",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    }
+  ],
+  "visual_imports": [
+    {
+      "path": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+      "statuses": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+        "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+      ]
+    },
+    {
+      "path": "data/3d/textures/prince-warrior.tga",
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "statuses": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+        "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+      ]
+    },
+    {
+      "path": "data/3d/characters/prince/animations/prince_walk_dual.bdae",
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "statuses": [
+        "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+        "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+      ]
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "equipment-ready.png",
+    "sha256": "21abe8b4867de1cb1fc0f00d0c33ddd3c9d22088061a73af5cfba76dd6ce9e5f"
+  },
+  "log_start_emulator_gmt": "10-02 18:24:03.000",
+  "test_sha256": "fbbd97bec28c2f1ae221f81f363e37198dc4c67a332f38f3e6b9b89d404a2efd",
+  "source_sha256": {
+    "scripts.cpp": "3555fba836d5b718157b590cb688f6ff493c49ed06af4515da0ad5d59d7f5675",
+    "src/local/dh2/sourceviewer/MainActivity.java": "c95988a0a38ed54776806c4995f907787545a78860339a0cf97a47b07c4aafd5",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22"
+  }
+}

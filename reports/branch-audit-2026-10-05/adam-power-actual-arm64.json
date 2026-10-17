@@ -1,0 +1,138 @@
+{
+  "validation": "PASS",
+  "comparisons": 937,
+  "original_properties_compared": 1224,
+  "mismatches": 0,
+  "original_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\test_strategy\\libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\.local-inputs\\power-v5-actual-arm64\\libdh2_game_data.so",
+  "library_sha256": "27ec4c3b52656245c1b11ea86737dff4ae2696fb4348a635f2030de6b71785e1",
+  "apk": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\adam-reconciled-2026-10-05\\crypt-adam-reconciled.apk",
+    "sha256": "724bb2dbda2b45c32fcfe71251f828329c6da4bbb398f0768db761295a72bf4a",
+    "member": "lib/arm64-v8a/libdh2_game_data.so",
+    "member_sha256": "27ec4c3b52656245c1b11ea86737dff4ae2696fb4348a635f2030de6b71785e1",
+    "extracted_library_matches": true
+  },
+  "attribution_sha256": "f4badf4df8f26f318376450cc7a8fb14187a3ee773cb753e55e571e6ec544347",
+  "verified_original_ranges": [
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable8finalizeEv",
+      "elf_address": "0x4a6b74",
+      "size": 228,
+      "sha256": "bfa1c826cac16f833e9896937dfa1f5377672a56eba7930d008345facb09a6bc"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable9readNamesEP11IStreamBase",
+      "elf_address": "0x4b6630",
+      "size": 408,
+      "sha256": "84574995ea70c876b11e00476c707221b41138e11a1c64b2bdf323375f8a2f21"
+    },
+    {
+      "original_symbol": "_ZN6Arrays14ItemPowerTable4readEP11IStreamBase",
+      "elf_address": "0x4bab7c",
+      "size": 332,
+      "sha256": "90caa751da38ff84fffbaa1a02ca1a83473b558d8fb63a5d693f8d593d2bcd32"
+    },
+    {
+      "original_symbol": "_ZN6Arrays13ItemPowerList4readEP11IStreamBase",
+      "elf_address": "0x4bacc8",
+      "size": 332,
+      "sha256": "11d7a8e7819817da911bd17f85a9501b873dc18e65d7393669e94acbe5317092"
+    },
+    {
+      "original_symbol": "_ZN7Structs12ItemPowerRef8finalizeEv",
+      "elf_address": "0x4d573c",
+      "size": 100,
+      "sha256": "e75dbc93c700a83994882f6d51bdee6de6d0242c80cdc9c4e8f255a65f4ff953"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIaEEvP11IStreamBasePT_",
+      "elf_address": "0x4db9fc",
+      "size": 176,
+      "sha256": "ea0dc44358bcd1753b66faa89e097ce4e831859120f16e333ed8fa3ba6cf7557"
+    },
+    {
+      "original_symbol": "_ZN7Structs18ItemPowerEntryList4readEP11IStreamBase",
+      "elf_address": "0x4dc8fc",
+      "size": 364,
+      "sha256": "d44eb2c59671b5d639ddbc244239ee1726aee7e0c0df6f78070b7006f92078d3"
+    },
+    {
+      "original_symbol": "_ZN7Structs12ItemPowerRef4readEP11IStreamBase",
+      "elf_address": "0x4ecdc8",
+      "size": 912,
+      "sha256": "7a0ab08d6c8c5aafe45b8ce79ac515542cc4ae9f9ec2374ab890bfe513eb658a"
+    },
+    {
+      "original_symbol": "_ZN7Structs14ItemPowerEntry4readEP11IStreamBase",
+      "elf_address": "0x4ed200",
+      "size": 128,
+      "sha256": "48a3da37036461f80d84357a77e5e187ab65a6773b411aa4af932439d1595a8c"
+    }
+  ],
+  "gold_sha256": "af0106cd1437dda390bd8c2469498429155454f03bc2a7f45935217d6496f6c2",
+  "public_fixture_sha256": "af0106cd1437dda390bd8c2469498429155454f03bc2a7f45935217d6496f6c2",
+  "public_fixture_matches": true,
+  "source_sha256": {
+    "port/game-data/item_power_tables_v5.hpp": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+    "port/game-data/item_power_tables_v5.cpp": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391",
+    "port/game-data/tests/item_power_tables_v5_original.py": "109dfd9abf467f8eb91ed8401c72ebab0f7a014a049ae2de0644ad0dbac3d81d"
+  },
+  "tool_sha256": {
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port/game-data/tests/aggro_differential.py": "bc901defb67ea653ae9b3f8e74aebddb1ee641013bc1b3f0b31e2c08eb20a955",
+    "port/game-data/tests/combat_application_differential.py": "e7b5d189e05d8c603b2ecddead9b24997d2922d9389d14590b4fa28fdb99a9c8",
+    "port/game-data/tests/combat_differential.py": "f0e4a7e19bd2ea3d79a4d20ed94d323c465cd3784cbaff74723bbcc7a893a860",
+    "port/game-data/tests/combat_result_differential.py": "2a129d4aaa7dea425b4a081ea1e9023eae647bf3dd97cd21a655fbe7319ba9cf",
+    "port/game-data/tests/health_differential.py": "b7d1309ec119210f13a8e35c16aa2f1cf6a0c1dffbf2df4081e7d79ef77a8bb6",
+    "port/game-data/tests/item_power_tables_v5_original.py": "109dfd9abf467f8eb91ed8401c72ebab0f7a014a049ae2de0644ad0dbac3d81d",
+    "port/game-data/tests/items_differential.py": "7843123841ffb4f0a653c0dd3134e6b1d515d5afc1dd391fd672db327a3f26c3",
+    "port/level-world/tests/navigation_differential.py": "be0b5e96ca7b1c21e44a01bca436802c6fda0a721a24f56cfc8a743a294dbee4",
+    "port/level-world/tests/run_character_ai_set_skills_and_spells_host.py": "983db4d61a2cc2588da49f9435bbda4af1d9033207bcbaec0cb3b57eba8251b3"
+  },
+  "cache_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files",
+  "executed_input": "data/pydata/item_powers_pyarray.bin",
+  "input_sha256": {
+    "data/pydata/item_powers_monopoly_pyarray.bin": "6591e5ca591b63d3c81eb0d4d3811a2f8409f4b835cb64f35dde87bee4f63d4b",
+    "data/pydata/item_powers_monopoly_pyarraynames.bin": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
+    "data/pydata/item_powers_monopoly_pystructnames.bin": "79dab4b044f7f7f614dab597fc280d8d5947b96b3ed672aac1339316ed7d6400",
+    "data/pydata/item_powers_pyarray.bin": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+    "data/pydata/item_powers_pyarraynames.bin": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+    "data/pydata/item_powers_pycst.bin": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981",
+    "data/pydata/item_powers_pystructnames.bin": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444"
+  },
+  "original_byte_reader_services": 16127,
+  "original_allocations": 1060,
+  "native_import_calls": {
+    "__memcpy_chk": 5622
+  },
+  "source_scope": "Original ItemPowerList/Table/Ref readers on all genuine cache bytes.\nStorage allocation and stream virtual reads are explicit byte services; every\ndecoded scalar and ordered property including full signed32 Flags is compared.\n",
+  "original_reader_begin": 12578,
+  "original_reader_end": 54443,
+  "native_comparison_scope": "ARM64 dh2_item_power_decode_v5 record decoder only; no powered-owner, loot gameplay, or full ItemPowerTablesV5 load/borrow parity. Stream reads and allocation remain explicit byte/storage services.",
+  "native_tls_scope": "Existing aggro_differential.Cpu fixture supplies a stable Android TLS canary; actual packaged stack-protector instructions execute. No device thread-runtime claim.",
+  "AddPower_instance_and_presentation_parity": false,
+  "loot_gameplay_parity": false,
+  "invocation": [
+    "port/game-data/tests/item_power_tables_v5_original.py",
+    "--original-elf",
+    "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/test_strategy/libDungeonHunter2.so",
+    "--cache",
+    "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/cache/files",
+    "--library",
+    ".local-inputs/power-v5-actual-arm64/libdh2_game_data.so",
+    "--apk",
+    "port/android-native/build/adam-reconciled-2026-10-05/crypt-adam-reconciled.apk",
+    "--gold",
+    ".local-inputs/power-v5-actual-arm64/power-fixtures-derived.bin",
+    "--report",
+    "reports/branch-audit-2026-10-05/adam-power-actual-arm64.json"
+  ]
+}

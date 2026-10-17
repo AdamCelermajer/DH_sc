@@ -1,0 +1,479 @@
+{
+  "validation": "PASS",
+  "upstream_commit": "791e961b12233100b303038c961666834f4beb9d",
+  "scope": "Selected V4 and text DSOs + borrowed query gate using genuine local cache.\n\nOnly controlled Debug transport/English pack selection are host fixtures.\nNo copied cache/APK/ELF, native renderer, gameplay/profile/loot activation claim.\n",
+  "source_before_after_equal": true,
+  "source_sha256": {
+    "port/engine-ui/hud_text_format_v1.cpp": "3cce5aba708b6b9f90abb835ad3aafd7c092397d2498f38dba4c57008deaf76d",
+    "port/engine-ui/hud_text_format_v1.hpp": "79870b445ca0d172fd4c851eacf17325d68f3b2f820d2c7de9c6215fb38b7190",
+    "port/engine-ui/hud_text_v1.cpp": "396accf2605ba07b5b7862a2958c30b82e81e702d6dccff3bf31b62413e388d8",
+    "port/engine-ui/hud_text_v1.hpp": "bff8a8c58ccba0c7c669a9bd072f677f7bdc07fc12284f65c65e019ab2a1d702",
+    "port/engine-ui/inventory_text_v1.cmake": "7903043f00498ac5f862b1073b69d82ae35405c2378dc8f91e5ecb5f39e75d87",
+    "port/engine-ui/item_text_owner_v5.cpp": "10d33680977a883edf2e2c2a330e17ae67f0c90e1509ece6e187ce08c8508dc8",
+    "port/engine-ui/item_text_owner_v5.hpp": "fc3f230a6b4883ff93dc0f213ee68e5f59b36b81ace41a6302151739247b9524",
+    "port/engine-ui/item_text_varargs_v5.cpp": "22f6fa8e792b582eeac0ede1b4fde4152f3eb0176a45aebef770f2e7cbe14e07",
+    "port/engine-ui/item_text_varargs_v5.hpp": "b895cb56d41a1e2450a745d097ce8a0dc07189cce58f99c5f737411ab6ac5901",
+    "port/engine-ui/localization.cpp": "b519ab31e8553ccc808822fc1c9f846ebdff5f9e608eb31cd2fe3245d2860611",
+    "port/engine-ui/localization.hpp": "48433e35464d7fc14118de3d60a5323766a22c8116761e61eb605809187bbc8c",
+    "port/engine-ui/tests/hud_text_format_v1.cpp": "247ae1e11305a4d442f0177b76505d22a232ff144337ee884de988b10fd8f132",
+    "port/engine-ui/tests/inventory-binding-v1/CMakeLists.txt": "d57d24bc5e48c88e6afc2058b96813896253b2463905bae3b353900e0fdd9a13",
+    "port/engine-ui/tests/inventory_binding_text_queries_v1.cpp": "0a7e61ac00561d09c1f3c9b04040eb64a43f54ac38876724aa53f1c10b2ebb86",
+    "port/engine-ui/tests/item_text_varargs_v5.cpp": "bf0c437a152c8e36b7c38f7e7514a0b041df40cfe1d6bb756a15adb64454fadd",
+    "port/engine-ui/tests/item_text_varargs_v5_fixture.cpp": "95cb88ed36db767a828cb979c45939b0568f744b0379fe30299e4d4e750a25cc",
+    "port/engine-ui/tests/run_inventory_binding_v1_host.py": "1fdd559d33ec5dc004282a231aa5be893e118f59570bdc56c91e12eba96bdc0e",
+    "port/game-data/aggro.cpp": "c9f10eb5697227dad1e7fb767b07929da4b5373327d49ce350dc1318e6b2f050",
+    "port/game-data/aggro.hpp": "3a8d50a78c05e4e2759ffa92c1a881c811573d7d2e37191a9e513e7588b4e742",
+    "port/game-data/ai.cpp": "f53b4473fa4dd02ed73d514fe5b84d02058807c4bf800ab1952fc7141a229928",
+    "port/game-data/ai.hpp": "00eb983ad3120ba68f86f104186d8216e70f73da54451b59a2b760b16468e8a5",
+    "port/game-data/animation_bank.cpp": "d01fc6391ddb543eb2eadca8ce52e6b6e814cdd52d146d358c221d5a418d044f",
+    "port/game-data/animation_bank.hpp": "8e858b78976ee8d4dbaee87f6379228df12a30ed4819b2d3acf03f2df8c4ac33",
+    "port/game-data/animation_scheduler.cpp": "a75190454cb98071e91483125861abe41f84217d280b44d6db5bc1fff432cfd4",
+    "port/game-data/animation_scheduler.hpp": "001547189bcb3d47fd096541db08ce5bd3b6935725a543735dd253da840b7aa3",
+    "port/game-data/animation_selection.cpp": "f9f985cc772e1adea4cdc7dfa1bf27f987d06308f55b3603b64722877de857ad",
+    "port/game-data/animation_tables.cpp": "436cff5b347f1d756777775e35110bab113de3547b6a878932538afac21ef86e",
+    "port/game-data/animation_tables.hpp": "031dbc1ec565bc468357a21a9994abfba2c00f046796f4e8c409c63b8b872ecc",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/game-data/class_tables.hpp": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+    "port/game-data/CMakeLists.txt": "854a5dad7ad2b496cdee0045432ac26a8d3d57a2704e49a1b3598ee5adc1ed96",
+    "port/game-data/combat.cpp": "228da172df7ee0ef290a59ccaf2fcf21890705f7165528366bf5f6615fdeb4cc",
+    "port/game-data/combat.hpp": "61cb840335e6eec650dc5520873067e89bafca8aac7dec22cd6c081ca846afd7",
+    "port/game-data/combat_application.cpp": "ef5c7a603160b99cbec98851f69f61f8a62612cacd6dccf1e20f8f0362769557",
+    "port/game-data/combat_application.hpp": "7b1bf8f631a3c3221c5eb2d03901dd96d43f6a168bd4a47733ce6eff97e23127",
+    "port/game-data/combat_events.cpp": "a7ac6d24c1d221506617bcfe2b2e86275e7dddac597ae28ae1911218c5238b32",
+    "port/game-data/combat_events.hpp": "5ea137c6d04a3fd19a6ef57305e304d5d7653893ec29a6ec071f311603b0b8b1",
+    "port/game-data/combat_result.cpp": "8c049006cb01b294304bb9820950f1d8da733bd8f7d4d7c5518d9718f18a18e3",
+    "port/game-data/combat_result.hpp": "80c13844301caea0c6df3f34a0f4d722c8f794a661f681a509729ab132f7c5b2",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "9abbd1a0f5eed7bd6f6acb801bc2a7be18e3613bd17f43bf063caaa5057535e4",
+    "port/game-data/fresh_inventory_owned_v4.hpp": "e666cc21941ab7cbe39ae3ac0d1edbdd4f3cd0e70fdcffef6c7ffc06055d67a2",
+    "port/game-data/health.cpp": "98035dd3c80ecac8e0e96c3f06d7f045dd42df80ecfe935411729bf8bff98595",
+    "port/game-data/health.hpp": "54dc3a4600ac752fc8c434bddcd29f3c77df9900eaf5c958ea54ad0aa39140f6",
+    "port/game-data/item_gear_properties_v5.cpp": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+    "port/game-data/item_gear_properties_v5.hpp": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+    "port/game-data/item_instance.cpp": "d3d0160862d89b1d512ad7682ba16b65540d496c83148bb463b1ef672ef5d423",
+    "port/game-data/item_instance.hpp": "c95b0b07ca099ac525ac7bead4e327934164e959c2369a3fb3661aeabe9f9578",
+    "port/game-data/item_power_tables_v5.cpp": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391",
+    "port/game-data/item_power_tables_v5.hpp": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+    "port/game-data/item_presentation_v5.cpp": "a6900bc1065b6928ea2b8c247aae6b61b9664e34840af1b851e1d814e15e8128",
+    "port/game-data/item_presentation_v5.hpp": "732ed9ad83e3adc0cee0c3827f5e4dc94da90b4d690bb2afb5d80e65f266272d",
+    "port/game-data/items.cpp": "2468a9e5fcc12a00859bf403dba09b66dbc9a39a3231de6c1ac88abb6fd5f091",
+    "port/game-data/items.hpp": "12661c391735a81c29ffff587a5322dc2753c3ebe324e56be2b4a86db7e9e633",
+    "port/game-data/level_tables.cpp": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+    "port/game-data/level_tables.hpp": "aa20e39db0aaab7dfdd9556db275e3d41c2e3709939c9f074851907a6470f742",
+    "port/game-data/loot_power_creation_v7.cpp": "9b87befc02c3a3d3588dcc77c0bd8a2df09f0e0e3231dd629a7ed9a9f9d30ef3",
+    "port/game-data/loot_power_creation_v7.hpp": "a9e391ef52a3e5efed6d549a8c598425a9e3daee112b8b19debec4cafbb7c0b4",
+    "port/game-data/loot_power_resources_v7.cpp": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+    "port/game-data/loot_power_resources_v7.hpp": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/loot_tables_v2.hpp": "2e7cf1a4ece3778e109b1d758be4c3e052ee7a9154a41917a53840c83c387d72",
+    "port/game-data/player_equipment_live_services_v1.cpp": "9e75499afff0884c0b3b3e51e80167c1e368b30d1cef63af384f3374eaa51986",
+    "port/game-data/player_equipment_live_services_v1.hpp": "614afe87f8b492ce60ce0b6a7fbe7ee5e4cdaa9f1dd527be32ea8a2b9825092a",
+    "port/game-data/player_equipment_queries_live_v1.cpp": "c93ce664885042b3daa650b7b3c7de2d9f2503c0809259423484fd4b456977f2",
+    "port/game-data/player_equipment_queries_live_v1.hpp": "1b4a55ced7dbee79659b2fa972a00f2a82513c306f2a716576e6540873e19978",
+    "port/game-data/player_gear_effects_v5.cpp": "863f410ae216da1e43399be9c8983999475dd9af7a6e03ce30d062c67fa9ad42",
+    "port/game-data/player_gear_effects_v5.hpp": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7",
+    "port/game-data/player_saved_skill_slots_v1.cpp": "77f3682f9b8f675d7901126938437b67ec990b5f59238c4429a88da5417e63e8",
+    "port/game-data/player_saved_skill_slots_v1.hpp": "4ce996da152ff134ed745afbdafe488c574382fedea66c5da5e5cc55b596f321",
+    "port/game-data/player_savegame_v1.cpp": "e9088a632d74ee276e2157a32130ade41a2f566ef20fb0082e7ad5709c021483",
+    "port/game-data/player_savegame_v1.hpp": "050edc426773e456d8f1aec7d0dfda30f37e6886ae27d2a73e4e397fa0114aeb",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/properties.hpp": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+    "port/game-data/savegame_options_v1.cpp": "6e29f8d64dd697513804f8f138a0157e2ba5e99b1266fb4c23e6519e8c693b3b",
+    "port/game-data/savegame_options_v1.hpp": "26863444946843b5e1c2e51157140a578ae0560ead7b0409ca76a146c338483e",
+    "port/game-data/skill_tables.cpp": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+    "port/game-data/skill_tables.hpp": "8004113c312d881f7e2f5e83252c3531300c68a88c902bfa35f241339a1facab",
+    "port/game-data/vitals.cpp": "34999512b1bff69e99dd39aa9f252470366c8a950c9de03dc894cf299b67e5b9",
+    "port/game-data/vitals.hpp": "c0a378ae928dbb6a7c579385e1dcb70c7731fe1772c7d48b37991d51d6fd0de3",
+    "port/pydata-constants/constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
+    "port/pydata-constants/constants.h": "bf5ea5bcb1ac5112c71c0351e7841721bba6c20f761ac5891af28bb344270fa6",
+    "port/random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "port/random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6"
+  },
+  "candidate_query_staged": false,
+  "selected_library": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\inventory-binding-v1-host\\game-data\\libdh2_game_data.dll",
+    "sha256": "30f49be4fcc78b39678a31f46d3a0bd81ca71503ad555b37bfae0e9c18a60f23"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\data.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\data.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/data.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/data.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\items.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\items.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/items.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/items.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\animation_bank.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_bank.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_bank.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/animation_bank.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\animation_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/animation_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\animation_selection.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_selection.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_selection.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/animation_selection.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\animation_scheduler.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_scheduler.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_scheduler.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/animation_scheduler.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\class_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/class_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/class_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\properties.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/properties.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/properties.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\vitals.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\vitals.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/vitals.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/vitals.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\combat.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/combat.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\combat_events.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat_events.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_events.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/combat_events.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\combat_result.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat_result.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_result.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/combat_result.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\health.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\health.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/health.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/health.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\combat_application.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat_application.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_application.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/combat_application.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\aggro.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\aggro.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/aggro.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/aggro.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\ai.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\ai.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/ai.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/ai.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\level_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\level_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/level_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/level_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\skill_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\skill_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/skill_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/skill_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\player_savegame_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_savegame_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_savegame_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/player_savegame_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\savegame_options_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\savegame_options_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/savegame_options_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/savegame_options_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\item_gear_properties_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_gear_properties_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/item_gear_properties_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\item_power_tables_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_power_tables_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/item_power_tables_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\loot_power_resources_v7.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\loot_power_resources_v7.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_resources_v7.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/loot_power_resources_v7.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\item_instance.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_instance.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_instance.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/item_instance.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\loot_tables_v2.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\loot_tables_v2.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/loot_tables_v2.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\fresh_inventory_owned_v4.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\fresh_inventory_owned_v4.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/fresh_inventory_owned_v4.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\player_gear_effects_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_gear_effects_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_gear_effects_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/player_gear_effects_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\item_presentation_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_presentation_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_presentation_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/item_presentation_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o game-data\\CMakeFiles\\dh2_game_data.dir\\loot_power_creation_v7.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\loot_power_creation_v7.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_creation_v7.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/loot_power_creation_v7.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\player_saved_skill_slots_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_skill_slots_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_skill_slots_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/player_saved_skill_slots_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\player_equipment_live_services_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_equipment_live_services_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_equipment_live_services_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/player_equipment_live_services_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o game-data\\CMakeFiles\\dh2_game_data.dir\\player_equipment_queries_live_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_equipment_queries_live_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_equipment_queries_live_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/game-data/CMakeFiles/dh2_game_data.dir/player_equipment_queries_live_v1.cpp.obj"
+    }
+  ],
+  "selected_text_library": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\inventory-binding-v1-host\\libdh2_inventory_text_v1.dll",
+    "sha256": "a01b2c30219e394f5bd93ded8082e8075d200f953c709f798ef46b8b29406063",
+    "dll_dependencies": [
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "libdh2_game_data.dll"
+    ]
+  },
+  "text_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_inventory_text_v1_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_inventory_text_v1.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\localization.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\localization.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/localization.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/CMakeFiles/dh2_inventory_text_v1.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/localization.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_inventory_text_v1_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_inventory_text_v1.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\hud_text_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/hud_text_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/CMakeFiles/dh2_inventory_text_v1.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/hud_text_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_inventory_text_v1_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_inventory_text_v1.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\hud_text_format_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/hud_text_format_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/CMakeFiles/dh2_inventory_text_v1.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/hud_text_format_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_inventory_text_v1_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_inventory_text_v1.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\item_text_varargs_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\item_text_varargs_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/item_text_varargs_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/CMakeFiles/dh2_inventory_text_v1.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/item_text_varargs_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_inventory_text_v1_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_inventory_text_v1.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\item_text_owner_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-ui\\item_text_owner_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/item_text_owner_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/inventory-binding-v1-host/CMakeFiles/dh2_inventory_text_v1.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/item_text_owner_v5.cpp.obj"
+    }
+  ],
+  "tests": [
+    {
+      "command": [
+        "C:\\Users\\noamc\\Documents\\Codex\\inventory-binding-v1-host\\inventory_binding_text_queries_v1.exe",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\cache\\files\\data\\pydata",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\adam-791e961-inventory-binding\\query-fixtures.bin"
+      ],
+      "result": {
+        "validation": "PASS",
+        "weapon_original_cases": 1000,
+        "actual_item_constructors": 1322,
+        "actual_power_text_cases": 936,
+        "null_power_retained_prefixes": 1,
+        "localized_class_rows": 9,
+        "live_query_cases": 4,
+        "required_provider_rejections": 4,
+        "class_bounds_rejections": 2,
+        "pack_bounds_rejections": 1,
+        "localized_null_branches": 1,
+        "loaded_sheet_retained_prefixes": 2,
+        "file_leases": 6,
+        "checks": 99622,
+        "mismatches": 0
+      },
+      "executable_sha256": "bcfc74cd019a11d1c3d7e1c1ffd131fb5757f53e0588b40a516a00857819ca1e",
+      "dll_dependencies": [
+        "libgcc_s_seh-1.dll",
+        "libstdc++-6.dll",
+        "KERNEL32.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll",
+        "api-ms-win-crt-locale-l1-1-0.dll",
+        "api-ms-win-crt-math-l1-1-0.dll",
+        "api-ms-win-crt-private-l1-1-0.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll",
+        "api-ms-win-crt-stdio-l1-1-0.dll",
+        "api-ms-win-crt-string-l1-1-0.dll",
+        "libdh2_game_data.dll",
+        "libdh2_inventory_text_v1.dll"
+      ]
+    },
+    {
+      "command": [
+        "C:\\Users\\noamc\\Documents\\Codex\\inventory-binding-v1-host\\inventory_binding_format_gold_v1.exe",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\adam-791e961-inventory-binding\\format-gold.bin"
+      ],
+      "result": {
+        "validation": "PASS",
+        "cases": 1087,
+        "service_words": 15144,
+        "guards": 3,
+        "mismatches": 0
+      },
+      "executable_sha256": "8089d97ea226317800e5466a19c4b9fd9eba341f79fa6e46be75f9caab803e25",
+      "dll_dependencies": [
+        "libgcc_s_seh-1.dll",
+        "libstdc++-6.dll",
+        "KERNEL32.dll",
+        "api-ms-win-crt-convert-l1-1-0.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll",
+        "api-ms-win-crt-filesystem-l1-1-0.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll",
+        "api-ms-win-crt-locale-l1-1-0.dll",
+        "api-ms-win-crt-math-l1-1-0.dll",
+        "api-ms-win-crt-private-l1-1-0.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll",
+        "api-ms-win-crt-stdio-l1-1-0.dll",
+        "api-ms-win-crt-string-l1-1-0.dll",
+        "libdh2_inventory_text_v1.dll"
+      ]
+    },
+    {
+      "command": [
+        "C:\\Users\\noamc\\Documents\\Codex\\inventory-binding-v1-host\\inventory_binding_varargs_gold_v1.exe",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\adam-791e961-inventory-binding\\varargs-fixtures.bin"
+      ],
+      "result": {
+        "validation": "PASS",
+        "original_cases": 355,
+        "atomic_and_required_guards": 5,
+        "checks": 1786,
+        "mismatches": 0
+      },
+      "executable_sha256": "80c552b8efbc9a3df4f7b2590766abf6b39d072fc36668b37a28e8ef739cc4de",
+      "dll_dependencies": [
+        "libgcc_s_seh-1.dll",
+        "libstdc++-6.dll",
+        "KERNEL32.dll",
+        "api-ms-win-crt-environment-l1-1-0.dll",
+        "api-ms-win-crt-heap-l1-1-0.dll",
+        "api-ms-win-crt-locale-l1-1-0.dll",
+        "api-ms-win-crt-math-l1-1-0.dll",
+        "api-ms-win-crt-private-l1-1-0.dll",
+        "api-ms-win-crt-runtime-l1-1-0.dll",
+        "api-ms-win-crt-stdio-l1-1-0.dll",
+        "api-ms-win-crt-string-l1-1-0.dll",
+        "libdh2_inventory_text_v1.dll"
+      ]
+    }
+  ],
+  "reference_sha256": {
+    "format-gold.bin": "da7c8fb877577034a142fc24831c3711ce73b75a43df094d3416d87a30220296",
+    "format-original-functions.json": "dcc4853b39c669250d044c55b9212e6961cb439a1573a6d8e8ad1f9c9a4fd6c6",
+    "import-manifest.json": "044ca117d7f678c4c7fc3be8b80ae03fd6549d59fed16668ab2b6f90fe3932b5",
+    "import_reference.py": "836f2b72f969054581826dfec35d7c863cbb771f1921dec9216213b2c9fc6049",
+    "inventory-construction-original.asm": "0265fe5911da20e329647c5867c1ae5120d74f564656f16f3b82b0e07e12b41e",
+    "inventory-construction-original.json": "06923dc15757bf7ea2936c7304c453353f82630aea0f1c96b360eb8bc78cf95d",
+    "localization-original-functions.json": "048b7de255a94927fb01b64dd48d59d145aa897040b13ae8d561ae881a3bf9c7",
+    "NOTES.md": "685b87abf0989796f5dc5afe72d20d5edae02ab613be012a79113830501d4a26",
+    "query-fixtures.bin": "adc9fc014d2ee39b9447f03f0612d250d418e7e3444132ce19aa2e5a8ef23fdf",
+    "query-original-functions.json": "100225ff38658f2398302cd0d14238db91b40839f8a7653e3d3caa7714f5758e",
+    "query-original.asm": "b56111d1b73af2b68de68caa210c9cc3187755177329748fa3781875bd742d28",
+    "upstream-format-original.json": "f86254d978298c48d7709dee16638bc6365d55ffabeb9ebcad439a8ac855715d",
+    "upstream-query-original.json": "c1069d8bb47418f1a4141f63300a3814a981691ceee7e16adae4ed3463972350",
+    "upstream-varargs-original.json": "08c59f32e55a757a4379cb701ec148d0717a849bff7e3a5924ff9211bdd67fad",
+    "varargs-fixtures.bin": "8580c32ec186550202ee77b3e075d26f225fc32ca296c4460af12eb24965258b"
+  },
+  "cache_sha256": {
+    "pydata/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    "pydata/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    "pydata/loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+    "pydata/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "pydata/character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "pydata/character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "pydata/item_powers_pyarray.bin": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+    "pydata/item_powers_pyarraynames.bin": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+    "pydata/item_powers_pystructnames.bin": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444",
+    "pydata/common_text_pyarray.bin": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+    "pydata/common_text_pyarraynames.bin": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+    "pydata/common_text_pystructnames.bin": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad",
+    "pydata/common_text_pycst.bin": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+    "pydata/fonts_pycst.bin": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa",
+    "text/gameplaymenus.english": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000",
+    "text/global.english": "020a1779505fda2387cd4b2506aa0ac2ae04d7467405edb10eaefdff3049e568",
+    "text/ingame.english": "445b1ea59be3f9a9a39753afda8f16825840a67982336c072e2b11a7769f2bff",
+    "text/items.english": "c1b2c984b5c8b24d3c0c9f0d69a65c4a54cde7275cef0c122361229e4c9604f3"
+  }
+}

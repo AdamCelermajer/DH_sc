@@ -1,0 +1,209 @@
+{
+  "complete_game": false,
+  "original_gameplay_equivalence_tested": false,
+  "device": {
+    "serial": "emulator-5560",
+    "release": "17",
+    "sdk": 37,
+    "page_size": 4096,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "3de5a72da41717d3be63f9c1a2901007a8cee8858550d5e688655b4d04fcf7c0",
+  "installed_apk_hash_matches": true,
+  "formula_to_health_lethal_sequence": true,
+  "owned_dead_flag_and_repeated_kill_noop": true,
+  "ordered_quest_requests_and_loot_id": true,
+  "event_suppression_policies": true,
+  "invalid_argument_rollback": true,
+  "retained_generation_and_import_recovery": true,
+  "four_kill_objective_counters_and_completion": true,
+  "synchronized_counter_update_and_rollback": true,
+  "retained_quest_progress": true,
+  "real_quest_records_checked": 64,
+  "real_counted_kill_objectives_checked": 34,
+  "quest_dataset_replacement_rollback": true,
+  "cases": [
+    {
+      "name": "properties",
+      "kind": "properties",
+      "bytes": 2700,
+      "sha256": "3f5dfb29872294afff63d2f37fc4173adb91e8008d630376ae87eb12438a7ae1",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "items",
+      "kind": "items",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "name": "ai",
+      "kind": "constants",
+      "bytes": 1042,
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "design",
+      "kind": "constants",
+      "bytes": 3999,
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "v2quests",
+      "kind": "constants",
+      "bytes": 805,
+      "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "prepare",
+      "kind": "script",
+      "bytes": 352,
+      "sha256": "13f9beb44c3df165392a0edd46b1d84b2b769bf00576455d2023daa55032f552",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "combat",
+      "kind": "script",
+      "bytes": 1017,
+      "sha256": "d611e553d2c2ffc7d50d328ab7aca692fe0829e48fbb2d6ab5d0e66e1358727d",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "policies",
+      "kind": "script",
+      "bytes": 1042,
+      "sha256": "fe22d32830d9d3c0b1ebe3cb340adedb9d94cf19b0ab59229da43715af5fc6bd",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "rollback",
+      "kind": "script",
+      "bytes": 846,
+      "sha256": "24fb8ffc1bb051abc21d3f3378db27acc8abd11f8e0969d7cdf0e5576269757c",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "events",
+      "kind": "script",
+      "bytes": 3910,
+      "sha256": "50108a85eafcfc992b4ebd11db68f78f2a3dc52be45e9a84aba5c9c74dd23baf",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "metadata",
+      "kind": "script",
+      "bytes": 1746,
+      "sha256": "3f095e44ef1b81b45cda0bf00118e98ba680832923e7d7653257d503d7785df0",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_quests",
+      "kind": "quests",
+      "bytes": 21817,
+      "sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36",
+      "status": "Quests loaded. Quest records are ready for scripts."
+    },
+    {
+      "name": "real_quest_corpus",
+      "kind": "script",
+      "bytes": 55912,
+      "sha256": "af88628f4de6aed6e70cfa7f7dc926f625745b5c66e5e79dcdcaa6407ffed157",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "replacement_quests",
+      "kind": "quests",
+      "bytes": 209,
+      "sha256": "d0f0988ec2c2ad9c8d83bcf18d0abf7847ee7b575e00706a3b4bb62cc66aec90",
+      "status": "Quests loaded. Quest records are ready for scripts."
+    },
+    {
+      "name": "malformed_quests",
+      "kind": "quests",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Quests rejected: malformed quest data file"
+    },
+    {
+      "name": "quest_generation_recovery",
+      "kind": "script",
+      "bytes": 521,
+      "sha256": "dda028bc0ca5d95ad4d7b0630f56f52903200d8b7b0d8d2d455c3827d06d2b73",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_properties",
+      "kind": "properties",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "malformed",
+      "kind": "properties",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Properties rejected: malformed character property file"
+    },
+    {
+      "name": "retained_recovery",
+      "kind": "script",
+      "bytes": 1178,
+      "sha256": "c43b31c815b80d3544980f131713a1a788bc2e08aaaa8fbe0047790fca3e024a",
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "visual_imports": [
+    {
+      "path": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+      "statuses": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/textures/prince-warrior.tga",
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "statuses": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/characters/prince/animations/prince_walk_dual.bdae",
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "statuses": [
+        "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "questdata-ready.png",
+    "sha256": "2b11445400bf97e7091f5f7dd7263b16d703d559b53b7eab26f64f204ed89411"
+  },
+  "test_sha256": "fde281d0c71ce5595d216e077a7f4595b3733160b8ff8ab9b59ae6fe3d000007",
+  "source_sha256": {
+    "scripts.cpp": "d78f7691a8bb4b0e5f6c83072ebe613825221b1964e19ce4595738c96615f25b",
+    "src/local/dh2/sourceviewer/MainActivity.java": "18829aca0561dbca34b02ed4973c9868cf0f2677899526f94c828ecf62dae157",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22",
+    "tests/damage_runtime.py": "7ae13a4d808e574f2f8715da0b1d2314d305299482c4fc48aa5e30982c650346",
+    "tests/animation_runtime.py": "30974742cdaa72eb459c5b2d7b24d664e25384bdc4077f2d356e03a4bbebb72f",
+    "../lua-character/bridge.c": "33610776488982b9867aac6b6d1cfd92b62dc1f19da402649669313eef5c0c6f",
+    "../character-damage/damage.c": "0e93d3c6caa323562b3a1c937fafc98139758703aeace207155d9efae27dbb01",
+    "../character-death/death.c": "47d1ff67a1ebcbeadf4b0e5d6413ec4bd0060d6a3ad663f4cf07d9dc570f8313",
+    "../quest-kill/quest.c": "1e5258d0d10d57bd4384ace6d813eb07b1f144941d616854e837e1c250bfd1a1",
+    "../quest-kill/lua-bridge.c": "68dd69554bebb832708a9ec36cfccbfa4eb73834768fe9f3fb3826a2ca41d07c",
+    "../lua-runtime/runtime.c": "a2cd23ab0b7f81fc118e34d51683e45a406422aabc8191c3d197129ad3d58ba2",
+    "../quest-data/quests.c": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "../quest-data/lua-bridge.c": "67575fccfde9436b9a96262468c2419302d6f524f65bac3a5b20eeeb83ef6daf"
+  },
+  "scope": "Installed pure source APK executes recovered melee formula, non-player HP damage and explicit owned KillNonplayer death transition. Real v2quest constant IDs feed four ordered semantic quest requests and loot request/id. Three recovered-formula two-hit deaths feed four owned quest counters with threshold completion, repeated callbacks, stale/increasing synchronization, nonmatching kind/ID, argument rollback and retained progress; repeated dead calls noop, two-event/suppressed/forced policy paths, argument rollback, retained death state/dataset after replacement/rejection and recovery pass. All 64 actual quest record Lua snapshots match original-reader evidence, and 34 counted-kill objectives execute formula/hit/death/count with actual property/template IDs and required counts. Unsupported types reject; new/replaced/malformed quest datasets and retained real objective generations pass. Existing model/texture/walk preview loads. Native original Character, resolved killer credit, actual loot creation, original quest compile/world count, automatic event dispatch/quest persistence/rewards, animation/FSM/world loop, progression/saves and full source gameplay remain unfinished."
+}

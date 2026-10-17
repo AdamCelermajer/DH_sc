@@ -1,0 +1,64 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11Reward_Gold7CompileEv",
+      "elf_address": "0x482880",
+      "size": 20,
+      "sha256": "c62212575cccd09fec0c2269fff7c0bab62f7e7f9a8bf21d47e1b23cb4bb33a6"
+    },
+    {
+      "original_symbol": "_ZN9Reward_XP7CompileEv",
+      "elf_address": "0x482894",
+      "size": 20,
+      "sha256": "c62212575cccd09fec0c2269fff7c0bab62f7e7f9a8bf21d47e1b23cb4bb33a6"
+    },
+    {
+      "original_symbol": "_ZN21Reward_CharacterProps7CompileEv",
+      "elf_address": "0x4828a8",
+      "size": 20,
+      "sha256": "c62212575cccd09fec0c2269fff7c0bab62f7e7f9a8bf21d47e1b23cb4bb33a6"
+    },
+    {
+      "original_symbol": "_ZN11Reward_Loot7CompileEv",
+      "elf_address": "0x4828bc",
+      "size": 20,
+      "sha256": "c62212575cccd09fec0c2269fff7c0bab62f7e7f9a8bf21d47e1b23cb4bb33a6"
+    },
+    {
+      "original_symbol": "_ZN18Reward_ConsumeLoot7CompileEv",
+      "elf_address": "0x4828d0",
+      "size": 24,
+      "sha256": "af3c7a7ba3f9d2c0f7d160a25132b0d875b0df454c5a69f82ea521eca162c48e"
+    },
+    {
+      "original_symbol": "_ZN11Reward_Gold4GiveEv",
+      "elf_address": "0x483480",
+      "size": 68,
+      "sha256": "c7540e90a0e07fbbdb3d0ab66c43b175b3f0a072fe12e2f73af25c332ac41f9f"
+    },
+    {
+      "original_symbol": "_ZN9Reward_XP4GiveEv",
+      "elf_address": "0x483420",
+      "size": 96,
+      "sha256": "27934703ba0362b1faedd0451511e0d65eba843b410da961bf35eba9881630a3"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory7AddGoldEi",
+      "elf_address": "0x3fe164",
+      "size": 68,
+      "sha256": "29a2e403fb54a9237c5cf1f3c281edf0f241b2ad5508574401dbe8be5068e3e7"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory7SetGoldEi",
+      "elf_address": "0x3fdfd8",
+      "size": 396,
+      "sha256": "634e71b637204bb34a82f2f9bae464b591ec961f5fa0bf2934822c6503e636e7"
+    }
+  ],
+  "dependencies": [
+    "Character::_GiveXP912B@3bf498",
+    "ItemInventory::SetGold notifications after source0x3fe010"
+  ],
+  "scope": "Complete five Compile/Gold Give/XP Give. Original AddGold68B and SetGold nonnegative prefix execute; platform game notification suffix and _GiveXP body remain explicit providers. Native canonical inventory owner is reused, no duplicate gold/XP store."
+}

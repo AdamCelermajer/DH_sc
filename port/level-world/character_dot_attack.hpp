@@ -1,78 +1,81 @@
 #pragma once
 #include "../game-data/combat_result.hpp"
-#include "../game-data/properties.hpp"
-#include <cstdint>
-namespace dh2::character {
-// Projection of one retained Character lifetime. Byte/halfword source fields
-// stay live through synchronous callbacks; identity/property backing is stable.
-struct DotActor32 {
- std::uintptr_t identity;
- data::PropertyView* properties;
- std::int32_t network_id;
- std::uint16_t combo_hits;
- std::uint8_t push_death,god;
- std::uint64_t reserved;
+#include "debug_switches_runtime.hpp"
+#include <map>
+#include <memory>
+#include <string>
+
+namespace dh2::character_dot_attack {
+struct Arguments { std::uintptr_t attacker, defender; std::uint32_t amount; std::int32_t element; };
+struct Globals { std::uintptr_t debug_switches; };
+enum class Operation : std::uint32_t { debug_load, string_construct, debug_query, string_destroy, calculate_result };
+struct Request {
+    Operation operation;
+    std::uintptr_t subject, string;
+    const char* text;
+    data::CombatResult* output;
+    Arguments arguments;
+    std::uint32_t mask;
+    std::int32_t weapon_category;
 };
-// CF_SetCombatants' shared source words +1c..33, projected to native pointers.
-// Caller owns this shared context; no private replacement combat singleton.
-struct DotCombatContext32 {
- std::uintptr_t attacker,defender;
- std::int32_t level_delta,reverse_level_delta,element;
- std::uint8_t offhand,magic,blocked,critical;
+struct Reply { std::uintptr_t identity; std::uint32_t word; };
+struct Services { void* context; std::int32_t (*invoke)(void*,const Request*,Reply*); };
+struct Result { std::uint32_t calls,last_operation,loads,constructed,queries,destroyed,calculated,level_reads; };
+enum class Status : std::int32_t { complete,invalid_argument,service_unavailable,service_failed,busy,debug_failed,actor_unavailable,calculation_failed };
+
+// Original F_DotAttack412B caller for retained nonnull actor arguments. It
+// captures the Debug singleton, performs load/construct/GetSwitch/destruction
+// regardless of amount, then passes mask0x20080000/category-1/element/amount.
+// Original invalid-null diagnostic/log/crash paths and stack-corruption traps
+// are explicit excluded domains, not invented successful handling.
+Status execute(const Arguments*,const Globals*,const Services*,data::CombatResult*,Result*);
+
+// Source CF_SetCombatants+1c..33 projection. Not an ARM struct overlay. Source
+// getters read cached Level19; differences wrap32. Identities/deltas/element
+// and all four byte stores precede the second CalculateResult Debug phase.
+struct CombatContext {
+    std::uintptr_t attacker,defender;
+    std::uint32_t level_delta,reverse_level_delta;
+    std::int32_t element;
+    std::uint8_t offhand,magic,blocked,critical;
 };
-enum DotService : std::uint32_t {
- dot_debug_load=0,dot_debug_query,dot_profile_begin,dot_profile_end,
- dot_online,dot_application_switch,dot_party_count,dot_is_player,
- dot_add_aggro,dot_hit_for,dot_is_dead,dot_regen_hp,dot_regen_mp,
- dot_cancel_sneaking,dot_combat_text,dot_combat_sound
+struct Actor { std::uintptr_t identity; const std::int32_t* resolved; };
+struct Storage {
+    const Actor* actors;std::uint32_t actor_count;
+    CombatContext* combat_context;
+    data::CombatRandom* random;
+    debug_switches::Globals* debug_globals;
+    const debug_switches::Services* debug_services;
 };
-struct DotRequest40 {
- std::uint32_t service;std::int32_t amount;
- std::uintptr_t subject,target;
- const char* name;
- float threat;std::uint32_t reserved;
+
+// Reusable real dependency adapter: retained std::string storage, original
+// Debug Runtime.load/GetSwitch with caller-owned real IO/persistence services,
+// and ONLY CalculateResult's direct0x20080000 continuation. It reuses existing
+// combat arithmetic; the full other-mask CalculateResult body is not claimed.
+class Runtime {
+public:
+    Runtime()=default;
+    Runtime(const Runtime&)=delete;
+    Runtime& operator=(const Runtime&)=delete;
+    Status attack(const Storage*,const Arguments*,data::CombatResult*,Result*);
+    std::size_t retained_strings()const{return strings_.size();}
+private:
+    struct Context;
+    static std::int32_t operation(void*,const Request*,Reply*);
+    std::map<std::uintptr_t,std::unique_ptr<std::string>> strings_;
+    bool busy_=false;
 };
-struct DotResponse8 {std::int32_t word;float number;};
-struct DotServices16 {
- void* context;
- // 0 genuine synchronous delivery, nonzero failure. Queries write their
- // actual result. HitFor includes required kill/AI/FX services; never accept
- // a health-only projection as the full Character method. Text/sound/sneak
- // are required even for self/self DoT. Fixtures must be labelled explicitly.
- int(*invoke)(void*,DotActor32*,const DotRequest40*,DotResponse8*,data::CombatResult*);
-};
-struct DotResult24 {
- std::uint32_t phase,calls,hit_called,reserved;
- float threat;std::int32_t status;
-};
-static_assert(sizeof(DotActor32)==32&&sizeof(DotCombatContext32)==32);
-static_assert(sizeof(DotRequest40)==40&&sizeof(DotResponse8)==8&&sizeof(DotServices16)==16&&sizeof(DotResult24)==24);
-}
-extern "C" {
-// F_DotAttack -> complete direct-damage CalculateResult branch, self/self.
-// Real CombatResult/Damage kernels run; no rate, duration or dt scaling.
-// Profiles/debug order and source combat-context writes are preserved.
-int dh2_character_dot_calculate(dh2::character::DotResult24*,dh2::data::CombatResult*,
- dh2::character::DotCombatContext32*,dh2::character::DotActor32*,std::int32_t amount,
- std::int32_t element,const dh2::character::DotServices16*);
-// Entry at _F_CalculateResult, for TimerEffect.effect_dot_calculate: that
-// existing caller has ALREADY delivered the F_DotAttack outer debug pair.
-int dh2_character_dot_calculate_result(dh2::character::DotResult24*,dh2::data::CombatResult*,
- dh2::character::DotCombatContext32*,dh2::character::DotActor32*,std::int32_t amount,
- std::int32_t element,const dh2::character::DotServices16*);
-// F_ApplyResult's self/self DoT orchestration: offline/nonplayer, party<=1.
-// TimerEffect may supply a DIFFERENT retained actor after its source owner
-// reread; this API does not bind application to the prior calculation owner.
-// Any network_id is retained: source HitFor runs ONLY when network_id==-1.
-// Queries stay live. Online/player/co-op branches return -3 at their reached
-// boundary with source prefixes intact; they are not silently accepted.
-// Input result must be an unmodified result of the calculation branch above.
-// 1 complete, -1 malformed atomic, -2 required service failure, -3 unsupported.
-// Result/actor/context/services/output must be disjoint; identities, backing
-// sheets and receiver lifetimes survive callbacks. No callback closes owner.
-// During calculation, callbacks do not mutate the result/shared context;
-// live actor byte/halfword fields and property values may change. Projection
-// buffers are explicit source snapshots, not a new Character/AI lifetime.
-int dh2_character_dot_apply(dh2::character::DotResult24*,dh2::data::CombatResult*,
- dh2::character::DotActor32*,const dh2::character::DotServices16*);
-}
+
+// One owning thread retains actor/224-word sheet, context, random, Runtime,
+// Debug Globals/owners/services, and retired selected backing through return.
+// Source argument identities and bindings are captured; the second Debug owner
+// is selected freshly after context writes. Debug callbacks may change live
+// sheets, singleton selection or combat context (including null combatants).
+// They cannot overwrite control/output storage, erase active backing or reenter
+// the same Runtime/context/output. Independent owners/outputs may nest. Real
+// Debug source recursion stays allowed. All controls are aligned/disjoint.
+// Errors preserve preceding reset/context/debug/file/result effects with no
+// rollback or added string cleanup. Strings surviving a failed query remain
+// retained by Runtime until its destruction. Successful no-op Debug save/IO
+// or result providers violate the execute dependency contract.
+} // namespace dh2::character_dot_attack

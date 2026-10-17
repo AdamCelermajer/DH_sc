@@ -1,0 +1,2008 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 14,
+    "native_wired": false,
+    "missing_service_success": false
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "cases": 7,
+    "mismatches": 0,
+    "observations": [
+      {
+        "case": "baseline",
+        "events": [
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "capture_script_path",
+            "id": 2,
+            "receiver": 67166116,
+            "begin": 33619968,
+            "end": 33619984,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/skills/"
+          },
+          {
+            "op": "get_skill_list",
+            "id": 4,
+            "receiver": 1919120175,
+            "list": 1
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620148,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33621376,
+            "vector": 33621344
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 1919120175,
+            "list": 1,
+            "slot": 0
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33621632,
+            "value": "Skill_One",
+            "name": "Skill_One"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33621744,
+            "raw_number_bits": 0,
+            "number_bits": 0
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Skill_One",
+            "text": "Skill_One"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33622144
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33622144,
+            "owner": 1919120175,
+            "script": "Skill_One",
+            "index": 0,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 0,
+            "identity": 33622144,
+            "vector_end": 33620736
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 1919120175,
+            "list": 1,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33620740
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 1919120175,
+            "list": 1,
+            "slot": 2
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33621632,
+            "value": "Skill_Two",
+            "name": "Skill_Two"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33621744,
+            "raw_number_bits": 1073741824,
+            "number_bits": 1073741824
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Skill_Two",
+            "text": "Skill_Two"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33622176
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33622176,
+            "owner": 1919120175,
+            "script": "Skill_Two",
+            "index": 2,
+            "slot": 2
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 2,
+            "identity": 33622176,
+            "vector_end": 33620744
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "get_faery_list",
+            "id": 6,
+            "receiver": 1919120175,
+            "list": 2
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620160,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33622240,
+            "vector": 33622208
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 1919120175,
+            "list": 2,
+            "slot": 0
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33622496,
+            "value": "Faery_One",
+            "name": "Faery_One"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33622608,
+            "raw_number_bits": 3212836864,
+            "number_bits": 3212836864
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Faery_One",
+            "text": "Faery_One"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33623008
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33623008,
+            "owner": 1919120175,
+            "script": "Faery_One",
+            "index": 4294967295,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 0,
+            "identity": 33623008,
+            "vector_end": 33620992
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 1919120175,
+            "list": 2,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33620996
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 1919120175,
+            "list": 2,
+            "slot": 2
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33622496,
+            "value": "Faery_Two",
+            "name": "Faery_Two"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33622608,
+            "raw_number_bits": 3212836864,
+            "number_bits": 3212836864
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Faery_Two",
+            "text": "Faery_Two"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33623040
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33623040,
+            "owner": 1919120175,
+            "script": "Faery_Two",
+            "index": 4294967295,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 2,
+            "identity": 33623040,
+            "vector_end": 33621000
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "init_vcb",
+            "id": 19,
+            "ai": 33751040
+          },
+          {
+            "op": "release_script_path",
+            "id": 20
+          }
+        ],
+        "skill_values": [
+          33622144,
+          0,
+          33622176
+        ],
+        "faery_values": [
+          33623008,
+          0,
+          33623040
+        ],
+        "init_vcb": 1,
+        "source_instructions_seen": 370,
+        "i2f_calls": 2,
+        "host_operation_sequence_matches": true,
+        "skill_null_pattern_matches": true,
+        "faery_null_pattern_matches": true
+      },
+      {
+        "case": "vectors_nonempty",
+        "events": [
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "capture_script_path",
+            "id": 2,
+            "receiver": 67166116,
+            "begin": 33623136,
+            "end": 33623152,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/skills/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "init_vcb",
+            "id": 19,
+            "ai": 33751040
+          },
+          {
+            "op": "release_script_path",
+            "id": 20
+          }
+        ],
+        "skill_values": [
+          286326785
+        ],
+        "faery_values": [
+          572653569
+        ],
+        "init_vcb": 1,
+        "source_instructions_seen": 370,
+        "i2f_calls": 0,
+        "host_operation_sequence_matches": true,
+        "skill_null_pattern_matches": true,
+        "faery_null_pattern_matches": true
+      },
+      {
+        "case": "skill_only_empty",
+        "events": [
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "capture_script_path",
+            "id": 2,
+            "receiver": 67166116,
+            "begin": 33624576,
+            "end": 33624592,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/skills/"
+          },
+          {
+            "op": "get_skill_list",
+            "id": 4,
+            "receiver": 33685504,
+            "list": 1
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620148,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33625984,
+            "vector": 33625952
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 0
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33626240,
+            "value": "Skill_One",
+            "name": "Skill_One"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33626352,
+            "raw_number_bits": 0,
+            "number_bits": 0
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Skill_One",
+            "text": "Skill_One"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33626752
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33626752,
+            "owner": 33685504,
+            "script": "Skill_One",
+            "index": 0,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 0,
+            "identity": 33626752,
+            "vector_end": 33625344
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33625348
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 2
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33626240,
+            "value": "Skill_Two",
+            "name": "Skill_Two"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33626352,
+            "raw_number_bits": 1073741824,
+            "number_bits": 1073741824
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Skill_Two",
+            "text": "Skill_Two"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33626784
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33626784,
+            "owner": 33685504,
+            "script": "Skill_Two",
+            "index": 2,
+            "slot": 2
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 2,
+            "identity": 33626784,
+            "vector_end": 33625352
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "init_vcb",
+            "id": 19,
+            "ai": 33751040
+          },
+          {
+            "op": "release_script_path",
+            "id": 20
+          }
+        ],
+        "skill_values": [
+          33626752,
+          0,
+          33626784
+        ],
+        "faery_values": [
+          572653569
+        ],
+        "init_vcb": 1,
+        "source_instructions_seen": 370,
+        "i2f_calls": 2,
+        "host_operation_sequence_matches": true,
+        "skill_null_pattern_matches": true,
+        "faery_null_pattern_matches": true
+      },
+      {
+        "case": "faery_only_empty",
+        "events": [
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "capture_script_path",
+            "id": 2,
+            "receiver": 67166116,
+            "begin": 33626880,
+            "end": 33626896,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/skills/"
+          },
+          {
+            "op": "get_faery_list",
+            "id": 6,
+            "receiver": 33685504,
+            "list": 2
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620160,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33628288,
+            "vector": 33628256
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 0
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33628544,
+            "value": "Faery_One",
+            "name": "Faery_One"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33628656,
+            "raw_number_bits": 3212836864,
+            "number_bits": 3212836864
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Faery_One",
+            "text": "Faery_One"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33629056
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33629056,
+            "owner": 33685504,
+            "script": "Faery_One",
+            "index": 4294967295,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 0,
+            "identity": 33629056,
+            "vector_end": 33627904
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33627908
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 2
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33628544,
+            "value": "Faery_Two",
+            "name": "Faery_Two"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33628656,
+            "raw_number_bits": 3212836864,
+            "number_bits": 3212836864
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Faery_Two",
+            "text": "Faery_Two"
+          },
+          {
+            "op": "allocate_skill_script",
+            "id": 17,
+            "bytes": 28,
+            "hint": 0,
+            "allocation_bytes": 28,
+            "allocation_hint": 0,
+            "allocation": 33629088
+          },
+          {
+            "op": "construct_skill_script",
+            "identity": 33629088,
+            "owner": 33685504,
+            "script": "Faery_Two",
+            "index": 4294967295,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 2,
+            "identity": 33629088,
+            "vector_end": 33627912
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "init_vcb",
+            "id": 19,
+            "ai": 33751040
+          },
+          {
+            "op": "release_script_path",
+            "id": 20
+          }
+        ],
+        "skill_values": [
+          286326785
+        ],
+        "faery_values": [
+          33629056,
+          0,
+          33629088
+        ],
+        "init_vcb": 1,
+        "source_instructions_seen": 370,
+        "i2f_calls": 0,
+        "host_operation_sequence_matches": true,
+        "skill_null_pattern_matches": true,
+        "faery_null_pattern_matches": true
+      },
+      {
+        "case": "empty_lists",
+        "events": [
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "capture_script_path",
+            "id": 2,
+            "receiver": 67166116,
+            "begin": 33629184,
+            "end": 33629200,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/skills/"
+          },
+          {
+            "op": "get_skill_list",
+            "id": 4,
+            "receiver": 33685504,
+            "list": 1
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620148,
+            "count": 0
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33630336,
+            "vector": 33630304
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "get_faery_list",
+            "id": 6,
+            "receiver": 33685504,
+            "list": 2
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620160,
+            "count": 0
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33631136,
+            "vector": 33631104
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "init_vcb",
+            "id": 19,
+            "ai": 33751040
+          },
+          {
+            "op": "release_script_path",
+            "id": 20
+          }
+        ],
+        "skill_values": [],
+        "faery_values": [],
+        "init_vcb": 1,
+        "source_instructions_seen": 370,
+        "i2f_calls": 0,
+        "host_operation_sequence_matches": true,
+        "skill_null_pattern_matches": true,
+        "faery_null_pattern_matches": true
+      },
+      {
+        "case": "all_gated_null",
+        "events": [
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "capture_script_path",
+            "id": 2,
+            "receiver": 67166116,
+            "begin": 33631968,
+            "end": 33631984,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/skills/"
+          },
+          {
+            "op": "get_skill_list",
+            "id": 4,
+            "receiver": 33685504,
+            "list": 1
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620148,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33633376,
+            "vector": 33633344
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 0,
+            "identity": 0,
+            "vector_end": 33632736
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33632740
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 2
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 2,
+            "identity": 0,
+            "vector_end": 33632744
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "get_faery_list",
+            "id": 6,
+            "receiver": 33685504,
+            "list": 2
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620160,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33634176,
+            "vector": 33634144
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 0
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 0,
+            "identity": 0,
+            "vector_end": 33632992
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33632996
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 2
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 2,
+            "identity": 0,
+            "vector_end": 33633000
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "init_vcb",
+            "id": 19,
+            "ai": 33751040
+          },
+          {
+            "op": "release_script_path",
+            "id": 20
+          }
+        ],
+        "skill_values": [
+          0,
+          0,
+          0
+        ],
+        "faery_values": [
+          0,
+          0,
+          0
+        ],
+        "init_vcb": 1,
+        "source_instructions_seen": 370,
+        "i2f_calls": 0,
+        "host_operation_sequence_matches": true,
+        "skill_null_pattern_matches": true,
+        "faery_null_pattern_matches": true
+      },
+      {
+        "case": "load_fail",
+        "events": [
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "capture_script_path",
+            "id": 2,
+            "receiver": 67166116,
+            "begin": 33635008,
+            "end": 33635024,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/skills/"
+          },
+          {
+            "op": "get_skill_list",
+            "id": 4,
+            "receiver": 33685504,
+            "list": 1
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620148,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33636416,
+            "vector": 33636384
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 0
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33636672,
+            "value": "Skill_One",
+            "name": "Skill_One"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33636784,
+            "raw_number_bits": 0,
+            "number_bits": 0
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Skill_One",
+            "text": "Skill_One"
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 0,
+            "identity": 0,
+            "vector_end": 33635776
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33635780
+          },
+          {
+            "op": "get_skill",
+            "id": 5,
+            "receiver": 33685504,
+            "list": 1,
+            "slot": 2
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33636672,
+            "value": "Skill_Two",
+            "name": "Skill_Two"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33636784,
+            "raw_number_bits": 1073741824,
+            "number_bits": 1073741824
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Skill_Two",
+            "text": "Skill_Two"
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 1,
+            "slot": 2,
+            "identity": 0,
+            "vector_end": 33635784
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "get_faery_list",
+            "id": 6,
+            "receiver": 33685504,
+            "list": 2
+          },
+          {
+            "op": "reserve",
+            "id": 8,
+            "vector": 33620160,
+            "count": 3
+          },
+          {
+            "op": "arguments_construct",
+            "id": 9,
+            "arguments": 67166052,
+            "values": 33637216,
+            "vector": 33637184
+          },
+          {
+            "op": "arguments_push_string",
+            "id": 10,
+            "arguments": 67166052,
+            "text": "",
+            "current_size": 0
+          },
+          {
+            "op": "arguments_push_integer",
+            "id": 11,
+            "arguments": 67166052,
+            "integer": -1,
+            "current_size": 1
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 0
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33637472,
+            "value": "Faery_One",
+            "name": "Faery_One"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33637584,
+            "raw_number_bits": 3212836864,
+            "number_bits": 3212836864
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Faery_One",
+            "text": "Faery_One"
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 0,
+            "identity": 0,
+            "vector_end": 33636032
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 1
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 1,
+            "identity": 0,
+            "vector_end": 33636036
+          },
+          {
+            "op": "get_faery",
+            "id": 7,
+            "receiver": 33685504,
+            "list": 2,
+            "slot": 2
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "_commons",
+            "text": "_commons"
+          },
+          {
+            "op": "arguments_set_string",
+            "id": 12,
+            "value_address": 33637472,
+            "value": "Faery_Two",
+            "name": "Faery_Two"
+          },
+          {
+            "op": "arguments_set_number",
+            "id": 13,
+            "value_address": 33637584,
+            "raw_number_bits": 3212836864,
+            "number_bits": 3212836864
+          },
+          {
+            "op": "call_script_args",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": 67166052,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "load_script",
+            "id": 15,
+            "ai": 33751040,
+            "script": "Faery_Two",
+            "text": "Faery_Two"
+          },
+          {
+            "op": "append",
+            "id": 18,
+            "list": 2,
+            "slot": 2,
+            "identity": 0,
+            "vector_end": 33636040
+          },
+          {
+            "op": "call_script",
+            "id": 16,
+            "ai": 33751040,
+            "function": "DeclareSkill",
+            "arguments": null,
+            "text": "DeclareSkill"
+          },
+          {
+            "op": "arguments_destroy",
+            "id": 14,
+            "arguments": 67166052,
+            "size": 2
+          },
+          {
+            "op": "set_script_path",
+            "id": 3,
+            "receiver": 33751144,
+            "value": "data/scripts/ai/"
+          },
+          {
+            "op": "debug_load",
+            "id": 0,
+            "receiver": 10099992
+          },
+          {
+            "op": "string_construct",
+            "value": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "debug_get_switch",
+            "id": 1,
+            "receiver": 10099992,
+            "key": "Lua_LoadMemUsage"
+          },
+          {
+            "op": "init_vcb",
+            "id": 19,
+            "ai": 33751040
+          },
+          {
+            "op": "release_script_path",
+            "id": 20
+          }
+        ],
+        "skill_values": [
+          0,
+          0,
+          0
+        ],
+        "faery_values": [
+          0,
+          0,
+          0
+        ],
+        "init_vcb": 1,
+        "source_instructions_seen": 390,
+        "i2f_calls": 2,
+        "host_operation_sequence_matches": true,
+        "skill_null_pattern_matches": true,
+        "faery_null_pattern_matches": true
+      }
+    ],
+    "original_caller_instructions_observed": 390,
+    "verified_imports": {
+      "0x30e964": "__aeabi_i2f"
+    },
+    "original_i2f_calls": 6,
+    "scope": "The original SetSkillsAndSpells caller executes. Its named leaf calls are intercepted at the original boundaries. GetCharFaery's selector is covered by its separate original-ARM unit; Arguments/Value, vector reserve, debug persistence, Lua loading/calls and the child constructor are recorded provider boundaries."
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_skill_script_constructor.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_faery_selection.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_set_skills_and_spells.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_set_skills_and_spells.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-ghost-skills-parent\\source-setskills-arm\\host.exe"
+  ],
+  "compiler_diagnostics": "",
+  "source_sha256": {
+    "port/level-world/character_ai_skill_script_constructor.cpp": "ed5b38d079f1cba7f0692ec675c7755572823c4a1f35a3059dd3a55f3a1510fb",
+    "port/level-world/character_faery_selection.cpp": "3eefe1e3dc4312363cf4dec1fca4fd31af5f8b5cb8c97c4cabf733f220bb7764",
+    "port/level-world/character_ai_set_skills_and_spells.cpp": "7e69c2ac7589b8e0c964548c886206b2b7c1e33d1a096d560f31b56dadfa66b5",
+    "port/level-world/tests/character_ai_set_skills_and_spells.cpp": "d54bcd24346cf77dc427304197183ce63227345148fbb663a6e8668065ccd74d",
+    "port/level-world/character_ai_set_skills_and_spells.hpp": "5690c7ba63ec9294fa0f02e31c4e359faf4b4f38f45c19f6f7fc6285c7313e53",
+    "port/level-world/tests/run_character_ai_set_skills_and_spells_host.py": "983db4d61a2cc2588da49f9435bbda4af1d9033207bcbaec0cb3b57eba8251b3",
+    "port/level-world/reference/character-ai-set-skills-and-spells/original-functions.json": "baebf5772cd4bd35808a43bcf5ed1e0283c7bb72070182e3a707846d9ab8a702",
+    "port/level-world/reference/character-ai-set-skills-and-spells/NOTES.md": "f12ee3b731fbc2e7088803238a0da652af9558c1a0b37d47c732e2d64434a633"
+  },
+  "native_wired": false
+}

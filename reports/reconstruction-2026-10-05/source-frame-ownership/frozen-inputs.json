@@ -1,0 +1,76 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "99dc04b89980fa426ed39d5af981be477fea29c01e1ab3f647e40fd47c544a2a",
+  "apk_bytes": 27652316,
+  "compiled_source_archive_sha256": "aec0bd30cc0e76cbbddde2b1b1ac813fdddae2b6828afcd13ab06ba3cc4add34",
+  "compiled_source_archive_bytes": 900854,
+  "actual_repository_compiler_inputs": 466,
+  "component_and_compiler_source_hash_checks": 1314,
+  "components": {
+    "created-service-bridge": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/created-service-bridge.json",
+      "sha256": "7494cae185ed3878c573a4a44692148f9f1818f8ad4c2186e7685647b99d3aa2"
+    },
+    "created-service-bridge-independent": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/created-service-bridge-independent.json",
+      "sha256": "38c58ff9e1911afd2367e981f539526f17e90002a9d0f933598c02e1da1acda5"
+    },
+    "created-service-bridge-sanitized": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/created-service-bridge-sanitized.json",
+      "sha256": "b2ce0ef2675a4bd9b353e288204c99085d33a5dc16d7fe3087d2fd4a8409f5cd"
+    },
+    "native-owner-bridge": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/native-owner-bridge.json",
+      "sha256": "b7f1b92dc2d9ac0de52ee4ef9396b1fbb7f6f603af08f221a30e5bfbc866f2ed"
+    },
+    "native-owner-bridge-independent": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/native-owner-bridge-independent.json",
+      "sha256": "2fa9fc753a231669c7df6b8652ce78cf1d82da2187284019dd81c01687b95dec"
+    },
+    "independent-review": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/independent-review.json",
+      "sha256": "9a529e9bbc26738f6bf744f23896a872b5ba52dce96a86c9912defd3b494c30b"
+    },
+    "legacy-session": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/legacy-session.json",
+      "sha256": "7f2ff88b1c5c3923254dac742e6dcb041ee17208186011c634cd6e19ce249047"
+    },
+    "ghost-session": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/ghost-session.json",
+      "sha256": "ad0e41ccfc36afeb84cb4ec7567b14467e90abe43e97787da991c918fe8fec9b"
+    },
+    "original-initialization": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/original-initialization.json",
+      "sha256": "1095e20e5fcce8aff14123d1a1e2f7f51eb4750274b9a37acd753e4d4008368c"
+    },
+    "debug-persistence": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/debug-persistence.json",
+      "sha256": "1b54c78ac10fe0ef276b4ed7b45a7794945d612bb7c7a41363415f6888b026fa"
+    },
+    "level-runtime": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/level-runtime.json",
+      "sha256": "f8bd0a5d28871623b674ad1ba878519330749ca4b524da97043c3dc68a9946c8"
+    },
+    "session-update-cache": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/session-update-cache.json",
+      "sha256": "725e6dd623af54710bcf3b5186a5bb39ac5ea110a9bfa79f7905881beb9f8509"
+    },
+    "game-object-stop": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/game-object-stop.json",
+      "sha256": "5514227610d5a71123c7c3d02a938d73aee96a60c25a2697ca527cf46428c151"
+    },
+    "character-physics-position": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/character-physics-position.json",
+      "sha256": "33c5a461238be796bc7cf97512c93758852c90373008d20822f853ac15f09772"
+    },
+    "update-script-scheduler": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/update-script-scheduler.json",
+      "sha256": "be567368152265031e0f5d647a1dc8deb2348f9d3b1aadd774da8ffe3d0a7549"
+    },
+    "update-script-scheduler-sanitized": {
+      "report_path": "reports/reconstruction-2026-10-05/source-frame-ownership/components/update-script-scheduler-sanitized.json",
+      "sha256": "e25ed36354bc57a57b32244daaaff971d7383bb0a1690d50d30624e3b203cc7c"
+    }
+  },
+  "scope": "Compiled source prerequisites and API37/16KiB Crypt initialization/reload/rotation regression. Created-only VM bridge and Stop/scheduler kernels are not invoked by the native Ghost autonomous frame. No new full Character::Update body, original map allocator, physical ARM64 playtest, pursuit/combat/campaign or whole-game completion claim."
+}

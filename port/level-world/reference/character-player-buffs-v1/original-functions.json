@@ -1,0 +1,59 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14CharProperties11BuffExpiredEPN10CharTimers5TimerE",
+      "elf_address": "0x3e123c",
+      "size": 312,
+      "sha256": "e322c8df244789a299404ae14cdcf3a74c27cde6bb831b69e04268a91b07efcc"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties13PROPS_DelBuffEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3e101c",
+      "size": 544,
+      "sha256": "bbbabb6e4920599ed2344065b505772abe40bafd4fd804ece2ea60b9d5cccbc5"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties23PROPS_ApplyClassToSheetEiPN7Structs19CharacterPropertiesE",
+      "elf_address": "0x3df314",
+      "size": 164,
+      "sha256": "bbc9c129ae6c640f43c683f3d9448b133ac26cd2586c2842a3df3085791c86d3"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties13PROPS_AddBuffEijijiPKc",
+      "elf_address": "0x3e232c",
+      "size": 1012,
+      "sha256": "a18cc07f98578e7b3f42dff695b9ddb1e46f4052af46e9d0c8a0e2c8a94b042f"
+    },
+    {
+      "original_symbol": "_ZN9Character11_RemoveBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b842c",
+      "size": 320,
+      "sha256": "540f6abf54cce7a687ace8b335e47d98f3646da5ed8ad5e2ba293d9ee5c24c31"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20PROPS_RemoveAllBuffsEv",
+      "elf_address": "0x3e0af8",
+      "size": 372,
+      "sha256": "e4cd4ad28f349467bbec59eaf964f82b45950f5ee9ddd666a8587048c255165a"
+    },
+    {
+      "original_symbol": "_ZN9Character15_ApplyPropClassERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3babdc",
+      "size": 460,
+      "sha256": "37671f1fc224366a32d34868360b04a4b6a90d336645ce3c2df60f6d360427df"
+    },
+    {
+      "original_symbol": "_ZN9Character11_CreateBuffERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b86a8",
+      "size": 1328,
+      "sha256": "d27d95457954bcc92550921df30a3e52d076bd6040aa10b0f3a6c213bfd68570"
+    }
+  ],
+  "attribution": {
+    "upstream_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "latest_inspected_commit": "791e961b12233100b303038c961666834f4beb9d",
+    "reused": "Adam signed-key map, deque BuffInst ownership, stronger/equal retention and v3 native callback argument rules",
+    "adaptation": "One owned group store borrowed by current PropertyView; timer calls borrow current Coordinator; ApplyBuff target owned_sheet only; existing canonical class kernels."
+  }
+}

@@ -1,0 +1,87 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14CharProperties10HandleDotsEv",
+      "elf_address": "0x3df3f0",
+      "size": 144,
+      "sha256": "8c1603abda13d653817965595ad27ef785b110c6d7291dbe884d2f96c0262dd0",
+      "scope": "Complete new maintained caller; all original instructions execute in comparison."
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f",
+      "scope": "Named live cached-sheet read provider; no new getter body claim."
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b",
+      "scope": "Named raw virtual query provider at source vtable byte0x34."
+    },
+    {
+      "original_symbol": "_ZN9Character11F_DotAttackERNS_12AttackResultEPS_S2_ii",
+      "elf_address": "0x3b2e68",
+      "size": 412,
+      "sha256": "0ded4194cea08229fa585499bf76158b97d41c49f2887a6965053e7c7441e7ae",
+      "scope": "Named attack provider; source debug load/string/query/destruction and _F_CalculateResult dependencies are external."
+    },
+    {
+      "original_symbol": "_ZN9Character13F_ApplyResultERKNS_12AttackResultEPS_S3_b",
+      "elf_address": "0x3b10b4",
+      "size": 3388,
+      "sha256": "ee29784fc33effd4a01e9098593d2348dbfaf35bb9d0568a121d89c52aefd1da",
+      "scope": "Named application provider; not a new complete combat-result application body."
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3",
+      "scope": "Event-routing evidence, not reimplemented here."
+    },
+    {
+      "original_symbol": "_ZN6CharAI12RaiseAIEventEiPv",
+      "elf_address": "0x3cbb34",
+      "size": 1764,
+      "sha256": "f8acba22b51432beded75bba8e834aac58382fd66b137c1f310a16496789b966",
+      "scope": "Event0x34 routes to properties HandleDots before general AI gates; reused existing character_ai_events boundary."
+    }
+  ],
+  "new_complete_caller_bodies": 1,
+  "new_complete_dependency_bodies": 0,
+  "native_wired": false,
+  "source_files": [
+    "port/level-world/character_dot_tick.hpp",
+    "port/level-world/character_dot_tick.cpp"
+  ],
+  "tests": [
+    "port/level-world/tests/character_dot_tick.cpp",
+    "port/level-world/tests/run_character_dot_tick_host.py"
+  ],
+  "cache_field_indices": [126, 127, 128, 129, 130, 131],
+  "cache_field_names": [
+    "Dot_Tick_Damage_Normal", "Dot_Tick_Damage_Fire", "Dot_Tick_Damage_Water",
+    "Dot_Tick_Damage_Lightning", "Dot_Tick_Damage_Earth", "Dot_Tick_Damage_Air"
+  ],
+  "source_element_words": [-1, 0, 1, 2, 3, 4],
+  "cache_files": {
+    "character_properties_pyarray.bin": {
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    "character_properties_pyarraynames.bin": {
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    "character_properties_pystructnames.bin": {
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    }
+  },
+  "caller_does_not_decrement_duration": true,
+  "positive_native_combat_dependencies_remain_external": true
+}

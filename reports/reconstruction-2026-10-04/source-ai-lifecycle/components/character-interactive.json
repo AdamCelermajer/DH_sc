@@ -1,0 +1,7905 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 73,
+    "dead_friend_exception": true,
+    "fresh_dead_and_fields": true,
+    "summoned_not_invisible": true,
+    "raw_final_byte": true,
+    "failure_alias_lifetime_guards": true
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 94,
+    "mismatches": 0,
+    "results": [
+      {
+        "case": "normal",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "null_interactor",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "raw_final_byte_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 0,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 0,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "raw_final_byte_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "raw_final_byte_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 7,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 7,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 7,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 7,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "raw_final_byte_255",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 255,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 255,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 255,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 255,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "state_flags_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "state_flags_256",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 256,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 256,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "state_flags_577",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 577,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 577,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "state_flags_8192",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 8192,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 8192,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "state_flags_9088",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "state_flags_9153",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9153,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9153,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "state_flags_4294967295",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 4294967295,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 4294967295,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            0
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            0
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            0
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            0
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            0
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_2",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            2
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            2
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_2",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            2
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_2",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            2
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            2
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 3,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 3,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            3
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 3,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 3,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            3
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 3,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 3,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            3
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            5
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            5
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            5
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            5
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            5
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 6,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 6,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            6
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            6
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 6,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 6,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            6
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 6,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 6,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            6
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            6
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 7,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 7,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            7
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            7
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 7,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 7,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            7
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 7,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 7,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            7
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            7
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_8",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 8,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 8,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            8
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            8
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_8",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 8,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 8,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            8
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_8",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 8,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 8,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            8
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            8
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_9",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 9,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 9,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            9
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            9
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_9",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 9,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 9,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            9
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_9",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 9,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 9,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            9
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            9
+          ]
+        ]
+      },
+      {
+        "case": "alive_type_4294967295",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4294967295,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4294967295,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4294967295
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4294967295
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_type_4294967295",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4294967295,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 1,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4294967295,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              4294967295
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4294967295
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_null_interactor_4294967295",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4294967295,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4294967295,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4294967295
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4294967295
+          ]
+        ]
+      },
+      {
+        "case": "deleted_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 1,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 1,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": []
+      },
+      {
+        "case": "deleted_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 7,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 7,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": []
+      },
+      {
+        "case": "deleted_255",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 255,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 255,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": []
+      },
+      {
+        "case": "enabled_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": []
+      },
+      {
+        "case": "enabled_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 7,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 7,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "enabled_255",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 255,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 255,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_nonfriend_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_nonfriend_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 7,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              7
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              7
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_nonfriend_255",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 255,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              255
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              255
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 255,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              255
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              255
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_2",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_2",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 1,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 1,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_2",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 1,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 1,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 255,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 255,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 255,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 255,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 255,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 255,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_8",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 17,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 17,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_8",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 17,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 17,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_8",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_9",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_9",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_9",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 0,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_10",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": []
+      },
+      {
+        "case": "dead_friend_monster_mutation_10",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_10",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 0,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_11",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_11",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_11",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_12",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            5
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_12",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 5,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            5
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_12",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      },
+      {
+        "case": "alive_mutation_13",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 8192,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 8192,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 0,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_monster_mutation_13",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 8192,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 0,
+          "flags": 8192,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 4,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              1
+            ],
+            [
+              3,
+              268517376,
+              0,
+              0
+            ],
+            [
+              4,
+              268517376,
+              0,
+              0
+            ],
+            [
+              0,
+              268517376,
+              0,
+              1
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ],
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            4
+          ]
+        ]
+      },
+      {
+        "case": "dead_friend_nonmonster_mutation_13",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "value": 1,
+          "flags": 9088,
+          "deleted": 0,
+          "enabled": 1,
+          "interactive": 1,
+          "dead": 1,
+          "type": 1,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              1
+            ],
+            [
+              1,
+              268518344,
+              268566528,
+              7
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ]
+          ]
+        },
+        "property_provider_trace": [
+          [
+            "GetCharAI",
+            268517376,
+            268632064,
+            1
+          ]
+        ]
+      }
+    ],
+    "executed_scope": "Complete original192B IsInteractive caller, actual12B Character::IsDead, actual24B IsMonster/IsFaerie/IsSummoned and16B GetCharType instructions. Actual Character vtable+0x34 dispatches IsDead. AI_IsFriend720B is a named borrowed predicate fixture; GetCharAI48B is a named fresh AIProps provider. No classifier/dead result is directly mocked.",
+    "native_wired": false
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_interactive.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_interactive.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-interactive-frozen-root\\host.exe"
+  ],
+  "native_wired": false,
+  "source_sha256": {
+    "port/level-world/character_interactive.cpp": "890d3300046c370c4b37d8607e50d7e93abc228bf0ebee6651b0d20c38cf9d3a",
+    "port/level-world/tests/character_interactive.cpp": "e99537cd0bede20e3b6708440b3f623404e79fe0f86ce47fe49692a69e0d3141",
+    "port/level-world/character_interactive.hpp": "bb64936cd21596c59fe68a70c4fa9c7989b8cc537928d9faf4aecd72ebc9c7d6",
+    "port/level-world/tests/run_character_interactive_host.py": "a98d5bf4b137cd37787c34e9d17fef6897ecfa0ec96099d734b5744aa567f302",
+    "port/level-world/reference/character-interactive/original-functions.json": "38eaad1937518d82289a729019f2b03972fdd052791f446ec2d6d2b56d6ff92b",
+    "port/level-world/reference/character-interactive/NOTES.md": "4f56d56321607979ef40a94cb6fdcc00c914345462588222c379863090c8f554"
+  }
+}

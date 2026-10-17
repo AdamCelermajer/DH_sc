@@ -1,0 +1,812 @@
+{
+  "validation": "PASS",
+  "host_cases": 18,
+  "original_arm_cases": 52,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\ais_state_callbacks.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\ais_state_callbacks.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\ais-state-callbacks-root\\host.exe"
+  ],
+  "results": [
+    {
+      "callback": 0,
+      "mode": 0,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 0,
+        "ais": 0,
+        "table": 0,
+        "offset": 0,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 1,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "TickState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 1,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "TickState",
+        "active": 0
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 1,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "TickState",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 1,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "TickState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 2,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 2,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 2,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": null,
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 2,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 3,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 3,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "",
+        "active": 0
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 3,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 0,
+      "mode": 3,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 20,
+        "name": "",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 0,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 0,
+        "ais": 0,
+        "table": 0,
+        "offset": 0,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 1,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "CheckState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 1,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "CheckState",
+        "active": 0
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 1,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "CheckState",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 1,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "CheckState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 2,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 2,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 2,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": null,
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 2,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 3,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 3,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "",
+        "active": 0
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 3,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 1,
+      "mode": 3,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 44,
+        "name": "",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 0,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 0,
+        "ais": 0,
+        "table": 0,
+        "offset": 0,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 1,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "InitState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 1,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "InitState",
+        "active": 0
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 1,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "InitState",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 1,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "InitState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 2,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 2,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 2,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": null,
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 2,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 3,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 3,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "",
+        "active": 0
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 3,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 2,
+      "mode": 3,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 68,
+        "name": "",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 0,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 0,
+        "ais": 0,
+        "table": 0,
+        "offset": 0,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 1,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "PostState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 1,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "PostState",
+        "active": 0
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 1,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "PostState",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 1,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "PostState",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 2,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 2,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": null,
+        "active": 0
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 2,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": null,
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 2,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": null,
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 3,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "",
+        "active": 268443648
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 3,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "",
+        "active": 0
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 3,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "",
+        "active": 268447744
+      }
+    },
+    {
+      "callback": 3,
+      "mode": 3,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "table": 268443648,
+        "offset": 92,
+        "name": "",
+        "active": 268443648
+      }
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/ais_state_callbacks.cpp": "b809836420fe255bbea75ad7db2529a3942ba0b6da007120747f4af3b106ffd8",
+    "port/level-world/tests/ais_state_callbacks.cpp": "6eeff17240d1febab2887adb8182bd1536f4056e177a03ebf022c6421359e104",
+    "port/level-world/ais_state_callbacks.hpp": "5cf435a846197974552e36d53eb072d265c5b06e299613e82109ef08422adaeb",
+    "port/level-world/tests/run_ais_state_callbacks_host.py": "21e8b6a730b538f8e5fd2be2fdd1418495cab442136385290d69beec027cd1a5",
+    "port/level-world/reference/ais-state-callbacks/original-functions.json": "66ee27c1e584bce7a52787a44439a427fbbd9f7e694b1619838d56e378c7664d",
+    "port/level-world/reference/ais-state-callbacks/NOTES.md": "1384fa825a01cfe5a5f093fb056dfa009addf22f9803a23728642d1c16729f8d"
+  },
+  "native_wired": false,
+  "scope": "Four complete original20B state wrappers execute; LuaScript::Call is a fixture boundary. Null-table, exact name-pointer selection, null/empty names and retained callback mutations compare. Additional host sequences verify fresh table/name reads between calls. Original state registration and VM bodies remain external."
+}

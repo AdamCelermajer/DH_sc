@@ -1,0 +1,119 @@
+{
+  "validation": "PASS",
+  "original_caller_comparisons": 440,
+  "original_words": 268,
+  "failure_policies": {
+    "validation": "PASS",
+    "failure_and_reentry_cases": 72
+  },
+  "selected_composition": {
+    "validation": "PASS",
+    "checks": 68,
+    "byte_allocations": 42,
+    "byte_frees": 42,
+    "scope": "Actual selected full records, input owner, registration, canonical map, authored slot selection and hosting-level composition. Native joining, network, Character660 and gameplay remain open."
+  },
+  "android_compilation": {
+    "arm64-v8a": {
+      "libraries": {
+        "dh2_level_world": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "717035625b5f021b1ec2facb6f3a892c450d667cc03a8be8c43550bb4c19038f"
+        },
+        "dh2_native": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "b1643f324772bfdcdddbc1011817b4c3a660dff0dd9fe60eae3f474cad8cd93c"
+        }
+      },
+      "selected_commands": [
+        {
+          "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+          "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\29ea01eeef2377d14350190ae1d6fcf8\\player_offline_registration_v1.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registration_v1.cpp",
+          "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registration_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+          "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\29ea01eeef2377d14350190ae1d6fcf8\\player_offline_registry_v1.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registry_v1.cpp",
+          "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registry_v1.cpp"
+        }
+      ]
+    },
+    "x86_64": {
+      "libraries": {
+        "dh2_level_world": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "f8e95a5947f2a32b578aa2d2167156706cc409bac9b71c21783e32e08d711da9"
+        },
+        "dh2_native": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "7bf3d4d037e157040e4b22b641916183fc0403d0d4c7613742c9aaf1f107d501"
+        }
+      },
+      "selected_commands": [
+        {
+          "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+          "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\29ea01eeef2377d14350190ae1d6fcf8\\player_offline_registration_v1.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registration_v1.cpp",
+          "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registration_v1.cpp"
+        },
+        {
+          "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+          "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\29ea01eeef2377d14350190ae1d6fcf8\\player_offline_registry_v1.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registry_v1.cpp",
+          "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_offline_registry_v1.cpp"
+        }
+      ]
+    }
+  },
+  "apk": {
+    "path": "port/android-native/app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 155513736,
+    "sha256": "925567cf69571bc6bef5c788a52aec8a9d02f23823a5cffc8911e43ec8302ffd"
+  },
+  "live": {
+    "report": "live.json",
+    "classes": [
+      0
+    ],
+    "api": 37,
+    "page_size": 16384,
+    "abi": "x86_64",
+    "personal_saves_restored": true
+  },
+  "native_controller_registration_connected": true,
+  "character_660_connected": false,
+  "source_sha256": {
+    "port/player-info-level/player_offline_registration_v1.cpp": "fa83179dcc8a16ca0038949db791597658d95e2adc1dbfa58342166f6fcb317e",
+    "port/player-info-level/player_offline_registration_v1.hpp": "754e1a607dcbc8d9a935502153ae327f020e1eb163ec966de19b887fd0f60a1a",
+    "port/player-info-level/player_offline_registry_v1.cpp": "106ce685378d6c604a363afca90839f21bb11f9b313ec47268fab72053a0ca53",
+    "port/player-info-level/player_offline_registry_v1.hpp": "1c414fc5c0c7d76f0754c005ea633ca744acbd5b1360e2db230317e74910ea7e",
+    "port/level-world/CMakeLists.txt": "f8006c915e8bde984859bd32fd4f77b70f257fddcfebed7463f56e801f54ee08",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "67dd6c096342113154b2b3c1d8aec0d0a2b9f258ea4db290951f3cea948ba2f0",
+    "port/android-native/tools/menu_ui_runtime_smoke.py": "236b76841b966c58b5b4b5e140f56bb80b2c2352f2da82730a64b3c7d134711b"
+  },
+  "scope": "Offline full PlayerInfo/controller registration precedes authored Assign; slot/host queries use the sole stable local registry. Shared serial39 is fallback13 + outer temporary13 + map default13; copy construction does not add revisions. Live Warrior menu/new/restart/Crypt/HUD/Back/Home is verified on this APK. Earlier all-class receipts belong to the preceding APK. No Character association, full startup/campaign, joining/network or physical ARM64 gameplay claim.",
+  "remaining": [
+    "Genuine _ManageCharacters/_AddCharacter Spawn/InitAll and SG_Load2/4/GEAR/InitPost",
+    "Original joining/HUD/input event delivery and remote/network lifecycle",
+    "Native inventory/equipment/Skin/text, skills/enemy acquisition/combat/loot and complete level",
+    "Persistent campaign, fan modding and physical ARM64 release tests"
+  ]
+}

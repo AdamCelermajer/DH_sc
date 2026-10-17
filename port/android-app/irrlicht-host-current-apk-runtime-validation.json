@@ -1,0 +1,44 @@
+{
+  "schema": "dh2.android.irrlicht-host-runtime-validation.v1",
+  "result": "pass",
+  "apk": {
+    "path": "port/android-app/build/dh2-source-renderer-irrlicht-host-debug.apk",
+    "sha256": "bab5c28999fe766f6f6bfb337ee088415c7b844fa89d45cbec22ff1447c417f4",
+    "bytes": 70148494,
+    "installed_sha256": "bab5c28999fe766f6f6bfb337ee088415c7b844fa89d45cbec22ff1447c417f4",
+    "installed_bytes": 70148494
+  },
+  "device": {
+    "serial": "emulator-5556",
+    "android_api": 37,
+    "page_size_bytes": 4096,
+    "fold_device_tested": false,
+    "renderer": "OpenGL ES 3.0 SwiftShader 4.0.0.1"
+  },
+  "activity": "local.dh2.sourceviewer/android.app.NativeActivity",
+  "adapter": {
+    "status": "PASS: SceneMesh adapter produced four buffers; synthetic pyramid added to the Irrlicht scene",
+    "visible_center_non_clear_pixels_after_resume": 49024,
+    "minimum_required_pixels": 500,
+    "screenshot_sha256": "adcc5fe3e5d2ce6a92d993d64098f5a888c88a242ed644caec1e5b0fa107e685"
+  },
+  "lifecycle": {
+    "backgrounded_via_home_and_resumed_from_recents": true,
+    "gl_invalid_operation": 0,
+    "gl_invalid_enum": 0,
+    "fatal_signal": 0,
+    "shader_missing": 0,
+    "term_window": 2,
+    "init_window": 2,
+    "app_pid": 6639,
+    "app_pid_filtered_log_sha256": "1d528cc2ddba20f28725683f00bf4b08fb6e9d35f8daa3af2f07ba026fd8468c"
+  },
+  "limitations": [
+    "The scene is a synthetic adapter test mesh, not a cached DH2 level or BRES-imported scene.",
+    "The user-facing source encounter continues to use the custom GLES renderer.",
+    "This does not establish complete gameplay or original Irrlicht fork compatibility."
+  ],
+  "screenshot": "port/android-app/build/irrlicht-host-lifecycle.png",
+  "app_pid_filtered_log": "port/android-app/build/irrlicht-host-lifecycle.log",
+  "validated_at_utc": "2026-10-03T18:17:15Z"
+}

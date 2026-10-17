@@ -2,6 +2,8 @@
   "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
   "layout": "x07_crypt_backup.mlx",
   "compiled_descriptor_sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da",
+  "compiled_entrypoints_bytes": 304,
+  "compiled_entrypoints_sha256": "696604662ef9964064d144aaae91bd183f050380ae4ea7d1efeba2732c1f445e",
   "rooms": [
     {
       "name": "cemetery_entrance_0",
@@ -96,6 +98,86 @@
     -2227.77,
     1220.93,
     812.557
+  ],
+  "entrypoints": [
+    {
+      "entrypoint_id": 0,
+      "name": "_prim_EntryPoint_fromDW",
+      "room": 0,
+      "local": {
+        "position": [
+          -2227.77,
+          1220.93,
+          812.557
+        ],
+        "rotation_degrees": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "world": {
+        "position": [
+          -2227.77,
+          1220.93,
+          812.557
+        ],
+        "rotation_degrees": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    },
+    {
+      "entrypoint_id": 2,
+      "name": "_prim_EntryPoint_fromGothicus2",
+      "room": 7,
+      "local": {
+        "position": [
+          0.0,
+          4044.78,
+          658.711
+        ],
+        "rotation_degrees": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      },
+      "world": {
+        "position": [
+          0.0,
+          23244.78,
+          658.711
+        ],
+        "rotation_degrees": [
+          0.0,
+          0.0,
+          0.0
+        ],
+        "scale": [
+          1.0,
+          1.0,
+          1.0
+        ]
+      }
+    }
   ],
   "objects": [
     {
@@ -2977,5 +3059,217 @@
       "sha256": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07"
     }
   ],
+  "rule_assets": [
+  {
+    "name": "crypt_cemetery_entrance_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_cemetery_entrance_01.mgp",
+    "bytes": 10841,
+    "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+  },
+  {
+    "name": "crypt_cemetery_entrance_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_cemetery_entrance_01.mvp",
+    "bytes": 8569,
+    "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+  },
+  {
+    "name": "crypt_corner_ne_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_01.mgp",
+    "bytes": 6670,
+    "sha256": "7e1676960663dd70d14acdb02a823bc13034054b9fbc1c4c2207f30662dcb54f"
+  },
+  {
+    "name": "crypt_corner_ne_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_ne_01.mvp",
+    "bytes": 5571,
+    "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+  },
+  {
+    "name": "crypt_corner_ne_02.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_02.mgp",
+    "bytes": 3523,
+    "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+  },
+  {
+    "name": "crypt_corner_ne_03.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_ne_03.mgp",
+    "bytes": 6208,
+    "sha256": "b65ed11b5093d87b643e58b89fe254e8ff0803d727c2b08c0fdeaf5ba1748ba5"
+  },
+  {
+    "name": "crypt_corner_nw_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_nw_01.mgp",
+    "bytes": 1929,
+    "sha256": "c5ffe790632bf87b73c3057fa238ad75dc1ea676837323e6f608ef1e29301bf0"
+  },
+  {
+    "name": "crypt_corner_nw_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_nw_01.mvp",
+    "bytes": 4127,
+    "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+  },
+  {
+    "name": "crypt_corner_nw_02.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_nw_02.mgp",
+    "bytes": 1355,
+    "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+  },
+  {
+    "name": "crypt_corner_nw_02.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_nw_02.mvp",
+    "bytes": 4127,
+    "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+  },
+  {
+    "name": "crypt_corner_se_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_se_01.mgp",
+    "bytes": 4137,
+    "sha256": "90f970084437bf91de858fd398476aba46c383b56c7cd149791408f395bff832"
+  },
+  {
+    "name": "crypt_corner_se_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_se_01.mvp",
+    "bytes": 4685,
+    "sha256": "4dca6137768e099191411b3797a5459d2bc4ba28020d51e2a3e6906ffbe6ece4"
+  },
+  {
+    "name": "crypt_corner_se_02.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_se_02.mgp",
+    "bytes": 4131,
+    "sha256": "352cf42305a508d0b822419c7ab909f3bc0fae8a6684bad854024faa26748747"
+  },
+  {
+    "name": "crypt_corner_se_03.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_se_03.mgp",
+    "bytes": 4187,
+    "sha256": "796616ac9ab4f5af5bed011c44c9319ec0942d44ca4b5c60c016788753a10e4f"
+  },
+  {
+    "name": "crypt_corner_sw_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_sw_01.mgp",
+    "bytes": 2497,
+    "sha256": "542f125dfd055141a93bd0c91450997d1072d0866ad13e9f8c2e433b48fe8909"
+  },
+  {
+    "name": "crypt_corner_sw_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_corner_sw_01.mvp",
+    "bytes": 4172,
+    "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+  },
+  {
+    "name": "crypt_corner_sw_02.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_corner_sw_02.mgp",
+    "bytes": 1897,
+    "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+  },
+  {
+    "name": "crypt_deadend_e_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_deadend_e_01.mgp",
+    "bytes": 2260,
+    "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+  },
+  {
+    "name": "crypt_deadend_e_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_deadend_e_01.mvp",
+    "bytes": 3410,
+    "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+  },
+  {
+    "name": "crypt_deadend_n_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_deadend_n_01.mgp",
+    "bytes": 4506,
+    "sha256": "005ab2eef87bafbf91f40b5d376b998d6d960f3b65070022ece6d04077039d4d"
+  },
+  {
+    "name": "crypt_deadend_n_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_deadend_n_01.mvp",
+    "bytes": 3144,
+    "sha256": "6129dfba3b5ccbaf9f3e5dbc72e37bf45e1c7cb64375c3b4bf9f5b28e08cfc0c"
+  },
+  {
+    "name": "crypt_deadend_w_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_deadend_w_01.mgp",
+    "bytes": 2822,
+    "sha256": "a09cc19e6e1ee2ff5fedac830638ac5859312d5deb277eae29ea8739022ab11a"
+  },
+  {
+    "name": "crypt_deadend_w_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_deadend_w_01.mvp",
+    "bytes": 5492,
+    "sha256": "f56957d957b8930f383db28d838387d291eedd3e31257c53c3dd99f0bb5be297"
+  },
+  {
+    "name": "crypt_entrance_s_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_entrance_s_01.mgp",
+    "bytes": 2412,
+    "sha256": "7060603a14d7ef2e63e0d5b1e049eb2b87de773d0ef60122367c72e2ff928d7d"
+  },
+  {
+    "name": "crypt_entrance_s_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_entrance_s_01.mvp",
+    "bytes": 740,
+    "sha256": "371ccea0e8ecf4af717d49e054762c54680ae4c79f7455a0e81488c8fcfd72eb"
+  },
+  {
+    "name": "crypt_kings_chamber_s_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_kings_chamber_s_01.mgp",
+    "bytes": 2139,
+    "sha256": "0b13ec67643c5cc379a293c5a75d3bc3e04e7b00baf14d8fff4bb5c3d1e307ea"
+  },
+  {
+    "name": "crypt_kings_chamber_s_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_kings_chamber_s_01.mvp",
+    "bytes": 5608,
+    "sha256": "c7407eee441f922e9bec19e077bbff5571375e7cb55237291dce93d39acf68f1"
+  },
+  {
+    "name": "crypt_straight_c_ns_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp",
+    "bytes": 10307,
+    "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+  },
+  {
+    "name": "crypt_straight_c_ns_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_straight_c_ns_01.mvp",
+    "bytes": 8594,
+    "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+  },
+  {
+    "name": "crypt_straight_c_ns_02.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_02.mgp",
+    "bytes": 11439,
+    "sha256": "28b97d41b2bbaecef2e0270918cee42ecfc033ade81da337b395fb738bfc622f"
+  },
+  {
+    "name": "crypt_straight_c_ns_03.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_c_ns_03.mgp",
+    "bytes": 13638,
+    "sha256": "e468cfebf9f47fdeb274c09d29dea2e9bd35b94321de2e377a1cccd60792526a"
+  },
+  {
+    "name": "crypt_straight_ns_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_straight_ns_01.mgp",
+    "bytes": 3365,
+    "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+  },
+  {
+    "name": "crypt_t_sew_01.mgp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mgp/crypt_t_sew_01.mgp",
+    "bytes": 1731,
+    "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+  },
+  {
+    "name": "crypt_t_sew_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt_t_sew_01.mvp",
+    "bytes": 5057,
+    "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+  },
+  {
+    "name": "crypt2_straight_ns_01.mvp",
+    "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/crypt/mvp/crypt2_straight_ns_01.mvp",
+    "bytes": 3135,
+    "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+  }
+],
   "procedural_rules_executed": false
 }

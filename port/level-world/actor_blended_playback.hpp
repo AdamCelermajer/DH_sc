@@ -13,13 +13,7 @@ struct BlendedPlaybackEvent {
 struct BlendedEventObserver {
  void* context=nullptr;
  void(*invoke)(void*,BlendedPlayback&,const BlendedPlaybackEvent&)=nullptr;
-};
-// Source _SetAnimStep's effects leaf: event26 and redirects precede it;
-// selected clip blend/PlayClip and speed stores follow it. The immutable
-// retained row is the scheduler's captured source step, not a guessed FX ID.
-struct BlendedSelectionFxServicesV2 {
- void* context=nullptr;
- bool(*invoke)(void*,BlendedPlayback&,const data::AnimationStep&,std::string&)=nullptr;
+ bool(*frame_step)(void*,BlendedPlayback&,std::uint32_t,std::uint32_t,std::uint32_t)=nullptr;
 };
 enum BlendedEventPhase : std::uint32_t {animator_event=4,selection_event=5};
 struct PlaybackSlot {
@@ -67,13 +61,10 @@ public:
  bool displacement=false;
  bool stop_requested=false; // original animator+4a; consumed before pending gate
  // Authored28, finite22, Update27/25/23 and selection24/26 synchronously route
- // here. Scheduler events have null payload; their RaiseEvent returns are
- // ignored by the animator (AI forwarding remains an explicit caller service).
+ // here. Update finite closure carries the stable close-latch address; the
+ // other scheduler events carry null. RaiseEvent returns are ignored by the
+ // animator (AI forwarding remains an explicit caller service).
  BlendedEventObserver observer{};
- // Optional for historical metadata-only playback callers. Production actor
- // binding supplies the real manager; positive required failures stop before
- // blend/PlayClip while retaining source event26 mutations.
- BlendedSelectionFxServicesV2 selection_fx_v2{};
  std::int32_t last_event_lag=0;
  // Source enabled/bound target gates. Unbound compiled channels remain in the
  // ordered union, but receive neither sampling nor a scene setter.
@@ -107,11 +98,14 @@ public:
                       std::string& error,
                       animation::TransformMismatchBehavior mismatch=animation::TransformMismatchBehavior::retain);
  std::int32_t engine_index(std::int32_t dictionary_id)const;
- const animation::TransformClip* compiled_clip_v4(std::int32_t dictionary_id)const{
-  const auto index=engine_index(dictionary_id);return index<0?nullptr:compiled.clip(std::size_t(index));
- }
  std::int32_t dictionary_id(std::int32_t engine_index)const;
  const animation::TransformSet& transform_set()const{return compiled;}
+ // Read-only resource/graph validation for CPU scene recreation. This performs
+ // no clip selection, sampling, clock, event, root or completion work.
+ bool matches_binding(const ClipBank& bank,const visual::SceneBinding& visual,
+                      const scene::Scene& scene,std::string& error)const {
+  return ready(bank,visual,scene,error);
+ }
  const std::vector<float>& values(std::size_t target)const{return target_values.at(target).values;}
  timeline::State& current_timeline(){return slots.at(blend.current).timeline;}
  const timeline::State& current_timeline()const{return slots.at(blend.current).timeline;}
@@ -126,11 +120,6 @@ public:
  std::uint32_t step_index()const{return sequence_closed?UINT32_MAX:scheduler.frames().empty()?0u:scheduler.frames().back().step;}
  std::uint32_t step_count(const data::AnimationTables&)const;
  void stop_loop(bool complete_next_update);
- // Whole source immediate ANIM_Stop/BlendedController.StopClip(true,0).
- // Null visual resets depth only. A present controller stops every retained
- // timeline, jumps the selected timeline to its end, then raises22 once when
- // the source sequence was open. Existing deferred StopLoop stays unchanged.
- bool stop_immediate_v1(bool visual_present,std::string&);
  void skip_next_step(){if(!sequence_closed)scheduler.skip_next_step();}
  // Public ANIM_SetStep mutates metadata only; it is distinct from private
  // _SetAnimStep, which prepares a clip and raises26 during selection.

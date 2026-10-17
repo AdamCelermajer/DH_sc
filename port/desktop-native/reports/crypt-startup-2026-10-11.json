@@ -1,0 +1,21 @@
+{
+  "source_base": "124e48c6",
+  "source_has_uncommitted_changes": true,
+  "platform": "Windows x64, MinGW-w64, SDL2, ANGLE OpenGL ES 2",
+  "shared_source_selection": "port/android-native/app/src/main/cpp/native_runtime_sources.cmake",
+  "startup": "canonical NativeCreateSaveSlot, AssignSaveSlotToPlayer, NativeStartGame; Crypt LevelList row 23",
+  "world": {"rooms": 7, "monsters": 26, "scenery": 36},
+  "bounded_run": {"frames": 3, "exit_code": 0, "renderer_active_after_each_draw": true},
+  "capture": {
+    "format": "PPM, RGBA framebuffer readback converted to RGB",
+    "width": 1280,
+    "height": 720,
+    "sha256": "1ec5cfa6cc11c791fca595ebca2e5b5c9d41441eecfed93a4358e11576063ce9",
+    "visual_review": "Crypt geometry, player model and authored gameplay HUD visible"
+  },
+  "limitations": [
+    "No movement, hit, death, loot or quest progression verified by this run",
+    "Frontend menu navigation, cinematic playback and audio output are not connected on Windows",
+    "Later desktop/source lifecycle changes are not contained in the R4 Android APK"
+  ]
+}

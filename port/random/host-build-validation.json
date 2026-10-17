@@ -1,0 +1,21 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "random-host.so": {
+      "sha256": "e39a2a2ed6b0df4aeb24a319a50df97ce6cae6d0ddbd7d6cd07090d249b165b4"
+    }
+  },
+  "source_sha256": {
+    "random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6"
+  },
+  "build_tool_sha256": "4c01de1192849e8f8edc168f0b8e8cc17429318c126a3b0c2a1509346aac2634",
+  "safety": {
+    "iterations": 12000,
+    "address_sanitizer": true,
+    "undefined_behavior_sanitizer": true,
+    "float_cast_overflow_sanitizer": true,
+    "recover": false,
+    "test_sha256": "8c54c5f5093ddb07bdea7e9f883c80942a7a8f1bf13cba4d55685a8df5b31de9"
+  }
+}

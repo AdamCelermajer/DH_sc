@@ -1,0 +1,202 @@
+{
+  "complete_game": false,
+  "mode": "controlled",
+  "actor_cases": 520,
+  "original_health_calls": 520,
+  "final_field_queries": 116480,
+  "assertion_files": 33,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "reference_sha256": "6c7c8c4874ffd8d18688d9d0eb690224ddacb42642a7cf13c1bfd8c305c31f95",
+  "comparison_report_sha256": "b5baeb39cc2ee4cf4f3131ebefbd38dc45f9bb216c5cbc505abcd5f12a8def51",
+  "property_input_sha256": "3f5dfb29872294afff63d2f37fc4173adb91e8008d630376ae87eb12438a7ae1",
+  "runner_sha256": "5ac380ebba3f7860e8f23ff193278f1ed32efe5bd8dbe3caf950ea13a686bbe7",
+  "test_sha256": "55e28a88f8807a3adec092c3ea0c7feb116bc46dae72fc0eaea4b3ad75199e90",
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nPROPERTY CORPUS PASS 33",
+  "files": [
+    {
+      "name": "properties.bin",
+      "bytes": 2700,
+      "sha256": "3f5dfb29872294afff63d2f37fc4173adb91e8008d630376ae87eb12438a7ae1"
+    },
+    {
+      "name": "assertions-000.lua",
+      "bytes": 102355,
+      "sha256": "780df25e39b34cb4a28e396f65aa2070ee9f1b4883f2b627a48eff340a306bca"
+    },
+    {
+      "name": "assertions-001.lua",
+      "bytes": 102410,
+      "sha256": "1b9c0f319a9f5ae64dbd455fc6595656a1e07d5805d8cff608e11bd02fd4b923"
+    },
+    {
+      "name": "assertions-002.lua",
+      "bytes": 102572,
+      "sha256": "2f5c26b0b34b87fdab673405c82c044986e5debf7187564cd3f6009a122df460"
+    },
+    {
+      "name": "assertions-003.lua",
+      "bytes": 103070,
+      "sha256": "1213e177562b6a54344c30c03a5c06c36267714ae628fcfebc5d419c679bfb57"
+    },
+    {
+      "name": "assertions-004.lua",
+      "bytes": 102623,
+      "sha256": "df1a640c9d51df27351da5f8cfaddf5cc1d70d855b76a20e6709cfcba3a468d8"
+    },
+    {
+      "name": "assertions-005.lua",
+      "bytes": 102596,
+      "sha256": "002c011fdd1cb74eb75d1682d626a4598282333dce74d956b5af9567f2b78fad"
+    },
+    {
+      "name": "assertions-006.lua",
+      "bytes": 102798,
+      "sha256": "e81306f7294803eca18033faaa4357a50933f60d1a501b2615c82bf6c2855163"
+    },
+    {
+      "name": "assertions-007.lua",
+      "bytes": 103271,
+      "sha256": "c475f43334574814e5f87b0e05756d70268844d030aa82cab4a08d39d08747f3"
+    },
+    {
+      "name": "assertions-008.lua",
+      "bytes": 102666,
+      "sha256": "fbf84e86489c6c3a581db6bbb81a468d0ab42534ad072a9f9a0845d69447cccb"
+    },
+    {
+      "name": "assertions-009.lua",
+      "bytes": 102529,
+      "sha256": "861bb5f619505c29cadb5fc995d5b6520f1fbe3a20a9af0f8c46c1e91957a4d8"
+    },
+    {
+      "name": "assertions-010.lua",
+      "bytes": 102762,
+      "sha256": "ddf0c50ac627d771e2af9fd6238c5dbd80e456c3f6404cf71c64004e15503d52"
+    },
+    {
+      "name": "assertions-011.lua",
+      "bytes": 103206,
+      "sha256": "7e19086cc59a7f38dbbfbb4db93d2721b759c648337be3b51a92d8b47653763e"
+    },
+    {
+      "name": "assertions-012.lua",
+      "bytes": 102610,
+      "sha256": "e9945e994e4971a92e5da5084d0af87b3a441009d01e5d600b3419285196796f"
+    },
+    {
+      "name": "assertions-013.lua",
+      "bytes": 102371,
+      "sha256": "ffad8d481c488c19290dcff127bf92afee4bf17675fe99456e248f96f0e27744"
+    },
+    {
+      "name": "assertions-014.lua",
+      "bytes": 102577,
+      "sha256": "b5943a42c8bba45a143f54ab60096100e0fadfbf859ffd2cd74dc237fb250b37"
+    },
+    {
+      "name": "assertions-015.lua",
+      "bytes": 102974,
+      "sha256": "42e6fb22896c1a3bf48331300d7bfd5e3d8506c89e09a189e0992f78eb3b4343"
+    },
+    {
+      "name": "assertions-016.lua",
+      "bytes": 102414,
+      "sha256": "d1bd760c5261bc42a2ef9711f8a638fa0d97285ef2d3f1505ccf03571e14bd06"
+    },
+    {
+      "name": "assertions-017.lua",
+      "bytes": 102130,
+      "sha256": "4f71e5956810e7d21849670fe59b8bd007278ecc1c23193c29021004e445bfdf"
+    },
+    {
+      "name": "assertions-018.lua",
+      "bytes": 102300,
+      "sha256": "34bd45610454cc87b53f8525467adf73121c1d3b6c8720510678f3c4cc82d80c"
+    },
+    {
+      "name": "assertions-019.lua",
+      "bytes": 102691,
+      "sha256": "3b57d554d76f2c58c173a7b6041c9bc761317debca9104b132ff34b473033777"
+    },
+    {
+      "name": "assertions-020.lua",
+      "bytes": 103161,
+      "sha256": "4f4250d84ff81aa3e239174ca965cdb27b0d199bd03774d23421c451558c2b25"
+    },
+    {
+      "name": "assertions-021.lua",
+      "bytes": 103265,
+      "sha256": "2174f264b9b688d452c5fdbdadd6bea1580fadff52f62294b7cc0f7dfca30cd3"
+    },
+    {
+      "name": "assertions-022.lua",
+      "bytes": 103412,
+      "sha256": "d6ae97283cec6bdd6b386e7c19937e85e14509262b211bec5f8b4402d309bf5a"
+    },
+    {
+      "name": "assertions-023.lua",
+      "bytes": 103866,
+      "sha256": "058593b3a47792fc56f32ae9ba4f942342f540cf2ac919c5ffe13ecef334ebb0"
+    },
+    {
+      "name": "assertions-024.lua",
+      "bytes": 103440,
+      "sha256": "992bee27efb3dcf9bec72d121f5579a50ad81eac52dc151054b34b0b07464a39"
+    },
+    {
+      "name": "assertions-025.lua",
+      "bytes": 102955,
+      "sha256": "3ab1f68e22d76c5eaac4ba55bef95fe82e6221557513d78fcb37acd6cc0db9bb"
+    },
+    {
+      "name": "assertions-026.lua",
+      "bytes": 103091,
+      "sha256": "eebd147fa0af1a37a1682266945d24bd492aac7c9a9df193644324cacff89e83"
+    },
+    {
+      "name": "assertions-027.lua",
+      "bytes": 103462,
+      "sha256": "72bbccba5f12be36e3bb3c71fff82465e86d514eadb190b2adaf4b2723d6b907"
+    },
+    {
+      "name": "assertions-028.lua",
+      "bytes": 103138,
+      "sha256": "7ca6cd80f1d6abcfba3289498f7c2b2948c6e19e64bef844cdf65b716bc93bee"
+    },
+    {
+      "name": "assertions-029.lua",
+      "bytes": 102532,
+      "sha256": "77d7cf193e34e53b8e21105cea03cc4b6b52bc22aeec402a7e7648a5694e66f3"
+    },
+    {
+      "name": "assertions-030.lua",
+      "bytes": 102660,
+      "sha256": "d786bb5d206b5754122891ec293047629d21a3d5d77d8fcda1015c508e96910e"
+    },
+    {
+      "name": "assertions-031.lua",
+      "bytes": 102946,
+      "sha256": "7bc2345c0e625bbeac66b6a35beb7637ad54248cfb4b8a303366354e24746d7e"
+    },
+    {
+      "name": "assertions-032.lua",
+      "bytes": 51743,
+      "sha256": "950e71cced2beaf1d5d66859d9d6155b19ab52811815a299d64297b0d06789a7"
+    },
+    {
+      "name": "list.txt",
+      "bytes": 5148,
+      "sha256": "3bc8ba10e44a324aa141f1b62101c432dc1f31e558252b5e0771b98f5fc8f561"
+    }
+  ],
+  "source_sha256": {
+    "runtime.c": "c7164f8d1c0a6c98b268274a1adbcc25a15a0d0119914d17a6206ba4f216c503",
+    "../lua-character/bridge.c": "5d76ad4e72079c8396ee91974d16cd380c8676b56730c6d987a4b094dd6c3f14",
+    "../character-health/health.c": "f8697ae6b99d03571dfa4dae922b6ba29a45ee796b5f5d49f2897d4f669f95fb",
+    "tests/combat.c": "99347e1ce8b2d4d6bf6c1f752d45dcf39bf6890381cd6db118e7d60d122fc8c7",
+    "build.py": "1b04180a5933736ccdb0fa411cd7f7a18d8fee0bddb240bfdeed8b79b47d6243"
+  },
+  "scope": "Original health/mana instruction bodies and first numeric argument callbacks generate expected return values and all 224 final fields for owned source Lua actors. Controlled fixtures use type8 fields, finite conversions and eight signed/zero/overflow/cap scenarios; real fixtures initialize all 446 character rows through previously checked owned property loading/composition, then execute actual original health writes, validation, regeneration and mana methods. Initialization is authored, empty buffs, offline normal config/debug flags; original Character constructor, Lua VM, combat/death/events and gameplay remain absent."
+}

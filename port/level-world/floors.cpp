@@ -1,11 +1,32 @@
 #include "floors.hpp"
+#include "../floor-types/floor_types.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
 #include <stdexcept>
+#include <string>
 namespace dh2::floors {
 namespace {
 void require(bool condition,const char* message){if(!condition)throw std::runtime_error(message);}
+floor_source::Flags source_flags(const scene::Node& node){
+ floor_source::Flags flags{0,1};
+ const auto* bytes=node.user_properties.c_str();
+ const dh2::floor_types::Span key{"floortypes",10};
+ dh2::floor_types::Property property{};
+ const auto parsed=dh2::floor_types::find_property(bytes,node.user_properties.size()+1U,key,&property);
+ require(parsed==dh2::floor_types::Error::ok,"Source floor properties rejected");
+ if(property.found)require(dh2_floor_source_flags(&flags,property.value.data,property.value.size)==0,
+                           "Source floor type flags rejected");
+ return flags;
+}
+std::string source_floor_type_tag(const scene::Node& node){
+ const auto* bytes=node.user_properties.c_str();
+ const dh2::floor_types::Span key{"floortypes",10};
+ dh2::floor_types::Property property{};
+ const auto parsed=dh2::floor_types::find_property(bytes,node.user_properties.size()+1U,key,&property);
+ require(parsed==dh2::floor_types::Error::ok,"Source floor properties rejected");
+ return property.found?std::string(property.value.data,property.value.size):std::string{};
+}
 unsigned query(void* owner,unsigned id,const float* point){
  auto& world=*static_cast<World*>(owner);if(id>=world.selectors.size())return 0;collision::Result result{};
  return dh2_selector_floor(&result,&world.selectors[id],point)==1;
@@ -15,8 +36,7 @@ bool append(const resources::BresView& view,const scene::Scene& scene,const scen
  error.clear();try{
   require(out.records.size()<512,"Too many native floors");require(instance.node_index<scene.graph.size(),"Invalid floor node");const auto& node=scene.graph[instance.node_index];
   require(node.parent>=0&&unsigned(node.parent)<scene.graph.size(),"Floor has no room parent");
-  require(node.user_properties.find("floortypes")==std::string::npos,"Floor property decoding still requires reconstruction");
-  auto record=std::make_unique<Record>();record->name=node.name;record->room=room;record->geometry=instance.geometry;record->flags={0,1};
+  auto record=std::make_unique<Record>();record->name=node.name;record->floor_type_tag=source_floor_type_tag(node);record->room=room;record->geometry=instance.geometry;record->flags=source_flags(node);
   // constructNode creates a CSceneNode with the authored TRS, then a
   // BaseMeshSceneNode child with identity local TRS. _LoadNavMesh reads
   // properties/name from that CSceneNode, moves the child to its cached
@@ -103,14 +123,14 @@ bool post_load(World& world,std::string& error){
   std::sort(world.search_edges.begin(),world.search_edges.end(),[&](unsigned a,unsigned b){const auto& x=world.graph.edges[a-1];const auto& y=world.graph.edges[b-1];return x.from!=y.from?x.from<y.from:x.to<y.to;});
   world.search_nodes.resize(world.graph.node_count);world.search_heap.resize(world.graph.edge_count+1);
   world.collision_room_floors=std::move(groups);world.collision_rooms.resize(room_count);world.collision_floors.resize(world.records.size());world.route_traits.resize(world.records.size());
-  bool first_room=true;for(unsigned i=0;i<room_count;++i){const auto& ids=world.collision_room_floors[i];world.collision_rooms[i]={bounds[i],ids.data(),unsigned(ids.size()),0};
+  bool first_room=true;for(unsigned i=0;i<room_count;++i){const auto& ids=world.collision_room_floors[i];world.collision_rooms[i]={bounds[i],ids.data(),unsigned(ids.size()),0,0};
    if(ids.empty())continue;
    if(first_room){world.collision_world.bounds=bounds[i];first_room=false;}
    else for(unsigned k=0;k<3;++k){world.collision_world.bounds.minimum[k]=std::min(world.collision_world.bounds.minimum[k],bounds[i].minimum[k]);world.collision_world.bounds.maximum[k]=std::max(world.collision_world.bounds.maximum[k],bounds[i].maximum[k]);}
   }
   for(unsigned i=0;i<world.records.size();++i){const auto flags=world.records[i]->flags;world.route_traits[i]={flags.floor,flags.object};world.collision_floors[i]={&world.selectors[i],world.route_traits[i]};}
   world.collision_world.rooms=world.collision_rooms.data();world.collision_world.floors=world.collision_floors.data();world.collision_world.room_count=room_count;world.collision_world.floor_count=world.records.size();
-  world.route_graph={&world.graph,world.search_edges.data(),world.search_offsets.data()};world.failed_routes.resize(4096);world.route_internal_path.resize(world.graph.node_count);
+  world.route_graph={&world.graph,world.search_edges.data(),world.search_offsets.data()};world.failed_routes.resize(4096);world.route_internal_path.resize(std::size_t(world.graph.node_count)+1);
   world.route_world={&world.route_graph,world.floor_graphs.data(),world.route_traits.data(),unsigned(world.records.size()),0,world.failed_routes.data(),0,unsigned(world.failed_routes.size())};
   world.route_search={world.search_nodes.data(),world.search_heap.data(),unsigned(world.search_nodes.size()),unsigned(world.search_heap.size())};world.route_workspace={&world.route_search,world.route_internal_path.data(),unsigned(world.route_internal_path.size()),0};
   world.sewn=true;return true;
@@ -130,6 +150,15 @@ int route(World& world,const float* source,const float* target,unsigned limit,na
 }
 int find_path(World& world,navigation::PathObject& object,const float* target,unsigned limit,navigation::RouteResult& result){
  if(!world.sewn||!target)return 1;
+ const std::uint64_t required=std::uint64_t(world.graph.node_count)+1;
+ if(result.search.path_count>result.search.path_capacity||
+    (result.search.path_capacity&&!result.search.path))return 1;
+ if(!result.search.path||result.search.path_capacity<required){
+  if(result.search.path_count||world.route_internal_path.size()<required||
+     world.route_internal_path.size()>UINT32_MAX)return 2;
+  result.search.path=world.route_internal_path.data();
+  result.search.path_capacity=std::uint32_t(world.route_internal_path.size());
+ }
  navigation::FindRequest request{&world.route_world,&world.collision_world,&object,&result,&world.route_workspace,{},limit,1,0};std::copy(target,target+3,request.target);
  return dh2_nav_find_path(&request);
 }
@@ -137,9 +166,67 @@ void clear_route_cache(World& world){world.route_world.failed_count=0;}
 bool height(const World& world,const float* point,float& result){
  if(!point)return false;
  for(unsigned i=0;i<3;++i)if(!std::isfinite(point[i]))return false;
- double closest=INFINITY;bool found=false;
- for(const auto& floor:world.selectors){collision::Result hit{};if(dh2_selector_floor(&hit,&floor,point)!=1)continue;const double distance=std::abs(double(hit.point[2])-point[2]);
-  if(distance<closest){closest=distance;result=hit.point[2];found=true;}}
- return found;
+ if(world.records.size()!=world.selectors.size())return false;
+ for(unsigned i=0;i<world.selectors.size();++i){
+  // PFFloor::_LoadNavMesh sets void/wall bits; default GetFloorHeightAt
+  // skips those floors, while hole/water remain candidates. PFRoom returns
+  // the first hit in source floor order rather than choosing the nearest.
+  if(!world.records[i])return false;
+  if(world.records[i]->flags.floor&0x03000000u)continue;
+  const auto& floor=world.selectors[i];collision::Result hit{};if(dh2_selector_floor(&hit,&floor,point)!=1)continue;
+  result=hit.point[2];return true;
+ }
+ return false;
+}
+const std::string* floor_type_at(const World& world,const float* point) noexcept {
+ // CharAI::_OnAnimEvent reads Character+0x1d8 (the embedded PFObject's
+ // current PFFloor) and compares PFFloor+0x3c, the data pointer of the
+ // source floortypes string. PFWorld/PFRoom GetFloorHeightAt walks floors in
+ // source order, skips void/wall floors, and returns the first collision hit.
+ // Use that same retained floor selector order and tag storage here.
+ if(!point||world.records.size()!=world.selectors.size())return nullptr;
+ for(unsigned i=0;i<3;++i)if(!std::isfinite(point[i]))return nullptr;
+ for(unsigned i=0;i<world.selectors.size();++i){
+  if(!world.records[i])return nullptr;
+  if(world.records[i]->flags.floor&0x03000000u)continue;
+  collision::Result hit{};
+  if(dh2_selector_floor(&hit,&world.selectors[i],point)!=1)continue;
+  const auto& type=world.records[i]->floor_type_tag;
+  return type.empty()?nullptr:&type;
+ }
+ return nullptr;
+}
+bool flag_dead_end(World& world,const float* point,bool dead_end,bool& hit,
+                   std::string& error) {
+ error.clear();hit=false;
+ if(!point||world.records.size()!=world.selectors.size()||
+    world.route_traits.size()!=world.records.size()||
+    world.collision_floors.size()!=world.records.size()) {
+  error="PFWorld FlagFloorAsDeadEnd requires the active retained floor selectors";
+  return false;
+ }
+ for(unsigned i=0;i<3;++i)if(!std::isfinite(point[i])) {
+  error="PFWorld FlagFloorAsDeadEnd point is not finite";return false;
+ }
+ for(unsigned i=0;i<world.selectors.size();++i) {
+  if(!world.records[i]) {
+   error="PFWorld FlagFloorAsDeadEnd lost a source floor record";return false;
+  }
+  if(world.records[i]->flags.floor&0x03000000u)continue;
+  collision::Result collision{};
+  if(dh2_selector_floor(&collision,&world.selectors[i],point)!=1)continue;
+  auto& source_flags=world.records[i]->source_flags_20;
+  if(dead_end)source_flags|=2u;else source_flags&=~2u;
+  // Keep the same bit in the active navigation collision grid. FloorTraits
+  // are copied into CollisionFloor during source Level load, so mutating only
+  // PFFloor's retained source word would leave route/obstacle queries stale.
+  auto& route_object_flags=world.route_traits[i].object;
+  if(dead_end)route_object_flags|=2u;else route_object_flags&=~2u;
+  world.collision_floors[i].traits.object=route_object_flags;
+  hit=true;return true;
+ }
+ // PFWorld::FlagFloorAsDeadEnd dereferences the embedded PFObject's floor
+ // pointer only when non-null; GetFloorHeightAt leaves it null on a miss.
+ return true;
 }
 }

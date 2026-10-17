@@ -16,7 +16,9 @@ struct HudManagerPlayer {
  std::uint8_t ready,reserved[7]; const char* name; std::uintptr_t identity;
 };
 struct HudManagerState {
- HudManagerActor* cached_target;
+ // Source compares the cached Character pointer by identity. Retain only its
+ // full-width identity token so borrowed per-frame actor views can expire.
+ std::uintptr_t cached_target_identity;
  std::uint32_t initialized; std::int32_t slow_ms;
  std::uintptr_t render_fx;
 };
@@ -57,3 +59,4 @@ struct HudManagerServices {
 const char* hud_manager_cache_path(std::uint32_t cache,std::int32_t style) noexcept;
 }
 extern "C" int dh2_ui_hud_manager_v1(dh2::ui::HudManagerState*,std::uint32_t entry,const dh2::ui::HudManagerServices*) noexcept;
+extern "C" int dh2_ui_hud_enemy_v1(dh2::ui::HudManagerState*,dh2::ui::HudManagerActor*,const dh2::ui::HudManagerServices*) noexcept;

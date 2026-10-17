@@ -1,0 +1,116 @@
+{
+  "validation": "PASS",
+  "original_comparisons": 150,
+  "original_words": 3636,
+  "native_policy_checks": 14,
+  "android_compilation": {
+    "arm64-v8a": {
+      "libraries": {
+        "dh2_level_world": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "d3682ecef9b65d91a3c81d408016b009777a5b984a851a3cce2a030b1ca8910b",
+          "player_record_exports": 21
+        },
+        "dh2_native": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "2c395ac75fb56c818e6ff59660b6f086f63a707eb551d7ded79ea52238bb8a90",
+          "player_record_exports": 8
+        }
+      },
+      "selected_commands": [
+        {
+          "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+          "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\29ea01eeef2377d14350190ae1d6fcf8\\player_info_record_v1.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_info_record_v1.cpp",
+          "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_info_record_v1.cpp"
+        }
+      ]
+    },
+    "x86_64": {
+      "libraries": {
+        "dh2_level_world": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "c8ea615bc9b8f5195a06f8d559977375d712a9aea4be51aeda2e6f2066076b97",
+          "player_record_exports": 21
+        },
+        "dh2_native": {
+          "elf64": true,
+          "load_alignments": [
+            16384,
+            16384,
+            16384
+          ],
+          "sha256": "4bc92ae9fda18a737d743437cf0fd9f47af0a94820fe57f785d62efb2c4c6130",
+          "player_record_exports": 8
+        }
+      },
+      "selected_commands": [
+        {
+          "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+          "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\29ea01eeef2377d14350190ae1d6fcf8\\player_info_record_v1.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_info_record_v1.cpp",
+          "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_info_record_v1.cpp"
+        }
+      ]
+    }
+  },
+  "apk": {
+    "path": "port/android-native/app/build/outputs/apk/debug/app-debug.apk",
+    "bytes": 152827608,
+    "sha256": "aac39ae52ed5d36eeae31f699997877052610e8f2edf63dc66462952f65e4542"
+  },
+  "native_owner": "Full 33-field manager fallback, one shared counter and factory; existing projection borrows actual level/slot/locality backing.",
+  "defined_native_temporary_backing": "zero",
+  "native_registration_connected": false,
+  "source_layout_findings": {
+    "character_class": "Int16 at0x360, not0x2e8",
+    "XP_gold_and_other_32_bit_fields": "Int32 at0x428/450/478/4a0, notUInt32",
+    "skill_related_array": "seven Int16 fields at0x548..638",
+    "copy_tables": "borrowed source pointers preserved; no implicit retargeting",
+    "loading_info": "source +680 deleting boundary required for nonempty values; Reset clears the word without deleting"
+  },
+  "remaining": [
+    "Offline controller/map registration before authored slot assignment",
+    "Genuine Character660 and gameplay Save SG_Load2/4/GEAR/InitPost",
+    "Inventory/equipment/native Skin and text, nonempty skill activation and complete combat/loot/AI",
+    "Complete level, persistent campaign and physical ARM64 gameplay"
+  ],
+  "source_sha256": {
+    "port/player-info-level/player_info_record_v1.cpp": "923f15d55bca8b430a0044039fe6c268f6e2d92f27bc60d5ee5816acd7ced618",
+    "port/player-info-level/player_info_record_v1.hpp": "3966b25c32da2a2659363016c9fd360126bb6da6d92e14acc9500a425ab2913b",
+    "port/player-info-level/tests/player_info_record_v1_host.cpp": "42779089395ada6427f8dc6d37d9e79c414eea6552cf4b74ee0e21fc56cba226",
+    "port/player-info-level/tests/run_player_info_record_v1.py": "be192d86a4ad6fe4ac246f2dd86b0501521dfbf3ba70d15c10df0737c8a5b1b9",
+    "port/level-world/CMakeLists.txt": "688bc654b6960683d96c65e960c353b21342e4ac99721295ab2ce053d8cc2b1d",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "e37535c750830d2b3b449a4062c8638a5bb395301dc4dd4cfe74e580a0362878",
+    "port/android-native/tools/menu_ui_runtime_smoke.py": "7f298963aae785c81ee40dc21cc354dd9b0602bf6c7d564c263a5da64e56ae18"
+  },
+  "live_emulator": {
+    "report": "live.json",
+    "api": 37,
+    "page_size": 16384,
+    "abi": "x86_64",
+    "completed_classes": [
+      0,
+      1,
+      2
+    ],
+    "scoped_runs": 2,
+    "first_attempt_validation": "FAIL",
+    "personal_saves_restored": true,
+    "physical_arm64_tested": false
+  },
+  "android_compilation_artifacts": "Unstripped compiler libraries; packaged/stripped library identities are separately recorded in the live receipts."
+}

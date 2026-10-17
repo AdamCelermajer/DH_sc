@@ -1,4 +1,5 @@
 #include "game_option_table_v1.hpp"
+#include <array>
 #include <cstring>
 #include <stdexcept>
 namespace {
@@ -10,7 +11,7 @@ struct Reader {
  explicit Reader(GameOptionBytesV1 d):data(d){if(!d.data||d.size>16u*1024u*1024u)throw std::runtime_error("GameOption input outside bounds");}
  void require(std::size_t n){if(n>data.size-at)throw std::runtime_error("Truncated GameOption input");}
  std::uint32_t integer(){require(4);auto result=word(data.data+at);at+=4;return result;}
- void fixed_rows(std::size_t stride){auto count=integer();if(count>65536)throw std::runtime_error("GameOption prefix count outside bounds");auto size=std::size_t(count)*stride;require(size);at+=size;}
+ std::uint32_t fixed_rows(std::size_t stride){auto count=integer();if(count>65536)throw std::runtime_error("GameOption prefix count outside bounds");auto size=std::size_t(count)*stride;require(size);at+=size;return count;}
  std::vector<std::string> names(){auto count=integer();if(count>65536)throw std::runtime_error("GameOption name count outside bounds");std::vector<std::string> result;result.reserve(count);while(count--){auto n=integer();if(n>1048576)throw std::runtime_error("GameOption name outside bounds");require(n);result.emplace_back(reinterpret_cast<const char*>(data.data+at),n);at+=n;}return result;}
 };
 }
@@ -20,16 +21,24 @@ extern "C" unsigned dh2_game_option_v1_decode_record(dh2::ui::GameOptionRow32V1*
 }
 namespace dh2::ui {
 struct GameOptionTableV1::Snapshot {
+ std::array<std::uint8_t,176> design_settings_table{};
+ std::uint32_t design_settings_count{};
  std::vector<GameOptionRow32V1> rows;std::vector<std::string> names,fields;
  std::size_t record_offset{},name_offset{},record_used{},name_used{};
+ std::uint32_t difficulty_count{};
 };
 bool GameOptionTableV1::load_design_cache(GameOptionBytesV1 records,GameOptionBytesV1 names,GameOptionBytesV1 schema,std::string& error){
  error.clear();if(snapshot_&&snapshot_.use_count()>1){error="GameOption snapshot borrowed";return false;}
  try{
   Reader r(records),n(names),s(schema);auto next=std::make_shared<Snapshot>();
   // Exact original design prefix: DesignSettings43 words, Difficulty5 words.
-  r.fixed_rows(172);r.fixed_rows(20);next->record_offset=r.at;
-  n.names();n.names();next->name_offset=n.at;next->names=n.names();next->name_used=n.at;
+  next->design_settings_count=r.fixed_rows(172);
+  if(next->design_settings_count)
+   std::memcpy(next->design_settings_table.data(),records.data, next->design_settings_table.size());
+  next->difficulty_count=r.fixed_rows(20);next->record_offset=r.at;
+  n.names();const auto difficulty_names=n.names();
+  if(difficulty_names.size()!=next->difficulty_count)throw std::runtime_error("Difficulty records/names differ");
+  next->name_offset=n.at;next->names=n.names();next->name_used=n.at;
   auto first=s.names(),second=s.names();if(first.size()!=43||second!=std::vector<std::string>{"DamageInputModifier","DamageOutputModifier","MaxPotionModifier","RespawnTimeModifier","XPRewardModifier"})throw std::runtime_error("GameOption design prefix schema differs");
   next->fields=s.names();const std::vector<std::string> expected{"Default","Label","Max","Min","Step","Type","ValueStr"};if(next->fields!=expected)throw std::runtime_error("GameOption schema differs");
   for(unsigned i=0;i<3;++i)if(s.names()!=expected)throw std::runtime_error("GameOption subtype schema differs");
@@ -40,8 +49,13 @@ bool GameOptionTableV1::load_design_cache(GameOptionBytesV1 records,GameOptionBy
  }catch(const std::exception& e){error=e.what();return false;}
 }
 const std::vector<GameOptionRow32V1>& GameOptionTableV1::Borrow::rows()const{if(!snapshot_)throw std::logic_error("No GameOption snapshot");return snapshot_->rows;}
+GameOptionBytesV1 GameOptionTableV1::Borrow::design_settings_table()const noexcept{
+ if(!snapshot_||!snapshot_->design_settings_count)return {};
+ return {snapshot_->design_settings_table.data(),snapshot_->design_settings_table.size()};
+}
 const std::vector<std::string>& GameOptionTableV1::Borrow::names()const{if(!snapshot_)throw std::logic_error("No GameOption snapshot");return snapshot_->names;}
 const std::vector<std::string>& GameOptionTableV1::Borrow::fields()const{if(!snapshot_)throw std::logic_error("No GameOption snapshot");return snapshot_->fields;}
+std::uint32_t GameOptionTableV1::Borrow::difficulty_count()const{if(!snapshot_)throw std::logic_error("No GameOption snapshot");return snapshot_->difficulty_count;}
 std::size_t GameOptionTableV1::Borrow::records_offset()const{return snapshot_?snapshot_->record_offset:0;}
 std::size_t GameOptionTableV1::Borrow::names_offset()const{return snapshot_?snapshot_->name_offset:0;}
 std::size_t GameOptionTableV1::Borrow::records_consumed()const{return snapshot_?snapshot_->record_used:0;}

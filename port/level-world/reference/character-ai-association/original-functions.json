@@ -1,0 +1,45 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "CharAI SetCharacter valid nonnull gameplay branch; explicit native pointer association, no AIS initialization.",
+  "implementation": {
+    "new_complete_callers": 0,
+    "new_bounded_callers": 1,
+    "native_wired": false
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI12SetCharacterEP9Character",
+      "elf_address": "0x3cb7c0",
+      "size": 148,
+      "sha256": "8ee4e0ea8331204521a208e4dae4af2a3745db82d6a778fd243710decfeaaf0a",
+      "scope": "Valid nonnull gameplay branch: writes owner04 only. Null argument diagnostics/assertion behavior is rejected, not reconstructed."
+    }
+  ],
+  "constructor_call_sites": [
+    {
+      "callsite": "0x3a97e4",
+      "callsite_sha256": "d4aab27216a83e2d5bf6c1a9c3e37227712547c8af493835e8222d1378aa972f",
+      "caller_address": "0x3a9340",
+      "caller_aliases": [
+        {
+          "name": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+          "demangled": "Character::Character(ObjectBase::GO_IDS)"
+        }
+      ],
+      "scope": "Callsite evidence for source Character constructor association; whole Character constructor is not implemented here."
+    },
+    {
+      "callsite": "0x3aa658",
+      "callsite_sha256": "3cd2d8717bd17e166b046160c05bd2407d718f96619de804b556b11254b6f0f0",
+      "caller_address": "0x3aa1b4",
+      "caller_aliases": [
+        {
+          "name": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+          "demangled": "Character::Character(ObjectBase::GO_IDS)"
+        }
+      ],
+      "scope": "Callsite evidence for source Character constructor association; whole Character constructor is not implemented here."
+    }
+  ]
+}

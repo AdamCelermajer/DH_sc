@@ -3,12 +3,8 @@
 #include <cstring>
 namespace dh2::target_search { namespace {
 bool aligned(const void* p,std::uintptr_t a=8) { return p && !(reinterpret_cast<std::uintptr_t>(p)&(a-1)); }
-bool overlap(const void* a,std::uintptr_t an,const void* b,std::uintptr_t bn) {
- auto x=reinterpret_cast<std::uintptr_t>(a),y=reinterpret_cast<std::uintptr_t>(b);
- return x<=y?y-x<an:x-y<bn;
-}
 bool valid_services(const Services16* s) { return aligned(s)&&s->invoke; }
-bool valid_list(const List40* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&(!l->reference_character||aligned(l->reference_character))&&l->sort<=2&&l->reserved==0&&!overlap(l,sizeof(*l),l->heap,l->capacity*sizeof(Target24)); }
+bool valid_list(const List48* l) { return aligned(l)&&aligned(l->heap)&&l->capacity>0&&l->capacity<=65536&&l->count<=l->capacity&&aligned(l->owner)&&l->sort<=2; }
 bool call(const Services16* s,Service op,const Object48* subject,const Object48* other,Response16& out) {
  out={};Request24 q{op,0,subject?subject->identity:0,other?other->identity:0};return s->invoke(s->context,&q,&out)==0;
 }
@@ -22,85 +18,165 @@ float angle(const float* a,const float* b) {
  float result=std::acos(divide(dot,mul(length(a),length(b))));
  std::uint32_t bits;std::memcpy(&bits,&result,4);bits&=0x7fffffff;std::memcpy(&result,&bits,4);return result;
 }
-const float* center(Object48* o) { return o->has_target_position?o->target_position:o->position; }
+bool target_point(const Services16* services,Object48* object,
+                  const float*& point) {
+ if(object->has_target_position==0){point=object->position;return true;}
+ if(object->has_target_position==1){point=object->target_position;return true;}
+ if(object->has_target_position!=2)return false;
+ Response16 response{};
+ if(!call(services,get_target_position,object,nullptr,response)||
+    !response.word||(response.word&3u))return false;
+ point=reinterpret_cast<const float*>(response.word);
+ return true;
+}
 bool less(const Target24& a,const Target24& b,std::uint32_t sort) {
  if(!sort)return false;
  if((a.flags&1)!=(b.flags&1))return (b.flags&1)!=0;
  return sort==1?a.distance>b.distance:a.angle>b.angle;
 }
-void push(List40* l,Target24 value) {
+void push(List48* l,Target24 value) {
  auto hole=l->count++;
  while(hole) { auto parent=(hole-1)/2;if(!less(l->heap[parent],value,l->sort))break;l->heap[hole]=l->heap[parent];hole=parent; }
  l->heap[hole]=value;
 }
-void pop(List40* l) {
+void pop(List48* l) {
  const auto n=--l->count;if(!n)return;auto value=l->heap[n];std::uint32_t hole=0,right=2;
  while(right<n) { auto selected=less(l->heap[right],l->heap[right-1],l->sort)?right-1:right;l->heap[hole]=l->heap[selected];hole=selected;right=(selected+1)*2; }
  if(right==n) { l->heap[hole]=l->heap[right-1];hole=right-1; }
  while(hole) { auto parent=(hole-1)/2;if(!less(l->heap[parent],value,l->sort))break;l->heap[hole]=l->heap[parent];hole=parent; }
  l->heap[hole]=value;
 }
-// Return -1 on provider error; exact flags1 character path otherwise.
-int character_valid(List40* l,Object48* candidate,const Services16* s) {
+// Return -1 on provider error; otherwise execute the source's bitwise-OR
+// Character filter in _IsCharacterValid, including ordered short-circuits.
+int character_valid(List48* l,Object48* candidate,std::uint32_t flags,
+                    const Services16* s) {
  auto ref=l->reference_character;if(!ref)return 1;
  if(ref->character_word1314<candidate->character_word1310)return 0;
+ if(flags==0x7fffffffu)return 1;
  Response16 r;
- if(!call(s,is_dead,candidate,nullptr,r))return -1;
- if(r.word)return 0;
- if(!call(s,is_enemy,ref,candidate,r))return -1;
- if(!r.word)return 0;
- if(!call(s,is_player,candidate,nullptr,r))return -1;
- if(!r.word)return 1;
- if(!call(s,is_player,l->reference_character,nullptr,r))return -1;
- return !r.word;
+ if((flags&0x80u)!=0) {
+  if(!call(s,is_player,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x10u)!=0) {
+  if(!call(s,is_merchant,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x20u)!=0) {
+  if(!call(s,is_cleaner,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x40u)!=0) {
+  if(!call(s,has_character_flag_2fa,candidate,nullptr,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x01u)!=0) {
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(!r.word) {
+   if(!call(s,is_enemy,ref,candidate,r))return -1;
+   if(r.word) {
+    if(!call(s,is_player,candidate,nullptr,r))return -1;
+    if(!r.word)return 1;
+    if(!call(s,is_player,ref,nullptr,r))return -1;
+    if(!r.word)return 1;
+   }
+  }
+ }
+ if((flags&0x02u)!=0) {
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(!r.word) {
+   if(!call(s,is_neutral,ref,candidate,r))return -1;
+   if(r.word)return 1;
+  }
+ }
+ if((flags&0x04u)!=0) {
+  if(!call(s,is_friend,ref,candidate,r))return -1;
+  if(r.word)return 1;
+ }
+ if((flags&0x08u)!=0) {
+  if(!call(s,is_dead,candidate,nullptr,r))return -1;
+  if(r.word) {
+   if(!call(s,is_friend,ref,candidate,r))return -1;
+   if(r.word) {
+    if(!call(s,character_state,ref,nullptr,r))return -1;
+    const auto owner_state=static_cast<std::int32_t>(r.word);
+    if(owner_state!=15) {
+     if(!call(s,character_state,candidate,nullptr,r))return -1;
+     if(static_cast<std::int32_t>(r.word)!=16)return 1;
+    }
+   }
+  }
+ }
+ return 0;
+}
+bool game_object_valid(const Services16* s,Object48* object,Object48* owner,
+                       std::uint32_t filter,int& accepted) {
+ accepted=false;
+ if(filter==3) { accepted=true;return true; }
+ if(filter!=0&&filter!=1)return true;
+ Response16 r;
+ if(!call(s,interaction_type,object,owner,r))return false;
+ const auto type=static_cast<std::int32_t>(r.word);
+ accepted=filter==0?type==8:type!=-1;
+ return true;
 }
 } // namespace
-extern "C" int dh2_target_list_init(List40* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t sort,const Services16* s) {
- if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s)||overlap(l,sizeof(*l),heap,capacity*sizeof(Target24)))return 1;
- *l={heap,0,capacity,owner,nullptr,sort,0};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
+extern "C" int dh2_target_list_init(List48* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t sort,const Services16* s) {
+ return dh2_target_list_init_filtered(l,heap,capacity,owner,1,0,sort,s);
 }
-extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radius,float cone,const Services16* s) {
- if(!valid_list(l)||!aligned(registry)||!aligned(registry->rooms)||!valid_services(s))return 1;
- // SearchEff captures heading first and a live pointer to the owner's selected
- // center second. Nested callbacks may alter fields, but not that pointer choice.
- const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};const float* origin=center(l->owner);
+extern "C" int dh2_target_list_init_filtered(List48* l,Target24* heap,std::uint32_t capacity,Object48* owner,std::uint32_t character_flags,std::uint32_t object_filter,std::uint32_t sort,const Services16* s) {
+ if(!aligned(l)||!aligned(heap)||!aligned(owner)||!owner->identity||!capacity||capacity>65536||sort>2||!valid_services(s))return 1;
+ *l={heap,0,capacity,owner,nullptr,sort,character_flags,object_filter};Response16 r;if(!call(s,is_character,owner,nullptr,r))return 2;if(r.word)l->reference_character=owner;return 0;
+}
+extern "C" int dh2_target_search(List48* l,const Registry8* registry,float radius,float cone,const Services16* s) {
+ if(!valid_list(l)||!valid_services(s))return 1;
+ const float* origin=nullptr;
+ if(!target_point(s,l->owner,origin))return 2;
+ return dh2_target_search_at(l,registry,radius,cone,origin,s);
+}
+extern "C" int dh2_target_search_at(List48* l,const Registry8* registry,float radius,float cone,const float* origin,const Services16* s) {
+ if(!valid_list(l)||!aligned(registry)||!aligned(registry->rooms)||!origin||!valid_services(s))return 1;
+ // Retain the explicit center independently of the reference Character. The
+ // default adapter still borrows its original selected live center pointer.
+ const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};
  while(l->count)pop(l);
  float reference_radius=0;Response16 r;
  if(l->reference_character) { if(!call(s,melee_radius,l->reference_character,nullptr,r))return 2;reference_radius=r.number; }
  auto end=registry->rooms;auto room=end->next;std::uint32_t visits=0;
  if(!aligned(room))return 2;
  // Reset/ValidateCurrent reads each room head once on entering that room.
- if(room!=end&&!aligned(room->objects))return 2;
- Entry16* entry=room==end?nullptr:room->objects->next;
+ Entry16* entry=room==end?nullptr:room->objects?room->objects->next:nullptr;
  while(room!=end) {
   if(++visits>65536||!aligned(room)||!aligned(room->objects)||!aligned(entry))return 2;
   if(entry==room->objects) {
    room=room->next;if(!aligned(room))return 2;
-   if(room!=end&&!aligned(room->objects))return 2;
-   entry=room==end?nullptr:room->objects->next;continue;
+   entry=room==end?nullptr:room->objects?room->objects->next:nullptr;continue;
   }
   auto object=entry->object;Object48* character=nullptr;
-  if(object&&!aligned(object))return 2;
   // GetChar executes even for null/self/invisible Get results.
   if(!call(s,resolve_character,object,nullptr,r))return 2;
   character=reinterpret_cast<Object48*>(r.word);
   if(character&&!aligned(character))return 2;
   if(object&&object!=l->owner&&object->visible) {
+   if(!aligned(object))return 2;
    if(!call(s,is_zonable,object,nullptr,r))return 2;
    if(!(r.word&&object->zoned&&!object->in_zone)) {
     if(!call(s,is_interactive,object,l->owner,r))return 2;
     if(r.word) {
      int accepted;
-     if(character)accepted=character_valid(l,character,s);
-     else { if(!call(s,interaction_type,object,l->owner,r))return 2;accepted=r.word==8; }
+     if(character)accepted=character_valid(l,character,l->character_flags,s);
+     else if(!game_object_valid(s,object,l->owner,l->object_filter,accepted))return 2;
      if(accepted<0)return 2;
      if(accepted) {
       if(!call(s,interaction_radius,object,nullptr,r))return 2;
-      const float target_radius=r.number;const auto point=center(object);
+      const float target_radius=r.number;const float* point=nullptr;
+      if(!target_point(s,object,point))return 2;
       float delta[3]={sub(point[0],origin[0]),sub(point[1],origin[1]),sub(point[2],origin[2])};float distance=sub(sub(length(delta),target_radius),reference_radius);
       if(!(distance>radius)) {
        float a=angle(delta,look);
-       if(!(cone<3.1415927410125732421875f&&cone<a)) {
+       // Match the source rejection branch directly. Its ordered `<` tests
+       // intentionally accept unordered NaN values for either operand.
+       if(!(cone<3.1416f&&cone<a)) {
         if(l->count>=l->capacity)return 2;
         push(l,{object->identity,distance,a,character?1u:0u,0});
        }
@@ -114,8 +190,68 @@ extern "C" int dh2_target_search(List40* l,const Registry8* registry,float radiu
  }
  return 0;
 }
-extern "C" int dh2_target_pop(List40* l,Target24* out) {
- if(!valid_list(l)||!aligned(out)||overlap(out,sizeof(*out),l,sizeof(*l))||overlap(out,sizeof(*out),l->heap,l->capacity*sizeof(Target24)))return 1;
+extern "C" int dh2_target_search_object_list(List48* l,const ObjectListMethods* methods,float radius,float cone,const Services16* s) {
+ if(!valid_list(l)||!valid_services(s))return 1;
+ const float* origin=nullptr;
+ if(!target_point(s,l->owner,origin))return 2;
+ return dh2_target_search_object_list_at(l,methods,radius,cone,origin,s);
+}
+extern "C" int dh2_target_search_object_list_at(List48* l,const ObjectListMethods* methods,float radius,float cone,const float* origin,const Services16* s) {
+ if(!valid_list(l)||!aligned(methods)||!methods->context||!methods->reset||!methods->at_end||!methods->get||!methods->next||!origin||!valid_services(s))return 1;
+ // The IObjectList overload (0x4a2f34) uses the same live filters and
+ // comparators as room search. Its ARM fcmp branches accept unordered inputs.
+ const float rotation=l->owner->rotation;float look[3]={std::sin(rotation),-std::cos(rotation),0};
+ while(l->count)pop(l);
+ float reference_radius=0;Response16 r;
+ if(l->reference_character) {if(!call(s,melee_radius,l->reference_character,nullptr,r))return 2;reference_radius=r.number;}
+ if(methods->reset(methods->context)!=0)return 2;
+ std::uint32_t visits=0;
+ for(;;) {
+  std::uint32_t at_end=0;
+  if(methods->at_end(methods->context,&at_end)!=0)return 2;
+  if(at_end)break;
+  if(++visits>65536)return 2;
+  Object48* object=nullptr;
+  if(methods->get(methods->context,&object)!=0)return 2;
+  Object48* character=nullptr;
+  // Source GetChar is evaluated for each ObjectList entry before filtering.
+  if(!call(s,resolve_character,object,nullptr,r))return 2;
+  character=reinterpret_cast<Object48*>(r.word);
+  if(character&&!aligned(character))return 2;
+  if(object&&object!=l->owner&&object->visible) {
+   if(!aligned(object))return 2;
+   if(!call(s,is_zonable,object,nullptr,r))return 2;
+   if(!(r.word&&object->zoned&&!object->in_zone)) {
+    if(!call(s,is_interactive,object,l->owner,r))return 2;
+    if(r.word) {
+     int accepted=0;
+     if(character)accepted=character_valid(l,character,l->character_flags,s);
+     else if(!game_object_valid(s,object,l->owner,l->object_filter,accepted))return 2;
+     if(accepted<0)return 2;
+     if(accepted) {
+      if(!call(s,interaction_radius,object,nullptr,r))return 2;
+      const float* point=nullptr;
+      if(!target_point(s,object,point))return 2;
+      float delta[3]={sub(point[0],origin[0]),sub(point[1],origin[1]),sub(point[2],origin[2])};
+      float distance=sub(sub(length(delta),r.number),reference_radius);
+      if(!(distance>radius)) {
+       const float a=angle(delta,look);
+       if(!(cone<3.1416f&&cone<a)) {
+        if(l->count>=l->capacity)return 2;
+        push(l,{object->identity,distance,a,character?1u:0u,0});
+       }
+      }
+     }
+    }
+   }
+  }
+  // Like the source list adapter, Next observes links after callbacks.
+  if(methods->next(methods->context)!=0)return 2;
+ }
+ return 0;
+}
+extern "C" int dh2_target_pop(List48* l,Target24* out) {
+ if(!valid_list(l)||!aligned(out)||(reinterpret_cast<std::uintptr_t>(out)>=reinterpret_cast<std::uintptr_t>(l->heap)&&reinterpret_cast<std::uintptr_t>(out)<reinterpret_cast<std::uintptr_t>(l->heap)+l->capacity*sizeof(Target24)))return 1;
  if(!l->count)return 2;
  *out=l->heap[0];pop(l);return 0;
 }

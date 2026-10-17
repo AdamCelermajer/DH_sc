@@ -1,0 +1,117 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "scope": "bounded inline per-object work slice in ObjectManager::Update(float); no complete manager body claim",
+    "new_complete_bodies": 0,
+    "new_bounded_callers": 1,
+    "oracle_selection_precondition_instructions": ["0x34a7f4", "0x34a7f8", "0x34a7fc"],
+    "excluded_list_advance_instructions": ["0x34aa5c", "0x34aa60"],
+    "supported_slice_instruction_count": 49,
+    "source": ["port/level-world/object_update_dispatch.hpp", "port/level-world/object_update_dispatch.cpp"],
+    "tests": ["port/level-world/tests/object_update_dispatch.cpp", "port/level-world/tests/run_object_update_dispatch_host.py"]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN13ObjectManager6UpdateEf",
+      "elf_address": "0x34a620",
+      "size": 1528,
+      "sha256": "893c7c9a3b63661be61276828a757602fc7e37af3bf189a036385525c67ffa89",
+      "scope": "enclosing manager body pinned for provenance; only source_ranges below are reproduced"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase11IsCharacterEv",
+      "elf_address": "0x33dcd0",
+      "size": 8,
+      "sha256": "6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877",
+      "scope": "slot +0x24 base virtual dependency; per-object oracle intercepts this virtual boundary"
+    },
+    {
+      "original_symbol": "_ZNK9Character11IsCharacterEv",
+      "elf_address": "0x3a2e1c",
+      "size": 8,
+      "sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47",
+      "scope": "Character slot +0x24 virtual dependency; per-object oracle intercepts this virtual boundary"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv",
+      "elf_address": "0x33dd10",
+      "size": 20,
+      "sha256": "e747e9aff56cd8e56b5a34d6570c86fbf70910645922ff428d0b43b9e6d3a821",
+      "scope": "slot +0x54 dependency; independently reconstructed leaf, intercepted here to preserve provider boundary"
+    },
+    {
+      "original_symbol": "_ZN9Character16UpdateAIPointersEv",
+      "elf_address": "0x3a4344",
+      "size": 84,
+      "sha256": "d0eea1708233f2d207f18ca0df8f15e7dde1dfb9a4717af85bfe10fe3f46ef72",
+      "scope": "direct Character helper called only after first IsCharacter result; intercepted provider"
+    },
+    {
+      "original_symbol": "_ZN9Character19UnLoadScriptProcessENSt4priv17_Rb_tree_iteratorISt4pairIKiPS_ENS0_11_MapTraitsTIS5_EEEEb",
+      "elf_address": "0x3a7b24",
+      "size": 280,
+      "sha256": "016d378fc1722c5c90fa2e4a9fa9abac4ad2a45914a65a033b795da7eff47b43",
+      "scope": "direct offline cleanup call with source r1, zero r2 and manager-derived r3 passed through; intercepted provider"
+    },
+    {
+      "original_symbol": "_Z9GetOnlinev",
+      "elf_address": "0x7fd794",
+      "size": 4,
+      "sha256": "39e1051e33bd200a0ebe62d8a3340b45bba86b3a31ac8822e6d4f2c7b60a152e",
+      "scope": "online pointer provider; original caller's byte +5 load executes"
+    },
+    {
+      "original_symbol": "_ZN9Character6UpdateEv",
+      "elf_address": "0x3abe98",
+      "size": 3776,
+      "sha256": "b74b4f3405a8456ce440b642e97f1b0c028c29e9e74abaa1be0aaf1534e1f8c2",
+      "scope": "Character vtable +0x2c target; not reproduced by this caller slice"
+    }
+  ],
+  "source_ranges": [
+    {
+      "start": "0x34a7f4",
+      "size": 92,
+      "sha256": "25747aa9e20c7cbc23238587b2ea1e084c33ae10c60058f68f808a41247b98ec",
+      "meaning": "active node object load, initial +0x24 Character test, direct AIPointers branch, byte +0x85/+0x8a gate, +0x81 deletion boundary, +0x88 store, slot +0x2c dispatch"
+    },
+    {
+      "start": "0x34aa10",
+      "size": 124,
+      "sha256": "37b06a8d63c1a500ad7d424fc86eba98f1f01399bcc429cde0f3cdce48015c52",
+      "meaning": "GetOnline and returned byte +5, slot +0x54 remote path, unconditional +0x86 reset, second +0x24 test and source UnLoadScriptProcess argument setup"
+    }
+  ],
+  "vtable_symbols": [
+    {
+      "symbol": "_ZTV10ObjectBase",
+      "address": "0x95c670",
+      "size": 132,
+      "sha256": "68f873f4dc1fea29244b23f41126c507ef65736a4a33ddd559a2ad445fdc2282",
+      "address_point": "0x95c678"
+    },
+    {
+      "symbol": "_ZTV9Character",
+      "address": "0x965f30",
+      "size": 812,
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "address_point": "0x965f38"
+    }
+  ],
+  "vtable_entries": [
+    {"vtable": "ObjectBase", "address_point": "0x95c678", "slot_offset": "0x24", "entry_address": "0x95c69c", "entry_value": "0x33dcd0", "sha256": "6d442055fe83eb5d4ce26744e6e11591218aea92d28c523a51c3755875387b84"},
+    {"vtable": "ObjectBase", "address_point": "0x95c678", "slot_offset": "0x54", "entry_address": "0x95c6cc", "entry_value": "0x33dd10", "sha256": "a1e299c378d29ab8fede9d5ff875cb607f13b1dc8db42985853063601b8d8b6c"},
+    {"vtable": "Character", "address_point": "0x965f38", "slot_offset": "0x24", "entry_address": "0x965f5c", "entry_value": "0x3a2e1c", "sha256": "0e52870cbfb02f0d686729fe58effc20ff8cf0b4bca21d4a93fb86e320855dd1"},
+    {"vtable": "Character", "address_point": "0x965f38", "slot_offset": "0x2c", "entry_address": "0x965f64", "entry_value": "0x3abe98", "sha256": "2e09e2a2c3cf9dd3c92f330235deb719f93dc5740349b318731d27678e3d1882"},
+    {"vtable": "Character", "address_point": "0x965f38", "slot_offset": "0x54", "entry_address": "0x965f8c", "entry_value": "0x33dd10", "sha256": "a1e299c378d29ab8fede9d5ff875cb607f13b1dc8db42985853063601b8d8b6c"}
+  ],
+  "not_reconstructed": [
+    "ObjectManager linked active-list traversal and null-node advancement",
+    "current-Level outer gate and manager-level update orchestration",
+    "nonzero ObjectBase +0x81 MarkForDeletion and active-list unlink/free path",
+    "manager post-update handle/room bookkeeping after virtual +0x2c returns",
+    "Character::Update, its CanUpdate call, and the culling implementation",
+    "GetOnline, UpdateAIPointers, UnLoadScriptProcess, and dynamic virtual targets are named providers"
+  ]
+}

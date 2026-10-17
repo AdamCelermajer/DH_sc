@@ -1,0 +1,943 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "entrypoint_zero": {
+    "activate_condition": null,
+    "deactivate_condition": null,
+    "entrypoint_id": 0,
+    "local_position": [
+      1090.75,
+      -212.202,
+      258.0
+    ],
+    "local_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "local_scale": [
+      1.0,
+      1.0,
+      1.0
+    ],
+    "module_index": 0,
+    "name": "_prim_EntryPoint",
+    "source_path": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+    "source_record": 10,
+    "world_position": [
+      1090.75,
+      -212.202,
+      258.0
+    ],
+    "world_rotation": [
+      0.0,
+      0.0,
+      0.0
+    ],
+    "world_scale": [
+      1.0,
+      1.0,
+      1.0
+    ]
+  },
+  "format": "dh2-static-level-bundle-v1",
+  "generated": {
+    "001_swamp.dwld": {
+      "bytes": 1176,
+      "sha256": "e66346e14e34f677b7a48cd642ac67a4356e8556c03abb08b388c4c643b128d9"
+    },
+    "001_swamp.spwn": {
+      "bytes": 448,
+      "sha256": "6f0d0ecb2744620732219872beec6d97f3c4807c1e7d1fab477e4f33dc5c9fa0"
+    }
+  },
+  "level_list": {
+    "level_file": "001_swamp.mlx",
+    "name": "SWAMP",
+    "row": 41
+  },
+  "level_list_inputs": {
+    "data/pydata/levels_pyarray.bin": {
+      "bytes": 5574,
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c"
+    },
+    "data/pydata/levels_pyarraynames.bin": {
+      "bytes": 1943,
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432"
+    }
+  },
+  "module_count": 9,
+  "modules": [
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "mgp_records": 27,
+      "module_index": 0,
+      "mvp": "data/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "mvp_records": 6,
+      "name": "obj_4of4_brdwalk_sw_00_0",
+      "node_id": "_module_obj_4of4_brdwalk_sw_00-node",
+      "position": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 1
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "mgp_records": 19,
+      "module_index": 1,
+      "mvp": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "mvp_records": 9,
+      "name": "obj_3of4_brdwalk_sw_00_1",
+      "node_id": "_module_obj_3of4_brdwalk_sw_00-node",
+      "position": [
+        -6000.0,
+        0.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 2
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "mgp_records": 13,
+      "module_index": 2,
+      "mvp": "data/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "mvp_records": 4,
+      "name": "obj_1of4_brdwalk_nse_00_2",
+      "node_id": "_module_obj_1of4_brdwalk_nse_00-node",
+      "position": [
+        -6000.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 3
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "mgp_records": 11,
+      "module_index": 3,
+      "mvp": "data/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "mvp_records": 2,
+      "name": "corner_ruin_ws_00_3",
+      "node_id": "_module_corner_ruin_ws_00-node",
+      "position": [
+        -6000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 4
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "mgp_records": 26,
+      "module_index": 4,
+      "mvp": "data/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "mvp_records": 9,
+      "name": "merchantcamp_ruins_swe_00_4",
+      "node_id": "_module_merchantcamp_ruins_swe_00-node",
+      "position": [
+        -12000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 5
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "mgp_records": 9,
+      "module_index": 5,
+      "mvp": "data/3d/modules/swamp/mvp/corner_brdwalk_se_00.mvp",
+      "mvp_records": 2,
+      "name": "corner_brdwalk_se_00_5",
+      "node_id": "_module_corner_brdwalk_se_00-node",
+      "position": [
+        -12000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 6
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "mgp_records": 9,
+      "module_index": 6,
+      "mvp": "data/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "mvp_records": 7,
+      "name": "deadend_brdwalk_w_00_7",
+      "node_id": "_module_deadend_brdwalk_w_00-node",
+      "position": [
+        -6000.0,
+        18000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 7
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "mgp_records": 29,
+      "module_index": 7,
+      "mvp": "data/3d/modules/swamp/mvp/bossroom_ruins_ns_.mvp",
+      "mvp_records": 4,
+      "name": "bossroom_ruins_ns__8",
+      "node_id": "_module_bossroom_ruins_ns_-node",
+      "position": [
+        -18000.0,
+        12000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 8
+    },
+    {
+      "dae": "data/3d/modules/swamp/swamp.bdae",
+      "mgp": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "mgp_records": 5,
+      "module_index": 8,
+      "mvp": "data/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "mvp_records": 4,
+      "name": "obj_2of4_brdwalk_sw_00_9",
+      "node_id": "_module_obj_2of4_brdwalk_sw_00-node",
+      "position": [
+        0.0,
+        6000.0,
+        0.0
+      ],
+      "rotation": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_record": 9
+    }
+  ],
+  "scope": "authored static module transforms and unique unconditional spawn selectors; no gameplay activation",
+  "selectable_entrypoints": [
+    0,
+    3,
+    13
+  ],
+  "source_assets": [
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/cs_cage_swamp_intro_part2_03.bdae",
+      "bytes": 60568,
+      "path": "data/3d/animateddecors/cs_cage_swamp_intro_part2_03.bdae",
+      "sha256": "cb9a4d04af908a878aa7c383ea4389f14d1a3fd75420e977d04f565b76121321"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/cs_swamp_intro_cage.bdae",
+      "bytes": 61376,
+      "path": "data/3d/animateddecors/cs_swamp_intro_cage.bdae",
+      "sha256": "7fbfa71210caa9fbda6842b360cbbbc8f73552adbfc65bd12519fdbac09c2e90"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/cs_wallbreak_death_cutscene.bdae",
+      "bytes": 55308,
+      "path": "data/3d/animateddecors/cs_wallbreak_death_cutscene.bdae",
+      "sha256": "9085fd51eeed4e4fdd98617d5b725d5be0bb3bca07af78751fa678920cbf2053"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_cave_entrance_troll.bdae",
+      "bytes": 57120,
+      "path": "data/3d/animateddecors/swamp_cave_entrance_troll.bdae",
+      "sha256": "937ed6fcc95182aef204791e90ffe2a3cdb35db884a997b02e0427a8e994b70c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "bytes": 18208,
+      "path": "data/3d/animateddecors/swamp_caveentrance_effect.bdae",
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_rayolight_dust.bdae",
+      "bytes": 6344,
+      "path": "data/3d/animateddecors/swamp_rayolight_dust.bdae",
+      "sha256": "ee72883252f8254758b3f4a6b8b7b593090972b1ebfcff73bdd0e6b2a12edc9c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_tikitorches.bdae",
+      "bytes": 42904,
+      "path": "data/3d/animateddecors/swamp_tikitorches.bdae",
+      "sha256": "155bfb824e8185b938e23df6be31bcafd997a9bd87d7b77bee539407ed61b3c6"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/animateddecors/swamp_watercaustics.bdae",
+      "bytes": 408420,
+      "path": "data/3d/animateddecors/swamp_watercaustics.bdae",
+      "sha256": "3b630684a440775fa601e8f9000fbb87930c33f4b89624889530571725e1d415"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "bytes": 9181,
+      "path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "sha256": "b14672f175a742b36ae477391cdd41cd2d140eba877defffb6abea2673f1d7a4"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "bytes": 4923,
+      "path": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "sha256": "927606bb1ac5683c6b6050f1b20955a889e0c480e400326c07da4de93ed19200"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "bytes": 5383,
+      "path": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "sha256": "ab9614639a09446b5a8520abd703450a1e43dde9a6fc11ca0002646534ea820d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "bytes": 4054,
+      "path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "sha256": "152b6a3f3d8cb0df8306aca6bbb6975597e829770e7e98ce581eeaca8412b6a7"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "bytes": 8739,
+      "path": "data/3d/modules/swamp/mgp/merchantcamp_ruins_swe_00.mgp",
+      "sha256": "e1083daa8f12d618fb00b8d489ddfcb6317ffe2e72a4915a56645245d28a13cf"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "bytes": 5824,
+      "path": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "sha256": "cbc2c661b6eb393a024b8ecbf03a6ada2f7950fb35a5dfbf116ed8c444db69c2"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "bytes": 2417,
+      "path": "data/3d/modules/swamp/mgp/obj_2of4_brdwalk_sw_00.mgp",
+      "sha256": "303921023dfe9ad6bad75aba97ae2e18a5248be5089e2e79653a934282b8036c"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "bytes": 8900,
+      "path": "data/3d/modules/swamp/mgp/obj_3of4_brdwalk_sw_00.mgp",
+      "sha256": "2ec6ce7053701e9903e4e41f7496f317b7ccf0257a10543797c51919f02a5c41"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "bytes": 9232,
+      "path": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/bossroom_ruins_ns_.mvp",
+      "bytes": 2237,
+      "path": "data/3d/modules/swamp/mvp/bossroom_ruins_ns_.mvp",
+      "sha256": "bf689f385902d12730ab38fd730d448ecc105254bbcc0c2e7a7fbb0c92ce3797"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/corner_brdwalk_se_00.mvp",
+      "bytes": 1101,
+      "path": "data/3d/modules/swamp/mvp/corner_brdwalk_se_00.mvp",
+      "sha256": "11c95945c97393e604d79ad2706d6190ac492f703bf85ffc9e1f8dc352a6bd11"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "bytes": 1071,
+      "path": "data/3d/modules/swamp/mvp/corner_ruin_ws_00.mvp",
+      "sha256": "967301df19a3ea818015c4da69b99a795d840fd9855de9f65d2fe8bb0f051628"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "bytes": 3514,
+      "path": "data/3d/modules/swamp/mvp/deadend_brdwalk_w_00.mvp",
+      "sha256": "aeea232d27977b58615291d42d68120b7bf9c21858227510eab193d382492d18"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "bytes": 4211,
+      "path": "data/3d/modules/swamp/mvp/merchantcamp_ruins_swe_00.mvp",
+      "sha256": "22dc4cc9a7dcc0495f32d979ff2ef9d0080be6801d4d991295621b44129c5231"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "bytes": 1931,
+      "path": "data/3d/modules/swamp/mvp/obj_1of4_brdwalk_nse_00.mvp",
+      "sha256": "19bdcfeb32789a324fe7d87d127680b865bca5643f63d2b9c5e5cd90baea3160"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "bytes": 1892,
+      "path": "data/3d/modules/swamp/mvp/obj_2of4_brdwalk_sw_00.mvp",
+      "sha256": "f017049000a9b65c184e48a58aa9bcc1d71f365c597e5a1cc66ccb75fe7ca339"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "bytes": 3947,
+      "path": "data/3d/modules/swamp/mvp/obj_3of4_brdwalk_sw_00.mvp",
+      "sha256": "348ef39d30b8915a0b8c72093b8f5ed56bac5ac839f44c0b2ac0d3875f883244"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "bytes": 2843,
+      "path": "data/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "sha256": "09d6d38f0a79f7c2655141cf965008a9330ec9b444d78542adb3d0b3d681baa9"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/modules/swamp/swamp.bdae",
+      "bytes": 5585024,
+      "path": "data/3d/modules/swamp/swamp.bdae",
+      "sha256": "89da80c60a7ebecd0e8a27a9d46f2625e3a5ec112933e5aa7cab251412b8364d"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "bytes": 162552,
+      "path": "data/3d/props/swamp/prop_swamp_corpses.bdae",
+      "sha256": "50b681e96d5e5f2647adee92e7344be815afd821e0a2586e61a61dd60e1b9e01"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/skybox/skybox_swamp.bdae",
+      "bytes": 6148,
+      "path": "data/3d/skybox/skybox_swamp.bdae",
+      "sha256": "8466427cc4bedd8d3c0eed07200af39bae140aa76a4101fb704cbbdcef34d09e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_swamp.tga",
+      "bytes": 524348,
+      "path": "data/3d/textures/env_swamp.tga",
+      "sha256": "f3eb432f6f2332b65a2bbeeb26528c3a6e3075ada4df9c6425aa1934816b4e4e"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/env_swamp_spec.tga",
+      "bytes": 131132,
+      "path": "data/3d/textures/env_swamp_spec.tga",
+      "sha256": "cd892b928ea9671bff1bf49154cecb3ee2271064aa2236127cb5b3542e95c0fc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/pvr2_env_swamp_alpha.tga",
+      "bytes": 262204,
+      "path": "data/3d/textures/pvr2_env_swamp_alpha.tga",
+      "sha256": "928622d0ef735d0cda4120b5bbe66e2d58e56d81cd7646579a23f683c20e76a0"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "bytes": 18792,
+      "path": "data/gfx/effects/gl_diffuse_l1_vc_iphone.bdae",
+      "sha256": "10c64054906caf1683f3669becf415fe20196491ac5f182881cb69705d080bdc"
+    },
+    {
+      "archive_member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/001_swamp.mlx",
+      "bytes": 6788,
+      "path": "data/scene/001_swamp.mlx",
+      "sha256": "e3694600f07184567efcdecb79826da8bfe7aa09b7f1505b1bc13eb1eb68a041"
+    }
+  ],
+  "source_layout": "data/scene/001_swamp.mlx",
+  "spawn_point_count": 11,
+  "unsupported_entrypoints": [
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        771.258,
+        197.887,
+        195.758
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_WitchCaveExit",
+      "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "source_record": 2,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5228.742,
+        18197.887,
+        195.758
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        773.699,
+        194.064,
+        195.758
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_WitchCaveExit01",
+      "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "source_record": 3,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5226.301,
+        18194.064,
+        195.758
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        771.45,
+        198.824,
+        195.758
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_WitchCaveExit02",
+      "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "source_record": 4,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5228.55,
+        18198.824,
+        195.758
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 4,
+      "local_position": [
+        775.3,
+        193.721,
+        195.758
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 6,
+      "name": "_prim_EntryPoint_WitchCaveExit03",
+      "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+      "source_record": 5,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -5224.7,
+        18193.721,
+        195.758
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        -45.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "RENE_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        6140.53,
+        -398.688,
+        252.089
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_darkwood",
+      "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_record": 13,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11859.470000000001,
+        11601.312,
+        252.089
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "NoFollowers1",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        6299.59,
+        -398.688,
+        252.089
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_darkwood03",
+      "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_record": 23,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11700.41,
+        11601.312,
+        252.089
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "EDWARD_FOLLOW",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        6199.25,
+        -592.166,
+        252.089
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_darkwood04",
+      "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_record": 24,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11800.75,
+        11407.834,
+        252.089
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    },
+    {
+      "activate_condition": "IsAfter_KillFlaminite",
+      "deactivate_condition": null,
+      "entrypoint_id": 1,
+      "local_position": [
+        6199.25,
+        -212.45,
+        252.089
+      ],
+      "local_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "local_scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "module_index": 7,
+      "name": "_prim_EntryPoint_from_darkwood05",
+      "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+      "source_record": 25,
+      "unsupported_reasons": [
+        "duplicate_entrypoint_id",
+        "conditional_activation"
+      ],
+      "world_position": [
+        -11800.75,
+        11787.55,
+        252.089
+      ],
+      "world_rotation": [
+        0.0,
+        0.0,
+        90.0
+      ],
+      "world_scale": [
+        1.0,
+        1.0,
+        1.0
+      ]
+    }
+  ],
+  "unsupported_spawn_id_groups": [
+    {
+      "entrypoint_id": 1,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_darkwood",
+          "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+          "source_record": 13
+        },
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_darkwood03",
+          "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+          "source_record": 23
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_darkwood04",
+          "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+          "source_record": 24
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 7,
+          "name": "_prim_EntryPoint_from_darkwood05",
+          "source_path": "data/3d/modules/swamp/mgp/bossroom_ruins_ns_.mgp",
+          "source_record": 25
+        }
+      ]
+    },
+    {
+      "entrypoint_id": 4,
+      "reason": "duplicate IDs and/or conditions cannot be represented by SPWN v1",
+      "source_rows": [
+        {
+          "activate_condition": "RENE_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_WitchCaveExit",
+          "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+          "source_record": 2
+        },
+        {
+          "activate_condition": "NoFollowers1",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_WitchCaveExit01",
+          "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+          "source_record": 3
+        },
+        {
+          "activate_condition": "EDWARD_FOLLOW",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_WitchCaveExit02",
+          "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+          "source_record": 4
+        },
+        {
+          "activate_condition": "IsAfter_KillFlaminite",
+          "deactivate_condition": null,
+          "module_index": 6,
+          "name": "_prim_EntryPoint_WitchCaveExit03",
+          "source_path": "data/3d/modules/swamp/mgp/deadend_brdwalk_w_00.mgp",
+          "source_record": 5
+        }
+      ]
+    }
+  ]
+}

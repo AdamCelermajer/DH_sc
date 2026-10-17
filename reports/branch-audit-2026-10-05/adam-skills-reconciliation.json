@@ -1,0 +1,196 @@
+{
+  "adam_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+  "current_comparison_head": "41e75b7e33c5b7f8ccf592c36a493a9b6e27b89e",
+  "documents": [
+    "docs/THREE-SESSION-CHECKPOINT-2026-10-05.md",
+    "docs/NATIVE-PLAYER-SKILLS-LOOT-MILESTONE-2026-10-05.md"
+  ],
+  "classifications": [
+    {
+      "modules": [
+        "character_ai_set_skills_and_spells",
+        "character_ai_skill_script_constructor",
+        "character_faery_selection",
+        "character_ai_update_all_skills",
+        "character_ai_skill_script_update",
+        "character_ai_skill_script_check",
+        "character_skill_state_queries",
+        "script_value_boolean"
+      ],
+      "classification": "retain current",
+      "reason": "Current original-callers/proofs maintained; avoid overlapping bodies."
+    },
+    {
+      "modules": [
+        "character_timers",
+        "properties",
+        "class_tables"
+      ],
+      "classification": "retain shared authority",
+      "reason": "Identical source after LF normalization; one Prince Coordinator timer/property owner."
+    },
+    {
+      "modules": [
+        "skill_tables",
+        "faery_tables"
+      ],
+      "classification": "adapt table views",
+      "reason": "Our owned rows differ from Adam Borrow APIs; frozen preparation adapter owns projected tables. Retain decoder/data."
+    },
+    {
+      "modules": [
+        "character_script_player_vcb_v2"
+      ],
+      "classification": "reuse first",
+      "reason": "Player60B adds OnKill0x400 after Default; adapt current Default. IPhone inherits player, not External VCB."
+    },
+    {
+      "modules": [
+        "character_skill_callbacks_v3"
+      ],
+      "classification": "select missing parts",
+      "reason": "Reuse Pre/Use/Post; retain existing Check and typed Value/ReturnValues providers."
+    },
+    {
+      "modules": [
+        "character_skill_class_v3",
+        "character_skill_properties_v1"
+      ],
+      "classification": "adapt missing kernels",
+      "reason": "Class apply to resolved, not base; reuse live PropertyView, preserve source mutation/failure order."
+    },
+    {
+      "modules": [
+        "character_current_skill_v2",
+        "character_current_spell_v1",
+        "character_faery_element_v3",
+        "character_buffs",
+        "skill_buff_bindings_v3",
+        "character_skill_ai_v3",
+        "character_skill_info_v1"
+      ],
+      "classification": "reuse bounded missing kernels",
+      "reason": "Compose existing actor/VM/timer/property authority and genuine providers before native activation."
+    },
+    {
+      "modules": [
+        "ScriptOwnerV2",
+        "ScriptSessionV3",
+        "CharacterPlayerSkillsV3"
+      ],
+      "classification": "adapt glue only",
+      "reason": "Whole adoption creates parallel VM/lifecycle/cache/timer slots beside existing Prince. Reuse source stages/services."
+    },
+    {
+      "modules": [
+        "Adam-ReturnValues",
+        "Adam-ScriptRuntime"
+      ],
+      "classification": "retain current additive VM",
+      "reason": "Source status/failure epoch/indexed observer already host-tested in same VM; no parallel VM or ReturnValues unit."
+    },
+    {
+      "modules": [
+        "player_skill_vm_services"
+      ],
+      "classification": "paused uncompiled draft",
+      "reason": "Uses External VCB; not a player runtime. Excluded from tests/APK/selection; no OnInit replay."
+    },
+    {
+      "modules": [
+        "loot_v7"
+      ],
+      "classification": "separate later reuse",
+      "reason": "Useful weighted inventory/RNG/property kernels; full AddLoot/drop/pickup/merchant/live gameplay not established."
+    },
+    {
+      "modules": [
+        "character_skill_cooldown_v3"
+      ],
+      "classification": "adapted and frozen",
+      "reason": "Borrowed selected-list/slot/live field services replace Adam owner; original Lua commons creates/expires via one existing Coordinator and same current VM. No second timer/property store.",
+      "source": [
+        "port/level-world/character_skill_cooldown_services.hpp",
+        "port/level-world/character_skill_cooldown_services.cpp"
+      ],
+      "proof": "port/level-world/build/character-skill-cooldown-services-final/validation.json",
+      "status": {
+        "original_arm_cases": 545,
+        "ordinary_skill_instructions": 88,
+        "spell_instructions": 47,
+        "host_cases": 15,
+        "guards": 11,
+        "failure_cases": 12,
+        "real_lua_cases": 5,
+        "mismatches": 0
+      },
+      "boundary": "Skill assertion recovery, string/object number provider bodies and native player activation pending; zero newly reconstructed complete-body credit."
+    }
+  ],
+  "shared_source_comparison": [
+    {
+      "path": "port/level-world/character_timers.hpp",
+      "current_raw_sha256": "d57e1c747cd582a2948a90799754681e6a876f8b50a6b3537881142f9f9f505c",
+      "adam_git_blob_sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+      "difference": "CRLF checkout versus LF blob only",
+      "lf_normalized_sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883"
+    },
+    {
+      "path": "port/level-world/character_timers.cpp",
+      "current_raw_sha256": "5bb3e0181f361c7c3b3633069a6148abcdbfaa99806d6798619a996bef203ba9",
+      "adam_git_blob_sha256": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+      "difference": "CRLF checkout versus LF blob only",
+      "lf_normalized_sha256": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4"
+    },
+    {
+      "path": "port/game-data/properties.hpp",
+      "current_raw_sha256": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+      "adam_git_blob_sha256": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+      "difference": "CRLF checkout versus LF blob only",
+      "lf_normalized_sha256": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d"
+    },
+    {
+      "path": "port/game-data/properties.cpp",
+      "current_raw_sha256": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+      "adam_git_blob_sha256": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+      "difference": "CRLF checkout versus LF blob only",
+      "lf_normalized_sha256": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877"
+    },
+    {
+      "path": "port/game-data/class_tables.hpp",
+      "current_raw_sha256": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+      "adam_git_blob_sha256": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+      "difference": "CRLF checkout versus LF blob only",
+      "lf_normalized_sha256": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7"
+    },
+    {
+      "path": "port/game-data/class_tables.cpp",
+      "current_raw_sha256": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+      "adam_git_blob_sha256": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+      "difference": "CRLF checkout versus LF blob only",
+      "lf_normalized_sha256": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595"
+    }
+  ],
+  "different_measures": {
+    "adam": {
+      "player_sessions": 3,
+      "source_skill_instances": 19,
+      "measure": "Non-null class skill slots only; faeries excluded. Source Lua/owner host composition, not packaged Android adoption.",
+      "report": "port/level-world/reports/native-player-skills-loot-main-linked-host-audit-v1.json"
+    },
+    "ours": {
+      "prepared_nonnull_instances": 39,
+      "class_slots": 24,
+      "faery_slots": 15,
+      "distinct_script_names": 29,
+      "measure": "Actual-cache preparation; Lua not executed.",
+      "report": "port/level-world/build/player-skills-preparation-v3-final/validation.json"
+    },
+    "comparison": "Different measures; Adam null-slot cause not established. Next same-VM composition needs per-slot load status/epoch/registration/null reasons."
+  },
+  "scope": {
+    "native_player_activation": false,
+    "full_campaign_complete": false,
+    "second_vm_proposed": false
+  }
+}

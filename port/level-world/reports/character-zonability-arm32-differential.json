@@ -1,0 +1,75 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_elf": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\test_strategy\\libDungeonHunter2.so",
+  "function_manifest_sha256": "a58c4bd0ce5985f61b9ccbc62a393f2da7484c22b37e29254260e72e6b5e24ea",
+  "original_arm_execution": {
+    "comparisons": 45,
+    "mismatches": 0,
+    "source_virtual_player_calls": 45,
+    "source_faerie_body_calls": 9,
+    "source_meet_condition_calls": 8,
+    "original_executed_instructions": 24,
+    "coverage": [
+      "0x38ab60",
+      "0x38ab64",
+      "0x3a3094",
+      "0x3a3098",
+      "0x3a309c",
+      "0x3a30a0",
+      "0x3a30a4",
+      "0x3a30a8",
+      "0x3a36e4",
+      "0x3a36e8",
+      "0x3a36ec",
+      "0x3a36f0",
+      "0x3a36f4",
+      "0x3a36f8",
+      "0x3a36fc",
+      "0x3a3700",
+      "0x3a3704",
+      "0x3a3708",
+      "0x3a370c",
+      "0x3a3710",
+      "0x3a3714",
+      "0x3a3718",
+      "0x3a371c",
+      "0x3a3720"
+    ],
+    "corpus_sha256": "4aba0ee7757074d979d66db1bc8c43644c6efda35818c8598d000cb1e19a429f"
+  },
+  "portable_host_tests": {
+    "validation": "PASS",
+    "cases": 19,
+    "source_identity_width": 64,
+    "provider_failures": 2,
+    "stale_owner_rebind_checked": true
+  },
+  "portable_arm_corpus_replay": {
+    "validation": "PASS",
+    "arm_cases": 45,
+    "portable_provider_calls": 54,
+    "source_identity_width": 64
+  },
+  "source_sha256": {
+    "port/level-world/character_zonability.hpp": "0c395ae04332cfa5f8fa4f57da2319ed14eb0eb9acc7bddad04e97e919167148",
+    "port/level-world/character_zonability.cpp": "324051b8aa03aedd69b5c6d48107f5d5539e0154f587313041a4bae4e31e00b3",
+    "port/level-world/tests/character_zonability.cpp": "2c7cc1a89003bd4711d3ea65fb04d9ebec8d3be0bd5dbfba1f855249d8376f11",
+    "port/level-world/tests/character_zonability_replay.cpp": "cc4625f62dccba49a04e5f5e813e84cec1bc3e7c8eccf8cb7a962207e629f82e",
+    "port/level-world/tests/run_character_zonability_host.py": "91590b13721006114d3081fcb6ef2b068a864bb5da7e4e5bac1d61642692a5f5",
+    "port/level-world/reference/character-zonability/original-functions.json": "a58c4bd0ce5985f61b9ccbc62a393f2da7484c22b37e29254260e72e6b5e24ea",
+    "port/level-world/reference/character-zonability/reference/original-functions.asm": "5f9f2e75183c26bdf826d88fe2b217f3d1b05ca748ae39e47b50d4f0921e64b3",
+    "port/level-world/reference/character-zonability/NOTES.md": "cd2748fa619bc3cf51179f8a7615003307511c2e8bfb4a4fc22352224eaf295c"
+  },
+  "host_binaries_sha256": {
+    ".local-inputs\\character-zonability\\character_zonability_host": "babfc1a609fde9d55f39754c34f254cf228e41146709e115d4f8babfa3fd5575",
+    ".local-inputs\\character-zonability\\character_zonability_replay": "dff33a91ec6dd603b037c654738fd83fea09d8ffa4abd74c16d790de10df4e1b"
+  },
+  "corpus_sha256": "4aba0ee7757074d979d66db1bc8c43644c6efda35818c8598d000cb1e19a429f",
+  "sanitizers": [
+    "AddressSanitizer",
+    "UndefinedBehaviorSanitizer"
+  ],
+  "sanitizer_findings": 0,
+  "scope": "Pinned original A32 Character::IsZonable, Character::IsFaerie and GameObject::MeetCondition bodies execute; Player virtual fact and GetCharType table word are explicit fixture boundaries. The C++ helper replays final result and ordered top-level predicates. No zone enrollment, in_zone producer, complete CharAI frame or live Ghost pursuit claim."
+}

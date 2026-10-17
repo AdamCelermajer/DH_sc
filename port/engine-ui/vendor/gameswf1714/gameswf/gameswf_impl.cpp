@@ -161,12 +161,12 @@ namespace gameswf
 
 	void	ensure_loaders_registered()
 	{
-		static bool	s_registered = false;
-
-		if (s_registered == false)
+		// Last-player teardown clears the actual shared loader table. Its
+		// end-tag entry is the registration authority across later players;
+		// a process-lifetime boolean would outlive that table's contents.
+		if (get_tag_loader(0, NULL) == false)
 		{
 			// Register the standard loaders.
-			s_registered = true;
 			register_tag_loader(0, end_loader);
 			register_tag_loader(2, define_shape_loader);
 			register_tag_loader(4, place_object_2_loader);

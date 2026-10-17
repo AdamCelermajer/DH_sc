@@ -14,44 +14,80 @@ template<class Row>bool valid_selection(std::int32_t* out,dh2::data::LootRandom8
  if(count&&(!span(rows,std::size_t(count)*sizeof(Row),alignof(Row))||overlap(out,4,rows,std::size_t(count)*sizeof(Row))||overlap(random,sizeof(*random),rows,std::size_t(count)*sizeof(Row))))return false;
  return true;
 }
+template<class Row>bool valid_live(std::int32_t* out,const dh2::data::InventoryRandomServiceV4& random,const Row* rows,std::uint32_t count){
+ if(!span(out,4,4)||count>65536||overlap(out,4,&random,sizeof(random)))return false;
+ if(count&&(!span(rows,std::size_t(count)*sizeof(Row),alignof(Row))||overlap(out,4,rows,std::size_t(count)*sizeof(Row))))return false;
+ return true;
 }
-extern "C" int dh2_loot_power_select_v7(std::uint32_t* out,dh2::data::LootRandom8V2* random,const dh2::data::LootPowerChoiceV7* rows,std::uint32_t count) noexcept {
- if(!valid_selection(reinterpret_cast<std::int32_t*>(out),random,rows,count))return -1;
+bool fixture_random(void* context,std::int32_t bound,std::uint32_t stream,std::int32_t& value,std::string& error){
+ if(!context||stream!=0||dh2_loot_v2_random(static_cast<dh2::data::LootRandom8V2*>(context),bound,&value)){
+  error="Invalid borrowed fixture RNG";return false;}return true;
+}
+int live_draw(const dh2::data::InventoryRandomServiceV4& random,std::int32_t bound,std::int32_t& value,std::string& error){
+ if(!random.next){error="Required borrowed source RNG missing";return -2;}
+ try{if(random.next(random.context,bound,0,value,error))return 0;}
+ catch(...){error="Borrowed source RNG provider threw";return -2;}
+ if(error.empty())error="Required borrowed source RNG failed";return -2;
+}
+template<class Draw>int power_select(std::uint32_t* out,const dh2::data::LootPowerChoiceV7* rows,std::uint32_t count,Draw draw_next){
  std::uint32_t total=0;for(unsigned i=0;i<count;++i)total+=std::uint32_t(std::int32_t(rows[i].probability));
  if(!count||!total)return -2;
- std::int32_t draw;if(dh2_loot_v2_random(random,signed_word(total),&draw))return -1;
+ std::int32_t draw;auto status=draw_next(signed_word(total),draw);if(status)return status;
  auto remainder=std::uint32_t(draw);
  for(unsigned i=0;i<count;++i){auto weight=std::uint32_t(std::int32_t(rows[i].probability));
   if(remainder<weight){*out=i;return 0;}remainder-=weight;}
  return -2;
 }
-extern "C" int dh2_loot_quantity_v7(std::int32_t* out,dh2::data::LootRandom8V2* random,const dh2::data::LootQuantityChoiceV7* rows,std::uint32_t count,std::int32_t bonus) noexcept {
- if(!valid_selection(out,random,rows,count))return -1;
+template<class Draw>int quantity(std::int32_t* out,const dh2::data::LootQuantityChoiceV7* rows,std::uint32_t count,std::int32_t bonus,Draw draw_next){
  std::uint32_t total=0;for(unsigned i=0;i<count;++i)total+=std::uint32_t(std::int32_t(rows[i].probability));
  if(!count||!total)return -2;
- std::int32_t draw;if(dh2_loot_v2_random(random,signed_word(total),&draw))return -1;
+ std::int32_t draw;auto status=draw_next(signed_word(total),draw);if(status)return status;
  auto remainder=std::uint32_t(draw)+std::uint32_t(bonus);
  if(remainder>=total)remainder=total-1;
  for(unsigned i=0;i<count;++i){auto weight=std::uint32_t(std::int32_t(rows[i].probability));
   if(remainder<weight){*out=rows[i].quantity;return 0;}remainder-=weight;}
  return -2;
 }
-extern "C" int dh2_loot_item_value_v7(std::int32_t* out,dh2::data::LootRandom8V2* random,const dh2::data::ItemRecord164* record,const dh2::data::LootPowerGold8V7* powers,std::uint32_t count,std::int32_t bonus256) noexcept {
- if(!valid_selection(out,random,powers,count)||!span(record,sizeof(*record),4)||
-    overlap(out,4,record,sizeof(*record))||overlap(random,sizeof(*random),record,sizeof(*record)))return -1;
+template<class Draw>int value(std::int32_t* out,const dh2::data::ItemRecord164* record,const dh2::data::LootPowerGold8V7* powers,std::uint32_t count,std::int32_t bonus256,Draw draw_next){
  auto& w=record->words;
  if(w[22]!=13){auto value=std::uint32_t(w[27])*std::uint32_t(w[28]);
   for(unsigned i=0;i<count;++i)value+=std::uint32_t(powers[i].multiplier)*std::uint32_t(powers[i].bonus);
   *out=signed_word(value);return 0;}
- std::int32_t draw;if(dh2_loot_v2_random(random,signed_word(std::uint32_t(w[28])+1u-std::uint32_t(w[27])),&draw))return -1;
+ std::int32_t draw;auto status=draw_next(signed_word(std::uint32_t(w[28])+1u-std::uint32_t(w[27])),draw);if(status)return status;
  const float amount=static_cast<float>(signed_word(std::uint32_t(draw)+std::uint32_t(w[27])));
  const float bonus=static_cast<float>(asr8(bonus256));
  const float shifted=bonus+100.0f;
  const float scale=shifted/100.0f;
  *out=truncate(amount*scale);return 0;
 }
+}
+extern "C" int dh2_loot_power_select_v7(std::uint32_t* out,dh2::data::LootRandom8V2* random,const dh2::data::LootPowerChoiceV7* rows,std::uint32_t count) noexcept {
+ if(!valid_selection(reinterpret_cast<std::int32_t*>(out),random,rows,count))return -1;
+ return power_select(out,rows,count,[&](std::int32_t bound,std::int32_t& draw){return dh2_loot_v2_random(random,bound,&draw)?-1:0;});
+}
+extern "C" int dh2_loot_quantity_v7(std::int32_t* out,dh2::data::LootRandom8V2* random,const dh2::data::LootQuantityChoiceV7* rows,std::uint32_t count,std::int32_t bonus) noexcept {
+ if(!valid_selection(out,random,rows,count))return -1;
+ return quantity(out,rows,count,bonus,[&](std::int32_t bound,std::int32_t& draw){return dh2_loot_v2_random(random,bound,&draw)?-1:0;});
+}
+extern "C" int dh2_loot_item_value_v7(std::int32_t* out,dh2::data::LootRandom8V2* random,const dh2::data::ItemRecord164* record,const dh2::data::LootPowerGold8V7* powers,std::uint32_t count,std::int32_t bonus256) noexcept {
+ if(!valid_selection(out,random,powers,count)||!span(record,sizeof(*record),4)||overlap(out,4,record,sizeof(*record))||overlap(random,sizeof(*random),record,sizeof(*record)))return -1;
+ return value(out,record,powers,count,bonus256,[&](std::int32_t bound,std::int32_t& draw){return dh2_loot_v2_random(random,bound,&draw)?-1:0;});
+}
 namespace dh2::data {
-LootPowerCreationV7::LootPowerCreationV7(LootPowerResourcesV7::Borrow resources,LootRandom8V2& random):resources_(std::move(resources)),random_(&random){if(!resources_)throw std::invalid_argument("Missing power creation resources");}
+int loot_power_select_v7(std::uint32_t* out,const InventoryRandomServiceV4& random,const LootPowerChoiceV7* rows,std::uint32_t count,std::string& error) noexcept {
+ if(!valid_live(reinterpret_cast<std::int32_t*>(out),random,rows,count))return -1;
+ return power_select(out,rows,count,[&](std::int32_t bound,std::int32_t& draw){return live_draw(random,bound,draw,error);});
+}
+int loot_quantity_v7(std::int32_t* out,const InventoryRandomServiceV4& random,const LootQuantityChoiceV7* rows,std::uint32_t count,std::int32_t bonus,std::string& error) noexcept {
+ if(!valid_live(out,random,rows,count))return -1;
+ return quantity(out,rows,count,bonus,[&](std::int32_t bound,std::int32_t& draw){return live_draw(random,bound,draw,error);});
+}
+int loot_value_v7(std::int32_t* out,const InventoryRandomServiceV4& random,const ItemRecord164* record,const LootPowerGold8V7* powers,std::uint32_t count,std::int32_t bonus,std::string& error) noexcept {
+ if(!valid_live(out,random,powers,count)||!span(record,sizeof(*record),4)||overlap(out,4,record,sizeof(*record)))return -1;
+ return value(out,record,powers,count,bonus,[&](std::int32_t bound,std::int32_t& draw){return live_draw(random,bound,draw,error);});
+}
+LootPowerCreationV7::LootPowerCreationV7(LootPowerResourcesV7::Borrow resources,InventoryRandomServiceV4 random):resources_(std::move(resources)),random_(random){if(!resources_)throw std::invalid_argument("Missing power creation resources");}
+LootPowerCreationV7::LootPowerCreationV7(LootPowerResourcesV7::Borrow resources,LootRandom8V2& random):LootPowerCreationV7(std::move(resources),InventoryRandomServiceV4{&random,fixture_random}){}
 bool LootPowerCreationV7::add_powers(const LootEntry32V2& entry,ItemInstanceV1& item,std::int32_t bonus256,std::int32_t requested,std::int32_t difficulty,const LootPowerServicesV7& services,std::string& error){
  error.clear();if(running_){error="Destructive power creation reentry unsupported";return false;}
  auto list_id=entry.words[1];if(list_id==-1)return true;
@@ -60,8 +96,8 @@ bool LootPowerCreationV7::add_powers(const LootEntry32V2& entry,ItemInstanceV1& 
  struct Guard{bool& flag;explicit Guard(bool& x):flag(x){flag=true;}~Guard(){flag=false;}}guard(running_);
  if(requested==-1){auto quantity_id=entry.words[3];const auto& rows=resources_.quantities();
   if(quantity_id<0||std::size_t(quantity_id)>=rows.size()){error="Required invalid NumProbArray Debug continuation";return false;}
-  const auto& row=rows[quantity_id];auto status=dh2_loot_quantity_v7(&requested,random_,row.data(),std::uint32_t(row.size()),asr8(bonus256));
-  if(status){error="Required NumProbArray selection continuation";return false;}}
+  const auto& row=rows[quantity_id];auto status=loot_quantity_v7(&requested,random_,row.data(),std::uint32_t(row.size()),asr8(bonus256),error);
+  if(status){if(error.empty())error="Required NumProbArray selection continuation";return false;}}
  auto call=[&](LootPowerOperationV7 op,std::uint32_t caller,const char* key,std::int32_t power){
   if(!services.invoke){error="Required native loot-power service missing";return false;}
   const auto before=item.powers.size();
@@ -88,8 +124,8 @@ bool LootPowerCreationV7::add_powers(const LootEntry32V2& entry,ItemInstanceV1& 
   blocked=false;for(auto type:lists[id])if(used.count(type)){blocked=true;break;}return true;};
  unsigned retries=0;
  while(target>item.powers.size()){
-  std::uint32_t index;auto status=dh2_loot_power_select_v7(&index,random_,list.data(),std::uint32_t(list.size()));
-  if(status){error="Required weighted ItemPowerList Debug continuation";return false;}
+  std::uint32_t index;auto status=loot_power_select_v7(&index,random_,list.data(),std::uint32_t(list.size()),error);
+  if(status){if(error.empty())error="Required weighted ItemPowerList Debug continuation";return false;}
   const auto& choice=list[index];auto* row=definition(choice);if(!row)return false;bool blocked;
   if(!conflict(*row,blocked))return false;
   if(blocked){++retries;if(!debug(0x40367c,0x403698,"isTracingItemInventory_Loot"))return false;
@@ -108,15 +144,18 @@ bool LootPowerCreationV7::add_powers(const LootEntry32V2& entry,ItemInstanceV1& 
  }
  return true;
 }
-bool loot_item_value_v7(ItemInstanceV1& instance,const ItemTable& items,ItemPowerTablesV5::Borrow powers,LootRandom8V2& random,std::int32_t bonus256,const ItemTextServicesV5& text,std::string& error){
+bool loot_item_value_v7(ItemInstanceV1& instance,const ItemTable& items,ItemPowerTablesV5::Borrow powers,const InventoryRandomServiceV4& random,std::int32_t bonus256,const ItemTextServicesV5& text,std::string& error){
  error.clear();auto* metadata=item(items,instance.id);if(!metadata||!powers||instance.powers.size()>65536){error="Loot value needs genuine item/power backing";return false;}
  std::vector<LootPowerGold8V7> values;
  if(metadata->record.words[22]!=13){values.reserve(instance.powers.size());for(auto id:instance.powers){
   if(id<0||std::size_t(id)>=powers.rows().size()){error="Required invalid power valuation continuation";return false;}
   const auto& row=powers.rows()[id].scalars;values.push_back({row.gold_multiplier,row.gold_bonus});}}
  std::int32_t value;
- if(dh2_loot_item_value_v7(&value,&random,&metadata->record,values.data(),std::uint32_t(values.size()),bonus256)){
-  error="Invalid native loot valuation projection";return false;}
+ if(loot_value_v7(&value,random,&metadata->record,values.data(),std::uint32_t(values.size()),bonus256,error)){
+  if(error.empty())error="Invalid native loot valuation projection";return false;}
  instance.value=value;return item_update_name_v5(instance,text,error);
+}
+bool loot_item_value_v7(ItemInstanceV1& instance,const ItemTable& items,ItemPowerTablesV5::Borrow powers,LootRandom8V2& random,std::int32_t bonus256,const ItemTextServicesV5& text,std::string& error){
+ return loot_item_value_v7(instance,items,std::move(powers),InventoryRandomServiceV4{&random,fixture_random},bonus256,text,error);
 }
 }

@@ -1,0 +1,428 @@
+{
+  "status": "passed",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_library_sha256": "0d8d09c016873976bc6ada1a5c4c868edd00aa408d950fa6b00e095a3d96b9a9",
+  "scenario_count": 9,
+  "mismatches": 0,
+  "original_function_executed": "CharAI::AI_SetTarget at 0x3d6890",
+  "source_helper_services": [
+    "DebugSwitches::load/GetSwitch",
+    "Character::GetCharAIId pure leaf",
+    "target GameObject vtable +0x34 IsDead",
+    "CharAI::AI_IsInSight(GameObject const*)"
+  ],
+  "scope": "The original AI_SetTarget ARM32 instructions execute in Unicorn and are compared with the host source kernel, including final fields and ordered debug/dead/sight services. Source helpers are deterministic fixtures. This is not Android actor integration or an independent DebugSwitches/IsDead/AI_IsInSight reconstruction.",
+  "scenarios": [
+    {
+      "name": "force-nonnull",
+      "snapshot": {
+        "requested": 2,
+        "target": 2,
+        "last": 3,
+        "alive": 3,
+        "sight": 4,
+        "sticky": 1,
+        "owner_id": 513,
+        "owner_a_marker": 16962,
+        "owner_b_marker": 43605,
+        "events": [],
+        "getter_owner_ids": []
+      },
+      "service_events": 0
+    },
+    {
+      "name": "normal-set-character-target",
+      "snapshot": {
+        "requested": 1,
+        "target": 1,
+        "last": 1,
+        "alive": 0,
+        "sight": 1,
+        "sticky": 0,
+        "owner_id": 513,
+        "owner_a_marker": 0,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            257,
+            0,
+            1
+          ],
+          [
+            4,
+            0,
+            257,
+            513,
+            1
+          ]
+        ],
+        "getter_owner_ids": [
+          513
+        ]
+      },
+      "service_events": 4
+    },
+    {
+      "name": "normal-clear-null",
+      "snapshot": {
+        "requested": 0,
+        "target": 0,
+        "last": 3,
+        "alive": 3,
+        "sight": 4,
+        "sticky": 1,
+        "owner_id": 513,
+        "owner_a_marker": 0,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ]
+        ],
+        "getter_owner_ids": []
+      },
+      "service_events": 2
+    },
+    {
+      "name": "trace-clear-null-early-return",
+      "snapshot": {
+        "requested": 0,
+        "target": 0,
+        "last": 3,
+        "alive": 3,
+        "sight": 4,
+        "sticky": 1,
+        "owner_id": 513,
+        "owner_a_marker": 0,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            257,
+            0,
+            0
+          ]
+        ],
+        "getter_owner_ids": []
+      },
+      "service_events": 4
+    },
+    {
+      "name": "trace-old-null-to-target",
+      "snapshot": {
+        "requested": 2,
+        "target": 2,
+        "last": 2,
+        "alive": 0,
+        "sight": 1,
+        "sticky": 0,
+        "owner_id": 513,
+        "owner_a_marker": 0,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            257,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            257,
+            0,
+            2
+          ],
+          [
+            4,
+            0,
+            257,
+            513,
+            2
+          ]
+        ],
+        "getter_owner_ids": [
+          513
+        ]
+      },
+      "service_events": 6
+    },
+    {
+      "name": "trace-target-switch",
+      "snapshot": {
+        "requested": 2,
+        "target": 2,
+        "last": 2,
+        "alive": 1,
+        "sight": 1,
+        "sticky": 0,
+        "owner_id": 513,
+        "owner_a_marker": 0,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ],
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            2,
+            257,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            257,
+            0,
+            2
+          ],
+          [
+            4,
+            0,
+            257,
+            513,
+            2
+          ]
+        ],
+        "getter_owner_ids": [
+          513
+        ]
+      },
+      "service_events": 6
+    },
+    {
+      "name": "duplicate-target-refresh",
+      "snapshot": {
+        "requested": 2,
+        "target": 2,
+        "last": 2,
+        "alive": 0,
+        "sight": 0,
+        "sticky": 1,
+        "owner_id": 513,
+        "owner_a_marker": 4660,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            257,
+            0,
+            2
+          ],
+          [
+            4,
+            0,
+            257,
+            513,
+            2
+          ]
+        ],
+        "getter_owner_ids": [
+          513
+        ]
+      },
+      "service_events": 4
+    },
+    {
+      "name": "fresh-current-after-debug",
+      "snapshot": {
+        "requested": 2,
+        "target": 2,
+        "last": 2,
+        "alive": 0,
+        "sight": 1,
+        "sticky": 0,
+        "owner_id": 513,
+        "owner_a_marker": 0,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            257,
+            0,
+            2
+          ],
+          [
+            4,
+            0,
+            257,
+            513,
+            2
+          ]
+        ],
+        "getter_owner_ids": [
+          513
+        ]
+      },
+      "service_events": 4
+    },
+    {
+      "name": "fresh-target-and-owner-after-virtual",
+      "snapshot": {
+        "requested": 2,
+        "target": 3,
+        "last": 2,
+        "alive": 1,
+        "sight": 1,
+        "sticky": 0,
+        "owner_id": 514,
+        "owner_a_marker": 0,
+        "owner_b_marker": 43605,
+        "events": [
+          [
+            1,
+            0,
+            257,
+            0,
+            0
+          ],
+          [
+            2,
+            1,
+            257,
+            0,
+            0
+          ],
+          [
+            3,
+            0,
+            257,
+            0,
+            2
+          ],
+          [
+            4,
+            0,
+            257,
+            514,
+            3
+          ]
+        ],
+        "getter_owner_ids": [
+          513
+        ]
+      },
+      "service_events": 4
+    }
+  ]
+}

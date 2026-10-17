@@ -1,0 +1,78 @@
+{
+  "schema": "dh2-native-camera-checkpoint/v1",
+  "validation": "PASS",
+  "scope": "Full frustum source arithmetic runs on the live renderer matrix. Crypt movement, authored Ghost ambush and recreation regression pass on Android 17/API37/16KiB x86_64. Original view/projection producers, scene culling and autonomous AI are still unfinished. Player skill preparation is a separately tested source ownership adapter with controlled VM providers, not linked into this APK.",
+  "apk": {
+    "path": "port/android-native/app/build/source-camera-culling-2026-10-05/crypt-source-camera-culling.apk",
+    "sha256": "80ed755e81ed8ddbcd30093999c094e40cc160b98f312f8ba36f18635794fbff",
+    "bytes": 25219583
+  },
+  "compiled_source": {
+    "path": "port/android-native/app/build/source-camera-culling-2026-10-05/crypt-source-camera-culling-reviewed-source.zip",
+    "sha256": "8fcde7c2f770428cfc8d9426b94dd408c42bff791d5e38d212333a2054ec2c6b",
+    "bytes": 2144816,
+    "source_entry_count": 508,
+    "capture_timing": "post-build",
+    "studio_parity_checked": false
+  },
+  "api_level": 37,
+  "page_size": 16384,
+  "runtime_abi": "x86_64",
+  "physical_arm64_tested": false,
+  "android_camera_snapshots": 9,
+  "camera_mismatches": 0,
+  "full_game_playable": false,
+  "reports": [
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/plane-intersection.json",
+      "sha256": "29643e666d7868129825aa0fcb92bcd863589a295a6b5532a230c7823c61430d",
+      "bytes": 353409
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/frustum-runtime.json",
+      "sha256": "36f6e271cc30cc7dd3c0ab5aab52b9a7e93d24e226299360e9f857081e2a98c1",
+      "bytes": 13293
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/frustum-runtime-sanitizer.json",
+      "sha256": "3d09864124743c40c0013a3a55cc0423e6d73756a40f097e569ea69d7dfae644",
+      "bytes": 3923
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/player-skills-preparation-v3.json",
+      "sha256": "da48b1e12813d5845f7f067ee7c1e1fc48f70698f916ef2f8dc3133110a070ae",
+      "bytes": 73530
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/android-export-integrity.json",
+      "sha256": "1a6b1f6bbe56878e2bc0d1c6362d9c1f2dc14b797c15742eef180f9d93aa2485",
+      "bytes": 78245
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/crypt-script-smoke.json",
+      "sha256": "0874b10f659bdef02f85624cc22c85f62e38c20a96479aa1f37867a7d5d2a76b",
+      "bytes": 14030
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/camera-runtime-bound.json",
+      "sha256": "7c2b73fa00a33d57566f28aa00f4d3af6994c5ee7573d45cb2b16f44749687cd",
+      "bytes": 12607
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/adb-transcript.json",
+      "sha256": "c920865f7a3030679796ec545f855f9e7b7ff844a73dd363676773dfa33a8f09",
+      "bytes": 39453
+    },
+    {
+      "path": "reports/reconstruction-2026-10-05/native-camera/crypt-script.log",
+      "sha256": "a4d6fa1795d11f723b6cc5c47654d9e8f191fd5c1cc79ba14c9868375bcfe19e",
+      "bytes": 372385
+    }
+  ],
+  "remaining": [
+    "original camera view/projection and scene registration owners",
+    "native Character culling and complete Ghost AI frame providers",
+    "player skill VM/FSM and real skill game services",
+    "full combat/loot/quests/UI/audio/saves/campaign and final ARM64 verification"
+  ]
+}

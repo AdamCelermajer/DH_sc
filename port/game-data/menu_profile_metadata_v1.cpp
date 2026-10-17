@@ -5,11 +5,11 @@ bool load_menu_profile_metadata_v1(Bytes bytes,const CharacterTable& characters,
     MenuProfileMetadataV1& output,std::string& error){
     PlayerProfileIndexV1 index;
     if(!index.load(bytes,error))return false;
-    auto view=index.borrow();PlayerSavegameV1 saved;saved.set_slot(slot);
+    auto view=index.borrow();auto saved=std::make_shared<PlayerSavegameV1>();saved->set_slot(slot);
     // The parameterized source constructor initializes level1; the separate
     // blank PlayerSavegameV1 constructor correctly initializes level0.
     const std::uint8_t level_one[4]={1,0,0,0};std::size_t consumed=0;
-    if(!saved.load_level({level_one,4},consumed,error))return false;
+    if(!saved->load_level({level_one,4},consumed,error))return false;
     MenuProfileMetadataV1 candidate;candidate.slot=slot;candidate.selected_difficulty=initial;
     auto section=[&](const char* tag,auto reader){
         if(!view.section(tag))return true;
@@ -17,9 +17,9 @@ bool load_menu_profile_metadata_v1(Bytes bytes,const CharacterTable& characters,
         if(reader(view.payload(tag)))return true;
         error=std::string("Menu profile ")+tag+": "+error;return false;
     };
-    if(!section("PNAM",[&](Bytes b){return saved.load_name(b,consumed,error);}) ||
-       !section("PLVL",[&](Bytes b){return saved.load_level(b,consumed,error);}) ||
-       !section("PCLS",[&](Bytes b){return saved.load_class(b,characters.names,consumed,error);}))return false;
+    if(!section("PNAM",[&](Bytes b){return saved->load_name(b,consumed,error);}) ||
+       !section("PLVL",[&](Bytes b){return saved->load_level(b,consumed,error);}) ||
+       !section("PCLS",[&](Bytes b){return saved->load_class(b,characters.names,consumed,error);}))return false;
     struct Context{const MenuProfileMetadataServicesV1& services;std::int32_t& selected;};
     Context context{services,candidate.selected_difficulty};
     auto store=[](void* raw,std::int32_t selected,std::string& error){
@@ -27,18 +27,24 @@ bool load_menu_profile_metadata_v1(Bytes bytes,const CharacterTable& characters,
         if(!context.services.store_selected_difficulty){error="CurrentDifficulty store provider unavailable";return false;}
         return context.services.store_selected_difficulty(context.services.context,selected,error);
     };
-    if(!section("PDFL",[&](Bytes b){return saved.load_difficulty(b,&context,store,consumed,error);}) ||
-       !section("LNAM",[&](Bytes b){return saved.load_location(b,consumed,error);}) ||
-       !section("LEPT",[&](Bytes b){return saved.load_entry_points(b,consumed,error);}) ||
-       !section("LUSP",[&](Bytes b){return saved.load_spawn_points(b,consumed,error);}))return false;
-    candidate.location=saved.location();
+    if(!section("PDFL",[&](Bytes b){return saved->load_difficulty(b,&context,store,consumed,error);}) ||
+       !section("LNAM",[&](Bytes b){return saved->load_level_name(b,consumed,error);}) ||
+       !section("LEPT",[&](Bytes b){return saved->load_level_entry_points(b,consumed,error);}) ||
+       !section("LUSP",[&](Bytes b){return saved->load_use_spawn_points(b,consumed,error);}))return false;
+    if(view.section("LNAM")) {
+        const auto& fields=saved->level_name_fields();
+        candidate.location.save_date=fields.level_id;
+        candidate.location.levels=fields.word50;candidate.location.seeds=fields.word5c;
+        candidate.location.current_acts=fields.quest_wordfc;
+        candidate.location.volatile_acts=fields.quest_word15c;
+    }
     if(view.section("QEST")){
         if(!services.load_quest_acts){error="Menu profile QEST requires canonical quest loader";return false;}
-        if(!services.load_quest_acts(services.context,view.payload("QEST"),
+        if(!services.load_quest_acts(services.context,saved,view,
             candidate.location.current_acts,candidate.location.volatile_acts,error))return false;
     }
-    candidate.name=saved.name();candidate.level=saved.level();candidate.character_row=saved.class_id();
-    candidate.unlocked_difficulty=saved.unlocked_difficulty();
+    candidate.name=saved->name();candidate.level=saved->level();candidate.character_row=saved->class_id();
+    candidate.unlocked_difficulty=saved->unlocked_difficulty();
     output=std::move(candidate);error.clear();return true;
 }
 }

@@ -1,0 +1,668 @@
+{
+  "complete_game": false,
+  "game_scripts_executed": false,
+  "authored_getpyoid_queries": 8863,
+  "tables_imported": 71,
+  "original_files_hash_checked": 35,
+  "staged_table_segments": 71,
+  "caller_buffers_released_before_queries": true,
+  "malformed_import_rollback": true,
+  "memory_failure_rollback": true,
+  "struct_field_names_installed": true,
+  "inputs": [
+    {
+      "path": "data/pydata/ai_pyarraynames.bin",
+      "file_sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+      "start": 0,
+      "end": 1068,
+      "segment_sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+      "registered_name": "AITable",
+      "count": 76
+    },
+    {
+      "path": "data/pydata/ai_factions_pyarraynames.bin",
+      "file_sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+      "start": 0,
+      "end": 230,
+      "segment_sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211",
+      "registered_name": "AIFactionTable",
+      "count": 16
+    },
+    {
+      "path": "data/pydata/animations_pyarraynames.bin",
+      "file_sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+      "start": 0,
+      "end": 16859,
+      "segment_sha256": "af9c2aa60821db1a1bcddd9470debe314a8075267da4564354ba52783ad6b497",
+      "registered_name": "AnimTable",
+      "count": 785
+    },
+    {
+      "path": "data/pydata/animations_pyarraynames.bin",
+      "file_sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+      "start": 16859,
+      "end": 16897,
+      "segment_sha256": "3167bc8650703d2b6bfc50796cd058943b77c8e560adfa000a1f5a61c61f04f1",
+      "registered_name": "CamAnimSetTable",
+      "count": 3
+    },
+    {
+      "path": "data/pydata/animations_pyarraynames.bin",
+      "file_sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+      "start": 16897,
+      "end": 17971,
+      "segment_sha256": "56fc5426cc50f6761671269dbc2c3d560673791f0706660a4f5f10076523e015",
+      "registered_name": "CharAnimTable",
+      "count": 80
+    },
+    {
+      "path": "data/pydata/character_classes_pyarraynames.bin",
+      "file_sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+      "start": 0,
+      "end": 6607,
+      "segment_sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+      "registered_name": "ClassTable",
+      "count": 260
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "file_sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "start": 0,
+      "end": 8910,
+      "segment_sha256": "5d203dc6dba791e9e76405d6a182aee0a829c69bbf8f13173154e4e1cd8d3903",
+      "registered_name": "CharacterTable",
+      "count": 448
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "file_sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "start": 8910,
+      "end": 8941,
+      "segment_sha256": "d3685f5e132b2cf1f7cd078c189bcb44c180a89b928b768b70c3b7df546cf266",
+      "registered_name": "StatAutoAssignSchemeTable",
+      "count": 3
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "file_sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "start": 8941,
+      "end": 8993,
+      "segment_sha256": "4fcba023a6788d38800878a04e9d3637caf1d916902e5dcc6d9fd447325676ad",
+      "registered_name": "StatListTable",
+      "count": 4
+    },
+    {
+      "path": "data/pydata/character_templates_pyarraynames.bin",
+      "file_sha256": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+      "start": 0,
+      "end": 3227,
+      "segment_sha256": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+      "registered_name": "Charater_Templates",
+      "count": 121
+    },
+    {
+      "path": "data/pydata/common_pyarraynames.bin",
+      "file_sha256": "fcd984e582ed9b21b08db4edc2ef838a0eab28a00d3b3a00d766a57b16164690",
+      "start": 0,
+      "end": 26,
+      "segment_sha256": "fcd984e582ed9b21b08db4edc2ef838a0eab28a00d3b3a00d766a57b16164690",
+      "registered_name": "RectTable",
+      "count": 2
+    },
+    {
+      "path": "data/pydata/design_pyarraynames.bin",
+      "file_sha256": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+      "start": 0,
+      "end": 15,
+      "segment_sha256": "0b3bb3fddc39b04237a20aa5b97900920fa488b12d96feef4e595acf20eb8c3f",
+      "registered_name": "DesignSettingsTable",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/design_pyarraynames.bin",
+      "file_sha256": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+      "start": 15,
+      "end": 56,
+      "segment_sha256": "237d8e941d166fb063caee55cfd1da88de42bb647f0714620d509f4e53181c7f",
+      "registered_name": "GameDifficulties",
+      "count": 3
+    },
+    {
+      "path": "data/pydata/design_pyarraynames.bin",
+      "file_sha256": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+      "start": 56,
+      "end": 272,
+      "segment_sha256": "54af09c29f8d57f186c24d0c7b3ba53b7b99f0c5ab442f42896e1aa626483836",
+      "registered_name": "GameOptionTable",
+      "count": 16
+    },
+    {
+      "path": "data/pydata/dialogs_pyarraynames.bin",
+      "file_sha256": "a704ea3b3c96abf119a7f7607d676bfb0007c3933ec8530fda4ec4cfab932b60",
+      "start": 0,
+      "end": 783,
+      "segment_sha256": "af2ce57333ec37c748ab6a3b6b792c97761747c5e0507f8c7b7f5477e1e34c21",
+      "registered_name": "DialogActors",
+      "count": 54
+    },
+    {
+      "path": "data/pydata/dialogs_pyarraynames.bin",
+      "file_sha256": "a704ea3b3c96abf119a7f7607d676bfb0007c3933ec8530fda4ec4cfab932b60",
+      "start": 783,
+      "end": 807,
+      "segment_sha256": "ede8493196c366088b6ff164b79f19dfee03c143dd10ec9dc47b9437a5212e96",
+      "registered_name": "Dialogs",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/effects_pyarraynames.bin",
+      "file_sha256": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+      "start": 0,
+      "end": 8792,
+      "segment_sha256": "424395540f28582220da9acdbe33c8cad491487f24db182e941050ca9514956c",
+      "registered_name": "AnimatedEffectTable",
+      "count": 276
+    },
+    {
+      "path": "data/pydata/effects_pyarraynames.bin",
+      "file_sha256": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+      "start": 8792,
+      "end": 8836,
+      "segment_sha256": "b59518876e5f630cd00b34170d46cfa96d7bf5bddb580829fbea643d36139da1",
+      "registered_name": "CharEffectTable",
+      "count": 3
+    },
+    {
+      "path": "data/pydata/effects_pyarraynames.bin",
+      "file_sha256": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043",
+      "start": 8836,
+      "end": 8906,
+      "segment_sha256": "4cbf5671ec3aa77a4d2526cc37c4fd41c8953b5aadc38bf9bf58837a11de7527",
+      "registered_name": "FootstepEffectTable",
+      "count": 7
+    },
+    {
+      "path": "data/pydata/faeries_pyarraynames.bin",
+      "file_sha256": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+      "start": 0,
+      "end": 42,
+      "segment_sha256": "82577a2c7fdd01e9408e394ba68de71fd80586961909fbbd92c4083f537b0dcf",
+      "registered_name": "FaeryListTable",
+      "count": 4
+    },
+    {
+      "path": "data/pydata/faeries_pyarraynames.bin",
+      "file_sha256": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff",
+      "start": 42,
+      "end": 253,
+      "segment_sha256": "0bcea168538420057b808ee71250060f1c3066436183c1563fba54f5b076dc3f",
+      "registered_name": "FaeryTable",
+      "count": 16
+    },
+    {
+      "path": "data/pydata/fonts_pyarraynames.bin",
+      "file_sha256": "e6be591858a22662ab0421290338c99bbfa332685b47790a71ffbdd185cf7b26",
+      "start": 0,
+      "end": 144,
+      "segment_sha256": "e6be591858a22662ab0421290338c99bbfa332685b47790a71ffbdd185cf7b26",
+      "registered_name": "FontPalette",
+      "count": 7
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 0,
+      "end": 1069,
+      "segment_sha256": "35454791fa9bc8b070d975774cfc19200343a4dfebfd058b45829674148e9758",
+      "registered_name": "DestructibleContainers",
+      "count": 37
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 1069,
+      "end": 1292,
+      "segment_sha256": "5ba3fe29bb91c898d54320bff66aa00fd13ec7819ead2e024e917db392c6b697",
+      "registered_name": "Doors",
+      "count": 12
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 1292,
+      "end": 1478,
+      "segment_sha256": "b460eabd09fe4ee5b71ed84bbe8e436e00f530261a0eddaad61b1ec01ff401d5",
+      "registered_name": "ExplosiveTraps",
+      "count": 13
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 1478,
+      "end": 1728,
+      "segment_sha256": "e29b07b3e791f497c5979c1ac4dcba1a8f56a8fe5715858c6ad440cdd5914236",
+      "registered_name": "GameObjectDamager",
+      "count": 14
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 1728,
+      "end": 1749,
+      "segment_sha256": "7c1922eebeadaeef9a8f5bfeea548c4a7736bb559a7ce7557b403a4714f56f89",
+      "registered_name": "LiftableObjects",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 1749,
+      "end": 3614,
+      "segment_sha256": "8dc7c6dc7ce3e45b48a80ec40f7be1979549dc3785713981654f2e51f6569824",
+      "registered_name": "OpenableContainers",
+      "count": 68
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 3614,
+      "end": 3634,
+      "segment_sha256": "85de7fb8e48e20bf1773ffbcd71cd489e580c3c676850d4ecd5b7bf787eb97c1",
+      "registered_name": "ProjectileTraps",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 3634,
+      "end": 3683,
+      "segment_sha256": "958534d383fbc1dcbd89d9d8f64901bdc701c4a5c1c4cfb037306ee69ea1bd01",
+      "registered_name": "TimerTraps",
+      "count": 2
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 3683,
+      "end": 3800,
+      "segment_sha256": "eb9c3010780fdac73a2cbb2f64c8d6f72a0e2f783229e819f0178252e5543040",
+      "registered_name": "TriggerObjects",
+      "count": 6
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 3800,
+      "end": 3818,
+      "segment_sha256": "124b23c0d0af7d192748007577843fe7a29605538a6a076c5ed441e145e763fb",
+      "registered_name": "TriggerPlates",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/game_objects_pyarraynames.bin",
+      "file_sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53",
+      "start": 3818,
+      "end": 3846,
+      "segment_sha256": "a5c16cdb9eaa699df5c711f52fdaca0ecd067e9c3ed0eff036ff63cc5e59f8c6",
+      "registered_name": "TriggerTraps",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/help_pages_pyarraynames.bin",
+      "file_sha256": "f8ace58c341ccd9b99c51ce186a5b4c2995ccc53f83e6c24262e54bb24c83ef8",
+      "start": 0,
+      "end": 123,
+      "segment_sha256": "a38e48859756359ffffe15b57354e6e138437443f45738e3f2b691c5f550dfc6",
+      "registered_name": "HelpPages",
+      "count": 9
+    },
+    {
+      "path": "data/pydata/help_pages_pyarraynames.bin",
+      "file_sha256": "f8ace58c341ccd9b99c51ce186a5b4c2995ccc53f83e6c24262e54bb24c83ef8",
+      "start": 123,
+      "end": 343,
+      "segment_sha256": "798b3d93d34293b96eedb6387fce1fab7671d27d31536aae42b2c162d7897417",
+      "registered_name": "HintPages",
+      "count": 16
+    },
+    {
+      "path": "data/pydata/item_powers_pyarraynames.bin",
+      "file_sha256": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+      "start": 0,
+      "end": 2499,
+      "segment_sha256": "d3d4aeeb11a1ca822058f3e3983c1bb507a86603a71be85c33cb6ca741782671",
+      "registered_name": "ItemPowerList",
+      "count": 121
+    },
+    {
+      "path": "data/pydata/item_powers_pyarraynames.bin",
+      "file_sha256": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+      "start": 2499,
+      "end": 23714,
+      "segment_sha256": "980e7fb5eb8c9dcc180194ce516bee04939f32249a50a099ed4d2789814173f0",
+      "registered_name": "ItemPowerTable",
+      "count": 937
+    },
+    {
+      "path": "data/pydata/item_powers_monopoly_pyarraynames.bin",
+      "file_sha256": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
+      "start": 0,
+      "end": 1021,
+      "segment_sha256": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
+      "registered_name": "ItemBonusAttrMonopoly",
+      "count": 43
+    },
+    {
+      "path": "data/pydata/levels_pyarraynames.bin",
+      "file_sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+      "start": 0,
+      "end": 1010,
+      "segment_sha256": "b58f6875c5060cf7a673df510c8457e810c24fc010f3163b40885bda25f71f39",
+      "registered_name": "FastTravelList",
+      "count": 33
+    },
+    {
+      "path": "data/pydata/levels_pyarraynames.bin",
+      "file_sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+      "start": 1010,
+      "end": 1943,
+      "segment_sha256": "36ea98995701e4df2d68417b403f4b5f0936d9e523f19c89c11f0d7364786dfc",
+      "registered_name": "LevelList",
+      "count": 51
+    },
+    {
+      "path": "data/pydata/loot_audiovisual_pyarraynames.bin",
+      "file_sha256": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
+      "start": 0,
+      "end": 356,
+      "segment_sha256": "1bf13745689a198ee516fb1463637e274e6a583e1f31783333ef50944f38a5be",
+      "registered_name": "ItemAudioVisualTable",
+      "count": 29
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 0,
+      "end": 27,
+      "segment_sha256": "bbeafedebe4664254ccbf26b018d66d474084f4ef0a84ac15efbe0a6d83be1fe",
+      "registered_name": "DropTilePriorityTable",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 27,
+      "end": 66,
+      "segment_sha256": "94ea28933b2150dc30ee52e927e58c51d80c49abe41da35781c35432bf7ef800",
+      "registered_name": "InventoryTable",
+      "count": 3
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 66,
+      "end": 3737,
+      "segment_sha256": "6d0ee9f59f5f870a5373c6b4174ebb7157bf3d6677b9a13eb647232011d5f2b4",
+      "registered_name": "ItemList",
+      "count": 186
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 3737,
+      "end": 30502,
+      "segment_sha256": "568636004273e83a16aaefac054f401825c68784585149cd2017146f647e6db4",
+      "registered_name": "ItemTable",
+      "count": 1322
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 30502,
+      "end": 30611,
+      "segment_sha256": "0d6df706884abaff04a9657459bbc94729f2fd09d21996744f439a9616ef2064",
+      "registered_name": "ItemTypeList",
+      "count": 9
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 30611,
+      "end": 38449,
+      "segment_sha256": "d118d763c283e9683bec2d6ca33ee1c95e7feaa0926848c44b554fab658c8f02",
+      "registered_name": "LootTable",
+      "count": 339
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 38449,
+      "end": 38748,
+      "segment_sha256": "4d1c1982e3b0364aea453f2f6100039faffa50e8409b9818c4315e3191a1ee39",
+      "registered_name": "MerchantTable",
+      "count": 12
+    },
+    {
+      "path": "data/pydata/loot_table_pyarraynames.bin",
+      "file_sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "start": 38748,
+      "end": 39604,
+      "segment_sha256": "bfa657990e2f254060a67ec0c063159cccb8bd206febab19693b93ea05db0f75",
+      "registered_name": "NumProbArray",
+      "count": 39
+    },
+    {
+      "path": "data/pydata/projectiles_pyarraynames.bin",
+      "file_sha256": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950",
+      "start": 0,
+      "end": 717,
+      "segment_sha256": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950",
+      "registered_name": "ProjectileTable",
+      "count": 41
+    },
+    {
+      "path": "data/pydata/skills_pyarraynames.bin",
+      "file_sha256": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+      "start": 0,
+      "end": 559,
+      "segment_sha256": "2f28ba68b711bb3d5014144f26bae1597c0d0b2e6e2256cf69e2209894529a01",
+      "registered_name": "SkillListTable",
+      "count": 36
+    },
+    {
+      "path": "data/pydata/skills_pyarraynames.bin",
+      "file_sha256": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+      "start": 559,
+      "end": 2757,
+      "segment_sha256": "63bc0086f22b5b16866e15338b75255281b9a535246044292daf6766b9edc0b9",
+      "registered_name": "SkillTable",
+      "count": 127
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "file_sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f",
+      "start": 0,
+      "end": 50,
+      "segment_sha256": "a6567d1dfb609b35e990c5614565c61091fcbdce3ade9f16487cfb1861bdcc47",
+      "registered_name": "CharSoundsTable",
+      "count": 3
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "file_sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f",
+      "start": 50,
+      "end": 148,
+      "segment_sha256": "b4829a61d2dc0d06c651e95d67caecd60d060459841ccd58b6f514b0b7e3bec8",
+      "registered_name": "Listeners",
+      "count": 5
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "file_sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f",
+      "start": 148,
+      "end": 536,
+      "segment_sha256": "42134866ea75a7b3a5815a9d10b41ca2cddd1399aeeb28137afc7a33d2eb6e45",
+      "registered_name": "SoundBankPlayback",
+      "count": 27
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "file_sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f",
+      "start": 536,
+      "end": 647,
+      "segment_sha256": "c60774dff874b23a85200ae659c517f7634164d17d6abe07932887e81b0d3db5",
+      "registered_name": "SoundGroupsRouting",
+      "count": 8
+    },
+    {
+      "path": "data/pydata/sounds_pyarraynames.bin",
+      "file_sha256": "7b894a23179f51911983c2fe7a674c7d6af64a949f0fea0cb60dff4105436e1f",
+      "start": 647,
+      "end": 3908,
+      "segment_sha256": "551c4d7b695d963329d29e319a232dcfc5f4f5f7a124a421e8160aac473c2dd3",
+      "registered_name": "Sounds_bak",
+      "count": 183
+    },
+    {
+      "path": "data/pydata/spawn_groups_pyarraynames.bin",
+      "file_sha256": "4fa5aeaaf98e13a9a233d333e580562480573a726556657f17bd3be53bdd8835",
+      "start": 0,
+      "end": 12,
+      "segment_sha256": "4fa5aeaaf98e13a9a233d333e580562480573a726556657f17bd3be53bdd8835",
+      "registered_name": "SpawnGroups",
+      "count": 1
+    },
+    {
+      "path": "data/pydata/trophies_pyarraynames.bin",
+      "file_sha256": "8c0a0b279d48361398dc0b365df358c88590b682b2405d439cb204a60ea56cff",
+      "start": 0,
+      "end": 1285,
+      "segment_sha256": "8c0a0b279d48361398dc0b365df358c88590b682b2405d439cb204a60ea56cff",
+      "registered_name": "TrophyTable",
+      "count": 69
+    },
+    {
+      "path": "data/pydata/v2conditions_pyarraynames.bin",
+      "file_sha256": "029b7b9253386078a87988344907a71de1a68ba105a034ff6ea48a0a3490ae9d",
+      "start": 0,
+      "end": 2789,
+      "segment_sha256": "029b7b9253386078a87988344907a71de1a68ba105a034ff6ea48a0a3490ae9d",
+      "registered_name": "v2Conditions",
+      "count": 118
+    },
+    {
+      "path": "data/pydata/v2eventmanager_pyarraynames.bin",
+      "file_sha256": "900e2e0afa4d37497deb8fe995fa883f50e4bb9dae632d9dc28dac8d49e273f2",
+      "start": 0,
+      "end": 1204,
+      "segment_sha256": "900e2e0afa4d37497deb8fe995fa883f50e4bb9dae632d9dc28dac8d49e273f2",
+      "registered_name": "v2Events",
+      "count": 66
+    },
+    {
+      "path": "data/pydata/v2quests_pyarraynames.bin",
+      "file_sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4",
+      "start": 0,
+      "end": 1357,
+      "segment_sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4",
+      "registered_name": "v2Quests",
+      "count": 64
+    },
+    {
+      "path": "data/pydata/worldmap_pyarraynames.bin",
+      "file_sha256": "38d5152a90925dbcb380e4f368f936fc7f67fa0813545bcf114f9d480003e879",
+      "start": 0,
+      "end": 231,
+      "segment_sha256": "9f3920be7eff0fd911adcbed871ef9a23aafcf566984ca1b944b82dc9f70f220",
+      "registered_name": "WorldMap",
+      "count": 13
+    },
+    {
+      "path": "data/pydata/worldmap_pyarraynames.bin",
+      "file_sha256": "38d5152a90925dbcb380e4f368f936fc7f67fa0813545bcf114f9d480003e879",
+      "start": 231,
+      "end": 268,
+      "segment_sha256": "0c8298908e8c7d8d4fd051de198432ae2a6153377a4c576dd41b9cac7dfbe6d8",
+      "registered_name": "WorldMapLockers",
+      "count": 3
+    },
+    {
+      "path": "data/pydata/character_models_dictionary_pyarraynames.bin",
+      "file_sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9",
+      "start": 0,
+      "end": 1755,
+      "segment_sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9",
+      "registered_name": "ModelDict",
+      "count": 116
+    },
+    {
+      "path": "data/pydata/animations_dictionary_pyarraynames.bin",
+      "file_sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+      "start": 0,
+      "end": 42616,
+      "segment_sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3",
+      "registered_name": "AnimDict",
+      "count": 1447
+    },
+    {
+      "path": "data/pydata/effects_dictionary_pyarraynames.bin",
+      "file_sha256": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2",
+      "start": 0,
+      "end": 10280,
+      "segment_sha256": "8227757b4e18e10f898e0693eeb1b728b024e8b4675162f97c5fbb6647b910f2",
+      "registered_name": "EffectDict",
+      "count": 284
+    },
+    {
+      "path": "data/pydata/projectiles_dictionary_pyarraynames.bin",
+      "file_sha256": "42d5f9603ce4671c85e87b07fffcbfedf0e4b2e891b4b4adbfa0354093422d16",
+      "start": 0,
+      "end": 857,
+      "segment_sha256": "42d5f9603ce4671c85e87b07fffcbfedf0e4b2e891b4b4adbfa0354093422d16",
+      "registered_name": "ProjectileDict",
+      "count": 28
+    },
+    {
+      "path": "data/pydata/game_objects_dictionary_pyarraynames.bin",
+      "file_sha256": "b01c74698bd0dcbcfb05d0d3a8ad645342bfed294bfa82c9c46185bb9dc0ccad",
+      "start": 0,
+      "end": 2019,
+      "segment_sha256": "b01c74698bd0dcbcfb05d0d3a8ad645342bfed294bfa82c9c46185bb9dc0ccad",
+      "registered_name": "GameObjectDict",
+      "count": 85
+    },
+    {
+      "path": "data/pydata/common_text_pyarraynames.bin",
+      "file_sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+      "start": 0,
+      "end": 96,
+      "segment_sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+      "registered_name": "StrID_Languages",
+      "count": 9
+    },
+    {
+      "path": "data/pydata/sdd_dungeon_hunter_2_iphone_pyarraynames.bin",
+      "file_sha256": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d",
+      "start": 0,
+      "end": 15457,
+      "segment_sha256": "b4853f80a9b39070c6e5dcf6920ad05dbeacbd6c8428aee861ffb38e3dd4184d",
+      "registered_name": "Sounds",
+      "count": 638
+    }
+  ],
+  "reader_trace_sha256": "d72e8b22b1d2fa5e58c60306535eed77c9d3079d3f5f188603fed534f7178b4d",
+  "runner_sha256": "fdc637bab6a62c28ad926b798e16c97f91775f9d01b80b7b1d4ff1e04ddeba56",
+  "test_sha256": "b06b88590c0b27a6b8084eb719f4c597a0142b1899a1ef47587b984f4acb5eb4",
+  "assertions_sha256": "295f3c9fc8dc6ee008b3d4fee07aad26b1b4a7d812bb1d408eab30f9b8f75628",
+  "lookup_expectations": "Ordered original reader names; 266 original lookup cases separately established by trace. This test uses authored queries, with array-record size agreement and original game scripts outside scope.",
+  "source_sha256": {
+    "runtime.c": "a5561469bc1af341ce4165b68cfd43f11ac9bcd269e5dc6f30ccc298f35adfea",
+    "runtime.h": "da18a74044400f537212e361e25bc1df66b32a23a01bff208c5b8a4b7a2d8145",
+    "tests/runner.c": "13801af23b8f2a1b2b59b63fb9ab6575dbd1bb949d4b05c509b7fb35ba193592",
+    "tests/names.c": "6dccc180fe3ee120e4953efaf4484bc50e6806de561712b7bc59a731a4959435",
+    "../pydata-names/names.c": "4786464afc0428fa2540da7954247e52b93294420e2059ed6d0956792734b659",
+    "../pydata-names/names.h": "91e3597cf9c6c32093c225d937279eceed0b89c5a85f58f403ed53d2091d5e90",
+    "../pydata-names/lua-bridge.c": "53420721ed935da014276d83e30284684afd5bb26cc60d679227b2a2342735a3"
+  },
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nNAMES 0 0\nNAMES 1 0\nNAMES 2 0\nNAMES 3 0\nNAMES 4 0\nNAMES 5 0\nNAMES 6 0\nNAMES 7 0\nNAMES 8 0\nNAMES 9 0\nNAMES 10 0\nNAMES 11 0\nNAMES 12 0\nNAMES 13 0\nNAMES 14 0\nNAMES 15 0\nNAMES 16 0\nNAMES 17 0\nNAMES 18 0\nNAMES 19 0\nNAMES 20 0\nNAMES 21 0\nNAMES 22 0\nNAMES 23 0\nNAMES 24 0\nNAMES 25 0\nNAMES 26 0\nNAMES 27 0\nNAMES 28 0\nNAMES 29 0\nNAMES 30 0\nNAMES 31 0\nNAMES 32 0\nNAMES 33 0\nNAMES 34 0\nNAMES 35 0\nNAMES 36 0\nNAMES 37 0\nNAMES 38 0\nNAMES 39 0\nNAMES 40 0\nNAMES 41 0\nNAMES 42 0\nNAMES 43 0\nNAMES 44 0\nNAMES 45 0\nNAMES 46 0\nNAMES 47 0\nNAMES 48 0\nNAMES 49 0\nNAMES 50 0\nNAMES 51 0\nNAMES 52 0\nNAMES 53 0\nNAMES 54 0\nNAMES 55 0\nNAMES 56 0\nNAMES 57 0\nNAMES 58 0\nNAMES 59 0\nNAMES 60 0\nNAMES 61 0\nNAMES 62 0\nNAMES 63 0\nNAMES 64 0\nNAMES 65 0\nNAMES 66 0\nNAMES 67 0\nNAMES 68 0\nNAMES 69 0\nNAMES 70 0\nNAME LOOKUPS PASS 8863"
+}

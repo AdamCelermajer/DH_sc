@@ -1,0 +1,143 @@
+{
+  "status": "PASS",
+  "arm_comparisons": 1719,
+  "executed_pinned_words": 94,
+  "native_checks": 846,
+  "shipped": {
+    "list": {
+      "0": 29,
+      "4": 25,
+      "5": 4,
+      "7": 3,
+      "10": 5
+    },
+    "accept": {
+      "6": 36,
+      "4": 14,
+      "5": 14
+    },
+    "end": {
+      "6": 64
+    }
+  },
+  "composed_shipped_objects": 194,
+  "mismatches": [],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "cache": {
+    "v2quests_pyarray.bin": {
+      "bytes": 21817,
+      "sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36"
+    },
+    "v2quests_pyarraynames.bin": {
+      "bytes": 1357,
+      "sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4"
+    },
+    "v2quests_pycst.bin": {
+      "bytes": 805,
+      "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a"
+    }
+  },
+  "source_sha256": {
+    "quest_objective_payload_v1.cpp": "2c8070dfce204348c768fad36df4522c3169059698e14198f10b085814b2cbd1",
+    "quest_objective_payload_v1.hpp": "1ecec96d7ae245ad75b3a0ff598ec16d87cec70d4a0e8f3fabcc0f76e9a9d1d3",
+    "tests/quest_objective_payload_v1_host.cpp": "8a600b388ebae5694403ab1cf94a580d7c71d7575a999c171b4d0df724dd73a8",
+    "tests/run_quest_objective_payload_v1.py": "2c71c15533bde7e61109754dddd4f03afad7f8ac68ff1525a42247a0b1dc205a",
+    "reference/quest-objective-payload-v1/original-functions.json": "7c9c1a1fbbd12dc33e6be8fd9179e37268992d6420fdf4e8e0a5018a3c516a97",
+    "quest_objective_factory_v1.cpp": "733320288f65f9471f2b001860cbfa0574a0399a3494f383f91fde7399eefaa7",
+    "quest_objective_factory_v1.hpp": "c655d0a4fa74ead6dace0eced7fd2baebca65e91715be9eca62232611af0785b",
+    "quest_objective_list_v1.cpp": "459aaccfa748ca671a7c552d1d890fa8a99211bc43ff1e4977dec3feccef2059",
+    "quest_objective_list_v1.hpp": "4762c42ef18e47f74f5913cf9955cfb828cade2ffe99d9fd151169eb1761c827",
+    "quest_table_bindings_v1.cpp": "da344dfc5cae14c0f2121f12418248b250704806cf4690aa43786bfb273e8adc",
+    "quest_table_bindings_v1.hpp": "07e109bfd77f1f6e755899b9b41cec61ce4c117ac1160c1d72dfa83aaac59266",
+    "port/quest-data/quests.c": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "port/quest-data/quests.h": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2",
+    "port/pydata-constants/constants.c": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
+    "port/pydata-constants/constants.h": "bf5ea5bcb1ac5112c71c0351e7841721bba6c20f761ac5891af28bb344270fa6",
+    "port/game-data/tests/quest_table_bindings_v1_original.py": "2ef19dac7edae2b40a66028d02961c267f56b7491748a1588e0f1a22a01c8caa",
+    "port/player-info-level/tests/player_locality_v1_original.py": "8b913f371459673f85b29f55dd9215d4ffa1992e02e007571f8b8d506d35f7bc"
+  },
+  "selected_kernel": true,
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_objective_payload_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_objective_payload_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_objective_payload_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_objective_payload_v1.cpp.obj"
+    }
+  ],
+  "selected_dependencies": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\pydata-constants\\constants.c.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\pydata-constants\\constants.c",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/pydata-constants/constants.c",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/pydata-constants/constants.c.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_table_bindings_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_table_bindings_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_table_bindings_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_table_bindings_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_objective_list_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_objective_list_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_objective_list_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_objective_list_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_objective_factory_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_objective_factory_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_objective_factory_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_objective_factory_v1.cpp.obj"
+    }
+  ],
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "selected_library_sha256": "e5dbc3ab2f69e932ab7d39f4c680d1d6ffc3d7c62e97655ec5d4b70a12fe05c0",
+  "selected_world_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\libdh2_level_world.dll.a",
+  "selected_world_library_sha256": "4521b62dd0ddf097f15449a68d76b694c4842427290fbfe6879d7c47fd88defb",
+  "binary_sha256": {
+    "host.exe": "1131fca25f7fb2f1201add732fa996b422464d1b348dda477c53c8c8c7af9be0",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1247a68e1d554efa24affe9a865d25ff48cf05dd2b4aaed23577bf4710cde528",
+    "libdh2_level_world.dll": "7449226dda23e17ed74114f6ab8b6f2e021764ca908d63663247b1c0564daaf5"
+  },
+  "scope": {
+    "implemented": [
+      "Whole base Objective::_loadData24B",
+      "Whole Objective_SavedQty::_loadData32B",
+      "Whole returned-value StreamReader::readAs<bool>184B",
+      "Whole returned-value StreamReader::readAs<int>184B"
+    ],
+    "original_execution": "All executable caller/reader words. Actual source vtable+28 selects inherited loader. Only StreamBase virtual+18 read and printf logger are declared external leaves; assertion mode global reads execute with declared value-delivery observation. Provider failure stops before source continuation; the native status is not an original exception ABI.",
+    "native_composition": "Actual selected ObjectiveFactory/ObjectiveList/QuestTable/decoder/constants; all194 source-selected objects/actions over64 rows load through one borrowed stream identity/cursor. Scratch is explicit transient caller residue, not source fields.",
+    "not_claimed": [
+      "Native QEST wiring",
+      "Android compilation",
+      "Live gameplay",
+      "Original undefined stack residue values without an explicit bounded fixture"
+    ],
+    "native_guards": [
+      "Aliased outputs/controls/scratch, reentry, projection/stream-identity changes, callback errors/throws and missing providers stop with their reached effects retained."
+    ]
+  },
+  "source_policies": [
+    "Base calls returned-value bool reader then stores raw low8 done14, including noncanonical2/128/255.",
+    "SavedQty calls complete base first, then returned-value signed reader and stores all32 bits quantity20. Failed second reader retains done14 publication and cursor/scratch effects.",
+    "The read64 return count must equal1 or4 exactly. Nonzero high32 count also reaches assertion mode.",
+    "Assertion mode2 stops before original null store; mode1 calls mandatory actual logger with original condition/file/line68, then reads current scratch; other modes read current scratch directly.",
+    "Read scratch is loaded after logger return, so provider changes are freshly visible. Objective fields are never direct primitive-reader destinations.",
+    "Source dispatch is captured at load entry; provider vtable changes cannot change already reached base/SavedQty continuation.",
+    "No extra objective fields, definition tables, Save, player registry, property/inventory/timer store or VM. One actual stream remains shared with QEST."
+  ],
+  "android_compilation": false,
+  "live_gameplay": false
+}

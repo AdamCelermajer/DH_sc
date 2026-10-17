@@ -1,0 +1,66 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 1,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_update_eligibility.hpp",
+      "port/level-world/character_update_eligibility.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_update_eligibility.cpp",
+      "port/level-world/tests/run_character_update_eligibility_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character9CanUpdateEv",
+      "elf_address": "0x3a52a4",
+      "size": 316,
+      "sha256": "8ab1ce0602bf7ecb8f54e165b150844dfe3931539ac1f2e708dd8369af879d35",
+      "scope": "Complete source decision body; 308 active instruction bytes plus 8 mapped data bytes"
+    }
+  ],
+  "callsite_evidence": [
+    {
+      "caller": "_ZN9Character6UpdateEv",
+      "caller_address": "0x3abe98",
+      "call_instruction": "0x3abf60",
+      "virtual_slot_offset": "0x148",
+      "callee": "_ZN9Character9CanUpdateEv",
+      "meaning": "Character::Update dispatches through Character vtable slot +0x148 before source scheduler work"
+    }
+  ],
+  "vtable_evidence": [
+    {
+      "vtable_symbol": "_ZTV9Character",
+      "vtable_address": "0x965f30",
+      "address_point": "0x965f38",
+      "slot_offset": "0x148",
+      "slot_address": "0x966080",
+      "target": "0x3a52a4"
+    }
+  ],
+  "runtime_dependencies": [
+    { "name": "GetOnline", "elf_address": "0x7fd794", "binding": "typed fixture/provider" },
+    { "name": "PlayerManager::GetLocalPlayer(int,bool)", "elf_address": "0x36e478", "binding": "typed fixture/provider" },
+    { "name": "Character virtual slot +0x54", "binding": "IsRemotelyUpdated fixture/provider" },
+    { "name": "ObjectBase::TestCullingBeforeUpdate(aabbox3d const&)", "elf_address": "0x33de90", "binding": "typed fixture/provider" },
+    { "name": "Character virtual slot +0x34", "binding": "IsDead fixture/provider" },
+    { "name": "Character::CanRespawn() const", "elf_address": "0x3a5248", "binding": "typed fixture/provider" }
+  ],
+  "related_field_evidence": [
+    {
+      "symbol": "_ZN10GameObject10SetVisibleEb",
+      "elf_address": "0x38b0f0",
+      "size": 32,
+      "meaning": "Writes current-visibility byte +0x80: false stores zero; true copies enabled byte +0x8a. This is supporting field-producer evidence, not part of the CanUpdate function map."
+    }
+  ],
+  "limits": [
+    "The caller supplies borrowed logical projections and exact per-call service results; this does not implement the dependency bodies.",
+    "The containing 3776-byte Character::Update scheduler, concurrent-AI container ownership, and native binding are not claimed."
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_bounded_source_bodies": 1,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_faery_selection.hpp",
+      "port/level-world/character_faery_selection.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_faery_selection.cpp",
+      "port/level-world/tests/run_character_faery_selection_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "demangled": "Character::GetCharFaery(int) const",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f",
+      "scope": "Complete bounded source table selector. Normal valid selection, two fresh FaeryTypes/COUNT calls, consistency checks, source fallback and selected row identity are implemented. OOB source storage becomes an explicit port guard; assertion-level-2 source faults are represented as a status."
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "demangled": "Character::GetCharFaeryListId() const",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca",
+      "scope": "This original leaf executes inside the ARM differential; it reads Character+0x106c and applies the FaeryListTable-size fallback to row 0."
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "demangled": "PyDataConstants::getConstant(char const*, char const*) const",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794",
+      "scope": "The complete helper range is hash-pinned; the ARM comparison intercepts each helper call and supplies a controlled COUNT integer. The constant-map body is not claimed by this selector."
+    }
+  ],
+  "source_layout": {
+    "faery_list_row_bytes": 12,
+    "faery_list_size_offset": 4,
+    "faery_list_members_pointer_offset": 8,
+    "faery_table_row_bytes": 36,
+    "faery_table_type_offset": 32,
+    "character_faery_list_id_offset": 4204,
+    "invalid_list_id_fallback": 0
+  },
+  "crypt_ghost_projection": {
+    "characters": [
+      {"id": 35, "name": "Crypt_Ghost", "resolved_faery_list_id": -1},
+      {"id": 37, "name": "Crypt_Ghost_RE", "resolved_faery_list_id": -1}
+    ],
+    "selected_fallback_list_id": 0,
+    "list_slot_to_faery_table_index": [2, 4, 5, 6, 3],
+    "list_slot_names": ["Fake_Celest", "Fake_Rocky", "Fake_Wetty", "Fake_Windy", "Fake_Hotty"],
+    "note": "The selector does not prove SetSkillsAndSpells populated CharAI+0xc0/+0xc4 in the native app or that each row has an executable spell script."
+  },
+  "cache_inputs": [
+    {"path": "data/pydata/faeries_pyarray.bin", "bytes": 699, "sha256": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a"},
+    {"path": "data/pydata/faeries_pyarraynames.bin", "bytes": 253, "sha256": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff"},
+    {"path": "data/pydata/faeries_pystructnames.bin", "bytes": 113, "sha256": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b"},
+    {"path": "data/pydata/character_properties_pyarray.bin", "bytes": 401608, "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"}
+  ]
+}

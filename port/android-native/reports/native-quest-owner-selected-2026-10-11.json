@@ -1,0 +1,17 @@
+{
+  "validation": "PASS",
+  "platform": "Windows x64, selected desktop CMake shared libraries",
+  "checks": 5414,
+  "actual_quest_instances": 384,
+  "constant_queries": 1612,
+  "scope": ["canonical same-Save quest ownership", "source factories", "kill and clear objective progression", "destructor and RAII cleanup"],
+  "source_binary_and_commands_unchanged_during_run": true,
+  "template_selector_evidence": {
+    "HasEnemyOfTypeLoaded_TestCharTemplate": "0x47cc20",
+    "TestCharTemplate_Compare": "0x47b05c",
+    "unmatched_selector_32": "valid, zero matches",
+    "selector_32768": "rejected by signed-halfword provider boundary"
+  },
+  "android_compilation": "not established by this host run",
+  "live_gameplay": false
+}

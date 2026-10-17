@@ -1,0 +1,10 @@
+{
+  "upstream_commit": "791e961b12233100b303038c961666834f4beb9d",
+  "upstream_sha256": {
+    "port/game-data/player_profile_index_v1.cpp": "6755573808a8869fe562cf476a7e581dbba8fa6ece0d6a226d8818c403cac04a",
+    "port/game-data/player_profile_index_v1.hpp": "b6f461352da1bbfc898f50636a77930b44ab98f358e813d3d599267aa8f7f4ca",
+    "port/game-data/player_save_load_owner_v1.cpp": "89420de82ddfc4c2efb8b6d6b6dd7d8b8b2d82fbe0d6be89f134dc3baeb95037",
+    "port/game-data/player_save_load_owner_v1.hpp": "45af833cdd75f7ba19ceccb334031fe8fceb049ab8758d78d2234af5f2d92c49"
+  },
+  "adaptation": "Borrow existing Save and canonical profile slot; use existing metadata field producers, add exact LNAM/LEPT/LUSP fields/readers in that sole owner; typed mandatory external services; real CharacterTable names and source static difficulty store; original valid-body and native bounded failure proofs. No raw private campaign payload included."
+}

@@ -1,6 +1,6 @@
 #include "original_ui_assets.hpp"
-#include "../scene-materials/swf_texture.hpp"
-#include "../asset-payloads/sha256.hpp"
+#include "swf_texture.hpp"
+#include "sha256.hpp"
 #include <algorithm>
 #include <cstring>
 #include <cstdio>
@@ -23,9 +23,6 @@ bool OriginalUiAssets::read(std::string_view uri,std::vector<std::uint8_t>& out,
         const auto* found=std::lower_bound(std::begin(catalog),std::end(catalog),key,
             [](const Entry& entry,const std::string& name){return std::strcmp(entry.key,name.c_str())<0;});
         if(found==std::end(catalog)||key!=found->key){
-            bool present=false;
-            if(!cache_.read(std::string(uri),present,out,error))return false;
-            if(present)return true;
             throw std::runtime_error("Original UI resource unavailable: "+std::string(uri));
         }
         std::unique_ptr<AAsset,Close> asset(AAssetManager_open(manager_,found->asset,AASSET_MODE_STREAMING));

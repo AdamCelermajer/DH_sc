@@ -1,0 +1,203 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN10ObjectBase23TestCullingBeforeUpdateERK4aabbIfE",
+      "elf_address": "0x33de90",
+      "size": 432,
+      "sha256": "b9aee9f9480608db35d0e617cdd58d28f20e829d076b683afa3aef1edfecc7ec",
+      "scope": "complete caller;424 instruction bytes and8 literal bytes; external provider boundaries named"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv",
+      "elf_address": "0x33dd10",
+      "size": 20,
+      "sha256": "e747e9aff56cd8e56b5a34d6570c86fbf70910645922ff428d0b43b9e6d3a821",
+      "scope": "complete20B leaf, raw +118 result only for +110==-1"
+    }
+  ],
+  "external_boundaries": [
+    {
+      "original_symbol": "_Z9GetOnlinev",
+      "elf_address": "0x7fd794",
+      "size": 4,
+      "sha256": "39e1051e33bd200a0ebe62d8a3340b45bba86b3a31ac8822e6d4f2c7b60a152e",
+      "scope": "GetOnline pointer provider; caller reads byte+5"
+    },
+    {
+      "original_symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "elf_address": "0x31f594",
+      "size": 32,
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1",
+      "scope": "GetCurrentLevel provider; genuine null is supported"
+    },
+    {
+      "original_symbol": "_ZNK6glitch5scene16CCameraSceneNode14getViewFrustumEv",
+      "elf_address": "0x582138",
+      "size": 8,
+      "sha256": "d43424d58573cf290da6eb6566e9499353a40abfd26dcf64ef68f762709a2d0b",
+      "scope": "camera virtual+144 getter; source returns this+168; provider remains externally bound"
+    },
+    {
+      "original_symbol": "_ZN6glitch5scene16CCameraSceneNodeC1EiRKNS_4core8vector3dIfEES6_b",
+      "elf_address": "0x583734",
+      "size": 324,
+      "sha256": "d8fa1a5e5d02846262e974b76dac8a937782810a59fabd21b2caa113b8660389",
+      "scope": "Camera constructor vptr producer evidence only; no reconstructed constructor body"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBaseC1ENS_6GO_IDSE",
+      "elf_address": "0x33f15c",
+      "size": 436,
+      "sha256": "0ee65c6207e36d8093719ec258764d35eeecf7bcefe76b5db93889c74b23518a",
+      "scope": "ObjectBase field producer evidence only; no constructor implementation credit"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "elf_address": "0x33f310",
+      "size": 436,
+      "sha256": "e15faf2445a48995abf99d8c5d1e59eb2713750e9908e748d4a6b2ae814d6d67",
+      "scope": "ObjectBase field producer evidence only; no constructor implementation credit"
+    }
+  ],
+  "camera_virtual_evidence": [
+    {
+      "vtable_symbol": "_ZTVN6glitch5scene16CCameraSceneNodeE",
+      "vtable_address": "0x975400",
+      "vtable_size": 424,
+      "address_point": "0x97541c",
+      "address_point_offset": "0x1c",
+      "slot_offset": "0x144",
+      "entry_address": "0x975560",
+      "entry_value": "0x582138",
+      "entry_sha256": "9ee539efe72b2380acb1a3de3103d2e5cbd59c45d60496771043c261dfae68ef"
+    },
+    {
+      "vtable_symbol": "_ZTVN6glitch7collada16CCameraSceneNodeE",
+      "vtable_address": "0x98b5e0",
+      "vtable_size": 424,
+      "address_point": "0x98b5fc",
+      "address_point_offset": "0x1c",
+      "slot_offset": "0x144",
+      "entry_address": "0x98b740",
+      "entry_value": "0x582138",
+      "entry_sha256": "9ee539efe72b2380acb1a3de3103d2e5cbd59c45d60496771043c261dfae68ef"
+    }
+  ],
+  "camera_constructor_vptr": {
+    "add_instruction": "0x5837dc",
+    "add_opcode": "0xe283101c",
+    "store_instruction": "0x5837e4",
+    "store_opcode": "0xe5841000",
+    "vtable_got_entry": "0x9958c0",
+    "vtable_got_value": "0x975400",
+    "scope": "addresspoint producer only; no constructor execution credit"
+  },
+  "source_fields": {
+    "ObjectBase+0x86": "0->store1+true,1->capture AABB and test six planes,other->true; passing/nullLevel path writes2",
+    "ObjectBase+0x110": "IsRemotelyUpdated compares exact0xffffffff",
+    "ObjectBase+0x118": "raw fallback byte",
+    "Level+0x128": "camera owner pointer",
+    "camera+0x8": "captured camera node pointer",
+    "camera node virtual+0x144": "getViewFrustum const&",
+    "frustum+0x0c+i*0x10": "normal xyz and D for exactly6 source planes"
+  },
+  "softfloat_plt": {
+    "0x30e4b4": "__aeabi_fcmpge",
+    "0x30ed6c": "__aeabi_fmul",
+    "0x30eba4": "__aeabi_fadd",
+    "0x30e2f8": "__aeabi_fcmpgt"
+  },
+  "new_original_body_count": 2,
+  "native_wired": false,
+  "whole_camera_or_original_engine_parity": false,
+  "field_producers": [
+    {
+      "constructor": "_ZN10ObjectBaseC1ENS_6GO_IDSE",
+      "instructions": [
+        {
+          "address": "0x33f1b0",
+          "opcode": "0xe3a05000",
+          "sha256": "ac9f7fac5b8744ef5a62ef1209952cea8ce13f312e4b77f510dc425922115d1f",
+          "meaning": "r5=0"
+        },
+        {
+          "address": "0x33f220",
+          "opcode": "0xe3e06000",
+          "sha256": "15903c669de87b89bd5bc99e4593ce75b307da1b102d109409b295332a01700e",
+          "meaning": "r6=0xffffffff"
+        },
+        {
+          "address": "0x33f264",
+          "opcode": "0xe5c45086",
+          "sha256": "fb74e3809049ae739bedf38ae2bcea4d36adc330701535237f443f8f91e21dad",
+          "meaning": "byte86=0"
+        },
+        {
+          "address": "0x33f2d8",
+          "opcode": "0xe5846110",
+          "sha256": "0cd3d6a08c3589ce29f1ae7869ea76dfb066fd3fa48dba75eefc105a238da244",
+          "meaning": "word110=0xffffffff"
+        },
+        {
+          "address": "0x33f2c8",
+          "opcode": "0xe5c45118",
+          "sha256": "47d0b4286aa9f7d9d0c4e559d0955202daab9c9fb3bbffe56e3be4dce6175bc5",
+          "meaning": "byte118=0"
+        }
+      ]
+    },
+    {
+      "constructor": "_ZN10ObjectBaseC2ENS_6GO_IDSE",
+      "instructions": [
+        {
+          "address": "0x33f364",
+          "opcode": "0xe3a05000",
+          "sha256": "ac9f7fac5b8744ef5a62ef1209952cea8ce13f312e4b77f510dc425922115d1f",
+          "meaning": "r5=0"
+        },
+        {
+          "address": "0x33f3d4",
+          "opcode": "0xe3e06000",
+          "sha256": "15903c669de87b89bd5bc99e4593ce75b307da1b102d109409b295332a01700e",
+          "meaning": "r6=0xffffffff"
+        },
+        {
+          "address": "0x33f418",
+          "opcode": "0xe5c45086",
+          "sha256": "fb74e3809049ae739bedf38ae2bcea4d36adc330701535237f443f8f91e21dad",
+          "meaning": "byte86=0"
+        },
+        {
+          "address": "0x33f48c",
+          "opcode": "0xe5846110",
+          "sha256": "0cd3d6a08c3589ce29f1ae7869ea76dfb066fd3fa48dba75eefc105a238da244",
+          "meaning": "word110=0xffffffff"
+        },
+        {
+          "address": "0x33f47c",
+          "opcode": "0xe5c45118",
+          "sha256": "47d0b4286aa9f7d9d0c4e559d0955202daab9c9fb3bbffe56e3be4dce6175bc5",
+          "meaning": "byte118=0"
+        }
+      ]
+    },
+    {
+      "scope": "ObjectManager external offline StartWork reset; no caller reconstruction credit",
+      "instructions": [
+        {
+          "address": "0x34aa20",
+          "opcode": "0xe3a02000",
+          "sha256": "5ec95306cddac064eafeef2d2a3c034afc427dad5a6c6abde4fa1a3d0f162725",
+          "meaning": "r2=0"
+        },
+        {
+          "address": "0x34aa24",
+          "opcode": "0xe5c92086",
+          "sha256": "87301f7e156602a9aeabcb7da09536c18964d89fccd4283362d723134cafd0f8",
+          "meaning": "fresh Object byte86=0 before virtual+24 StartWork"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+WARNING: A restricted method in java.lang.System has been called
+WARNING: java.lang.System::loadLibrary has been called by org.conscrypt.NativeLibraryUtil in an unnamed module (file:/C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/build-tools/37.0.0/lib/apksigner.jar)
+WARNING: Use --enable-native-access=ALL-UNNAMED to avoid a warning for callers in this module
+WARNING: Restricted methods will be blocked in a future release unless native access is enabled
+
+Verifies
+Verified using v1 scheme (JAR signing): false
+Verified using v2 scheme (APK Signature Scheme v2): true
+Verified using v3 scheme (APK Signature Scheme v3): false
+Verified using v3.1 scheme (APK Signature Scheme v3.1): false
+Verified using v3.2 scheme (APK Signature Scheme v3.2): false
+Verified using v4 scheme (APK Signature Scheme v4): false
+Verified for SourceStamp: false
+Number of signers: 1
+V2 Signer: certificate DN: C=US, O=Android, CN=Android Debug
+V2 Signer: certificate SHA-256 digest: f33505a62169e8f00fca61b3f74bebad1c476ebe740cdf3a2956cf50fb27ca0c
+V2 Signer: certificate SHA-1 digest: e9a8226e19492c1bd7a03233b3a9968749b158fc
+V2 Signer: certificate MD5 digest: 11bc33654a1bd75ef1256f13528d49bf
+V2 Signer: key algorithm: RSA
+V2 Signer: key size (bits): 2048
+V2 Signer: public key SHA-256 digest: c2ac0d8b60ba533ef19d2531351ede3b78e9bb614a54c5d46f12ad9a6d15418e
+V2 Signer: public key SHA-1 digest: b1f9be290ac2289049fbae11da4225a30f862554
+V2 Signer: public key MD5 digest: 5d47de5e9359ef851f73b2ecbe72c59d

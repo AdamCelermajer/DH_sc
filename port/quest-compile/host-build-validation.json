@@ -1,0 +1,22 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "compile-host.so": {
+      "sha256": "797df290c982f7c86ec96a28e782ec499ff27f030a3cf06aa4a6da385e0f15c2"
+    }
+  },
+  "source_sha256": {
+    "compile.c": "164753db2fb835d019bc1b55b3fea203faf17dfb810c0cd1e696fdbac9de4437",
+    "compile.h": "16b3488b4e0a9848c8b7c423463e72c7c6c7ec9cb3fe6dd0dec7b34518e423ad",
+    "../quest-kill/quest.h": "34e140475fb50238fe20b217623f9d83e78a63985666817470c30809c5cd2bd6"
+  },
+  "build_tool_sha256": "29b2705208cf9dd96080282fcfaadee1f97821a256157c81dcad6d1bc52808fc",
+  "safety": {
+    "iterations": 12000,
+    "asan": true,
+    "ubsan": true,
+    "recover": false,
+    "test_sha256": "99162bbd0b9f2a30d5a2ed21c01c45221ab00bde18f529f10c23df4edc4812da",
+    "seed": 20261002
+  }
+}

@@ -1,0 +1,14 @@
+{
+  global:
+    Java_com_samsung_zirconia_NativeInterface_checkLicenseFile;
+    Java_com_samsung_zirconia_NativeInterface_checkLicenseFile2;
+    Java_com_samsung_zirconia_NativeInterface_doPassphraseTest;
+    Java_com_samsung_zirconia_NativeInterface_storeLicenseKey;
+    CheckLicenseFile;
+    SHA1Reset;
+    SHA1Input;
+    SHA1Result;
+    SHA1ProcessMessageBlock;
+    SHA1PadMessage;
+  local: *;
+};

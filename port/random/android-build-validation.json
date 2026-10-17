@@ -1,0 +1,26 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "random-arm64.so": {
+      "sha256": "adb7f1356078af981a85132eccef010b24986b7aa9fac5dc3018cbc53e8ecb5d",
+      "layout": {
+        "machine": 183,
+        "pt_load": [
+          {
+            "offset": 0,
+            "alignment": 16384
+          },
+          {
+            "offset": 2432,
+            "alignment": 16384
+          }
+        ]
+      }
+    }
+  },
+  "source_sha256": {
+    "random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6"
+  },
+  "build_tool_sha256": "4c01de1192849e8f8edc168f0b8e8cc17429318c126a3b0c2a1509346aac2634"
+}

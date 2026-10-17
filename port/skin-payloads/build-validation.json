@@ -1,0 +1,16 @@
+{
+  "complete_engine": false,
+  "host_build": true,
+  "android_build": false,
+  "source_sha256": {
+    "skin-payloads/skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
+    "skin-payloads/../asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "skin-payloads/../engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "skin-payloads/../scene-payloads/scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",
+    "skin-payloads/../engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "skin-payloads/skin.hpp": "65f95933766b6dfb9461c4faede0e806cf3403672fc311c6a3f1e93d54780e36"
+  },
+  "artifact_sha256": {
+    "skin-host.so": "17f1bf8f6aeccb56e05158ef7a2c42437cb595a573e2d80311886f90b4cbf841"
+  }
+}

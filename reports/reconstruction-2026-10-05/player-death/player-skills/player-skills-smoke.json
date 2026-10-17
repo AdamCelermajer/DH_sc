@@ -1,0 +1,803 @@
+{
+  "validation": "PASS",
+  "scope": "Live source Player AIS split load/InitProcess, same skill/property/save/buff owners, original timer regeneration and framework cooldown shell fixture. Profile/starter grants, Player AI frame, skill activation and complete combat loop remain unfinished.",
+  "apk_sha256": "2a93a0e2d9ad48310e123f1050f62d7f1d2384b4bf862667da0b431fab0605ec",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "0583090ee56a05e376db595db34d50324069bb30e83badcc2bc4345febd5b353",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "5bd2601c07ca43faaa93bf150f547d210a6ec4e3a2393b58fb07bdad62cc9dc6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "ad041c8781848da418ff63c2c87db570b588c1a1786e6c880846a01217efde69",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "b2afd191b4897f262d263227c37aaf0a9a3f37e25a8c4181c109f3976f5d27da",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "f31bafe7cf94e43f7c294a859d9cc241c64dd51bc5468925b427e18504dee643",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "a254e7775df3a8911c8cc629109b905261cc0597ea355b3bac17254f4f84b493",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "969600255a317ac8daf041e2b363633afd6650042eb5e0fb343d03e42c9cd7d9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "e66f1ecae11ecb67ec9aa0ab53df6db408e263c06ed85cf2e7bb5f59841dbc4f",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "serial": "emulator-5558",
+  "api": 37,
+  "page_size": 16384,
+  "abi": "x86_64",
+  "packaged_original_resources_verified": 35,
+  "source_startup": {
+    "AI": "0x300000001",
+    "AIS": "0x71711c052fb8",
+    "VM": "0x71715c047380",
+    "phase": 7,
+    "init_phase_mask": 31,
+    "HP": 42264,
+    "max_HP": 42265,
+    "MP": 6975,
+    "max_MP": 6976,
+    "timer33": 0,
+    "timer34": 1,
+    "initialization_count": 1
+  },
+  "source_timers": {
+    "snapshots": [
+      {
+        "phase": "initial",
+        "event": 51,
+        "slot": 0,
+        "duration_ms": 3000,
+        "repeat": -1,
+        "elapsed_ms": 0,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "event_hex": "0x33",
+        "log_offset": 45193,
+        "accumulated_source_timer_ms": 0
+      },
+      {
+        "phase": "initial",
+        "event": 52,
+        "slot": 1,
+        "duration_ms": 1000,
+        "repeat": -1,
+        "elapsed_ms": 0,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "event_hex": "0x34",
+        "log_offset": 45401,
+        "accumulated_source_timer_ms": 0
+      },
+      {
+        "phase": "restore",
+        "event": 51,
+        "slot": 0,
+        "duration_ms": 3000,
+        "repeat": -1,
+        "elapsed_ms": 2763,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "event_hex": "0x33",
+        "log_offset": 104317,
+        "accumulated_source_timer_ms": 2763
+      },
+      {
+        "phase": "restore",
+        "event": 52,
+        "slot": 1,
+        "duration_ms": 1000,
+        "repeat": -1,
+        "elapsed_ms": 763,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 2,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "event_hex": "0x34",
+        "log_offset": 104528,
+        "accumulated_source_timer_ms": 2763
+      },
+      {
+        "phase": "restore",
+        "event": 51,
+        "slot": 0,
+        "duration_ms": 3000,
+        "repeat": -1,
+        "elapsed_ms": 695,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 1,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "event_hex": "0x33",
+        "log_offset": 157067,
+        "accumulated_source_timer_ms": 3695
+      },
+      {
+        "phase": "restore",
+        "event": 52,
+        "slot": 1,
+        "duration_ms": 1000,
+        "repeat": -1,
+        "elapsed_ms": 695,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 3,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "event_hex": "0x34",
+        "log_offset": 157277,
+        "accumulated_source_timer_ms": 3695
+      },
+      {
+        "phase": "restore",
+        "event": 51,
+        "slot": 0,
+        "duration_ms": 3000,
+        "repeat": -1,
+        "elapsed_ms": 1118,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 5,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 0,
+        "max_MP": 6976,
+        "event_hex": "0x33",
+        "log_offset": 237888,
+        "accumulated_source_timer_ms": 16118
+      },
+      {
+        "phase": "restore",
+        "event": 52,
+        "slot": 1,
+        "duration_ms": 1000,
+        "repeat": -1,
+        "elapsed_ms": 118,
+        "active": 1,
+        "paused": 0,
+        "ref": 0,
+        "delivered": 16,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 0,
+        "max_MP": 6976,
+        "event_hex": "0x34",
+        "log_offset": 238096,
+        "accumulated_source_timer_ms": 16118
+      }
+    ],
+    "deliveries": [
+      {
+        "event": 52,
+        "slot": 1,
+        "count": 1,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 0,
+        "MP_rate": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42264,
+        "MP_before": 6975,
+        "event_hex": "0x34",
+        "log_offset": 55005
+      },
+      {
+        "event": 52,
+        "slot": 1,
+        "count": 2,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 0,
+        "MP_rate": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42264,
+        "MP_before": 6975,
+        "event_hex": "0x34",
+        "log_offset": 56852
+      },
+      {
+        "event": 51,
+        "slot": 0,
+        "count": 1,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 1760,
+        "MP_rate": 741,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42264,
+        "MP_before": 6975,
+        "event_hex": "0x33",
+        "log_offset": 111086
+      },
+      {
+        "event": 52,
+        "slot": 1,
+        "count": 3,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 0,
+        "MP_rate": 0,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42265,
+        "MP_before": 6976,
+        "event_hex": "0x34",
+        "log_offset": 111464
+      },
+      {
+        "event": 51,
+        "slot": 0,
+        "count": 2,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 1760,
+        "MP_rate": 741,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42265,
+        "MP_before": 6976,
+        "event_hex": "0x33",
+        "log_offset": 171635
+      },
+      {
+        "event": 51,
+        "slot": 0,
+        "count": 3,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 1760,
+        "MP_rate": 741,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42265,
+        "MP_before": 6976,
+        "event_hex": "0x33",
+        "log_offset": 176519
+      },
+      {
+        "event": 51,
+        "slot": 0,
+        "count": 4,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 1760,
+        "MP_rate": 741,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42265,
+        "MP_before": 6976,
+        "event_hex": "0x33",
+        "log_offset": 182152
+      },
+      {
+        "event": 51,
+        "slot": 0,
+        "count": 5,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 1760,
+        "MP_rate": 741,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 6976,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42265,
+        "MP_before": 6976,
+        "event_hex": "0x33",
+        "log_offset": 187389
+      },
+      {
+        "event": 51,
+        "slot": 0,
+        "count": 6,
+        "combat": 0,
+        "remote": 0,
+        "HP_rate": 1760,
+        "MP_rate": 741,
+        "HP": 42265,
+        "max_HP": 42265,
+        "MP": 741,
+        "max_MP": 6976,
+        "dot_attacks": 0,
+        "HP_before": 42265,
+        "MP_before": 0,
+        "event_hex": "0x33",
+        "log_offset": 247001
+      }
+    ],
+    "cadence_scope": "Original duration/repeat, actual delivered counts and retained elapsed fields on one Coordinator; no exact wall-clock timing claim."
+  },
+  "initial": {
+    "source_skill_slots": 16,
+    "source_faery_slots": 5,
+    "nonnull_instances": 13,
+    "source_paths": 15,
+    "source_declaration_calls": 26,
+    "completed_knight_updates": 8,
+    "completed_faery_updates": 5,
+    "update_boundary": null,
+    "saved_skill_rows": 16,
+    "update_vm_status": 0,
+    "full_skill_update_complete": true
+  },
+  "screenshots": [
+    {
+      "file": "player-skills-initial.png",
+      "sha256": "e8fad3a2d1a793413f1e46ad94594df7015056a640f04730318b5f449ae6e2d5"
+    },
+    {
+      "file": "player-skills-restored.png",
+      "sha256": "71a79726e001393fbaec8d095c9f813059ba5ec0c89e82ed071d5e466bdcbcd5"
+    }
+  ],
+  "authored_buff": {
+    "count": 1,
+    "groups": 1,
+    "class_id": 49,
+    "instance": "0x71728c1832c0",
+    "timer": -1,
+    "strength": 1,
+    "sheet_fnv1a64_le_words": "3bfdcdd0eb338a14",
+    "initial_resistance_properties": [
+      {
+        "name": "Resistance_Fire",
+        "index": 74,
+        "buff": 0,
+        "resolved": 192
+      },
+      {
+        "name": "Resistance_Water",
+        "index": 75,
+        "buff": 0,
+        "resolved": 192
+      },
+      {
+        "name": "Resistance_Lightning",
+        "index": 76,
+        "buff": 7680,
+        "resolved": 7872
+      },
+      {
+        "name": "Resistance_Earth",
+        "index": 77,
+        "buff": 0,
+        "resolved": 192
+      },
+      {
+        "name": "Resistance_Air",
+        "index": 78,
+        "buff": 0,
+        "resolved": 192
+      }
+    ],
+    "retained_recreations": 3,
+    "activation_or_unlock_claim": false
+  },
+  "mana_observations": [
+    {
+      "amount": 0,
+      "has": 1,
+      "used": 1,
+      "MP_before": 6975,
+      "MP_after": 6975
+    },
+    {
+      "amount": 0,
+      "has": 1,
+      "used": 1,
+      "MP_before": 6976,
+      "MP_after": 6976
+    },
+    {
+      "amount": 0,
+      "has": 1,
+      "used": 1,
+      "MP_before": 6976,
+      "MP_after": 6976
+    },
+    {
+      "amount": 0,
+      "has": 1,
+      "used": 1,
+      "MP_before": 6976,
+      "MP_after": 6976
+    },
+    {
+      "amount": 0,
+      "has": 1,
+      "used": 1,
+      "MP_before": 741,
+      "MP_after": 741
+    }
+  ],
+  "initial_frozen_MP": 6975,
+  "scalar_dictionary": [
+    {
+      "write": false,
+      "input": 0,
+      "observed": 0,
+      "entries_before": 1,
+      "entries_after": 2,
+      "AIS": "0x71711c052fb8",
+      "VM": "0x71715c047380"
+    },
+    {
+      "write": true,
+      "input": 7312,
+      "observed": 7312,
+      "entries_before": 2,
+      "entries_after": 2,
+      "AIS": "0x71711c052fb8",
+      "VM": "0x71715c047380"
+    },
+    {
+      "write": false,
+      "input": 0,
+      "observed": 7312,
+      "entries_before": 2,
+      "entries_after": 2,
+      "AIS": "0x71711c052fb8",
+      "VM": "0x71715c047380"
+    },
+    {
+      "write": false,
+      "input": 0,
+      "observed": 7312,
+      "entries_before": 2,
+      "entries_after": 2,
+      "AIS": "0x71711c052fb8",
+      "VM": "0x71715c047380"
+    },
+    {
+      "write": true,
+      "input": -37,
+      "observed": -37,
+      "entries_before": 2,
+      "entries_after": 2,
+      "AIS": "0x71711c052fb8",
+      "VM": "0x71715c047380"
+    },
+    {
+      "write": false,
+      "input": 0,
+      "observed": -37,
+      "entries_before": 2,
+      "entries_after": 2,
+      "AIS": "0x71711c052fb8",
+      "VM": "0x71715c047380"
+    }
+  ],
+  "skill_checks": [
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6975,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_combat_master",
+      "slot": 7,
+      "saved_level": 0,
+      "usable": 0,
+      "active": 1,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6975,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6975,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6976,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 6976,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 1,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 5952,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 0,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 0,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    },
+    {
+      "script": "prince_warrior_bashdown",
+      "slot": 0,
+      "saved_level": 0,
+      "usable": 0,
+      "active": 0,
+      "return_counts": [
+        2,
+        2
+      ],
+      "MP": 741,
+      "SnS_Level": 256,
+      "temporary_mana_cost": 1024
+    }
+  ],
+  "cooldown_fixture": {
+    "script": "prince_warrior_bashdown",
+    "slot": 0,
+    "field18": 2,
+    "native_timer_id": 2,
+    "duration_ms": 12000,
+    "full_skill_use": false
+  },
+  "AIS_retained": {
+    "same_AI": "0x300000001",
+    "same_AIS": "0x71711c052fb8",
+    "active_equals_pending": true,
+    "phase": 7,
+    "initialization_count": 1,
+    "recreations": 3
+  },
+  "restore": {
+    "same_process": "25729",
+    "same_vm": "0x71715c047380",
+    "reload_and_rotation": true,
+    "preparation_count": 1,
+    "blocked_update_attempts": 0,
+    "observed_update_attempts": [
+      1,
+      1
+    ]
+  },
+  "cooldown_expiry": {
+    "callback_count": 1,
+    "slot0_field18": -1,
+    "same_native_timer_id": 2
+  },
+  "cooldown_rearm_verified": true,
+  "mana_debits": [
+    {
+      "amount": 1024,
+      "has": 1,
+      "used": 1,
+      "MP_before": 6976,
+      "MP_after": 5952
+    },
+    {
+      "amount": 8000,
+      "has": 0,
+      "used": 0,
+      "MP_before": 5952,
+      "MP_after": 5952
+    },
+    {
+      "amount": 5952,
+      "has": 1,
+      "used": 1,
+      "MP_before": 5952,
+      "MP_after": 0
+    },
+    {
+      "amount": 1,
+      "has": 0,
+      "used": 0,
+      "MP_before": 0,
+      "MP_after": 0
+    }
+  ],
+  "post_reload_source_regeneration": {
+    "MP_at_restore": 0,
+    "baseline_count": 5,
+    "first_count": 6,
+    "first_MP_before": 0,
+    "first_MP_after": 741,
+    "raw_MP_rate": 741,
+    "reached_ticks": 1,
+    "frozen_MP": 741,
+    "max_MP": 6976,
+    "same_timer_slot": 0,
+    "source_duration_ms": 3000,
+    "same_VM": "0x71715c047380",
+    "initialization_count": 1,
+    "no_compensating_heal": true
+  },
+  "zero_MP_at_reload_before_resumed_frames": true,
+  "scalar_dictionary_retained_on_reload_and_rotation": true,
+  "log_sha256": "33038b406b574b4d8be68d5e820cdacdf88defbe46e41270b3fb696ba13d507e"
+}

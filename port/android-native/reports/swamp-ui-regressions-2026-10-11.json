@@ -1,0 +1,45 @@
+{
+  "date": "2026-10-11",
+  "apk_sha256": "321135392902044F4866E2D42F6F67177F9155651E5129E2536E1E465E2A5F5A",
+  "apk_bytes": 254221972,
+  "validation": "PARTIAL",
+  "build": {
+    "abis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "result": "PASS",
+    "target_sdk": 37
+  },
+  "runtime": {
+    "save_restore_checksums": "PASS",
+    "full_surface_hud": "PASS",
+    "menu_name_class_start": "PASS",
+    "world": "SWAMP",
+    "ability_controls": "visible",
+    "abi": "x86_64",
+    "attack_response": "Walk closer to an enemy",
+    "page_size": 16384,
+    "actual_hit": "NOT_REACHED",
+    "world_ready": "PASS",
+    "attack_art": "sword",
+    "android_api": 37,
+    "saved_character_preview_resource": "connected for slot0/class263; visual fidelity unverified",
+    "static_monster_bodies": 5,
+    "static_monster_vms_initialized": 5
+  },
+  "unverified": [
+    "opening cinematic visual fit",
+    "saved-character main-menu preview fidelity",
+    "loading-overlay transition presentation",
+    "mob aggro",
+    "hit-triggered rendering regression",
+    "loot and progression"
+  ],
+  "source_findings": [
+    "Static SWAMP Characters lacked update enrollment and the owner required by mandatory combat text. Both owners are now integrated.",
+    "MainMenu preview callback preceded scene setup; scene preparation now precedes onShow and return from class selection.",
+    "Source record provenance/order retained; registration key seed4 is a reconstructed range, not original menu allocator parity."
+  ],
+  "published": false
+}

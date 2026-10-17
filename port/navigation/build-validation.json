@@ -1,0 +1,26 @@
+{
+  "host_build": true,
+  "complete_navigation": false,
+  "scope": "source-selected SWAMP floor meshes; geometric height, source-backed floor eligibility, and bounded zero-radius segment-vs-triangle queries; no actor movement integration",
+  "source_sha256": {
+    "navigation.cpp": "70c07db798bff463efd7819e6247fede2a1b0541ac690c5f21261f43e6225da2",
+    "../world-data/world.cpp": "64d0fc545a11e224f150a4e4611ad906cdb1fd0570ba059331b6846404d28d47",
+    "../world-data/world_scene.cpp": "cdb4157918cb408cbbffee5bc1bbed1dbfee677dbde03ba1b0222e1141e6af86",
+    "../scene-payloads/scene.cpp": "79006a9bc17af8e1ae554b8af77e523952ebf8e16dcf364da9cf66c8842623b9",
+    "../asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "../floor-types/floor_types.cpp": "4761f3ae34d488baba325568f41db9ca35aeb7641aaf277d8040f0a7e76cf1f8",
+    "../engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "../engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "navigation.hpp": "db057f1d575871b84d0a2b77768064d932e49cdfde6d9ee6143fc86f410f0cb8",
+    "../world-data/world.hpp": "174a9e9e104497e8bc59671753c04ee2cd32788acc6b9b53e25e73a1d71ca2de",
+    "../world-data/world_scene.hpp": "ea10e58f7ee8fa8c3859a4299f38a025e3fbd632ea8b8b30d1516738e495c406",
+    "../scene-payloads/scene.hpp": "5e59b471fd34ee64d6084a57c36816b356f2e2123b00663b920b70b86db7d785",
+    "../floor-types/floor_types.hpp": "ebfd7adb88faf598184d842ab2de549703177c3e4ee0b3c947cdc008c9dbb496",
+    "../asset-payloads/payloads.hpp": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+    "../engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "../engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "libdh2_navigation_host.dll": "c8d9f7daa6d61f27e2addab23837e40e9d104e4202437ea4772f0f23599cec71"
+  }
+}

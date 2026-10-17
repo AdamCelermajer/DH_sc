@@ -1,0 +1,216 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_function": "GameObject::Stop at 0x3938f8 (248 bytes)",
+  "original_arm_cases": 246,
+  "original_instruction_coverage": [
+    {
+      "symbol": "_ZNK10GameObject29IsUpdatingPositionFromPhysicsEv",
+      "instructions": 2,
+      "executed": 0
+    },
+    {
+      "symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+      "instructions": 3,
+      "executed": 3
+    },
+    {
+      "symbol": "_ZN14PhysicalObject17setLinearVelocityEff",
+      "instructions": 24,
+      "executed": 18
+    },
+    {
+      "symbol": "_ZN14PhysicalObject18setAngularVelocityEf",
+      "instructions": 9,
+      "executed": 9
+    },
+    {
+      "symbol": "_ZN10GameObject4StopEv",
+      "instructions": 59,
+      "executed": 59
+    },
+    {
+      "symbol": "_ZN14PhysicalObject11setPositionEff",
+      "instructions": 21,
+      "executed": 21
+    }
+  ],
+  "verified_external_boundaries": [
+    "_ZN7PFWorld8DropPathER8PFObject"
+  ],
+  "virtual_dispatch": [
+    {
+      "class": "GameObject",
+      "vtable_symbol": "_ZTV10GameObject",
+      "vtable_address": "0x964748",
+      "vtable_size": 244,
+      "address_point": "0x964750",
+      "slot_offset": "0x64",
+      "entry_address": "0x9647b4",
+      "entry_value": "0x34006c",
+      "entry_sha256": "9a4d79944ad12fcea7a9f922b25cf99bcf853c4f0fc5b7e2096d7700edb4ac8c",
+      "method_symbol": "_ZNK10GameObject29IsUpdatingPositionFromPhysicsEv",
+      "method_size": 8,
+      "method_sha256": "007f34a6c3441b0240da53f253e513b959105da2d8803255e1856aa48f48db47",
+      "role": "Base implementation returns 1."
+    },
+    {
+      "class": "Character",
+      "vtable_symbol": "_ZTV9Character",
+      "vtable_address": "0x965f30",
+      "vtable_size": 812,
+      "address_point": "0x965f38",
+      "slot_offset": "0x64",
+      "entry_address": "0x965f9c",
+      "entry_value": "0x3a2e44",
+      "entry_sha256": "acd2a8641f209b2f0667605870da055fdd90a63d0c536590581dbdb74a5bfe9d",
+      "method_symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+      "method_size": 12,
+      "method_sha256": "05d43e2407b49c03a330eae70a339d4e7f42f2a1ec3b77155d2900bbde90a3c8",
+      "role": "Character override returns (Character+0x520 bit 1). Stop corpus calls this through the real Character vtable address point."
+    }
+  ],
+  "character_constructor": {
+    "symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+    "address": "0x3a9340",
+    "size": 1448,
+    "sha256": "ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb",
+    "vtable_got_entry": "0x9978a0",
+    "vtable_symbol_value": "0x965f30",
+    "address_point_instruction": "0x3a9404",
+    "vptr_store_instruction": "0x3a9418",
+    "role": "Character constructor owns the Character vptr/AP; Ghost uses this Character class, not a separate C++ Ghost subclass."
+  },
+  "source_observed_virtual_queries": 124,
+  "source_character_physical_reset_cases": 63,
+  "source_set_xform_boundaries": 63,
+  "source_ordered_event_counts": [
+    246,
+    124,
+    63,
+    63,
+    63,
+    63
+  ],
+  "source_origin_vector": {
+    "got_slot": "0x9989c4",
+    "pointer": "0x99f854",
+    "words": [
+      0,
+      0,
+      0
+    ]
+  },
+  "native_guards": {
+    "guard_checks": 7,
+    "service_failure_prefixes": 4
+  },
+  "native_replay": {
+    "validation": "PASS",
+    "original_arm_cases": 246,
+    "physical_stop_cases": 63,
+    "set_xform_boundaries": 63,
+    "logical_float_words": 2214,
+    "mismatches": 0
+  },
+  "original_drop_path_body": "not in this Stop corpus; required provider boundary; independently audited by navigation-path",
+  "box2d_setxform_backend": "boundary observer applies exact returned XY to body snapshot; solver/proxies/contacts not asserted",
+  "source_stop_body_and_physical_setters_execute": true,
+  "mismatches": 0,
+  "scope": "Original GameObject::Stop and the Character::IsUpdatingPositionFromPhysics override execute through pinned Character address point 0x965f38. Base GameObject override and Character constructor/address-point ownership are byte-pinned. DropPath is intercepted at the original caller boundary. The native callback must own route release; the direct physical+0x14 projection is resolved after the source setter sequence. No live native Ghost wiring is claimed.",
+  "reference_sha256": "fc06adae1e57402393453dfd59e7f434f502417bdcb484570f1b3898b617caaa",
+  "source_sha256": {
+    "port/level-world/game_object_stop.cpp": "86be418038d6fa1ff46a0710f51b4a1e256d53023759697c086a9371b16723b2",
+    "port/level-world/physical_controls.cpp": "4b9f11b6de5d8145dfc697e745bab5c8dbf8cabd801922bd4c16eb63878dd20a",
+    "port/level-world/tests/game_object_stop.cpp": "8b3b5e5986d9dc1c120d4d18cbbf14331bbea2abcfb08e69550ce415e1a2f465",
+    "port/level-world/navigation_path.cpp": "3e898bf804d38b0b91f2f4cdefcfb001796cf170ccee4966efd74cf9cd3522ce",
+    "port/level-world/game_object_stop.hpp": "77ffbe3e6e3c1325735df47e8b49941a1e7a4e76e218cd0347ad47d435b9cf8d",
+    "port/level-world/navigation_path.hpp": "d9044a95ee529ddbaf215f421ef021da697bf88d1f45d2bf407a3224b3d32d80",
+    "port/level-world/tests/run_game_object_stop_host.py": "c522bc501bf454d79921b7f280dea8d60a510f8401c23f74bc507df1b5cd2fd0",
+    "port/level-world/reference/game-object-stop/original-functions.json": "fad0c79a76dad6fec20baa1844b2fb634e7374cba7353451a011b50f68cce293",
+    "port/level-world/reference/game-object-stop/NOTES.md": "7198368af5a5bc5e3960df528bf72d3861b51ea2450732df26e99ca4c3b60076"
+  },
+  "compiler_commands": [
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\game_object_stop.cpp",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_0.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-Wno-misleading-indentation",
+      "-I",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\physical_controls.cpp",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_1.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\game_object_stop.cpp",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_2.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-Wno-misleading-indentation",
+      "-I",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\navigation_path.cpp",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_3.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_0.o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_1.o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_2.o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_3.o",
+      "-Wl,--gc-sections",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\game-object-stop-final-freeze\\game_object_stop_host.exe"
+    ]
+  ],
+  "elapsed_seconds": 7.2
+}

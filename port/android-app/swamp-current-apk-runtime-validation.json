@@ -1,0 +1,370 @@
+{
+  "date": "2026-10-03",
+  "apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+  "apk_bytes": 5465698,
+  "device_results": [
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "sdk": 37,
+      "page_size_bytes": 16384,
+      "abi": "x86_64",
+      "before_encounter_hud": "HP 77/80 | Sentries 2/2  COMPLETE | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+      "trace_ui_text": "LizardMan_Intro · explicit developer trace\nManual activation only; no collision trigger\nTime 4050 ms · trigger 1/1 fired · 19 module-one records\nLizardMan_Intro task complete\nPlayer lock: OFF (logical) · cutscene: OFF (logical)\nCamera target: _prim_Waypoint_NewCamSpot (camera movement not implemented)\nReturn camera request: LocalPlayer unresolved; this preview has no native player Character\nLizManIntro1: native state 1 requested; no actor allocation/render\nLizManIntro2: native state 1 requested; no actor allocation/render\nEnd: complete · Return to encounter preserves its authored state\nEvents (latest first; visuals/unsupported effects are marked no-op):\n[4010] Script completed: EndScriptedCutScene\n[4010] Unsupported command (explicit no-op): SaveGame\n[4010] Cutscene flag (visual no-op): exit (OFF)\n[4010] Player lock: All (OFF)\n[4010] Unsupported command (explicit no-op): MarkCharacterAsScripted\n[4010] Unsupported command (explicit no-op): HideFlash\n[4010] Unsupported command (explicit no-op): ShowFlash\n[4010] Unsupported command (explicit no-op): WaitDialog\n[4010] Unsupported command (explicit no-op): PutCharacterInIdle\n[4000] Script completed: LizardMan_Intro\n[4000] Tutorial gate closed: DoTutorial source gate is closed\n[4000] Script started: EndScriptedCutScene\n[4000] Object lookup miss: LocalPlayer\n[4000] Player lock: All (OFF)\n[2000] Wait: milliseconds (2000 ms)\n[2000] Spawn state 1 requested (no actor allocation/render): _prim_Monster_LizManIntro2\n[0500] Wait: milliseconds (1500 ms)\n[0500] Spawn state 1 requested (no actor allocation/render): _prim_Monster_LizManIntro1\n[0010] Script completed: BeginScriptedCutScene\n[0010] Cutscene flag (visual no-op): enter (ON)\n[0010] Unsupported command (explicit no-op): StopActor\n[0010] Player lock: All (ON)\n[0010] Unsupported command (explicit no-op): ShowFlash\n[0010] Unsupported command (explicit no-op): HideFlash\n",
+      "after_return_encounter_hud": "HP 77/80 | Sentries 2/2  COMPLETE | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+      "encounter_unchanged_after_return": true,
+      "launcher_tap_fallback_used": false,
+      "manual_trace_started": true,
+      "trace_completed": true,
+      "movement_checks": {
+        "east": {
+          "before_xyz": [
+            1090.75,
+            -212.2,
+            258.0
+          ],
+          "post_release_report": "IDLE · X 1104.60 Y -212.20\nZ 255.00 · yaw -1.57 · mask 0x2",
+          "after_release_xyz": [
+            1104.6,
+            -212.2,
+            255.0
+          ],
+          "after_release_stable_xyz": [
+            1104.6,
+            -212.2,
+            255.0
+          ],
+          "walk_screenshot": {
+            "file": "movement-east-walk.png",
+            "bytes": 3038035,
+            "sha256": "6075e88d425fce68e3a3304e9ce5279a8037f39edcfc70d46739e6f7ef402966"
+          },
+          "release_idle_screenshot": {
+            "file": "movement-east-release-idle.png",
+            "bytes": 3033514,
+            "sha256": "5463a15e46bb17b01db9cd15f7ec5e64d22ab068b164d43538215c0d53f26a4c"
+          }
+        },
+        "north": {
+          "before_xyz": [
+            1104.6,
+            -212.2,
+            255.0
+          ],
+          "post_release_report": "IDLE · X 1104.60 Y -204.98\nZ 255.00 · yaw -0.00 · mask 0x2",
+          "after_release_xyz": [
+            1104.6,
+            -204.98,
+            255.0
+          ],
+          "after_release_stable_xyz": [
+            1104.6,
+            -204.98,
+            255.0
+          ],
+          "walk_screenshot": {
+            "file": "movement-north-walk.png",
+            "bytes": 3033236,
+            "sha256": "6354d6d95f3d17cb9521bd94c7bf2991ccbb5ff9d4a1fd4f3b31a4b82fea8fb6"
+          },
+          "release_idle_screenshot": {
+            "file": "movement-north-release-idle.png",
+            "bytes": 3038794,
+            "sha256": "e493589087e6b0b3c8c4b3b6345b630c0ac082b79615bb8aff386965a49b359f"
+          }
+        },
+        "pause_resume": {
+          "position_after_resume": [
+            1108.91,
+            -204.98,
+            255.0
+          ],
+          "position_after_idle_wait": [
+            1108.91,
+            -204.98,
+            255.0
+          ],
+          "no_drift": true,
+          "screenshot": {
+            "file": "movement-pause-resume.png",
+            "bytes": 3032436,
+            "sha256": "cbe6c4811a42c787e8fa69cdff087b1191b13e8222c284b7b1c4606cd8b371e3"
+          }
+        },
+        "no_floor_rejection": {
+          "report_while_stick_held": "BLOCKED · X 1108.91 Y -198.41\nZ 255.00 · mask 0x2 · no floor · held",
+          "position_after_rejection": [
+            1108.91,
+            -198.41,
+            255.0
+          ],
+          "position_after_release": [
+            1108.91,
+            -198.41,
+            255.0
+          ],
+          "diagnostic_screenshot": {
+            "file": "movement-no-floor.png",
+            "bytes": 3039040,
+            "sha256": "0d4bae1b7c6f605e8dc5a60783843f878ccdf5c3b81e5071935092d33b4052b4"
+          },
+          "blocked_candidate_preserved_position": true
+        }
+      },
+      "movement_animation_transitions_logged": [
+        "walk",
+        "idle"
+      ],
+      "trace_panel_and_both_controls_nonoverlapping": true,
+      "screenshots": [
+        {
+          "file": "swamp-compact-initial.png",
+          "bytes": 3036819,
+          "sha256": "51af5638c25a24b879301a7bd2b8754b771936cee73bea4fbfa4afa8b66181ea"
+        },
+        {
+          "file": "swamp-details-open.png",
+          "bytes": 2779342,
+          "sha256": "bb8cd43aaa82a8fc861283e186cdeefb7149f19aa8165ea8a78c352bf5077fe3"
+        },
+        {
+          "file": "movement-east-walk.png",
+          "bytes": 3038035,
+          "sha256": "6075e88d425fce68e3a3304e9ce5279a8037f39edcfc70d46739e6f7ef402966"
+        },
+        {
+          "file": "movement-east-release-idle.png",
+          "bytes": 3033514,
+          "sha256": "5463a15e46bb17b01db9cd15f7ec5e64d22ab068b164d43538215c0d53f26a4c"
+        },
+        {
+          "file": "movement-north-walk.png",
+          "bytes": 3033236,
+          "sha256": "6354d6d95f3d17cb9521bd94c7bf2991ccbb5ff9d4a1fd4f3b31a4b82fea8fb6"
+        },
+        {
+          "file": "movement-north-release-idle.png",
+          "bytes": 3038794,
+          "sha256": "e493589087e6b0b3c8c4b3b6345b630c0ac082b79615bb8aff386965a49b359f"
+        },
+        {
+          "file": "movement-pause-resume.png",
+          "bytes": 3032436,
+          "sha256": "cbe6c4811a42c787e8fa69cdff087b1191b13e8222c284b7b1c4606cd8b371e3"
+        },
+        {
+          "file": "movement-no-floor.png",
+          "bytes": 3039040,
+          "sha256": "0d4bae1b7c6f605e8dc5a60783843f878ccdf5c3b81e5071935092d33b4052b4"
+        },
+        {
+          "file": "trace-complete.png",
+          "bytes": 2982479,
+          "sha256": "9431b604ac612ced12a6addd2cc07a6abcb70f59a0b351d82f45b5ec363a1ddb"
+        },
+        {
+          "file": "trace-events-top.png",
+          "bytes": 3005871,
+          "sha256": "232ec4a919749f82b8fa17b3f3ab61f5755a2d71f375153e30a2682e87a86bd9"
+        },
+        {
+          "file": "trace-events-timeline.png",
+          "bytes": 2982291,
+          "sha256": "075bf030fe09ec0a94345101bb13452bfe5fff928d48d4bd4d9ea1a049d6bbf6"
+        },
+        {
+          "file": "encounter-return.png",
+          "bytes": 366226,
+          "sha256": "5abc6662ab209f6d4742b2e985f5132309e433b012386fb4dddbc4e7d245cde8"
+        }
+      ],
+      "filtered_error_log_entries": 0,
+      "filtered_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "installed_apk_bytes": 5465698,
+      "evidence_directory": "build/swamp-current-apk-16k-final2"
+    },
+    {
+      "serial": "emulator-5556",
+      "android_release": "17",
+      "sdk": 37,
+      "page_size_bytes": 4096,
+      "abi": "x86_64",
+      "before_encounter_hud": "HP 0/80 | Sentries 1/2  DEFEATED - Reset to retry | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+      "trace_ui_text": "LizardMan_Intro · explicit developer trace\nManual activation only; no collision trigger\nTime 4010 ms · trigger 1/1 fired · 19 module-one records\nLizardMan_Intro task complete\nPlayer lock: OFF (logical) · cutscene: OFF (logical)\nCamera target: _prim_Waypoint_NewCamSpot (camera movement not implemented)\nReturn camera request: LocalPlayer unresolved; this preview has no native player Character\nLizManIntro1: native state 1 requested; no actor allocation/render\nLizManIntro2: native state 1 requested; no actor allocation/render\nEnd: complete · Return to encounter preserves its authored state\nEvents (latest first; visuals/unsupported effects are marked no-op):\n[4010] Script completed: EndScriptedCutScene\n[4010] Unsupported command (explicit no-op): SaveGame\n[4010] Cutscene flag (visual no-op): exit (OFF)\n[4010] Player lock: All (OFF)\n[4010] Unsupported command (explicit no-op): MarkCharacterAsScripted\n[4010] Unsupported command (explicit no-op): HideFlash\n[4010] Unsupported command (explicit no-op): ShowFlash\n[4010] Unsupported command (explicit no-op): WaitDialog\n[4010] Unsupported command (explicit no-op): PutCharacterInIdle\n[4000] Script completed: LizardMan_Intro\n[4000] Tutorial gate closed: DoTutorial source gate is closed\n[4000] Script started: EndScriptedCutScene\n[4000] Object lookup miss: LocalPlayer\n[4000] Player lock: All (OFF)\n[2000] Wait: milliseconds (2000 ms)\n[2000] Spawn state 1 requested (no actor allocation/render): _prim_Monster_LizManIntro2\n[0500] Wait: milliseconds (1500 ms)\n[0500] Spawn state 1 requested (no actor allocation/render): _prim_Monster_LizManIntro1\n[0010] Script completed: BeginScriptedCutScene\n[0010] Cutscene flag (visual no-op): enter (ON)\n[0010] Unsupported command (explicit no-op): StopActor\n[0010] Player lock: All (ON)\n[0010] Unsupported command (explicit no-op): ShowFlash\n[0010] Unsupported command (explicit no-op): HideFlash\n",
+      "after_return_encounter_hud": "HP 0/80 | Sentries 1/2  DEFEATED - Reset to retry | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+      "encounter_unchanged_after_return": true,
+      "launcher_tap_fallback_used": false,
+      "manual_trace_started": true,
+      "trace_completed": true,
+      "movement_checks": {
+        "east": {
+          "before_xyz": [
+            1090.75,
+            -212.2,
+            258.0
+          ],
+          "post_release_report": "IDLE · X 1109.90 Y -212.20\nZ 255.00 · yaw -1.57 · mask 0x2",
+          "after_release_xyz": [
+            1109.9,
+            -212.2,
+            255.0
+          ],
+          "after_release_stable_xyz": [
+            1109.9,
+            -212.2,
+            255.0
+          ],
+          "walk_screenshot": {
+            "file": "movement-east-walk.png",
+            "bytes": 3038523,
+            "sha256": "976b471a668b9cf0c7feae8282c476082e49075405ed7d255879dfb94820b72e"
+          },
+          "release_idle_screenshot": {
+            "file": "movement-east-release-idle.png",
+            "bytes": 3033974,
+            "sha256": "d83341a145ce71237c5498426a0d9cff114f0c690465b8c17678d476333f75e8"
+          }
+        },
+        "north": {
+          "before_xyz": [
+            1109.9,
+            -212.2,
+            255.0
+          ],
+          "post_release_report": "IDLE · X 1109.90 Y -203.33\nZ 255.00 · yaw -0.00 · mask 0x2",
+          "after_release_xyz": [
+            1109.9,
+            -203.33,
+            255.0
+          ],
+          "after_release_stable_xyz": [
+            1109.9,
+            -203.33,
+            255.0
+          ],
+          "walk_screenshot": {
+            "file": "movement-north-walk.png",
+            "bytes": 3037345,
+            "sha256": "39cce217511e04abcb598bb3e4a382611817e9f116038e1e18c3c5d0b1c37b17"
+          },
+          "release_idle_screenshot": {
+            "file": "movement-north-release-idle.png",
+            "bytes": 3037195,
+            "sha256": "854d14466baafa85be8c3940c78a9f6ade027c6f9382334efe98fdfc66c46025"
+          }
+        },
+        "pause_resume": {
+          "position_after_resume": [
+            1110.39,
+            -203.33,
+            255.0
+          ],
+          "position_after_idle_wait": [
+            1110.39,
+            -203.33,
+            255.0
+          ],
+          "no_drift": true,
+          "screenshot": {
+            "file": "movement-pause-resume.png",
+            "bytes": 3033403,
+            "sha256": "44a3a6d24c74568a570b24e2139716d2d7835281d929d2c098d9bd9a24a080ab"
+          }
+        },
+        "no_floor_rejection": {
+          "report_while_stick_held": "BLOCKED · X 1110.39 Y -198.41\nZ 255.00 · mask 0x2 · no floor · held",
+          "position_after_rejection": [
+            1110.39,
+            -198.41,
+            255.0
+          ],
+          "position_after_release": [
+            1110.39,
+            -198.41,
+            255.0
+          ],
+          "diagnostic_screenshot": {
+            "file": "movement-no-floor.png",
+            "bytes": 3040941,
+            "sha256": "32bedca87ceb74694c0bfbb0fbffabda2fddd41d71c77cb9d740427e9c1f747f"
+          },
+          "blocked_candidate_preserved_position": true
+        }
+      },
+      "movement_animation_transitions_logged": [
+        "walk",
+        "idle"
+      ],
+      "trace_panel_and_both_controls_nonoverlapping": true,
+      "screenshots": [
+        {
+          "file": "swamp-compact-initial.png",
+          "bytes": 3036863,
+          "sha256": "cca4436f404fa8a5ed0de8154130570a6ee7f7bb6c13a58ce4218509ec5ce8ed"
+        },
+        {
+          "file": "swamp-details-open.png",
+          "bytes": 2779299,
+          "sha256": "8feb486e2b7633759b44d0020c34b2c73bce2b3df8dc6bcb27a2e5f2e8462700"
+        },
+        {
+          "file": "movement-east-walk.png",
+          "bytes": 3038523,
+          "sha256": "976b471a668b9cf0c7feae8282c476082e49075405ed7d255879dfb94820b72e"
+        },
+        {
+          "file": "movement-east-release-idle.png",
+          "bytes": 3033974,
+          "sha256": "d83341a145ce71237c5498426a0d9cff114f0c690465b8c17678d476333f75e8"
+        },
+        {
+          "file": "movement-north-walk.png",
+          "bytes": 3037345,
+          "sha256": "39cce217511e04abcb598bb3e4a382611817e9f116038e1e18c3c5d0b1c37b17"
+        },
+        {
+          "file": "movement-north-release-idle.png",
+          "bytes": 3037195,
+          "sha256": "854d14466baafa85be8c3940c78a9f6ade027c6f9382334efe98fdfc66c46025"
+        },
+        {
+          "file": "movement-pause-resume.png",
+          "bytes": 3033403,
+          "sha256": "44a3a6d24c74568a570b24e2139716d2d7835281d929d2c098d9bd9a24a080ab"
+        },
+        {
+          "file": "movement-no-floor.png",
+          "bytes": 3040941,
+          "sha256": "32bedca87ceb74694c0bfbb0fbffabda2fddd41d71c77cb9d740427e9c1f747f"
+        },
+        {
+          "file": "trace-complete.png",
+          "bytes": 2984113,
+          "sha256": "9bd0f00a07626c2d3b01a5fb4cbfb009e3aad2894c0c3fc49684710ddd4386ea"
+        },
+        {
+          "file": "trace-events-top.png",
+          "bytes": 3003507,
+          "sha256": "4b5f80a9f6fa54eaa7ac1910dc9dc71731eed1e01980b68bd3884c93866b0d0c"
+        },
+        {
+          "file": "trace-events-timeline.png",
+          "bytes": 2983999,
+          "sha256": "dcab034f0754b85de73dd46d21051554da8cbf22833a727f4d6cc783dbe27f88"
+        },
+        {
+          "file": "encounter-return.png",
+          "bytes": 368891,
+          "sha256": "cc20bc3fce83b94f417f6f29cf3b5e481b7536196c22f1128afddc303f59d99d"
+        }
+      ],
+      "filtered_error_log_entries": 0,
+      "filtered_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "installed_apk_bytes": 5465698,
+      "evidence_directory": "build/swamp-current-apk-4k"
+    }
+  ],
+  "fold7_tested": false
+}

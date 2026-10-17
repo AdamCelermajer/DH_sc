@@ -1,0 +1,119 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 20,
+    "real_source_load_and_live_map_save": true,
+    "real_private_file_persistence": true,
+    "retained_reads_across_nested_saves": true,
+    "existing_file_preserved_on_recreation": true,
+    "actual_os_error_effects": true,
+    "new_original_body_claims": 0,
+    "android_wired": false
+  },
+  "command": [
+    "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\native_debug_files.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\debug_switches_runtime.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\debug_switches_persistence.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\tests\\native_debug_files_host.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-debug-files-parent\\host.exe"
+  ],
+  "compiler_diagnostics": "",
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/native_debug_files.cpp": "1668fb6314e5f6f3dd0f84fba79c6646b14f6e18daf8ebf139453722098e066d",
+    "port/level-world/debug_switches_runtime.cpp": "df695288c131f169cfabbd7efec398c4bce94cd054f335951ca63b03e14d4d6a",
+    "port/level-world/debug_switches_persistence.cpp": "6ee75cdc99ebbddf2892317d3ea7ab98c7f295912a0989b41e1545446b0b2442",
+    "port/android-native/tests/native_debug_files_host.cpp": "dcad4cb3ff45453542fe0f8bf9bfa2f713d6846d593adb6baf3f606868e3a7e5",
+    "port/android-native/app/src/main/cpp/native_debug_files.hpp": "292a1404037de551d3a5d5731ddc197b98cf12403c3473208c998a22f6c5d696",
+    "port/level-world/debug_switches_runtime.hpp": "92c296a3ee0dec9313adaf99e47e7fbc17b537e3248b2de69ed1531d811d25fc",
+    "port/level-world/debug_switches_persistence.hpp": "f05f1ada58d2e52bebc45a2298a4660767fe5de8e5be53fe93a4927184dafb69",
+    "port/persistence/binary.h": "e39dc86328b2f90d282d0e0b3a33a7ddf9aa394eb86b0820309cd4ba239cb4d7",
+    "port/android-native/tests/run_native_debug_files_host.py": "c14d26d52ff316fedd35a8c61fc425c5173dc8288cdc60e6b9784d62a5885c80",
+    "port/android-native/reference/native-debug-files/NOTES.md": "5d0b6d8f5eb7961f05b869fb35e8108387820443ff18b54fc58e36844c0770a4",
+    "port/android-native/reference/native-debug-files/original-functions.json": "45d7da57e51f86acdf83585c2889dc264d4471dcd440cecb4131164883c8b4f2",
+    "port/level-world/reference/debug-switches-runtime/original-functions.json": "8b5d37629bb6f8313afee8e47179b92fb3260fda6424a7f4fc57ed2f974f340c",
+    "port/level-world/reference/debug-switches-persistence/original-functions.json": "a746cbee7d0f060fee353c4596e19b38b5ddd8ffc32fe98c2d16c72767182854"
+  },
+  "cache_configuration_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+  "original_evidence_unchanged": true,
+  "real_generated_files_directory": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-debug-files-parent\\real-files-80mwadn1",
+  "real_generated_files": {
+    "0/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "1/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "10/DebugSwitches.savegame": {
+      "bytes": 20,
+      "sha256": "3372cc28bca95e8999dc6015d02bf4d6dd8039c95539efed508569a63f3443fc"
+    },
+    "11/DebugSwitches.savegame": {
+      "bytes": 12,
+      "sha256": "1f461f2ef22c27487101241bafdf12460cf8518db4bffa2f4fdb0db3ee8b02d2"
+    },
+    "12/DebugSwitches.savegame": {
+      "bytes": 16777217,
+      "sha256": "1003b1b5dc078189799a1216ce0f9fbcebb94e8b6b83c58c4b03345f07f94ced"
+    },
+    "16/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "18/DebugSwitches.savegame": {
+      "bytes": 11,
+      "sha256": "83b043c0044f525771ec256f1556655a6b164593837fe028834fc89d5041245f"
+    },
+    "19/DebugSwitches.savegame": {
+      "bytes": 89,
+      "sha256": "bf7d1da9bb7f867a8f59fe90092b687d0ad4040bf9637f435fcfd268393c7817"
+    },
+    "2/DebugSwitches.savegame": {
+      "bytes": 691,
+      "sha256": "2287c6f5c8a6d04d7c72fe9896bf202573925b564fed03505815b754804707b8"
+    },
+    "3/DebugSwitches.savegame": {
+      "bytes": 247,
+      "sha256": "48b88d73b42912e2a50f11ee77c9f86938112af4a12d77ba5a5f69ccea962807"
+    },
+    "4/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "5/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "6/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "7/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "8/DebugSwitches.savegame": {
+      "bytes": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    "9/DebugSwitches.savegame": {
+      "bytes": 16,
+      "sha256": "ff77e44c0d6a342fa5aaada0e789f9bbb34c3f3e187c6f5736b667a5fecb6b79"
+    }
+  },
+  "executable_sha256": "71ad1c24864307131ad562b20c9abfc268f5810746dbbb707d5ec5f383479638",
+  "new_complete_caller_bodies": 0,
+  "new_complete_dependency_bodies": 0,
+  "android_wired": false,
+  "scope": "Production filesystem dependency adapter over frozen source Debug callers. Real retained binary reads and typed file writes/close; asset installation only when absent, preserves files across backend recreation. Explicit source partial-decode and OS error boundaries; no original OS stream/allocator body claims."
+}

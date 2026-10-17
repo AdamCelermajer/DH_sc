@@ -1,0 +1,34 @@
+{
+  "complete_engine": false,
+  "scope_lookup_validated": false,
+  "vertex_skinning_differential": false,
+  "comparison": "Exact 16-float palette bits except signed zero; original stack restoration and output guards",
+  "original_symbol": "_ZN6glitch7collada6detail29CColladaSoftwareSkinTechnique12prepareCacheEv",
+  "original_elf_address": "0x0066fe34",
+  "matrix_multiply_elf_address": "0x006651a0",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "library_sha256": "17f1bf8f6aeccb56e05158ef7a2c42437cb595a573e2d80311886f90b4cbf841",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "sample_sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+  "seed": 20261002,
+  "poses_per_controller": 16,
+  "controllers": [
+    {
+      "controller": 0,
+      "joints": 18
+    },
+    {
+      "controller": 1,
+      "joints": 1
+    }
+  ],
+  "matrix_comparisons": 304,
+  "mismatches": 0,
+  "import_calls": {
+    "memset": 32,
+    "__aeabi_fmul": 21888,
+    "__aeabi_fadd": 16416,
+    "memcpy": 304
+  },
+  "oracle": "Host C float arithmetic and memcpy/memset for imported helpers"
+}

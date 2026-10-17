@@ -1,0 +1,26 @@
+{
+  "validation": "PASS",
+  "executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character_group_respawn_host.exe",
+  "host_report": {
+    "can_respawn_cases": 13,
+    "ordered_member_queries": 3,
+    "mismatches": 0
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_group_respawn.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_group_respawn.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character_group_respawn_host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/tests/character_group_respawn.cpp": "4c3fae28fcc8dd08d68eab8219a5a68a27d493f63f05c0248f65215fd98c3537",
+    "port/level-world/character_group_respawn.cpp": "d3343a8d1f8c73686b75eb315e8fc207d5871e14b1153b42b8e43929f66a3779"
+  },
+  "native_group_ownership_wired": false
+}

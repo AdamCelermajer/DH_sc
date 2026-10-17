@@ -1,0 +1,135 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/9.6.0/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+Reusing configuration cache.
+> Task :app:preBuild UP-TO-DATE
+> Task :app:generateDebugAssets UP-TO-DATE
+> Task :app:preDebugBuild UP-TO-DATE
+> Task :app:mergeDebugNativeDebugMetadata NO-SOURCE
+> Task :app:generateDebugResources UP-TO-DATE
+> Task :app:packageDebugResources UP-TO-DATE
+> Task :app:javaPreCompileDebug UP-TO-DATE
+> Task :app:processDebugNavigationResources UP-TO-DATE
+> Task :app:parseDebugLocalResources UP-TO-DATE
+> Task :app:generateDebugRFile UP-TO-DATE
+> Task :app:mergeDebugAssets UP-TO-DATE
+> Task :app:compressDebugAssets UP-TO-DATE
+> Task :app:compileDebugKotlin NO-SOURCE
+> Task :app:generateDebugGlobalSynthetics UP-TO-DATE
+> Task :app:processDebugJavaRes NO-SOURCE
+> Task :app:compileDebugJavaWithJavac UP-TO-DATE
+> Task :app:mergeDebugJavaResource UP-TO-DATE
+> Task :app:desugarDebugFileDependencies UP-TO-DATE
+> Task :app:checkDebugAarMetadata UP-TO-DATE
+> Task :app:mapDebugSourceSetPaths UP-TO-DATE
+> Task :app:compileDebugNavigationResources UP-TO-DATE
+> Task :app:checkDebugDuplicateClasses UP-TO-DATE
+> Task :app:mergeDebugResources UP-TO-DATE
+> Task :app:mergeLibDexDebug UP-TO-DATE
+> Task :app:createDebugCompatibleScreenManifests UP-TO-DATE
+> Task :app:extractDeepLinksDebug UP-TO-DATE
+> Task :app:mergeExtDexDebug UP-TO-DATE
+> Task :app:processDebugMainManifest UP-TO-DATE
+> Task :app:processDebugManifest UP-TO-DATE
+> Task :app:processDebugManifestForPackage UP-TO-DATE
+> Task :app:processDebugResources UP-TO-DATE
+> Task :app:dexBuilderDebug UP-TO-DATE
+> Task :app:mergeProjectDexDebug UP-TO-DATE
+
+> Task :app:configureCMakeDebug[arm64-v8a]
+C/C++: CMake Warning in C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a/level-world/physics-backend/CMakeFiles/dh2_box2d_201.dir/./
+C/C++:   has 200 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work
+C/C++:   correctly.
+
+> Task :app:configureCMakeDebug[x86_64]
+C/C++: CMake Warning in C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/CMakeLists.txt:
+C/C++:   The object file directory
+C/C++:     C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64/level-world/physics-backend/CMakeFiles/dh2_box2d_201.dir/./
+C/C++:   has 197 characters.  The maximum full path to an object file is 250
+C/C++:   characters (see CMAKE_OBJECT_PATH_MAX).  Object file
+C/C++:     box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp.o
+C/C++:   cannot be safely placed under this directory.  The build may not work
+C/C++:   correctly.
+
+> Task :app:buildCMakeDebug[x86_64]
+C/C++: ninja: Entering directory `C:\Users\noamc\Documents\Codex\2026-10-02\contineu-from-where-they-left-off\work\DH_sc\port\android-native\app\.cxx\Debug\1c6t1ql2\x86_64'
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:95:62: warning: expression result unused [-Wunused-value]
+C/C++:    95 |         virtual void Add(const b2ContactPoint* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                     ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:99:66: warning: expression result unused [-Wunused-value]
+C/C++:    99 |         virtual void Persist(const b2ContactPoint* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                         ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:103:65: warning: expression result unused [-Wunused-value]
+C/C++:   103 |         virtual void Remove(const b2ContactPoint* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                        ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:106:66: warning: expression result unused [-Wunused-value]
+C/C++:   106 |         virtual void Result(const b2ContactResult* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                         ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: 4 warnings generated.
+
+> Task :app:mergeDebugJniLibFolders UP-TO-DATE
+> Task :app:validateSigningDebug UP-TO-DATE
+> Task :app:writeDebugAppMetadata UP-TO-DATE
+> Task :app:writeDebugSigningConfigVersions UP-TO-DATE
+
+> Task :app:buildCMakeDebug[arm64-v8a]
+C/C++: ninja: Entering directory `C:\Users\noamc\Documents\Codex\2026-10-02\contineu-from-where-they-left-off\work\DH_sc\port\android-native\app\.cxx\Debug\1c6t1ql2\arm64-v8a'
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:95:62: warning: expression result unused [-Wunused-value]
+C/C++:    95 |         virtual void Add(const b2ContactPoint* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                     ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:99:66: warning: expression result unused [-Wunused-value]
+C/C++:    99 |         virtual void Persist(const b2ContactPoint* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                         ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:103:65: warning: expression result unused [-Wunused-value]
+C/C++:   103 |         virtual void Remove(const b2ContactPoint* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                        ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: In file included from C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp:21:
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../b2WorldCallbacks.h:106:66: warning: expression result unused [-Wunused-value]
+C/C++:   106 |         virtual void Result(const b2ContactResult* point) { B2_NOT_USED(point); }
+C/C++:       |                                                                         ^~~~~
+C/C++: C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/../../Common/b2Settings.h:25:24: note: expanded from macro 'B2_NOT_USED'
+C/C++:    25 | #define B2_NOT_USED(x) x
+C/C++:       |                        ^
+C/C++: 4 warnings generated.
+
+> Task :app:mergeDebugNativeLibs
+> Task :app:stripDebugDebugSymbols
+> Task :app:packageDebug
+> Task :app:assembleDebug
+> Task :app:createDebugApkListingFileRedirect UP-TO-DATE
+
+BUILD SUCCESSFUL in 19s
+39 actionable tasks: 7 executed, 32 up-to-date
+Configuration cache entry reused.

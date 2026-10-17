@@ -1,4 +1,6 @@
 #pragma once
+// Imported from Adam Celermajer's DH_sc fork at 11fa5242. This is the visual
+// owner only; the fork's separate PlayerEquipmentRenderOwner/V4 is not used.
 #include "visual_skin_selection_v6.hpp"
 #include "skinning.hpp"
 #include "skin_pose_cache_v32.hpp"

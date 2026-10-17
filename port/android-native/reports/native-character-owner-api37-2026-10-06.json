@@ -1,0 +1,587 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "4cd4157025b1fc00d712ed8d225a79216ccdcce231ea66f0aad9129517f11f4e",
+  "serial": "emulator-5558",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "a6b33ff3c2e28a426348c49a6954149c7f4e42a45c5f6625ed32e4fc565d163d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "62eb580ce419e37175674dd7780a1c3a235a5901c2b3e8539cd0f89fb5beb62e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "50918ec9f183250d23e4ed61de188703c9f248961ad55cbdc7376047dfe17721",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "899cee27020bcd355e424f647a0e1b98bc0e88292360ca6aa76111978b18b6d7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "322d961f29bdaa764edb0f1a535b84416884dd20e1bfece16b5b83965da1f0ab",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "0ea22f4c5285f8fba6ee63c725b440a7ec0b1da1d9ea06b55dc30af370cbb8cc",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "4387886692e824c30440f9b21bf54f231cda8ebe20c3d027c9a1c94d62c41d9b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "35d0086d89e444a4f9ebfe72471900dc36e26ad5647de8765739cbb11b9610f8",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "6aae17b64280d5ec501f3217b5337e408d926d2e6bfbe03553a4db6a8d8622fd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "bd6b4f4597f9b53bb5546cf003a1fd866f2a5783cae216cb5184162cf24ce3e5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "948eab36660e62bb0744787a78a8d17bb192de4a936c077ee7f343b1f4847284",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "df552122c70e9f517f0b9670c85822d4a6c150fca87ddbda6346fc57b13d41b6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "6fe08de9316b06f0640b5df91dd8ad99db552fa99c7b5ce6435bb5d9b0a59b0c",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "47a62eaaf94eb6f4da8d9d9e71e1f2f602a3b86a95119a28065dbb88dcb0f242",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "a97f5f8a00946660d7158ed5014fd117b993aa21db67f56b4af01dee0a3f9f17",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "7784e9e13edf44657618b5b0ae7c0e7e1c45e7aaee19d5bd604200a82d16b1c5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "cb2eb04bb2c3b6b6c9b94220dc533be741adb1fc5b3318f29b3ddfd00847321d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "301f9d6a7bd4d6f113f6eb49ebf1ccac9e9a1240e4d7832c028a363c1d8ba8a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "d41906068d63b3da6f41e2ff5a1e8cd6d76d3313e47c58330f2f89583fdfce1c",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "d19ee805eeceef3925229acc7f9e0f57304af7feff078d84622b98328573df8c",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "8a65bb7b8e32676333183535d569d031290769a00aa74b375776f63aa5167d5f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "054df4c19bbead3efb35dbdef7fbd422efbec41432df08aba972af7ce0e466a9",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "scope": "Actual original menu/name/class/Start Single Player taps, selected source profile creation/Assign, development Crypt continuation, native Character owner publication, connected source HUD, occupied-slot reopen and Home/resume. Source _AddCharacter parity, inventory, full NativeStartGame/campaign/SG4/InitPost/gameplay controls remain open.",
+  "private_transaction_directory": "files/.menu-ui-smoke-57945876e3e64b299aeb89a32ad9956d",
+  "personal_saves_pulled": false,
+  "cases": [
+    {
+      "class_index": 0,
+      "created": {
+        "slot": 0,
+        "class": 263,
+        "preset": "KnightPlayerBase",
+        "cached_property2": 48,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x79d214b08bd0",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": 1,
+          "class": 263,
+          "Character660": 133943197207504,
+          "slot664": 0,
+          "shared_counter": 45,
+          "temporary_backing_policy": "zero",
+          "role": "local registry"
+        },
+        "offline_registration": {
+          "entries": 1,
+          "added": 0,
+          "controllers": 4,
+          "renumber": 0,
+          "before_authored_assign": true
+        },
+        "managed_metadata": {
+          "Save680": 133951533710576,
+          "published_once": true,
+          "name_class_level_setters": [
+            1,
+            1,
+            1
+          ],
+          "Character660_at_prepare": 0
+        },
+        "native_character_owner": {
+          "identity": 133943197207504,
+          "Coordinator_identity_matches": true,
+          "Save_matches_gameplay_Save": true,
+          "property_owner_bound": true,
+          "inventory_bound": false,
+          "source_AddCharacter_invoked": false
+        },
+        "world_map": {
+          "locations": 13,
+          "lockers": 3
+        },
+        "quest_definitions": 64,
+        "quest_startup": {
+          "gameplay_Save": 133951533691832,
+          "Character": 133943197207504,
+          "log_b8": 192,
+          "log_118": 192,
+          "constant_queries": 1608
+        },
+        "source_save_mask2": {
+          "character": 133943197207504,
+          "save": 133951533691832,
+          "loader": 133952874719152,
+          "embedded_quest_owners_match": true,
+          "calls": 1,
+          "retained": 0
+        }
+      },
+      "occupied_after_restart": {
+        "slot": 0,
+        "class": 263,
+        "preset": "KnightPlayerBase",
+        "cached_property2": 48,
+        "assign_before_start": true,
+        "numeric_difficulty": true,
+        "requested_difficulty": 0,
+        "HP": 42264,
+        "max_HP": 42265,
+        "MP": 6975,
+        "max_MP": 6976,
+        "XP": 0,
+        "next_XP": 25600,
+        "HUD_frames": [
+          98,
+          98,
+          0,
+          98,
+          98
+        ],
+        "character": "0x79d2189b8bd0",
+        "full_PlayerInfo": {
+          "fields": 33,
+          "factory_registered": true,
+          "level": 1,
+          "class": 263,
+          "Character660": 133943262940112,
+          "slot664": 0,
+          "shared_counter": 45,
+          "temporary_backing_policy": "zero",
+          "role": "local registry"
+        },
+        "offline_registration": {
+          "entries": 1,
+          "added": 1,
+          "controllers": 4,
+          "renumber": 1,
+          "before_authored_assign": true
+        },
+        "managed_metadata": {
+          "Save680": 133951533902672,
+          "published_once": true,
+          "name_class_level_setters": [
+            1,
+            1,
+            1
+          ],
+          "Character660_at_prepare": 0
+        },
+        "native_character_owner": {
+          "identity": 133943262940112,
+          "Coordinator_identity_matches": true,
+          "Save_matches_gameplay_Save": true,
+          "property_owner_bound": true,
+          "inventory_bound": false,
+          "source_AddCharacter_invoked": false
+        },
+        "world_map": {
+          "locations": 13,
+          "lockers": 3
+        },
+        "quest_definitions": 64,
+        "quest_startup": {
+          "gameplay_Save": 133951533904904,
+          "Character": 133943262940112,
+          "log_b8": 192,
+          "log_118": 192,
+          "constant_queries": 1608
+        },
+        "source_save_mask2": {
+          "character": 133943262940112,
+          "save": 133951533904904,
+          "loader": 133952874717920,
+          "embedded_quest_owners_match": true,
+          "calls": 1,
+          "retained": 0
+        }
+      },
+      "normal_back_to_main": true,
+      "Home_resume_same_class_and_character": true,
+      "Home_resume_same_Quest_owner": true,
+      "Home_resume_same_Player_Save_association_without_mask2_replay": true
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "0-main-initial.png",
+      "sha256": "72204638297a319e1840c805cb5f671ed05541e8cc9279eb199a8b3c32260f8d"
+    },
+    {
+      "file": "0-main-empty.png",
+      "sha256": "72204638297a319e1840c805cb5f671ed05541e8cc9279eb199a8b3c32260f8d"
+    },
+    {
+      "file": "0-name-empty.png",
+      "sha256": "1d6783fbb5ba6b0894510d30e3a97995b3cc77d43d735bafb8cbd8bb5376b01d"
+    },
+    {
+      "file": "0-name-synthetic.png",
+      "sha256": "10c917a778a429f6036034c07e8abb00f75e02186283fac4f8b0809c0fa13646"
+    },
+    {
+      "file": "0-class-KnightPlayerBase.png",
+      "sha256": "a32f0baec1d1d5d4ded120325c73576a69253416e36d6dd814209adff20eb4e5"
+    },
+    {
+      "file": "0-start-new.png",
+      "sha256": "69e9ad0badfdc97293636065a290fb9eb09c26801b089549f66d59187a245716"
+    },
+    {
+      "file": "0-crypt-new.png",
+      "sha256": "37301f9abb8000ed461c71f8cd9eb735d87f2ceb3ea38069c2b9ff77e810d549"
+    },
+    {
+      "file": "0-crypt-after-controls.png",
+      "sha256": "986514c04fba4c3b9d10a86e3f9be0b93a5a76c6c75e182e7f564898b768eb0e"
+    },
+    {
+      "file": "0-main-back.png",
+      "sha256": "187ab062e0f85cb4ff233a9b7f7c4149265b4f584d74856bd5a34219b652eeaf"
+    },
+    {
+      "file": "0-start-occupied.png",
+      "sha256": "69e9ad0badfdc97293636065a290fb9eb09c26801b089549f66d59187a245716"
+    },
+    {
+      "file": "0-crypt-occupied.png",
+      "sha256": "4ddcb9170169b6351296b1b45fa56101ff994ee2cdaa0669927a29da57874ce7"
+    },
+    {
+      "file": "0-crypt-resumed.png",
+      "sha256": "ea43a712ce1c031844a683fbb26d30ed2fd826bdb8285747e7680d271f673b0c"
+    },
+    {
+      "file": "0-main-final.png",
+      "sha256": "187ab062e0f85cb4ff233a9b7f7c4149265b4f584d74856bd5a34219b652eeaf"
+    }
+  ],
+  "api": 37,
+  "page_size": 16384,
+  "abi": "x86_64",
+  "original_files_preserved": 2,
+  "fresh_process_receipts": [
+    {
+      "pid": "10194",
+      "stable_observations": 2
+    },
+    {
+      "pid": "12777",
+      "stable_observations": 2
+    }
+  ],
+  "focused_window_receipts": [
+    {
+      "phase": "fresh launch",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap main",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap key_a",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap name_confirm",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap class_confirm",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap single_player",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Crypt controls",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from settled Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "fresh launch",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap main",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "tap single_player",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Home from Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Home/resume",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    },
+    {
+      "phase": "Back from settled Crypt",
+      "package": "com.example.dh2",
+      "activity": "com.example.dh2.MainActivity",
+      "InputDispatcher_display_id": 0
+    }
+  ],
+  "visual_readiness_receipts": [
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    },
+    {
+      "stage": "name",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        378,
+        1330,
+        472
+      ]
+    },
+    {
+      "stage": "name",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        378,
+        1330,
+        472
+      ]
+    },
+    {
+      "stage": "class",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1094,
+        949,
+        1330,
+        1043
+      ]
+    },
+    {
+      "stage": "start",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        493,
+        1904,
+        587
+      ]
+    },
+    {
+      "stage": "crypt",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        2121,
+        920,
+        2291,
+        959
+      ]
+    },
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    },
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    },
+    {
+      "stage": "start",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        493,
+        1904,
+        587
+      ]
+    },
+    {
+      "stage": "crypt",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        2121,
+        920,
+        2291,
+        959
+      ]
+    },
+    {
+      "stage": "main",
+      "stable_frame_comparisons": 3,
+      "ROI": [
+        1668,
+        270,
+        1904,
+        364
+      ]
+    }
+  ],
+  "development_controls": {
+    "physical_movement_steps": 10,
+    "blocked_steps": 2,
+    "position": [
+      -2238.7471,
+      1437.262,
+      842.3644
+    ],
+    "attack_response": "Walk closer to an enemy",
+    "full_combat_verified": false
+  },
+  "synthetic_primary_profiles_created": 1,
+  "synthetic_files_archived": 1,
+  "original_files_restored_and_device_checksums_verified": true,
+  "source_random_lifecycle": {
+    "GSInit_seed_events": 2,
+    "Level_Unload_seed_events": 2,
+    "expected_each": 2,
+    "home_resume_reseeded": false,
+    "synchronized_seed_zero": true
+  },
+  "source_events_sha256": "0ffd4b9b3edd677f431275aa198b257e81495bc429d8be11c78939a47ee3bb43"
+}

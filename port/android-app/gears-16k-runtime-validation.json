@@ -1,0 +1,197 @@
+{
+  "complete_game": false,
+  "scope": "Exact APK imports real four datasets and checks selected real gear/lifecycle queries, retained generations, typed/index rejection, malformed/oversize recovery and source character render. Authored snapshot controls have empty buffs and do not implement inventory ownership/equip requirements or gameplay.",
+  "device": {
+    "serial": "emulator-5558",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "d0005277e5839989c63a38cb2e86add55347b99150181e0baf944ca9db26e40f",
+  "installed_apk_hash_matches": true,
+  "corpus_report_sha256": "98542a44a0241c582487bf484727f5cf18c964ef774111cdc7ec17cfc2bc0939",
+  "real_cases": 70,
+  "real_final_queries": 15680,
+  "cases": [
+    {
+      "case": "real_properties",
+      "kind": "properties",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "real_classes",
+      "kind": "classes",
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+      "status": "Classes loaded. New script property objects can apply class rules; gameplay is unfinished."
+    },
+    {
+      "case": "real_items",
+      "kind": "items",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "case": "before_power",
+      "kind": "script",
+      "bytes": 161,
+      "sha256": "193b1f54384d2dc0e22b44ceb3791e96873d08b0b87a203bed2b5bc6bd87e48d",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_powers",
+      "kind": "powers",
+      "bytes": 54443,
+      "sha256": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+      "status": "Powers loaded. New script property objects can calculate gear stats; gameplay is unfinished."
+    },
+    {
+      "case": "real_queries_0",
+      "kind": "script",
+      "bytes": 232776,
+      "sha256": "d597a53acf40ddea8c419828d4338fc889f37424a8632dc2f84a769c54a300bd",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_queries_83",
+      "kind": "script",
+      "bytes": 234368,
+      "sha256": "3646a123fe32868f9429b2e3638bab5ce3f40f7e4c75371d34c5c758c3ed9ae0",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_queries_141",
+      "kind": "script",
+      "bytes": 44021,
+      "sha256": "3be685b0658a8aefcf0bcc8e6571f5c31f8797a98fa3625aab06fca8ebb92a7a",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "fixture_properties",
+      "kind": "properties",
+      "bytes": 2700,
+      "sha256": "039841b8da21d441a4ba5d6262e70ac55f86b6b6f34bedd4e1b211baa501fc51",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "fixture_classes",
+      "kind": "classes",
+      "bytes": 8,
+      "sha256": "7c9fa136d4413fa6173637e883b6998d32e1d675f88cddff9dcbcf331820f4b8",
+      "status": "Classes loaded. New script property objects can apply class rules; gameplay is unfinished."
+    },
+    {
+      "case": "fixture_items",
+      "kind": "items",
+      "bytes": 479,
+      "sha256": "4919afe3ecf394da6b8ab8b8b4ad2efe0a2d012e37ea5eed00eb993b0d393736",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "case": "fixture_powers",
+      "kind": "powers",
+      "bytes": 90,
+      "sha256": "ff4c99e5e3183fdaad032c109cb249fb8829d203b3f866ee25232ea184070491",
+      "status": "Powers loaded. New script property objects can calculate gear stats; gameplay is unfinished."
+    },
+    {
+      "case": "lifecycle",
+      "kind": "script",
+      "bytes": 1044,
+      "sha256": "60e2fa852dedb5074033bcffd02a02785b0276bb371b42ff97c5452636d400b7",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "malformed",
+      "kind": "powers",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Powers rejected: malformed item power file"
+    },
+    {
+      "case": "retained",
+      "kind": "script",
+      "bytes": 123,
+      "sha256": "a090dc349005d87079870c4a012125dc8cac8ee9eace4d1402e4370bd2ffe6c6",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "replacement",
+      "kind": "powers",
+      "bytes": 90,
+      "sha256": "d2c7226138ebc2e1019e7390a9d2af4b4d0e9a42748145b49621e0374bae0882",
+      "status": "Powers loaded. New script property objects can calculate gear stats; gameplay is unfinished."
+    },
+    {
+      "case": "generations",
+      "kind": "script",
+      "bytes": 324,
+      "sha256": "2615687d3e1ef01871c6a624f4b55332742d6b020f48b6ff069971f7a1878929",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "oversize",
+      "kind": "powers",
+      "bytes": 4194305,
+      "sha256": "95e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+      "status": "Powers rejected: File exceeds 4 MiB limit"
+    },
+    {
+      "case": "recovery",
+      "kind": "powers",
+      "bytes": 90,
+      "sha256": "ff4c99e5e3183fdaad032c109cb249fb8829d203b3f866ee25232ea184070491",
+      "status": "Powers loaded. New script property objects can calculate gear stats; gameplay is unfinished."
+    },
+    {
+      "case": "recovered",
+      "kind": "script",
+      "bytes": 195,
+      "sha256": "4218419b078c8a5550beeab3cf1209e3d9335a505befe212a23f9c8e1901f622",
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "visual_imports": [
+    {
+      "path": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+      "statuses": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/textures/prince-warrior.tga",
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "statuses": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/characters/prince/animations/prince_walk_dual.bdae",
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "statuses": [
+        "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "gears-ready.png",
+    "sha256": "24955f2b7e9f3806ec60498e1fef199ca09556a1a95c07bf1741ac38008a673d"
+  },
+  "log_start_emulator_gmt": "10-02 18:54:14.000",
+  "test_sha256": "748499fe498eca757d02430ed46facefbbadb77ad001722818fe780d4a7322a5",
+  "source_sha256": {
+    "scripts.cpp": "e1f9c7a0bf24a6539484d1e2151ae973d3ec53dcb28a6c72ad5759c19785ef06",
+    "src/local/dh2/sourceviewer/MainActivity.java": "da5967f6ba0022b296dd57176544a835f15e74b918815dc87c4c17285e6ad3e5",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22"
+  }
+}

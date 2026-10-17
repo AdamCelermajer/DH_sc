@@ -1,0 +1,470 @@
+{
+  "validation": "PASS",
+  "host": {
+    "validation": "PASS",
+    "rejection_cases": 12,
+    "table": {
+      "locations": [
+        {
+          "name": "Thamos_Catacombs",
+          "name_id": 1704119,
+          "state": 1,
+          "location_levels": [
+            41
+          ]
+        },
+        {
+          "name": "Thamos_Village",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41,
+            41,
+            41
+          ]
+        },
+        {
+          "name": "Thamos_South_Road",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41,
+            41
+          ]
+        },
+        {
+          "name": "Thamos_Mill",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41,
+            41
+          ]
+        },
+        {
+          "name": "Thamos_Cathedral",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41
+          ]
+        },
+        {
+          "name": "Stone_Bridge",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41
+          ]
+        },
+        {
+          "name": "Lord_Plenko_Domain",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41,
+            41,
+            41
+          ]
+        },
+        {
+          "name": "Jeremo_Town",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41
+          ]
+        },
+        {
+          "name": "Jeremo_Forge",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41,
+            41
+          ]
+        },
+        {
+          "name": "Jeremo_Barracks",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41
+          ]
+        },
+        {
+          "name": "Darkwood",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41
+          ]
+        },
+        {
+          "name": "Ancient_Ruins",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41
+          ]
+        },
+        {
+          "name": "Royal_Castle",
+          "name_id": 1704119,
+          "state": 0,
+          "location_levels": [
+            41,
+            41,
+            41,
+            41,
+            41,
+            41,
+            41
+          ]
+        }
+      ],
+      "lockers": [
+        {
+          "name": "Locker1",
+          "on_state": 9,
+          "quest_id": 8
+        },
+        {
+          "name": "Locker2",
+          "on_state": 9,
+          "quest_id": 14
+        },
+        {
+          "name": "Locker3",
+          "on_state": 6,
+          "quest_id": 56
+        }
+      ]
+    },
+    "level_defaults": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "saved_defaults": [
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      [
+        1,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ]
+    ],
+    "saved_default_stores": 192,
+    "allocations": 6,
+    "retained_existing_states": true
+  },
+  "original": {
+    "original_arm_record_comparisons": 16,
+    "original_record_words": 73,
+    "declared_row_provider_calls": {
+      "0x459090": 58,
+      "0x3df1a0": 13,
+      "0x31056c": 13
+    },
+    "actual_save_initializer_words": 71,
+    "saved_default_word_comparisons": 192,
+    "mismatches": 0
+  },
+  "implementation": "selected library",
+  "cache_sha256": {
+    "worldmap_pyarray.bin": "e212a7635c75b05b2cd8fb4e420bdffd1997b8da55670b9389a663141d33b7f0",
+    "worldmap_pyarraynames.bin": "38d5152a90925dbcb380e4f368f936fc7f67fa0813545bcf114f9d480003e879",
+    "worldmap_pystructnames.bin": "4bebfb4a737e36d6fc8048727c9833bba7c4d66f1a51bc322fb03660d1861bfc",
+    "levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "levels_pystructnames.bin": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705"
+  },
+  "source_sha256": {
+    "world_map_tables.cpp": "daead775de85a01077f11866c603abedff8f5ab2be149aef73c09f244cb496e8",
+    "level_tables.cpp": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+    "player_save_level_states_v1.cpp": "b0213f808967681c6e5f1a2ffaea598dde141f252c19ea5b7b2b8454ab4bbcee",
+    "world_map_tables.hpp": "bcb7b98cd2c2d3419e33f12fbb9fa3a32af421153a25d5aada20208e2032405f",
+    "player_savegame_v1.hpp": "ba0557acd403f3fc78f2f52179d51e07e5ae1a1380861a59ea0dc60ac37ec601",
+    "player_save_level_states_v1.hpp": "4a2ab822cde7da7ed9df5abef0bf0b02b807e52412b8dea6de2c7ea48be4a10a",
+    "tests/world_map_tables_host.cpp": "b971211d638d5d4ce62dc576149f0e2d9fd31602342e09398dc522c5a4c53540",
+    "tests/run_world_map_tables.py": "f4582e77e2b6df7ca784022a726164a002ddee59994029b1ecea1aee3bcd7e89",
+    "tests/run_player_save_level_states_v1.py": "b44b42c01096190accf52f18ee516dc750c4c110b8c3d82ed06a1079ad801063",
+    "reference/world-map-tables/original-functions.json": "598aeb083079b26ad7d8290fd96193f36e26e589997f4a244b3a35befe4559f0"
+  },
+  "scope": "Complete owned WorldMap two-section cache decoder (13 locations and3 lockers in supplied cache), not FastTravel data. Both original complete row-reader bodies run with declared signed/unsigned stream and tagged allocator providers. Native schema/count/UTF-8 bounds are additional policy. Actual51 LevelList and13 WorldMap defaults compose with complete original _InitLevelStates to compare192 saved words. Array readNames/finalize lifecycles, menu world-map rendering, quests and live SG_Load2 binding remain outside this proof.",
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\level_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\level_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/level_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/level_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\world_map_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\world_map_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/world_map_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/world_map_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_save_level_states_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_save_level_states_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_save_level_states_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/player_save_level_states_v1.cpp.obj"
+    }
+  ],
+  "binary_sha256": {
+    "world_map_tables_host.exe": "c9002d00ced9a1b7cf6349ca69d43debbc310f3c82417f0ac182d9e878a30666",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "24b794e6fd8faf43940bf0b4620effc9a8cfec9b8ebd61cdfa267d7e94c661f8",
+    "libdh2_level_world.dll": "0338d7be0b13307ce1f1e52ee08749fb09d7603f0c84d623997d7747fa310ebd"
+  }
+}

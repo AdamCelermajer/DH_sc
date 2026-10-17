@@ -1,0 +1,56 @@
+{
+  "complete_game": false,
+  "comparisons": 14396,
+  "mismatches": 0,
+  "paths": {
+    "local": 4116,
+    "synchronized_increase": 3538,
+    "synchronized_stale": 4708,
+    "nonmatching": 2034
+  },
+  "completion_requests": 4876,
+  "seed": 20261002,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "4f38aabe8815b22629278617da113119a149178c937ee0bcc6a87864495853c5",
+  "arm64_sha256": "5de1310c1f5b84adbbda16bbb345b4fc2c94582d9c160bda4f0cbe040888fb5c",
+  "test_sha256": "10528add706eb3cff289c80fee15884dc9c686850d81d628dbf348f786da3d2f",
+  "source_sha256": {
+    "quest.c": "1e5258d0d10d57bd4384ace6d813eb07b1f144941d616854e837e1c250bfd1a1",
+    "quest.h": "34e140475fb50238fe20b217623f9d83e78a63985666817470c30809c5cd2bd6"
+  },
+  "function_evidence": [
+    {
+      "elf_address": "0x47f100",
+      "size": 148,
+      "symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+      "sha256": "580ccc33dae5a38b6d6d1be37e7b9d573175951e39a740b97c70425622eb732d"
+    },
+    {
+      "elf_address": "0x47f228",
+      "size": 148,
+      "symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+      "sha256": "88c7526ba703ff70159af6f7f7a774727e929ef87f2ce150af22a51a21d9adae"
+    },
+    {
+      "elf_address": "0x47f2bc",
+      "size": 148,
+      "symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+      "sha256": "f97d461f5a566e7f98e8c759b95d2d4018e6210609390bd18c5316f468310c46"
+    },
+    {
+      "elf_address": "0x47f350",
+      "size": 148,
+      "symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyE11handleEventEPK6IEventPK12EventManager",
+      "sha256": "02dffe681f3a8e9326882e95f3651c7998e86622667b949bae411f42936b5c78"
+    },
+    {
+      "elf_address": "0x47ba10",
+      "size": 76,
+      "symbol": "_ZN9Objective14SetIsCompletedEv",
+      "sha256": "b9e0102b1e1981e6d64b572b5dc572387a52aadc50e7e43d781ee717799ff768"
+    }
+  ],
+  "imports": {},
+  "scope": "Four already-dispatched native kill/clear property/template event handlers and SetIsCompleted execute. Signed wrapping counters, local outbound flag/quantity, synchronized max updates, completed byte, repeated completion callbacks and reserved fields compare. Record persistence id -1 avoids external save action; completion virtual callback is observed fixture. Dispatch, compile/world counts, marker/event ownership, actual quest data loading/persistence/rewards and full source gameplay remain unfinished."
+}

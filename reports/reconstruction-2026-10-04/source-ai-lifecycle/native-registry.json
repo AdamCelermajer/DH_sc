@@ -1,0 +1,12 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "8ed56e8f1cdbb4c8eed20702dfa97df99ad1a3058c8b646ce3e36b6bf3098d8b",
+  "runtime_log_sha256": "8c577874def412d94657aa5431a27fb9ddcf3234940b7ea0e8bd39e338e5f152",
+  "observed_registration_epochs": 6,
+  "characters_per_epoch": 14,
+  "source_constructor_queue_records_per_epoch": 14,
+  "source_associations_per_epoch": 14,
+  "active_ais_initialized": false,
+  "live_pursuit_or_attack_proven": false,
+  "scope": "Device log observations of source constructor registrations and separate CharAI::SetCharacter associations. Queue rotation, room enrollment and active AIS initialization remain unbound."
+}

@@ -1,5 +1,7 @@
 # Local agent handoff — Dungeon Hunter 2
 
+**Later local check (2026-10-02):** the exact Test 5 APK installed and its launcher reached Ready in an x86_64 emulator. With the complete cache present, native game launch stopped before engine execution because the emulator's x86_64 process could not load an ARM64 proxy library. The installed ARM64 system image cannot boot in this host's official emulator. See [`docs/LOCAL-TEST-2026-10-02.md`](docs/LOCAL-TEST-2026-10-02.md). The Fold7 retest below remains the runtime gate.
+
 Checkpoint: 1 October 2026. This document describes the compatibility work and
 the continuation boundary. Start with the Fold7 Test 5 device retest below.
 For the independent native-source roadmap, see

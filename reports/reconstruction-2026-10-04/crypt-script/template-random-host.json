@@ -1,0 +1,63 @@
+{
+  "status": "passed",
+  "fixture_seed": 123456789,
+  "fixture_seed_is_original_game_seed": false,
+  "c_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\gcc.exe",
+    "-std=c99",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-c",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\random\\random.c",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-template-random\\character-template-random-host.random.o"
+  ],
+  "cxx_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_template_random.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_template_random.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-template-random\\character-template-random-host.random.o",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-template-random\\character-template-random-host.exe"
+  ],
+  "test_output": "character template random host checks passed: 56 source cases; fixture slot=2 (caller seed=123456789)",
+  "fixture": {
+    "template": {
+      "name": "GothicusCrypt_Ghosts",
+      "ordered_property_ids": [
+        35,
+        35,
+        35,
+        35,
+        37
+      ],
+      "alternative_count": 5
+    },
+    "source_mgp": {
+      "path": "data\\3d\\modules\\crypt\\mgp\\crypt_straight_ns_01.mgp",
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25",
+      "ambusher_count": 4,
+      "runtime_template_key": "GothicusCrypt_Ghosts"
+    },
+    "cache_sha256": {
+      "template_array": "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2",
+      "template_names": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+      "character_table_names": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    "existing_random_differential": {
+      "report": "port\\random\\differential-validation.json",
+      "original_random_elf_address": "0x33ff90",
+      "original_function_bytes": 196,
+      "core_comparisons": 768,
+      "mismatches": 0
+    }
+  },
+  "scope": "uncached Character template slot selection using caller-owned ordinary RNG state; no startup seed or global stream ownership is reproduced"
+}

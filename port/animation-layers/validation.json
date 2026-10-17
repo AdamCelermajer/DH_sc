@@ -1,0 +1,93 @@
+{
+  "complete_game": false,
+  "original_animator_equivalence": false,
+  "absolute_layer_diagnostic": true,
+  "library_sha256": "59355b4d1ee77c5b6490f147b90d2b3fd61e9eda702555d3f413ddc4f165e502",
+  "model_sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+  "first_sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+  "second_sha256": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903",
+  "tracks": [
+    25,
+    29
+  ],
+  "joints": 18,
+  "palettes_checked": 25,
+  "endpoint_checks": 10,
+  "zero_sum_selects_first": true,
+  "rejections_unchanged": 5,
+  "palettes_change_with_weight": true,
+  "input_preservation": true,
+  "phase_results": [
+    {
+      "phase": 0,
+      "times_ms": [
+        0,
+        0
+      ],
+      "palette_sha256": [
+        "fb134b5a55a17ba6bf35437d1fda2ae7302d989ce9442563f4225faa1b6babee",
+        "8e57155c3c292ba5cb3bc51dbd0e382e886c7ef821ed0ce856e38c8e262c9b95",
+        "98a17a6f634dcea2c2eb95ba827f47a5548394f00858c3543610982f1ee3c61c",
+        "fd09e3a8191c18ae1a6a374e213f5a84d2c8038845799a6f0e554695366d053e",
+        "488a84a09fe3cf457bd7e0be980bda8a5071fb6130d161ca2ccf935af66ee4eb"
+      ]
+    },
+    {
+      "phase": 0.25,
+      "times_ms": [
+        199,
+        274
+      ],
+      "palette_sha256": [
+        "53b25a966fd5e5086ccd25996b013a40e6828fa859747b40f5c398474767f6f7",
+        "25795f57b74dda06ac256391512fca891e7f4ab5da86f672d10f8f6d5f85fb63",
+        "9e3eec00498c32e06590acaeaf1a74b6d085a31fe54937d780f2b24679b2f572",
+        "150a56c8a99a9a82dbe90945ba77a017f644b9c1b4a643745ded8ee4c6e9e8d1",
+        "9da8a002b11e4c0f5bb78de0165952ce5f52ba58cafa6d9d731b83c7a7b9242a"
+      ]
+    },
+    {
+      "phase": 0.5,
+      "times_ms": [
+        399,
+        549
+      ],
+      "palette_sha256": [
+        "44023098d85e8b813f50ba7a1033286cb8beeca552f630338b9eaaf88e9c2c6a",
+        "2062b9efbf9f539a2ee8d47ee7d46708dbe46c07841bb30ecea303de212cc4ab",
+        "c44bf8448421b3f46248b8c0a78479f3c4095d2dee2bfae8c278d2d02f66602a",
+        "41781b69b7694800bf20743c362addeaa7adc647384d426485e4f456cf891ad7",
+        "e5beba73f1071d08c9e120973320c94294dec7e9ef89550a037798d6728d6f72"
+      ]
+    },
+    {
+      "phase": 0.75,
+      "times_ms": [
+        599,
+        824
+      ],
+      "palette_sha256": [
+        "32302781103aba9033f196ed21c264a9ee4fea2a808467f221ced77e81a054c1",
+        "a6779be7c047556eef04e77e2f1b89b0bcc4e8b1892b84bbd5b3284f673ba7a5",
+        "88adf8f63f331374f8af735adae77c6f6144e40baeb556fda4833f77baff0cd1",
+        "316a2001840682d57631bc9c5eaa85d33010e19c5a92d462560b14df1e53dae8",
+        "1b1baac5dc74f9d4092171312ea1c2847f6912941afad48dee159c9f60291add"
+      ]
+    },
+    {
+      "phase": 1,
+      "times_ms": [
+        799,
+        1099
+      ],
+      "palette_sha256": [
+        "924dca975f6bd0a7299466912117b7ba1f66544de936311b695e90319094cf51",
+        "ccf98c781cf1f93ff731b43329c55451917b8c1314e81219555cfa7fadcbe48d",
+        "818f63fab9f4483c32aaf28c4eceea227dd6cca5885628939690d8fee1165465",
+        "52456f3a6d0ba786d08b26525628b9a0ad421961112badd3a45d51cf9be6c740",
+        "b33142b35080ee93d2e38d98d98917036f4687b6193f92f68e3d8ba050306adc"
+      ]
+    }
+  ],
+  "test_sha256": "dead93102dcc34c25de3ca787bf4634972be8c8662c4d786fa310b49dea65ec3"
+}

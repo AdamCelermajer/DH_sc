@@ -1,0 +1,73 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsIjEEvRT_",
+      "elf_address": "0x313b48",
+      "size": 176,
+      "sha256": "ec95bf4c7a5d9d9ef1afa865ad42231ae9818affde3dd98c9898f7507a6acb6a"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsIiEEvRT_",
+      "elf_address": "0x38b758",
+      "size": 176,
+      "sha256": "fdc7ce31f9488e01d4d4fb98a44f11d8d4308a220a7ee4215c0eec128c60c822"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    }
+  ],
+  "assert_global": "0x99f914",
+  "source_strings": [
+    {
+      "elf_address": "0x8be3e0",
+      "text": "ASSERT(%s) FAILED: %s:%d\n",
+      "sha256": "7f8f723d266aaa6b69681095b9704f2e8a67629c01f3e95476b3cd350ea2c0d3"
+    },
+    {
+      "elf_address": "0x8be508",
+      "text": "bytesRead == sizeof(T)",
+      "sha256": "274d49de78a860eb8cb5fc18fb2921c6056c65dc5bca44d0c7a5477f5d9d7849"
+    },
+    {
+      "elf_address": "0x8be520",
+      "text": "..\\..\\project_vs2005\\Game/..\\..\\sources/Utils/IStream.h",
+      "sha256": "d3c53f72f6f85d19fb8322cfb831a13d973508dedd50c99775357d65e39a3104"
+    },
+    {
+      "elf_address": "0x8bfd48",
+      "text": "..\\..\\project_vs2005\\Game/..\\..\\sources/Utils/StreamReader.h",
+      "sha256": "3e54fe6b5e818e31a7845ae960db7168e50ea9e8dde12e5ad1b0a80d53b7bec1"
+    }
+  ],
+  "scope": {
+    "implemented": [
+      "Whole direct IStreamBase::readAs<unsigned>(unsigned&)176B",
+      "Whole direct IStreamBase::readAs<int>(int&)176B",
+      "Whole direct StreamReader::readAs<int>(IStreamBase*,int*)176B"
+    ],
+    "original_execution": "All114 executable words of the three unmodified reader bodies. Actual virtual18 stream read and logger are declared external leaves. The source assertion global is read by the original body. Callback error/throw stops the oracle at the delivery boundary; native statuses are not original exception ABI.",
+    "native_composition": "Selected actual Quest::_loadQuestData caller borrows its actual Record.state_0 destination and same StreamRef, proving partial destination/cursor prefix before a reached explicit action failure. No empty action provider succeeds.",
+    "not_claimed": [
+      "Native QEST wiring",
+      "Android compilation",
+      "Live gameplay",
+      "Original null-store continuation on a writable zero page"
+    ],
+    "native_guards": [
+      "Null/misaligned/aliased destination or output, reentry, stream identity changes, missing callbacks and errors/throws retain actual reached effects and stop native continuation."
+    ]
+  },
+  "source_policies": [
+    "All three readers pass the actual supplied destination to stream virtual18 with requested uint64(4). No returned-value scratch is used.",
+    "Success requires both returned low32==4 and high32==0. Destination content is not validated.",
+    "Short-read partial destination writes occur before assertion checks and remain visible on provider failure or assertion boundary.",
+    "Actual source mode2 stops at the original null-store boundary; mode1 invokes mandatory logger and returns after delivery; other actual modes return directly. No invented mode default is supplied.",
+    "IStreamBase signed/unsigned logger uses Utils/IStream.h line69. Quest pointer reader uses Utils/StreamReader.h line80. Source format/condition/file bytes and addresses are pinned.",
+    "Logger and assertion-mode providers may change the actual destination; no rollback, second copy, clearing or post-read value publication occurs.",
+    "One borrowed StreamRef, no cursor/profile/Save/Quest/property/table/VM store or separate assertion owner."
+  ]
+}

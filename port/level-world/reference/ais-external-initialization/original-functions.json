@@ -1,0 +1,179 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 2,
+    "new_valid_nonnull_callers": 1,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/ais_external_initialization.hpp",
+      "port/level-world/ais_external_initialization.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/ais_external_initialization.cpp",
+      "port/level-world/tests/run_ais_external_initialization_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAIScriptC1Eb",
+      "elf_address": "0x3d8f44",
+      "size": 108,
+      "sha256": "b8c95e59d686ce373262c1c6e8aa7b3d558fbd4a7414e87e7aba126964d1b98a",
+      "scope": "New complete constructor caller; ABI alias"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC2Eb",
+      "elf_address": "0x3d8fb0",
+      "size": 108,
+      "sha256": "ce859293ac04fa52f9989fd0ff46df28670c87b80ccfd204ccb8a52e1e1c5afd",
+      "scope": "New complete constructor caller; ABI alias"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC1Eb",
+      "elf_address": "0x3dd0e4",
+      "size": 68,
+      "sha256": "e71ffa6c1cd72616f2f6750112f8f7d6c08ca7068939c3edef875846222312ee",
+      "scope": "New complete constructor caller; ABI alias"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC2Eb",
+      "elf_address": "0x3dd128",
+      "size": 68,
+      "sha256": "68fdd9e38a0f766ae8be40045639838447a66a798beee51171bceb08f3a1a740",
+      "scope": "New complete constructor caller; ABI alias"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12SetCharacterEP9Character",
+      "elf_address": "0x3d90f8",
+      "size": 192,
+      "sha256": "db53ac6d263c6b9c782d2bb78b05727377145b429b217254794a0dfe10af0df8",
+      "scope": "New valid-nonnull caller branch; null diagnostic precondition excluded"
+    },
+    {
+      "original_symbol": "_ZN9LuaScriptC2Eb",
+      "elf_address": "0x37c674",
+      "size": 240,
+      "sha256": "037cd05a9e6a65cf60887c2aa7adfe05c05c7a435424dda1902b29f9ea21cda1",
+      "scope": "Named owned resource constructor; no full dependency implementation"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+      "elf_address": "0x3d8ec8",
+      "size": 100,
+      "sha256": "d45b3732ffe08455782ccd53300dac9bc109adef7e444fa9a9194e0aec451beb",
+      "scope": "Named service plus actual registration caller proof; no new dependency body"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12BindFunctionEv",
+      "elf_address": "0x3d8f2c",
+      "size": 24,
+      "sha256": "2e24a5f9be3c511be8d4a56e5bf06dc6bb29b1715fc8ac8af1e34db163ea4130",
+      "scope": "Supporting lifecycle stage evidence; no new body"
+    },
+    {
+      "original_symbol": "_ZN9Character14createBindingsERN3sfc6script3lua6BinderE",
+      "elf_address": "0x3b56bc",
+      "size": 5332,
+      "sha256": "1a6cca69e950949461ad1499982fbd7929a82d9411fa2aa7c4755a3c8e3d4ca8",
+      "scope": "Named Character virtual resource service; no full dependency implementation"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI11AISExternalEEvv",
+      "elf_address": "0x3ccaf4",
+      "size": 240,
+      "sha256": "6446d8a68f471f7f81566e6d91c6dd84009e30619a236cfc9cb3942bf865bcc2",
+      "scope": "Supporting actual fresh factory branch evidence; no new port factory body"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15SetScriptByNameEPKc",
+      "elf_address": "0x3ceeb0",
+      "size": 412,
+      "sha256": "aba86cd4816befa74b71cd3d2fd8a46b2e7a81ed9626a2ead5d1afc546291f90",
+      "scope": "Supporting plain-script selector evidence; existing maintained caller reused"
+    },
+    {
+      "original_symbol": "_ZNSs9_M_assignEPKcS0_",
+      "elf_address": "0x3109e0",
+      "size": 192,
+      "sha256": "0dec702175815372c1050956647c127d6a120d13c7e55234ee29385735be3e7c",
+      "scope": "Named owned resource dependency; no full body claim"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_",
+      "elf_address": "0x31a4d4",
+      "size": 344,
+      "sha256": "90942f487523fa49e311d580d9de5db063f6173fc04f98d2426cefc165c79417",
+      "scope": "Named owned resource dependency; no full body claim"
+    },
+    {
+      "original_symbol": "_Znwj15MemoryHintState",
+      "elf_address": "0x310570",
+      "size": 4,
+      "sha256": "b7330ca7e9765d241ce9356767bcc60211d56d244a09941d26895b422bae8901",
+      "scope": "Named defined allocation wrapper for factory evidence; no full body claim"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "symbol": "_ZTV12CharAIScript",
+      "elf_address": "0x966868",
+      "address_point": "0x966870",
+      "size": 212,
+      "sha256": "174fd49a3af2114c86450b43f51a4591ed41f6e4332e91e92436b469e5706ac2",
+      "slots": []
+    },
+    {
+      "symbol": "_ZTV11AISExternal",
+      "elf_address": "0x966a48",
+      "address_point": "0x966a50",
+      "size": 216,
+      "sha256": "0c8e51cf8c4a745c609eb36e42369561575f0591cac538fce9b68b102cbccdd1",
+      "slots": []
+    },
+    {
+      "symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "address_point": "0x965f38",
+      "size": 812,
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "slots": [
+        {
+          "byte_offset": "0xc",
+          "target": "0x3b56bc"
+        }
+      ]
+    }
+  ],
+  "path_literal": {
+    "elf_address": "0x8c3658",
+    "bytes": 17,
+    "text": "data/scripts/ai/",
+    "sha256": "115fc3a70d230dcacab52264438d82784d494b449ef3eb965e82e5c53b8f6447"
+  },
+  "state_registrations": [
+    {
+      "name": "RegisterAIState",
+      "function": "0x3da144",
+      "binder": "0x10014010",
+      "context": "0x10014000"
+    },
+    {
+      "name": "ChangeAIState",
+      "function": "0x3d9710",
+      "binder": "0x10014010",
+      "context": "0x10014000"
+    }
+  ],
+  "factory_facts": {
+    "allocation_bytes": 196,
+    "skip_bind": true,
+    "constructor_call": "0x3ccb68",
+    "skip_argument_store": "0x3ccb60",
+    "pending_store": "0x3ccb6c",
+    "pending_offset": "0x20",
+    "allocation_wrapper": "_Znwj15MemoryHintState",
+    "memory_hint_state": 0
+  }
+}

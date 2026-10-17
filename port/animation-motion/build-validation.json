@@ -1,0 +1,20 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "source_sha256": {
+    "motion.cpp": "f760cea6dfaa049eb966d6f89f6fb4ebe252245eee07e8c882e1e3ec44ab136e",
+    "motion.hpp": "209b91e9e691cd5c73eb89929eb420b929602461fabc4bcecf2ea0b70c35a2b4",
+    "math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "motion-host.so": "b613e229f903c0dd0300410ef47785da270f30351c5674b474d01572cc0ddb70"
+  },
+  "safety": {
+    "address_sanitizer": true,
+    "undefined_behavior_sanitizer": true,
+    "sequences": 5000,
+    "operations": 100000,
+    "seed": 20261002,
+    "test_sha256": "f16363f95c0687fe988eb13f6bf50da9c8155b53f6395909d70be5d4fa53968b"
+  }
+}

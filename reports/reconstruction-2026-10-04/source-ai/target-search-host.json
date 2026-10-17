@@ -1,0 +1,114 @@
+{
+  "status": "passed",
+  "original": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\test_strategy\\libDungeonHunter2.so",
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "verified_ranges": [
+      {
+        "kind": "function",
+        "symbol": "_ZN6CharAI12_UpdateAggroEv",
+        "elf_address": "0x3cf3f0",
+        "size": 2052,
+        "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii",
+        "elf_address": "0x4a2730",
+        "size": 296,
+        "sha256": "d91cd6624877041b7b8bae61aae1b85691210bfa839a68916ccf9b138d36d88a"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN14ObjectSearcher10TargetList6SearchEff",
+        "elf_address": "0x3d0020",
+        "size": 96,
+        "sha256": "a2c856d63b496b56ddbf0fb85c9e0215c4bff1700dba2a3335811b242192b3f2"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE",
+        "elf_address": "0x4a2f34",
+        "size": 1172,
+        "sha256": "09e52604dce572790bf238dae055d88b063b8a685d692de73e0421085ba1a0b6"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN14ObjectSearcher10TargetList17_IsCharacterValidEP9Character",
+        "elf_address": "0x4a1ab8",
+        "size": 528,
+        "sha256": "c3f7b4fd5555b4d8c2d5a6a9c0eab6d450959f43c553561f6f3ff60eddfe965d"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN14ObjectSearcher10TargetList18_IsGameObjectValidEP10GameObject",
+        "elf_address": "0x4a1950",
+        "size": 116,
+        "sha256": "e4993162123bc1a08943c119ee83f30618ac82f757fa3d04d2f71330db6bd1f5"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK9Character13IsInteractiveEP10GameObject",
+        "elf_address": "0x3a4870",
+        "size": 192,
+        "sha256": "98594cbfb1cf08a894782c03ba19831bd0bd1852373a9b2cfbfb342dd9fad03f"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK9Character9IsZonableEv",
+        "elf_address": "0x3a36e4",
+        "size": 64,
+        "sha256": "bfb46b114bdb841084033e50956c8ae23f7707973594c74902ba7f05c29883ab"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK9Character20GetInteractionRadiusEv",
+        "elf_address": "0x3a374c",
+        "size": 8,
+        "sha256": "875c25765f7f1353df42ff614ebc5f00bea22c86fc754c06bd9a422bbeac89a4"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZNK6CharAI17AI_GetMeleeRadiusEv",
+        "elf_address": "0x3d4c34",
+        "size": 104,
+        "sha256": "932a35ac97f40a439164ae885fffc1f09baefedd284c488905a231159d753373"
+      },
+      {
+        "kind": "function",
+        "symbol": "_ZN14ObjectSearcher12TargetSorter12_sortClosestERKNS_10TargetInfoES3_",
+        "elf_address": "0x38d570",
+        "size": 68,
+        "sha256": "01061f19ab8fe537095924fdfa80819876c93870b643e48c3c3e132389704061"
+      },
+      {
+        "kind": "vtable",
+        "symbol": "_ZTV9Character",
+        "elf_address": "0x965f30",
+        "size": 812,
+        "sha256": "f70c64efb22ede0466b05d4a5888896153d0ff20575aabb1143b4400b27652b7"
+      },
+      {
+        "kind": "vtable",
+        "symbol": "_ZTV10GameObject",
+        "elf_address": "0x964748",
+        "size": 244,
+        "sha256": "04aca56769967aba543bc567f95a4cde4793c8617f517f11f77a989714b80c63"
+      }
+    ]
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_target_search.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_aggro_target_search.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-aggro-target-search-root\\test.exe"
+  ],
+  "test_output": "character aggro target search host checks passed: 2 suites; 4 ordered source candidates",
+  "scope": "Host test of the `_UpdateAggro` TargetList(owner,0x7fffffff,2,1) candidate path over a borrowed intrusive room registry; friend/neutral/enemy dispatch is recorded in source pop order but its classifier and event routing are not implemented here. No Android or live actor integration is claimed."
+}

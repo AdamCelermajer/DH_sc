@@ -1,0 +1,9 @@
+# Saved skill slots with the owned V4 inventory
+
+The source `ItemInventory::GetCurrentSkillSet(int)` body at `0x3fc6a0` is eight bytes: `mov r0,#0; bx lr`. `SG_SetSkillInSlot`, `SG_GetSkillInSlot`, and `SG_HasSkillSlots` pass selector `-1`, so these operations resolve saved map zero independently of the selected equipment set. The source `_InitSkillsSlots` path performs two writes to saved slot zero around two equipment swaps; it does not imply separate skill maps follow equipment selection.
+
+`BoundSlotsV1` borrows the existing `PlayerSavegameV1` and `FreshInventoryOwnedV4`. It checks that both still carry the same nonzero full-width Character identity before each operation. Queries and writes delegate to that one save owner; a normal write retains the existing map-update-before-`UpdateSkills` order and source failure prefix. The adapter does not create another inventory/save owner or mutate map one.
+
+The equipment selector is kept separate. `GetCurrentEquipSet(int)` returns the selected signed byte for negative selectors and selectors 1 or 2, while selector 0 and selectors above 2 return zero. The focused proof executes both original selector bodies and compares the equipment selector on the V4 owner's supported selected values 0/1. It does not claim the host V4 field is a full `ItemInventory` ABI projection.
+
+Run `python port/game-data/tests/run_player_saved_skill_slots_v1_host.py --selected-library-dir <dir-containing-libdh2_game_data.dll>` with the original ELF and local loot cache available. The runner links the test to that selected DLL, exercises the same save map through two V4 equipment swaps, and runs the original ARM selectors. The existing 64-case/1536-snapshot `run_player_savegame_v1_host.py` remains the saved-owner regression. This adapter is host-tested only and is not wired into the Android runtime.

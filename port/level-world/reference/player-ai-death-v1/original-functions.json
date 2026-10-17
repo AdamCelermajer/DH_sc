@@ -1,0 +1,120 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI6OnDiedEP10GameObject",
+      "elf_address": "0x3d1000",
+      "size": 80,
+      "sha256": "e872aa87b36c9d46638f7ea691bfcde728a6068401d2111dcf4c0cd3036cc2bc"
+    },
+    {
+      "original_symbol": "_ZN6CharAI10AI_SetDeadEv",
+      "elf_address": "0x3d6cdc",
+      "size": 140,
+      "sha256": "f3468811a494010b0265316a819636747c2e66a6e4090f019c6c2b0d3fa8a96d"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault6OnDiedEP10GameObject",
+      "elf_address": "0x3dbe90",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetDeadStateEbPvb",
+      "elf_address": "0x3c58c8",
+      "size": 488,
+      "sha256": "b6a218cf121594c43a4f38edf0817db2ca9e8e43c413173ba33721938da0c74e"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharAnimTableIdEv",
+      "elf_address": "0x3a3228",
+      "size": 60,
+      "sha256": "d8d60d8d2fdb2d9246a68f44712f30b28285a80460573e4fc7c9e07a008dfd29"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine21SM_IsAwaitingToReviveEv",
+      "elf_address": "0x3c01ec",
+      "size": 68,
+      "sha256": "021861978001d78fefd95ee1fe18f17898f642a0fba48bd2d7f29c73d966e2b9"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers8TMR_StopEj",
+      "elf_address": "0x3db2d8",
+      "size": 32,
+      "sha256": "6dbf462d15b090873ba926013ab337200b3311223de9da6d7c3bcae893637b61"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_ClearAllAggroEv",
+      "elf_address": "0x3d5fa8",
+      "size": 480,
+      "sha256": "9cf1065d84a6b5f84f26ef7debd8bec0bc834a646ccd8c9f6f29a5c38eb101a3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI24AI_ClearAllAggroTowardMeEb",
+      "elf_address": "0x3d6abc",
+      "size": 544,
+      "sha256": "0012a66decb3a0881c65af6597d53705d83aec1e651e9c5c00c7ad3cd8929543"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3a9340",
+      "size": 1448,
+      "sha256": "ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb"
+    }
+  ],
+  "vtables": [
+    {
+      "symbol": "_ZTV9AISPlayer",
+      "address": "0x966bf8",
+      "size": 216,
+      "sha256": "e06d1749abc126f7956c405fb021a1c33f50123b6c8a3a82dc950e6670b36e89",
+      "died_slot": "0x24",
+      "target": "0x3dbe90"
+    },
+    {
+      "symbol": "_ZTV15AISPlayerIPhone",
+      "address": "0x966cd0",
+      "size": 216,
+      "sha256": "37a14b52341cb03869d86f17604a0c8f9982ee25f004d7ea55981cce96aa9a47",
+      "died_slot": "0x24",
+      "target": "0x3dbe90"
+    }
+  ],
+  "scope": "Whole OnDied and AI_SetDead callers and all SM_SetDeadState forced/false branches; existing target/sync/timer/aggro and skill-vector callers execute. Group, Debug/string, design mask/stance, state transition, STL storage, OnDeAggro and individual OnSkillCleanUp are declared callee fixtures. Character constructors are statically pinned for marker14d0 proof, not dynamically executed."
+}

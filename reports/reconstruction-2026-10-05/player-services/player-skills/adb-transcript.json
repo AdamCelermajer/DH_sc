@@ -1,0 +1,2595 @@
+[
+  {
+    "args": [
+      "shell",
+      "getprop",
+      "ro.build.version.sdk"
+    ],
+    "exit_code": 0,
+    "stdout": "37\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "getconf",
+      "PAGE_SIZE"
+    ],
+    "exit_code": 0,
+    "stdout": "16384\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "getprop",
+      "ro.product.cpu.abi"
+    ],
+    "exit_code": 0,
+    "stdout": "x86_64\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "install",
+      "-r",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-player-services-r2-2026-10-05\\crypt-native-player-services.apk"
+    ],
+    "exit_code": 0,
+    "stdout": "Performing Streamed Install\nSuccess\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation"
+    ],
+    "exit_code": 0,
+    "stdout": "free\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "lock",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "exit_code": 0,
+    "stdout": "1791223661.423460100\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "force-stop",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--es",
+      "world",
+      "crypt01.dwld",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "exit_code": 0,
+    "stdout": "Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }\nWarning: Activity not started, intent has been delivered to currently running top-most instance.\nStatus: ok\nLaunchState: UNKNOWN (0)\nActivity: com.android.systemui/com.android.wm.shell.packageupdate.PackageUpdateActivity\nTotalTime: 0\nWaitTime: 87\nComplete\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "force-stop",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--es",
+      "world",
+      "crypt01.dwld",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "exit_code": 0,
+    "stdout": "Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }\nStatus: ok\nLaunchState: COLD\nActivity: com.example.dh2/.MainActivity\nTotalTime: 4706\nWaitTime: 4710\nComplete\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_ANIMATION_TIME",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "time_ms",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_ANIMATION_TIME flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SCALAR",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_value",
+      "0",
+      "--ez",
+      "write",
+      "false"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SCALAR flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SCALAR",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_value",
+      "7312",
+      "--ez",
+      "write",
+      "true"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SCALAR flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "7"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_COOLDOWN",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "delay_ms",
+      "12000"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_COOLDOWN flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_RELOAD_WORLD",
+      "-p",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_RELOAD_WORLD flg=0x400000 pkg=com.example.dh2 }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SCALAR",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_value",
+      "0",
+      "--ez",
+      "write",
+      "false"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SCALAR flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "lock",
+      "1"
+    ],
+    "exit_code": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SCALAR",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_value",
+      "0",
+      "--ez",
+      "write",
+      "false"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SCALAR flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SCALAR",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_value",
+      "-37",
+      "--ez",
+      "write",
+      "true"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SCALAR flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_COOLDOWN",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "delay_ms",
+      "300"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_COOLDOWN flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_ANIMATION_TIME",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "time_ms",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_ANIMATION_TIME flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_MANA",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_amount",
+      "1024"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_MANA flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_MANA",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_amount",
+      "8000"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_MANA flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_MANA",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_amount",
+      "5952"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_MANA flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_MANA",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_amount",
+      "1"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_MANA flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_RELOAD_WORLD",
+      "-p",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_RELOAD_WORLD flg=0x400000 pkg=com.example.dh2 }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SKILL_CHECK",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "skill_slot",
+      "0"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SKILL_CHECK flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_PLAYER_SCALAR",
+      "-p",
+      "com.example.dh2",
+      "--ei",
+      "raw_value",
+      "0",
+      "--ez",
+      "write",
+      "false"
+    ],
+    "exit_code": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_PLAYER_SCALAR flg=0x400000 pkg=com.example.dh2 (has extras) }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "exit_code": 0,
+    "stdout": "8409\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791223661.423460100",
+      "--pid=8409",
+      "-v",
+      "brief"
+    ],
+    "exit_code": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  }
+]

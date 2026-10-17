@@ -1,0 +1,120 @@
+{
+  "scope": "cache-backed static MLX import and BDAE module-root binding; no runtime activation",
+  "level_name": "INFECTED_VILLAGE_01",
+  "level_file": "005_infectedvillage.mlx",
+  "module_count": 2,
+  "source_record_count": 53,
+  "source_file_order": [
+    "data/scene/005_infectedvillage.mlx",
+    "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+    "data/3d/modules/infectedvillage/mvp/infected01.mvp",
+    "data/3d/modules/infectedvillage/mgp/infected02.mgp",
+    "data/3d/modules/infectedvillage/mvp/infected02.mvp"
+  ],
+  "modules": [
+    {
+      "module_index": 0,
+      "level_source_record": 1,
+      "name": "_module_infectedvillage_01_001",
+      "catalogue_node_id": "_module_infectedvillage_01-node",
+      "dae": "data/3d/modules/infectedvillage/infectedvillage.bdae",
+      "mgp": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "mvp": "data/3d/modules/infectedvillage/mvp/infected01.mvp",
+      "mgp_loaded": true,
+      "mvp_loaded": true,
+      "level_origin": [
+        -3448.5,
+        3000.0,
+        0.0
+      ],
+      "catalogue_origin": [
+        -3448.5,
+        3000.0,
+        0.0
+      ],
+      "placement_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "visual_index": 0,
+      "root_node_record": 30732,
+      "subtree_node_count": 12
+    },
+    {
+      "module_index": 1,
+      "level_source_record": 2,
+      "name": "_module_infectedvillage_02_001",
+      "catalogue_node_id": "_module_infectedvillage_02-node",
+      "dae": "data/3d/modules/infectedvillage/infectedvillage.bdae",
+      "mgp": "data/3d/modules/infectedvillage/mgp/infected02.mgp",
+      "mvp": "data/3d/modules/infectedvillage/mvp/infected02.mvp",
+      "mgp_loaded": true,
+      "mvp_loaded": true,
+      "level_origin": [
+        2551.5,
+        3000.0,
+        0.0
+      ],
+      "catalogue_origin": [
+        2551.5,
+        3000.0,
+        0.0
+      ],
+      "placement_delta": [
+        0.0,
+        0.0,
+        0.0
+      ],
+      "visual_index": 0,
+      "root_node_record": 30812,
+      "subtree_node_count": 13
+    }
+  ],
+  "entrypoint_id_0": [
+    {
+      "name": "_prim_EntryPoint",
+      "gametype": "SpawnPoint",
+      "source_path": "data/3d/modules/infectedvillage/mgp/infected01.mgp",
+      "source_record": 1,
+      "module_index": 0,
+      "entrypoint_id": 0,
+      "local_position": [
+        900.8499755859375,
+        -4148.52001953125,
+        1348.8800048828125
+      ],
+      "world_position": [
+        -2547.64990234375,
+        -1148.52001953125,
+        1348.8800048828125
+      ]
+    }
+  ],
+  "source_sha256": {
+    "data/3d/modules/infectedvillage/infectedvillage.bdae": "78277fc02ecb006f23e281560eda789d616415aa2801c00a370d73f67605c07a",
+    "data/3d/modules/infectedvillage/mgp/infected01.mgp": "c3fbe80d3228592cd117012baf2f2151e4ab46c452213911ca5c4d3195e4bbc3",
+    "data/3d/modules/infectedvillage/mgp/infected02.mgp": "a128c22031b9ba64fde81c7951e215cc2999e8ffb95a3a5cf30560cc712e8c5b",
+    "data/3d/modules/infectedvillage/mvp/infected01.mvp": "02d255cc6214a3c3d28b2f7e921626344a67e2edded1579da8ad7256e72a9df8",
+    "data/3d/modules/infectedvillage/mvp/infected02.mvp": "8af1f65e45c67d07c11482988d7381fc1dfb15d36a5a9321b48efbe67e6fbf7a",
+    "data/pydata/levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "data/pydata/levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "data/scene/005_infectedvillage.mlx": "4cd2007c7de65d38065f8a5f57faaa57dc56cc332db35cdb50d7d42d5af73ed8"
+  },
+  "host_validation": {
+    "build_passed": true,
+    "test_count_passed": 4,
+    "artifact_sha256": {
+      "libdh2_level_runtime_host.dll": "51e78c3d7397df3642a900468d2e4b64339cb3ae14e17ffee2b78aa1e851a441"
+    },
+    "platform": "Windows host",
+    "android_build": false,
+    "emulator_tested": false,
+    "fold7_tested": false
+  },
+  "objects_activated": false,
+  "scripts_executed": false,
+  "enemies_spawned": false,
+  "camera_started": false,
+  "gameplay_ready": false
+}

@@ -1,0 +1,171 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "aecba18e8d2f2571f477f6420d9cc9053cb48f6482f573dabac49a47e2638054",
+  "serial": "emulator-5558",
+  "full_game_playable": false,
+  "physical_arm64_phone_tested": false,
+  "authored_trigger_and_script_modified": false,
+  "player_start_is_fan_test_override": true,
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "c6f3cb4b32ce690f8a9969dc0eca46cc8b84f31d0d8f7378ccc3df777ad56a8b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "e059c962adf94f2993f662bbc845cb3ecc4c9a10e0e8c2b07ec926dd1ced4e3e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "4e92362d56d39a98a09579694076f220c4282d5702365b1186d55b5d1bb4390a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "63d282b7cd871248edda979a3b03d78cc6844ba37ce8631b0b8d320277bd3349",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "2bc377c25e988e27241214a4ee608dc4f984b04bd471ab1ae5716fc2f5d1ccac",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "bb87da93890b7a74efdba10ab7437e26f3f9e03db6ff9ccc170e154ccded1705",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "5c9b5f8fab2c6ab89daa19add3da8b42a26c5dae1b750ccefceab80f3858ad17",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "b7ba34ae0b7099a9e78ef7fa664f18e9d5e15f821baaa348965506a889122957",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "2845b4e103f314f93eb71f40882fccd7ad8109b69a68403c920d5db8dc08260f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "0dda07640f21efa5e5a6a07884b3dce901ecef7df761a0f1e18d18c5890a802f",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "page_size": 16384,
+  "api_level": 37,
+  "installed_apk_sha256": "aecba18e8d2f2571f477f6420d9cc9053cb48f6482f573dabac49a47e2638054",
+  "launch_log_boundaries": [
+    {
+      "pid": "29957",
+      "epoch_since": "1791082292.255807384"
+    },
+    {
+      "pid": "30047",
+      "epoch_since": "1791082295.970736404"
+    }
+  ],
+  "bundled_start_does_not_trigger_remote_ambush": true,
+  "authored_trigger_descriptor_sha256": "e809b77179b827baeb8e3047e26f52bacf8dc0c855373db8e4e82d045a250299",
+  "test_spawn": [
+    -1405.22998046875,
+    19893.53872013092,
+    608.06201171875
+  ],
+  "screenshots": [
+    {
+      "path": "outside-authored-trigger.png",
+      "sha256": "80bbc2d53cd25f93d23ef8bc6466fda8877dbc9efa9fdd738c444dee6f7cb0db"
+    },
+    {
+      "path": "source-ghost-pair-idle.png",
+      "sha256": "b30f47db14b31cf73d5e9df5ded0eb168a9ee3f95e776d13b22285842ed5b209"
+    },
+    {
+      "path": "authored-ambush-restored.png",
+      "sha256": "24a6e519b2d8859792b9fdf7f1726a8de1493c943f9e374163a46bf72a6a8b9f"
+    }
+  ],
+  "source_visibility_hides_then_restores_enabled_ghosts": true,
+  "source_spawn_requests": [
+    {
+      "name": "_prim_Monster_SURPRISE_01",
+      "script_id": 17,
+      "pc": 1,
+      "time_ms": 5113
+    },
+    {
+      "name": "_prim_Monster_SURPRISE_02",
+      "script_id": 17,
+      "pc": 3,
+      "time_ms": 5196
+    }
+  ],
+  "source_wait_start_frames": [
+    {
+      "duration": 250,
+      "time_ms": 4862,
+      "frame_dt": 19
+    },
+    {
+      "duration": 75,
+      "time_ms": 5113,
+      "frame_dt": 19
+    }
+  ],
+  "actual_touch_contact_triggered_original_script": true,
+  "unbound_gated_combat_target_pairs_rejected": [
+    [
+      0,
+      78
+    ],
+    [
+      78,
+      0
+    ],
+    [
+      79,
+      -2
+    ]
+  ],
+  "reload_preserves_consumed_trigger_and_script": true,
+  "recreation_preserves_script_and_ghost_states_without_replay": true,
+  "scope": "Original GhostAmbush01 contact/timed spawning on authored placement, approached with actual root-motion touch input from an explicit fan spawn override; source completion/body creation and reload/recreation; no complete-level or full AI claim.",
+  "previous_world_override_restored": true
+}

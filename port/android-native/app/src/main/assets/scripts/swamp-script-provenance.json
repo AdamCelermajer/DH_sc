@@ -1,0 +1,20 @@
+{
+  "cache_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "source_level": "SWAMP / data/pydata/scripts/001_swamp",
+  "inputs": [
+    {
+      "name": "001_swamp_pyscriptnames.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/001_swamp_pyscriptnames.bin",
+      "bytes": 1155,
+      "sha256": "7946d599ea1ca9c30081fe0b32f2ff6b70be6bbf93af2b88aa7f852e51a18045"
+    },
+    {
+      "name": "001_swamp_pyscripts.bin",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/scripts/001_swamp_pyscripts.bin",
+      "bytes": 18117,
+      "sha256": "144447bc17c9b5ac530e308cce86490c04191779b66f4b88914f2a6c8adde836"
+    }
+  ],
+  "common_tables": "scripts_pyscriptnames.bin and scripts_pyscripts.bin are the same retained Level::LoadScripts common tables recorded in crypt-script-provenance.json; source appends common before level tables.",
+  "scope": "Original selected SWAMP ScriptManager tables. Runtime command callbacks remain bounded and reject reached unbound command services."
+}

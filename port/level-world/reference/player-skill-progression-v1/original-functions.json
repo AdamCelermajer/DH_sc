@@ -1,0 +1,56 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character17CanIncrementSkillEi",
+      "elf_address": "0x3bc9ec",
+      "size": 100,
+      "sha256": "777b6351507f132ee1d1f220c90f4dffd6c6712ab75d83784e2bffed4f180b33",
+      "implemented_boundary": "Directly instruction-compared: null save/vector early return, LDRH saved level, signed wrapped GetLevel minus SkillRow.Level, signed CMP/MOVLE. GetLevel and GetCharSkill are fixtures."
+    },
+    {
+      "original_symbol": "_ZNK9Character16IsSkillAvailableEi",
+      "elf_address": "0x3bca50",
+      "size": 52,
+      "sha256": "d70c8e494b0a1017bc05a3c207245e4aa109aa0ca102aeb78ea3fdbb54cf55ad",
+      "implemented_boundary": "Directly instruction-compared: GetLevel >= SkillRow.Level, with GetLevel and GetCharSkill as fixtures."
+    },
+    {
+      "original_symbol": "_ZN9Character16_InitSkillsSlotsEv",
+      "elf_address": "0x3b3a90",
+      "size": 112,
+      "sha256": "c6b7d1fc88348fd777d7d548971ea77b74ea0d0dafd374b69038a3a979f2550f",
+      "implemented_boundary": "Host-tested source call order. SG_SetSkillInSlot, ItemInventory::SwapEquipmentSet, SG_GetSkillLevel, and IncSkill are borrowed source services."
+    },
+    {
+      "original_symbol": "_ZN9Character8IncSkillEib",
+      "elf_address": "0x3bcc58",
+      "size": 820,
+      "sha256": "6d5f019eeae98820ceea9c35da44fc02ffc596b42745180f07298006ee326af2",
+      "implemented_boundary": "Host-tested ordered service projection through property points, availability, fresh difficulty cap queries, saved-row increment, UpdateAllSkills, recalculation, potion capacity, and debug branches. Character debug/property/design/CharAI effects are mandatory borrowed providers; not an instruction-level full body."
+    },
+    {
+      "original_symbol": "_ZNK9Character8GetLevelEv",
+      "elf_address": "0x3bd120",
+      "size": 16,
+      "sha256": "25e1ded8b96fbf69bc67e3cdb848c1663f70bda098570256216638df94f39bdf",
+      "implemented_boundary": "Typed original predicate fixture returns Character::GetLevel; local property projection uses the proven resolved Level word with arithmetic shift by 8."
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad",
+      "implemented_boundary": "Typed original predicate fixture returns a SkillTable row from the selected SkillList. Native projection resolves PropertyView SkillTree and retained SkillTables."
+    }
+  ],
+  "local_scope": {
+    "owner": "Reuses the one frozen PlayerSavegameV1 and borrowed live PropertyView/SkillTables; no second saved-skill/property owner is created.",
+    "slot_switch": "Both SG_SetSkillInSlot calls and ItemInventory::SwapEquipmentSet stay explicit providers because the frozen V1 slot setter selects slots_[0].",
+    "grant_policy": "No level-1 or free starter grant is synthesized. _InitSkillsSlots invokes IncSkill(0,false) only when source SG_GetSkillLevel(0) returns zero.",
+    "remaining": [
+      "Full original IncSkill body execution and its CharacterDesign/debug/property/CharAI implementations.",
+      "Full InitPost, SG_Load and campaign/profile lifecycle."
+    ]
+  }
+}

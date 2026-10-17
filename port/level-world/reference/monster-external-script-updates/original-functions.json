@@ -1,0 +1,121 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12CharAIScript15CallStateUpdateEv",
+      "elf_address": "0x3d8eb4",
+      "size": 20,
+      "sha256": "a220137eb4be41b001f29b24a8f1bf809e4b8f3aeacd89dad90cd92497fb2369",
+      "scope": "existing complete20B ais_state_callbacks wrapper reused by Session"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript19CallStateConditionsEv",
+      "elf_address": "0x3d8ea0",
+      "size": 20,
+      "sha256": "dc6f8887142c6d1db5d90d035740a2342645d48af746b5c8c4511e7f0bbcbb4f",
+      "scope": "existing complete20B ais_state_callbacks wrapper reused by Session"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6",
+      "scope": "existing full caller evidence; no duplicate reconstruction"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc",
+      "scope": "named no-argument discarded-return dependency"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+      "elf_address": "0x37c494",
+      "size": 128,
+      "sha256": "f26b03d05e3f9886a18f7d3de525a2cc05d067335ab5d74aad39800fda057538",
+      "scope": "no-Arguments overload evidence only"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC1Eb",
+      "elf_address": "0x3d8f44",
+      "size": 108,
+      "sha256": "b8c95e59d686ce373262c1c6e8aa7b3d558fbd4a7414e87e7aba126964d1b98a",
+      "scope": "existing constructor evidence for real b4 ownership"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC2Eb",
+      "elf_address": "0x3d8fb0",
+      "size": 108,
+      "sha256": "ce859293ac04fa52f9989fd0ff46df28670c87b80ccfd204ccb8a52e1e1c5afd",
+      "scope": "existing constructor evidence for real b4 ownership"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC1Eb",
+      "elf_address": "0x3dd0e4",
+      "size": 68,
+      "sha256": "e71ffa6c1cd72616f2f6750112f8f7d6c08ca7068939c3edef875846222312ee",
+      "scope": "existing derived constructor evidence"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC2Eb",
+      "elf_address": "0x3dd128",
+      "size": 68,
+      "sha256": "68fdd9e38a0f766ae8be40045639838447a66a798beee51171bceb08f3a1a740",
+      "scope": "existing derived constructor evidence"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12_ChangeStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3d9710",
+      "size": 128,
+      "sha256": "a3e41147d3ecff25e7f1967f6c8ecb23ad78ed77feaaca3aabac85698e6610a5",
+      "scope": "external actual state registry transition producer"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4LoadEPKc",
+      "elf_address": "0x37b574",
+      "size": 44,
+      "sha256": "cd9ec4280f7e48da11034c6005df78f232e0ef350df4e78f0e434a60c805828e",
+      "scope": "external wrapper before exact path-cache boundary"
+    },
+    {
+      "original_symbol": "_ZN10LuaManager7AddFileEP9LuaScriptPKc",
+      "elf_address": "0x37b23c",
+      "size": 808,
+      "sha256": "eed28284fab97acb165e01e0aa721a8cbd18265ca17252e903f14be10ba5fb7f",
+      "scope": "external whole path resolver/file-cache caller"
+    }
+  ],
+  "constructor_null_state_stores": [
+    {
+      "elf_address": "0x3d8f88",
+      "instruction_bytes": "b43084e5",
+      "fact": "str r3,[r4,+0xb4]; r3 captured zero from constructor"
+    },
+    {
+      "elf_address": "0x3d8ff4",
+      "instruction_bytes": "b43084e5",
+      "fact": "str r3,[r4,+0xb4]; r3 captured zero from constructor"
+    }
+  ],
+  "scripts": [
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/_commons.luac",
+      "size": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+      "scope": "unchanged original bytes executed by real float32 Lua gate"
+    },
+    {
+      "path": "recovered/scripts/original/data/scripts/ai/monster.luac",
+      "size": 7393,
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d",
+      "scope": "unchanged original bytes executed by real float32 Lua gate"
+    }
+  ],
+  "reused_complete_state_wrapper_bodies": 2,
+  "new_complete_caller_bodies": 0,
+  "new_whole_ais_external_update_bodies": 0,
+  "new_complete_lua_dependency_bodies": 0,
+  "native_wired": false,
+  "scope": "Same retained Session update and independent complete20B state callback providers; exact resolved-path cache composition after path resolution. Original whole AI/VM and state registry producers remain external."
+}

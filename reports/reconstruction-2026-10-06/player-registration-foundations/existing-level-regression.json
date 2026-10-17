@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "host_cases": 8,
+  "original_arm_cases": 8,
+  "mismatches": 0,
+  "scope": "Executes the original PlayerInfo::SetCharacterLevel, NetStructMemberType<int>::SetValue and NetStructMember::SetChanged instructions. The only adapter is the synthetic vtable/global-serial binding; SetChanged itself is not intercepted. Stack residue at the source local read is explicit.",
+  "source_sha256": {
+    "port/player-info-level/character_level_member.cpp": "e5d9ee9f1c5f23c98cd47edecca16fe124a92b9ed69012ce4fd99c1514247f36",
+    "port/player-info-level/tests/character_level_member.cpp": "895f3c7f98362c8d4b2441ac3e0308a2c27abd95ca652b4da75f4eebe492e507",
+    "port/player-info-level/character_level_member.hpp": "e6e3301ae0f345c73d0a5da9846579c46aa7e43365579c4918cdc6e2ad9bb5cf",
+    "port/player-info-level/tests/run_character_level_member.py": "75be018665e887f04433701c50f34062bb74927c07b871500977a741d4f1e378",
+    "port/player-info-level/reference/character-level-member/original-functions.json": "1d4f4f0dae9fb03636d8e77c7dda836f69535401ea3728f642f2187781de20ad",
+    "port/player-info-level/reference/character-level-member/NOTES.md": "3052906b76b67feec29d8fa49483fa17bf5a10c764e4c8c0de388672379c3cfb"
+  }
+}

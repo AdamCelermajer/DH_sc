@@ -1,0 +1,96 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "attribution": {
+    "repository": "https://github.com/AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "source": "port/level-world/character_script_player_vcb_v2.cpp",
+    "evidence": "port/level-world/reference/character-skill-session-v2/player-vcb/original-functions.json"
+  },
+  "adaptation": {
+    "complete_original_callers_reused": 1,
+    "newly_reconstructed_original_bodies": 0,
+    "changes": [
+      "Reuse existing ais_external_init_vcb::initialize_default instead of duplicate Default implementation",
+      "Retain current typed borrowed services/results, failure-prefix and 64-bit control guards",
+      "No External flags for player, no VM/timer/property/store duplication"
+    ],
+    "native_wired": false
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9AISPlayer7InitVCBEv",
+      "elf_address": "0x3dd884",
+      "size": 60,
+      "sha256": "1aaa9782e59485904111dc5d003caca509d511727deab98475926def81aa8fbe",
+      "scope": "Adapted Adam complete caller"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault7InitVCBEv",
+      "elf_address": "0x3dc7d8",
+      "size": 92,
+      "sha256": "6584dea7728e55ba8e9a1e9c080d3c951f2dc8375bbf0176459c8f439ffc5341",
+      "scope": "Existing dependency; zero additional complete-body credit"
+    },
+    {
+      "original_symbol": "_ZNK9LuaScript11IsInVFTableEPKc",
+      "elf_address": "0x37c2a0",
+      "size": 116,
+      "sha256": "e6cce18e10a1e722288100ce9693feb32a338c139066c79b309043ed0fabccd4",
+      "scope": "Existing dependency; zero additional complete-body credit"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10hashStringEPKc",
+      "elf_address": "0x37c164",
+      "size": 316,
+      "sha256": "eb3c5f18f0394185bddafaf8b91447a63b8610101590b857b7334cdd70a0026d",
+      "scope": "Existing dependency; zero additional complete-body credit"
+    }
+  ],
+  "queries": [
+    {
+      "name": "OnTargetHit",
+      "bit": 2048,
+      "pc_add_address": "0x3dc7e4",
+      "literal_address": "0x3dc82c",
+      "string_address": "0x8c5968",
+      "string_sha256": "09dc03b9fcd5aafee32a67f4af579a17cbb785b7af0fb0e75b38f13a5d54d3d4"
+    },
+    {
+      "name": "OnTargetMissed",
+      "bit": 4096,
+      "pc_add_address": "0x3dc808",
+      "literal_address": "0x3dc830",
+      "string_address": "0x8c5978",
+      "string_sha256": "f97aee15bb25032be33d1c1faeba4a9f2c7e99e7be71acea685d8d8d75408770"
+    },
+    {
+      "name": "OnKill",
+      "bit": 1024,
+      "pc_add_address": "0x3dd89c",
+      "literal_address": "0x3dd8bc",
+      "string_address": "0x8c5b98",
+      "string_sha256": "ac86305d4154900e5204e5ba0a1f68342e23e458312c409244ac3ce743d49a85"
+    }
+  ],
+  "vtables": [
+    {
+      "symbol": "_ZTV9AISPlayer",
+      "elf_address": "0x966bf8",
+      "size": 216,
+      "sha256": "e06d1749abc126f7956c405fb021a1c33f50123b6c8a3a82dc950e6670b36e89",
+      "address_point": "0x966c00",
+      "init_vcb_slot": "0xcc",
+      "init_vcb_target": "0x3dd884"
+    },
+    {
+      "symbol": "_ZTV15AISPlayerIPhone",
+      "elf_address": "0x966cd0",
+      "size": 216,
+      "sha256": "37a14b52341cb03869d86f17604a0c8f9982ee25f004d7ea55981cce96aa9a47",
+      "address_point": "0x966cd8",
+      "init_vcb_slot": "0xcc",
+      "init_vcb_target": "0x3dd884"
+    }
+  ]
+}

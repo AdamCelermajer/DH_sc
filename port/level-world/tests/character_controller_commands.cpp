@@ -4,11 +4,13 @@
 #include <cstring>
 #include <fstream>
 #include <iostream>
+#include <iterator>
 #include <stdexcept>
 #include <vector>
 using namespace dh2::character;
 namespace {
 constexpr std::uintptr_t owner=0x100000011ull,target=0x200000033ull;
+constexpr std::uintptr_t focus_target=0x300000055ull;
 struct Input60 {std::uint32_t command,present,blocked,locked,forced,network,remote,cache,cached;float actual[3],cached_position[3];};
 static_assert(sizeof(Input60)==60);
 void require(bool v){if(!v)throw std::runtime_error("controller command audit mismatch");}
@@ -21,6 +23,24 @@ struct Context {
   if(req->service==control_is_remotely_updated)response->word=c.input.network!=0xffffffff?1:c.input.remote;
   else if(req->service==control_target_position)std::memcpy(response->position,c.input.cache&&c.input.cached?c.input.cached_position:c.input.actual,12);
   return req->service==static_cast<std::uint32_t>(c.failure)?-1:1;
+ }
+};
+struct HeadContext {
+ std::vector<CharacterControlRequest32> calls;int failure=-1;std::uint32_t remote=0,
+  null_enabled=0,using_skill=0,casting=0;float target[3]{10,0,0},owner_position[3]{0,0,0},
+  focus_position[3]{-5,-5,0};
+ static int invoke(void* p,const CharacterControlRequest32* request,CharacterControlResponse16* response){
+  auto& c=*static_cast<HeadContext*>(p);require(request&&response);c.calls.push_back(*request);
+  switch(request->service){
+  case control_is_remotely_updated:response->word=c.remote;break;
+  case control_head_null_enabled:response->word=c.null_enabled;break;
+  case control_is_using_skill:response->word=c.using_skill;break;
+  case control_is_casting:response->word=c.casting;break;
+  case control_target_position:{const float* value=request->subject==::target?c.target:
+   request->subject==focus_target?c.focus_position:c.owner_position;std::memcpy(response->position,value,12);break;}
+  default:break;
+  }
+  return request->service==static_cast<std::uint32_t>(c.failure)?-1:1;
  }
 };
 ControllerCommandState32 state(const Input60& i){return {0x300000055ull,owner,i.blocked,i.locked,i.forced,0};}
@@ -39,7 +59,7 @@ int main(int argc,char** argv){try{
  Context c;c.input={1,1,0,0,0,0xffffffff,0,1,1,{7,-11,13},{-17,19,-23}};
  CharacterControlServices16 services{&c,Context::invoke};auto s=state(c.input);std::uint32_t guards=0;
  auto reject=[&](const ControllerCommandState32* q,std::uint32_t command,const CharacterControlServices16* svc){c.calls.clear();require(dh2_character_controller_character(q,command,target,svc)==-1&&c.calls.empty());++guards;};
- reject(nullptr,1,&services);reject(&s,1,nullptr);reject(&s,3,&services);
+ reject(nullptr,1,&services);reject(&s,1,nullptr);reject(&s,4,&services);
  auto malformed=s;malformed.reserved=1;reject(&malformed,1,&services);malformed=s;malformed.controller=0;reject(&malformed,1,&services);malformed=s;malformed.owner=0;reject(&malformed,1,&services);
  for(unsigned i=0;i<3;++i){malformed=s;if(i==0)malformed.global_blocked=256;else if(i==1)malformed.locked=256;else malformed.forced=256;reject(&malformed,1,&services);}
  CharacterControlServices16 missing{&c,nullptr};reject(&s,1,&missing);
@@ -49,6 +69,45 @@ int main(int argc,char** argv){try{
  for(std::uint32_t command=0;command<3;++command){c.failure=-1;c.calls.clear();require(dh2_character_controller_character(&s,command,target,&services)==1);const auto expected=c.calls;
   for(std::size_t j=0;j<expected.size();++j){c.failure=expected[j].service;c.calls.clear();require(dh2_character_controller_character(&s,command,target,&services)==-1);require(c.calls.size()==j+1);for(std::size_t k=0;k<=j;++k)require(std::memcmp(&c.calls[k],&expected[k],32)==0);++failure_checks;}
  }
+ // Source Character::Ctrl_HeadTowards(Object): remote gate, target then owner
+ // positions, skill/cast gates, focus-angle handling, direction, event zero.
+ HeadContext h;CharacterControlServices16 head_services{&h,HeadContext::invoke};
+ ControllerCommandState32 hs{0x300000055ull,owner,0,0,0,0};
+ CharacterHeadTowardsFacts24 head_facts{owner,focus_target,1,0};
+ require(dh2_character_controller_character_head_towards(&hs,target,&head_facts,&head_services)==1);
+ const std::uint32_t expected_head[]{control_is_remotely_updated,control_target_position,
+  control_target_position,control_is_using_skill,control_is_casting,control_target_position,
+  control_target_position,control_clear_ai_target,control_sync_last_ai_target,
+  control_set_heading_direction,control_raise_event};
+ require(h.calls.size()==std::size(expected_head));
+ for(std::size_t i=0;i<h.calls.size();++i)require(h.calls[i].service==expected_head[i]);
+ require(h.calls[7].subject==owner&&h.calls[8].subject==owner&&h.calls[9].argument==1&&
+  h.calls[9].position[0]==10&&h.calls[10].argument==0);
+ // Null HeadTowards takes origin through the point handler, which then
+ // executes the same Character Ctrl_Stop implementation and event63.
+ h.calls.clear();h.null_enabled=1;
+ require(dh2_character_controller_character_head_towards(&hs,0,&head_facts,&head_services)==1);
+ const std::uint32_t expected_null[]{control_is_remotely_updated,control_head_null_enabled,
+  control_head_null_enabled,control_set_heading_direction,control_is_remotely_updated,
+  control_stop_object,control_character_event};
+ require(h.calls.size()==std::size(expected_null));
+ for(std::size_t i=0;i<h.calls.size();++i)require(h.calls[i].service==expected_null[i]);
+ require(h.calls[3].argument==1&&h.calls[3].position[0]==0&&h.calls[6].argument==63);
+ // The typed point command applies the same v2 gate before Character's point
+ // implementation. A blocked command exits before requiring any service.
+ h.calls.clear();hs.global_blocked=1;
+ require(dh2_character_controller_character_point(&hs,h.target,&head_facts,&head_services)==1&&h.calls.empty());
+ hs.global_blocked=0;float point[3]{0,5,0};
+ require(dh2_character_controller_character_point(&hs,point,&head_facts,&head_services)==1);
+ require(h.calls.size()==8&&h.calls[0].service==control_is_using_skill&&
+  h.calls[1].service==control_is_casting&&h.calls[2].service==control_target_position&&
+  h.calls[3].service==control_target_position&&h.calls[4].service==control_clear_ai_target&&
+  h.calls[5].service==control_sync_last_ai_target&&h.calls[6].service==control_set_heading_direction&&
+  h.calls[7].service==control_raise_event);
+ // A busy skill suppresses all later point effects, after only the first gate.
+ h.calls.clear();h.using_skill=1;
+ require(dh2_character_controller_character_point(&hs,point,&head_facts,&head_services)==1&&
+  h.calls.size()==1&&h.calls[0].service==control_is_using_skill);
  std::cout<<"{\"validation\":\"PASS\",\"original_corpus_cases\":"<<cases<<",\"ordered_service_requests\":"<<requests<<",\"native_guards\":"<<guards<<",\"service_failure_prefix_checks\":"<<failure_checks<<",\"identities_above_4gib\":true,\"mismatches\":0}\n";
  return 0;
  }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 1;}}

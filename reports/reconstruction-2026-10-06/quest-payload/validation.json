@@ -1,0 +1,301 @@
+{
+  "validation": "PASS",
+  "full_game_complete": false,
+  "apk_sha256": "556ebd1759bc6598fc8527c3d5760d416254930bce885de92a91ddf7cd2fe2db",
+  "apk_bytes": 154432478,
+  "artifact_role": "Local development APK; earlier public startup APK remains the three-class/death/skills-tested release",
+  "source_capture": {
+    "name": "DH2-native-quest-payload-dev-source-capture-2026-10-06.zip",
+    "sha256": "0a89a29d590206fb7cfc36b46135df7e52e0e8d9384217594fe4d77c283fa95c",
+    "source_files": 1341,
+    "compiler_inputs_per_abi": {
+      "arm64-v8a": 1290,
+      "x86_64": 1290
+    }
+  },
+  "arm_comparisons": {
+    "objective_payload": 1719,
+    "direct_readers": 2514,
+    "quest_compile": 3914,
+    "total": 8147
+  },
+  "host": {
+    "native_owner_checks": 6559,
+    "stream_composition_checks": 6561,
+    "native_cursor_checks": 30,
+    "startup_regression_checks": 3700,
+    "quest_payloads": 384,
+    "objective_payloads": 1164,
+    "same_borrowed_absolute_cursor": true,
+    "full_and_truncated_packets": true
+  },
+  "android": {
+    "both_abis_compiled": true,
+    "libraries": [
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+        "sha256": "a0843d41c8b73f81a5ffc3e4c0f9d6940eaf0b95485a9b59d566cbd27a3d6270",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+        "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+        "sha256": "5c46b37a5d4bcfca9402233b1c52b7b04bcdb7a3c8d346914ea8ebcd592cd86d",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+        "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+        "sha256": "c3f8d33059ae62a19489e51874efee514ea789033bb4cadd36befd909cc5cc1e",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+        "sha256": "a416cb1abd60a6bc7604684a8c48f8e8c39a02ce1ab1f6f6fbe8f0ca7b4d521f",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+        "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_animation.so",
+        "sha256": "476752c2f404822bf0ebe429f3c7224e86b6b2e55322ddcb608fc75e42a5282a",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_camera.so",
+        "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_skinning.so",
+        "sha256": "e1f44bd06a4944d216a8656c6b63b7cfd508eee72e6803aead078f49f0ba43d4",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_textures.so",
+        "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+        "sha256": "efff50ba140adaeb5c855a2f5456bc4aa3e89dabf0d5bfc52e391169912ce832",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_scene_materials.so",
+        "sha256": "8d80c3f926e027d3a16ce5f892a155c19a994683142566b0405098b913bbc113",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_script_runtime.so",
+        "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+        "sha256": "8eaf06c0cef05803e04a2d9d876a8f6b031491c5319bdd931ee47934900cfa12",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_game_data.so",
+        "sha256": "08a6bae3553ae2f2d627c5350a148406adecfb2c54b3e75ed8bb64147d83790b",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_level_world.so",
+        "sha256": "df980d6cd4aa0dea97647feebd6e313581ce0dc4234094b24776fe6688066de8",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/arm64-v8a/libdh2_native.so",
+        "sha256": "2da6abdf4ff24353b25dbab0d9d7ca125b4299cabd6cd6c114735db9a4f18c42",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_engine_ui.so",
+        "sha256": "a3e862a250818880146710faa5c72efab79299c063dc2c3ae18162000dd70000",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_game_data.so",
+        "sha256": "a4352975efd8a5ef65f79a5592f25d2e704e078fee03306bdf2a588c8edd4868",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_level_world.so",
+        "sha256": "c8ac0ad7b0078fffce8ab442632cc07397b4b727cc4800c8575fd7d8a984cc47",
+        "minimum_load_alignment": 16384
+      },
+      {
+        "path": "lib/x86_64/libdh2_native.so",
+        "sha256": "8c2074097c26b73e479ccccf838ac82cde5bbdb7f79f4d4ab5cd892b3ba5717f",
+        "minimum_load_alignment": 16384
+      }
+    ],
+    "all_zip_entries_16k_aligned": true,
+    "selected_exports": {
+      "arm64-v8a": {
+        "sha256": "6dd5f19562694373d151f3d57c13c9b69c8ce38c21ff979c3ec20946053f405b",
+        "selected_exports": [
+          "223: 00000000001708dc   424 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::compile_rewards(dh2::data::quest_compile_v1::Result*)",
+          "296: 0000000000172f34    40 FUNC    WEAK   DEFAULT    14 dh2::data::quest_compile_v1::Result::Result()",
+          "423: 000000000017032c   440 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::install_markers(int, int, dh2::data::quest_compile_v1::Result*)",
+          "574: 000000000016e260    64 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::read_signed(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "890: 000000000016e7a4   736 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::execute(void*, dh2::data::quest_stream_read_v1::Primitive, dh2::data::quest_stream_read_v1::Result*)",
+          "1024: 000000000016e1e0    64 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::load_saved_quantity(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "1079: 000000000016f4a0   424 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::compile(dh2::data::quest_compile_v1::Result*)",
+          "1097: 000000000016d640   932 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::execute(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, unsigned int, dh2::data::quest_objective_payload_v1::Result*)",
+          "1144: 000000000016ff9c   456 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::compile_objectives(dh2::data::quest_compile_v1::Result*)",
+          "1161: 0000000000170ed4   880 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::LogRuntime::compile_quests(bool, dh2::data::quest_compile_v1::Result*)",
+          "1213: 000000000016e1a0    64 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::load_base(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "1263: 000000000016f060    56 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::read_quest_signed(int*, dh2::data::quest_stream_read_v1::Result*)",
+          "1344: 000000000016e220    64 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::read_bool(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "1378: 0000000000172f1c    24 FUNC    WEAK   DEFAULT    14 dh2::data::quest_compile_v1::Runtime::instance()",
+          "1427: 000000000016fc90   460 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::invalidate_objectives(dh2::data::quest_compile_v1::Result*)",
+          "1519: 000000000016e2a0   244 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::load(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "1554: 0000000000170164   456 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::register_objectives(dh2::data::quest_compile_v1::Result*)",
+          "1585: 0000000000170c60   496 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::loop_objectives(unsigned int, int, dh2::data::quest_compile_v1::Result*)",
+          "1586: 0000000000170574   424 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::invalidate_rewards(dh2::data::quest_compile_v1::Result*)",
+          "1698: 000000000016eff0    56 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::read_unsigned(unsigned int*, dh2::data::quest_stream_read_v1::Result*)",
+          "1714: 000000000016f028    56 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::read_signed(int*, dh2::data::quest_stream_read_v1::Result*)"
+        ]
+      },
+      "x86_64": {
+        "sha256": "374e57d072a95d5ef529559b075e3b72f3c30e77264be0cb4e06b96ed857c724",
+        "selected_exports": [
+          "190: 0000000000156a10    56 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::read_signed(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "191: 00000000001590a0   501 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::loop_objectives(unsigned int, int, dh2::data::quest_compile_v1::Result*)",
+          "211: 0000000000158d10   391 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::compile_rewards(dh2::data::quest_compile_v1::Result*)",
+          "348: 0000000000159320   921 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::LogRuntime::compile_quests(bool, dh2::data::quest_compile_v1::Result*)",
+          "405: 0000000000158810   415 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::install_markers(int, int, dh2::data::quest_compile_v1::Result*)",
+          "459: 0000000000158a20   391 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::invalidate_rewards(dh2::data::quest_compile_v1::Result*)",
+          "589: 00000000001579c0   391 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::compile(dh2::data::quest_compile_v1::Result*)",
+          "768: 000000000015ae10    14 FUNC    WEAK   DEFAULT    14 dh2::data::quest_compile_v1::Runtime::instance()",
+          "773: 00000000001581b0   450 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::invalidate_objectives(dh2::data::quest_compile_v1::Result*)",
+          "868: 00000000001575d0    45 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::read_unsigned(unsigned int*, dh2::data::quest_stream_read_v1::Result*)",
+          "907: 0000000000156950    53 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::load_base(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "930: 0000000000158640   450 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::register_objectives(dh2::data::quest_compile_v1::Result*)",
+          "969: 00000000001569d0    56 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::read_bool(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "1110: 000000000015ae20    45 FUNC    WEAK   DEFAULT    14 dh2::data::quest_compile_v1::Result::Result()",
+          "1156: 0000000000158470   450 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_compile_v1::Runtime::compile_objectives(dh2::data::quest_compile_v1::Result*)",
+          "1201: 0000000000156a50   151 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::load(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "1238: 0000000000157600    48 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::read_signed(int*, dh2::data::quest_stream_read_v1::Result*)",
+          "1396: 0000000000156e70   732 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::execute(void*, dh2::data::quest_stream_read_v1::Primitive, dh2::data::quest_stream_read_v1::Result*)",
+          "1499: 0000000000156990    56 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::load_saved_quantity(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, dh2::data::quest_objective_payload_v1::Result*)",
+          "1619: 0000000000155f40   963 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_objective_payload_v1::Runtime::execute(dh2::data::player_saved_quests_v1::StreamRef&, dh2::data::quest_objective_payload_v1::ReaderScratch&, unsigned int, dh2::data::quest_objective_payload_v1::Result*)",
+          "1645: 0000000000157630    48 FUNC    GLOBAL DEFAULT    14 dh2::data::quest_stream_read_v1::Runtime::read_quest_signed(int*, dh2::data::quest_stream_read_v1::Result*)"
+        ]
+      }
+    }
+  },
+  "live": {
+    "api": 37,
+    "page_size": 16384,
+    "Warrior_startup_restart_Back_Home_resume": true,
+    "original_saves_restored": true,
+    "QEST_load_and_objective_gameplay": false
+  },
+  "transport_bridge_followup": {
+    "selected_host": {
+      "validation": "PASS",
+      "checks": 9659,
+      "masks": [
+        2,
+        4
+      ],
+      "same_save_skill_faery_quest_owners": true,
+      "nonempty_skil": {
+        "restored_level": 7,
+        "restored_slot_maps": 2
+      },
+      "nonempty_faes": {
+        "restored_difficulties": 3,
+        "payload_bytes": 69
+      },
+      "qest_quests": 384,
+      "objective_payloads": 1164,
+      "offline_online_flag_fixture": true,
+      "receipt": "native-owner-payload.json",
+      "faes_count_mismatch_nonfatal_before_qest": true,
+      "faes_later_difficulty_untouched": true,
+      "nonempty_prop": {
+        "saved_fields": 26,
+        "saved_property_byte_194": 41,
+        "after_qest_on_same_save_and_state": true
+      },
+      "same_save_skill_faery_quest_property_owners": true,
+      "same_transport_save_loader_and_embedded_quest_owners": true,
+      "character_gameplay_save_masks": [
+        2,
+        4
+      ]
+    },
+    "faes_reader_differential": {
+      "validation": "PASS",
+      "original_reader": "0x4691d0",
+      "cases": 74,
+      "valid_and_mismatch_projection_parity": true,
+      "truncated_prefixes": 69,
+      "fully_consumed_fields_compared": 1011,
+      "uninitialized_storage_policy_tested": true,
+      "raw_truncation_differences_from_source_readAs": 20,
+      "receipt": "faes-reader-differential.json"
+    },
+    "android_apk": {
+      "sha256": "7a3fc9bd7077bc10e5a8a958e2dde3dfdd8deedf2e065790a0a0c4c5eda72d4c",
+      "bytes": 148094153,
+      "abis": [
+        "arm64-v8a",
+        "x86_64"
+      ],
+      "api": 37,
+      "page_size": 16384,
+      "warrior_menu_crypt_controls_restart_home_resume": true,
+      "original_saves_restored": true,
+      "receipt": "live-mask2-smoke.json",
+      "all_three_classes_menu_crypt_controls_restart_home_resume": true,
+      "source_save_mask2_single_fresh_call": true,
+      "same_character_save_loader_and_embedded_quest_owners": true,
+      "home_resume_retains_association_without_replay": true
+    },
+    "live_faes_or_qest_profile_restore": false,
+    "property_transport": {
+      "validation": "PASS",
+      "selected_host_checks": 753,
+      "selected_project_inputs": 642,
+      "same_save_and_profile": true,
+      "borrowed_player_combat_rules_and_state": true,
+      "delivery_scoped_property_view": true,
+      "generic_fallback_bypassed": true,
+      "saved_properties_written": 26,
+      "truncated_byte194_prefix_preserved": true
+    },
+    "standalone_mask2_android": {
+      "validation": "PASS",
+      "fresh_setup_calls": 1,
+      "same_character_save_loader_embedded_quest_owners": true,
+      "home_resume_same_association_without_replay": true,
+      "classes_tested": [
+        "Warrior",
+        "Rogue",
+        "Mage"
+      ],
+      "api": 37,
+      "page_size": 16384,
+      "real_campaign_restore": false,
+      "receipt": "live-mask2-smoke.json"
+    }
+  },
+  "remaining": "Selected mask-2/4 transport restores nonempty SKIL, valid FAES, and QEST through one Save and Quest owner; a source FAES count mismatch safely returns and QEST still loads. Typed PROP delivery now borrows the same PlayerCombat PropertyRules/PropertyState and preserves reached writes on truncation. Both Android ABIs compile and the API37/16KiB Warrior UI smoke passes. This is still not live campaign restore: Android does not yet call Character::InitPost/SG_Load(2,4), and the gameplay Save is not published through Character+0x14e8. Hosting/CFEE providers and the real GEAR inventory/item owners are absent; quest execution still needs the shared level ScriptManager, live enemy list/cache, events and markers. The complete player/enemy/skills/combat/loot/campaign loop remains unfinished."
+}

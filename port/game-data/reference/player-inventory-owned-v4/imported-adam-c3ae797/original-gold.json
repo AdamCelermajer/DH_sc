@@ -1,0 +1,15 @@
+{
+  "validation": "PASS",
+  "cases": 84,
+  "synchronous_cached_flags_and_selected_mutation_cases": 4,
+  "actual_metadata_cases": 56,
+  "synthetic_stackable_equipment_cases": 28,
+  "comparisons": 1720,
+  "source_effect_requests": 10828,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "gold_sha256": "74b8bd789aabb7d7301b811c20261b98d5ec6c9e10f233c2a94d080e9b2d250d",
+  "script_sha256": "46237659f91c2cda7e44838b813e10062c8bf0dca429db79af7f1659f8e74430",
+  "metadata_sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+  "scope": "Execute original owned item/vector/equipment bodies with actual cached metadata.\nName/Stats/Req/AddPower, Debug and Character effects are explicit fixture services.\nNo external equipment/split/merge/delete/fullness result is substituted.\n",
+  "native_comparison": false
+}

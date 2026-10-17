@@ -4,9 +4,6 @@
 #include <memory>
 #include <sys/stat.h>
 #include <utility>
-#include <dirent.h>
-#include <fcntl.h>
-#include <unistd.h>
 namespace dh2::data {
 namespace {
 bool filename(const std::string& dir,std::uint32_t slot,std::string& path,std::string& error){
@@ -54,34 +51,5 @@ bool read_campaign_profile_v1(const std::string& directory,std::uint32_t slot,
         if(backup==Read::missing||!usable_header(candidate.bytes)){error="No usable campaign base/backup header: "+path;return false;}
     }
     output=std::move(candidate);error.clear();return true;
-}
-bool erase_campaign_slot_files_v1(const std::string& directory,std::uint32_t slot,
-    std::uint32_t& deleted,std::string& error){
-    deleted=0;
-    if(slot>=4||directory.empty()||directory[0]!='/'){error="Invalid erase campaign slot or absolute directory";return false;}
-    // Anchor every unlink to the opened directory, never a computed shell path.
-    const int fd=open(directory.c_str(),O_RDONLY|O_DIRECTORY|O_NOFOLLOW|O_CLOEXEC);
-    if(fd<0){error="Cannot open campaign directory for erase";return false;}
-    DIR* raw=fdopendir(fd);
-    if(!raw){close(fd);error="Cannot enumerate campaign directory for erase";return false;}
-    std::unique_ptr<DIR,int(*)(DIR*)> dir(raw,closedir);
-    char pattern[16];std::snprintf(pattern,sizeof(pattern),"dh2_%03u",slot);
-    std::vector<std::string> names;
-    for(;;){
-        errno=0;const auto* entry=readdir(raw);
-        if(!entry){if(errno){error="Campaign directory enumeration failed";return false;}break;}
-        const std::string name=entry->d_name;
-        if(name.find(pattern)==std::string::npos)continue;
-        struct stat info{};
-        if(fstatat(fd,name.c_str(),&info,AT_SYMLINK_NOFOLLOW)||(info.st_mode&S_IFMT)!=S_IFREG){
-            error="Unsafe campaign erase entry: "+name;return false;
-        }
-        names.push_back(name);
-    }
-    for(const auto& name:names){
-        if(unlinkat(fd,name.c_str(),0)){error="Cannot erase campaign entry: "+name;return false;}
-        ++deleted;
-    }
-    error.clear();return true;
 }
 }

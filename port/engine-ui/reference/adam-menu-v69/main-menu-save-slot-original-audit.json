@@ -1,0 +1,1062 @@
+{
+  "validation": "STATIC_SOURCE_AUDIT",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "symbol": "_Z29NativeSetSaveSlotIDToMainMenuRKN7gameswf7fn_callE",
+      "address": "0x43d220",
+      "bytes": 104,
+      "sha256": "23eba9e573ea7ceeb7b256f0f6977944f0aca69756f5b2a5db650b10ea281057"
+    },
+    {
+      "symbol": "_ZN12MenuMainMenu24ChangeCharacterToDisplayEib",
+      "address": "0x42c0d0",
+      "bytes": 88,
+      "sha256": "fe2e695718d1f999935e662ac434bb4d33ce38b4d13ab5bf2eca9a3c6bc32226"
+    },
+    {
+      "symbol": "_ZN12MenuMainMenu14SetupCharacterEv",
+      "address": "0x42bd08",
+      "bytes": 436,
+      "sha256": "cf5ca6302a0236d275709b5bf8d7330081965eb0c4d171deef3e5896262cfaaf"
+    },
+    {
+      "symbol": "_Z15NativeStartGameRKN7gameswf7fn_callE",
+      "address": "0x43e0d0",
+      "bytes": 568,
+      "sha256": "d6a40b775ef2074fe99a8b494f86b60d5de375c8cd7675a7d127738630a211de"
+    },
+    {
+      "symbol": "_Z28NativeAssignSaveSlotToPlayerRKN7gameswf7fn_callE",
+      "address": "0x43cf50",
+      "bytes": 100,
+      "sha256": "21bd54c2c8f4d842b5a9cef11488836e18765f38cfc27f8428b55591639c0308"
+    },
+    {
+      "symbol": "_Z22AssignSaveSlotToPlayerii",
+      "address": "0x43aac4",
+      "bytes": 60,
+      "sha256": "216b365ad0959a84e7e7dbd9c69726b127e6ca74dc83b475b32209ad4ac2de75"
+    },
+    {
+      "symbol": "_ZN7GSLevel4CtorEPK12StateMachine",
+      "address": "0x386190",
+      "bytes": 328,
+      "sha256": "b0ee44f427742a78703ba733896cfc44595cdb7044baa465baaf3d6f46524fa2"
+    }
+  ],
+  "source_globals": [
+    {
+      "symbol": "_ZN12MenuMainMenu13mSavegameSlotE",
+      "address": "0x999808",
+      "bytes": 4,
+      "section": ".data",
+      "initial": -1
+    },
+    {
+      "symbol": "_ZN12MenuMainMenu18mCharacterToRenderE",
+      "address": "0x9a5198",
+      "bytes": 4,
+      "section": ".bss",
+      "initial": "BSS null"
+    },
+    {
+      "symbol": "_ZN12MenuMainMenu25m_characterPlaneSceneNodeE",
+      "address": "0x9a519c",
+      "bytes": 4,
+      "section": ".bss",
+      "initial": "BSS null"
+    },
+    {
+      "symbol": "_ZN12MenuMainMenu17m_mainmenuPaneCamE",
+      "address": "0x9a5194",
+      "bytes": 4,
+      "section": ".bss",
+      "initial": "BSS null"
+    }
+  ],
+  "native_wrapper_order": [
+    {
+      "at": "0x43d224",
+      "effect": "Unconditional fn.arg(0) read; source has no nargs minimum guard."
+    },
+    {
+      "at": "0x43d23c",
+      "effect": "Actual gameswf::as_value::to_number(arg0)."
+    },
+    {
+      "at": "0x43d240",
+      "effect": "Source EABI signed-int conversion; retained slot value."
+    },
+    {
+      "at": "0x43d24c",
+      "effect": "force=false when nargs<=1; when nargs>1 read arg1 and call its actual to_bool at0x43d26c. Extra arguments ignored."
+    },
+    {
+      "at": "0x43d274",
+      "effect": "MenuMainMenu::GetInstance, including its required singleton initialization/registration."
+    },
+    {
+      "at": "0x43d284",
+      "effect": "Tail-call static ChangeCharacterToDisplay(slot,force). No ActionScript result store."
+    }
+  ],
+  "change_display_order": [
+    {
+      "at": "0x42c0e8",
+      "effect": "Read actual mSavegameSlot; equal slot and !force returns."
+    },
+    {
+      "at": "0x42c0f4",
+      "effect": "Reached oldslot!=-1 calls DestroyCharacter76B@42bcbc: ObjectManager::Flush\u2192AnimSetManager::Flush\u2192mCharacterToRender=null."
+    },
+    {
+      "at": "0x42c104",
+      "effect": "Publish new signed slot to the same mSavegameSlot field."
+    },
+    {
+      "at": "0x42c108",
+      "effect": "Call SetupCharacter using the freshly published global slot."
+    },
+    {
+      "at": "0x42c110",
+      "effect": "Tail-call CreateAvatarCamera404B@42bf3c, which returns immediately when m_mainmenuPaneCam is already nonnull."
+    }
+  ],
+  "setup_character_order": [
+    {
+      "at": "0x42bd24",
+      "effect": "Return on slot==-1."
+    },
+    {
+      "at": "0x42bd34",
+      "effect": "Freshly read actual m_characterPlaneSceneNode pointer; return if null. This is the constructed menu scene root, produced by SetupScene284B@42c510 (constructScene result published at42c5d0)."
+    },
+    {
+      "at": "0x42bd40",
+      "effect": "Fresh PlayerSavegame::SG_Exists(slot)@464d5c."
+    },
+    {
+      "at": "0x42bd6c / 0x42be7c",
+      "effect": "Character::CreatePlayer(slot,0,0,\"PlayerCharacter_0\",!exists,false)@3acea4. Publish actual returned Character pointer to mCharacterToRender (42bd78 /42be8c)."
+    },
+    {
+      "at": "0x42be90",
+      "effect": "Existing profile branch: Character::SG_Load(4)@3bc4d0 on that actual returned Character. New profile branch omits this call."
+    },
+    {
+      "at": "0x42bda0",
+      "effect": "Use canonical Application RenderManager scene-manager and current m_mainmenuPaneCam to setActiveCamera."
+    },
+    {
+      "at": "0x42bdb4..0x42bdd0",
+      "effect": "Resolve actual Character+2d8 Visual\u2192+8 SceneNode and call source root addChild."
+    },
+    {
+      "at": "0x42bdd4..0x42be50",
+      "effect": "Visual SceneNode position(0,-200,-20), quaternion from(0,0,Float2PI*(-0.125)), then visible(true)."
+    }
+  ],
+  "manager_assignment_is_separate": {
+    "source": "AssignSaveSlotToPlayer60B@43aac4",
+    "selected_kernel": "port/player-info-level/player_local_selection_v1.cpp::assign_save_slot_to_player",
+    "order": "Capture Application\u2192store SavegameManager+8\u2192read PlayerManager+40\u2192GetLocalPlayer(ordinal,false)\u2192store selected PlayerInfo+664. NativeSetSaveSlotIDToMainMenu performs none of those stores."
+  },
+  "Adam791_menu_wiring": {
+    "commit": "791e961b12233100b303038c961666834f4beb9d",
+    "subtree": "session-contributions/menu-launch/verified-v69",
+    "native_setter_registered": false,
+    "evidence": "Pinned imported v69 original_ui_session.cpp registers NativeGetSaveSlotDetails and settings/navigation but no NativeSet setter. Its validation.log contains four explicit missing-function diagnostics. This describes the imported snapshot only; current root frontend changes are separately reviewed."
+  },
+  "minimal_binding_proposal": {
+    "status": "DEFERRED_SOURCE_AVATAR_PRODUCER",
+    "AS_wrapper": "Borrow existing SwfMenuLaunchServicesV1 EABI converter; require safe fn.env/nargs>=1 native guard; arg0 conversion\u2192optional exact to_bool\u2192mandatory main-menu singleton/owner acquisition\u2192typed change-display callback. Preserve untouched AS result.",
+    "source_slot": "Borrow one stable pointer to the owning MainMenu mSavegameSlot projection initialized-1; do not derive it from active popup, display index, manager last_slot or PlayerInfo slot.",
+    "reached_services": "Synchronous DestroyCharacter\u2192slot store\u2192SetupCharacter\u2192CreateAvatarCamera; missing required providers fail after delivered prefix. Equal+!force is the actual no-work branch. Never synthesize null plane to avoid reached SG4.",
+    "current_missing_native_providers": [
+      "Actual menu preview Character CreatePlayer owner/Save association",
+      "Its existing-profile Character SG_Load4\u2192same V4 GEAR\u2192equipment attachment and source InitPost closure",
+      "Avatar-only ObjectManager/AnimSetManager destruction scope preserving the main swamp scene",
+      "Borrowed source scene root, Character Visual SceneNode and camera lifetimes"
+    ]
+  },
+  "scope": "Static pinned whole-function byte/address and ARM call/branch audit plus exact authored main/StartGame ActionScript byte/decode fixtures. No new ARM execution, source avatar construction, occupied-slot visual restore, native save-slot handler, full SG4/InitPost or complete NativeStartGame gameplay claim. Existing body3 class preview and static swamp rendering remain separate supported renderer paths.",
+  "occupied_start_source_handoff": {
+    "validation": "STATIC_PINNED_ELF_AND_AUTHORED_SWF_DECODE_ASSERTIONS_PASS",
+    "movie": {
+      "path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_droid.swf",
+      "sha256": "c114c7d39b7fe0351a93a515c78f9457dda715d78aed6e3bcc3f4895120de421",
+      "offset_basis": "Original uncompressed SWF bytes. This original asset is FWS, so file and uncompressed offsets coincide.",
+      "compat_path": "port/android-native/app/src/main/assets/front-compat/dqmenus_droid.swf",
+      "compat_sha256": "f01cbeec730848d57aed8923b51ed2c927403687122e870878d713a1d389d430",
+      "captured_bodies_unchanged_in_compat": true
+    },
+    "menu_start_game_sprite": {
+      "character_id": 471,
+      "DoAction_start": "0x41c97",
+      "DoAction_end_exclusive": "0x435a1",
+      "DoAction_sha256": "d889557c4627942061c1085932b799226e4764d4b91334f10ae9442aa2cd285b",
+      "root_PlaceObject2_name_at": "0x442b9",
+      "kind": "Real authored MovieClip; not a native-only menu state."
+    },
+    "main_occupied_button_fixture": {
+      "path": "_root.menu_MainMenu.btn_MENU_SINGLE_PLAYER.onRelease",
+      "DefineFunction2_at": "0x471dd",
+      "body_at": "0x471e8",
+      "body_bytes": 238,
+      "body_sha256": "0655802cc845bd12a4d8e1e0a24c68053515b7ec967d93e0dad4c3be5b7e28ab",
+      "compat_body_at": "0x471de",
+      "registers": {
+        "r1": "_root (preloadRoot flag0x40, suppressed this/arguments/super flags0x2|0x8|0x20)"
+      },
+      "order": [
+        "FirstTimeClicked guard; clear FirstTimeClicked",
+        "MenuConfirm sound",
+        "NativeStartFromGCInvite(mySaveSlot.SlotID)",
+        "No invite: _root.IsMultiplayer=false; test mySaveSlot.InUse",
+        "Empty branch NativePushMenu(menu_EnterName)",
+        "Occupied branch _root.SlotID=mySaveSlot.SlotID at0x47289",
+        "NativePushMenu(menu_StartGame) at0x472b4"
+      ],
+      "does_not": [
+        "Assign PlayerInfo+664",
+        "Invoke NativeStartGame"
+      ]
+    },
+    "start_single_player_button_fixture": {
+      "path": "_root.menu_StartGame.StartMenuButtons.btn_MENU_SINGLE_PLAYER.onRelease",
+      "DefineFunction2_at": "0x42a38",
+      "body_at": "0x42a43",
+      "body_bytes": 69,
+      "body_sha256": "0e8455e19c5286d960b9289e57841abe14f7417df807adfe143cedb054000a2d",
+      "compat_body_at": "0x42a39",
+      "registers": {
+        "r1": "_root (DefineFunction2 flags0x6a)"
+      },
+      "constant_pool": {
+        "72": "MenuConfirm",
+        "71": "NativePlaySoundFX",
+        "73": "IN SINGLE PLAYER",
+        "74": "SlotID",
+        "75": "NativeAssignSaveSlotToPlayer",
+        "19": "CurrentDiff",
+        "76": "NativeStartGame"
+      },
+      "decoded_calls": [
+        {
+          "at": "0x42a4f",
+          "call": "NativePlaySoundFX",
+          "arguments": [
+            "MenuConfirm"
+          ]
+        },
+        {
+          "at": "0x42a72",
+          "call": "NativeAssignSaveSlotToPlayer",
+          "arguments": [
+            "_root.SlotID",
+            0
+          ],
+          "stack_prefix_at_42a57": [
+            0,
+            "r1",
+            "SlotID"
+          ],
+          "stack_suffix_at_42a68": [
+            2,
+            "NativeAssignSaveSlotToPlayer"
+          ]
+        },
+        {
+          "at": "0x42a86",
+          "call": "NativeStartGame",
+          "arguments": [
+            "_root.CurrentDiff"
+          ],
+          "stack_prefix_at_42a74": [
+            "r1",
+            "CurrentDiff"
+          ],
+          "stack_suffix_at_42a7c": [
+            1,
+            "NativeStartGame"
+          ]
+        }
+      ],
+      "expected_native_call_order": [
+        "NativePlaySoundFX",
+        "NativeAssignSaveSlotToPlayer",
+        "NativeStartGame"
+      ]
+    },
+    "canonical_assignment": {
+      "NativeAssign": "0x43cf50 /100B",
+      "conversion_order": "arg0.to_number -> EABI signedint; arg1.to_number even if arg0 negative; convertarg1 only if arg0>=0; call Assign only if both converted values>=0. No argc guard in original.",
+      "kernel": "AssignSaveSlotToPlayer60B@0x43aac4",
+      "stores": [
+        {
+          "at": "0x43aae4",
+          "target": "Application SavegameManager+0x4c -> last_slot+8",
+          "value": "slot"
+        },
+        {
+          "at": "0x43aaf0",
+          "target": "Fresh GetLocalPlayer(ordinal,false) -> PlayerInfo+0x664",
+          "value": "slot"
+        }
+      ]
+    },
+    "NativeStartGame": {
+      "address": "0x43e0d0",
+      "bytes": 568,
+      "source_instruction_region": "0x43e0d0..0x43e2f0; final24bytes are literal pool, not executed instruction coverage",
+      "instructions": [
+        {
+          "at": "0x43e0d0",
+          "op": "push",
+          "operands": "{r4, r5, r6, r7, r8, sb, sl, fp, lr}"
+        },
+        {
+          "at": "0x43e0d4",
+          "op": "ldr",
+          "operands": "r4, [pc, #0x214]"
+        },
+        {
+          "at": "0x43e0d8",
+          "op": "ldr",
+          "operands": "r5, [pc, #0x214]"
+        },
+        {
+          "at": "0x43e0dc",
+          "op": "ldr",
+          "operands": "r6, [pc, #0x214]"
+        },
+        {
+          "at": "0x43e0e0",
+          "op": "add",
+          "operands": "r4, pc, r4"
+        },
+        {
+          "at": "0x43e0e4",
+          "op": "ldr",
+          "operands": "r3, [r4, r5]"
+        },
+        {
+          "at": "0x43e0e8",
+          "op": "sub",
+          "operands": "sp, sp, #0x1c4"
+        },
+        {
+          "at": "0x43e0ec",
+          "op": "mov",
+          "operands": "r8, r0"
+        },
+        {
+          "at": "0x43e0f0",
+          "op": "ldr",
+          "operands": "r3, [r3]"
+        },
+        {
+          "at": "0x43e0f4",
+          "op": "ldr",
+          "operands": "r0, [r4, r6]"
+        },
+        {
+          "at": "0x43e0f8",
+          "op": "str",
+          "operands": "r3, [sp, #0x1bc]"
+        },
+        {
+          "at": "0x43e0fc",
+          "op": "bl",
+          "operands": "#0x31f594"
+        },
+        {
+          "at": "0x43e100",
+          "op": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": "0x43e104",
+          "op": "beq",
+          "operands": "#0x43e114"
+        },
+        {
+          "at": "0x43e108",
+          "op": "ldr",
+          "operands": "r3, [r0, #0x130]"
+        },
+        {
+          "at": "0x43e10c",
+          "op": "cmp",
+          "operands": "r3, #0x26"
+        },
+        {
+          "at": "0x43e110",
+          "op": "beq",
+          "operands": "#0x43e220"
+        },
+        {
+          "at": "0x43e114",
+          "op": "ldr",
+          "operands": "r3, [r4, r6]"
+        },
+        {
+          "at": "0x43e118",
+          "op": "mov",
+          "operands": "r1, #0"
+        },
+        {
+          "at": "0x43e11c",
+          "op": "mov",
+          "operands": "r2, r1"
+        },
+        {
+          "at": "0x43e120",
+          "op": "ldr",
+          "operands": "r0, [r3, #0x40]"
+        },
+        {
+          "at": "0x43e124",
+          "op": "bl",
+          "operands": "#0x36e478"
+        },
+        {
+          "at": "0x43e128",
+          "op": "ldr",
+          "operands": "r7, [r0, #0x664]"
+        },
+        {
+          "at": "0x43e12c",
+          "op": "cmp",
+          "operands": "r7, #0"
+        },
+        {
+          "at": "0x43e130",
+          "op": "blt",
+          "operands": "#0x43e138"
+        },
+        {
+          "at": "0x43e134",
+          "op": "bl",
+          "operands": "#0x4660c8"
+        },
+        {
+          "at": "0x43e138",
+          "op": "add",
+          "operands": "sl, sp, #0x24"
+        },
+        {
+          "at": "0x43e13c",
+          "op": "mov",
+          "operands": "r3, #0"
+        },
+        {
+          "at": "0x43e140",
+          "op": "mov",
+          "operands": "r0, sl"
+        },
+        {
+          "at": "0x43e144",
+          "op": "mov",
+          "operands": "r1, r7"
+        },
+        {
+          "at": "0x43e148",
+          "op": "mov",
+          "operands": "r2, #1"
+        },
+        {
+          "at": "0x43e14c",
+          "op": "bl",
+          "operands": "#0x4655ac"
+        },
+        {
+          "at": "0x43e150",
+          "op": "ldr",
+          "operands": "r3, [r8, #0x10]"
+        },
+        {
+          "at": "0x43e154",
+          "op": "cmp",
+          "operands": "r3, #1"
+        },
+        {
+          "at": "0x43e158",
+          "op": "beq",
+          "operands": "#0x43e290"
+        },
+        {
+          "at": "0x43e15c",
+          "op": "ldr",
+          "operands": "r8, [pc, #0x198]"
+        },
+        {
+          "at": "0x43e160",
+          "op": "mov",
+          "operands": "fp, #0"
+        },
+        {
+          "at": "0x43e164",
+          "op": "ldr",
+          "operands": "r8, [r4, r8]"
+        },
+        {
+          "at": "0x43e168",
+          "op": "add",
+          "operands": "r0, sp, #0x1c0"
+        },
+        {
+          "at": "0x43e16c",
+          "op": "ldr",
+          "operands": "r3, [r8]"
+        },
+        {
+          "at": "0x43e170",
+          "op": "add",
+          "operands": "r3, r0, r3, lsl #2"
+        },
+        {
+          "at": "0x43e174",
+          "op": "ldr",
+          "operands": "sb, [r3, #-0x14c]"
+        },
+        {
+          "at": "0x43e178",
+          "op": "bl",
+          "operands": "#0x7fd794"
+        },
+        {
+          "at": "0x43e17c",
+          "op": "ldrb",
+          "operands": "r3, [r0, #5]"
+        },
+        {
+          "at": "0x43e180",
+          "op": "cmp",
+          "operands": "r3, #0"
+        },
+        {
+          "at": "0x43e184",
+          "op": "bne",
+          "operands": "#0x43e23c"
+        },
+        {
+          "at": "0x43e188",
+          "op": "ldr",
+          "operands": "r1, [r8]"
+        },
+        {
+          "at": "0x43e18c",
+          "op": "add",
+          "operands": "r0, sp, #0x1c0"
+        },
+        {
+          "at": "0x43e190",
+          "op": "cmn",
+          "operands": "sb, #1"
+        },
+        {
+          "at": "0x43e194",
+          "op": "add",
+          "operands": "r3, r0, r1"
+        },
+        {
+          "at": "0x43e198",
+          "op": "add",
+          "operands": "r1, r0, r1, lsl #2"
+        },
+        {
+          "at": "0x43e19c",
+          "op": "ldr",
+          "operands": "r2, [r1, #-0x15c]"
+        },
+        {
+          "at": "0x43e1a0",
+          "op": "ldrb",
+          "operands": "r1, [r3, #-0x150]"
+        },
+        {
+          "at": "0x43e1a4",
+          "op": "str",
+          "operands": "r1, [sp, #0x1c]"
+        },
+        {
+          "at": "0x43e1a8",
+          "op": "beq",
+          "operands": "#0x43e27c"
+        },
+        {
+          "at": "0x43e1ac",
+          "op": "mov",
+          "operands": "r8, #0"
+        },
+        {
+          "at": "0x43e1b0",
+          "op": "sub",
+          "operands": "r3, r3, #0x154"
+        },
+        {
+          "at": "0x43e1b4",
+          "op": "strb",
+          "operands": "r8, [r3, #4]"
+        },
+        {
+          "at": "0x43e1b8",
+          "op": "mov",
+          "operands": "r0, sl"
+        },
+        {
+          "at": "0x43e1bc",
+          "op": "str",
+          "operands": "r2, [sp, #0x18]"
+        },
+        {
+          "at": "0x43e1c0",
+          "op": "bl",
+          "operands": "#0x464b2c"
+        },
+        {
+          "at": "0x43e1c4",
+          "op": "ldr",
+          "operands": "r3, [pc, #0x134]"
+        },
+        {
+          "at": "0x43e1c8",
+          "op": "mov",
+          "operands": "ip, #0x48"
+        },
+        {
+          "at": "0x43e1cc",
+          "op": "ldr",
+          "operands": "r0, [r4, r6]"
+        },
+        {
+          "at": "0x43e1d0",
+          "op": "ldr",
+          "operands": "r3, [r4, r3]"
+        },
+        {
+          "at": "0x43e1d4",
+          "op": "ldr",
+          "operands": "r2, [sp, #0x18]"
+        },
+        {
+          "at": "0x43e1d8",
+          "op": "ldr",
+          "operands": "r1, [r3]"
+        },
+        {
+          "at": "0x43e1dc",
+          "op": "mov",
+          "operands": "r3, r7"
+        },
+        {
+          "at": "0x43e1e0",
+          "op": "mla",
+          "operands": "sb, ip, sb, r1"
+        },
+        {
+          "at": "0x43e1e4",
+          "op": "mov",
+          "operands": "ip, #1"
+        },
+        {
+          "at": "0x43e1e8",
+          "op": "ldr",
+          "operands": "r1, [sb, #0x20]"
+        },
+        {
+          "at": "0x43e1ec",
+          "op": "str",
+          "operands": "ip, [sp]"
+        },
+        {
+          "at": "0x43e1f0",
+          "op": "ldr",
+          "operands": "ip, [sp, #0x1c]"
+        },
+        {
+          "at": "0x43e1f4",
+          "op": "str",
+          "operands": "fp, [sp, #8]"
+        },
+        {
+          "at": "0x43e1f8",
+          "op": "str",
+          "operands": "r8, [sp, #0xc]"
+        },
+        {
+          "at": "0x43e1fc",
+          "op": "str",
+          "operands": "ip, [sp, #4]"
+        },
+        {
+          "at": "0x43e200",
+          "op": "str",
+          "operands": "r8, [sp, #0x10]"
+        },
+        {
+          "at": "0x43e204",
+          "op": "str",
+          "operands": "r8, [sp, #0x14]"
+        },
+        {
+          "at": "0x43e208",
+          "op": "bl",
+          "operands": "#0x32bdc8"
+        },
+        {
+          "at": "0x43e20c",
+          "op": "ldrb",
+          "operands": "r3, [sp, #0x1b8]"
+        },
+        {
+          "at": "0x43e210",
+          "op": "mov",
+          "operands": "r0, sl"
+        },
+        {
+          "at": "0x43e214",
+          "op": "cmp",
+          "operands": "r3, r8"
+        },
+        {
+          "at": "0x43e218",
+          "op": "strbne",
+          "operands": "r8, [sp, #0x1b8]"
+        },
+        {
+          "at": "0x43e21c",
+          "op": "bl",
+          "operands": "#0x46378c"
+        },
+        {
+          "at": "0x43e220",
+          "op": "ldr",
+          "operands": "r3, [r4, r5]"
+        },
+        {
+          "at": "0x43e224",
+          "op": "ldr",
+          "operands": "r2, [sp, #0x1bc]"
+        },
+        {
+          "at": "0x43e228",
+          "op": "ldr",
+          "operands": "r3, [r3]"
+        },
+        {
+          "at": "0x43e22c",
+          "op": "cmp",
+          "operands": "r2, r3"
+        },
+        {
+          "at": "0x43e230",
+          "op": "bne",
+          "operands": "#0x43e2ec"
+        },
+        {
+          "at": "0x43e234",
+          "op": "add",
+          "operands": "sp, sp, #0x1c4"
+        },
+        {
+          "at": "0x43e238",
+          "op": "pop",
+          "operands": "{r4, r5, r6, r7, r8, sb, sl, fp, pc}"
+        },
+        {
+          "at": "0x43e23c",
+          "op": "ldr",
+          "operands": "r3, [r4, r6]"
+        },
+        {
+          "at": "0x43e240",
+          "op": "ldr",
+          "operands": "r0, [r3, #0x40]"
+        },
+        {
+          "at": "0x43e244",
+          "op": "bl",
+          "operands": "#0x36f074"
+        },
+        {
+          "at": "0x43e248",
+          "op": "ldr",
+          "operands": "r1, [r8]"
+        },
+        {
+          "at": "0x43e24c",
+          "op": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": "0x43e250",
+          "op": "addne",
+          "operands": "r2, sp, #0x1c0"
+        },
+        {
+          "at": "0x43e254",
+          "op": "addne",
+          "operands": "r3, r2, r1, lsl #2"
+        },
+        {
+          "at": "0x43e258",
+          "op": "movne",
+          "operands": "r0, #0"
+        },
+        {
+          "at": "0x43e25c",
+          "op": "ldrne",
+          "operands": "r2, [r3, #-0x15c]"
+        },
+        {
+          "at": "0x43e260",
+          "op": "streq",
+          "operands": "r0, [sp, #0x1c]"
+        },
+        {
+          "at": "0x43e264",
+          "op": "moveq",
+          "operands": "r2, #1"
+        },
+        {
+          "at": "0x43e268",
+          "op": "strne",
+          "operands": "r0, [sp, #0x1c]"
+        },
+        {
+          "at": "0x43e26c",
+          "op": "add",
+          "operands": "ip, sp, #0x1c0"
+        },
+        {
+          "at": "0x43e270",
+          "op": "cmn",
+          "operands": "sb, #1"
+        },
+        {
+          "at": "0x43e274",
+          "op": "add",
+          "operands": "r3, ip, r1"
+        },
+        {
+          "at": "0x43e278",
+          "op": "bne",
+          "operands": "#0x43e1ac"
+        },
+        {
+          "at": "0x43e27c",
+          "op": "ldr",
+          "operands": "r1, [pc, #0x80]"
+        },
+        {
+          "at": "0x43e280",
+          "op": "ldr",
+          "operands": "r1, [r4, r1]"
+        },
+        {
+          "at": "0x43e284",
+          "op": "ldr",
+          "operands": "r1, [r1]"
+        },
+        {
+          "at": "0x43e288",
+          "op": "ldr",
+          "operands": "sb, [r1, #0x24]"
+        },
+        {
+          "at": "0x43e28c",
+          "op": "b",
+          "operands": "#0x43e1ac"
+        },
+        {
+          "at": "0x43e290",
+          "op": "ldr",
+          "operands": "r3, [r8, #0xc]"
+        },
+        {
+          "at": "0x43e294",
+          "op": "ldr",
+          "operands": "r0, [r8, #0x14]"
+        },
+        {
+          "at": "0x43e298",
+          "op": "mov",
+          "operands": "sb, #0xc"
+        },
+        {
+          "at": "0x43e29c",
+          "op": "ldr",
+          "operands": "r3, [r3]"
+        },
+        {
+          "at": "0x43e2a0",
+          "op": "mla",
+          "operands": "r0, sb, r0, r3"
+        },
+        {
+          "at": "0x43e2a4",
+          "op": "bl",
+          "operands": "#0x439d8c"
+        },
+        {
+          "at": "0x43e2a8",
+          "op": "cmp",
+          "operands": "r0, #0"
+        },
+        {
+          "at": "0x43e2ac",
+          "op": "beq",
+          "operands": "#0x43e15c"
+        },
+        {
+          "at": "0x43e2b0",
+          "op": "ldr",
+          "operands": "r3, [r8, #0xc]"
+        },
+        {
+          "at": "0x43e2b4",
+          "op": "ldr",
+          "operands": "r0, [r8, #0x14]"
+        },
+        {
+          "at": "0x43e2b8",
+          "op": "ldr",
+          "operands": "r8, [pc, #0x3c]"
+        },
+        {
+          "at": "0x43e2bc",
+          "op": "ldr",
+          "operands": "r3, [r3]"
+        },
+        {
+          "at": "0x43e2c0",
+          "op": "mla",
+          "operands": "r0, sb, r0, r3"
+        },
+        {
+          "at": "0x43e2c4",
+          "op": "bl",
+          "operands": "#0x797a54"
+        },
+        {
+          "at": "0x43e2c8",
+          "op": "bl",
+          "operands": "#0x30ea24"
+        },
+        {
+          "at": "0x43e2cc",
+          "op": "ldr",
+          "operands": "r3, [sp, #0x60]"
+        },
+        {
+          "at": "0x43e2d0",
+          "op": "mov",
+          "operands": "fp, r0"
+        },
+        {
+          "at": "0x43e2d4",
+          "op": "cmp",
+          "operands": "r3, r0"
+        },
+        {
+          "at": "0x43e2d8",
+          "op": "ldrge",
+          "operands": "r3, [r4, r8]"
+        },
+        {
+          "at": "0x43e2dc",
+          "op": "strge",
+          "operands": "r0, [r3]"
+        },
+        {
+          "at": "0x43e2e0",
+          "op": "mov",
+          "operands": "r0, sl"
+        },
+        {
+          "at": "0x43e2e4",
+          "op": "bl",
+          "operands": "#0x464b2c"
+        },
+        {
+          "at": "0x43e2e8",
+          "op": "b",
+          "operands": "#0x43e164"
+        },
+        {
+          "at": "0x43e2ec",
+          "op": "bl",
+          "operands": "#0x30e310"
+        }
+      ],
+      "current_difficulty_global": {
+        "symbol": "_ZN14PlayerSavegame17m_difficultyLevelE",
+        "address": "0x9a6060"
+      },
+      "order": [
+        {
+          "at": "0x43e0fc..0x43e110",
+          "effect": "GetCurrentLevel; nonnull level+0x130==0x26 returns before local-player/Save reads."
+        },
+        {
+          "at": "0x43e124..0x43e128",
+          "effect": "Fresh GetLocalPlayer(0,false); read canonical PlayerInfo+0x664."
+        },
+        {
+          "at": "0x43e134",
+          "effect": "For slot>=0, SG_GetNextFreeSlot; returned value is ignored, selected r7 remains unchanged."
+        },
+        {
+          "at": "0x43e14c",
+          "effect": "Temporary PlayerSavegame(selected_slot,mask1,false). Requires genuine metadata owner/read."
+        },
+        {
+          "at": "0x43e150 /0x43e290..0x43e2ac",
+          "effect": "Only argc==1 and actual arg0.is_number reaches difficulty conversion."
+        },
+        {
+          "at": "0x43e2c4..0x43e2dc",
+          "effect": "arg0.to_number -> EABI signedint requestedDifficulty(fp). Signed Save+0x3c unlocked>=requested updates sole static m_difficultyLevel. No lower-bound clamp. Otherwise static remains unchanged."
+        },
+        {
+          "at": "0x43e2e4",
+          "effect": "Every numeric one-arg path SG_Save, even when requested difficulty rejected by unlocked comparison. Missing/nonnumeric args leave global unchanged and fp=0."
+        },
+        {
+          "at": "0x43e170..0x43e174",
+          "effect": "Select level from temporarySave+0x50[staticDifficulty]. Fresh GetOnline chooses subsequent entry/pending branch."
+        },
+        {
+          "at": "0x43e188..0x43e1a4",
+          "effect": "Offline entry=Save+0x40[staticDifficulty], byte pending=Save+0x4c[staticDifficulty]. Online hosting uses own exact branch."
+        },
+        {
+          "at": "0x43e27c..0x43e288",
+          "effect": "Saved level==-1 uses DesignSettingsTable.members[0]+0x24 initial-level row."
+        },
+        {
+          "at": "0x43e1b4 /0x43e1c0",
+          "effect": "Clear pending byte for static difficulty; SG_Save again."
+        },
+        {
+          "at": "0x43e208",
+          "effect": "Application::LoadLevel(LevelList[level].FileName, entry, selected_slot, true, pending, requestedDifficulty(fp), false,0,0). Requested converted difficulty is passed even if global update was rejected."
+        },
+        {
+          "at": "0x43e21c",
+          "effect": "Temporary Save destructor."
+        }
+      ]
+    },
+    "GSLevel_Ctor": {
+      "address": "0x386190",
+      "bytes": 328,
+      "order": "AnimSetManager Flush -> create/publish Level from GS fields -> menu_Loading GetMenuByName -> offline PushMenu -> InvokeASCallback(onProgress,0args). String PC-relative pins at0x3862d0/0x3862d4. No setupPlayer callback and no save-slot assignment."
+    },
+    "implementation_boundary": "Actual Start Game MovieClip/show/onPush/button delivery followed by existing typed Assign provider gives the source slot producer. NativeStartGame queue delivery after AS/touch unwinds is a native transport boundary; full original metadata/difficulty/pending/LoadLevel and menu preview SG4 remain separate uncompleted providers. This fixture is static decode/capture, not live gameplay or whole NativeStartGame ARM replay."
+  },
+  "public_evidence": "Original SWF/ELF byte payloads omitted. Addresses, complete-body hashes, decoded source calls and instruction findings retained; original inputs stay private."
+}

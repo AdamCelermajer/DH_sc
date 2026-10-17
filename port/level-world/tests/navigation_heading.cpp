@@ -11,6 +11,23 @@
 using dh2::navigation::HeadingState;
 namespace {
 void require(bool value,const char* message){if(!value)throw std::runtime_error(message);}
+void camera_input_checks(){
+ auto near=[](float a,float b){return std::fabs(a-b)<2e-6f;};
+ const float forward[3]{0,1,0},left[3]{-1,0,0},back[3]{0,-1,0};
+ float direction[3]{1,0,.25f};
+ require(dh2_nav_rotate_input_for_camera(direction,forward)==0&&near(direction[0],1)&&near(direction[1],0)&&near(direction[2],.25f),"+Y camera basis changed input");
+ direction[0]=1;direction[1]=0;direction[2]=.25f;
+ require(dh2_nav_rotate_input_for_camera(direction,left)==0&&near(direction[0],0)&&near(direction[1],1)&&near(direction[2],.25f),"camera XY quarter turn differs from Point3D rotateXY");
+ direction[0]=1;direction[1]=0;direction[2]=.25f;
+ require(dh2_nav_rotate_input_for_camera(direction,back)==0&&near(direction[0],-1)&&near(direction[1],0)&&near(direction[2],.25f),"camera XY half turn differs from Point3D rotateXY");
+ direction[0]=.25f;direction[1]=-.75f;direction[2]=.4f;
+ const float diagonal[3]{2,3,4};const float before=std::hypot(direction[0],direction[1]);
+ require(dh2_nav_rotate_input_for_camera(direction,diagonal)==0&&near(std::hypot(direction[0],direction[1]),before)&&near(direction[2],.4f),"camera transform changed input magnitude or Z");
+ const float invalid_targets[][3]{{0,0,0},{std::numeric_limits<float>::quiet_NaN(),1,0},{1,std::numeric_limits<float>::infinity(),0}};
+ for(const auto& target:invalid_targets){float unchanged[3]{.25f,-.75f,.4f},copy[3];std::memcpy(copy,unchanged,sizeof(copy));require(dh2_nav_rotate_input_for_camera(unchanged,target)==1&&!std::memcmp(unchanged,copy,sizeof(copy)),"invalid camera target did not fail closed");}
+ float invalid_direction[3]{std::numeric_limits<float>::quiet_NaN(),1,0},copy[3];std::memcpy(copy,invalid_direction,sizeof(copy));
+ require(dh2_nav_rotate_input_for_camera(invalid_direction,forward)==1&&!std::memcmp(invalid_direction,copy,sizeof(copy)),"invalid movement input did not fail closed");
+}
 std::uint32_t word(float f){std::uint32_t u;std::memcpy(&u,&f,4);return u;}
 std::uint32_t ordered(float f){const auto u=word(f);return u&0x80000000u?~u:u|0x80000000u;}
 struct Reader {
@@ -23,6 +40,7 @@ struct Reader {
 int main(int argc,char** argv){
  if(argc!=2)return 2;
  try{
+  camera_input_checks();
   Reader r(argv[1]);require(r.word()==0x31474448,"Invalid heading gold");const auto cases=r.word();require(cases&&cases<10000,"Heading gold budget");unsigned look=0,set=0,aliases=0,active=0,variants=0,max_ulp=0;
   for(unsigned ci=0;ci<cases;++ci){
    const unsigned op=r.word(),rotate=r.word(),alias=r.word();r.word();require(op<=1&&rotate<=1&&alias<=1,"Invalid heading record");HeadingState state,expected;r.read(&state,24);float direction[3];r.read(direction,12);r.read(&expected,24);const auto* input=alias?state.direction:direction;

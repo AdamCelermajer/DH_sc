@@ -1,0 +1,125 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI9SetScriptI15AISPlayerIPhoneEEvv",
+      "elf_address": "0x3ccfe4",
+      "size": 312,
+      "sha256": "a05a788d81899170005eca61c0be63e488e4f1aa675fb01ea7c336f616aabf58",
+      "scope": "factory"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC2Eb",
+      "elf_address": "0x3d8fb0",
+      "size": 108,
+      "sha256": "ce859293ac04fa52f9989fd0ff46df28670c87b80ccfd204ccb8a52e1e1c5afd",
+      "scope": "existing constructor dependency"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIP9CharacterSaIS1_EEC1Ej.clone.3",
+      "elf_address": "0x3ccf9c",
+      "size": 72,
+      "sha256": "127f83bc4278c41aa4277e7aac23ecc2dee2b4564aa49c8bb023ef98848a2b89",
+      "scope": "empty vector constructor"
+    },
+    {
+      "original_symbol": "_ZNSaIP9CharacterE11_M_allocateEjRj",
+      "elf_address": "0x3ccf2c",
+      "size": 112,
+      "sha256": "7eaf43736c632cf30dcd90cecde5e4dc4804aa7e519e1b98fd5d4246f8f9c653",
+      "scope": "zero-count allocator branch"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17LoadScriptProcessEv",
+      "elf_address": "0x3cf1f0",
+      "size": 436,
+      "sha256": "737c53f97392fdd9d21349694eef1c6b5a189f14864f0075e4a68e67d8e8c564",
+      "scope": "existing lifecycle dependency"
+    },
+    {
+      "original_symbol": "_ZN6CharAI22LoadNInitScriptProcessEb",
+      "elf_address": "0x3cf3a4",
+      "size": 76,
+      "sha256": "55367c650fe7526b36840fca97aee781cf9d8a5276ed3b3c580c90b3799f34a4",
+      "scope": "existing lifecycle dependency"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17InitScriptProcessEb",
+      "elf_address": "0x3ce7c0",
+      "size": 80,
+      "sha256": "2c61c145a786157363337b77b877321f1c0c8804d5dcc606963d355f2dab5c5f",
+      "scope": "existing lifecycle dependency"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6OnInitEv",
+      "elf_address": "0x3d12b0",
+      "size": 296,
+      "sha256": "468d99d8aed4ce204358e71067614af963caf89b818e68c6638d29ff153ebefd",
+      "scope": "existing lifecycle dependency"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14StepInitScriptEv",
+      "elf_address": "0x3cb314",
+      "size": 56,
+      "sha256": "6e602114665b22538851a9fa6619af43c48ce399143c871d63d1ba4e77e6b046",
+      "scope": "existing lifecycle dependency"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault6OnInitEv",
+      "elf_address": "0x3dbe78",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "proven Player inherited leaf"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault10OnInitPostEv",
+      "elf_address": "0x3dbe7c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "proven Player inherited leaf"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnInitFinalEv",
+      "elf_address": "0x3dbe80",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "proven Player inherited leaf"
+    }
+  ],
+  "vtables": [
+    {
+      "symbol": "_ZTV9AISPlayer",
+      "elf_address": "0x966bf8",
+      "size": 216,
+      "sha256": "e06d1749abc126f7956c405fb021a1c33f50123b6c8a3a82dc950e6670b36e89",
+      "address_point": "0x966c00",
+      "slots": {
+        "0x8": "0x3dbe78",
+        "0xc": "0x3dbe7c",
+        "0x10": "0x3dbe80",
+        "0x14": "0x3dbe84",
+        "0xcc": "0x3dd884"
+      }
+    },
+    {
+      "symbol": "_ZTV15AISPlayerIPhone",
+      "elf_address": "0x966cd0",
+      "size": 216,
+      "sha256": "37a14b52341cb03869d86f17604a0c8f9982ee25f004d7ea55981cce96aa9a47",
+      "address_point": "0x966cd8",
+      "slots": {
+        "0x8": "0x3dbe78",
+        "0xc": "0x3dbe7c",
+        "0x10": "0x3dbe80",
+        "0x14": "0x3dbe84",
+        "0xcc": "0x3dd884"
+      }
+    }
+  ],
+  "attribution": {
+    "repository": "AdamCelermajer/DH_sc",
+    "commit": "791e961b12233100b303038c961666834f4beb9d",
+    "reuse": "CharacterPlayerSkillsV6 macro-includes unchanged V3 constructor/load/init composition. Current maintained lifecycle/constructor/default-leaf/VCB modules are reused; no Adam private VM/timer/property owner is imported."
+  },
+  "additional_complete_original_body_credit": 0
+}

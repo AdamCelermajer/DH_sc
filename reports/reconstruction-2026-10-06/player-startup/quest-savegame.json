@@ -1,0 +1,60 @@
+{
+  "status": "PASS",
+  "arm_comparisons": 220,
+  "blank_save_act_words": [
+    [
+      1,
+      1,
+      1
+    ],
+    [
+      1,
+      1,
+      1
+    ]
+  ],
+  "executed_pinned_words": 312,
+  "native_failure_checks": 393,
+  "mismatches": [],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "quest_savegame_v1.cpp": "a69406ff9e612401776edd58054d10d89f405e38bbbeedb0934af7490074df1a",
+    "quest_savegame_v1.hpp": "d6c905d4ea9fe3752af2e32cfc84d0d08c260c7ab0dbbbfcecc327d6d2aedb3d",
+    "player_savegame_v1.hpp": "ecbee2a8b64507c967522c4b09067264c6fc88c1a0e5e7bdb2a899ac6e4e950b",
+    "tests/quest_savegame_v1_host.cpp": "ce8e11d6dc7e8e8f79f1b031f087612451736d57451326b6951e61925a4d918c",
+    "tests/run_quest_savegame_v1.py": "20df3c0cc93174a36a3dc9f3460fcbb1a3225504b4f41599a6b1da1445246b3d",
+    "reference/quest-savegame-v1/original-functions.json": "710a2281cb5df1e2386e65563a72d00e81050075906ec43180cf7ee50fd9d0ca"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_savegame_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_savegame_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_savegame_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_savegame_v1.cpp.obj"
+    }
+  ],
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "selected_library_sha256": "3f530a827b1dd703a04b5250a58ee215071a54c6d0c4216075dd8a7e305efd92",
+  "binary_sha256": {
+    "host.exe": "1f159e649aaf8f44125f96f6d494d87497c08d28f51aef3963d35ccee8d7bc59",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "f94a762b1403a2b1dc9622400e827ffb349ddf20a1854d5c7f1a354b1e14ed2b",
+    "libdh2_level_world.dll": "acaf7e29535a2a90d0ea0ac3352c116e21641941e06a6e89cf8eff57a8115c4a"
+  },
+  "scope": "Whole source QuestSavegame C1/C2, InitQuests and D1 callers. Quest bodies, std::vector resize and allocator leaves are declared providers; fixture results do not validate a production Quest implementation. Whole blank PlayerSavegame C1 and both QuestSavegame C1 bodies also execute to verify only the canonical +fc/+15c act defaults; string reserve and empty-map insertion are declared fixtures.",
+  "native_policies": [
+    "Existing vectors reinitialize fresh QuestTable count, not their length; source null or short reads stop as source_fault at the reached prefix.",
+    "Fresh vectors resize to zero slots before any allocation; unpublished failed factory allocations remain with the existing factory.",
+    "Quest C1, children ownership, AssignPyData and ReInit are mandatory providers of actual stable Quest objects. No fabricated empty Quest succeeds.",
+    "The source table base is captured before allocation for each new Quest; Character+5c is read after constructor and before children.",
+    "Source publication follows ReInit; D1 destroys and deallocates before clearing each pointer, then releases vector storage in reverse difficulty order.",
+    "Host vector representation and overflow/allocation guards replace undefined native memory access, not source error recovery. Failed closures must not be automatically retried.",
+    "New ownership fields are not connected to the existing PlayerSavegame projections or Android gameplay yet.",
+    "QuestSavegame +44[3] borrows the existing canonical Save quest-act arrays through explicit backing; blank Save initializes both arrays1. LNAM continues to use that same owner."
+  ],
+  "android_compilation": false,
+  "live_gameplay": false
+}

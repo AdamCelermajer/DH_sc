@@ -1,0 +1,81 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Bounded nonempty-queue CharAI::IsMyTurn decision. Original ARM decision and real CharAI* deque subtract execute; concrete Character query outcomes are supplied callback services. Queue/timer producers, Character query bodies, empty-queue assertion behavior, and full AI/frame integration are excluded.",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI8IsMyTurnEPKS_",
+      "demangled": "CharAI::IsMyTurn(CharAI const*)",
+      "elf_address": "0x3cc484",
+      "size": 288,
+      "sha256": "c64b83f2cfc69629118563c5b21dfb93be8a27a3e50282f022e4efca22804f0e"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv20_Deque_iterator_baseIP6CharAIE11_M_subtractERKS3_",
+      "demangled": "std::priv::_Deque_iterator_base<CharAI*>::_M_subtract(std::priv::_Deque_iterator_base<CharAI*> const&) const",
+      "elf_address": "0x3cb49c",
+      "size": 68,
+      "sha256": "b576532d6b53caa8f2bad02c29ba3ab863085da18345cfa566a53ed64c9154b0",
+      "purpose": "Actual begin/end deque length subtraction called by IsMyTurn; uses 32 CharAI* entries per map block."
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsFollowerEv",
+      "demangled": "Character::IsFollower() const",
+      "elf_address": "0x3a307c",
+      "size": 24,
+      "sha256": "58a4e95c6ea102b9992c0c39ce6539574f727e45fe525c8a1041e67f4816456d",
+      "oracle_boundary": "Intercepted at exact function entry; fixture supplies the return value."
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "demangled": "Character::IsFaerie() const",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4",
+      "oracle_boundary": "Intercepted at exact function entry; fixture supplies the return value."
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "demangled": "Character::IsPlayer() const",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a",
+      "oracle_boundary": "Reached through the verified Character vptr+0x28 slot; fixture supplies raw r0."
+    }
+  ],
+  "data_symbols": [
+    {
+      "original_symbol": "_ZN6CharAI13s_updateQueueE",
+      "demangled": "CharAI::s_updateQueue",
+      "elf_address": "0x9a2b48",
+      "size": 40,
+      "type": "STT_OBJECT",
+      "note": "Zero-filled .bss object is initialized per ARM fixture using two four-word deque iterators."
+    },
+    {
+      "original_symbol": "_ZN6CharAI13s_updateTimerE",
+      "demangled": "CharAI::s_updateTimer",
+      "elf_address": "0x999760",
+      "size": 4,
+      "type": "STT_OBJECT",
+      "note": "Signed 32-bit timer is a test fixture, not an original startup value."
+    }
+  ],
+  "character_vtable_slot": {
+    "vtable_symbol": "_ZTV9Character",
+    "demangled": "vtable for Character",
+    "elf_address": "0x965f30",
+    "size": 812,
+    "itanium_address_point": "0x965f38",
+    "slot_offset_from_vptr": "0x28",
+    "slot_file_address": "0x965f60",
+    "relocation": {
+      "section": ".rel.dyn",
+      "type": "R_ARM_RELATIVE",
+      "type_id": 23,
+      "symbol_index": 0
+    },
+    "raw_target": "0x3a49f0",
+    "target_symbol": "_ZNK9Character8IsPlayerEv"
+  }
+}

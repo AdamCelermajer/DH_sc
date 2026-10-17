@@ -1,0 +1,4106 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 106,
+    "guard_cases": 13,
+    "mismatches": 0
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 156,
+    "mismatches": 0,
+    "instructions_observed": 17,
+    "instruction_addresses": [
+      "0x3c01ac",
+      "0x3c01b0",
+      "0x3c01b4",
+      "0x3c01b8",
+      "0x3c01bc",
+      "0x3c02e8",
+      "0x3c02ec",
+      "0x3c02f0",
+      "0x3c02f4",
+      "0x3c02f8",
+      "0x3c02fc",
+      "0x3c0334",
+      "0x3c0338",
+      "0x3c033c",
+      "0x3c0340",
+      "0x3c0344",
+      "0x3c0348"
+    ],
+    "imports_executed": {},
+    "results": [
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 0,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 0,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 0,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 0,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 0,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 0,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 1,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 1,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 3,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 3,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 5,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 5,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 5,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 5,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 5,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 5,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 1
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 1
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 7,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 7,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 1
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 1
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 8,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 8,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 8,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 8,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 8,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 8,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 9,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 9,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 9,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 9,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 9,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 9,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 10,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 10,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 10,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 10,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 10,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 10,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 11,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 11,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 11,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 11,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 11,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 11,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 12,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 12,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 12,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 12,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 12,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 12,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 13,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 13,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 13,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 13,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 13,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 13,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 14,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 14,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 14,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 14,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 14,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 14,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 15,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 15,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 15,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 15,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 15,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 15,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 16,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 16,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 16,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 16,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 16,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 16,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 17,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 17,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 17,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 17,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 17,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 17,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 18,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 18,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 18,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 18,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 18,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 18,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 19,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 19,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 19,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 19,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 19,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 19,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 20,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 20,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 20,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 20,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 20,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 20,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 21,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 21,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 21,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 21,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 21,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 21,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 22,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 22,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 22,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 22,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 22,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 22,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 23,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 23,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 23,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 23,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 23,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 23,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 24,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 24,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 24,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 24,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 24,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 24,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 25,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 25,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 25,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 25,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 25,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 25,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 26,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 26,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 26,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 26,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 26,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 26,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 27,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 27,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 27,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 27,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 27,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 27,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 28,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 28,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 28,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 28,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 28,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 28,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 29,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 29,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 29,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 29,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 29,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 29,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 30,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 30,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 30,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 30,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 30,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 30,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 31,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 31,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 31,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 31,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 31,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 31,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4294967295,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4294967295,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2147483648,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483648,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483648,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2147483648,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483648,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483648,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2147483647,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483647,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483647,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2147483647,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483647,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483647,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2147483654,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483654,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483654,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2147483654,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483654,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483654,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2147483655,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483655,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483655,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2147483655,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2147483655,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2147483655,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 65542,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 65542,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 65542,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 65542,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 65542,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 65542,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 65543,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 65543,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 65543,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 65543,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 65543,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 65543,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4294967294,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967294,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967294,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4294967294,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967294,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967294,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 3735928559,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3735928559,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3735928559,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 3735928559,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3735928559,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3735928559,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 42,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 42,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 42,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 42,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 42,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 42,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 65535,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 65535,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 65535,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 65535,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 65535,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 65535,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4294901766,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294901766,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294901766,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4294901766,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294901766,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294901766,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4294901767,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294901767,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294901767,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4294901767,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294901767,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294901767,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 1065353216,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1065353216,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1065353216,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 1065353216,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1065353216,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1065353216,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2143289344,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2143289344,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2143289344,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2143289344,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2143289344,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2143289344,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 719105101,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 719105101,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 719105101,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 719105101,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 719105101,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 719105101,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4285680890,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4285680890,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4285680890,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4285680890,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4285680890,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4285680890,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4239819581,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4239819581,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4239819581,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4239819581,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4239819581,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4239819581,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 352986182,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 352986182,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 352986182,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 352986182,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 352986182,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 352986182,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 1210204864,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1210204864,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1210204864,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 1210204864,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1210204864,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1210204864,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2237658591,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2237658591,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2237658591,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2237658591,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2237658591,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2237658591,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 3934905606,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3934905606,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3934905606,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 3934905606,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3934905606,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3934905606,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 1653774377,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1653774377,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1653774377,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 1653774377,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1653774377,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1653774377,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 276410589,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 276410589,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 276410589,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 276410589,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 276410589,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 276410589,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 57002294,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 57002294,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 57002294,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 57002294,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 57002294,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 57002294,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 3689203547,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3689203547,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3689203547,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 3689203547,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3689203547,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3689203547,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4119316861,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4119316861,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4119316861,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4119316861,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4119316861,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4119316861,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 1950201744,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1950201744,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1950201744,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 1950201744,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1950201744,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1950201744,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 360267667,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 360267667,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 360267667,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 360267667,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 360267667,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 360267667,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 51272781,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 51272781,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 51272781,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 51272781,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 51272781,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 51272781,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 1188739049,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1188739049,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1188739049,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 1188739049,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1188739049,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1188739049,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 801124465,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 801124465,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 801124465,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 801124465,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 801124465,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 801124465,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2533336960,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2533336960,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2533336960,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2533336960,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2533336960,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2533336960,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4185044732,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4185044732,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4185044732,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4185044732,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4185044732,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4185044732,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2648422517,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2648422517,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2648422517,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2648422517,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2648422517,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2648422517,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 3564692369,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3564692369,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3564692369,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 3564692369,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3564692369,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3564692369,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 1473948393,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1473948393,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1473948393,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 1473948393,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 1473948393,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 1473948393,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 2591256530,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2591256530,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2591256530,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 2591256530,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 2591256530,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 2591256530,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 3205705113,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3205705113,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3205705113,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 3205705113,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3205705113,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3205705113,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": false,
+        "input_word": 3735928559,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": false,
+        "input_word": 3735928559,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 1
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 1
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 7,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 7,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 1
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 7,
+          "value": 1
+        }
+      },
+      {
+        "query": 0,
+        "current_present": false,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": false,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 3,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 3,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 3,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 4294967295,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 4294967295,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 4294967295,
+          "value": 0
+        }
+      },
+      {
+        "query": 0,
+        "current_present": true,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 1
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 1
+        }
+      },
+      {
+        "query": 1,
+        "current_present": true,
+        "input_word": 6,
+        "data_reads": [
+          [
+            "machine+0x20",
+            4
+          ],
+          [
+            "current+0",
+            4
+          ]
+        ],
+        "matched": true,
+        "original_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 0
+        },
+        "compiled_result": {
+          "status": 0,
+          "state_word": 6,
+          "value": 0
+        }
+      }
+    ],
+    "scope": "All instructions in both24B predicates and actual20B SM_GetState execute. No callee/import is modeled. Null current avoids its word read; malformed null this is rejected only by the port API. State/current pointers change between synchronous queries, not during a fabricated callback."
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_skill_state_queries.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_skill_state_queries.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-skill-state-queries-parent\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_skill_state_queries.hpp": "629922158aaa4d5004c5c6401406ed45f1e57a221729eef4af52c154e931d5d0",
+    "port/level-world/character_skill_state_queries.cpp": "7da75186510205f82c78cc5ace63942bbf4132ccb32f7ec333ecd9f3221b35c1",
+    "port/level-world/tests/character_skill_state_queries.cpp": "cb632615a423b8d3322e1faa9e4850834aa47c0cf523e36b91483967388a5907",
+    "port/level-world/tests/run_character_skill_state_queries_host.py": "4357a2f0c95164d40545f0ac9c92be316759526ed615b1e4e4c838af3ffe69eb",
+    "port/level-world/reference/character-skill-state-queries/original-functions.json": "1438edcf6458b2bd08016ed0c8bd2bbc21cad4b66067c13a4793a196f0a3e99f",
+    "port/level-world/reference/character-skill-state-queries/NOTES.md": "4f2131d8447f55e4fd019b182390b629c02a770abf61d26e9e4ef68dd9da000b"
+  },
+  "reused_source_sha256": {
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a"
+  },
+  "new_complete_caller_bodies": 2,
+  "new_complete_dependency_bodies": 0,
+  "native_wired": false
+}

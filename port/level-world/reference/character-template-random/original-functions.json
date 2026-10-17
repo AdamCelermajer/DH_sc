@@ -1,0 +1,84 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "record_scope_definition": "Each function record hashes its complete original assembly range; this pins source evidence, not complete source reconstruction or live runtime integration. The current adapter coverage and caller-owned state limits are described in NOTES.md.",
+  "source_reconstruction_scope": "Bounded ordinary Random stream slot-index selection for an uncached non-player Character template with a positive CharInfoSize, using the existing source-differential-tested RNG kernel and caller-provided stream state.",
+  "port_sources": [
+    "port/level-world/character_template_random.hpp",
+    "port/level-world/character_template_random.cpp",
+    "port/level-world/tests/character_template_random.cpp",
+    "port/level-world/tests/run_character_template_random_host.py",
+    "port/random/random.c",
+    "port/random/random.h"
+  ],
+  "caller_facts": [
+    "Character::SafeGetCharPropsId uses Random::s_seed and debug counter index 0 directly in its uncached non-player template branch; it does not use s_syncedSeed.",
+    "The uncached branch draws only if CharInfoSize is nonzero. With zero slots it does not advance a seed or debug counter.",
+    "For a positive slot count, the branch applies the ordinary-stream LCG once, reduces by CharInfoSize, increments the ordinary counter once, and uses the result as the ordered CharInfo slot index.",
+    "The existing port/random kernel carries two independent caller-owned seed/counter streams. Its 768 comparisons against original Random::GetRandom report zero mismatches.",
+    "GSInit::Update state 13 and Level::Unload explicitly set s_seed from glitch::os::Timer::getRealTime() and s_syncedSeed to zero; those time/order inputs remain outside this adapter.",
+    "The Random.cpp static initializer resets diagnostic counters but does not set the ordinary or synchronized game seeds."
+  ],
+  "unsupported": [
+    "No per-actor original slot is claimed without the timer seed and every preceding ordinary-stream draw/construction-order dependency.",
+    "The adapter does not own, seed, reset, or globalize the random streams; caller supplies and retains their state.",
+    "Cached property-ID early return, player/savegame selection, actor construction, template-to-CharacterTable mapping, and property/class resolution are separate paths or modules.",
+    "Negative slot counts are rejected as malformed adapter input; only the observed empty and positive template-count branches are supported.",
+    "This is not the independent port/game-data CombatRandom stream and does not alter combat RNG semantics."
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib",
+      "demangled": "Random::GetRandom(int, bool)",
+      "elf_address": "0x33ff90",
+      "size": 196,
+      "sha256": "fc93b6feb58616e89b16d0bee33193af6b6cc36b6b29442fdca3e75c832ab665",
+      "scope": "complete function",
+      "port_coverage": "the ordinary/synchronized two-stream LCG is implemented in existing port/random; this adapter selects ordinary stream via sync=0"
+    },
+    {
+      "original_symbol": "_ZN9Character18SafeGetCharPropsIdEv",
+      "demangled": "Character::SafeGetCharPropsId()",
+      "elf_address": "0x3b3d38",
+      "size": 728,
+      "sha256": "81064f2b90877e862e4956c7502ecab84f6802b5d207a5daeb3dcade373c82cd",
+      "scope": "complete function",
+      "port_coverage": "adapter reproduces only the positive-count, uncached non-player slot-index draw and no-alternatives no-draw boundary; no Character cache/player path is implemented"
+    },
+    {
+      "original_symbol": "_ZN6GSInit6UpdateEP12StateMachined",
+      "demangled": "GSInit::Update(StateMachine*, double)",
+      "elf_address": "0x3850c8",
+      "size": 2084,
+      "sha256": "0b704fe8fbf23bb5e3c56c5f211c66139d31aff21686b4217661167893e16299",
+      "scope": "complete function",
+      "port_coverage": "seed-ownership evidence only: initialization state 13 assigns the ordinary seed from Timer::getRealTime and zeros the synchronized seed"
+    },
+    {
+      "original_symbol": "_ZN5Level6UnloadEv",
+      "demangled": "Level::Unload()",
+      "elf_address": "0x3f0690",
+      "size": 288,
+      "sha256": "cd174313a853d9549685d78e9f0ee02f73881ad4d7eedca2c3ff72df8f6083ef",
+      "scope": "complete function",
+      "port_coverage": "seed-ownership evidence only: unload reseeds ordinary stream from Timer::getRealTime and zeros synchronized seed"
+    },
+    {
+      "original_symbol": "_GLOBAL__I_.._.._sources_Utils_Random.cpp",
+      "demangled": "Random.cpp static initializer",
+      "elf_address": "0x3136dc",
+      "size": 68,
+      "sha256": "5163f37d7b84de91112ce366c498ec8321816cb155891d369a3bad4e48e9799a",
+      "scope": "complete function",
+      "port_coverage": "seed-ownership boundary evidence only: explicitly zeros both debug counters, not the game seed values"
+    }
+  ],
+  "existing_random_differential": {
+    "report": "port/random/differential-validation.json",
+    "original_function": "Random::GetRandom(int, bool)",
+    "elf_address": "0x33ff90",
+    "size": 196,
+    "core_comparisons": 768,
+    "mismatches": 0
+  }
+}

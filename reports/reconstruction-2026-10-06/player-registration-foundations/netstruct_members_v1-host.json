@@ -1,0 +1,10 @@
+{
+  "validation": "PASS",
+  "cases": 138,
+  "compared_bytes": 8267,
+  "original_words": 279,
+  "native_policy_checks": 6,
+  "implementation": "selected library",
+  "scope": "ByteArray/NetStructByteArray36/3/30 constructors, SetValue and SetBuffer; Int/UInt/Bool SetValue leaves. Original input objects, shared revision and allocation/free traces compared. Allocator/memory primitives declared fixtures; bitstream/network serialization and allocator OOM are outside the source equivalence proof.",
+  "source_sha256": "a7703fea61e98164982e3303e93c8a31585a7703732b50630db465e193cd1d6f"
+}

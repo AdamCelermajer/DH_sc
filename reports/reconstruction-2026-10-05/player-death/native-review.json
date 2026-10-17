@@ -1,0 +1,17 @@
+{
+  "scope": "Fresh read-only teammate review; not a runtime/differential test",
+  "blocking_bugs_found": 0,
+  "reviewed_source_sha256": {
+    "port/android-native/app/src/main/cpp/native_player_skills.cpp": "2cbf5a7544a2e2b00b24a8b435f918f1e85c9b1569cde1970d1b88b4d9406999",
+    "port/android-native/app/src/main/cpp/native_player_skills.hpp": "6ad1ff521e09c23d6f1e29014b22a4f587cc439692b2c19d3aeb324b61437b8c",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "fafdba7c4a557a350a67d8a6b8d81e60914f10c0a4e51e0b14f3907e8700c94e"
+  },
+  "confirmed": [
+    "one retained Session/preparation/Coordinator",
+    "canonical target/AI/FX/buff/property fields",
+    "source cleanup ordering and retained failure prefixes",
+    "no unsolicited per-frame UpdateAllSkills",
+    "missing reached nonnull providers fail explicitly",
+    "raw fatal-hit fixture accurately scoped"
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "schema": "dh2-vox-n-chunk-view-provenance-v1",
+  "adapted_from_branch": "codex/dh2-engine-reverse-engineering",
+  "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+  "candidate_source_path": "port/engine-audio/native-format/chunk_view.hpp",
+  "candidate_source_blob_sha256": "2de7ffd524adb6213163470e98c4b25ba85506acfe18ced2727bcb9658330713",
+  "historical_source_path": "port/engine-audio/native-format/corpus/assets.json",
+  "historical_source_blob_sha256": "47868412db23ba2916aa6174c3a45a1a224be2e38bf404b9cd792ca67867e2ab",
+  "original_manifest_source_path": "port/engine-audio/original-functions.json",
+  "original_manifest_source_blob_sha256": "19cb763181832d4e089cf31f6d2a31a8461e9e64bedd6f0234fecc56049e2377",
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_framing_evidence": {
+    "symbol": "vox::DecoderNativeCursor::ParseFile()",
+    "mangled": "_ZN3vox19DecoderNativeCursor9ParseFileEv",
+    "elf_va": "0x008738bc",
+    "range_size": 2616,
+    "sha256": "db37531fce39bdf9c8d2a98084ddb31360fb81ddae015d34a1474f5d9b294674",
+    "existing_recovered_assembly": "recovered/native/assembly/libDungeonHunter2.so/vox_DecoderNativeCursor-d698012fa4b6-001.asm"
+  },
+  "complete_original_body_credit": 0,
+  "original_execution": false,
+  "port_scope": "bounded byte framing with added safety checks; no codec, stream/allocator ABI, playback or complete ParseFile body",
+  "corrected_tag_words": {
+    "Segm": "0x6d676553",
+    "Grps": "0x73707247",
+    "Grpe": "0x65707247",
+    "Plst": "0x74736c50",
+    "Trsn": "0x6e737254"
+  }
+}

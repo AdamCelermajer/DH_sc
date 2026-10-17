@@ -1,0 +1,73 @@
+{
+  "validation": "PASS",
+  "whitelist": [
+    "port/game-data/player_profile_index_v1.cpp",
+    "port/game-data/player_profile_index_v1.hpp",
+    "port/game-data/player_save_load_owner_v1.cpp",
+    "port/game-data/player_save_load_owner_v1.hpp",
+    "port/game-data/player_savegame_v1.cpp",
+    "port/game-data/player_savegame_v1.hpp",
+    "port/game-data/tests/player_profile_index_v1.cpp",
+    "port/game-data/tests/player_profile_index_v1_original.py",
+    "port/game-data/tests/run_player_profile_index_v1_host.py",
+    "port/game-data/reference/player-profile-index-v1/NOTES.md",
+    "port/game-data/reference/player-profile-index-v1/upstream-attribution.json",
+    "port/game-data/reference/player-profile-index-v1/original-functions.json",
+    "port/game-data/reference/player-profile-index-v1/original-functions.asm",
+    "port/game-data/reference/player-profile-index-v1/original-capture.json",
+    "port/game-data/reference/player-profile-index-v1/fixtures.bin",
+    "port/game-data/reference/player-profile-index-v1/load-fixtures.bin",
+    "port/game-data/reference/player-profile-index-v1/metadata-fixtures.bin",
+    "port/game-data/reference/player-profile-index-v1/section-callbacks.json",
+    "port/game-data/reports/player-profile-index-v1-host-audit.json",
+    "port/game-data/reference/player-profile-index-v1/freeze-manifest.json"
+  ],
+  "files_sha256": {
+    "port/game-data/player_profile_index_v1.cpp": "e794d0229dfbd9c970f30eace3408ea88e32bbd2bcca4db37f99460191fbc5ef",
+    "port/game-data/player_profile_index_v1.hpp": "5bfcb8b934cce80ef507f8a96a0db0e9eaacc344e046d3c1817e2c398add0ef7",
+    "port/game-data/player_save_load_owner_v1.cpp": "101f7385e07d48c3ca4d03373dd61625c3dc100825cd1781304ef0b6d81e84a5",
+    "port/game-data/player_save_load_owner_v1.hpp": "e4313b94c95c8d0083c1f3d6d39f735276b1d1f5f8c4a8cf1b59923e6ad234bc",
+    "port/game-data/player_savegame_v1.cpp": "737dd6465a7e5bc46908c8e67e30c753045dcae194706ed4b8d040748f3f2707",
+    "port/game-data/player_savegame_v1.hpp": "fae318036b5556d98aa21e15b2b067d263c51f7c93ec07fde2a7006cf5a0a2dc",
+    "port/game-data/tests/player_profile_index_v1.cpp": "58053c72542979c61d207ff5c864337d031c0b267ed4106025e0b5deb06c016b",
+    "port/game-data/tests/player_profile_index_v1_original.py": "65df099156cf6c24ca355f71c83d89193fc7048a06d495b57a215a0fdc7e72d5",
+    "port/game-data/tests/run_player_profile_index_v1_host.py": "39b878ed637b6910b87de7602c3afa0439d3eb8a18eed75882ec3d9a6e07a4fa",
+    "port/game-data/reference/player-profile-index-v1/NOTES.md": "a66f547e46c3960025d0ea7edde1808b728d75db8663d3066e458d2e1fbc1776",
+    "port/game-data/reference/player-profile-index-v1/upstream-attribution.json": "a4f5a80e723c52de226c52b17e88886913c249cf7729a50f533f7e6ed010f9be",
+    "port/game-data/reference/player-profile-index-v1/original-functions.json": "2503dcd24e7669b673932cfd191421de55c531aff2aa711405389bd93e1ece19",
+    "port/game-data/reference/player-profile-index-v1/original-functions.asm": "269d0faf3cb129cceda7eff93b8c98007a8fa1c4bb0a3c73495d27eb265d2635",
+    "port/game-data/reference/player-profile-index-v1/original-capture.json": "669e446493ded4e1f46143d66f49145532c82d5dee1ed125cbe7153a4c03b6e0",
+    "port/game-data/reference/player-profile-index-v1/fixtures.bin": "de3278c2a812dc55227ea4276c149008b1d129fa286eb24410b14dd9047e6f90",
+    "port/game-data/reference/player-profile-index-v1/load-fixtures.bin": "bb181cbe095003851c8fb2fb49e2256fcb5472bd41d7ff2e4498e4c8de659c74",
+    "port/game-data/reference/player-profile-index-v1/metadata-fixtures.bin": "cbe8183b879bb9561743508dd9dd6c8fb32444038ccd29ddee7b794585134d38",
+    "port/game-data/reference/player-profile-index-v1/section-callbacks.json": "a39d094077c0447d07be77f54c11c553e9363db990c7e60eee9531d2780ee3da",
+    "port/game-data/reports/player-profile-index-v1-host-audit.json": "e60ab0dd1cee9c8483ffedae10d0ae5379566da9f884cc411f693d50363435c8"
+  },
+  "modified_existing_authority": [
+    "port/game-data/player_savegame_v1.cpp",
+    "port/game-data/player_savegame_v1.hpp"
+  ],
+  "upstream_commit": "791e961b12233100b303038c961666834f4beb9d",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Actual source campaign index, complete SG_Load mask/slot/profile/global ordering, all seven metadata readers through the sole borrowed Save. 128 source filename cases. Real private campaign mask1 reads with anonymized outputs only. File construction/I/O, non-metadata init/sections and online/quest globals are mandatory external services. Source writer-registration/persistence, backup policy, gameplay Save association/profile startup, VM/vitals and full campaign load remain outside this evidence.",
+  "host_report_keys": [
+    "host_report",
+    "original_comparison",
+    "filename_original_cases",
+    "source_sha256",
+    "cache_inputs_sha256",
+    "new_modules_selected",
+    "source_tu_counts",
+    "selected_compiler_objects",
+    "binary_sha256"
+  ],
+  "replay_prerequisites": [
+    "port/game-data/tests/player_profile_index_v1_original.py",
+    "port/game-data/tests/player_savegame_v1_original.py",
+    "port/game-data/tests/items_differential_v4_original.py",
+    "port/game-data/tests/navigation_differential_v4_original.py",
+    "port/engine-resources/tests/cpu.py"
+  ],
+  "external_filename_whitelist_owner": "root: player_profile_filename_v1 cpp/hpp and reference/player-profile-filename-v1 original proof",
+  "private_campaign_bytes_published": false
+}

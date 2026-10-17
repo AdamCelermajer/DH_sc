@@ -1,0 +1,270 @@
+{
+  "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "effects": [
+    {
+      "name": "state_feared",
+      "set_id": 249,
+      "dict_id": 65,
+      "bdae": "marker_fear.bdae",
+      "textures": [
+        "fx_ghost.tga"
+      ]
+    },
+    {
+      "name": "state_slowed",
+      "set_id": 251,
+      "dict_id": 67,
+      "bdae": "marker_slow.bdae",
+      "textures": [
+        "marker_slow.tga"
+      ]
+    },
+    {
+      "name": "state_stunned",
+      "set_id": 252,
+      "dict_id": 68,
+      "bdae": "marker_stun.bdae",
+      "textures": [
+        "marker_stun_stars.tga"
+      ]
+    },
+    {
+      "name": "SwampkingImpactFX",
+      "set_id": 70,
+      "dict_id": 220,
+      "bdae": "spell_dh2_hurt_steam.bdae",
+      "textures": [
+        "FX_radial_white.tga",
+        "fx_smoke_01.tga"
+      ]
+    },
+    {
+      "name": "Balrog_Attack_03",
+      "set_id": 10,
+      "dict_id": 1,
+      "bdae": "balrog_firespit.bdae",
+      "textures": [
+        "atlas_fx_particles_002.tga"
+      ]
+    },
+    {
+      "name": "DarkQueen1AttackMelee",
+      "set_id": 15,
+      "dict_id": 79,
+      "bdae": "skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+      "textures": [
+        "FX_smoke_03.tga",
+        "fx_weapon_trail_skill_gradual.tga"
+      ]
+    },
+    {
+      "name": "DarkQueen2Attack",
+      "set_id": 18,
+      "dict_id": 82,
+      "bdae": "skill_dh2_monster_dark_queen2ndform_attack.bdae",
+      "textures": [
+        "fx_weapon_trail_skill_gradual.tga"
+      ]
+    },
+    {
+      "name": "DragonAttack01",
+      "set_id": 22,
+      "dict_id": 86,
+      "bdae": "skill_dh2_monster_dragon_attack_01.bdae",
+      "textures": [
+        "fx_aura_paladin_persistent.tga",
+        "fx_magic_lenz_flares_spiral.tga",
+        "fx_spectral_light.tga"
+      ]
+    },
+    {
+      "name": "DragonAttack01b",
+      "set_id": 23,
+      "dict_id": 87,
+      "bdae": "skill_dh2_monster_dragon_attack_01b.bdae",
+      "textures": [
+        "fx_aura_paladin_persistent.tga",
+        "fx_magic_lenz_flares_spiral.tga",
+        "fx_spectral_light.tga"
+      ]
+    },
+    {
+      "name": "DragonAttack02",
+      "set_id": 24,
+      "dict_id": 88,
+      "bdae": "skill_dh2_monster_dragon_attack_02.bdae",
+      "textures": [
+        "fx_aura_paladin_persistent.tga",
+        "fx_magic_lenz_flares_spiral.tga",
+        "fx_spectral_light.tga"
+      ]
+    },
+    {
+      "name": "DragonAttack03",
+      "set_id": 25,
+      "dict_id": 89,
+      "bdae": "skill_dh2_monster_dragon_attack_03.bdae",
+      "textures": [
+        "fx_aura_paladin_persistent.tga",
+        "fx_magic_lenz_flares_spiral.tga",
+        "fx_spectral_light.tga"
+      ]
+    },
+    {
+      "name": "Scavenger_Attack",
+      "set_id": 63,
+      "dict_id": 282,
+      "bdae": "troll_hit.bdae",
+      "textures": [
+        "atlas_fx_particles_001.tga",
+        "atlas_fx_particles_002.tga"
+      ]
+    }
+  ],
+  "files": [
+    {
+      "path": "data/3d/interface/marker_fear.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/marker_fear.bdae",
+      "bytes": 12744,
+      "sha256": "2217ee4f5ab149e7293f7ba7759ba8ed0b5c29e96ad64f1e60056b79d60b9b5c"
+    },
+    {
+      "path": "data/3d/textures/fx_ghost.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_ghost.tga",
+      "bytes": 2108,
+      "sha256": "0760ded152921cfaa0eac9a9e67859e7848f0d142169fba86f015eb880a3a2a6"
+    },
+    {
+      "path": "data/3d/interface/marker_slow.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/marker_slow.bdae",
+      "bytes": 6144,
+      "sha256": "3fa66a40f6567a0eda2ebeb18385ccd0041da3e0423bc4d1fc7ee78b68718505"
+    },
+    {
+      "path": "data/3d/textures/marker_slow.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/marker_slow.tga",
+      "bytes": 8252,
+      "sha256": "6f9210643ca8b2716b3e579e7b56c3177bf2a94ffb154ef7a318cab776961313"
+    },
+    {
+      "path": "data/3d/interface/marker_stun.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/marker_stun.bdae",
+      "bytes": 6236,
+      "sha256": "bc903cdfed48d18a25d48ebdd5cea68876df1a31d1fc8f0b88013a430b7700b4"
+    },
+    {
+      "path": "data/3d/textures/marker_stun_stars.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/marker_stun_stars.tga",
+      "bytes": 32828,
+      "sha256": "f69974b9c0c3f4bed6001e75470303b24ba28b8229e171b274e1420827c33f01"
+    },
+    {
+      "path": "data/3d/interface/spell_dh2_hurt_steam.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/spell_dh2_hurt_steam.bdae",
+      "bytes": 16992,
+      "sha256": "a3dc7045c2be8ca04ab0d868dd3117fe95176a75648156fbcaca62b852b7d3d0"
+    },
+    {
+      "path": "data/3d/textures/fx_radial_white.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_radial_white.tga",
+      "bytes": 8252,
+      "sha256": "3e9b0cc09505efcb18af67df69da286639949e4b4eaba87386858bb77c7121e6"
+    },
+    {
+      "path": "data/3d/textures/fx_smoke_01.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_01.tga",
+      "bytes": 8252,
+      "sha256": "e9cff69a305fd0ed92dce9b8cef6c0e5ef949e00e2c03bc55e87f068db2bf263"
+    },
+    {
+      "path": "data/3d/interface/balrog_firespit.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/balrog_firespit.bdae",
+      "bytes": 7176,
+      "sha256": "aa075f02761fa1d3bd6aafe971af84a786729ce55f4e5ed93d64064f88cbb0af"
+    },
+    {
+      "path": "data/3d/textures/atlas_fx_particles_002.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_002.tga",
+      "bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    },
+    {
+      "path": "data/3d/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dark_queen1stform_attack_melee.bdae",
+      "bytes": 16068,
+      "sha256": "f0f6bb3a6799294e6a0c34de719e5c08b7d8f38d4bc3974abee73115a8a1b7f6"
+    },
+    {
+      "path": "data/3d/textures/fx_smoke_03.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_smoke_03.tga",
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    {
+      "path": "data/3d/textures/fx_weapon_trail_skill_gradual.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_weapon_trail_skill_gradual.tga",
+      "bytes": 2108,
+      "sha256": "d6c0de9233d4f24ae963495135505f1c0f74d0207f7d2604d48c214c460e8ec1"
+    },
+    {
+      "path": "data/3d/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dark_queen2ndform_attack.bdae",
+      "bytes": 9612,
+      "sha256": "016a676b45a9d75ac5f0cf39e10ce5689096ccf1995d4600861186666df73e07"
+    },
+    {
+      "path": "data/3d/interface/skill_dh2_monster_dragon_attack_01.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_attack_01.bdae",
+      "bytes": 48584,
+      "sha256": "b3d3d14829a76fb5d1a2f6ca7e54e38efa181146d4065ed923a906830c52d0af"
+    },
+    {
+      "path": "data/3d/textures/fx_aura_paladin_persistent.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_aura_paladin_persistent.tga",
+      "bytes": 8252,
+      "sha256": "1433b781e4e2715621689bc67db6381080aa601635bc2033dbf621f7066f4a21"
+    },
+    {
+      "path": "data/3d/textures/fx_magic_lenz_flares_spiral.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_magic_lenz_flares_spiral.tga",
+      "bytes": 8252,
+      "sha256": "758ad080373f79ceddefbced3a349620aceab7e5d6cb407d0e3d981e7058fd8b"
+    },
+    {
+      "path": "data/3d/textures/fx_spectral_light.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/fx_spectral_light.tga",
+      "bytes": 8252,
+      "sha256": "b899ee5709e6c555610cb07759446c370ca7fe4cc8ead7162e5e3e0ac86e6ae3"
+    },
+    {
+      "path": "data/3d/interface/skill_dh2_monster_dragon_attack_01b.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_attack_01b.bdae",
+      "bytes": 50124,
+      "sha256": "20a253d0f8be905239464cc4ba47d57bbe33088474a3f32326ac8e822ebf7692"
+    },
+    {
+      "path": "data/3d/interface/skill_dh2_monster_dragon_attack_02.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_attack_02.bdae",
+      "bytes": 52696,
+      "sha256": "7b721e0454499b23c08c851942c3ce4f57fc6ccd8c4503a84fe65566ce43c7fa"
+    },
+    {
+      "path": "data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae",
+      "bytes": 48636,
+      "sha256": "1a74b8cd645b5a62df0d0d849952f722b47b53f7ea97abb567d0249beb779d90"
+    },
+    {
+      "path": "data/3d/interface/troll_hit.bdae",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/interface/troll_hit.bdae",
+      "bytes": 13756,
+      "sha256": "b43c75039cb7e8a28de8ad6951bb7f33c41adb20797a6455adad1330d4adfefb"
+    },
+    {
+      "path": "data/3d/textures/atlas_fx_particles_001.tga",
+      "source_archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/textures/atlas_fx_particles_001.tga",
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    }
+  ]
+}

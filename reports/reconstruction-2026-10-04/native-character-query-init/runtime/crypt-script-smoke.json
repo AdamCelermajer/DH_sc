@@ -1,0 +1,289 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "88fd31818f6edeee68a7685ac90786015b483d4ae67aa0beeb0b25f116c4e59f",
+  "serial": "emulator-5558",
+  "full_game_playable": false,
+  "physical_arm64_phone_tested": false,
+  "authored_trigger_and_script_modified": false,
+  "player_start_is_fan_test_override": true,
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "b7aec60acef3cc48148244da9777d41c3f63b07c88f2615c98119bd8dfc3fb14",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "182560dcdd191d7594fc2d1c0ea5e930d2d00e9c884a4c865897a023e80f4393",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "3475331490ab749c10e7d1a09c508197fdb8aac5b8c09adc58af754d8d152402",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "dec1e007095e5faa7d7a3387ff0ac84e8631eb56625f82df801ad0b3c18bd254",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "c7b752f955369e987598737ba657000858c66aa8cea7393135f627d5cd0bba20",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "b97c8333acb46a6cb792821eb0f8e911048bab7d6e9dd64a132737f8fea2bcf0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "fb6d9022dd1dfbd810a8d775ce7c50a39f536122ac38f2242181466aa9fa48bd",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "e3b6773e93319f0b21816cebf2c0255981d6e5b1f5d1c16af955c80b69c1e298",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "page_size": 16384,
+  "api_level": 37,
+  "installed_apk_sha256": "88fd31818f6edeee68a7685ac90786015b483d4ae67aa0beeb0b25f116c4e59f",
+  "launch_log_boundaries": [
+    {
+      "pid": "28411",
+      "epoch_since": "1791135785.322992916"
+    },
+    {
+      "pid": "28506",
+      "epoch_since": "1791135790.151283515"
+    }
+  ],
+  "bundled_start_does_not_trigger_remote_ambush": true,
+  "authored_trigger_descriptor_sha256": "e809b77179b827baeb8e3047e26f52bacf8dc0c855373db8e4e82d045a250299",
+  "test_spawn": [
+    -1405.22998046875,
+    19893.53872013092,
+    608.06201171875
+  ],
+  "native_monster_initial_properties": [
+    [
+      "_prim_Monster_SURPRISE_01",
+      "2048",
+      "25600",
+      "25600",
+      "23552",
+      "23552",
+      "1",
+      "2",
+      "183c",
+      "1",
+      "0",
+      "2"
+    ],
+    [
+      "_prim_Monster_SURPRISE_02",
+      "2048",
+      "25600",
+      "25600",
+      "23552",
+      "23552",
+      "1",
+      "2",
+      "183c",
+      "1",
+      "0",
+      "2"
+    ]
+  ],
+  "native_debug_file_after_initialization": {
+    "bytes": 665,
+    "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+  },
+  "screenshots": [
+    {
+      "path": "outside-authored-trigger.png",
+      "sha256": "24351e7db6bfcb7decac052bc0ee302e2a2951ea25e1e105103dfac6138009b5"
+    },
+    {
+      "path": "source-ghost-pair-idle.png",
+      "sha256": "2ccb02bcc0ad80e8e9639abea67d99d231b36e0dc0a4ada247a4fcb914c234cb"
+    },
+    {
+      "path": "authored-ambush-restored.png",
+      "sha256": "c380a6c87a0829d15b9804c180578bfb6a14770f592be9d86cc967e264970460"
+    }
+  ],
+  "source_visibility_hides_then_restores_enabled_ghosts": true,
+  "source_spawn_requests": [
+    {
+      "name": "_prim_Monster_SURPRISE_01",
+      "script_id": 17,
+      "pc": 1,
+      "time_ms": 5882
+    },
+    {
+      "name": "_prim_Monster_SURPRISE_02",
+      "script_id": 17,
+      "pc": 3,
+      "time_ms": 5974
+    }
+  ],
+  "source_wait_start_frames": [
+    {
+      "duration": 250,
+      "time_ms": 5614,
+      "frame_dt": 26
+    },
+    {
+      "duration": 75,
+      "time_ms": 5882,
+      "frame_dt": 20
+    }
+  ],
+  "actual_touch_contact_triggered_original_script": true,
+  "unbound_gated_combat_target_pairs_rejected": [
+    [
+      0,
+      78
+    ],
+    [
+      78,
+      0
+    ],
+    [
+      79,
+      -2
+    ]
+  ],
+  "camera_focus_restored_to_player_after_target_probes": true,
+  "nonlethal_source_health_fixture": {
+    "name": "_prim_Monster_SURPRISE_01",
+    "damage": 256,
+    "before": 25600,
+    "after": 25344,
+    "full_combat_damage_calculation_tested": false
+  },
+  "reload_preserves_consumed_trigger_and_script": true,
+  "recreation_preserves_script_and_ghost_states_without_replay": true,
+  "native_catalogue_load_reload_recreation": true,
+  "native_catalogue_current_level_owner_bound": false,
+  "native_level_constructor_fields_and_range_callbacks": true,
+  "native_level_fields_owner": "viewport-owned bounded projection; development normal difficulty argument",
+  "original_gslevel_save_stack_bound": false,
+  "native_debug_file_after_recreation": {
+    "bytes": 665,
+    "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+  },
+  "native_debug_source_io_counters": [
+    1,
+    24,
+    1,
+    1,
+    5,
+    5,
+    0
+  ],
+  "native_monster_unchanged_oninit_live_properties": true,
+  "native_monster_vm_health_and_timers_retained": true,
+  "unfinished_ai_dot_timer_providers_paused": true,
+  "native_character_function_registration_scope": "10 supported OnInit closures; complete 265 ordered bindings pending",
+  "autonomous_ghost_ai_and_full_init_script_process_complete": false,
+  "native_character_list_load_reload_recreation": true,
+  "native_character_list_counts": [
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ],
+    [
+      14,
+      14,
+      0,
+      0,
+      0
+    ]
+  ],
+  "native_character_list_scope": "Prince and 13 live monster projections; native owned source-list nodes; full ObjectManager factory/name-map and autonomous Ghost AI remain pending",
+  "scope": "Original GhostAmbush01 contact/timed spawning on authored placement, approached with actual root-motion touch input from an explicit fan spawn override; source completion/body creation and reload/recreation; no complete-level or full AI claim.",
+  "previous_world_override_restored": true
+}

@@ -1,0 +1,47 @@
+{
+  "validation": "PASS",
+  "whitelist": [
+    "port/level-world/player_ai_death_v1.hpp",
+    "port/level-world/player_ai_death_v1.cpp",
+    "port/level-world/tests/player_ai_death_v1.cpp",
+    "port/level-world/tests/player_ai_death_v1_original.py",
+    "port/level-world/tests/run_player_ai_death_v1_host.py",
+    "port/level-world/reference/player-ai-death-v1/original-functions.json",
+    "port/level-world/reference/player-ai-death-v1/original-capture.json",
+    "port/level-world/reference/player-ai-death-v1/original-cases.bin",
+    "port/level-world/reference/player-ai-death-v1/NOTES.md",
+    "port/level-world/reference/player-ai-death-v1/freeze-manifest.json",
+    "port/level-world/reports/player-ai-death-v1-selected-host.json"
+  ],
+  "source_sha256": {
+    "port/level-world/player_ai_death_v1.hpp": "8143599c0e96756dcd88a3d94cd17d75f2ffd1aebfc18719f40611fb50024315",
+    "port/level-world/player_ai_death_v1.cpp": "ef78c1b2bb7b5b034f7813420fbc943c8c41d34300a90351c2c85d364f73f281",
+    "port/level-world/tests/player_ai_death_v1.cpp": "e3c6fbb1b3590f614950157f77a125ca32ebd8ffd3ccf1ebf12526cb0d0d7b6d",
+    "port/level-world/tests/player_ai_death_v1_original.py": "1b03d589faf32b6c034e95016db79ce6a3e4854b3f693275c06c0610d4c2152b",
+    "port/level-world/tests/run_player_ai_death_v1_host.py": "679bdf1f198f9c9d009905b0df7214423433f16f9c14aa4e16e935ce108762e7",
+    "port/level-world/reference/player-ai-death-v1/original-functions.json": "337f13447ef4d1f7121d668151caea76bc38d15da4f73d0897296583fc5f5f45",
+    "port/level-world/reference/player-ai-death-v1/original-capture.json": "f403dcc6f4f626e68957938e39ce99da39097de230cbd916a953e547ffb26ffb",
+    "port/level-world/reference/player-ai-death-v1/original-cases.bin": "f4622627960a062640f574f9af6aff2c1831acfd1041b00df06bb59d9b93b552",
+    "port/level-world/reference/player-ai-death-v1/NOTES.md": "0920fc0b186805dae3afbea6ad22b6d656691ab69888dfd8fdd134b89f47ecf3",
+    "port/level-world/reports/player-ai-death-v1-selected-host.json": "720c552a7bc1b769619cb288032ef0e510ce5fb2dde57b307113a9dbaf4b511c"
+  },
+  "selected_host_report": {
+    "validation": "PASS",
+    "original_route_cases": 18,
+    "failure_prefix_cases": 58,
+    "guard_cases": 9,
+    "actual_player_classes": 3,
+    "same_session": true,
+    "native_death": false
+  },
+  "original_cases": 18,
+  "original_distinct_pinned_words": 473,
+  "selected_scoped_tu_count": 1,
+  "sole_vm_tu_count": 1,
+  "selected_compiler_inputs": 552,
+  "selected_before_after_equal": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "production_selected": true,
+  "native_build_or_live_claim": false,
+  "scope": "Original death caller composition and real selected host DSOs; external state focus bodies declared fixtures, complete Character::Kill/rewards excluded."
+}

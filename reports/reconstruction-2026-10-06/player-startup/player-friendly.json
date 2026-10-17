@@ -1,0 +1,75 @@
+{
+  "validation": "PASS",
+  "host": {
+    "validation": "PASS",
+    "failure_prefix_cases": 344,
+    "guard_cases": 15,
+    "checks": 2795
+  },
+  "original": {
+    "validation": "PASS",
+    "cases": 308,
+    "distinct_executed_words": 189,
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "scope": "PlayerManager GetNumPlayers, friendly ordinal helper, GetPlayer and actual nested GetPlayerByInternalID execute pinned ARM words. Online/game-state/Matching/net owners and network final lookup are declared external query providers. Offline count is tree+6a0; all-ID network span is +6a8/+6ac. Friendly offline scan ignores local-controller+66c, optionally filters Character+660 and returns actual+670. Network route rereads GetNumPlayers, resolves each candidate with internal flag0 and reloads its span; final GetPlayer lookup passes flag0. Native bounds guards are separate from valid original ARM comparison. Character lifecycle, registration and gameplay are outside this proof."
+  },
+  "comparisons": 308,
+  "mismatches": 0,
+  "implementation": "selected library",
+  "source_sha256": {
+    "player_manager_friendly_v1.cpp": "c36d8d61870d4d4ac9ca596c3285b17c5d319b4ee5d22b43235af616e83016a3",
+    "player_manager_host_level.cpp": "efbfede4c686e4342ef38bb7170c248ef9560a95f2f2205e6ffb2b0e8376e506",
+    "player_local_selection_v1.cpp": "403d8da351d73d5b83d91b1162e7fd4c9287285df30084c00e357bdb283cc6e7",
+    "player_locality_v1.cpp": "736f5e9656b95abd60be0d7d46387f847f4ead06cb36a6e1d9237d6db7809098",
+    "character_level_member.cpp": "e5d9ee9f1c5f23c98cd47edecca16fe124a92b9ed69012ce4fd99c1514247f36",
+    "player_manager_friendly_v1.hpp": "76dccfccd4aefae887ffa42cb215c7b2e32fe364aca9c979704a741069ae4a61",
+    "tests/player_manager_friendly_v1_host.cpp": "e067ec1283374929befa27ceacf70c2d408c82afbd4e8ece89abda78ab788764",
+    "tests/player_manager_friendly_v1_original.py": "45da94b7c2318a2c6404a8d7dd1f32d91112b4f300ddcec705ad53700f5cf1e7",
+    "tests/run_player_manager_friendly_v1.py": "df897493ea6715a9f941181202b93ac1c90c0a640bf69ed950ceafd9cfd83f25",
+    "tests/player_local_selection_v1.cpp": "5eece6853aa390e3d42b27f8eae7f9ce6cff84b0e027e4e47933ac702edae078",
+    "tests/player_local_selection_v1_original.py": "d0ebe5107b34efadc045dfe9cf19c1815c050cf1affdcafdbfb56160060983ea",
+    "tests/player_locality_v1_original.py": "8b913f371459673f85b29f55dd9215d4ffa1992e02e007571f8b8d506d35f7bc",
+    "reference/player-manager-friendly-v1/original-functions.json": "d64d453f24e19a62471f9d6f75b9dce1b76aac287dcc3c43007ca1096a9ddf72"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\character_level_member.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\character_level_member.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/character_level_member.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/character_level_member.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\40df62e5382f2961b65318f4f1b290d9\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_manager_host_level.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_manager_host_level.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_manager_host_level.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/40df62e5382f2961b65318f4f1b290d9/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_manager_host_level.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_locality_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_locality_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_locality_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_locality_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\40df62e5382f2961b65318f4f1b290d9\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_local_selection_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_local_selection_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_local_selection_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/40df62e5382f2961b65318f4f1b290d9/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_local_selection_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\40df62e5382f2961b65318f4f1b290d9\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_manager_friendly_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_manager_friendly_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_manager_friendly_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/40df62e5382f2961b65318f4f1b290d9/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_manager_friendly_v1.cpp.obj"
+    }
+  ],
+  "binary_sha256": {
+    "player_manager_friendly_v1_host.exe": "fc9e6a16cfa9a5700cc1360c8b6b08e0ecd4a93c0e0a02d1e4a3b7cd013da808",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "03d6a96d38c88550692d57e77429ab0b5668b1ffb0069702fcc3d2b9fbadc8aa",
+    "libdh2_level_world.dll": "12d8c81ca0aaa9d15271b60e72d9a3a1ec5ad575995f7f5bee152ac04091c88e"
+  }
+}

@@ -1,0 +1,34 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {"name":"NativeStartGame","address":"0x43e0d0","size":544,"sha256":"85b02337c7bfd071bcc9ad1e9e015c6237d7ad4172d35bcd18f204d89fc39ac7"},
+    {"name":"NativeGoToZone","address":"0x4422b8","size":716,"sha256":"411e3dd49006b6551deb3c3dd6ee147a1ad6e7d4f9f6c3c07e6356b34d30ed47"},
+    {"name":"Application::LoadLevel","address":"0x32bdc8","size":996,"sha256":"abfbed4cfb0c90e774b2f8190bf8e70ecbf4053b5340cd6768f0c6f03471f6f6"},
+    {"name":"Level::QuickSave","address":"0x3f059c","size":236,"sha256":"7e6c40fc5b27a4fe6eaccc6ad42ffb1e2ec6a5ff5dbe91a4a7c74502f7ca8ee6"},
+    {"name":"Level::SG_SaveAllPlayer","address":"0x3efc40","size":92,"sha256":"d8926119da8eb4d73d5e87b582bfa4ea8a1429b8fad6076e12ed8369eef43453"},
+    {"name":"Level::SG_SaveLocalPlayer","address":"0x3f07b0","size":64,"sha256":"1d86b0596346a6aea35552f68fba9ee1726034b19d95967e1bc9ceb6bcc6330b"},
+    {"name":"Level::Level","address":"0x3f3128","size":876,"sha256":"c03ef1a701f59b7e6c9754cb1c7b78653fa87560c040626e885ae82d2831a667"},
+    {"name":"LevelSavegame::LevelSavegame","address":"0x462934","size":400,"sha256":"10655e528ef4fc98b9a1449b594834ddcc4a93f8e78dfadae74201a6f2be860b"},
+    {"name":"LevelSavegame::Save","address":"0x4615ec","size":116,"sha256":"3355d01223d6c9c65a98f7658fe1dde69bcc666a7ecd4f98e4836ac9714fafdf"}
+  ],
+  "source_route": [
+    "NativeGoToZone: current-Level transition gate; normalize entry -1 to 0; QuickSave(false) in state 38; SG_SaveAllPlayer(false); resolve LevelList/file and player slot/difficulty; DisplayFastTravel; Application::LoadLevel(file,entry,slot,true,true,difficulty,false,0,0).",
+    "Application::LoadLevel(existing state 38): loading callback if required; Level+0x145=1; score; Level+0xf0=1; SG_SaveLocalPlayer(true); QuickSave(true); ResetIsLoaded; GSLevel::LoadLevel queues StateMachine::SwitchState.",
+    "Deferred StateMachine update pops old GSLevel before new state; old Level::Unload runs QuickSave(Level+0xf0), then SG_SaveAllPlayer(Level+0xf0), then cleanup. After ResetIsLoaded, the unload QuickSave state-38 gate skips.",
+    "Level constructor matches the LevelList row and creates a separate LevelSavegame using slot/hub/row/difficulty/checkpoint inputs. LevelSavegame owns Savegame at +4 with INFO and OBJS; Save dispatches saveAll when its source gate allows. This file is distinct from PlayerSavegame profile data."
+  ],
+  "selected_runtime": {
+    "fresh_start": "OriginalUiSession queues NativeStartGame; renderer applies the fresh-start plan and calls load_world. Source NativeStartGame returns early when current Level state is 38, so it is not the restart/fast-travel route.",
+    "fast_travel": "OriginalUiSession NativeGoToZone currently fails closed. level_transition_v1 and application_level_load_handoff_v1 model source order but have fixture providers only.",
+    "current_level_binding": "source_level_owner binds the renderer projection, selected LevelList fields, canonical PlayerSavegame and QEST. Its source identities are port facades, not a live source Level/GSLevel/LevelSavegame allocation; the level-save facade does not own a constructed per-level Savegame or publisher.",
+    "NativeSaveGame": "Routes to the active Character's canonical PlayerSavegame profile Transport. It cannot publish LevelSavegame INFO/OBJS."
+  },
+  "smallest_missing_provider": [
+    "One active Level lifecycle owner carrying the real reconstructed Level state and distinct per-level LevelSavegame/+4 Savegame identity, constructed from exact Level constructor inputs.",
+    "Source ObjectManager row snapshot and facts for each eligible object: +0x28 gate, name +0x5c, signed map key, type +0x64, Character/player/local flags, and +0x81 filter byte.",
+    "Exact virtual Serialize (+0x10) provider for every eligible object in the selected scene; current renderer descriptors are not source ObjectBase instances.",
+    "Per-level Savegame publisher bound to the original save directory and exact GetFilename arguments. PlayerSavegame Transport is not a substitute."
+  ],
+  "validation_scope": "Hashes and order are static evidence for the pinned ELF. Host transition kernels validate call order with fixtures only; no live Android transition or source Savegame publication is established."
+}

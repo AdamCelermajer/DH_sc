@@ -1,0 +1,56 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/level-world/character_player_buffs_v1.hpp": "95155c0eceb7de6605ee2f88dc11e275f8fb53255fcff4f0fc02ae19fd2ff7b5",
+    "port/level-world/character_player_buffs_v1.cpp": "50815022fe18a5852df9fb88ef9c79af71560cb559a9ab9792540e6dd951ed6e",
+    "port/level-world/tests/character_player_buffs_v1.cpp": "ea4305d6af1aa317e57ac6dbcbe672aad20ebf4c4f4a2c1fde2197a03a62b600",
+    "port/level-world/tests/character_player_buffs_v1_original.py": "a528e29cf7f4f8450d5d00d23842f7a7bb0913f4a18d22f811df771daec61e13",
+    "port/level-world/tests/run_character_player_buffs_v1_host.py": "917acbde88aa9eb665e84b64d57f9c1350f26121300b25184b4bbdd719bce4e0",
+    "port/level-world/reference/character-player-buffs-v1/NOTES.md": "61c2a22af04a613cd9b331bae9db0ce6ba281acc597a299de8873de8c1747479",
+    "port/level-world/reference/character-player-buffs-v1/original-functions.json": "779725f43a97d058d2da2ffb0b528a03fa13b59a9573a9ac016c51a47b7e85bc",
+    "port/level-world/reference/character-player-buffs-v1/original-resistance-cases.bin": "b0db7bf4db8f271897fa40784cfae09422d88db07f0ba117a7b28f0ef12010c2",
+    "port/level-world/reports/character-player-buffs-v1-selected-host-audit.json": "6fcd8d877cdeba18b694a29f6972eff5e9e3e84cc7db6a6a71465a924e6f5e90"
+  },
+  "attribution": {
+    "upstream_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "latest_inspected_commit": "791e961b12233100b303038c961666834f4beb9d",
+    "reused": "Adam signed-key map, deque BuffInst ownership, stronger/equal retention and v3 native callback argument rules",
+    "adaptation": "One owned group store borrowed by current PropertyView; timer calls borrow current Coordinator; ApplyBuff target owned_sheet only; existing canonical class kernels."
+  },
+  "inherited_c3ae797_git_blob_sha256": {
+    "port/level-world/character_buffs.hpp": "2d3b4b7753868bb797c00888c5efb6e40e86f1bda4df5e812cfc6da6a07d7e06",
+    "port/level-world/character_buffs.cpp": "0cc88402d166ca730098a25b1c76b216d7f21312908bcb8e675dc54bb5a83729",
+    "port/level-world/character_skill_buff_bindings_v3.hpp": "f956132c74d0b95bf113554bc6772606aa06011efb22ca95f6f796e92aaecec9",
+    "port/level-world/character_skill_buff_bindings_v3.cpp": "ac8bec626a21030b2b79f03b3221c3ef8100c22bf57c06b78c9b4f8e42c549fc"
+  },
+  "selected_level_world_dependencies": true,
+  "selected_android_native_build": false,
+  "live_gameplay": false,
+  "host_report": {
+    "validation": "PASS",
+    "original_whole_state_cases": 40,
+    "coordinator_prefix_and_ownership_checks": 14,
+    "unchanged_celest_same_vm_cases": 40,
+    "selected_native_build": false,
+    "live_gameplay": false,
+    "selected_level_world_dependencies": true
+  },
+  "binary_sha256": {
+    "build/player_buffs_audit.exe": "c8f0eebe6c1f14ba3e2179825f234ce4f43bef01038b67553f5ad1d39f9eec55",
+    "build/selected-world/libdh2_level_world.dll": "7bd41f47ca3dbac37807c28d7b69d2773a5bd6756f6ea772ecddd5af6bbd7659",
+    "build/selected-world/adam-script-runtime/libdh2_script_runtime.dll": "c996defad1bd11a642c1787f474a162cf7f062e01658fb7d9c3ecdc53c5ae335",
+    "build/selected-world/engine-skinning/libdh2_engine_skinning.dll": "f5f5c7b1a3e40ec61aed5d60a24ff8a4819055f5c383b72e90cfcc336ed6a90f",
+    "build/selected-world/game-data/libdh2_game_data.dll": "c0113dbcd90ebd80f7a8fab22a7586006a5bf3535661956f40022e15105a8335",
+    "build/selected-world/engine-skinning/engine-animation/libdh2_engine_animation.dll": "8aae84a09395c7532e38bdc89c02ebd749b0da358d47945747dc84d4242f361b",
+    "build/selected-world/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.dll": "34cc9176faf4f4d121506be874883859a80d72c8af6b7281324e857fdf24e83b"
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_fixture_sha256": "b0db7bf4db8f271897fa40784cfae09422d88db07f0ba117a7b28f0ef12010c2",
+  "remaining_dependencies": [
+    "Real FX creation/object/indexed-enable/non-null-release backend; source null release is a no-op.",
+    "Unprovided Value string/identity/table numeric coercions and nonfinite argument domains.",
+    "Original AddBuff/DelBuff/allocator/timer/FX instruction equivalence is outside this class/property oracle.",
+    "Actual Android Runtime wrapper, frozen saved-faery callbacks and live Player lifecycle/gameplay gates are owned by parent integration."
+  ],
+  "parent_native_checkpoint": "reports/reconstruction-2026-10-05/native-player-backbone/validation.json"
+}

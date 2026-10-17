@@ -1,6 +1,7 @@
 #pragma once
 #include <cstddef>
 #include <cstdint>
+#include <array>
 #include <memory>
 #include <string>
 #include <vector>
@@ -20,9 +21,13 @@ public:
   explicit Borrow(std::shared_ptr<const Snapshot> p):snapshot_(std::move(p)){}
  public:
   Borrow()=default;explicit operator bool()const noexcept{return bool(snapshot_);}
+  // The canonical process-owned DesignSettings row is retained with this
+  // snapshot so gameplay readers can borrow the same validated source bytes.
+  GameOptionBytesV1 design_settings_table()const noexcept;
   const std::vector<GameOptionRow32V1>& rows()const;
   const std::vector<std::string>& names()const;
   const std::vector<std::string>& fields()const;
+  std::uint32_t difficulty_count()const;
   std::size_t records_offset()const;std::size_t names_offset()const;
   std::size_t records_consumed()const;std::size_t names_consumed()const;
  };

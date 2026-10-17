@@ -1,0 +1,31 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__LoadLevelStatesEP11IStreamBasePv",
+      "elf_address": "0x46a9cc",
+      "size": 648,
+      "sha256": "a0bb20512ba428654a1df042eb566dc50ea44c1fb5c5e332322d39e8623b3d3d"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame16SG_SetLevelStateEiii",
+      "elf_address": "0x466e48",
+      "size": 504,
+      "sha256": "98231429c153df36c0bcae9c6dcbeccb5a75538e472b5bf19fb762c31f33806f"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17SG_SetMapLocStateEiii",
+      "elf_address": "0x466b18",
+      "size": 504,
+      "sha256": "2711837522a4bb9b4de7837c1174cd5d16843d5e11da9bb2f84e422e82e3b12f"
+    }
+  ],
+  "table_globals": {
+    "_ZN6Arrays9LevelList4sizeE": "0x9a65e4",
+    "_ZN6Arrays9LevelList13m_memberNamesE": "0x9a65ec",
+    "_ZN6Arrays8WorldMap4sizeE": "0x9a66f8",
+    "_ZN6Arrays8WorldMap13m_memberNamesE": "0x9a6700",
+    "gAssertLevel": "0x99f914"
+  },
+  "scope": "Whole LVLS reader and both saved-state setters versus original ARM.\nReal original instructions resolve names, consume six groups, validate source\nstates, read assertion mode and mutate the six retained Save arrays. Stream\nprimitives, temporary string lifetime, strcmp and assertion logging are explicit\nobserving providers. Original unsafe array/null stores are stopped at their\nreached store instruction and compared as native failure prefixes. Difficulty\noutside0..2, malformed streams, limits and provider errors are separate native\npolicies. This does not validate a native SG_Load/InitPost binding.\n"
+}

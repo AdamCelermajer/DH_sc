@@ -1,0 +1,40 @@
+{
+  "scope": "Android 17 source-renderer evidence; no original engine or gameplay",
+  "android_17_16k": {
+    "serial": "emulator-5558",
+    "api": "37.2",
+    "os_release": "17",
+    "page_size": 16384,
+    "abi": "x86_64",
+    "installed_apk_sha256": "046b4abc5f286b87b8b60af724745fe3a70bc6cc7f7fd71dbd0e4e986179c078",
+    "bres_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+    "texture_sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad",
+    "mesh_vertices": 4,
+    "mesh_indices": 6,
+    "decoded_texture": [1024, 1024],
+    "result": "exact exported APK installed and launched; real owner-supplied candle BRES and matching PVRTC texture rendered; process remained alive",
+    "screenshot_sha256": "194c1247b8d6aebc3400a43e8eca52417b970c7fe2bf55f602325304e3b07940"
+  },
+  "android_17_4k": {
+    "serial": "emulator-5560",
+    "api": "37.0",
+    "os_release": "17",
+    "page_size": 4096,
+    "abi": "x86_64",
+    "installed_apk_sha256": "6704738b8a1f963cfdef6e9dadce8523387c6e959f2980753c5bdfa46db1bb0b",
+    "bres_sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6",
+    "texture_sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad",
+    "mesh_vertices": 4,
+    "mesh_indices": 6,
+    "decoded_texture": [1024, 1024],
+    "result": "real owner-supplied candle BRES and matching PVRTC texture rendered in app; process remained alive",
+    "screenshot_sha256": "eaf3474364d3d8d2fbb59e5e74c83dcb455e6ce6e2b4ac2f20504266c0f0363b"
+  },
+  "exported_apk": {
+    "sha256": "046b4abc5f286b87b8b60af724745fe3a70bc6cc7f7fd71dbd0e4e986179c078",
+    "exact_apk_runtime_tested": true,
+    "exact_apk_test_scope": "installed, launched, and rendered the textured candle on Android 17/API 37.2 with 16 KiB pages; the 4 KiB render used a manifest-only predecessor with byte-identical classes.dex and both native libraries"
+  },
+  "arm64_runtime_tested": false,
+  "gameplay_tested": false
+}

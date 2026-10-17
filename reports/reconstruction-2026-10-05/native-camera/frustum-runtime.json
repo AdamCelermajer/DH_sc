@@ -1,0 +1,483 @@
+{
+  "validation": "PASS",
+  "scope": "Full setFrom, bounds and three-plane source composition. Original helpers run without patched tail branches or substituted point results; imported scalar FP operations are modeled IEEE operations. NaN classification is compared, payload propagation is not claimed. Native camera ownership/transforms/Android wiring remain open. Composition earns no additional original body beyond its component evidence.",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_arm_cases": 77,
+  "mismatches": 0,
+  "guards": {
+    "guards": 10
+  },
+  "source_sha256": {
+    "port/engine-camera/frustum_runtime.cpp": "548c171fed55b73a5edb0af630d87fc449fb4a27cc1e236722e21937ae689c04",
+    "port/engine-camera/frustum_runtime.hpp": "8a2c682adc3c7bedc28d06fd39530a4cec9cd2164f5ed250d25fbd61a1da432e",
+    "port/engine-camera/frustum.cpp": "a8720172cafd16d6a2521164ca1c0300b7e9cd39e66b2aaa70a2ea72f6898f04",
+    "port/engine-camera/frustum.hpp": "0cc8e9e50cef9309fb9d59ba88d4c23ecea30d83019f923824df70c851188ba8",
+    "port/engine-camera/frustum_bounds.cpp": "8129c50be78a72c652e1d38a732038f9968eb291e72d3de184b4bdd35e68ea18",
+    "port/engine-camera/frustum_bounds.hpp": "d08998e06b137f8f8259277bd13606765bed134964e5548695c4a1b7be94eada",
+    "port/engine-camera/plane_intersection.cpp": "717854b485ee4e78af49fbbfc1d5a056bfbcbad6974dbc939b1c7a5021e8da57",
+    "port/engine-camera/plane_intersection.hpp": "62c65530c1a4eaa9724e0aed6c28202fa3b028dc43b9435bd85917b450e0cddf",
+    "port/engine-camera/tests/frustum_runtime_host.cpp": "1cc21ec6319a6f4ce236766b466c64bff1717c5f52fc290c914be3c1954f3405",
+    "port/engine-camera/tests/run_frustum_runtime.py": "9f9605316140227145e6866e114a625c3f9d7b9f6569304de47eae043e6b43a2",
+    "port/engine-camera/tests/run_frustum_bounds.py": "fe7439af01b0a112bcff0d28ca01cc2c5ac02c1fb7e445aee14255b1e1c60596",
+    "port/engine-camera/tests/run_frustum_host.py": "6d0cccf6c05ed84b9b46a18e7cf69044a6ca6ba733c260194eaba5a87e4d7304",
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+    "port/engine-camera/reference/frustum-producer/original-functions.json": "5ceacd2a719b5c13479ef52094391f078e0972ab7f08952e2d2b0959725ca9b1",
+    "port/engine-camera/reference/frustum-bounds/original-functions.json": "13bd87c00c868ae302eae09ef222dea5dd2d7d43a19bfaa058244cea25f16910",
+    "port/engine-camera/reference/frustum-runtime/original-functions.json": "cb7cf46a4974069c8fd6a4427f31e9997189dbcc46b13e16485a39fc4740e0f6",
+    "port/engine-camera/reference/plane-intersection/original-functions.json": "9371eb28629038f827820d30d2202d6b460046732aae60e114d7903d8c3a9965"
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-ffp-contract=off",
+    "-fno-fast-math",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\frustum_runtime.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\frustum.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\frustum_bounds.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\plane_intersection.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\tests\\frustum_runtime_host.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-camera\\build\\frustum-runtime\\host.exe"
+  ],
+  "binary_sha256": "4b7804c482bb006b5c2e4b551d4e790893f395581d986cb3be6126a005dbd16a",
+  "original_body_execution": [
+    {
+      "address": "0x005826c0",
+      "symbol": "_ZN6glitch5scene12SViewFrustum7setFromERKNS_4core8CMatrix4IfEE",
+      "range_words": 145,
+      "executed_words": 145
+    },
+    {
+      "address": "0x5823d4",
+      "symbol": "_ZN6glitch5scene12SViewFrustum22recalculateBoundingBoxEv",
+      "range_words": 187,
+      "executed_words": 187
+    },
+    {
+      "address": "0x3415d8",
+      "symbol": "_ZNK6glitch4core7plane3dIfE25getIntersectionWithPlanesERKS2_S4_RNS0_8vector3dIfEE",
+      "range_words": 25,
+      "executed_words": 25
+    },
+    {
+      "address": "0x341260",
+      "symbol": "_ZNK6glitch4core7plane3dIfE24getIntersectionWithPlaneERKS2_RNS0_8vector3dIfEES7_",
+      "range_words": 222,
+      "executed_words": 222
+    },
+    {
+      "address": "0x34033c",
+      "symbol": "_ZNK6glitch4core7plane3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_",
+      "range_words": 90,
+      "executed_words": 90
+    }
+  ],
+  "scalar_import_calls": {
+    "__aeabi_fadd": 8240,
+    "__aeabi_fsub": 1232,
+    "__aeabi_fmul": 14210,
+    "sqrtf": 462,
+    "__aeabi_fdiv": 764,
+    "__aeabi_f2d": 1532,
+    "sqrt": 616,
+    "__aeabi_d2f": 1224,
+    "__aeabi_dcmplt": 308,
+    "__aeabi_ddiv": 304,
+    "__aeabi_dmul": 608,
+    "__aeabi_fcmpeq": 304,
+    "__aeabi_fcmpgt": 924,
+    "__aeabi_fcmplt": 924
+  },
+  "results": [
+    {
+      "case": "identity",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "perspective-like",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "signed-skew",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "all-zero-degenerate",
+      "matched": true,
+      "NaN_payload_only_differences": 24
+    },
+    {
+      "case": "negative-zero-boundary",
+      "matched": true,
+      "NaN_payload_only_differences": 24
+    },
+    {
+      "case": "zero-normal-nonzero-d",
+      "matched": true,
+      "NaN_payload_only_differences": 18
+    },
+    {
+      "case": "subnormal-boundary",
+      "matched": true,
+      "NaN_payload_only_differences": 13
+    },
+    {
+      "case": "max-finite-and-overflow",
+      "matched": true,
+      "NaN_payload_only_differences": 20
+    },
+    {
+      "case": "infinity",
+      "matched": true,
+      "NaN_payload_only_differences": 11
+    },
+    {
+      "case": "nan-payloads",
+      "matched": true,
+      "NaN_payload_only_differences": 16
+    },
+    {
+      "case": "tiny-finite",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "large-finite",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "cancellation",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-0",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-1",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-2",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-3",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-4",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-5",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-6",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-7",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-8",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-9",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-10",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-11",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-12",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-13",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-14",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-15",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-16",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-17",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-18",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-19",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-20",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-21",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-22",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-23",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-24",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-25",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-26",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-27",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-28",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-29",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-30",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-31",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-32",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-33",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-34",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-35",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-36",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-37",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-38",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-39",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-40",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-41",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-42",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-43",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-44",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-45",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-46",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-47",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-48",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-49",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-50",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-51",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-52",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-53",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-54",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-55",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-56",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-57",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-58",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-59",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-60",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-61",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-62",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    },
+    {
+      "case": "random-63",
+      "matched": true,
+      "NaN_payload_only_differences": 0
+    }
+  ]
+}

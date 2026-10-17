@@ -1,0 +1,71 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "AISExternal OnUpdate orchestration and its AISDefault default-update prefix. Pause/Stop/Lua callees are pinned dependencies and fixture boundaries.",
+  "functions": [
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "demangled": "AISExternal::OnUpdate()",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6",
+      "scope": "Caller orchestration; original OnUpdate override flag then CharAIScript state-update and state-conditions calls."
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnUpdateEv",
+      "demangled": "AISDefault::OnUpdate()",
+      "elf_address": "0x3dc798",
+      "size": 64,
+      "sha256": "b4b2accbca71efc2e95e37357589e0c2e722873cac3f1395065000d8561a8913",
+      "scope": "Default prefix: unsigned counter >199 gate, counter reset, AI_PauseUpdate(1000), then Cmd_Stop."
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript15CallStateUpdateEv",
+      "demangled": "CharAIScript::CallStateUpdate()",
+      "elf_address": "0x3d8eb4",
+      "size": 20,
+      "sha256": "a220137eb4be41b001f29b24a8f1bf809e4b8f3aeacd89dad90cd92497fb2369",
+      "scope": "Supporting exact +0xb4 null-guard and current-state +0x14 callback dispatch; adapter service reads live table."
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript19CallStateConditionsEv",
+      "demangled": "CharAIScript::CallStateConditions()",
+      "elf_address": "0x3d8ea0",
+      "size": 20,
+      "sha256": "dc6f8887142c6d1db5d90d035740a2342645d48af746b5c8c4511e7f0bbcbb4f",
+      "scope": "Supporting exact +0xb4 null-guard and current-state +0x2c callback dispatch; adapter service reads live table."
+    },
+    {
+      "original_symbol": "_ZN6CharAI14AI_PauseUpdateEj",
+      "demangled": "CharAI::AI_PauseUpdate(unsigned int)",
+      "elf_address": "0x3cb748",
+      "size": 52,
+      "sha256": "de9ac712fac2b8969681f06b50d8efe78a6a5a7d972824050467d369a92d67c0",
+      "scope": "Pinned dependency: writes CharAI pause byte and starts Character timer event 0x31 for the requested duration."
+    },
+    {
+      "original_symbol": "_ZN12v2Controller8Cmd_StopEv",
+      "demangled": "v2Controller::Cmd_Stop()",
+      "elf_address": "0x40559c",
+      "size": 92,
+      "sha256": "bbbd141037f03f7c7d46fb1b056d7a490dd4a368b9818c36a7976f5cda8da656",
+      "scope": "Pinned dependency: source controller Stop body."
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "demangled": "LuaScript::Call(char const*)",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc",
+      "scope": "Pinned dependency used by script/state callback fixture hooks; VM callback bodies are separate."
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "demangled": "CharTimers::TMR_Start(unsigned int, int, int, void*)",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6",
+      "scope": "Pinned timer dependency reached by AI_PauseUpdate; timer storage/lifecycle is provided by Character coordinator."
+    }
+  ]
+}

@@ -1,0 +1,111 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_boundary": "ARM32 instructions execute for the TargetList constructor and complete point-query body; allocator, diagnostic-switch and actor virtual boundaries are explicitly supplied by the oracle fixture.",
+  "functions": [
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE",
+      "demangled": "ObjectSearcher::TargetList::Search(Point3D<float> const&, float, Point3D<float> const&, float, ObjectSearcher::IObjectList&)",
+      "elf_address": "0x4a2f34",
+      "size": 1172,
+      "sha256": "09e52604dce572790bf238dae055d88b063b8a685d692de73e0421085ba1a0b6",
+      "scope": "complete borrowed IObjectList traversal, source gates, vector/range tests and TargetInfo insertion"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii",
+      "demangled": "ObjectSearcher::TargetList::TargetList(GameObject*, int, int, int)",
+      "elf_address": "0x4a2730",
+      "size": 296,
+      "sha256": "d91cd6624877041b7b8bae61aae1b85691210bfa839a68916ccf9b138d36d88a",
+      "scope": "source TargetList storage and owner/filter/sort initialization"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList17_IsCharacterValidEP9Character",
+      "demangled": "ObjectSearcher::TargetList::_IsCharacterValid(Character*)",
+      "elf_address": "0x4a1ab8",
+      "size": 528,
+      "sha256": "c3f7b4fd5555b4d8c2d5a6a9c0eab6d450959f43c553561f6f3ff60eddfe965d",
+      "scope": "source all-flags Character comparison and acceptance branch"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList18_IsGameObjectValidEP10GameObject",
+      "demangled": "ObjectSearcher::TargetList::_IsGameObjectValid(GameObject*)",
+      "elf_address": "0x4a1950",
+      "size": 116,
+      "sha256": "e4993162123bc1a08943c119ee83f30618ac82f757fa3d04d2f71330db6bd1f5",
+      "scope": "source non-Character object filter decisions"
+    },
+    {
+      "original_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE4pushERKS1_",
+      "demangled": "std::priority_queue<ObjectSearcher::TargetInfo>::push(TargetInfo const&)",
+      "elf_address": "0x4a2440",
+      "size": 164,
+      "sha256": "32bb191ceb2c71c9e795ed76f839558298c47b1eb33b5e31a5c2248af0d955d4",
+      "scope": "source target insertion and comparator invocation"
+    },
+    {
+      "original_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE3popEv",
+      "demangled": "std::priority_queue<ObjectSearcher::TargetInfo>::pop()",
+      "elf_address": "0x38fb18",
+      "size": 160,
+      "sha256": "edd7c1f63d0651ed403629b5afffb028408d06321570fd3033591d3b1154d42d",
+      "scope": "source closest candidate extraction for oracle output and prior-query clear"
+    },
+    {
+      "original_symbol": "_ZSt15__push_heap_auxINSt4priv15_Deque_iteratorIN14ObjectSearcher10TargetInfoESt16_Nonconst_traitsIS3_EEENS2_12TargetSorterEiS3_EvT_S8_T0_PT1_PT2_",
+      "demangled": "std::__push_heap_aux over source TargetInfo deque",
+      "elf_address": "0x4a1f30",
+      "size": 156,
+      "sha256": "198057f64a8ef233d422d026c52626e4142e460a4495179aebc538e68c51174b",
+      "scope": "source heap sift-up and TargetSorter callback"
+    },
+    {
+      "original_symbol": "_ZNSt5dequeIN14ObjectSearcher10TargetInfoESaIS1_EE18_M_push_back_aux_vERKS1_",
+      "demangled": "std::deque<ObjectSearcher::TargetInfo>::_M_push_back_aux_v(TargetInfo const&)",
+      "elf_address": "0x4a22b4",
+      "size": 396,
+      "sha256": "0c7476471b193c200c353f34f0daf922c8647af4eec714d4b51424a98d5f16d8",
+      "scope": "source deque block growth when TargetInfo heap exceeds initial block"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher12TargetSorter12_sortClosestERKNS_10TargetInfoES3_",
+      "demangled": "ObjectSearcher::TargetSorter::_sortClosest(TargetInfo const&, TargetInfo const&)",
+      "elf_address": "0x38d570",
+      "size": 68,
+      "sha256": "01061f19ab8fe537095924fdfa80819876c93870b643e48c3c3e132389704061",
+      "scope": "source closest comparator"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "demangled": "GameObject::GetTargetPosition() const",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f",
+      "scope": "source world versus authored target-position selection"
+    },
+    {
+      "original_symbol": "_ZNK7Point3DIfE5angleERKS0_",
+      "demangled": "Point3D<float>::angle(Point3D<float> const&) const",
+      "elf_address": "0x313058",
+      "size": 16,
+      "sha256": "2ab8b06f7dff28bef28748d2f64fee044c4986bc6785154b31f9a58227f1c972",
+      "scope": "source angle conversion from normalized cosine"
+    },
+    {
+      "original_symbol": "_ZNK7Point3DIfE8angleCosERKS0_",
+      "demangled": "Point3D<float>::angleCos(Point3D<float> const&) const",
+      "elf_address": "0x312f40",
+      "size": 280,
+      "sha256": "064c4cd988221b0a1c0ffea4a63555a690ce14b004515b679d4072a552135e2c",
+      "scope": "source normalized vector dot used by point query cone test"
+    }
+  ],
+  "hooked_actor_boundaries": [
+    {"elf_address": "0x3a36e4", "meaning": "Character::IsZonable vtable +0xc4"},
+    {"elf_address": "0x3a4870", "meaning": "Character::IsInteractive vtable +0x88"},
+    {"elf_address": "0x3a374c", "meaning": "Character::GetInteractionRadius vtable +0x94"},
+    {"elf_address": "0x3d4c34", "meaning": "CharAI::AI_GetMeleeRadius"},
+    {"elf_address": "0x337888", "meaning": "DebugSwitches::Load diagnostics boundary"},
+    {"elf_address": "0x337a88", "meaning": "DebugSwitches::GetSwitch diagnostics boundary"}
+  ]
+}

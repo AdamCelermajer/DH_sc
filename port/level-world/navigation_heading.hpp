@@ -21,4 +21,8 @@ int dh2_nav_look_towards(float* angle,const float* direction);
 // Direction may equal state->direction; other overlapping storage is unsupported.
 // 0 success, 1 malformed caller with state preserved.
 int dh2_nav_set_heading(dh2::navigation::HeadingState*,const float* direction,std::uint32_t rotate);
+// Source camera-relative input transform from v2GamepadController::Update:
+// rotate the XY input by angle(Vec3f_J, CameraBase::GetCameraLookAtVec()).
+// Zero/nonfinite camera targets and malformed input fail closed without edits.
+int dh2_nav_rotate_input_for_camera(float* direction,const float* camera_look_at);
 }

@@ -1,0 +1,115 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 348,
+  "active_instructions_observed": 77,
+  "mismatches": 0,
+  "independent_projection_guards": {
+    "validation": "PASS",
+    "independent_projection_guard_cases": 24,
+    "source_failure_prefix_preserved": true,
+    "bound_services_retained": true
+  },
+  "published_protocol_guards": {
+    "validation": "PASS",
+    "misaligned_visual": 1,
+    "initial_graph_alias": 1,
+    "result_visual_alias": 1,
+    "late_captured_root_alias": 1,
+    "fresh_visual_root_alias": 1,
+    "same_character_reentry": 1,
+    "online_byte_domain": 1
+  },
+  "published_provider_failures": {
+    "validation": "PASS",
+    "operation_failures": 12,
+    "missing_provider": 1
+  },
+  "source_sha256": {
+    "port/level-world/character_update_eligibility.hpp": "2142ad323c1bba578c8766f2daf338411eca273711af1722637d310184212f1e",
+    "port/level-world/character_update_eligibility.cpp": "51c9b88fffe41884323bf1dcca81b51fd8f6d51e7878dcca133a94226f5d618c",
+    "port/level-world/tests/character_update_eligibility.cpp": "5885f214caf03088e0fdfa2dde1eea9c440de964c1454d5215cada74995e4fab",
+    "port/level-world/tests/run_character_update_eligibility_host.py": "059cda312619beaa10f05465a99c4bcec80e246a103589024789cd1d7de3798f",
+    "port/level-world/reference/character-update-eligibility/NOTES.md": "9beb52389273f02f98b0dce78640532c45bcf47eb8bdcca8eda6d6be035f8199",
+    "port/level-world/reference/character-update-eligibility/original-functions.json": "a7830077d40936cfef2845f75f649d19276e3c61b4b55be9a6cfa46eeff7bdca"
+  },
+  "review_artifact_sha256": {
+    "port/level-world/build/eligibility-independent/final/validation.json": "ad86532102f9b64366703f42363d769641f98bb64a1f640f2631dcd8d063cafd",
+    "port/level-world/build/eligibility-independent/final/additional-branches.json": "1b48711e827522c7f93471e054fb0fd9d75bcc0da63d595bc467c0ca99b5f0d3",
+    "port/level-world/build/eligibility-independent/final/host.exe": "1f7b7d2f9aef353444541f21b5c77464e1d1f0fbfa6cfdcdb6c1a83a0a2411b0",
+    "port/level-world/build/eligibility-independent/final/guard_probe.exe": "ea035b86d37b6981fd64ed4815bf633afad7d0f99af547738a0ba1e1dc759274",
+    "port/level-world/build/eligibility-independent/guard_probe.cpp": "fb5b49c8a7da1a3b2de28bf8f96ec1fd7f5a826cb84146f8ff461fc1a38a4e65",
+    "port/level-world/build/eligibility-independent/final_replay.py": "042863489daff58ccdd526ed821a20f0c9004cb14b12208a7f8dd44dfc003309"
+  },
+  "resolved_findings": [
+    "Visual alignment/range before typed reads",
+    "Fresh and captured Visual/root overlap validation",
+    "Typed online byte domain",
+    "Same-Character reentry protocol",
+    "Explicit stable identity/borrowed lifetime contract",
+    "Death/respawn fixtures reach actual source branches",
+    "Current visibility byte role and raw byte fidelity",
+    "Both final captured-root callback mutation cases"
+  ],
+  "remaining_source_blockers": [],
+  "scope": "Complete Character::CanUpdate predicate only: verified caller instructions with modeled external engine queries. No enclosing Character::Update, native Ghost activation, rendering/culling provider body, or callee body credit.",
+  "embedded_review_tools": [
+    {
+      "path": "port/level-world/build/eligibility-independent/final_replay.py",
+      "sha256": "042863489daff58ccdd526ed821a20f0c9004cb14b12208a7f8dd44dfc003309",
+      "encoding": "utf-8",
+      "text": "\"\"\"Independent expanded eligibility replay; ignored review harness only.\"\"\"\r\nimport argparse,hashlib,importlib.util,itertools,json,sys\r\nfrom pathlib import Path\r\nfrom unicorn import UC_HOOK_CODE\r\nHERE=Path(__file__).resolve().parent\r\nparser=argparse.ArgumentParser(description=__doc__)\r\nparser.add_argument('--repository',type=Path,default=HERE.parents[3])\r\nparser.add_argument('--original-elf',type=Path,required=True)\r\nparser.add_argument('--compiled-report',type=Path,default=HERE/'final/validation.json')\r\nparser.add_argument('--executable',type=Path,default=HERE/'final/host.exe')\r\nparser.add_argument('--report',type=Path,default=HERE/'final/additional-branches.json')\r\nargs=parser.parse_args()\r\nROOT=args.repository.resolve();MODULE=ROOT/'port/level-world'\r\noriginal=args.original_elf.resolve();exe=args.executable.resolve()\r\nbaseline=json.loads(args.compiled_report.read_text())\r\ndef confirm_hashes():\r\n for rel,wanted in baseline['source_sha256'].items():\r\n  assert hashlib.sha256((ROOT/rel).read_bytes()).hexdigest()==wanted,('source changed since compile',rel)\r\nconfirm_hashes()\r\nsys.path.insert(0,str(ROOT/'port/engine-resources/tests'))\r\nimport cpu\r\nBaseCpu=cpu.Cpu\r\nobserved=set()\r\nclass CoverageCpu(BaseCpu):\r\n def __init__(self,*args,**kwargs):\r\n  super().__init__(*args,**kwargs)\r\n  self.uc.hook_add(UC_HOOK_CODE,lambda uc,at,size,unused: observed.add(at) if 0x3a52a4<=at<0x3a53d8 else None)\r\ncpu.Cpu=CoverageCpu\r\npath=MODULE/'tests/run_character_update_eligibility_host.py'\r\nspec=importlib.util.spec_from_file_location('independent_eligibility',path)\r\nreview=importlib.util.module_from_spec(spec);spec.loader.exec_module(review)\r\nrows=list(review.fixtures())\r\ndef add(name,**values):\r\n x=dict(online=0,remote=0,local=0x7002,cull=1,dead=0,respawn=0,visual=1,node_cull=1,visibility_80=0,field_2fc=0,gate_1480=0,node_flag=9,mutations=0)\r\n x.update(values);rows.append((name,x))\r\nfor n,(online,remote,dead,respawn,visual) in enumerate(itertools.product((0,1,128,255),(0,17,0xffffffff),(0,17,0xffffffff),(0,17,0xffffffff),(0,1))):\r\n add(f'independent_truth_{n}',online=online,remote=remote,dead=dead,respawn=respawn,visual=visual)\r\nfor n,(remote,cull,visibility,local,mutations) in enumerate(itertools.product((0,17),(0,1),(0,1),(0x7001,0x7002),(1,2,4,8,16,31))):\r\n add(f'independent_mutation_{n}',online=1,remote=remote,cull=cull,visibility_80=visibility,local=local,mutations=mutations)\r\nadd('independent_zero_node_and_byte',node_cull=0,field_2fc=0)\r\nadd('independent_zero_node_nonzero_byte',node_cull=0,field_2fc=7)\r\nfor n,(visibility,gate,field) in enumerate(itertools.product((128,255),(128,255),(128,255))):\r\n add(f'independent_raw_visibility_bytes_{n}',visibility_80=visibility,gate_1480=gate,field_2fc=field,node_cull=0,cull=0,dead=0xffffffff)\r\nreview.fixtures=lambda:rows\r\nrecords=review.oracle(original,exe)\r\nassert observed==set(range(0x3a52a4,0x3a53d8,4)),[hex(x) for x in set(range(0x3a52a4,0x3a53d8,4))-observed]\r\nfor record in records:\r\n original_value=record['original_result'];host=record['host'];ops=[c[0] for c in record['original_calls']]\r\n expected=1 if original_value else (3 if 5 in ops else 2)\r\n assert host['outcome']==expected,(record['name'],expected,host)\r\nconfirm_hashes()\r\nreport=dict(validation='PASS',original_arm_cases=len(records),active_instructions_observed=len(observed),original_instruction_addresses=[hex(x) for x in sorted(observed)],mismatches=0,original_elf_sha256=review.SHA,source_sha256=baseline['source_sha256'],executable_sha256=hashlib.sha256(exe.read_bytes()).hexdigest(),review_harness_sha256=hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),scope='Exact final compiled eligibility kernel. Engine callees are modeled typed fixtures; all77 original caller instructions observed, no callee-body credit and no native activation claim.',cases=records)\r\nargs.report.write_text(json.dumps(report,indent=2)+'\\n')\r\nprint(json.dumps({k:report[k] for k in ('validation','original_arm_cases','active_instructions_observed','mismatches','executable_sha256')}))\r\n"
+    },
+    {
+      "path": "port/level-world/build/eligibility-independent/guard_probe.cpp",
+      "sha256": "fb5b49c8a7da1a3b2de28bf8f96ec1fd7f5a826cb84146f8ff461fc1a38a4e65",
+      "encoding": "utf-8",
+      "text": "#include \"character_update_eligibility.hpp\"\r\n#include <cassert>\r\n#include <cstdint>\r\n#include <iostream>\r\nnamespace eu=dh2::character_update_eligibility;\r\nstruct Fixture {\r\n eu::SceneNode node{0x3001,1,9,{}};\r\n eu::Visual visual{0x2001,&node};\r\n eu::Character character{0x1001,&visual,0x7001,1,0,0,0};\r\n eu::Result result{0xabcd,eu::Outcome::allowed,0x1234,99,88};\r\n eu::Services services{};\r\n std::uint32_t online=1,remote=1,local=0x7002;\r\n int mutate=0,calls=0;\r\n alignas(eu::SceneNode) unsigned char bytes[sizeof(eu::SceneNode)+1]{};\r\n Fixture();\r\n};\r\nstatic std::int32_t invoke(void* p,const eu::Character*,const eu::Request* q,eu::Response* r) {\r\n auto& f=*static_cast<Fixture*>(p);++f.calls;\r\n switch(q->operation) {\r\n case eu::Operation::get_online_byte:\r\n  r->raw=f.online;\r\n  switch(f.mutate) {\r\n  case 1:f.visual.root=nullptr;break;\r\n  case 2:f.visual.root=reinterpret_cast<eu::SceneNode*>(&f.character);break;\r\n  case 3:f.visual.root=reinterpret_cast<eu::SceneNode*>(&f.result);break;\r\n  case 4:f.visual.root=reinterpret_cast<eu::SceneNode*>(&f.services);break;\r\n  case 5:f.visual.root=reinterpret_cast<eu::SceneNode*>(f.bytes+1);break;\r\n  case 6:f.services.invoke=nullptr;break;\r\n  }\r\n  return 0;\r\n case eu::Operation::is_remotely_updated:r->raw=f.remote;return 0;\r\n case eu::Operation::local_player_character:\r\n  r->identity=f.local;\r\n  switch(f.mutate) {\r\n  case 7:f.character.visual_2d8=nullptr;break;\r\n  case 8:f.character.visual_2d8=reinterpret_cast<eu::Visual*>(&f.character);break;\r\n  case 9:f.character.visual_2d8=reinterpret_cast<eu::Visual*>(&f.result);break;\r\n  case 10:f.visual.root=reinterpret_cast<eu::SceneNode*>(&f.result);break;\r\n  }\r\n  return 0;\r\n case eu::Operation::test_culling_before_update:r->raw=1;return 0;\r\n case eu::Operation::is_dead:r->raw=0;return 0;\r\n case eu::Operation::can_respawn:r->raw=1;return 0;\r\n }\r\n return 1;\r\n}\r\nFixture::Fixture(){services={this,invoke};}\r\nint main() {\r\n std::uint32_t count=0;\r\n auto initial=[&](Fixture& f,eu::Status wanted,eu::Character* c,const eu::Services* s,eu::Result* r){\r\n  assert(eu::evaluate(c,s,r)==wanted);assert(f.calls==0&&f.node.update_flag_200==9);\r\n  assert(f.result.can_update==0xabcd&&f.result.service_calls==99);++count;\r\n };\r\n {Fixture f;initial(f,eu::Status::invalid_argument,nullptr,&f.services,&f.result);}\r\n {Fixture f;initial(f,eu::Status::invalid_argument,&f.character,nullptr,&f.result);}\r\n {Fixture f;initial(f,eu::Status::invalid_argument,&f.character,&f.services,nullptr);}\r\n {Fixture f;f.character.identity=0;initial(f,eu::Status::invalid_argument,&f.character,&f.services,&f.result);}\r\n {Fixture f;alignas(eu::Character) unsigned char b[sizeof(eu::Character)+1]{};initial(f,eu::Status::invalid_argument,reinterpret_cast<eu::Character*>(b+1),&f.services,&f.result);}\r\n {Fixture f;alignas(eu::Services) unsigned char b[sizeof(eu::Services)+1]{};initial(f,eu::Status::invalid_argument,&f.character,reinterpret_cast<eu::Services*>(b+1),&f.result);}\r\n {Fixture f;alignas(eu::Result) unsigned char b[sizeof(eu::Result)+1]{};initial(f,eu::Status::invalid_argument,&f.character,&f.services,reinterpret_cast<eu::Result*>(b+1));}\r\n {Fixture f;initial(f,eu::Status::invalid_argument,&f.character,&f.services,reinterpret_cast<eu::Result*>(&f.character));}\r\n {Fixture f;initial(f,eu::Status::invalid_argument,&f.character,&f.services,reinterpret_cast<eu::Result*>(&f.services));}\r\n {Fixture f;initial(f,eu::Status::invalid_argument,&f.character,reinterpret_cast<eu::Services*>(&f.character),&f.result);}\r\n {Fixture f;f.visual.identity=0;initial(f,eu::Status::invalid_source_fact,&f.character,&f.services,&f.result);}\r\n {Fixture f;f.node.identity=0;initial(f,eu::Status::invalid_source_fact,&f.character,&f.services,&f.result);}\r\n {Fixture f;f.visual.root=nullptr;initial(f,eu::Status::invalid_source_fact,&f.character,&f.services,&f.result);}\r\n {Fixture f;f.visual.root=reinterpret_cast<eu::SceneNode*>(f.bytes+1);initial(f,eu::Status::invalid_source_fact,&f.character,&f.services,&f.result);}\r\n for(int m:{1,2,3,4,5}) {\r\n  Fixture f;f.mutate=m;\r\n  assert(eu::evaluate(&f.character,&f.services,&f.result)==eu::Status::invalid_source_fact);\r\n  assert(f.calls==2&&f.node.update_flag_200==0&&f.result.scene_flag_writes==1);\r\n  assert(f.result.can_update==0&&f.result.service_calls==2);++count;\r\n }\r\n for(int m:{7,8,9,10}) {\r\n  Fixture f;f.online=0;f.mutate=m;\r\n  assert(eu::evaluate(&f.character,&f.services,&f.result)==eu::Status::invalid_source_fact);\r\n  assert(f.calls==2&&f.node.update_flag_200==0&&f.result.scene_flag_writes==1);++count;\r\n }\r\n {Fixture f;f.mutate=6;assert(eu::evaluate(&f.character,&f.services,&f.result)==eu::Status::complete);\r\n  assert(f.calls==2&&f.result.can_update==1&&f.node.update_flag_200==1&&f.result.scene_flag_writes==2);++count;}\r\n std::cout<<\"{\\\"validation\\\":\\\"PASS\\\",\\\"independent_projection_guard_cases\\\":\"<<count<<\",\\\"source_failure_prefix_preserved\\\":true,\\\"bound_services_retained\\\":true}\\n\";\r\n}\r\n"
+    }
+  ],
+  "reproduction_commands": [
+    [
+      "python",
+      "port/level-world/tests/run_character_update_eligibility_host.py",
+      "--compiler",
+      "<C++17 compiler>",
+      "--original-elf",
+      "<pinned original ELF>",
+      "--output",
+      "port/level-world/build/eligibility-independent/final"
+    ],
+    [
+      "python",
+      "port/level-world/build/eligibility-independent/final_replay.py",
+      "--repository",
+      "<checkout root>",
+      "--original-elf",
+      "<pinned original ELF>",
+      "--compiled-report",
+      "port/level-world/build/eligibility-independent/final/validation.json",
+      "--executable",
+      "port/level-world/build/eligibility-independent/final/host.exe",
+      "--report",
+      "port/level-world/build/eligibility-independent/final/additional-branches.json"
+    ],
+    [
+      "<C++17 compiler>",
+      "-std=c++17",
+      "-O1",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-I",
+      "port/level-world",
+      "port/level-world/character_update_eligibility.cpp",
+      "port/level-world/build/eligibility-independent/guard_probe.cpp",
+      "-o",
+      "port/level-world/build/eligibility-independent/final/guard_probe.exe"
+    ],
+    [
+      "port/level-world/build/eligibility-independent/final/guard_probe.exe"
+    ]
+  ]
+}

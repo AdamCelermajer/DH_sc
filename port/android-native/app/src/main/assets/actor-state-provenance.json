@@ -30,6 +30,13 @@
       "sequence_name": "Ghost_Died"
     },
     {
+      "character_table": 24,
+      "character_name": "Ghost",
+      "state": "Spawn",
+      "sequence_id": 213,
+      "sequence_name": "Ghost_Spawn"
+    },
+    {
       "character_table": 62,
       "character_name": "Skeleton",
       "state": "Idle",
@@ -126,6 +133,14 @@
       "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_pre_attack_01.bdae",
       "bytes": 7476,
       "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    {
+      "clip_id": 714,
+      "path": "data/3D/characters/ghost/animations/ghost_spawn.bdae",
+      "asset": "actors/ghost_spawn.bdae",
+      "entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/characters/ghost/animations/ghost_spawn.bdae",
+      "bytes": 12276,
+      "sha256": "b3a7aad646be75a1ba90d5ff4c8bd88bd9071bd392739c76676a94d8651fb763"
     },
     {
       "clip_id": 717,

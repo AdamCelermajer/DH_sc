@@ -1,0 +1,150 @@
+{
+  "complete_game": false,
+  "scope": "Exact APK: real property/class imports, 40 real class applications and 8960 final-field queries from checked host corpus; owned generations, typed arguments, malformed/oversize rejection, cyclic atomic failure and recovery. Authored ApplyClass has empty buffs and no original Character/gameplay lifecycle.",
+  "device": {
+    "serial": "emulator-5558",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "2974a802e258582a13c20a0d38aad19a44ceff313170473a85c0ff68322cafdd",
+  "installed_apk_hash_matches": true,
+  "corpus_report_sha256": "7ad379912b75b1495502d18f03b1b9d17df4f3bbb7cba080ff4beb9c265f2830",
+  "real_application_cases": 40,
+  "real_final_field_queries": 8960,
+  "cases": [
+    {
+      "case": "real_properties",
+      "kind": "properties",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "before",
+      "kind": "script",
+      "bytes": 88,
+      "sha256": "3c01e5ae58fe77cd31462741e69b24225ae7708e6f1dd1b185bde91ea8fff154",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_classes",
+      "kind": "classes",
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+      "status": "Classes loaded. New script property objects can apply class rules; gameplay is unfinished."
+    },
+    {
+      "case": "real_queries_22",
+      "kind": "script",
+      "bytes": 117116,
+      "sha256": "b4215709b582132dd79cc8f0c184a3c8bb6ac8bc792e8428201e8e7da4545f06",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_queries_25",
+      "kind": "script",
+      "bytes": 117272,
+      "sha256": "8a24e0133567acd16d3f654300bb1e6e90a43b193e5e6fa71b6c1e551a7c2979",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "synthetic_properties",
+      "kind": "properties",
+      "bytes": 2700,
+      "sha256": "22735d5e3c3823e929e876f30f8e379ddd1e66d42249de36e1b9d58fe6def89a",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "generation_a",
+      "kind": "classes",
+      "bytes": 28,
+      "sha256": "3c3716131fc9a40d82d2180602794fdff4cb5eafaa336b12a77cb759f71ef8d9",
+      "status": "Classes loaded. New script property objects can apply class rules; gameplay is unfinished."
+    },
+    {
+      "case": "apply",
+      "kind": "script",
+      "bytes": 324,
+      "sha256": "b8b0219d87d80d590eb64a46d52ba04397002ba1d16d79a924983f4ce189d40f",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "malformed",
+      "kind": "classes",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Classes rejected: malformed character class file"
+    },
+    {
+      "case": "retained",
+      "kind": "script",
+      "bytes": 52,
+      "sha256": "0604a958780629b195cef42bf82c1264454ae7f5d3865eef52e2b5be5041a165",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "generation_b",
+      "kind": "classes",
+      "bytes": 28,
+      "sha256": "f6c01e503a2bab4d89ab92c4ec1c4896a57d6b71a3b400d075228b43acfa0786",
+      "status": "Classes loaded. New script property objects can apply class rules; gameplay is unfinished."
+    },
+    {
+      "case": "replacement",
+      "kind": "script",
+      "bytes": 151,
+      "sha256": "6e55b4632543fd5f3498f57e81e9cdccd8ccd752a81ad8889df9ac96e402f276",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "cycle",
+      "kind": "classes",
+      "bytes": 28,
+      "sha256": "529322ebd9b0da4092ef86378ed09a03f6e4d888787f972337f3cf33149c030f",
+      "status": "Classes loaded. New script property objects can apply class rules; gameplay is unfinished."
+    },
+    {
+      "case": "atomic",
+      "kind": "script",
+      "bytes": 147,
+      "sha256": "327c4af432f9421d4139a977d58b118e67ad744173f586173843c3349dcf665c",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "oversize",
+      "kind": "classes",
+      "bytes": 4194305,
+      "sha256": "95e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+      "status": "Classes rejected: File exceeds 4 MiB limit"
+    },
+    {
+      "case": "recovery",
+      "kind": "classes",
+      "bytes": 28,
+      "sha256": "3c3716131fc9a40d82d2180602794fdff4cb5eafaa336b12a77cb759f71ef8d9",
+      "status": "Classes loaded. New script property objects can apply class rules; gameplay is unfinished."
+    },
+    {
+      "case": "recovered",
+      "kind": "script",
+      "bytes": 103,
+      "sha256": "60581021e5fb0e7076a3cfb72d6663148ed87d2e757f93830b8c6e9201f4347d",
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "classes-ready.png",
+    "sha256": "211d55f911d00d0aa6ce6d318297ceb5a742c0fdb3b22890bfe02def8d477d7c"
+  },
+  "log_start_emulator_gmt": "10-02 18:27:47.000",
+  "test_sha256": "fbc3d1989dc17f475227acc3510c2923cdeb5c9b8d22f77a075a8b6d347ca5aa",
+  "source_sha256": {
+    "scripts.cpp": "3555fba836d5b718157b590cb688f6ff493c49ed06af4515da0ad5d59d7f5675",
+    "src/local/dh2/sourceviewer/MainActivity.java": "c95988a0a38ed54776806c4995f907787545a78860339a0cf97a47b07c4aafd5",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22"
+  }
+}

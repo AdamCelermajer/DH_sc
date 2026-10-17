@@ -61,7 +61,7 @@ struct Reader {
     }
 };
 struct Loader {
-    Reader r;Scene& s;std::vector<unsigned> path;
+    Reader r;Scene& s;std::vector<unsigned> path;EmptyGeometryPolicy empty_geometry;
     void materials(){
         const unsigned n=dh2_bres_library_count(&r.v,Library::material);
         if(n>4096)throw std::runtime_error("Too many materials");
@@ -157,7 +157,8 @@ struct Loader {
             }
             if(!found)throw std::runtime_error("Unresolved visual scene");
         }
-        if(s.instances.empty())throw std::runtime_error("Scene has no visible geometry");
+        if(s.instances.empty()&&empty_geometry!=EmptyGeometryPolicy::allow)
+            throw std::runtime_error("Scene has no visible geometry");
     }
 };
 }
@@ -173,8 +174,9 @@ std::array<float,16> multiply(const Matrix& a,const Matrix& b){
         for(unsigned k=0;k<4;++k)out[c*4+row]+=a[k*4+row]*b[c*4+k];
     return out;
 }
-bool load(const resources::BresView& v,Scene& out,std::string& error){
-    out={};error.clear();try{Scene candidate;Loader{{v},candidate,{}}.run();out=std::move(candidate);return true;}
+bool load(const resources::BresView& v,Scene& out,std::string& error,
+          EmptyGeometryPolicy empty_geometry){
+    out={};error.clear();try{Scene candidate;Loader{{v},candidate,{},empty_geometry}.run();out=std::move(candidate);return true;}
     catch(const std::exception& e){error=e.what();return false;}
 }
 bool update_world(Scene& scene,std::string& error){

@@ -1,0 +1,416 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "8ed56e8f1cdbb4c8eed20702dfa97df99ad1a3058c8b646ce3e36b6bf3098d8b",
+  "apk_bytes": 24219159,
+  "artifact_report_sha256": "7a3632460981f7bdbd843d8a0fa8bac6b73e353b99f7ffd2823e2d0f3b00c76e",
+  "abis": {
+    "arm64-v8a": {
+      "source_unit_exports": {
+        "aggro_delay": [
+          "_ZN3dh221character_aggro_delay6updateEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "turn_selection": [
+          "_ZN3dh217character_ai_turn8evaluateEPNS0_5StateEPKNS0_7GlobalsEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "target_search": [
+          "dh2_aggro_target_list_init",
+          "dh2_aggro_target_pop",
+          "dh2_aggro_target_search"
+        ],
+        "candidate_events": [
+          "_ZN3dh232character_aggro_candidate_events7consumeEPNS0_5StateEPNS_9character12aggro_search10TargetListEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "enemy_spotted": [
+          "_ZN3dh223character_enemy_spotted16on_enemy_spottedEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "external_monster_script": [
+          "_ZN3dh223monster_external_script7Session8dispatchENS0_5EventEmRNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE"
+        ],
+        "target_mutation": [
+          "dh2_character_ai_set_target"
+        ],
+        "faction_relations": [
+          "_ZN3dh222character_ai_relations5queryENS0_8RelationEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "combat_query": [
+          "_ZN3dh222character_ai_in_combat8evaluateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "acquisition_prefix": [
+          "_ZN3dh234character_aggro_acquisition_prefix7prepareEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "monster_retarget": [
+          "_ZN3dh226character_monster_retarget6updateEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_distance": [
+          "_ZN3dh218character_ai_sight17evaluate_distanceEPNS0_5StateEjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_object": [
+          "_ZN3dh218character_ai_sight15evaluate_objectEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ghost_actor_composition": [
+          "_ZN3dh216ghost_ai_session12ActorSession19search_and_dispatchEPNS_9character12aggro_search10TargetListEPKNS3_12RoomRegistryEffPNS0_10ScanResultE"
+        ],
+        "enemy_retention": [
+          "_ZN3dh225character_enemy_retention6updateEPNS0_5StateEmPNS_13target_search8Target24EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "target_update": [
+          "_ZN3dh226character_ai_update_target6updateEPNS_9character10set_target5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "master_update": [
+          "_ZN3dh226character_ai_master_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "melee_range": [
+          "_ZN3dh224character_ai_melee_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "melee_radius": [
+          "_ZN3dh224character_ai_melee_range10get_radiusEPNS_18character_ai_sight5StateEPKNS0_14RadiusServicesEPNS0_12RadiusResultE"
+        ],
+        "interaction_range": [
+          "_ZN3dh230character_ai_interaction_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_external_update": [
+          "_ZN3dh219ais_external_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_state_callbacks": [
+          "_ZN3dh219ais_state_callbacks6invokeEPNS0_5StateENS0_8CallbackEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "pause_update": [
+          "_ZN3dh225character_ai_pause_update5pauseEPNS_9character14AIFrameState32EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "collision_persist": [
+          "_ZN3dh229ais_default_collision_persist7persistEPNS0_5StateEmjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "close_range": [
+          "_ZN3dh225character_ai_ranged_range14evaluate_closeEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ranged_range": [
+          "_ZN3dh225character_ai_ranged_range15evaluate_rangedEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_range_parameters": [
+          "_ZN3dh226character_range_capability20character_parametersEPNS0_9CharacterEPjS3_S3_PKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "inventory_range_parameters": [
+          "_ZN3dh226character_range_capability20inventory_parametersEPNS0_9InventoryEPjS3_S3_PKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_range_capability": [
+          "_ZN3dh226character_range_capability19character_can_rangeEPNS0_9CharacterEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "inventory_range_capability": [
+          "_ZN3dh226character_range_capability17has_ranged_weaponEPNS0_9InventoryEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "shared_ai_queue": [
+          "_ZN3dh218character_ai_queue7advanceEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_interactive": [
+          "_ZN3dh221character_interactive8evaluateEPNS0_9CharacterEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_initialization": [
+          "_ZN3dh227character_ai_initialization9constructEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_default_callback_flags": [
+          "_ZN3dh221ais_external_init_vcb18initialize_defaultEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_external_callback_flags": [
+          "_ZN3dh221ais_external_init_vcb19initialize_externalEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_script_construction": [
+          "_ZN3dh227ais_external_initialization24construct_char_ai_scriptEPNS0_5StateEbPKNS0_6TablesEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_external_construction": [
+          "_ZN3dh227ais_external_initialization18construct_externalEPNS0_5StateEbPKNS0_6TablesEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_character_association": [
+          "_ZN3dh227ais_external_initialization13set_characterEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "lua_base_bindings": [
+          "_ZN3dh219ais_native_bindings9bind_baseEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "lua_ai_bindings": [
+          "_ZN3dh219ais_native_bindings14bind_characterEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "lua_all_bindings": [
+          "_ZN3dh219ais_native_bindings8bind_allEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_association": [
+          "_ZN3dh224character_ai_association9associateEPNS_27character_ai_initialization5StateEm"
+        ],
+        "game_object_native_bindings": [
+          "_ZN3dh225character_native_bindings16bind_game_objectEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_native_bindings": [
+          "_ZN3dh225character_native_bindings14bind_characterEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "room_zone_initial_enrollment": [
+          "_ZN3dh220room_zone_enrollment18add_initial_objectEPNS0_8RoomZoneEPNS0_10GameObjectEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "object_zone_entered": [
+          "_ZN3dh220room_zone_enrollment12zone_enteredEPNS0_10GameObjectEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "object_zone_exited": [
+          "_ZN3dh220room_zone_enrollment11zone_exitedEPNS0_10GameObjectEPKNS0_8ServicesEPNS0_6ResultE"
+        ]
+      },
+      "lua_core_definitions": [
+        "lib/arm64-v8a/libdh2_script_runtime.so"
+      ]
+    },
+    "x86_64": {
+      "source_unit_exports": {
+        "aggro_delay": [
+          "_ZN3dh221character_aggro_delay6updateEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "turn_selection": [
+          "_ZN3dh217character_ai_turn8evaluateEPNS0_5StateEPKNS0_7GlobalsEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "target_search": [
+          "dh2_aggro_target_list_init",
+          "dh2_aggro_target_pop",
+          "dh2_aggro_target_search"
+        ],
+        "candidate_events": [
+          "_ZN3dh232character_aggro_candidate_events7consumeEPNS0_5StateEPNS_9character12aggro_search10TargetListEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "enemy_spotted": [
+          "_ZN3dh223character_enemy_spotted16on_enemy_spottedEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "external_monster_script": [
+          "_ZN3dh223monster_external_script7Session8dispatchENS0_5EventEmRNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE"
+        ],
+        "target_mutation": [
+          "dh2_character_ai_set_target"
+        ],
+        "faction_relations": [
+          "_ZN3dh222character_ai_relations5queryENS0_8RelationEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "combat_query": [
+          "_ZN3dh222character_ai_in_combat8evaluateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "acquisition_prefix": [
+          "_ZN3dh234character_aggro_acquisition_prefix7prepareEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "monster_retarget": [
+          "_ZN3dh226character_monster_retarget6updateEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_distance": [
+          "_ZN3dh218character_ai_sight17evaluate_distanceEPNS0_5StateEjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_object": [
+          "_ZN3dh218character_ai_sight15evaluate_objectEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ghost_actor_composition": [
+          "_ZN3dh216ghost_ai_session12ActorSession19search_and_dispatchEPNS_9character12aggro_search10TargetListEPKNS3_12RoomRegistryEffPNS0_10ScanResultE"
+        ],
+        "enemy_retention": [
+          "_ZN3dh225character_enemy_retention6updateEPNS0_5StateEmPNS_13target_search8Target24EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "target_update": [
+          "_ZN3dh226character_ai_update_target6updateEPNS_9character10set_target5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "master_update": [
+          "_ZN3dh226character_ai_master_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "melee_range": [
+          "_ZN3dh224character_ai_melee_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "melee_radius": [
+          "_ZN3dh224character_ai_melee_range10get_radiusEPNS_18character_ai_sight5StateEPKNS0_14RadiusServicesEPNS0_12RadiusResultE"
+        ],
+        "interaction_range": [
+          "_ZN3dh230character_ai_interaction_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_external_update": [
+          "_ZN3dh219ais_external_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_state_callbacks": [
+          "_ZN3dh219ais_state_callbacks6invokeEPNS0_5StateENS0_8CallbackEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "pause_update": [
+          "_ZN3dh225character_ai_pause_update5pauseEPNS_9character14AIFrameState32EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "collision_persist": [
+          "_ZN3dh229ais_default_collision_persist7persistEPNS0_5StateEmjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "close_range": [
+          "_ZN3dh225character_ai_ranged_range14evaluate_closeEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ranged_range": [
+          "_ZN3dh225character_ai_ranged_range15evaluate_rangedEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_range_parameters": [
+          "_ZN3dh226character_range_capability20character_parametersEPNS0_9CharacterEPjS3_S3_PKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "inventory_range_parameters": [
+          "_ZN3dh226character_range_capability20inventory_parametersEPNS0_9InventoryEPjS3_S3_PKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_range_capability": [
+          "_ZN3dh226character_range_capability19character_can_rangeEPNS0_9CharacterEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "inventory_range_capability": [
+          "_ZN3dh226character_range_capability17has_ranged_weaponEPNS0_9InventoryEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "shared_ai_queue": [
+          "_ZN3dh218character_ai_queue7advanceEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_interactive": [
+          "_ZN3dh221character_interactive8evaluateEPNS0_9CharacterEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_initialization": [
+          "_ZN3dh227character_ai_initialization9constructEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_default_callback_flags": [
+          "_ZN3dh221ais_external_init_vcb18initialize_defaultEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_external_callback_flags": [
+          "_ZN3dh221ais_external_init_vcb19initialize_externalEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_script_construction": [
+          "_ZN3dh227ais_external_initialization24construct_char_ai_scriptEPNS0_5StateEbPKNS0_6TablesEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_external_construction": [
+          "_ZN3dh227ais_external_initialization18construct_externalEPNS0_5StateEbPKNS0_6TablesEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_character_association": [
+          "_ZN3dh227ais_external_initialization13set_characterEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "lua_base_bindings": [
+          "_ZN3dh219ais_native_bindings9bind_baseEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "lua_ai_bindings": [
+          "_ZN3dh219ais_native_bindings14bind_characterEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "lua_all_bindings": [
+          "_ZN3dh219ais_native_bindings8bind_allEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_association": [
+          "_ZN3dh224character_ai_association9associateEPNS_27character_ai_initialization5StateEm"
+        ],
+        "game_object_native_bindings": [
+          "_ZN3dh225character_native_bindings16bind_game_objectEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_native_bindings": [
+          "_ZN3dh225character_native_bindings14bind_characterEPKNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "room_zone_initial_enrollment": [
+          "_ZN3dh220room_zone_enrollment18add_initial_objectEPNS0_8RoomZoneEPNS0_10GameObjectEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "object_zone_entered": [
+          "_ZN3dh220room_zone_enrollment12zone_enteredEPNS0_10GameObjectEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "object_zone_exited": [
+          "_ZN3dh220room_zone_enrollment11zone_exitedEPNS0_10GameObjectEPKNS0_8ServicesEPNS0_6ResultE"
+        ]
+      },
+      "lua_core_definitions": [
+        "lib/x86_64/libdh2_script_runtime.so"
+      ]
+    }
+  },
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "96f7f0089f4dda36720b50017479138cce76c93ed27e59d7abc8c0d7653f1887",
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "a30af787cae3df867a28991a5db05b5540f6779aba5f7e914a48f21cf6056d40",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "a2fd27d887980e286dae14c9743d0d00f4739cabb458adb41fdac4fb4bd5a743",
+    "port/level-world/CMakeLists.txt": "7fa27082cc9e995d3f88edc56941a410de1e1f7d889850f3344fc0bd99c98248",
+    "port/level-world/crypt_spawn_script_session.cpp": "d9898c58fd89cc6be41ace89801bdb9d7f3480f0136de8729bd1442b928bcbba",
+    "port/level-world/crypt_spawn_script_session.hpp": "32cf96caa69727f7d4e7801b6de7f5ba54f451d1ab28257b0568803d2f958539",
+    "port/level-world/crypt_spawn_trigger.cpp": "49b4f1a03dae63cb3f75be7da466c90e59511598b8d0ffc35fdb1579448836dd",
+    "port/level-world/crypt_spawn_trigger.hpp": "e821aaa8459c0827053e39ca95dcfa65e5b232e1d61e0354bcb4d7f1f8b28cc3",
+    "port/level-world/character_factory.cpp": "28f86f3a3b87fdee1ecb476110a145a6935847229ac6e48ddaceccafa5a65168",
+    "port/level-world/character_state.cpp": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+    "port/level-world/character_state.hpp": "22d512b11c0f20d00ea01c4344bbf0d3b072c4be74ad2a297e2b4519e2e9cdc9",
+    "port/script-runtime/script_runtime.cpp": "5acf91646b99d844e122052de7bf3af39a1c1b3381bdd3c4cf13f481de39ba42",
+    "port/script-runtime/script_runtime.hpp": "84fc1fdcd9761e1e0d45003dbb8993e74b54bc33a93ea2d08f1ce524de384570",
+    "port/trigger-contact/trigger_contact.cpp": "6cca865cf78b7305f921204eae9ae098266b197c54711eacfc6aa87b2f285426",
+    "port/trigger-contact/trigger_contact.hpp": "5c3f6e3ec1d9e91bbfab8dde8e88f58bc5cf8fb87b0544792f03c09454c54e78",
+    "port/zone-contact-runtime/zone_geometry.cpp": "309b5488892877ee0c8ebbcd4bfc8ea5874a82709e0856a10c87e8ef4a2fbd52",
+    "port/pydata-scripts/native/pydata_scripts.cpp": "a146a72dc96f20cd1610a2be18beb91d534174c717bed6a8c958a2d4504d5aa0",
+    "port/pydata-scripts/native/pydata_scripts.h": "f452a4e529a84a334a262f5bcd5e8a4e7987fb72644033ff64429835f872bf70",
+    "port/scene-materials/CMakeLists.txt": "6274830b9960800a3653cc0c1545aecc13a30fc678eb5a6dccc9a3888f778f6a",
+    "port/scene-materials/technique_selector.hpp": "efc0c2c81fb7181ea4aa7ab35276fa2d5b8e66d665cc9ee7946db38e4624c629",
+    "port/scene-materials/technique_selector.cpp": "7160bc64f7847d34ba21057baa9ae83428c53e1050e9ba68897126fb3c4e87fd",
+    "port/material-bindings/bindings.hpp": "7821ff4e8f585df4aadd31bc2f72ab0022094487e0c4efa700405395a892939f",
+    "port/material-bindings/bindings.cpp": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+    "port/scene-materials/render_state_snapshot.hpp": "dcf812dc8aad61b55311406def972a3bdeec031c89b568e35f0e4183674541eb",
+    "port/scene-materials/render_state_snapshot.cpp": "8924ebbaaa675163509bd938706ded30604602832069e1820b5bcdfc7c4b6083",
+    "port/scene-materials/source_state_conversion.hpp": "54cd2904fdeb5f5f5426f00ed8c11d2624f1f1e48fd1efc1bc35b8bd35810eec",
+    "port/scene-materials/source_state_conversion.cpp": "c2ede9875060eb483387973f1f78f9c4782a4d3a83a4d9350df918b1a975ede2",
+    "port/adam-script-runtime/script_runtime.c": "25744c73b86a98766ba11b6512c90b3bb9d54b17e9f6975e75f3a2ae3dbcdebf",
+    "port/adam-script-runtime/script_runtime.h": "ea4910ad1e2e292625979e2a4380146fbfd71dc8bb217e93dc1507cb70729bfa",
+    "port/android-native/app/src/main/cpp/ghost_ai_owner.hpp": "24ca78a29b8570ea0606c71a71d7e14a1b210e9a880f9d79f1b737a41d2f5ae2",
+    "port/android-native/app/src/main/cpp/ghost_ai_owner.cpp": "9bb7110121cb0fd0c392a8eecd78dcda45474f216a3ecae45c72331f8eba5146",
+    "port/level-world/character_aggro_delay.hpp": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+    "port/level-world/character_aggro_delay.cpp": "041e7e2eea050be466169ecddddd604f912a173233733c761a6010330b870a9e",
+    "port/level-world/character_ai_turn.hpp": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+    "port/level-world/character_ai_turn.cpp": "e0eb5bf3bb58dd59798116d4c54e953321de4bfb0dca13bb7ccacaa7746d4cf7",
+    "port/level-world/character_aggro_target_search.hpp": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+    "port/level-world/character_aggro_target_search.cpp": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+    "port/level-world/character_aggro_candidate_events.hpp": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+    "port/level-world/character_aggro_candidate_events.cpp": "dedf5be12e89fcd4b0d5b57652144505b8b2f277bf3fcf3844513664a91f8e5d",
+    "port/level-world/character_enemy_spotted.hpp": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+    "port/level-world/character_enemy_spotted.cpp": "e9e5cb5d17f3621f69f3ffab31106f61cbedb3b3736044d9ce4c1ca9ee877c6b",
+    "port/level-world/monster_external_script_session.hpp": "cdd3947eed8ac84de766510d747f34ee46c4be650926f7d0aa4e88857b6d0656",
+    "port/level-world/monster_external_script_session.cpp": "e7b94890595e64b434f62582aa25349b7982e2b447f1cdb89207e69a1c0489d3",
+    "port/level-world/character_ai_set_target.hpp": "13e569adc9eec552333c6a265eb35bf4ff22175145691a011f0a0ecf6e56e184",
+    "port/level-world/character_ai_set_target.cpp": "27185727ef99d803d451b9168e90a32aa665202721d942b5056d048ea5e0487d",
+    "port/level-world/character_ai_relations.hpp": "d2555cde0441bdcccc2a9a2df69099b899c5121171b67a18ef7506cf4be62ebf",
+    "port/level-world/character_ai_relations.cpp": "b88021247e65d54a407e3f1e350e683ba6e4a6dbf1827b8e62c16f94977f5f42",
+    "port/level-world/character_ai_in_combat.hpp": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+    "port/level-world/character_ai_in_combat.cpp": "b762ddde559413c8bc63b9081581b44bac2a447bf8d9e1f20633eeca148bcf58",
+    "port/level-world/character_aggro_acquisition_prefix.hpp": "1ce70f05d83d50e9652b201ba0647bbd64eec6115e79cb3f640071eeba375d8b",
+    "port/level-world/character_aggro_acquisition_prefix.cpp": "057f78dbcde4e2852f0c9a3e73858dcef94fe145d2ad14b040f8d60cbec9c0b2",
+    "port/level-world/character_ai_sight.hpp": "ae36f54ffd97cfb079905e3e03854fc354853304609135aba76591bfb07e9a81",
+    "port/level-world/character_ai_sight.cpp": "841b1b72e26de327434fd337ce8a0d50449805b5fef03e3a0030d82defd6298f",
+    "port/level-world/ghost_ai_session.hpp": "2349a9ebb0557d4fbe4edcd09f88a985266f7d5b8407c977338d7194438a0328",
+    "port/level-world/ghost_ai_session.cpp": "16d5adb5cf2c2e5896ae08e6f11ae0621a3f16fe752796acc320b3f5f843b4be",
+    "port/level-world/character_monster_retarget.hpp": "cde628b6f6445b5490f4f0b8c7af7bc36bc3e0807b77630469b5aacfd49ba6ac",
+    "port/level-world/character_monster_retarget.cpp": "a20a9aaeb2f34034bda22a33ee64c4735c237cc407e5f3a4ddf58213a61fa9b0",
+    "port/level-world/character_enemy_retention.hpp": "a8aedc3e9031ab1053931f7f9abd64378280fc9a01a1ba4837a08caa667cab95",
+    "port/level-world/character_enemy_retention.cpp": "5884f734bfe51b4137b129c99e85c7f0c2cd7d70df52a3c8acdda1df0d779037",
+    "port/level-world/character_ai_update_target.hpp": "53b8a94ef3d82b46a64c76ebdfc63e668e7089f724721b59373e2dbc97f8e3d2",
+    "port/level-world/character_ai_update_target.cpp": "6271d889d51a3044d45d2b4162810a0253640342904effd334e8d7c19d19dc8e",
+    "port/level-world/character_ai_master_update.hpp": "b7bd52f31a8dc6f130f13512190228f76c5e584bbcec0daf1b041a4a24706d8e",
+    "port/level-world/character_ai_master_update.cpp": "b9df80c86dec327a94f21e2074a6cab59cf7d3d6a42cd565566d0341fc5eab63",
+    "port/level-world/character_ai_melee_range.hpp": "94f493092f95d1ff91f64a5eac66f03563a939cb4e0185a19878ff14b4eb5f67",
+    "port/level-world/character_ai_melee_range.cpp": "5ece7ff32aa677db7e8b14b202e60ca37894fe4d4bfa066dae89a815d67f6fee",
+    "port/level-world/character_ai_interaction_range.hpp": "f2576cde0fb675ce3aa789caa5c5fb4993ae6d3fd1c29456174a45b2c3f9550a",
+    "port/level-world/character_ai_interaction_range.cpp": "e7adcccf6438bea3b778c6e25368be503015bb71c68c365635efcfc702a46d46",
+    "port/level-world/ais_external_update.hpp": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+    "port/level-world/ais_external_update.cpp": "23f9267964858e163373626c5aa7a68b9ace75001be1a7a359167fe2f9a273b0",
+    "port/level-world/ais_state_callbacks.hpp": "5cf435a846197974552e36d53eb072d265c5b06e299613e82109ef08422adaeb",
+    "port/level-world/ais_state_callbacks.cpp": "b809836420fe255bbea75ad7db2529a3942ba0b6da007120747f4af3b106ffd8",
+    "port/level-world/character_ai_pause_update.hpp": "aca55bf8a231cec5b81375ec94d0e02299368ec76968d657c42e1681ee2a0db8",
+    "port/level-world/character_ai_pause_update.cpp": "9e26911f837c1a83e834cffea583279f81e9abb5a21668ed32623daca38525a6",
+    "port/level-world/ais_default_collision_persist.hpp": "835c383f95c11244d4a66be840b362ae36d9a301b293cac56be8b17c62648fc7",
+    "port/level-world/ais_default_collision_persist.cpp": "fccd18290a8d16f75122748d18837ba70b5d73d68a5b10386a6b9dddb3b135cf",
+    "port/level-world/character_ai_ranged_range.hpp": "4ff33987e8f0d97a2fc4ca0fd04cb675124d9c7bba540966a41236530a3333ab",
+    "port/level-world/character_ai_ranged_range.cpp": "e05996fedf0d19f470214c129fedbf351c57a71134f9dc1fdc4f44ee681db7be",
+    "port/level-world/character_range_capability.hpp": "9ed2dbeeb69409ae56501cc7942c5831e962421b53e8cbb5c2fc552b9e5b5a8f",
+    "port/level-world/character_range_capability.cpp": "e0adf14559191000747e05909760fe53303cf5ce03b96e70b8c0cb05fad38e87",
+    "port/level-world/character_ai_queue.hpp": "24051a580fdc81add0e29a245502f04cd8d55c50a17673a65edead4fa9a368d5",
+    "port/level-world/character_ai_queue.cpp": "91c9c43bb6ea1efdf4a895bfb836137a2b51044ffc288cd88170599de68b5141",
+    "port/level-world/character_interactive.hpp": "bb64936cd21596c59fe68a70c4fa9c7989b8cc537928d9faf4aecd72ebc9c7d6",
+    "port/level-world/character_interactive.cpp": "890d3300046c370c4b37d8607e50d7e93abc228bf0ebee6651b0d20c38cf9d3a",
+    "port/level-world/character_ai_initialization.hpp": "d16d4a5b2848a9a5e037fc03999cebc44b689543b114edb0d22a50865aac72bd",
+    "port/level-world/character_ai_initialization.cpp": "d08f7316b373e9d72b90b249650c693e406845c4716747f9be59778156ee7241",
+    "port/level-world/ais_external_init_vcb.hpp": "22baf75dabd5dcfa42769a33df22a4e6e09445c9d0497ed4251970d479a4d316",
+    "port/level-world/ais_external_init_vcb.cpp": "074f00fae47c19006b6ddc424a142a5148b7ec70be4150825d100988b2def86a",
+    "port/level-world/ais_external_initialization.hpp": "6f7524f1230e69e318cca7e873d32fd3ee4538ef5de9b39b23883a2e7bb692be",
+    "port/level-world/ais_external_initialization.cpp": "b1fd0aefb7f66ea70d3e2af7d715bab5fdab47b58efc179749110c6643a2f6f3",
+    "port/level-world/ais_native_bindings.hpp": "09a53e2655519e0ecdcad7b99b18c081f47eecc26a4812b56b77c623cd66b81d",
+    "port/level-world/ais_native_bindings.cpp": "7b02b2566eef6cb559d0dd372f560593c5e8085e7adb60de8252136ab5370771",
+    "port/level-world/character_ai_association.hpp": "3701763347ffede660e32e8c930bc0826d7935912e992dd587513ad0da60ac95",
+    "port/level-world/character_ai_association.cpp": "adbea7da6fb2d4fe5f063aa97377bfb43207678ebe9cca3430f49852fb625437",
+    "port/level-world/character_native_bindings.hpp": "3754dc6bbe1ea2bc2f8f50ffd2b1c482d69eb5ec766c1129a9324345f42e263a",
+    "port/level-world/character_native_bindings.cpp": "bf5002296a5ec3ff4f0d1d22a706ae4b5bb92c0385a9c32362f6a1c1a1701cff",
+    "port/level-world/room_zone_enrollment.hpp": "d4bd8777964b673191fa4ab74c81f55438007d8bb842aada802d107e18331e73",
+    "port/level-world/room_zone_enrollment.cpp": "992a33364b8f7c9307d0b06d684c2f18121a6ab5b868acbb25a6afbeb7d6c4dc",
+    "port/random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+    "port/random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "port/lua-numeric/numeric.h": "03237985e1b5d0e10f61cacbbbc6320a75a052f9d8e08a9f94b8ba24a7467475",
+    "port/lua-numeric/numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8"
+  },
+  "compiled_source_units": 33,
+  "required_export_groups": 47,
+  "native_ai_wired": false,
+  "full_game_playable": false,
+  "scope": "33 bounded source AI/script units compiled and exported for ELF64 ARM64/x86_64; one reused Adam Lua core per ABI. Export verification establishes compilation only; live AI/controller/body behavior requires separate device evidence."
+}

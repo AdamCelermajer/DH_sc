@@ -1,0 +1,46 @@
+{
+  "scope": "Authored development encounter only; not original campaign or original save compatibility",
+  "apk": {
+    "file": "DH2-source-encounter-Android17-save-restore-debug.apk",
+    "bytes": 1234908,
+    "sha256": "aa557d05aa9d6bdacb63f61f879289402de418f00c43a52d0a2b38c0a3504094",
+    "drive_url": "https://drive.google.com/file/d/1ZGjquZoWE-mXx8iB4OtpaqxlhlgyPzPP/view?usp=drivesdk"
+  },
+  "target_sdk": 37,
+  "abi_tested": "x86_64",
+  "devices": [
+    {
+      "emulator": "emulator-5560",
+      "device": "sdk_gphone64_x86_64",
+      "android_release": "17",
+      "api": 37,
+      "page_size": 4096,
+      "installed_apk_sha256": "aa557d05aa9d6bdacb63f61f879289402de418f00c43a52d0a2b38c0a3504094",
+      "attack_control_victory": "2/2 COMPLETE",
+      "saved_state": "Progress saved.",
+      "cold_process_restart": true,
+      "restored_state": "Progress restored; 2/2 COMPLETE"
+    },
+    {
+      "emulator": "emulator-5558",
+      "device": "sdk_gphone16k_x86_64",
+      "android_release": "17",
+      "api": 37,
+      "page_size": 16384,
+      "installed_apk_sha256": "aa557d05aa9d6bdacb63f61f879289402de418f00c43a52d0a2b38c0a3504094",
+      "attack_control_victory": "2/2 COMPLETE",
+      "saved_state": "Progress saved.",
+      "cold_process_restart": true,
+      "restored_state": "Progress restored; 2/2 COMPLETE"
+    }
+  ],
+  "lifecycle_checkpoint": "Movement/HP state was flushed during Home/stop; process was force-stopped and the changed HP state restored on relaunch on both page sizes.",
+  "native_runner": "port/android-app/build/persistence-tests/result.json",
+  "java_store_test": "port/android-app/tests/EncounterSaveStoreTest.java",
+  "source_build_report": "port/android-app/build-validation.json",
+  "limits": [
+    "No ARM64 device execution was performed.",
+    "SWAMP world-data importer is not connected to this APK renderer/gameplay.",
+    "No original .savegame compatibility or campaign persistence is implemented."
+  ]
+}

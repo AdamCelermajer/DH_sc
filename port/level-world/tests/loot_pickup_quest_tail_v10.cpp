@@ -1,20 +1,142 @@
-#include "loot_pickup_quest_tail_v10.hpp"
+#include "../loot_pickup_quest_tail_v10.hpp"
+
 #include <iostream>
 #include <stdexcept>
+#include <string>
 #include <vector>
+
 using namespace dh2::character;
+
+namespace {
+
 struct Fixture {
- std::vector<int> calls;int mode{},fail{};LootPickupQuestEventV10 copied;
- static bool player(void* p,std::uintptr_t c,bool& out,std::string& e){auto& f=*static_cast<Fixture*>(p);if(c!=123)throw std::runtime_error("identity");f.calls.push_back(1);out=f.mode!=1;if(f.fail==1){e="player failure";return false;}return true;}
- static bool registered(void* p,std::uintptr_t c,std::int32_t id,bool& out,std::string& e){auto& f=*static_cast<Fixture*>(p);if(c!=123||id!=456)throw std::runtime_error("source IDs");f.calls.push_back(2);out=f.mode>=3;if(f.fail==2){e="registered failure";return false;}return true;}
- static bool current(void* p,std::uintptr_t& out,std::string& e){auto& f=*static_cast<Fixture*>(p);f.calls.push_back(3);out=f.mode==3?0:789;if(f.fail==3){e="GS failure";return false;}return true;}
- static bool constant(void* p,const char* r1,const char* r2,std::int32_t& out,std::string& e){auto& f=*static_cast<Fixture*>(p);if(std::string(r1)!="v2QuestObjectiveType"||std::string(r2)!="GatherLoot")throw std::runtime_error("literalorder");f.calls.push_back(4);out=37;if(f.fail==4){e="constant failure";return false;}return true;}
- static bool async(void* p,std::uintptr_t gs,const LootPickupQuestEventV10& event,std::string& e){auto& f=*static_cast<Fixture*>(p);if(gs!=789)throw std::runtime_error("GS identity");f.calls.push_back(5);f.copied=event;if(f.fail==5){e="async failure";return false;}return true;}
+    std::vector<int> calls;
+    bool player{true};
+    bool registered{true};
+    std::uintptr_t event_manager{789};
+    int fail_at{};
+    LootPickupQuestEventV10 copied{};
+
+    bool step(int id, std::string& error) {
+        calls.push_back(id);
+        if (fail_at != id) return true;
+        error = "declared callback failure " + std::to_string(id);
+        return false;
+    }
+
+    static bool is_player(void* raw, std::uintptr_t character, bool& out,
+                          std::string& error) {
+        auto& self = *static_cast<Fixture*>(raw);
+        if (character != 123) throw std::runtime_error("IsPlayer character");
+        out = self.player;
+        return self.step(1, error);
+    }
+
+    static bool gathering(void* raw, std::uintptr_t character, std::int32_t item,
+                          bool& out, std::string& error) {
+        auto& self = *static_cast<Fixture*>(raw);
+        if (character != 123 || item != 456)
+            throw std::runtime_error("registered gathering IDs");
+        out = self.registered;
+        return self.step(2, error);
+    }
+
+    static bool current(void* raw, std::uintptr_t& out, std::string& error) {
+        auto& self = *static_cast<Fixture*>(raw);
+        out = self.event_manager;
+        return self.step(3, error);
+    }
+
+    static bool constant(void* raw, const char* group, const char* key,
+                         std::int32_t& out, std::string& error) {
+        auto& self = *static_cast<Fixture*>(raw);
+        if (std::string(group) != "v2QuestObjectiveType" ||
+            std::string(key) != "GatherLoot")
+            throw std::runtime_error("source literal order/value");
+        out = 37;
+        return self.step(4, error);
+    }
+
+    static bool async(void* raw, std::uintptr_t event_manager,
+                      const LootPickupQuestEventV10& event,
+                      std::string& error) {
+        auto& self = *static_cast<Fixture*>(raw);
+        if (event_manager != 789) throw std::runtime_error("EventManager identity");
+        self.copied = event;
+        return self.step(5, error);
+    }
 };
-int main(){try{unsigned checks=0;auto check=[&](bool value){++checks;if(!value)throw std::runtime_error("check "+std::to_string(checks));};Fixture f;LootPickupQuestServicesV10 services{&f,Fixture::player,Fixture::registered,Fixture::current,Fixture::constant,Fixture::async};std::string e;
- check(loot_pickup_quest_tail_v10(0,456,{},e));
- for(int mode=1;mode<=4;++mode){f={};f.mode=mode;check(loot_pickup_quest_tail_v10(123,456,services,e));check(f.calls.size()==std::size_t(mode==4?5:mode));}
- check(f.copied.objective_type==37&&f.copied.character==123&&f.copied.item_id==456&&f.copied.network_id==-1&&f.copied.subject_id==-1&&!f.copied.flag0&&!f.copied.flag1);
- for(int failure=1;failure<=5;++failure){f={};f.mode=4;f.fail=failure;e.clear();check(!loot_pickup_quest_tail_v10(123,456,services,e)&&!e.empty());check(f.calls.size()==std::size_t(failure));}
- std::cout<<"PASS whole pickup quest tail gates/literal order/copied fields and required failure prefixes checks="<<checks<<'\n';return 0;
- }catch(const std::exception& ex){std::cerr<<ex.what();return 1;}}
+
+void check(bool value, const char* message) {
+    if (!value) throw std::runtime_error(message);
+}
+
+const LootPickupQuestServicesV10 services_for(Fixture& fixture) {
+    return {&fixture, Fixture::is_player, Fixture::gathering, Fixture::current,
+            Fixture::constant, Fixture::async};
+}
+
+}  // namespace
+
+int main() {
+    try {
+        unsigned checks{};
+        std::string error;
+
+        Fixture fixture;
+        auto services = services_for(fixture);
+        check(loot_pickup_quest_tail_v10(0, 456, {}, error), "null character no-op");
+        check(fixture.calls.empty(), "null character queried a service");
+        ++checks;
+
+        fixture.player = false;
+        check(loot_pickup_quest_tail_v10(123, 456, services, error), "non-player no-op");
+        check(fixture.calls == std::vector<int>{1}, "non-player gate order");
+        ++checks;
+
+        fixture = {};
+        fixture.registered = false;
+        services = services_for(fixture);
+        check(loot_pickup_quest_tail_v10(123, 456, services, error), "unregistered item no-op");
+        check(fixture.calls == std::vector<int>({1, 2}), "registered-list gate order");
+        ++checks;
+
+        fixture = {};
+        fixture.event_manager = 0;
+        services = services_for(fixture);
+        check(loot_pickup_quest_tail_v10(123, 456, services, error), "missing current-level no-op");
+        check(fixture.calls == std::vector<int>({1, 2, 3}), "current-level gate order");
+        ++checks;
+
+        fixture = {};
+        services = services_for(fixture);
+        check(loot_pickup_quest_tail_v10(123, 456, services, error), "successful quest tail");
+        check(fixture.calls == std::vector<int>({1, 2, 3, 4, 5}), "success callback order");
+        check(fixture.copied.objective_type == 37 && fixture.copied.character == 123 &&
+              fixture.copied.item_id == 456 && fixture.copied.network_id == -1 &&
+              fixture.copied.subject_id == -1 && fixture.copied.flag0 == 0 &&
+              fixture.copied.flag1 == 0, "copied source event fields");
+        ++checks;
+
+        for (int failure = 1; failure <= 5; ++failure) {
+            fixture = {};
+            fixture.fail_at = failure;
+            services = services_for(fixture);
+            error.clear();
+            check(!loot_pickup_quest_tail_v10(123, 456, services, error),
+                  "required callback failure must stop tail");
+            check(error == "declared callback failure " + std::to_string(failure),
+                  "callback error must be preserved");
+            check(fixture.calls.size() == static_cast<std::size_t>(failure),
+                  "failure must stop at reached prefix");
+            ++checks;
+        }
+
+        std::cout << "PASS loot pickup quest tail: gates, callback order, copied event, "
+                     "and five required failure prefixes; checks=" << checks << '\n';
+        return 0;
+    } catch (const std::exception& exception) {
+        std::cerr << exception.what() << '\n';
+        return 1;
+    }
+}

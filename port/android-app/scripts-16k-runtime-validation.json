@@ -1,0 +1,85 @@
+{
+  "complete_game": false,
+  "scope": "APK-owned source runtime initializes three exact shared scripts; controlled source imports test fields, shared helpers, rejection and recovery. No native game objects, real combat or game loop.",
+  "device": {
+    "serial": "emulator-5558",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "ffcb32a34ed5de300ca05420bfb67637a89e64264b581a855f918a1e79d8b211",
+  "installed_apk_hash_matches": true,
+  "script_assets_hash_checked": {
+    "assets/dh2/scripts/ai-commons.lua": {
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c",
+      "bytes": 13535
+    },
+    "assets/dh2/scripts/skills-commons.lua": {
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+      "bytes": 11291
+    },
+    "assets/dh2/scripts/combat-formulas.lua": {
+      "sha256": "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f",
+      "bytes": 36004
+    }
+  },
+  "initial_status": "Scripts ready: 3 shared files. Game objects are not connected yet.",
+  "cases": [
+    {
+      "case": "probe",
+      "source_sha256": "7e56bd00f464f16ec78acf66ed8a3e98d965c921279e0ec8296260002bc88904",
+      "bytes": 519,
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "loop",
+      "source_sha256": "c473eb52fc69fb0c07e52cb026acf8381d9eab08940e6df4be7d84f73c9121aa",
+      "bytes": 17,
+      "status": "Script rejected: instruction budget exhausted"
+    },
+    {
+      "case": "nonstring",
+      "source_sha256": "602cfb84fc787f451a07a9d4c31699548072ec965a6de77725e7233ed0518fe0",
+      "bytes": 9,
+      "status": "Script rejected: non-string Lua error"
+    },
+    {
+      "case": "invalidbytes",
+      "source_sha256": "2d9ffa11f381f08420451f26275fd060d8beb3004d77458857bcd8eda3ffacbd",
+      "bytes": 27,
+      "status": "Script rejected: dh2-source:1:   "
+    },
+    {
+      "case": "bytecode",
+      "source_sha256": "0c203dd22d856dd310a544f959bedd0a68dbb0d440c9f9bc534def7b76e4d8a7",
+      "bytes": 4,
+      "status": "Script rejected: bytecode input is unsupported"
+    },
+    {
+      "case": "memory",
+      "source_sha256": "eaa25d552055db5c188eb3e7ef35b752cd547cc2777bb344ed0e29eea7520d05",
+      "bytes": 74,
+      "status": "Script rejected: not enough memory"
+    },
+    {
+      "case": "recovery",
+      "source_sha256": "dd33a4dd805c38c7ae78764436b6826a3ed5f7ccf21f3e583bd58edb02b03a3a",
+      "bytes": 546,
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "log_start_emulator_gmt": "10-02 16:24:03.000",
+  "screenshot": {
+    "file": "scripts-ready.png",
+    "sha256": "def43961c7b45154f1e90f864f41a1c8b0e98e1b3fa26797c4b01fc64cb4e044"
+  },
+  "test_sha256": "096261491d077fbc1f0f53c9094d2df367dfb46f1f4c6a86e5a04feb3c041006",
+  "source_sha256": {
+    "scripts.cpp": "24ebb15c1e008c662af0b887417b895dbddf37f2a3c9c46cc642f49c7a59ece0",
+    "src/local/dh2/sourceviewer/MainActivity.java": "0a044b2fc78fc1a9610e5eec0c22b6f548798717c5df508b3f0dfa5f824c1ac0",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22"
+  }
+}

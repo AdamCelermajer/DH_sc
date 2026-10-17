@@ -1,0 +1,56 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "record_scope_definition": "Each function record pins the complete original ARM32 function bytes. These records establish source evidence and do not claim full caller integration.",
+  "source_reconstruction_scope": "One selected process-wide pair of ordinary and synchronized Random streams. Reproduce the source seed writes made by GSInit::Update state 13 and Level::Unload from an injected raw Timer::getRealTime millisecond word, while preserving both debug counters.",
+  "source_facts": [
+    "The Random.cpp static initializer zeros both s_debugRandomCounters words and does not write s_seed or s_syncedSeed.",
+    "GSInit::Update state 13 calls Timer::getRealTime, stores its uint32 result in Random::s_seed, and stores zero in Random::s_syncedSeed.",
+    "Level::Unload calls Timer::getRealTime, stores its uint32 result in Random::s_seed, and stores zero in Random::s_syncedSeed.",
+    "Neither lifecycle reseed writes either debug counter; consumers share the same ordinary and synchronized state pair."
+  ],
+  "port_coverage": [
+    "The selected dh2_level_world target owns one zero-initialized dh2_random_state and exports a stable reference for consumers.",
+    "The two named lifecycle methods implement only the verified seed writes; the caller supplies the time word and controls when the source lifecycle event occurs.",
+    "The Android native renderer injects POSIX gettimeofday milliseconds at fresh gameplay admission and the explicit Back-to-menu gameplay teardown; pause/resume, EGL restore, debug reload, previews, and generic error cleanup do not reseed.",
+    "The native saved-class resolver borrows this owner but its current player branch does not draw; NPC template, inventory, and loot consumers remain disconnected. Animation and combat RNG projections remain separate."
+  ],
+  "functions": [
+    {
+      "original_symbol": "_GLOBAL__I_.._.._sources_Utils_Random.cpp",
+      "demangled": "Random.cpp static initializer",
+      "elf_address": "0x3136dc",
+      "size": 68,
+      "sha256": "5163f37d7b84de91112ce366c498ec8321816cb155891d369a3bad4e48e9799a",
+      "scope": "complete function",
+      "port_coverage": "initial owner values are zero-initialized; the original initializer specifically clears both diagnostic counter words without seeding either stream"
+    },
+    {
+      "original_symbol": "_ZN6GSInit6UpdateEP12StateMachined",
+      "demangled": "GSInit::Update(StateMachine*, double)",
+      "elf_address": "0x3850c8",
+      "size": 2084,
+      "sha256": "0b704fe8fbf23bb5e3c56c5f211c66139d31aff21686b4217661167893e16299",
+      "scope": "complete function",
+      "port_coverage": "the selected event API models only the verified state-13 ordinary-seed and synchronized-zero stores; the caller must inject the raw clock word"
+    },
+    {
+      "original_symbol": "_ZN5Level6UnloadEv",
+      "demangled": "Level::Unload()",
+      "elf_address": "0x3f0690",
+      "size": 288,
+      "sha256": "cd174313a853d9549685d78e9f0ee02f73881ad4d7eedca2c3ff72df8f6083ef",
+      "scope": "complete function",
+      "port_coverage": "the selected event API models the verified ordinary-seed and synchronized-zero stores; the remaining level teardown is outside this module"
+    },
+    {
+      "original_symbol": "_ZN6glitch2os5Timer11getRealTimeEv",
+      "demangled": "glitch::os::Timer::getRealTime()",
+      "elf_address": "0x60b0cc",
+      "size": 64,
+      "sha256": "bb23d7abff133f833a6cb4418e5f80871485f5f2c556a4d58b0e18798e553b6d",
+      "scope": "complete function",
+      "port_coverage": "the caller injects the raw uint32 millisecond result; this module does not call the clock"
+    }
+  ]
+}

@@ -1,0 +1,116 @@
+{
+  "schema": "dh2-adam-ui-source-import/v1",
+  "source_repository": "https://github.com/AdamCelermajer/DH_sc",
+  "source_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+  "scope": "Exact GFNT and viewport source/test/evidence subset. Runtime/native integration remains untested; legacy report applies to its recorded artifacts only. No whole menu/HUD reconstruction claim.",
+  "files": [
+    {
+      "path": "port/engine-ui/gfnt.cpp",
+      "upstream_blob": "5c20e4a5ff606d8c2121f140461540257eee1e58",
+      "sha256": "53e004d0ea9271205ae07f90d6b4efc98e024fc0ec6bf41e2d687d83c72de8f9",
+      "bytes": 5456,
+      "local_sha256": "53e004d0ea9271205ae07f90d6b4efc98e024fc0ec6bf41e2d687d83c72de8f9"
+    },
+    {
+      "path": "port/engine-ui/gfnt.hpp",
+      "upstream_blob": "980f298654c868b6594e3a3741e23b5b2e958640",
+      "sha256": "601646de8d663764cd35626df42ff652b9d1a64bd9de2699e414c1b14cfe319d",
+      "bytes": 1972,
+      "local_sha256": "601646de8d663764cd35626df42ff652b9d1a64bd9de2699e414c1b14cfe319d"
+    },
+    {
+      "path": "port/engine-ui/tests/gfnt.cpp",
+      "upstream_blob": "04cecfca72bc26b8057f4497f946644579d774e6",
+      "sha256": "40688b30d5a94d3dda6f88a1364f281d463c193bd7852a2d6bb3b8d7a9a6a5a0",
+      "bytes": 3697,
+      "local_sha256": "40688b30d5a94d3dda6f88a1364f281d463c193bd7852a2d6bb3b8d7a9a6a5a0"
+    },
+    {
+      "path": "port/engine-ui/reference/gfnt/original-fixtures.bin",
+      "upstream_blob": "2eea77866997613d4137d431833b2b5d8a1e4aa0",
+      "sha256": "0131e172216d44ee092495c52adc72fab35ace25e5e359b9d4811cb69083d7ed",
+      "bytes": 637912,
+      "local_sha256": "0131e172216d44ee092495c52adc72fab35ace25e5e359b9d4811cb69083d7ed"
+    },
+    {
+      "path": "port/engine-ui/reference/gfnt/freeze-manifest.json",
+      "upstream_blob": "c69b7d33619af7c0cc461e465c2c87d74d4932df",
+      "sha256": "1373b6044292c5e5ede2f212b923f355985ba74742784d295354ce266574ae1c",
+      "bytes": 824,
+      "local_sha256": "1373b6044292c5e5ede2f212b923f355985ba74742784d295354ce266574ae1c"
+    },
+    {
+      "path": "port/engine-ui/reports/gfnt-arm64-differential.json",
+      "upstream_blob": "9a97c06f8a6275df1458345ac1549846217e04cc",
+      "sha256": "bc9b50ea2bb0fadd77123cf5be3bbbad84962739407c226577bcb38fe7e6bbc6",
+      "bytes": 1278,
+      "local_sha256": "bc9b50ea2bb0fadd77123cf5be3bbbad84962739407c226577bcb38fe7e6bbc6"
+    },
+    {
+      "path": "port/level-world/reference/font-text/glyph-backend/original-functions.json",
+      "upstream_blob": "b77c376c29920da6e3d45bfbdbaf5a174aca2dd1",
+      "sha256": "911e711725ad81bfeadc644f183e962b7183232b339795aeb92f58a105c86740",
+      "bytes": 1607,
+      "local_sha256": "911e711725ad81bfeadc644f183e962b7183232b339795aeb92f58a105c86740"
+    },
+    {
+      "path": "port/engine-ui/viewport.cpp",
+      "upstream_blob": "25ebdb4c8e61b519ad7ac0bac216f54a50497a5d",
+      "sha256": "ba2ccdba830d992463f1f61bc02501fb5d7fff65b2c4b246ca5df490e3758ba9",
+      "bytes": 6273,
+      "local_sha256": "ba2ccdba830d992463f1f61bc02501fb5d7fff65b2c4b246ca5df490e3758ba9"
+    },
+    {
+      "path": "port/engine-ui/viewport.hpp",
+      "upstream_blob": "5fcd4167c0cc0549fc1578144e984463af970b0f",
+      "sha256": "372e0a5aa123edf40c2a7ec6a0d9ae2f97a8af891f05f5dbd9996aaabb51ffd5",
+      "bytes": 2505,
+      "local_sha256": "372e0a5aa123edf40c2a7ec6a0d9ae2f97a8af891f05f5dbd9996aaabb51ffd5"
+    },
+    {
+      "path": "port/engine-ui/tests/viewport.cpp",
+      "upstream_blob": "94f5b1d39f47370f00a5124c70f25641c0e7e97d",
+      "sha256": "6e5ce43ad41e5b136d5c3565b1e9f3ddc254c3218e92b5f02bc779d873eb1cfc",
+      "bytes": 5029,
+      "local_sha256": "6e5ce43ad41e5b136d5c3565b1e9f3ddc254c3218e92b5f02bc779d873eb1cfc"
+    },
+    {
+      "path": "port/engine-ui/tools/viewport_host.py",
+      "upstream_blob": "3ef3e4a58c8e6d7a75c37752aced79e3884afb90",
+      "sha256": "0db499a6f264d34e23806b9c2b81cc6d84dc739b69adbe40df06666798686717",
+      "bytes": 2917,
+      "local_sha256": "9965ba8c8c25d373f9ebb49c53dd3227ea8ca61af0f0e840ae5ab4f04f6001aa",
+      "adaptations": [
+        "Add explicit WSL distribution option, portable temporary default and halt-on-error sanitizer settings."
+      ]
+    },
+    {
+      "path": "port/engine-ui/reference/viewport/original-functions.json",
+      "upstream_blob": "21e92d03f95564bd3f105f8b4f49e39f4956a3bb",
+      "sha256": "a4d9365fecf3765a2064beb09f5e0f054e7b5599dd3286db4cf5f9497b90f7c6",
+      "bytes": 2311,
+      "local_sha256": "a4d9365fecf3765a2064beb09f5e0f054e7b5599dd3286db4cf5f9497b90f7c6"
+    },
+    {
+      "path": "port/engine-ui/reference/viewport/reference/original-functions.asm",
+      "upstream_blob": "89a9f55dec6bd48c7717f4c2e880575b5e5571b4",
+      "sha256": "a36b9f26e17e217089f77825a7e04870ca4db6c0eea99facd5b7e94ab8eea2b1",
+      "bytes": 31312,
+      "local_sha256": "a36b9f26e17e217089f77825a7e04870ca4db6c0eea99facd5b7e94ab8eea2b1"
+    },
+    {
+      "path": "port/engine-ui/reference/viewport/viewport-gold.bin",
+      "upstream_blob": "55fec93f144f07ab2f2418a71e97852ae2bd988b",
+      "sha256": "ba12fd0e90048d62c1dad24c5a011210538c0d39d7cc6126c70eedc9e4742e29",
+      "bytes": 1984128,
+      "local_sha256": "ba12fd0e90048d62c1dad24c5a011210538c0d39d7cc6126c70eedc9e4742e29"
+    },
+    {
+      "path": "port/engine-ui/reports/viewport-arm64-differential.json",
+      "upstream_blob": "2558704f0cb35c9b74f3daef0f463aee9c0d9a30",
+      "sha256": "3a18fdf42c3d91ebbda6e213dbf5326105a1c485277b989ef7b80baaf68dd4ef",
+      "local_sha256": "3a18fdf42c3d91ebbda6e213dbf5326105a1c485277b989ef7b80baaf68dd4ef",
+      "bytes": 973
+    }
+  ]
+}

@@ -1,0 +1,108 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN8Savegame10_cacheFileEP12StreamBuffer",
+      "elf_address": "0x315ad0",
+      "size": 1032,
+      "sha256": "39a53e263f5393d735860207cd93d503e962d6a697e09c535cf83499ab47c677"
+    },
+    {
+      "original_symbol": "_ZN8Savegame4loadEPKcPFvP11IStreamBasePvES6_S4_",
+      "elf_address": "0x315848",
+      "size": 188,
+      "sha256": "080dc9da9c195bff4d1b120e0716ef712c013941163bd7c62d91cae3d80801b5"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame7SG_LoadEi",
+      "elf_address": "0x465430",
+      "size": 32,
+      "sha256": "e1733c6af3054e499ed2a742b42bbb25ff574f857df8aa0de897752035ac99b3"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame5_LoadEi",
+      "elf_address": "0x464f4c",
+      "size": 1252,
+      "sha256": "1bfef539dee0894ff774c62cb342cc9af7366684c5bb21de2181c8a9e4b50261"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame22_LoadVolatileQuestsLogEi",
+      "elf_address": "0x468574",
+      "size": 188,
+      "sha256": "fa8721402ea98819d67a38d99d65234cbc6c045bc0bf069d69cfb7c5367ecc42"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame16__LoadPlayerNameEP11IStreamBasePv",
+      "elf_address": "0x4698dc",
+      "size": 8,
+      "sha256": "a7994cfdd2cba43b37c7129f382435e1ed8f18be17806ce683762a1e03b61bbe"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__LoadPlayerLevelEP11IStreamBasePv",
+      "elf_address": "0x4689a0",
+      "size": 8,
+      "sha256": "9f5364742ddf2fce679aa7cfc6caaf0d1662df485f98fb42cbdc963568cb0416"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__LoadPlayerClassEP11IStreamBasePv",
+      "elf_address": "0x469d88",
+      "size": 228,
+      "sha256": "2b3d660fdaa3699a8ef76fd2f5ea899bc2cd97a3abaf55e98bf200871b70be0e"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame21__LoadDifficultyLevelEP11IStreamBasePv",
+      "elf_address": "0x468968",
+      "size": 56,
+      "sha256": "588c66612bde0fe1947d682a66877541ba6b9431c2e332f843ba774000fae23d"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame15__LoadLevelNameEP11IStreamBasePv",
+      "elf_address": "0x468b78",
+      "size": 120,
+      "sha256": "895adbb8048cadb681a356bea71c138cfe047b43d6343305e9ff02b23616b2d8"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame21__LoadLevelEntryPointEP11IStreamBasePv",
+      "elf_address": "0x468938",
+      "size": 48,
+      "sha256": "da9ce276d9223c8459af3d8c9188a3501615ca0bdd71c49343f60f2355e524e7"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame19__LoadUseSpawnPointEP11IStreamBasePv",
+      "elf_address": "0x468af0",
+      "size": 48,
+      "sha256": "e9410efbf6a1af34b4b5229aab801d76361010955d44c20a6ac48a0523bda3f3"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsERSs",
+      "elf_address": "0x461da8",
+      "size": 232,
+      "sha256": "8b5868c07a0ee04052736e47bb2fc64d61cb76aea67187a3469aff7deaa3841b"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegameC1Ev",
+      "elf_address": "0x465ae0",
+      "size": 352,
+      "sha256": "1d367427c0c4d624133c178718997d21444589abbd20f1d1dbb5b94399fda92e"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsIbEEvRT_",
+      "elf_address": "0x33e040",
+      "size": 176,
+      "sha256": "d42bfe3c01089d8737c2923dd2ecfd1369f8625445cc60b2960f58645a7aed4e"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsIjEEvRT_",
+      "elf_address": "0x313b48",
+      "size": 176,
+      "sha256": "ec95bf4c7a5d9d9ef1afa865ad42231ae9818affde3dd98c9898f7507a6acb6a"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase6readAsIiEEvRT_",
+      "elf_address": "0x38b758",
+      "size": 176,
+      "sha256": "fdc7ce31f9488e01d4d4fb98a44f11d8d4308a220a7ee4215c0eec128c60c822"
+    }
+  ],
+  "scope": "Original campaign indexing, complete SG_Load ordering and metadata readers.\n\nARM32 bodies and original STL indexing/string algorithms execute. Stream I/O,\nfilename, profile construction, initializer/global/quest operations are explicit\nservices. Metadata gold is synthetic; personal campaign bytes stay private.\n"
+}

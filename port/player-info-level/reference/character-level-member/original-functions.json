@@ -1,0 +1,79 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "PlayerInfo::SetCharacterLevel(int) through the int NetStructMember vtable path, including the proven mutation/dirty serial leaf. Active host PlayerInfo producer and complete PlayerInfo lifecycle are not reconstructed.",
+  "functions": [
+    {
+      "original_symbol": "_ZN10PlayerInfo17SetCharacterLevelEi",
+      "demangled": "PlayerInfo::SetCharacterLevel(int)",
+      "elf_address": "0x370e48",
+      "size": 168,
+      "sha256": "8f7da2a903e351f20a16438937583cb58b6fb219bd4677c48fd9b1b0808ce506",
+      "scope": "Original wrapper, including the pre-write stack residue read, temporary member setup, and virtual SetValue dispatch through PlayerInfo+0x310."
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIiE8SetValueERKi",
+      "demangled": "NetStructMemberType<int>::SetValue(int const&)",
+      "elf_address": "0x36d9f0",
+      "size": 24,
+      "sha256": "a84fa4e587f1e7b3469b0cd15e2a2b473b5888a585a108db2b64e0f41f29ed3f",
+      "scope": "Original equality check, value store, and tail branch to SetChanged."
+    },
+    {
+      "original_symbol": "_ZN15NetStructMember10SetChangedEv",
+      "demangled": "NetStructMember::SetChanged()",
+      "elf_address": "0x814f84",
+      "size": 84,
+      "sha256": "ddacc87a84eb0f36f9d942ea144e2ad519f0955780a322eddaf033e107c4d8f9",
+      "scope": "Original dirty metadata and process-global 64-bit serial update; runner executes this body from the changed SetValue tail branch."
+    }
+  ],
+  "supporting_evidence": [
+    {
+      "kind": "vtable-entry",
+      "symbol": "_ZTV12NetStructIntILj16EE",
+      "address": "0x963728",
+      "size": 48,
+      "entry_offset": 36,
+      "target": "NetStructMemberType<int>::SetValue(int const&) at 0x36d9f0",
+      "note": "PlayerInfo constructor configures this member with 16 network bits; the setter calls the source virtual slot at object vptr +0x1c (full vtable offset +0x24)."
+    },
+    {
+      "kind": "source-caller",
+      "symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "address": "0x37280c",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce",
+      "note": "When the PlayerInfo backing CharProperties exists, the caller compares PlayerInfo+0x330 with CharProperties::PROPS_GetInt(0x13,false), then passes the returned ordinary int directly to SetCharacterLevel."
+    },
+    {
+      "kind": "source-property-getter",
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342",
+      "note": "Returns its resolved fixed-point property with arithmetic shift right by 8; the manager passes this int unchanged."
+    },
+    {
+      "kind": "source-initialization",
+      "symbol": "_ZN10PlayerInfoC1Ev",
+      "address": "0x37418c",
+      "size": 2460,
+      "sha256": "13d8ca15844ca9c10cd95116a9014af7c30d2ed759da55a2035b51c697eff580",
+      "note": "Constructs the +0x310 typed member; constructor path initializes/marks the source network-member metadata."
+    },
+    {
+      "kind": "source-reset-caller",
+      "symbol": "_ZN10PlayerInfo5ResetEv",
+      "address": "0x373bdc",
+      "size": 1456,
+      "sha256": "66bb927ada569788c7fb97e9255f0a791d83b342837f62ab225417919f30eeb0",
+      "note": "Reset calls SetCharacterLevel(-1); it is one proven initializer, not the active host-level producer."
+    }
+  ],
+  "limitations": [
+    "SetCharacterLevel reads its temporary +0x20 word before writing it. The runner seeds and reports this stack residue explicitly; it does not assume a default value.",
+    "The manager's source reconciliation path is proven, but the runtime lifecycle that supplies the hosting PlayerInfo and its backing CharProperties is not included in this kernel.",
+    "No Android/native PlayerInfo object is created or wired by these files."
+  ]
+}

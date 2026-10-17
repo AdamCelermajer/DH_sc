@@ -1,0 +1,54 @@
+{
+  "status": "FROZEN",
+  "production_whitelist_sha256": {
+    "port/level-world/player_saved_inventory_v1.hpp": "a03b06944b69bdd086080e1a71269028a6ab95b4503b0a802012054ca31b9ba9",
+    "port/level-world/player_saved_inventory_v1.cpp": "29c3f333635c5cb63fcbe1347be095903942d60f1b65bc0cab8b975038f538c9",
+    "port/game-data/fresh_inventory_owned_v4.hpp": "d81362bdcd9cda5e793fc3b3177aa7ef35ab852cf8e48e2bccefa15d35f77e13",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "7b852cd80b26006521140c9e5edbf313c63cf4329338cf1dd57984b802e02542"
+  },
+  "scoped_test_reference_report_sha256": {
+    "port/level-world/tests/player_saved_inventory_v1.cpp": "79ccc81210c109f93af5bc447114147d383f27cfe6137327f365ea425a1061ea",
+    "port/level-world/tests/player_saved_inventory_v1_fixture.hpp": "9641e5f360ec8410038d0cf6676b8454a58cb31007d4c557dc6cfd1dbb47e7ba",
+    "port/level-world/tests/player_saved_inventory_v1_original.py": "e04a62acbfb239c2c2859786b898183702a5d21e325d2704381112519b2a0f33",
+    "port/level-world/tests/run_player_saved_inventory_v1_host.py": "32f674154489ae2ed84cfa93d241e8b681c3f7002c936d6d5e012762efd3a404",
+    "port/level-world/reference/player-saved-inventory-v1/original-functions.json": "3aa612c6a47f11641af5ca8fa31afed49cb3441d0408b68abde0cbb43492e353",
+    "port/level-world/reference/player-saved-inventory-v1/README.md": "b79e6d80279bef80ef189a62f7cb0792b4e893cae0661380e3058cfce8f82651",
+    "port/level-world/reports/player-saved-inventory-v1-selected-host.json": "235949f7592d2aaf15f43a330ffb82f6fdd00f0753a9648fb3d66642c0f06d64"
+  },
+  "host": {
+    "validation": "PASS",
+    "original_caller_cases": 19,
+    "class_caller_comparisons": 57,
+    "actual_player_classes": 3,
+    "failure_prefix_cases": 26,
+    "read_prefix_cases": 8,
+    "guard_cases": 16,
+    "checks": 2498,
+    "actual_profile_items": 6,
+    "actual_profile_powers": 1,
+    "native_SG4_InitPost": false,
+    "text_files": [
+      "text/gameplaymenus.english",
+      "text/global.english",
+      "text/ingame.english",
+      "text/items.english"
+    ]
+  },
+  "original_cases": 19,
+  "original_instruction_words": 221,
+  "selected_modules": {
+    "source_tu_count": 1,
+    "script_runtime_tu_count": 1,
+    "shared_text_tu_count": 5
+  },
+  "source_before_after_equal": true,
+  "actual_private_payload_sha256": "1924e252a1893717a15149bcbd410aba68b46df8f35de2fd900885218f86269a",
+  "native_SG4_InitPost": false,
+  "remaining_dependencies": [
+    "Native full SG_Load4 inventory and InitPost/equipment caller integration remain separate from this selected-host saved-reader proof.",
+    "Reached dynamic FX/skin/full AddLoot dependencies require their actual borrowed providers; no fabricated success is supplied."
+  ],
+  "shared_changes_authorized": "Caller-owned stable constructor/split/equip slots, synchronous Presentation retirement before deletion, and explicit stateless contract for legacy temporary wrappers. Root alone owns CMake/native/Git/device integration.",
+  "selected_project_inputs": 603,
+  "replay_receipt_sha256": "235949f7592d2aaf15f43a330ffb82f6fdd00f0753a9648fb3d66642c0f06d64"
+}

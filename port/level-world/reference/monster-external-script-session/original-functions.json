@@ -1,0 +1,48 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "One bounded session adapter executing two unchanged original external monster Lua callbacks via the reused source VM/VFTable and typed borrowed services. Supporting native wrapper ranges are not full-body reconstruction claims.",
+  "source_files": [
+    "port/level-world/monster_external_script_session.hpp",
+    "port/level-world/monster_external_script_session.cpp",
+    "port/level-world/tests/monster_external_script_session.cpp",
+    "port/level-world/tests/run_monster_external_script_session_host.py"
+  ],
+  "reused_source": [
+    "port/adam-script-runtime/script_runtime.h",
+    "port/adam-script-runtime/script_runtime.c",
+    "port/adam-script-runtime/script_function_alias.h",
+    "port/adam-script-runtime/script_function_alias.cpp",
+    "port/adam-script-runtime/lua",
+    "port/lua-numeric/numeric.h",
+    "port/lua-numeric/numeric.c"
+  ],
+  "unchanged_original_scripts": [
+    {"path":"recovered/scripts/original/data/scripts/ai/_commons.luac","size":13535,"sha256":"20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"},
+    {"path":"recovered/scripts/original/data/scripts/ai/monster.luac","size":7393,"sha256":"84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d"}
+  ],
+  "callbacks": [
+    {"requested":"OnEnemySpotted","registered":"monster_OnEnemySpotted","arguments":"one original object identity table","source_lines":"65-72","service_order":"HasTarget; only if false SetTarget(enemy), HeadTo(enemy)"},
+    {"requested":"OnTargetOutOfRange","registered":"monster_OnTargetOutOfRange","arguments":"none","source_lines":"108-114","service_order":"GetState, GetPyCst(AIStates,Idle); only if equal HasPath; only if false GetTarget then MoveTo(target)"}
+  ],
+  "validation": {"host_cases":24,"unchanged_scripts_executed":true,"original_arm_executed":false,"native_wired":false,"whole_original_vm_parity":false},
+  "unsupported": [
+    "Full AISExternal lifecycle, InitVCB/OnInit dynamic level, entity methods/metatables, other callbacks, combat, buffs and timers remain outside this session.",
+    "CharAI owner/group enemy gate, source event9 candidate production, actor/controller/path source implementations and Native ownership are not wired here.",
+    "Single owning thread and externally retained services/actors are required; destroying the session from its own callback is unsupported.",
+    "Allocation cap is reused from source VM; no instruction cap or untrusted-script sandbox is added.",
+    "Production must not link both Adam and separate lua-runtime raw Lua cores with duplicate lua_* symbols and differing integer configurations; one compatible shared core or explicit engine isolation is required."
+  ],
+  "functions": [
+    {"original_symbol":"_ZN11AISExternal14OnEnemySpottedEP9Character","elf_address":"0x3dd2f4","size":80,"sha256":"e6b68fac312e60dab7dddc4197346a003290bee760caff9dab9bde32ea2e2115","scope":"verified object callback producer; full native Value/Call wrapper is not newly implemented here"},
+    {"original_symbol":"_ZN11AISExternal18OnTargetOutOfRangeEv","elf_address":"0x3dcde8","size":28,"sha256":"5751234e5efec051adc24d4613a982cfa444f7dc5ff526e71c7ace1e130d961a","scope":"verified zero-argument external callback producer; source VM/VFTable services reused"},
+    {"original_symbol":"_ZN9Character10_HasTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv","elf_address":"0x3b6f50","size":20,"sha256":"dab7ff59ba3f743f6833d52b1bbaf7d7f486577a692b0f2c7c5426cf2aaabfee","scope":"fresh borrowed source bool query at target+0x408; actor producer delegated"},
+    {"original_symbol":"_ZN9Character10_GetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv","elf_address":"0x3b6c7c","size":12,"sha256":"2a2f0cc9fb9542312b9dc8cd5e5f7e73d500876818412873305a197cce19f86a","scope":"fresh borrowed target+0x408 query; bounded object-table/nil transport"},
+    {"original_symbol":"_ZN9Character10_SetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv","elf_address":"0x3b8f38","size":100,"sha256":"3b8fd182bdbeb5d3ec803101273dab77250859eddfae07c3fa4666df3a931863","scope":"inspected type2/type7 object argument; AI_SetTarget body remains a service"},
+    {"original_symbol":"_ZN9Character7_HeadToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv","elf_address":"0x3ba71c","size":1216,"sha256":"82675f461edc3c1d902ad3c591924e079c6a4659b2590fbddc0c65c0567b0f4f","scope":"only bounded object argument transport; full controller and coordinate overloads not claimed"},
+    {"original_symbol":"_ZN9Character7_MoveToERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv","elf_address":"0x3bada8","size":1216,"sha256":"f389d8a9451ddfb72ed0c540c1fe025843207b1c827a68373f895fda2c6c8fd4","scope":"only bounded object/nil argument transport; full controller/path and coordinate overloads not claimed"},
+    {"original_symbol":"_ZN9Character9_GetStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv","elf_address":"0x3b6d78","size":40,"sha256":"135a6c6970122375b66964dbceaf84e5ed2c0282c409fe1046254a51c3d18b5f","scope":"fresh borrowed state-machine query with source numeric result"},
+    {"original_symbol":"_ZN10GameObject8_HasPathERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv","elf_address":"0x38e98c","size":52,"sha256":"49f6f439cf1e51cc1ac0aa9cf2d5cd4b1f34b4f18b53e19316083f8525457f2e","scope":"borrowed source bool service; full GameObject path producer not newly implemented"},
+    {"original_symbol":"_ZNK3sfc6script3lua5Value12_pushOnStackEP9lua_State","elf_address":"0x31cac4","size":572,"sha256":"16be1625ff8bfcf58b5377529abd924bce58d1f06bf47ee48fa384ffa785cb3a","scope":"supporting object-table and null→nil proof only; full original Value object implementation not claimed"}
+  ]
+}

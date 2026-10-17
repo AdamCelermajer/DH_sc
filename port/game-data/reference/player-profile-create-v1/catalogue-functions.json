@@ -1,0 +1,30 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "evidence_kind": "static pinned source bodies; not dynamic replay",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegame18SG_GetNextFreeSlotEv",
+      "elf_address": "0x4660c8",
+      "size": 188,
+      "sha256": "7fb8cf6ca6aee6780ec2fb12a2b33744beee9369a246b37f2bb522893fd5d222"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame18SG_GetSavegameListEb",
+      "elf_address": "0x46403c",
+      "size": 668,
+      "sha256": "4c6016285fc91b9c3318545683b85c4401e22475b734bda5306ec895eec4cd40"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame22SG_GetSlotFromFilenameEPKc",
+      "elf_address": "0x4636a8",
+      "size": 28,
+      "sha256": "0264f5e4481cb0ad3a9fba1f957d03915e5c188c1449d5251d2c18f8ca9adaca"
+    },
+    {
+      "original_symbol": "_ZN6glitch2os5Timer11getRealTimeEv",
+      "elf_address": "0x60b0cc",
+      "size": 64,
+      "sha256": "bb23d7abff133f833a6cb4418e5f80871485f5f2c556a4d58b0e18798e553b6d"
+    }
+  ]
+}

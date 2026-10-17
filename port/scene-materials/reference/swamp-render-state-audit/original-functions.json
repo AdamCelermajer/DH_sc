@@ -1,0 +1,101 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "architecture": "ARM32, ARM instruction mode",
+  "source_reconstruction_scope": "Recover the 32-byte SRenderState pass snapshot, profile factory sources, renderer storage/application boundary, and GLES blend/depth maps. Does not recover the AL pass snapshot from the serialized effect BRES.",
+  "functions": [
+    {
+      "symbol": "_ZN6glitch5video6detail10renderpass12SRenderStateC1Ev",
+      "demangled": "glitch::video::detail::renderpass::SRenderState::SRenderState()",
+      "elf_address": "0x00588ddc",
+      "size": 84,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/glitch_video_detail_renderpass_SRenderState-2777ca965cb6-001.asm",
+      "assembly_sha256": "632fa9d145d4f5b0481b5eb1df1c7a997675ec04bde8aaaa44a00d3a8bbf2f07",
+      "scope": "Exact constructor stores for the 32-byte snapshot; constructor defaults are not attributed to any material pass.",
+      "original_symbol": "_ZN6glitch5video6detail10renderpass12SRenderStateC1Ev",
+      "sha256": "323df718828f20ba78366d4612a6082d20d9babaad951e2ad3ec4b5532e3c987"
+    },
+    {
+      "symbol": "_ZN6glitch5video17CMaterialRenderer14setRenderStateEhhRKNS0_6detail10renderpass12SRenderStateE",
+      "demangled": "glitch::video::CMaterialRenderer::setRenderState(unsigned char, unsigned char, glitch::video::detail::renderpass::SRenderState const&)",
+      "elf_address": "0x005d3034",
+      "size": 88,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/glitch_video_CMaterialRenderer-a2aa4bc66635-001.asm",
+      "assembly_sha256": "96a9fdb420fa978b925a970090d265849068d2d075a91f1782f53ece21093f35",
+      "scope": "Indexes profile/pass state, compares 32 bytes, copies changed state, and marks the pass dirty.",
+      "original_symbol": "_ZN6glitch5video17CMaterialRenderer14setRenderStateEhhRKNS0_6detail10renderpass12SRenderStateE",
+      "sha256": "7c7a2b2371aff813286f2b22e3bcae2a45f6ac19e250c6e3b73afa37ce4add73"
+    },
+    {
+      "symbol": "_ZN6glitch7collada32createMaterialRendererForProfileINS0_18SProfileNullTraitsEEEN5boost13intrusive_ptrINS_5video17CMaterialRendererEEERKNS0_16CColladaDatabaseEPNS5_12IVideoDriverEPKcRKNS0_11SEffectListEPNS0_14CRootSceneNodeE",
+      "demangled": "glitch::collada::createMaterialRendererForProfile<glitch::collada::SProfileNullTraits>(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, char const*, glitch::collada::SEffectList const&, glitch::collada::CRootSceneNode*)",
+      "elf_address": "0x006357a0",
+      "size": 2632,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/boost_intrusive_ptr_glitch_video_CMaterialRenderer_glitch_collada-103a5e550bf3-001.asm",
+      "assembly_sha256": "8dadd55679a3ca84c39281473c91f6cdc81c36647ae282cceb412c5d9963d129",
+      "scope": "GLES profile factory reads the SPass<SRenderStatesGLES> state at source-object offset +0x8c and supplies it to the render-pass manager.",
+      "original_symbol": "_ZN6glitch7collada32createMaterialRendererForProfileINS0_18SProfileNullTraitsEEEN5boost13intrusive_ptrINS_5video17CMaterialRendererEEERKNS0_16CColladaDatabaseEPNS5_12IVideoDriverEPKcRKNS0_11SEffectListEPNS0_14CRootSceneNodeE",
+      "sha256": "f8e2679428bca320129adaa2a8a6f368b2820cb9f6dcc3cb8f69dfcb9e0f2b8f"
+    },
+    {
+      "symbol": "_ZN6glitch7collada32createMaterialRendererForProfileINS0_19SProfileGLES2TraitsEEEN5boost13intrusive_ptrINS_5video17CMaterialRendererEEERKNS0_16CColladaDatabaseEPNS5_12IVideoDriverEPKcRKNS0_11SEffectListEPNS0_14CRootSceneNodeE",
+      "demangled": "glitch::collada::createMaterialRendererForProfile<glitch::collada::SProfileGLES2Traits>(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, char const*, glitch::collada::SEffectList const&, glitch::collada::CRootSceneNode*)",
+      "elf_address": "0x006361e8",
+      "size": 2436,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/boost_intrusive_ptr_glitch_video_CMaterialRenderer_glitch_collada-103a5e550bf3-001.asm",
+      "assembly_sha256": "8dadd55679a3ca84c39281473c91f6cdc81c36647ae282cceb412c5d9963d129",
+      "scope": "GLES2 profile factory reads the SPass<SRenderStatesProgrammable> state at source-object offset +0x1c and supplies it to the render-pass manager.",
+      "original_symbol": "_ZN6glitch7collada32createMaterialRendererForProfileINS0_19SProfileGLES2TraitsEEEN5boost13intrusive_ptrINS_5video17CMaterialRendererEEERKNS0_16CColladaDatabaseEPNS5_12IVideoDriverEPKcRKNS0_11SEffectListEPNS0_14CRootSceneNodeE",
+      "sha256": "3669e766eac04456a732fe9a392b2df6d711dce39992a2e692ae7743fc339e3c"
+    },
+    {
+      "symbol": "_ZN6glitch5video24CMaterialRendererManager14SCreationState13addRenderPassERKN5boost13intrusive_ptrIKNS0_7IShaderEEERKNS0_6detail10renderpass12SRenderStateERKNSA_8material12SRenderStateE",
+      "demangled": "glitch::video::CMaterialRendererManager::SCreationState::addRenderPass(boost::intrusive_ptr<glitch::video::IShader const> const&, glitch::video::detail::renderpass::SRenderState const&, glitch::video::detail::material::SRenderState const&)",
+      "elf_address": "0x005d93e8",
+      "size": 592,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/glitch_video_CMaterialRendererManager_SCreationState-ec75b4328515-001.asm",
+      "assembly_sha256": "ea3063b7111f48580388aa004852803dc957863ad23dda66a6ab76cc44251859",
+      "scope": "Copies eight 32-bit pass-state words into the newly built pass record.",
+      "original_symbol": "_ZN6glitch5video24CMaterialRendererManager14SCreationState13addRenderPassERKN5boost13intrusive_ptrIKNS0_7IShaderEEERKNS0_6detail10renderpass12SRenderStateERKNSA_8material12SRenderStateE",
+      "sha256": "7fe4ddf965090815886a50a751a9194a6c3f58bad94eb2c8ba8863e341763887"
+    },
+    {
+      "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE21applyRenderStateBlendINS5_10renderpass12SRenderStateEEEvRKT_",
+      "demangled": "glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>::applyRenderStateBlend<glitch::video::detail::renderpass::SRenderState>(glitch::video::detail::renderpass::SRenderState const&)",
+      "elf_address": "0x005af3f8",
+      "size": 380,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "assembly_sha256": "ed7ad4f18deb60eb84e9ced0d4887f7979b2de37010f6d745e30e426747d18e4",
+      "scope": "Applies blend enable, equation, and source/destination factors from the pass state through GLES calls.",
+      "original_symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE21applyRenderStateBlendINS5_10renderpass12SRenderStateEEEvRKT_",
+      "sha256": "7fcb7764acdfffca0928b4e3634d8c49b954d5e8516e435c9dea1d8d90b8a5bf"
+    },
+    {
+      "symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE25applyRenderStateDepthTestINS5_10renderpass12SRenderStateEEEvRKT_",
+      "demangled": "glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>::applyRenderStateDepthTest<glitch::video::detail::renderpass::SRenderState>(glitch::video::detail::renderpass::SRenderState const&)",
+      "elf_address": "0x005af6fc",
+      "size": 100,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/void_glitch_video_CCommonGLDriver_glitch_video_CProgrammableGLDriver_glitch_video_CGLSLSha-8379cfb2ad39-001.asm",
+      "assembly_sha256": "ed7ad4f18deb60eb84e9ced0d4887f7979b2de37010f6d745e30e426747d18e4",
+      "scope": "Applies the depth comparison function selected from the pass-state compare ordinal.",
+      "original_symbol": "_ZN6glitch5video15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS0_6detail33CProgrammableGLFunctionPointerSetEE25applyRenderStateDepthTestINS5_10renderpass12SRenderStateEEEvRKT_",
+      "sha256": "218022e465873a05e084007822e453919d7daf45a148ec3084249f1a3daf383e"
+    },
+    {
+      "symbol": "_ZN6glitch5video6detail5applyILb1ENS1_10renderpass12SRenderStateENS0_15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS1_33CProgrammableGLFunctionPointerSetEEEEEvRKT0_PT1_",
+      "demangled": "glitch::video::detail::apply<true, glitch::video::detail::renderpass::SRenderState, glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet> >(glitch::video::detail::renderpass::SRenderState const&, glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>*)",
+      "elf_address": "0x005b71d8",
+      "size": 452,
+      "assembly": "recovered/native/assembly/libDungeonHunter2.so/void_glitch_video_detail-1d8f95ea9161-001.asm",
+      "assembly_sha256": "df2648245ba009ba6e725539817aad785b721a22ec15a20d67dc552080911cdd",
+      "scope": "Calls blend/depth application only when their pass-state enable bits are set; sends depth-write state through the non-grouped path.",
+      "original_symbol": "_ZN6glitch5video6detail5applyILb1ENS1_10renderpass12SRenderStateENS0_15CCommonGLDriverINS0_21CProgrammableGLDriverINS0_18CGLSLShaderHandlerEEENS1_33CProgrammableGLFunctionPointerSetEEEEEvRKT0_PT1_",
+      "sha256": "207b3dd4641db243c26d51f67c94cfd0273aadcd15131f363f1f1b9bf4ef7847"
+    }
+  ],
+  "required_inputs": [
+    "The pinned original ELF and the matching recovered ARM assembly listings.",
+    "The separate checked SWAMP scene/effect BRES material and named-technique readers for AL selector provenance."
+  ],
+  "unresolved_dependency": "The effect BRES named-record payload remains opaque and no validated conversion maps it to the profile factory's +0x8c GLES or +0x1c GLES2 pass-state source. Consequently this record does not claim recovered AL blend/depth values."
+}

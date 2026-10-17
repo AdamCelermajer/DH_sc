@@ -1,0 +1,187 @@
+{
+  "validation": "PASS",
+  "files_sha256": {
+    "port/game-data/fresh_inventory_owned_v4.hpp": "d81362bdcd9cda5e793fc3b3177aa7ef35ab852cf8e48e2bccefa15d35f77e13",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "7b852cd80b26006521140c9e5edbf313c63cf4329338cf1dd57984b802e02542",
+    "port/level-world/player_saved_inventory_v1.hpp": "a03b06944b69bdd086080e1a71269028a6ab95b4503b0a802012054ca31b9ba9",
+    "port/level-world/player_saved_inventory_v1.cpp": "29c3f333635c5cb63fcbe1347be095903942d60f1b65bc0cab8b975038f538c9",
+    "port/game-data/tests/fresh_inventory_owned_v4.cpp": "e400baf80f0b26abbbbfbf5086a12505af3e0ddca42dd058d63d9538f2808491",
+    "port/game-data/tests/player_equipment_live_services_v1.cpp": "016ccbaf0e17b9686bd66d31da46d3b6155acc3afd36461b29ea55d092a4e92f",
+    "port/game-data/tests/player_gear_effects_v5.cpp": "548f75d5f047e989dd66a72480f590307467aff2b35c36d4cddf27feef12f6af",
+    "port/game-data/tests/item_loot_backbone_v7.cpp": "37395a2d3a79fdeb2a6150c66e2cf50b45cf5236f52cdf913c58d80da5b10ee7",
+    "port/engine-ui/tests/inventory_binding_text_queries_v1.cpp": "52cba94b39c873303e84d4f760de63d1ba57e5b535373323c6ccaec3e1170906",
+    "port/level-world/tests/player_initial_equipment_v1.cpp": "ccf2a6729c9dbfe12e1705557cd4f0000707f698e8bf1fec1cb4a889a712363a",
+    "port/level-world/tests/player_saved_inventory_v1_fixture.hpp": "9641e5f360ec8410038d0cf6676b8454a58cb31007d4c557dc6cfd1dbb47e7ba",
+    "port/level-world/tests/player_saved_inventory_v1.cpp": "79ccc81210c109f93af5bc447114147d383f27cfe6137327f365ea425a1061ea",
+    "port/level-world/tests/player_inventory_retained_lifetime_v1.cpp": "df5999300e2edd3dc754e91aa10f307abc8556e596ce4ec883d8315527f742ca",
+    "port/level-world/tests/player_inventory_retained_lifetime_v1_original.py": "57ffd1b8856e47cbb37bf2f97294555e94a59b611ca03ea968c2005531a463b3",
+    "port/level-world/tests/run_player_inventory_retained_lifetime_v1_host.py": "8f0fdbcbb104f438ea4e0c7011726354f5c18b37388cf8a8ee448acdd45b4036",
+    "port/level-world/reference/player-inventory-retained-lifetime-v1/README.md": "15fcefead33fc8e5aa65bf87fd68a994f3e11703a06c3b1aa0e59abf72f600b7",
+    "port/level-world/reference/player-inventory-retained-lifetime-v1/original-functions.json": "e49b6ef4a94a9d23dec35a1fe2de553e8d3e8827fa0a33cf5220a60b222f3409",
+    "port/level-world/reports/player-inventory-retained-lifetime-v1-selected-host.json": "8b501d5794782538ce322d3c77b44e943f560db0c26686fcbff023e5d531f7b8"
+  },
+  "production_whitelist": [
+    "port/game-data/fresh_inventory_owned_v4.hpp",
+    "port/game-data/fresh_inventory_owned_v4.cpp",
+    "port/level-world/player_saved_inventory_v1.hpp",
+    "port/level-world/player_saved_inventory_v1.cpp"
+  ],
+  "selected_project_inputs": 603,
+  "cache_inputs": 24,
+  "source_before_after_equal": true,
+  "original_cases": 15,
+  "original_words": 204,
+  "host_reports": {
+    "retained_lifetime_audit": {
+      "validation": "PASS",
+      "original_cases": 15,
+      "actual_classes": 3,
+      "class_caller_comparisons": 45,
+      "failure_prefix_cases": 62,
+      "retired_live_items": 24,
+      "guard_cases": 172,
+      "supported_legacy_cases": 2,
+      "stateless_actual_starter_classes": 3,
+      "retained_bulk_cases": 15,
+      "constructor_failure_prefix_cases": 4,
+      "checks": 9144,
+      "synthetic_equippable_stackable_row": 664,
+      "native_SG4_InitPost": false,
+      "text_files": [
+        "text/gameplaymenus.english",
+        "text/global.english",
+        "text/ingame.english",
+        "text/items.english"
+      ]
+    },
+    "saved_inventory_audit": {
+      "validation": "PASS",
+      "original_caller_cases": 19,
+      "class_caller_comparisons": 57,
+      "actual_player_classes": 3,
+      "failure_prefix_cases": 26,
+      "read_prefix_cases": 8,
+      "guard_cases": 16,
+      "checks": 2498,
+      "actual_profile_items": 6,
+      "actual_profile_powers": 1,
+      "native_SG4_InitPost": false,
+      "text_files": [
+        "text/gameplaymenus.english",
+        "text/global.english",
+        "text/ingame.english",
+        "text/items.english"
+      ]
+    },
+    "initial_equipment_audit": {
+      "validation": "PASS",
+      "original_caller_cases": 18,
+      "actual_player_classes": 3,
+      "failure_prefix_cases": 13,
+      "guard_cases": 8,
+      "same_buff_view_cases": 1,
+      "checks": 2157,
+      "native_InitPost": false,
+      "text_files": [
+        "text/gameplaymenus.english",
+        "text/global.english",
+        "text/ingame.english",
+        "text/items.english"
+      ]
+    },
+    "inventory_text_audit": {
+      "validation": "PASS",
+      "weapon_original_cases": 1000,
+      "actual_item_constructors": 1322,
+      "actual_power_text_cases": 936,
+      "null_power_retained_prefixes": 1,
+      "localized_class_rows": 9,
+      "live_query_cases": 4,
+      "required_provider_rejections": 4,
+      "class_bounds_rejections": 2,
+      "pack_bounds_rejections": 1,
+      "localized_null_branches": 1,
+      "loaded_sheet_retained_prefixes": 2,
+      "file_leases": 6,
+      "checks": 99622,
+      "mismatches": 0,
+      "text_files": [
+        "text/gameplaymenus.english",
+        "text/global.english",
+        "text/ingame.english",
+        "text/items.english"
+      ]
+    },
+    "inventory_v4_audit": {
+      "validation": "PASS",
+      "original_owned_cases": 84,
+      "original_owned_steps": 1720,
+      "source_effect_requests": 10828,
+      "legacy_loot_regressions": 60,
+      "native_item_deletions": 240,
+      "native_fullness_queries": 952,
+      "guards": 1461,
+      "checks": 78388,
+      "mismatches": 0
+    },
+    "equipment_live_audit": {
+      "validation": "PASS",
+      "original_requirement_cases": 1000,
+      "original_owner_cases": 6,
+      "original_owner_steps": 112,
+      "same_view_live_buff_cases": 6,
+      "requirement_pruning_cases": 6,
+      "skin_before_vitals_cases": 6,
+      "retained_failure_prefix_cases": 15,
+      "lifetime_destroy_cases": 1,
+      "direct_lifetime_rejections": 3,
+      "direct_detached_create_rejections": 6,
+      "fixture_skin_deliveries": 138,
+      "reentry_rejections": 140,
+      "failure_guards": 34,
+      "checks": 7511,
+      "mismatches": 0
+    },
+    "gear_v5_audit": {
+      "validation": "PASS",
+      "actual_starter_classes": 3,
+      "original_owner_cases": 6,
+      "original_owner_steps": 112,
+      "native_property_effects": 64,
+      "native_vitals_effects": 64,
+      "original_null_visual_skin_branches": 64,
+      "item_text_fixture_deliveries": 128,
+      "checks": 1073,
+      "mismatches": 0
+    },
+    "loot_v7_audit": {
+      "validation": "PASS",
+      "weighted_original_cases": 968,
+      "quantity_original_cases": 312,
+      "value_original_cases": 1322,
+      "coordinator_original_cases": 2179,
+      "same_inventory_powered_items": 363,
+      "borrowed_rng_draws": 369,
+      "required_prefix_guards": 9,
+      "checks": 147756,
+      "mismatches": 0,
+      "same_live_properties_rng": true,
+      "text_debug_services_are_fixtures": true,
+      "native_gameplay": false,
+      "full_AddLoot": false
+    }
+  },
+  "boundaries": "R10 source-cut replay after property class destination and canonical ordinary source-resolution fix. Eight actual selected world/game-data/shared-text gates; same four V4/saved-inventory production hashes and required fixture migrations remain frozen. No native SG4/InitPost, menu rendering, APK or live gameplay proof.",
+  "selected_tu_counts": {
+    "port/level-world/player_saved_inventory_v1.cpp": 1,
+    "port/game-data/fresh_inventory_owned_v4.cpp": 1
+  },
+  "script_runtime_tu_count": 1,
+  "shared_text_tu_count": 5,
+  "property_class_cut_sha256": {
+    "port/game-data/class_tables.cpp": "2ce809b6f057fb40747ebdc8a31ecd3d1cd99529bfe79221efc5aea31ac652fd",
+    "port/game-data/class_tables.hpp": "cad8938b4edda851ccc2a2a3ed4b6b2bdbc31fa0cfaa997119e78630698c8af2",
+    "port/level-world/player_skill_property_services_v1.cpp": "db6d2b15ba744534df15ecc242fe6a8cf47a57e7a4261e9e42524a3ae60eb314",
+    "port/level-world/player_skill_property_services_v1.hpp": "712b9922b0b3ca851326d7dc810d52bd15482d2ccd806740d640cc5d135244f6"
+  }
+}

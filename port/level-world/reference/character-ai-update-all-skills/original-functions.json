@@ -1,0 +1,105 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_caller_orchestrations": 1,
+    "new_full_callee_body_claims": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_ai_update_all_skills.hpp",
+      "port/level-world/character_ai_update_all_skills.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_ai_update_all_skills.cpp",
+      "port/level-world/tests/run_character_ai_update_all_skills_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI15UpdateAllSkillsEv",
+      "demangled": "CharAI::UpdateAllSkills()",
+      "elf_address": "0x3d8894",
+      "size": 180,
+      "sha256": "7c3efb393b1c872b2992c91f04214cbf333d09330a5fd26d84e14c1b0fef58c3",
+      "scope": "New complete caller orchestration; called FSM and script callback bodies remain explicit providers"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine15SM_IsUsingSkillEv",
+      "demangled": "CharStateMachine::SM_IsUsingSkill() const",
+      "elf_address": "0x3c02e8",
+      "size": 24,
+      "sha256": "774242e45789a641452a8aaeefe052685fb066dd31ffcdbfcc718b5562e97619",
+      "scope": "Supporting callee evidence; the instruction comparison intercepts its return at the caller boundary"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine12SM_IsCastingEv",
+      "demangled": "CharStateMachine::SM_IsCasting() const",
+      "elf_address": "0x3c0334",
+      "size": 24,
+      "sha256": "4e1a1e64084c9860162ee9fefbd88e638681c392d047e812c1b397e15a0ea558",
+      "scope": "Supporting callee evidence; the instruction comparison intercepts its return at the caller boundary"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript13OnSkillUpdateEv",
+      "demangled": "CharAISkillScript::OnSkillUpdate()",
+      "elf_address": "0x3dabd0",
+      "size": 212,
+      "sha256": "3e2a6acf63219164a028600245e8c709fddef3ab25a1ed9c36f6584a1ab9d7b7",
+      "scope": "Supporting callback evidence; original callback body is not executed by this caller comparison"
+    }
+  ],
+  "cache_inputs": [
+    {
+      "path": "data/pydata/character_properties_pyarray.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "path": "data/pydata/character_properties_pystructnames.bin",
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "path": "data/pydata/skills_pyarray.bin",
+      "bytes": 11862,
+      "sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6"
+    },
+    {
+      "path": "data/pydata/skills_pyarraynames.bin",
+      "bytes": 2757,
+      "sha256": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f"
+    },
+    {
+      "path": "data/pydata/faeries_pyarray.bin",
+      "bytes": 699,
+      "sha256": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a"
+    },
+    {
+      "path": "data/pydata/faeries_pyarraynames.bin",
+      "bytes": 253,
+      "sha256": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff"
+    },
+    {
+      "path": "data/pydata/faeries_pystructnames.bin",
+      "bytes": 113,
+      "sha256": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b"
+    }
+  ],
+  "authored_ghost_skill_projection": {
+    "character_property_rows": [
+      {"id": 35, "name": "Crypt_Ghost", "skill_tree_property_28": -1, "faery_list_property_29": -1},
+      {"id": 37, "name": "Crypt_Ghost_RE", "skill_tree_property_28": -1, "faery_list_property_29": -1}
+    ],
+    "invalid_skill_list_fallback": 3,
+    "fallback_skill_list_members": [],
+    "invalid_faery_list_fallback": 0,
+    "fallback_faery_list_members": [2, 4, 5, 6, 3],
+    "fallback_faery_names": ["Fake_Celest", "Fake_Rocky", "Fake_Wetty", "Fake_Windy", "Fake_Hotty"],
+    "note": "This records the direct cache row and getter fallback table. It does not prove the live CharAI vectors were populated by SetSkillsAndSpells in the native app."
+  }
+}

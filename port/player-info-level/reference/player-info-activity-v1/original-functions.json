@@ -1,0 +1,59 @@
+{
+  "functions": [
+    {
+      "original_symbol": "_ZN10PlayerInfo8IsActiveEv",
+      "elf_address": "0x36d48c",
+      "size": 96,
+      "sha256": "97610b632e3326da91be3d822ddea1296517af5a7fd4356bd6653b6df0fda0b9"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo8IsActiveEv",
+      "elf_address": "0x80f124",
+      "size": 64,
+      "sha256": "7a7dc707e920df51831466f264d5a42339c0180007bb8ef28391b7e7087c8229"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo8SetStateEc",
+      "elf_address": "0x36f40c",
+      "size": 168,
+      "sha256": "c952599d808edb1d6eddaec2ffcc8e738013ab5f9b434b90a694a5d86acd0341"
+    },
+    {
+      "original_symbol": "_ZN19NetStructMemberTypeIjE8SetValueERKj",
+      "elf_address": "0x36da08",
+      "size": 24,
+      "sha256": "1f59d6e0cee2013ddea420ff35f13a9be2dc0ac67f6cab903bd4c8db9fecdf6d"
+    },
+    {
+      "original_symbol": "_ZN15NetStructMember10SetChangedEv",
+      "elf_address": "0x814f84",
+      "size": 84,
+      "sha256": "ddacc87a84eb0f36f9d942ea144e2ad519f0955780a322eddaf033e107c4d8f9"
+    }
+  ],
+  "global_serial_address": "0xa33530",
+  "global_serial_symbol": "_ZN9NetStruct15s_changeCounterE",
+  "scope": "PlayerInfo and CNetPlayerInfo activity plus CNetPlayerInfo SetState using actual full record backing. GetOnline byte+5 is a declared external-owner provider; scalar dispatch and shared-counter stores execute pinned original words. Registration, network serialization, Character creation and live gameplay are not validated by this test.",
+  "field_dependencies": {
+    "signed_identity_values": [
+      "0x178",
+      "0x1a0",
+      "0x1c8"
+    ],
+    "active_value": "0x1f0 == 3",
+    "set_state_member": "0x220",
+    "set_state_value": "0x240",
+    "offline_override": "GetOnline()->byte+5 == 0"
+  },
+  "declared_external_provider": {
+    "original_symbol": "_Z9GetOnlinev",
+    "elf_address": "0x7fd794",
+    "delivery": "Borrow returned owner byte+5; do not create or cache another Online owner."
+  },
+  "verified_virtual_dispatch": {
+    "original_vtable_symbol": "_ZTV13NetStructUIntILj8EE",
+    "source_vtable_word": "0x963670",
+    "set_value_slot": "0x1c",
+    "set_value_target": "0x36da08"
+  }
+}

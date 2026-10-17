@@ -1,0 +1,130 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "source": [
+      "port/level-world/character_aggro_acquisition_prefix.hpp",
+      "port/level-world/character_aggro_acquisition_prefix.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_aggro_acquisition_prefix.cpp",
+      "port/level-world/tests/run_character_aggro_acquisition_prefix_host.py"
+    ],
+    "new_bounded_query_orchestrations": 1,
+    "new_full_native_body_claims": 0,
+    "native_wired": false,
+    "existing_kernel_reused": "character_aggro_delay::update + dh2_random_next"
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateAggroEv",
+      "elf_address": "0x3cf3f0",
+      "size": 2052,
+      "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692",
+      "scope": "bounded entry/gate/radius orchestration with timing reuse; retarget/search/events excluded"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsPlayerEv",
+      "elf_address": "0x3a49f0",
+      "size": 76,
+      "sha256": "efb4b11a24129fac129ee1ee6460e1a8f9eef7b8648d7f9f70d3d2338eee342a",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK9Character5IsNPCEv",
+      "elf_address": "0x3a310c",
+      "size": 56,
+      "sha256": "3f9f4129efbf914bdd7fd662b0e9a7b9b949ecb50da2b6f6895752bd811ebdab",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase17IsRemotelyUpdatedEv",
+      "elf_address": "0x33dd10",
+      "size": 20,
+      "sha256": "e747e9aff56cd8e56b5a34d6570c86fbf70910645922ff428d0b43b9e6d3a821",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine20SM_IsAwaitingToSpawnEv",
+      "elf_address": "0x3c0230",
+      "size": 24,
+      "sha256": "9c84b7e9a22ca895a54266c1e32ba749e1e3afb08f001790d6a112896ace8494",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI11AI_HasAggroEv",
+      "elf_address": "0x3d49f0",
+      "size": 16,
+      "sha256": "b246911c152844ecbe7ebd31fbb303d55ce8c7f782650b61098737f50d3e9252",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZN6CharAI8IsMyTurnEPKS_",
+      "elf_address": "0x3cc484",
+      "size": 288,
+      "sha256": "c64b83f2cfc69629118563c5b21dfb93be8a27a3e50282f022e4efca22804f0e",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    },
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387",
+      "scope": "dependency evidence; external provider or existing reused timing body, not newly counted"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "original_symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 812,
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "address_point": "0x965f38",
+      "slots": [
+        {
+          "byte_offset": "0x28",
+          "target": "0x3a49f0"
+        },
+        {
+          "byte_offset": "0x54",
+          "target": "0x33dd10"
+        }
+      ]
+    }
+  ],
+  "external_call_targets": [
+    {
+      "address": "0x30e2f8",
+      "name": "__aeabi_fcmpgt PLT",
+      "scope": "external soft-float comparison observed by oracle; implementation not included in original ELF evidence"
+    }
+  ],
+  "source_facts": {
+    "two_player_calls": "first truthy returns; separately fresh second truthy bypasses timing",
+    "monster_branch": "IsMonster0x3a3064 and IsRemotelyUpdated virtual+0x54; local Monster nonzero+0x408 diverts before covered normal acquisition",
+    "ai_props_capture": "captured global backing array before fixed owner GetCharAIId; fallback8 getter semantics external",
+    "radius_timing": "row+0x3c before Awaiting; positive owner+0x143c override bypasses HasAggro; otherwise fresh HasAggro false reads row+0x40 afterwards",
+    "constructor_boundary": "owner captured before TargetList ctor flags0x7fffffff/filter2/sort1; search cone0x40c90fdb is later source call and excluded"
+  }
+}

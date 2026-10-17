@@ -17,5 +17,10 @@ struct CharacterTable{
 bool load_characters(Bytes records,Bytes names,Bytes fields,CharacterTable&,std::string&);
 bool load_dictionary(Bytes names,Bytes values,Dictionary&,std::string&);
 const std::int32_t* property(const CharacterTable&,const std::string& character,const std::string& field);
+// NativeGetPossibleClassSpec reads ClassString/ClassDescString from the two
+// rows immediately following the current source class row. The returned order
+// is Class1Name, Class1Desc, Class2Name, Class2Desc.
+bool possible_class_specialization_text_ids(const CharacterTable&,
+ std::int32_t current_class,std::array<std::int32_t,4>&,std::string& error);
 const std::string* lookup(const Dictionary&,const std::string& name);
 }

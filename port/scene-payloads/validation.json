@@ -1,0 +1,85 @@
+{
+  "all_scene_records_traversed": true,
+  "complete_engine": false,
+  "cache_scope": "all recovered .bdae files",
+  "totals": {
+    "files": 2904,
+    "references": 1563,
+    "visual_scenes": 1563,
+    "resolved_visual_references": 1563,
+    "root_nodes": 3337,
+    "world_matrices": 21472,
+    "nodes": 21472,
+    "max_depth": 13,
+    "child_links": 18135,
+    "instances": 11648,
+    "rotated_nodes": 6400,
+    "resolved_geometry_references": 10403,
+    "scaled_nodes": 1508,
+    "nodes_with_opaque_extension": 197
+  },
+  "instance_types": {
+    "3": 10444,
+    "2": 383,
+    "9": 415,
+    "12": 149,
+    "4": 182,
+    "1": 74,
+    "13": 1
+  },
+  "unresolved_reference_samples": [
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "kind": "geometry",
+      "url": "#_mesh_objboss_earthtemp_s_-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "kind": "geometry",
+      "url": "#_mesh_alpha_objboss_earthtemp_s_-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "kind": "geometry",
+      "url": "#_exit_south_16-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "kind": "geometry",
+      "url": "#_exit_west_01-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "kind": "geometry",
+      "url": "#Box18-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene10_camera.bdae",
+      "kind": "geometry",
+      "url": "#Box02-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "kind": "geometry",
+      "url": "#_mesh_objboss_earthtemp_s_-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "kind": "geometry",
+      "url": "#_mesh_alpha_objboss_earthtemp_s_-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "kind": "geometry",
+      "url": "#_exit_south_16-mesh"
+    },
+    {
+      "file": "data/3d/camera/animations/earth_temple_outro/cs_earth_temple_outro_scene11_camera.bdae",
+      "kind": "geometry",
+      "url": "#_exit_west_01-mesh"
+    }
+  ],
+  "unresolved_reference_count": 41,
+  "cache_manifest_sha256": "e29d8ab805626f1baf1b69d42963f345861ef2bc25ceb59dc67f127a1c50ebe8",
+  "library_sha256": "a08941d43e0ed2aad7e7af429f1b20ad7fdf0a3002f282e2e29c0f58aac4101b"
+}

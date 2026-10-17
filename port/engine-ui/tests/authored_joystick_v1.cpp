@@ -9,11 +9,19 @@ unsigned checks{};void require(bool b,const std::string& e){++checks;if(!b)throw
 struct Observer{std::int32_t x{},y{};bool allowed{},reject_position{};std::vector<int> calls;float heading[3]{};
  static bool position(void* p,int x,int y,std::string& e){auto& o=*static_cast<Observer*>(p);o.calls.push_back(1);o.x=x;o.y=y;if(o.reject_position){e="required position failure";return false;}return true;}
  static bool control(void* p,bool& out,std::string&){auto& o=*static_cast<Observer*>(p);o.calls.push_back(2);out=o.allowed;return true;}
- static bool rotate(void* p,const float* base,float,float* out,std::string&){auto& o=*static_cast<Observer*>(p);o.calls.push_back(3);require(base[0]==1&&base[1]==-1&&base[2]==0,"source base vector");out[0]=.6f;out[1]=.8f;out[2]=0;return true;}
+ static bool rotate(void* p,const float* base,float degrees,float* out,std::string& e){auto& o=*static_cast<Observer*>(p);o.calls.push_back(3);require(base[0]==1&&base[1]==-1&&base[2]==0,"source base vector");return authored_joystick_rotate_direction_v1(base,degrees,out,e);}
  static bool head(void* p,const float* v,std::string&){auto& o=*static_cast<Observer*>(p);o.calls.push_back(4);std::memcpy(o.heading,v,12);return true;}
  static bool stop(void* p,std::string&){static_cast<Observer*>(p)->calls.push_back(5);return true;}
  AuthoredJoystickServicesV1 services(){return {this,position,control,rotate,head,stop};}
 };
+std::uint32_t bits(float value){std::uint32_t out;std::memcpy(&out,&value,4);return out;}
+void source_direction_case(int dx,int dy,std::uint32_t x,std::uint32_t y){
+ AuthoredJoystickStateV1 s;s.radius_x=s.radius_y=100;Observer o;o.allowed=true;auto services=o.services();std::string e;
+ require(authored_joystick_drag_v1(s,float(dx*20),float(dy*20),0,0,services,e),e);
+ require(s.active&&authored_joystick_update_v1(s,services,e),e);
+ require(bits(o.heading[0])==x&&bits(o.heading[1])==y&&bits(o.heading[2])==0,
+         "source Point3D rotate/magnitude differs for direction "+std::to_string(dx)+","+std::to_string(dy));
+}
 int main(){try{std::ifstream f("port/engine-ui/reference/authored-joystick-v1/fixtures.bin",std::ios::binary);require(bool(f),"gold missing");unsigned count{};f.read(reinterpret_cast<char*>(&count),4);std::string e;
  for(unsigned n=0;n<count;++n){std::int32_t state[4];float values[4];unsigned expected[3];f.read(reinterpret_cast<char*>(state),16);f.read(reinterpret_cast<char*>(values),16);f.read(reinterpret_cast<char*>(expected),12);require(bool(f),"gold truncated");
   AuthoredJoystickStateV1 s;s.radius_x=state[0];s.radius_y=state[1];s.center_x=state[2];s.center_y=state[3];Observer o;auto services=o.services();require(authored_joystick_drag_v1(s,values[0],values[1],values[2],values[3],services,e),e);unsigned magnitude;std::memcpy(&magnitude,&s.magnitude,4);
@@ -22,7 +30,17 @@ int main(){try{std::ifstream f("port/engine-ui/reference/authored-joystick-v1/fi
  AuthoredJoystickStateV1 s;Observer o;auto services=o.services();require(!authored_joystick_drag_v1(s,0,0,0,0,services,e)&&o.calls.empty(),"zero radius prefix");
  require(authored_joystick_initialize_v1(s,2000,e)&&s.radius_x==50&&s.radius_y==50,"source bg radius");require(authored_joystick_press_v1(s,21,-21,e)&&s.center_x==1&&s.center_y==-1,"source press truncation");
  o.allowed=true;require(authored_joystick_drag_v1(s,21,-21,0,0,services,e)&&s.active&&s.magnitude==0,"zero drag source active/magnitude");o.calls.clear();require(authored_joystick_update_v1(s,services,e)&&o.calls==std::vector<int>{2,4}&&o.heading[0]==0&&o.heading[1]==0,"source no deadzone zero vector");
- s.magnitude=.5f;require(authored_joystick_update_v1(s,services,e)&&o.heading[0]==.3f&&o.heading[1]==.4f,"source scaled heading");o.calls.clear();auto before=s.magnitude;require(authored_joystick_release_v1(s,true,services,e)&&!s.active&&!s.center_x&&!s.center_y&&s.magnitude==before&&o.calls==std::vector<int>{1,5},"source release order/magnitude retained");
+ s.magnitude=.5f;require(authored_joystick_update_v1(s,services,e)&&bits(o.heading[0])==0x3eb504f3u&&bits(o.heading[1])==0x3eb504f3u,"source scaled heading");o.calls.clear();auto before=s.magnitude;require(authored_joystick_release_v1(s,true,services,e)&&!s.active&&!s.center_x&&!s.center_y&&s.magnitude==before&&o.calls==std::vector<int>{1,5},"source release order/magnitude retained");
  s.active=1;s.center_x=2;s.center_y=3;o.reject_position=true;o.calls.clear();require(!authored_joystick_release_v1(s,true,services,e)&&s.active&&!s.center_x&&!s.center_y&&o.calls==std::vector<int>{1},"required position failure prefix");
+ // Frozen source values for Point3D.normalize/rotateXYBy plus Update's
+ // direction*magnitude at cardinal and diagonal touchscreen angles.
+ source_direction_case(50,0,0x3eb504f3u,0x3eb504f3u);
+ source_direction_case(0,-50,0xbeb504f3u,0x3eb504f3u);
+ source_direction_case(-50,0,0xbeb504f3u,0xbeb504f3u);
+ source_direction_case(0,50,0x3eb504f3u,0xbeb504f3u);
+ source_direction_case(50,-50,0x00000000u,0x3f3504f2u);
+ source_direction_case(50,50,0x3f3504f2u,0x00000000u);
+ source_direction_case(-50,-50,0xbf3504f2u,0x00000000u);
+ source_direction_case(-50,50,0x00000000u,0xbf3504f2u);
  std::cout<<"{\"validation\":\"PASS\",\"checks\":"<<checks<<",\"original_cases\":"<<count<<",\"scope\":\"original full event5 numeric/position branch and source ordered services; direction producer is explicit host observer, outer event/level/player/attack gates external\"}\n";
  }catch(const std::exception& e){std::cerr<<e.what();return 1;}}

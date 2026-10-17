@@ -20,6 +20,27 @@ bool authored_joystick_press_v1(AuthoredJoystickStateV1& s,float x,float y,std::
  if(!std::isfinite(x)||!std::isfinite(y)){e="Malformed source joystick event coordinates";return false;}
  s.center_x=trunc_source(div(x,20.f));s.center_y=trunc_source(div(y,20.f));return true;
 }
+bool authored_joystick_rotate_direction_v1(const float base[3],float degrees,float out[3],std::string& e){
+ if(!base||!out||!std::isfinite(degrees)||!std::isfinite(base[0])||
+    !std::isfinite(base[1])||!std::isfinite(base[2])){
+  e="Malformed source joystick rotation input";return false;
+ }
+ // Point3D::normalize then Point3D::rotateXYBy(double,origin), using the
+ // same recovered constants and binary32 rounding boundaries as engine-math.
+ const float length_squared=add(add(mul(base[0],base[0]),mul(base[1],base[1])),
+                                mul(base[2],base[2]));
+ if(!std::isfinite(length_squared)||length_squared<=0.f){e="Source joystick rotation vector has zero length";return false;}
+ const float scale=div(1.f,std::sqrt(length_squared));
+ const float x=mul(base[0],scale),y=mul(base[1],scale),z=mul(base[2],scale);
+ constexpr double radians_per_degree=0x1.1df46a2529d39p-6;
+ const double radians=static_cast<double>(degrees)*radians_per_degree;
+ const float cosine=static_cast<float>(std::cos(radians));
+ const float sine=static_cast<float>(std::sin(radians));
+ const float rotated_x=sub(mul(cosine,x),mul(sine,y));
+ const float rotated_y=add(mul(sine,x),mul(cosine,y));
+ if(!std::isfinite(rotated_x)||!std::isfinite(rotated_y)){e="Source joystick rotation overflow";return false;}
+ out[0]=rotated_x;out[1]=rotated_y;out[2]=z;return true;
+}
 bool authored_joystick_drag_v1(AuthoredJoystickStateV1& s,float x,float y,float tx,float ty,const AuthoredJoystickServicesV1& services,std::string& e){
  if(s.radius_x<=0||s.radius_y<=0||!std::isfinite(x)||!std::isfinite(y)||!std::isfinite(tx)||!std::isfinite(ty)){
   e="Required initialized joystick radius and actual source event matrix";return false;}

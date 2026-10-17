@@ -1,0 +1,675 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "aggro_candidate_event_cases": 33,
+    "source_object_identity_preserved": true,
+    "nearest_search_heap_reused": true,
+    "all_candidates_no_first_enemy_break": true,
+    "enemy_friend_neutral_precedence": true,
+    "event_precedes_pop": true,
+    "fresh_owner_and_source40": true,
+    "independent_list_reentry": true,
+    "partial_failures_and_atomic_guards": true,
+    "mismatches": 0,
+    "native_wired": false
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_candidate_events.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_target_search.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_aggro_candidate_events.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-aggro-candidate-events-root\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_aggro_candidate_events.cpp": "dedf5be12e89fcd4b0d5b57652144505b8b2f277bf3fcf3844513664a91f8e5d",
+    "port/level-world/character_aggro_target_search.cpp": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+    "port/level-world/tests/character_aggro_candidate_events.cpp": "167c98fd3596e3fabb4e1ef22dd8b66f4c629984373c21a34c654d4072f5e06b",
+    "port/level-world/character_aggro_candidate_events.hpp": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+    "port/level-world/character_aggro_target_search.hpp": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+    "port/level-world/tests/run_character_aggro_candidate_events_host.py": "34dd382d329cb347785cf7075f4ba77077f94e7dc7eca18ea59cd1f0c5e3ed8b",
+    "port/level-world/reference/character-aggro-candidate-events/NOTES.md": "4f2334a802651700052d48fbe8b71eb320fe84a5795b54d31fb0efc10a41f8cf",
+    "port/level-world/reference/character-aggro-candidate-events/original-functions.json": "cb1edb038aacf429784c08273bcf47f64f3792abaceb04f5962450141a768b06"
+  },
+  "native_wired": false,
+  "scope": "one bounded source candidate-consumption branch using source TargetList; no native wiring",
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "comparisons": 16,
+    "mismatches": 0,
+    "executed_scope": "original normal _UpdateAggro branch0x3cf670 through0x3cf744 and0x3cf8ec through0x3cf98c until cleanup convergence0x3cf92c; real Character::RaiseEvent wrapper instructions",
+    "external_observers": "relationship classifiers, CharAI event relay, and priority-queue pop; known nearest-first queue fixture; original search/heap/assertion/cleanup bodies excluded",
+    "results": [
+      {
+        "case": "enemy",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            9,
+            33570816,
+            33603584,
+            1
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 2
+          }
+        ]
+      },
+      {
+        "case": "friend",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            7,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            12,
+            33570816,
+            33685504,
+            0
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 3
+          }
+        ]
+      },
+      {
+        "case": "neutral",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            2,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            8,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            12,
+            33570816,
+            33685504,
+            0
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 4
+          }
+        ]
+      },
+      {
+        "case": "no_relation",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            2,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            12,
+            33570816,
+            33685504,
+            0
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 3
+          }
+        ]
+      },
+      {
+        "case": "enemy_precedence",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            9,
+            33570816,
+            33603584,
+            1
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 2
+          }
+        ]
+      },
+      {
+        "case": "friend_precedence",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            7,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            12,
+            33570816,
+            33685504,
+            0
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 3
+          }
+        ]
+      },
+      {
+        "case": "three_enemies_no_early_break",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            9,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            0,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            9,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            0,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            9,
+            33570816,
+            33636352,
+            1
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 2
+          },
+          {
+            "candidate": 33619968,
+            "calls_before_pop": 4
+          },
+          {
+            "candidate": 33636352,
+            "calls_before_pop": 6
+          }
+        ]
+      },
+      {
+        "case": "mixed_nearest_order",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            9,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            0,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            1,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            7,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            0,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            2,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            8,
+            33570816,
+            33636352,
+            1
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 2
+          },
+          {
+            "candidate": 33619968,
+            "calls_before_pop": 5
+          },
+          {
+            "candidate": 33636352,
+            "calls_before_pop": 9
+          }
+        ]
+      },
+      {
+        "case": "all_no_enemy_source12",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            1,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            7,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            0,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            1,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            2,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            8,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            0,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            2,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            12,
+            33570816,
+            33685504,
+            0
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 3
+          },
+          {
+            "candidate": 33619968,
+            "calls_before_pop": 7
+          },
+          {
+            "candidate": 33636352,
+            "calls_before_pop": 10
+          }
+        ]
+      },
+      {
+        "case": "all_no_enemy_no_source40",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            1,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            7,
+            33570816,
+            33603584,
+            3
+          ],
+          [
+            0,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            1,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            2,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            8,
+            33570816,
+            33619968,
+            2
+          ],
+          [
+            0,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33636352,
+            1
+          ],
+          [
+            2,
+            33570816,
+            33636352,
+            1
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 3
+          },
+          {
+            "candidate": 33619968,
+            "calls_before_pop": 7
+          },
+          {
+            "candidate": 33636352,
+            "calls_before_pop": 10
+          }
+        ]
+      },
+      {
+        "case": "empty_source12",
+        "source_calls": [
+          [
+            12,
+            33570816,
+            33685504,
+            0
+          ]
+        ],
+        "pop_observations": []
+      },
+      {
+        "case": "empty_no_event",
+        "source_calls": [],
+        "pop_observations": []
+      },
+      {
+        "case": "fresh_owner_each_classifier",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            1,
+            33587200,
+            33603584,
+            1
+          ],
+          [
+            2,
+            33587200,
+            33603584,
+            1
+          ],
+          [
+            8,
+            33587200,
+            33603584,
+            1
+          ],
+          [
+            12,
+            33587200,
+            33685504,
+            0
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 4
+          }
+        ]
+      },
+      {
+        "case": "fresh_owner_enemy_event",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            9,
+            33587200,
+            33603584,
+            1
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 2
+          }
+        ]
+      },
+      {
+        "case": "fresh_source40_after_friend",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            1,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            7,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            12,
+            33587200,
+            33701888,
+            0
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 3
+          }
+        ]
+      },
+      {
+        "case": "enemy_suppresses_source12_even_new40",
+        "source_calls": [
+          [
+            0,
+            33570816,
+            33603584,
+            1
+          ],
+          [
+            9,
+            33570816,
+            33603584,
+            1
+          ]
+        ],
+        "pop_observations": [
+          {
+            "candidate": 33603584,
+            "calls_before_pop": 2
+          }
+        ]
+      }
+    ]
+  }
+}

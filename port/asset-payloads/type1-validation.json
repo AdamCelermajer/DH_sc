@@ -1,0 +1,132 @@
+{
+  "all_checks_passed": true,
+  "scope": "nine cache type-1 records; checked embedded mesh bytes only; no original runtime construction",
+  "files": [
+    {
+      "file": "data/3d/characters/dragon/dragon.bdae",
+      "sha256": "97e980e2b5516fcff63f713427a729c736d9d955a25309cd5b56bfb78cf55fce",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 24,
+      "triangles": 12
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_attack_02.bdae",
+      "sha256": "7b721e0454499b23c08c851942c3ce4f57fc6ccd8c4503a84fe65566ce43c7fa",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 52,
+      "triangles": 48
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_attack_03.bdae",
+      "sha256": "1a74b8cd645b5a62df0d0d849952f722b47b53f7ea97abb567d0249beb779d90",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 52,
+      "triangles": 48
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate.bdae",
+      "sha256": "bbf1daae7bebb4fe55c52de8b0234265f349164dbba021ac0e5aa8196d2f6381",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 78,
+      "triangles": 96
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_01.bdae",
+      "sha256": "f12fd64bd4da6507c1b210532e796e3894e905b87d4b6d573d04c399227fff26",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 78,
+      "triangles": 96
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_01b.bdae",
+      "sha256": "bdcee26bc73850a0fa938a2d11b5570df20dc010f3cb96430a1584d808b69348",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 78,
+      "triangles": 96
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_02.bdae",
+      "sha256": "f6f4879cbd4064eca6cecabb072635e6eb381b1e99e8d046d7edb1684ff34f12",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 78,
+      "triangles": 96
+    },
+    {
+      "file": "data/3d/interface/skill_dh2_monster_dragon_intimidate_03.bdae",
+      "sha256": "9b1ab2eab19ec3dd0f534a7a7b61df1de4b96e802c8375c885eb078aa261c15e",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 78,
+      "triangles": 96
+    },
+    {
+      "file": "data/3d/interface/spell_dh2_splined_projectile.bdae",
+      "sha256": "a66c76d81c4df6b17211e72318585ef4d12f24483a1f7a4a31a3dcbcaff07670",
+      "opaque_header": [
+        0,
+        15,
+        3,
+        0,
+        0
+      ],
+      "vertices": 24,
+      "triangles": 12
+    }
+  ],
+  "totals": {
+    "type1_records": 9,
+    "embedded_vertices": 542,
+    "embedded_triangles": 600,
+    "scalar_checks": 4336,
+    "index_checks": 1800,
+    "malformed_cases": 4
+  },
+  "host_library_sha256": "8a196fbb0d8f412b6f0c2d04ef67df3c45524f47871423add7f15bfbd5f4c6c8"
+}

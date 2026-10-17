@@ -1,0 +1,58 @@
+{
+  "scope": "new static BRES scene-to-draw bridge; no original renderer or gameplay",
+  "host": {
+    "bytes": 92427,
+    "sha256": "de6c45a06b1979a50bd8fba0703baed36b8faf3c5a19632f181b5e41829a03e7"
+  },
+  "host_smoke": {
+    "bytes": 140020,
+    "sha256": "4be70eeb768b59f32f6f043a9a3d18e18f10b67b9963c6727261be6697276f4e",
+    "private_sample_tested": true
+  },
+  "android": {
+    "x86_64": {
+      "bytes": 54352,
+      "sha256": "4fa3df0bfea47699aa322b01c0d6f3d8982c6728c111340b561b23f4aca056f5",
+      "machine": "EM_X86_64",
+      "pt_load_alignments": [
+        16384,
+        16384,
+        16384
+      ]
+    },
+    "arm64-v8a": {
+      "bytes": 53480,
+      "sha256": "7d4533f07ddfc44a81938443c797405a48c8c4db146ce4dfde2d9107b2321746",
+      "machine": "EM_AARCH64",
+      "pt_load_alignments": [
+        16384,
+        16384,
+        16384
+      ]
+    }
+  },
+  "android_runtime_tested": true,
+  "source_sha256": {
+    "port/scene-draw/draw.cpp": "af6274fadfdc1e9506dd9ec1278ce6bb393b322bb7636b8968f2c96e5e193c48",
+    "port/scene-payloads/scene.cpp": "0f64fd02c282b4bb455f94e0c2afd66e757d21707f5e551dd8bb96c72dd81dae",
+    "port/asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "port/material-bindings/bindings.cpp": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "port/engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "port/scene-draw/draw.hpp": "be647d5834ec1a9b3af455a414b1df28bbc28953d33821f090661cdb92d5ac4f",
+    "port/scene-draw/tests/android_smoke.cpp": "d54e2cb78e7d0543f069e259a0c1a117b44b5aef857bd63a514fd52bd8fae102",
+    "port/scene-draw/tests/run_android.py": "43e269bc09c40855a91d7101e4a90f7b2348ba80870e2ce49cd976ae88b16792"
+  },
+  "android_smoke_executable": {
+    "bytes": 48552,
+    "sha256": "f504cfdc89196b7d66fbe8b274b2683c2ef9f8604566bf12f19f8a86affdd711",
+    "machine": "EM_X86_64",
+    "pt_load_alignments": [
+      16384,
+      16384,
+      16384,
+      16384
+    ]
+  },
+  "runtime_report": "runtime-validation.json"
+}

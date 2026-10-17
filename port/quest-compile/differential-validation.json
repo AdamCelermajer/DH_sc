@@ -1,0 +1,99 @@
+{
+  "complete_game": false,
+  "population_comparisons": 27516,
+  "compile_comparisons": 21372,
+  "real_record_compile_cases": 204,
+  "mismatches": 0,
+  "paths": {
+    "empty_population": 3535,
+    "level_mismatch": 7086,
+    "nonpositive_required": 2268,
+    "eligible": 8483
+  },
+  "completion_requests": 3348,
+  "population_calls": {
+    "0x47c7f4": 22824,
+    "0x47cc20": 22536
+  },
+  "seed": 20261002,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "797df290c982f7c86ec96a28e782ec499ff27f030a3cf06aa4a6da385e0f15c2",
+  "arm64_sha256": "9df36e5299dd3485720f380b68d9323b92c9f33e02b31a760dcb3e0227c0cd26",
+  "test_sha256": "ddae526c8681dc9aa513e69f13c306305a1bb5588bdd79cca3e0c11d0063ac20",
+  "quest_reader_report_sha256": "3fb1a4542dc5c9d1401c62f11f246811c3bd1031fa0291ec5b7df5dce0be0ec7",
+  "source_sha256": {
+    "compile.c": "164753db2fb835d019bc1b55b3fea203faf17dfb810c0cd1e696fdbac9de4437",
+    "compile.h": "16b3488b4e0a9848c8b7c423463e72c7c6c7ec9cb3fe6dd0dec7b34518e423ad",
+    "../quest-kill/quest.h": "34e140475fb50238fe20b217623f9d83e78a63985666817470c30809c5cd2bd6"
+  },
+  "function_evidence": [
+    {
+      "elf_address": "0x47ed70",
+      "size": 168,
+      "symbol": "_ZN29ObjectiveTemplate_KillEnemiesIN7Structs18v2QuestKillEnemiesE14QE_KillEnemies14TestCharPropId18Objective_SavedQtyE7CompileEv",
+      "sha256": "8ab22ef6d9d68e758d43a916730a263a601926751e7679d8a8fcb1042933ea09"
+    },
+    {
+      "elf_address": "0x47f070",
+      "size": 144,
+      "symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs19v2QuestClearEnemiesE15QE_ClearEnemies14TestCharPropId18Objective_SavedQtyE7CompileEv",
+      "sha256": "d072f9811a5cc87526d995d8ed13866551fb44bcaaaa5a967faf2303a633d1a2"
+    },
+    {
+      "elf_address": "0x47ee18",
+      "size": 168,
+      "symbol": "_ZN29ObjectiveTemplate_KillEnemiesIN7Structs24v2QuestKillEnemyTemplateE20QE_KillEnemyTemplate16TestCharTemplate18Objective_SavedQtyE7CompileEv",
+      "sha256": "8fafeb23bfeeea9a1b11aec4b67831917d6da1b7469521f54356bf8b562e5e39"
+    },
+    {
+      "elf_address": "0x47ef50",
+      "size": 144,
+      "symbol": "_ZN31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyE7CompileEv",
+      "sha256": "2711f6f2cdcb141e753535856728899b9f0e66f5a5f5c510691b6d03bc13b9fa"
+    },
+    {
+      "elf_address": "0x47c7f4",
+      "size": 116,
+      "symbol": "_ZN23Objective_EventReceiver20HasEnemyOfTypeLoadedI14TestCharPropIdEEiii.clone.3",
+      "sha256": "9d88739bacd0453c0a3703cfad53d49ea65f527423a4a33d274edf16880afe1a"
+    },
+    {
+      "elf_address": "0x47cc20",
+      "size": 148,
+      "symbol": "_ZN23Objective_EventReceiver20HasEnemyOfTypeLoadedI16TestCharTemplateEEiii.clone.0",
+      "sha256": "de502365ef274b6589926cbce2dbcb39b99d51e144b9560d6977df9889e0df5d"
+    },
+    {
+      "elf_address": "0x3a2f48",
+      "size": 132,
+      "symbol": "_ZN9Character17HasCharOIDInCacheEi",
+      "sha256": "48c7417476f7755be5238b2f8c457c81d21809e73739358b190537cd4387f875"
+    },
+    {
+      "elf_address": "0x3b3d38",
+      "size": 728,
+      "symbol": "_ZN9Character18SafeGetCharPropsIdEv",
+      "sha256": "81064f2b90877e862e4956c7502ecab84f6802b5d207a5daeb3dcade373c82cd"
+    },
+    {
+      "elf_address": "0x3b36ec",
+      "size": 176,
+      "symbol": "_ZN9Character26SafeGetCharPropsTemplateIdEv",
+      "sha256": "27abbdde0a88b75da2eef918445b914d28cbdd4bdb52072614c85882c78a40f6"
+    },
+    {
+      "elf_address": "0x31f594",
+      "size": 32,
+      "symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1"
+    },
+    {
+      "elf_address": "0x47ba10",
+      "size": 76,
+      "symbol": "_ZN9Objective14SetIsCompletedEv",
+      "sha256": "b9e0102b1e1981e6d64b572b5dc572387a52aadc50e7e43d781ee717799ff768"
+    }
+  ],
+  "scope": "Actual loaded character list traversal, resolved signed-short ID accessors, native cached property map lookup, comparator identity, current-level getter, four quest Compile bodies and SetIsCompleted execute. Host/source ARM64 compare resolved population and scalar state/flags. Native Character loading/name resolution, list/cache lifecycle, observers/persistent save actions, quest world integration and complete source gameplay remain external; completion virtual callback is observed fixture with save ID -1."
+}

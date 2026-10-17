@@ -1,0 +1,473 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "enemy_spotted_cases": 38,
+    "awaiting_spawn_not_dead_gate": true,
+    "group_precedes_state_queries": true,
+    "fresh_owner_and_active_reads": true,
+    "zero_aggro_adds_before_dispatch": true,
+    "binary32_edges_checked": true,
+    "held_selected_ais_survives_replacement": true,
+    "partial_failure_and_reentry_guard_checked": true,
+    "mismatches": 0,
+    "native_wired": false
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_enemy_spotted.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_enemy_spotted.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-enemy-spotted-root\\test.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_enemy_spotted.cpp": "e9e5cb5d17f3621f69f3ffab31106f61cbedb3b3736044d9ce4c1ca9ee877c6b",
+    "port/level-world/tests/character_enemy_spotted.cpp": "2a1fa6f66e7801100f224c6306ab1f09935d8452d921c6c30610f32533e81a34",
+    "port/level-world/character_enemy_spotted.hpp": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+    "port/level-world/tests/run_character_enemy_spotted_host.py": "6c1ef63086077253e1c7ac940a19b89f82168e2511465beffd27745c54402a0e",
+    "port/level-world/reference/character-enemy-spotted/NOTES.md": "3eda1a3af9fe8a6533d5149960d587fbeca71bc2b1aa78e0a3917e375f289be7",
+    "port/level-world/reference/character-enemy-spotted/original-functions.json": "20df3b8dccaa6f9123c84e50fd455ca641b216bc1f8cd537aa8bc9c2e3280622"
+  },
+  "scope": "one bounded source gate/dispatch; no native or CMake wiring",
+  "native_wired": false,
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "comparisons": 24,
+    "mismatches": 0,
+    "executed_scope": "original ARM gate/dispatch 0x3d1518 to 0x3d1548 normal convergence; real SM_IsAwaitingToSpawn, SM_IsInLimbus and SM_GetState; original float-comparison PLT stubs with modeled imported helpers",
+    "external_services": "group notification, IsInCombat, enemy IsPlayer, GetAggro, AddAggro, and AIS dispatch observed; diagnostic bodies omitted",
+    "results": [
+      {
+        "case": "zero_add",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "negative_zero_add",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "positive_existing",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 0
+      },
+      {
+        "case": "negative_existing",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 0
+      },
+      {
+        "case": "nan_existing",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 0
+      },
+      {
+        "case": "infinite_existing",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 0
+      },
+      {
+        "case": "nan_delta_still_dispatch",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "zero_delta_still_dispatch",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "combat_nonplayer_skips_aggro",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "player",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 0
+      },
+      {
+        "case": "combat_player_checks_aggro",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "player",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "enemy_awaiting_spawn",
+        "decision": 1,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy"
+        ],
+        "selected": 0,
+        "added_owner": 0
+      },
+      {
+        "case": "owner_awaiting_spawn",
+        "decision": 2,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner"
+        ],
+        "selected": 0,
+        "added_owner": 0
+      },
+      {
+        "case": "enemy_limbus",
+        "decision": 3,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy"
+        ],
+        "selected": 0,
+        "added_owner": 0
+      },
+      {
+        "case": "owner_limbus",
+        "decision": 4,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner"
+        ],
+        "selected": 0,
+        "added_owner": 0
+      },
+      {
+        "case": "dead_state_not_vetoed_here",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "group_changes_owner_and_ais",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner_b",
+          "limbus_enemy",
+          "limbus_owner_b",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner_b",
+          "debug_added",
+          "dispatch_second"
+        ],
+        "selected": 33628160,
+        "added_owner": 33587200
+      },
+      {
+        "case": "enemy_query_changes_owner",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner_b",
+          "limbus_enemy",
+          "limbus_owner_b",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner_b",
+          "debug_added",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33587200
+      },
+      {
+        "case": "enemy_limbus_query_changes_owner",
+        "decision": 4,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner_b"
+        ],
+        "selected": 0,
+        "added_owner": 0
+      },
+      {
+        "case": "get_aggro_changes_owner",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner_b",
+          "debug_added",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33587200
+      },
+      {
+        "case": "owner_captured_before_amount",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "add_reselects_ais",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added",
+          "dispatch_second"
+        ],
+        "selected": 33628160,
+        "added_owner": 33570816
+      },
+      {
+        "case": "positive_debug_reselects_ais",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added",
+          "dispatch_second"
+        ],
+        "selected": 33628160,
+        "added_owner": 33570816
+      },
+      {
+        "case": "group_absent",
+        "decision": 6,
+        "source_calls": [
+          "debug_entry",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added",
+          "dispatch_first"
+        ],
+        "selected": 33624064,
+        "added_owner": 33570816
+      },
+      {
+        "case": "no_active_still_adds",
+        "decision": 5,
+        "source_calls": [
+          "debug_entry",
+          "group",
+          "await_enemy",
+          "await_owner",
+          "limbus_enemy",
+          "limbus_owner",
+          "combat",
+          "get_aggro",
+          "amount",
+          "add_owner",
+          "debug_added"
+        ],
+        "selected": 0,
+        "added_owner": 33570816
+      }
+    ]
+  }
+}

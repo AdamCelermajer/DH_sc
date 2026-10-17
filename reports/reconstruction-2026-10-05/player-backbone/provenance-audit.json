@@ -1,0 +1,133 @@
+{
+  "validation": "PASS",
+  "scope": "Independent read-only APK/capture/compiler-selection/export/host-overlap provenance audit. No ADB, rebuild, gameplay execution, Studio parity or native locality/InitPost claim. Temporary extracted world DSOs are used only for llvm-nm and removed.",
+  "errors": [],
+  "production_snapshot_sha256": "4afb3bdfd373b40dd56961699f7a4cc654a97de47ee28aed77ae26bcb3513259",
+  "apk": {
+    "sha256": "220b2b659a3216316feab26c83aeeada6704bfe4e0e3ca8ecdf3892dbfa1797f",
+    "bytes": 30076721
+  },
+  "capture_sha256": "4fb72d81eaec307189f28a24fd56512a4b62d1548a5211646c53c9e975500094",
+  "current_production_inputs": {
+    "checked": 597,
+    "mismatches": 0
+  },
+  "capture": {
+    "validation": "BUILD_INPUTS_CAPTURED",
+    "studio_parity_checked": false,
+    "captured_repository_files": 623,
+    "entries_size_and_hash_checked": 628,
+    "entry_mismatches": 0,
+    "actual_production_project_paths_checked": 597,
+    "production_path_mismatches": 0,
+    "local_embedded_metadata_APK_match": true
+  },
+  "compiler_selection": {
+    "arm64-v8a": {
+      "compile_database_rows": 293,
+      "repository_inputs": 580,
+      "database_hash_verified": true,
+      "Ninja_hash_verified": true,
+      "module_source_counts": {
+        "actor_scene_retention_v1.cpp": 1,
+        "player_initial_equipment_v1.cpp": 1,
+        "player_kill_continuation_v1.cpp": 1,
+        "monster_external_script_session.cpp": 1
+      },
+      "selected_world_target_source_counts": {
+        "actor_scene_retention_v1.cpp": 1,
+        "player_initial_equipment_v1.cpp": 1,
+        "player_kill_continuation_v1.cpp": 1,
+        "monster_external_script_session.cpp": 1
+      },
+      "script_runtime_source_count": 1
+    },
+    "x86_64": {
+      "compile_database_rows": 293,
+      "repository_inputs": 580,
+      "database_hash_verified": true,
+      "Ninja_hash_verified": true,
+      "module_source_counts": {
+        "actor_scene_retention_v1.cpp": 1,
+        "player_initial_equipment_v1.cpp": 1,
+        "player_kill_continuation_v1.cpp": 1,
+        "monster_external_script_session.cpp": 1
+      },
+      "selected_world_target_source_counts": {
+        "actor_scene_retention_v1.cpp": 1,
+        "player_initial_equipment_v1.cpp": 1,
+        "player_kill_continuation_v1.cpp": 1,
+        "monster_external_script_session.cpp": 1
+      },
+      "script_runtime_source_count": 1
+    }
+  },
+  "llvm_nm": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\llvm-nm.exe",
+    "toolchain_source": "Compiler executable path from each captured ABI compile database",
+    "world_exports": {
+      "arm64-v8a": {
+        "world_dso_sha256": "4a52c6b57b44c8ed24ac969d5f242cc25e0d6f2745d16b73c8c206cf0c4c21cf",
+        "defined_dynamic_symbol_count": 2307,
+        "required_export_groups": {
+          "dh2::actor_scene_retention_v1::Snapshot::capture(": 1,
+          "dh2::actor_scene_retention_v1::Snapshot::restore(": 1,
+          "dh2::actor_scene_retention_v1::Snapshot::clear(": 1,
+          "dh2::player_initial_equipment_v1::Runtime::initialize(": 1,
+          "dh2::player_kill_continuation_v1::Runtime::continue_after_hp0(": 1,
+          "dh2::player_kill_continuation_v1::CtrlCaller::kill(": 1
+        },
+        "required_export_group_count": 6,
+        "missing_export_groups": 0
+      },
+      "x86_64": {
+        "world_dso_sha256": "253687967f33c2b908a38847eb3fce3d62ae89ef53c0756fd6c4a53f68082167",
+        "defined_dynamic_symbol_count": 2307,
+        "required_export_groups": {
+          "dh2::actor_scene_retention_v1::Snapshot::capture(": 1,
+          "dh2::actor_scene_retention_v1::Snapshot::restore(": 1,
+          "dh2::actor_scene_retention_v1::Snapshot::clear(": 1,
+          "dh2::player_initial_equipment_v1::Runtime::initialize(": 1,
+          "dh2::player_kill_continuation_v1::Runtime::continue_after_hp0(": 1,
+          "dh2::player_kill_continuation_v1::CtrlCaller::kill(": 1
+        },
+        "required_export_group_count": 6,
+        "missing_export_groups": 0
+      }
+    }
+  },
+  "host_overlap": {
+    "receipts": {
+      "actor_scene_retention": {
+        "receipt_sha256": "6ac620bbc98732929754ce3431c99f0cf61976d09c9c7dca00471910e18c0a6b",
+        "recorded_project_inputs": 552,
+        "production_overlap_inputs": 547,
+        "overlap_mismatches": 0,
+        "current_source_mismatches": 0,
+        "scoped_source_tu_count": 1,
+        "new_module_selected": true
+      },
+      "player_initial_equipment": {
+        "receipt_sha256": "4629ba86f97c4dcae6b6b715e3b7f9ffb007c70bb330c14a969934e4d444c4c8",
+        "recorded_project_inputs": 564,
+        "production_overlap_inputs": 558,
+        "overlap_mismatches": 0,
+        "current_source_mismatches": 0,
+        "scoped_source_tu_count": 1,
+        "new_module_selected": true
+      },
+      "player_kill_continuation": {
+        "receipt_sha256": "0bcb9fdc54ed35127bf61858e51c9fd26d4477af369b1895fd1d7bd863d5a1a1",
+        "recorded_project_inputs": 560,
+        "production_overlap_inputs": 551,
+        "overlap_mismatches": 0,
+        "current_source_mismatches": 0,
+        "scoped_source_tu_count": 1,
+        "new_module_selected": true
+      }
+    },
+    "compared_receipt_to_APK_pairs": 1656,
+    "distinct_production_paths": 562,
+    "mismatches": 0
+  }
+}

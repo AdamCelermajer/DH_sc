@@ -1,0 +1,25 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "source_sha256": {
+    "motion.cpp": "f760cea6dfaa049eb966d6f89f6fb4ebe252245eee07e8c882e1e3ec44ab136e",
+    "motion.hpp": "209b91e9e691cd5c73eb89929eb420b929602461fabc4bcecf2ea0b70c35a2b4",
+    "math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "motion-arm64.so": "91a4818726f732a8dc65e6b62052ac74457265bc54826a325e65f9dd8a4d53b1"
+  },
+  "arm64_layout": {
+    "machine": 183,
+    "pt_load": [
+      {
+        "offset": 0,
+        "alignment": 16384
+      },
+      {
+        "offset": 2144,
+        "alignment": 16384
+      }
+    ]
+  }
+}

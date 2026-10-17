@@ -1,0 +1,167 @@
+{
+  "complete_game": false,
+  "gameplay_object_callbacks_installed": false,
+  "property_userdata_binding_tested": true,
+  "original_lua_equivalence_tested": false,
+  "scope": "Authored Lua property objects own four native sheets and dataset generations. All 448 real rows and 100352 composed final fields are checked against an authored reference of separately reconstructed composition rules, plus 224 serialized default queries. Runtime selftests cover typed methods, buffer release, malformed/OOM import retention and old-object dataset lifetime. No real Character, derived base stats, buffs or combat/game loop.",
+  "rows": 448,
+  "final_field_queries": 100352,
+  "default_queries": 224,
+  "assertion_files": 28,
+  "reader_trace_sha256": "d8d70e780756d63e931ad5c2555abeda283dd51d81ff6bd049c8bbcbfd621420",
+  "cache_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+  "runner_sha256": "59398dee8bd98c26a29a65d4f63a1c8f8693d9b34cea127d6be3d3763be48ac4",
+  "test_sha256": "e14938f6ebeb5531d65ff0a4f01abd3aabc912293ea98184ff21520604c6e3b7",
+  "listing_sha256": "eca69029fb4e749520f16852af538d856394f659e3b964041d696e0dffb067c4",
+  "assertions": [
+    {
+      "name": "000.lua",
+      "sha256": "6c059be44ee2f971a8bc9cc119a110179b11aa43b8f285e5b5a0fd0963d7f6b1",
+      "bytes": 100180
+    },
+    {
+      "name": "001.lua",
+      "sha256": "482132ffe11645863a107007c464b97b45001e0f2d9216884ba577a2adef0c09",
+      "bytes": 93311
+    },
+    {
+      "name": "002.lua",
+      "sha256": "8e97a668503c743c29b5aaba93139fbec243349810ddb3e03f17e79a97bc9197",
+      "bytes": 93278
+    },
+    {
+      "name": "003.lua",
+      "sha256": "6b4de591c6cb86971295ccd03abc3fee019988cee9ca6fd5ef863a3dcf1e56c5",
+      "bytes": 93336
+    },
+    {
+      "name": "004.lua",
+      "sha256": "6b65cef4c7d75ed5dabc6e13c711ec9c79ac03f3254e2230d3ea2746949107c3",
+      "bytes": 93393
+    },
+    {
+      "name": "005.lua",
+      "sha256": "58e36f4b1183502ee4966142b2aa14d0d2bfdd4430fa7ac5d03bd90932667c20",
+      "bytes": 93386
+    },
+    {
+      "name": "006.lua",
+      "sha256": "5b77149fec52948bb4ec681e52340dd5377db963ee87bbdfa48bbd1b8708e418",
+      "bytes": 93308
+    },
+    {
+      "name": "007.lua",
+      "sha256": "524f4e1c19bf900bd4a508f82b1d3e1968521288a2d99261efd9a829783a8d59",
+      "bytes": 93319
+    },
+    {
+      "name": "008.lua",
+      "sha256": "b9806d5c132de0598f6f88eaa775ca313c69edd474107086dd216e8f312cf843",
+      "bytes": 93372
+    },
+    {
+      "name": "009.lua",
+      "sha256": "5da2910c65e08dcc94d5b9203e8a75673736084dd10c850ed16647ff22da80cd",
+      "bytes": 93262
+    },
+    {
+      "name": "010.lua",
+      "sha256": "aa48ec8b093bb1b732dc680269a9ecdb16281d03518ce4aa605a46acb12a6149",
+      "bytes": 93336
+    },
+    {
+      "name": "011.lua",
+      "sha256": "c73c8bd5488cd76ac1b7e322403153e172001fa84c94ec9115e505425eff0a74",
+      "bytes": 93330
+    },
+    {
+      "name": "012.lua",
+      "sha256": "b3f9f87d8c232697d333ffb051da030ff7bd8ddf10def93ccb9b0898c17257cf",
+      "bytes": 93332
+    },
+    {
+      "name": "013.lua",
+      "sha256": "dce81cd8ab064c69691b9fc64333c95693a47480ee8af1e10c287b4dd1162f24",
+      "bytes": 93336
+    },
+    {
+      "name": "014.lua",
+      "sha256": "bfc03b877dc7eac48a645b5458732911c194b1008166991140655b45384ee592",
+      "bytes": 93297
+    },
+    {
+      "name": "015.lua",
+      "sha256": "8404b66693cc09c82b7558b7a72eabf471ad1ae2ddac4caa7d207a1accb51e4f",
+      "bytes": 93321
+    },
+    {
+      "name": "016.lua",
+      "sha256": "bcc339a23a5fa940aadf8a86fd61fefd7f4aebdfc713d418be50e9ecef42327a",
+      "bytes": 93334
+    },
+    {
+      "name": "017.lua",
+      "sha256": "9a08b713b27f6eb2c532b64d2d18a118a6a20e4c5c635aebd5f457d2fcbf7a03",
+      "bytes": 93386
+    },
+    {
+      "name": "018.lua",
+      "sha256": "62eb536da60abb3c130230da710c6d5602058b2a37b052d66428bfd4df6d9120",
+      "bytes": 93382
+    },
+    {
+      "name": "019.lua",
+      "sha256": "59624ac853cb97a2676d44054339e2ced26bf349f215f8dfa0be92fa2b59d736",
+      "bytes": 93323
+    },
+    {
+      "name": "020.lua",
+      "sha256": "3291bcbc6def888a228174a78f99a82ee271f4eb7cd053f8070edc3c5457c7fe",
+      "bytes": 93469
+    },
+    {
+      "name": "021.lua",
+      "sha256": "8ef6ba2659f869b53b108da55781f9e7c72f76a1678bf5fef04cad7f7df637fc",
+      "bytes": 93335
+    },
+    {
+      "name": "022.lua",
+      "sha256": "0bb532194e3a90909e902243d1bfbb669568ac6f0a1025e71a322e3a86c19500",
+      "bytes": 93311
+    },
+    {
+      "name": "023.lua",
+      "sha256": "63d5a14ea748e71857a26a4c2b719cb9e7e4da991301f64bda65e184ea2bbf06",
+      "bytes": 93286
+    },
+    {
+      "name": "024.lua",
+      "sha256": "338ce6ddb0585953b2a40386d7c88fbf61f46aeb5a81083240b3421fdf127149",
+      "bytes": 93337
+    },
+    {
+      "name": "025.lua",
+      "sha256": "796bed89144cbf1ea62fb803987585f46a0b3793dc259287f2ccc2e96dc4bdda",
+      "bytes": 93298
+    },
+    {
+      "name": "026.lua",
+      "sha256": "eb4c8b72567065b32be221bc937a983a7f7cccc91cc954f2f7ee2e1fdbde015c",
+      "bytes": 93341
+    },
+    {
+      "name": "027.lua",
+      "sha256": "efd0bc9df2caefdeb6546f7f5b881820aafc623f5c7c079922e4a57f8ed2a093",
+      "bytes": 93286
+    }
+  ],
+  "source_sha256": {
+    "runtime.c": "2f4828b71b80bd3065188f36d94a73036584b94bb0b95ca03234fe4791a54f69",
+    "runtime.h": "75bfdabdc0a3a3793d29ed5cac1cc2398d27870ca2e0bbdded63ecde5b0b3262",
+    "tests/runner.c": "4ad5e893c5b13eff9bfd90fe6d2221567ba935cdfee53fb0ce708952c4c1f7c7",
+    "tests/properties.c": "8587ad81487a79730962370d06a6877a740fbcc99e6e110af94eace7cd8ea8e5",
+    "../lua-character/bridge.c": "a5355086d8a7304c88473174f4e2badecd1f041d695fb59dbb199ad0f1d70afb",
+    "../lua-character/methods.c": "bed9b374b5e3e2f1835162bddecd27dbd03a71be35d9d30ef76eddea8a0ded95"
+  },
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nPROPERTY CORPUS PASS 28"
+}

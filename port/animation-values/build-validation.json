@@ -1,0 +1,42 @@
+{
+  "complete_engine": false,
+  "host_build": true,
+  "arm64_build": false,
+  "source_sha256": {
+    "animation-values/values.cpp": "44cb86790f52c50c0ae2d3811cc983911514a1d5f987f37c2a5a692aeed3cb2c",
+    "asset-payloads/payloads.cpp": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "engine-math/math.cpp": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+    "animation-values/values.hpp": "52adf318f1641714fe57d2205ebca310f3934d0a73f6f76223419cd8bfbdcf26",
+    "asset-payloads/payloads.hpp": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+    "engine-resources/resources.hpp": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+    "engine-math/math.hpp": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01"
+  },
+  "artifact_sha256": {
+    "values-host.so": "b28ac45ceeb91294423c40e3334ccc9b57194cdd206f5e60eb1d0fb9c0e03279"
+  },
+  "safety": {
+    "address_sanitizer": true,
+    "undefined_behavior_sanitizer": true,
+    "cases": 6000,
+    "seed": 20261002,
+    "sample_sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+    "test_sha256": "db1ae56218d0d1c31cceee35cafb754a943c4c16b96b74456a4ed9537856c6b1",
+    "cases_per_fixture": 3000,
+    "fixture_sha256": {
+      "data/3d/characters/prince/animations/prince_walk_dual.bdae": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "data/3d/characters/prince/animations/cs_darkqueen_scene03a_prince.bdae": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903"
+    },
+    "tests": [
+      "corruption",
+      "actual buffer truncation",
+      "range",
+      "alias",
+      "nonfinite weights",
+      "truncated scalar defaults",
+      "absent scalar defaults",
+      "nonfinite scalar defaults",
+      "unchanged error outputs"
+    ]
+  }
+}

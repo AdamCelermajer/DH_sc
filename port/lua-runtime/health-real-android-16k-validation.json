@@ -1,0 +1,185 @@
+{
+  "complete_game": false,
+  "mode": "real",
+  "actor_cases": 446,
+  "original_health_calls": 4906,
+  "final_field_queries": 99904,
+  "assertion_files": 28,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "reference_sha256": "6c7c8c4874ffd8d18688d9d0eb690224ddacb42642a7cf13c1bfd8c305c31f95",
+  "comparison_report_sha256": "b5baeb39cc2ee4cf4f3131ebefbd38dc45f9bb216c5cbc505abcd5f12a8def51",
+  "property_input_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+  "runner_sha256": "ae41fb3b9d375fe47e1d88c02f4aba120b4d142f2e780102c07394317a0135a2",
+  "test_sha256": "55e28a88f8807a3adec092c3ea0c7feb116bc46dae72fc0eaea4b3ad75199e90",
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nPROPERTY CORPUS PASS 28",
+  "files": [
+    {
+      "name": "properties.bin",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "name": "assertions-000.lua",
+      "bytes": 111836,
+      "sha256": "21ada42b9dee841c5f5378517ecc9e66b3ddbdd3c1b74b4b78c1ca59302c3044"
+    },
+    {
+      "name": "assertions-001.lua",
+      "bytes": 111759,
+      "sha256": "a5417f0034ac5c5119104eb6e19b04e00d87004b38ce294ae23332ae854cd0dd"
+    },
+    {
+      "name": "assertions-002.lua",
+      "bytes": 111758,
+      "sha256": "39c555dfbc4cbdff1f42cf34be2f6c6c6ee6b75cccc83af37eba307ff1d6521f"
+    },
+    {
+      "name": "assertions-003.lua",
+      "bytes": 111802,
+      "sha256": "cbd5340ac3fc9de2b8eeef06bd978bcd185951502a0c1fe95551918e46a1c548"
+    },
+    {
+      "name": "assertions-004.lua",
+      "bytes": 111852,
+      "sha256": "3dabb5c693682f6f902ffc5f991a8e6cd3888ae6a9b9df6e045f4993677a7be1"
+    },
+    {
+      "name": "assertions-005.lua",
+      "bytes": 111856,
+      "sha256": "31df55b949001c3af2b49c5f1c4c539eaa27dca48db45a2d57f2b5bb86f04b3d"
+    },
+    {
+      "name": "assertions-006.lua",
+      "bytes": 111798,
+      "sha256": "14cfe70a3d3f5fb4ee5a53825025a0150b18f63e9c96fb70cedc3ca64ac67176"
+    },
+    {
+      "name": "assertions-007.lua",
+      "bytes": 111797,
+      "sha256": "3228791d694b920f45b65b8085f7108dcf3206bb959f9ca65c7be18cfba0bc03"
+    },
+    {
+      "name": "assertions-008.lua",
+      "bytes": 111850,
+      "sha256": "ce13707c51fb28d976d3d1068f7ff947ad2ee49a956ad037a45fb6e871624f33"
+    },
+    {
+      "name": "assertions-009.lua",
+      "bytes": 111738,
+      "sha256": "330d6eea391a50fc8760fdf5828c77142890a75d10e9899246ace1ed870696f4"
+    },
+    {
+      "name": "assertions-010.lua",
+      "bytes": 111852,
+      "sha256": "841806b88acd6e0bb96212db8c69061600703b9cf6a52b7da686af85631dc2b5"
+    },
+    {
+      "name": "assertions-011.lua",
+      "bytes": 111891,
+      "sha256": "add8b449a00cc7234c306bb45f51704ece6d3c9d8c7dbb2f97560f10a89f1b79"
+    },
+    {
+      "name": "assertions-012.lua",
+      "bytes": 111891,
+      "sha256": "03309f1315566904a842b06929d307fc0fa01b24976ebf15b4e23451b05dcf6c"
+    },
+    {
+      "name": "assertions-013.lua",
+      "bytes": 111829,
+      "sha256": "8b2a695a586d447af57e9ef632bbf7a81c5518a1f2026f3820892e8c3a89cb91"
+    },
+    {
+      "name": "assertions-014.lua",
+      "bytes": 111804,
+      "sha256": "42211352359259e7f9494717f80b128f5bee42dfb6ea48ce94ced6b8c6743796"
+    },
+    {
+      "name": "assertions-015.lua",
+      "bytes": 111837,
+      "sha256": "70118b61f492f45b32ceb6e3d688fef7e3418e18eb62b607834f6b25fe40f345"
+    },
+    {
+      "name": "assertions-016.lua",
+      "bytes": 111823,
+      "sha256": "0ab7746668dd406edc62b4101eb93fe5639979b55b54fd86fc52f778342ae25d"
+    },
+    {
+      "name": "assertions-017.lua",
+      "bytes": 111899,
+      "sha256": "648d89a3b7ab2498dcc72e40c6d6438959b73a4ee0e8fcd4e2986e5dfd24c7c0"
+    },
+    {
+      "name": "assertions-018.lua",
+      "bytes": 111851,
+      "sha256": "3b877daae065edd383c287b0a52eab3202c7b9c1b21edb8b83f5c24418650191"
+    },
+    {
+      "name": "assertions-019.lua",
+      "bytes": 111825,
+      "sha256": "5f0926d6ea58c54024c18bef47e0d918e78c67185738200b28227fb0c5bd852e"
+    },
+    {
+      "name": "assertions-020.lua",
+      "bytes": 111966,
+      "sha256": "f58dd16b0963f3a12462a83089b659beeceed42cffc9b36b291fcf22152adb8e"
+    },
+    {
+      "name": "assertions-021.lua",
+      "bytes": 111844,
+      "sha256": "4656eb7791453e01431e4dc374d7a152f449d41019d5e8dc5cd6f92c439f88f2"
+    },
+    {
+      "name": "assertions-022.lua",
+      "bytes": 111805,
+      "sha256": "377ab6ba7b46f155aa1ba917522792c6af8dcda8218018e234f8621872c068fd"
+    },
+    {
+      "name": "assertions-023.lua",
+      "bytes": 111754,
+      "sha256": "48d577fcfdc3bd07cb5ecbb26a2ed6acea515dd116f12115c740d49b9ee5f232"
+    },
+    {
+      "name": "assertions-024.lua",
+      "bytes": 111793,
+      "sha256": "24a44e74ed51bac5216144ee04669f3eb4c9c3a0f5aaa13250a447d1b30327e7"
+    },
+    {
+      "name": "assertions-025.lua",
+      "bytes": 111765,
+      "sha256": "d15da76d3c1a5685120472f388147d68640b78f1e9fdd35ba0e6c9ee797d0738"
+    },
+    {
+      "name": "assertions-026.lua",
+      "bytes": 111814,
+      "sha256": "525b726cd0e655d7dd2e95a928eb8822200bfff7fee87de437d432819efef87f"
+    },
+    {
+      "name": "assertions-027.lua",
+      "bytes": 97838,
+      "sha256": "ff715e8f27e1d516c6174291e13b7f269bd8afc9eeac4521aad22e0cc2b0b05a"
+    },
+    {
+      "name": "list.txt",
+      "bytes": 1428,
+      "sha256": "5fec453a7a5835322523e075aeb30712eaa9388ab3e9f820e1a8c8aad52c15bb"
+    }
+  ],
+  "source_sha256": {
+    "runtime.c": "c7164f8d1c0a6c98b268274a1adbcc25a15a0d0119914d17a6206ba4f216c503",
+    "../lua-character/bridge.c": "5d76ad4e72079c8396ee91974d16cd380c8676b56730c6d987a4b094dd6c3f14",
+    "../character-health/health.c": "f8697ae6b99d03571dfa4dae922b6ba29a45ee796b5f5d49f2897d4f669f95fb",
+    "tests/combat.c": "99347e1ce8b2d4d6bf6c1f752d45dcf39bf6890381cd6db118e7d60d122fc8c7",
+    "build.py": "1b04180a5933736ccdb0fa411cd7f7a18d8fee0bddb240bfdeed8b79b47d6243"
+  },
+  "scope": "Original health/mana instruction bodies and first numeric argument callbacks generate expected return values and all 224 final fields for owned source Lua actors. Controlled fixtures use type8 fields, finite conversions and eight signed/zero/overflow/cap scenarios; real fixtures initialize all 446 character rows through previously checked owned property loading/composition, then execute actual original health writes, validation, regeneration and mana methods. Initialization is authored, empty buffs, offline normal config/debug flags; original Character constructor, Lua VM, combat/death/events and gameplay remain absent.",
+  "device": {
+    "serial": "emulator-5558",
+    "release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "pushed_hashes_verified": 31
+}

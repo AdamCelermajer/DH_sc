@@ -1,4 +1,4 @@
-"""Bundle reachable original Idle/Walk/Attack/Died clips for Crypt actors."""
+"""Bundle reachable original clips for direct and gated Crypt actors."""
 import argparse,hashlib,json,zipfile
 from pathlib import Path
 from inventory import EXPECTED
@@ -17,12 +17,14 @@ def main():
    else:assert step['Redir']==0 and 0<=step['Anim']<len(paths);clip_ids.add(step['Anim'])
  for character_id in sorted({r['animation_table'] for r in actors['records'] if r['kind']==1}):
   character=table['characters'][character_id]
-  for state in ('Idle','Walk','Attack','Died'):
+  requested=['Idle','Walk','Attack','Died']
+  if any(r['kind']==1 and r['animation_table']==character_id and r.get('gated_spawn') for r in actors['records']):requested.append('Spawn')
+  for state in requested:
    id=character[state];visit(id,[]);states.append({'character_table':character_id,'character_name':character['name'],'state':state,'sequence_id':id,'sequence_name':table['animations'][id]['name']})
  inputs=[]
  with zipfile.ZipFile(a.cache) as z:
   for id in sorted(clip_ids):
    name=Path(paths[id]).name;matches=[i for i in z.infolist() if Path(i.filename).name==name];assert len(matches)==1,(name,len(matches));raw=z.read(matches[0]);(assets/'actors'/name).write_bytes(raw);inputs.append({'clip_id':id,'path':paths[id],'asset':'actors/'+name,'entry':matches[0].filename,'bytes':len(raw),'sha256':hashlib.sha256(raw).hexdigest()})
- report={'cache_sha256':EXPECTED,'states':states,'inputs':inputs,'runtime_scope':'Independent per-actor native scheduler. Original clip completion decision, loops, random re-selection, sequences and redirect unwind; blend/event/root-motion/AI/combat dispatch pending.'}
+ report={'cache_sha256':EXPECTED,'states':states,'inputs':inputs,'runtime_scope':'Independent per-actor native scheduler and authored event tracks. Gated direct actors can use the bounded source Limbus/Spawn/Idle adapter. Full actor-owned blending, root motion, AI, Lua/trigger and gameplay integration remain incomplete.'}
  (assets/'actor-state-provenance.json').write_text(json.dumps(report,indent=2)+'\n');print(json.dumps({'states':len(states),'clips':len(inputs)}))
 if __name__=='__main__':main()

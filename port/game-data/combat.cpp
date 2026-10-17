@@ -44,6 +44,10 @@ extern "C" unsigned dh2_combat_damage(dh2::data::Damage* out,const dh2::data::Da
  const bool offhand=request->flags&1,magic=request->flags&2,blocked=request->flags&4,critical=request->flags&8;
  const auto type=std::uint32_t(request->type);
  if(type<=1){
+  // Source CF__CalcDamage (ELF 0x3b1fb8) reads resolved physical min/max
+  // damage at 79/80 (81/82 offhand). ItemPower type 28 writes those same gear
+  // slots before Character property resolution; the V4→CombatView integration
+  // is exercised by equipment_power_combat_v1.
   auto minimum=prop(attacker,offhand?81:79),maximum=prop(attacker,offhand?82:80);result.element=shr(prop(attacker,offhand?100:97),8);
   if(magic){minimum=prop(attacker,174);maximum=prop(attacker,175);}
   minimum=std::max(0,minimum);maximum=std::max(0,maximum);auto amount=add(roll(random,minimum,maximum),bonus(attacker,offhand));

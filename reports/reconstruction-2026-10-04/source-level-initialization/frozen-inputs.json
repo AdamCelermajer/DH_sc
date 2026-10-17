@@ -1,0 +1,24 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "0bd8a06fa604f0778cc055b7141859c5df73ef325968e15e79da02ec4af0513a",
+  "raw_compiler_input_count": 418,
+  "raw_compiler_source_archive_sha256": "6bb9c9e32e1088d918fe1f7cc636b9cabc2118f017766180f7103ed228ec384b",
+  "components": {
+    "level-tables": "89f26f22f3692daf0a5e9825a8759a9cf3aa753f3760bdbf8a5b7c833b5e01b7",
+    "lua-script-level-queries": "dc1cf23bd0e5ffb0ccc7c9ad677bd138d1f2ac6038f759d4f61afe5bbb55a359",
+    "character-script-set-level": "48d41a519943349f858fc4843b2c2be7cd464084528c94ebc61a18501cece302",
+    "character-regeneration": "614b560afbc8cdb35200a812ebaa565aceabc101077a785ec5c03abc93fce65b",
+    "debug-switches-runtime": "5dcb83606045e030e7cd162332083b4d260a0496e4d4baea9af745036e22c451",
+    "debug-switches-persistence": "f8c3752d50237fb243f40cbd8fd643dd0d13eafc71d917d6389d92c4985ae730",
+    "module-room-zone-bounds": "b9939d935a62b9aff6e601f2aba4fe53cbe42cf5697f58a48489321e83fcff22",
+    "module-scene-root-bounds": "1be019cd892418e398cffad79b394f90b4e867c19b118f19fff1f3c34f913de9",
+    "level-construction-fields": "ca3a0d519db4280828d01dedd214845b1e213c4fe4a20e436b1af6b08b0646c8",
+    "character-level-member": "2ed8a7f812cde0dc4bf208cd240df80ea10ceb132f039b3a4bad2927e332c917",
+    "monster-external-session": "785ed937c447c7dab69811d87dea5e1d565f6e79d200530beee8c538fa952002",
+    "ghost-ai-pending-session": "5d8f8052a1431fc528e709ba22104e17c45839001aeeb76c0e9e6c60c41cbfda",
+    "native-ghost-owner-pending": "b4b5ecbe140868f67fae6d7cd7e814d749339075c1ab49f38bbf47e1db1ec0ee",
+    "monster-initialization-ranges": "ead0b6ae5bacdcd2191643498016f1660f505c59a5bae4a812b988f899657a95",
+    "monster-initialization-debug-persistence": "0753bb80ba90c3b057bd57aeee79d1b09754c58977a8264f3df08d1d2b63ac69"
+  },
+  "scope": "Frozen raw compiler inputs and component reports for this APK; unlinked component tests and host fixture composition are distinguished from Android behavior."
+}

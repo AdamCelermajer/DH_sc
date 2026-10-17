@@ -1,0 +1,457 @@
+[
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::core::vector3d<T>",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "Same three T members X, Y, Z at +0x00, +0x04, +0x08, no initialisers. The canonical struct zero-initialises them (aggregate initialisation still works) and adds normalize (0x35e8e0), operator/ (0x59a294), operator/= (0x5a24b4), rotateXYBy/YZBy/XZBy (0x630bfc..0x630de8) and getHorizontalAngle (0x6c7b6c). Compiling the stand-in and the shared header in one translation unit is a redefinition error today (memory.hpp includes the stand-in).",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::core::rect<T>",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "The stand-in holds four T members X1, Y1, X2, Y2 (+0x00..+0x0c). The canonical rect<T> holds position2d UpperLeftCorner (+0x00) and LowerRightCorner (+0x08): the same four words, so the layout agrees. Rename X1 -> UpperLeftCorner.X, Y1 -> UpperLeftCorner.Y, X2 -> LowerRightCorner.X, Y2 -> LowerRightCorner.Y (TouchScreenBase::getTouchIDInitiatedInRegion 0x33b02c and getTouchIDInRegion 0x33b0e8, src/touch_screen_base.cpp lines 249 and 263; TouchScreenIPhone::getTouchIDInRegion 0x33cca8 forwards to the latter). Rct<short> in deps/game_types.hpp is a different class (the game's Rct, vtable omitted) and stays.",
+    "action": "replace with #include; rename the member accesses"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::core::dimension2d<T>",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "Identical: Width +0x00, Height +0x04 (the order ObjToStr writes them).",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::video::SColor",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "The stand-in is four unsigned chars R, G, B, A (+0..+3). The canonical SColor is one uint32 `color` with the same four bytes (component 0 is the low byte, byte 3 is alpha: SColor::getInterpolated 0x540f8c reads alpha at +3; operator<< 0x310178 prints bytes 0..2; operator>> 0x3102b4 stores bytes 0..2 and zero in byte 3). Replace c.R/G/B/A by c.component(0..3) and setComponent(i, v); the channel names of bytes 0..2 are not recoverable from the listings, so no R/G/B names are added.",
+    "action": "replace with #include; replace the byte member accesses"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::SEvent",
+    "canonical_header": "glitch-core-io/os/event_receiver.hpp",
+    "differences": "The stand-in is eight ints (32 bytes): type, reserved1, mouseX (+0x08), mouseY (+0x0c), reserved4, mouseEvent (+0x14), reserved6, reserved7. The binary's SEvent is 0x18 bytes (IDevice::postEventFromUser 0x671a00 copies six words into a deque of 24-byte nodes): EventType +0x00, unused +0x04, then the payload at +0x08. Mouse payload (TouchScreenWin32::onEvent 0x33d4b4, Application::onEvent 0x32a9c8): X +0x08, Y +0x0c, Wheel (float) +0x10, Event +0x14. Map type -> EventType, mouseX -> MouseInput.X, mouseY -> MouseInput.Y, mouseEvent -> MouseInput.Event. The stand-in is eight bytes too large and has no wheel, key, GUI or log payload.",
+    "action": "replace with #include; rename the member accesses (core-platform src/touch_screen_*.cpp and tests build the event with SEvent ev{})"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::IEventReceiver",
+    "canonical_header": "glitch-core-io/os/event_receiver.hpp",
+    "differences": "Virtual destructor and onEvent(const SEvent&) pure, which is the canonical layout (vtable +0x00 D1, +0x04 D0, +0x08 onEvent). TouchScreenPS3 and TouchScreenWin32 take it as their secondary base. No difference beyond the SEvent record above.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/deps/glitch_core.hpp",
+    "class": "glitch::memory::E_MEMORY_HINT",
+    "canonical_header": "glitch-core-io/core/memory_hint.hpp",
+    "differences": "enum E_MEMORY_HINT : int { EMH_UNRECOVERED = 0 }. The canonical header declares the identical enum (the value 0 is the only one in the binary: every GlitchAlloc call passes 0 and every SAllocator instance spells (E_MEMORY_HINT)0). Today memory.hpp includes the stand-in header to get this enum, which pulls in the other redefinitions above; memory.hpp should include core/memory_hint.hpp instead.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/memory.hpp",
+    "class": "CustomAlloc / CustomFree / GlitchAlloc / GlitchFree / tagged operator new",
+    "canonical_header": "core-platform/memory.hpp",
+    "differences": "This is the canonical header for the memory helpers (CustomAlloc 0x310454, CustomFree 0x310440, CustomRealloc, CustomMemalign, GlitchAlloc/GlitchFree, the E_MEMORY_HINT, MemoryHintState and swf::MemHint operator new/delete overloads). Two things to change when the stand-ins go: include glitch-core-io/core/memory_hint.hpp instead of core-platform/deps/glitch_core.hpp; and note that the two-argument operator new[](size, MemoryHintState) (0x31056c) is declared in dh2/global/runtime_support.hpp, not here.",
+    "action": "keep: canonical (apply the include change above)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/slim_xml.hpp",
+    "class": "slim::XmlNode",
+    "canonical_header": "core-platform/slim_xml.hpp",
+    "differences": "Canonical: XmlBase (name_ +0x10, value_ +0x28, std::string), XmlNode(NodeType, XmlNode* parent), children as std::list<XmlNode*>, findChild/findFirstChild/findNextChild (the last two take a std::list<XmlNode*>::const_iterator), addChild(name, type), addAttribute, XmlDocument. value_ is public, so the text of a node is value_.c_str(); there is no Text() accessor.",
+    "action": "keep: canonical"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/w7_console_01.hpp",
+    "class": "::IEventReceiver",
+    "canonical_header": "dh2/IEventReceiver.hpp",
+    "differences": "The stand-in is a global class with only a virtual destructor, which Console derives from. The binary's IEventReceiver (_ZTV14IEventReceiver, 20 bytes) has D1, D0 and onEvent(const IEvent*, const EventManager*) pure at +0x08; Console overrides it with Console::onEvent 0x335b14 and Console::onEventNotOpened 0x33271c. This is not glitch::IEventReceiver (a different class whose onEvent takes a glitch::SEvent).",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/w7_console_01.hpp",
+    "class": "::EventManager",
+    "canonical_header": "dh2/EventManager.hpp",
+    "differences": "The stand-in declares only Attach(int, IEventReceiver*, int) and Detach(int, IEventReceiver*), both returning void, with no constructor, destructor or members. The canonical class is the 0x30-byte EventManager (vtable with D1/D0 only; receivers map at +0x08, queued events list at +0x20, delayed detach list at +0x28): Attach and Detach return bool, plus DelayedDetach, DropDelayedDetach, Raise, RaiseAsync, Update and Flush. The global g_eventManager is dword_99F740.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/filesystem_base.hpp",
+    "class": "glitch::io::CFileSystem::WorkingDirectory (as glitch::io::CFileSystem_WorkingDirectory[512])",
+    "canonical_header": "glitch-core-io/io/file_system.hpp",
+    "differences": "The stand-in is a free char[512] named CFileSystem_WorkingDirectory (defined in src/filesystem_base.cpp) that FileSystemBase::changeWorkingDirectoryTo (0x34e1d4) strcpy's into. The binary has one global, the static member glitch::io::CFileSystem::WorkingDirectory, a char[1024] in .data (symbol size 1024); CFileSystem::changeWorkingDirectoryTo (0x56c528) writes the same buffer and getWorkingDirectory (0x56c214, vtable +0x2c) returns it. Two buffers for one global means the two classes disagree about the directory. Canonical: CFileSystem::WorkingDirectory[1024].",
+    "action": "replace with #include; delete the 512-byte copy and use CFileSystem::WorkingDirectory"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/include/core-platform/filesystem_base.hpp",
+    "class": "FileSystemBase (class name only)",
+    "canonical_header": "glitch-core-io/io/file_system.hpp",
+    "differences": "The game-level FileSystemBase / FileSystemWin32 is not a stand-in of glitch::io::CFileSystem: it wraps file access for the game (doesFileExists, formatFilePath, createAndOpenFile 0x34e688 which delegates to CFileSystem) and has its own vtable. Only the working-directory buffer above is a duplicate.",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/core-platform/tests/r1-core-platform-global-f216b6-0_test.cpp",
+    "class": "CustomFree",
+    "canonical_header": "core-platform/memory.hpp",
+    "differences": "Test-local definition `void CustomFree(void* p) { std::free(p); }` that duplicates core-platform/src/memory.cpp (0x310440). The tests link every library, so a second definition is a duplicate symbol if memory.o is pulled in for any other symbol.",
+    "action": "remove the test-local definition; link memory.cpp"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/deps/glitch_io.hpp",
+    "class": "glitch::io::IReadFile",
+    "canonical_header": "glitch-core-io/io/interfaces.hpp",
+    "differences": "The stand-in has no IReferenceCounted base (it has a vptr and a placeholder `unidentifiedBaseSlot` at +0x08, which is IReferenceCounted::onDelete), read(void*, uint32_t) -> int32_t at +0x0c (matches the binary: the byte count), placeholders unidentifiedSlot04 and 05 at +0x10/+0x14 (the two readAsync overloads, both returning bool), seek at +0x18, unidentifiedSlot07 at +0x1c (clone() const -> IReadFile*), getSize() const -> uint32_t at +0x20 (the binary returns long), getPos() const -> int32_t at +0x24 (long), getFileNameText() -> const char* at +0x28 (the canonical getFileName), and no getFullPath (+0x2c), getBuffer (+0x30), getExternalBuffer (+0x34) or isAllInMemory (+0x38). Every method has an inert default here; in the binary slots +0x0c..+0x2c are pure. The video tests that derive from the stand-in (tests/atc_header_test.cpp, image_formats_test.cpp, image_loaders_test.cpp, image_probes_test.cpp, tb_video-glitch_video-0_test.cpp) must implement the canonical slots (or derive from a stub that does; glitch-core-io/tests/io_stub_files.hpp is an example).",
+    "action": "replace with #include; rename getFileNameText -> getFileName, add the missing slots in the fakes"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/deps/intrusive_ptr.hpp",
+    "class": "boost::intrusive_ptr<T> (+ glitch::video::intrusive_ptr alias)",
+    "canonical_header": "glitch-core-io/boost/intrusive_ptr.hpp",
+    "differences": "The non-counting stub (explicit intrusive_ptr(T*), nullptr_t constructor, ==, !=, no add_ref or release) has been replaced by the video owner with a forwarder to the canonical counting header; the glitch::video::intrusive_ptr alias in it is video's own spelling. Classes that keep the count at +0x00 (CMaterial, CMaterialRenderer, CVertexStreams, CLight) need their own intrusive_ptr_add_ref/release next to the class; IReferenceCounted-derived ones use intrusive_ptr<T>(p) to take over a count of 1 and intrusive_ptr<T>(p, true) to add the first use to an object born with count 0.",
+    "action": "keep: already forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/deps/os_logging.hpp",
+    "class": "glitch::os::ELOG_LEVEL / glitch::os::Printer",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "The stand-in declared glitch::os::ELOG_LEVEL and Printer::log/logf; the symbols spell glitch::ELOG_LEVEL (mangled NS_10ELOG_LEVELE), which is the canonical namespace, with using-declarations in glitch::os for the old spelling. The video owner has replaced the stand-in with a forwarder to the canonical header.",
+    "action": "keep: already forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/deps/sid_collection.hpp",
+    "class": "glitch::core::detail::SIDedCollection alias + sidedcollection::SValueTraits",
+    "canonical_header": "glitch-core-io/core/sided_collection.hpp",
+    "differences": "Defines the same alias template (SIDedCollection<T, IdType, Flag, Props, Traits>) and sidedcollection::SValueTraits over sid_layout, through a relative include of the shared header. Identical meaning to glitch-core-io/core/sided_collection.hpp, which now provides the aliases and SEmptyProperties; a translation unit including both is a redefinition. The shared template changed: SIdValue derives from Props and the id follows it (IShader +0x04, CMaterialRenderer +0x0a, ITexture +0x1c, IShaderCode +0x00), which resolves the NOTE in material_renderer_manager_layout.hpp about the id offset; the counting is done by the intrusive_ptr, so IntrusiveTraits has no addRef/release now.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-video/include/glitch-video/shader_code.hpp",
+    "class": "glitch::core::detail::SIDedCollection<intrusive_ptr<IShaderCode>, ushort, false, SEmptyProperties, SValueTraits> (as CShaderCodeManager)",
+    "canonical_header": "glitch-core-io/core/sided_collection.hpp",
+    "differences": "A std::map<std::string, uint16_t> plus a std::vector<intrusive_ptr<IShaderCode>> stands in for the collection (getId, insert, at, removeAll). The canonical collection is the one template instance: getId(name) -> 0xffff when missing, insert(name, value, managed) -> id, get(id)->value, removeAll(false). Ids and the next-free-id rule differ (the stand-in appends; the original reuses the lowest free id).",
+    "action": "replace the stand-in members with the canonical collection instance"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/deps/event_stand_ins.hpp",
+    "class": "glitch::SEvent and glitch::IEventReceiver",
+    "canonical_header": "glitch-core-io/os/event_receiver.hpp",
+    "differences": "Retired by the scene owner: the header now forwards to the canonical os/event_receiver.hpp. The old SEvent was {category, word1, caller} with GUI = 0 (the canonical type enum: GUI 0, mouse 1, key 2, log text 3; the caller is GUIEvent.Caller at +0x08), and the receiver's slot +0x08 was named forwardEvent (canonical: onEvent).",
+    "action": "keep: already forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/deps/intrusive_ptr.hpp",
+    "class": "boost::intrusive_ptr<T>",
+    "canonical_header": "glitch-core-io/boost/intrusive_ptr.hpp",
+    "differences": "The non-counting stub (explicit intrusive_ptr(T*), get/->/*/bool only) has been replaced by the scene owner with a forwarder to the canonical counting header.",
+    "action": "keep: already forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/deps/video_stand_ins.hpp",
+    "class": "boost::intrusive_ptr include",
+    "canonical_header": "glitch-core-io/boost/intrusive_ptr.hpp",
+    "differences": "Forward declarations of glitch::video::IVideoDriver, CMaterial, CMaterialRenderer and glitch::res types (not core types); only the include of deps/intrusive_ptr.hpp is relevant here, and that already forwards to the canonical header.",
+    "action": "keep: not a stand-in of a core type (include already resolves to the canonical header)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/deps/core_stand_ins.hpp",
+    "class": "glitch::core value types",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "Forwarder to glitch-shared/glitch_core.hpp already.",
+    "action": "keep: already forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp",
+    "class": "glitch::ELOG_LEVEL",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "enum ELOG_LEVEL : std::uint32_t with ELL_DEBUG..ELL_NONE (0..4), in namespace glitch (correct namespace). The canonical enum has the same values with the default underlying type (a 4-byte int); only the fixed underlying type differs.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp",
+    "class": "glitch::ILogger",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "The stand-in is an empty class with a non-virtual destructor. The binary's ILogger (_ZTVN6glitch7ILoggerE, 48 bytes) is an IReferenceCounted with seven pure slots after onDelete: +0x0c getLogLevel, +0x10 setLogLevel, +0x14 log(char const*, ELOG_LEVEL), +0x18 log(char const*, char const*, ELOG_LEVEL), +0x1c log(wchar_t const*, wchar_t const*, ELOG_LEVEL), +0x20 log(wchar_t const*, ELOG_LEVEL), +0x24 vlogf(ELOG_LEVEL, char const*, va_list); logf (0x6a0a48) is the non-virtual tail call to +0x24. All declared in the canonical header.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp",
+    "class": "glitch::CLogger",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "CLogger is a scene-queue class (rows 0x6a08b4..0x6a0c0c) that the canonical header does not define. The stand-in has no base and the fields level (+0x08) and receiver (+0x0c); the binary's CLogger derives from glitch::ILogger (its vtable names all seven slots) and CLogger::vlogf (0x6a0990) formats into a 0xfa0-byte buffer, builds an SEvent of type 3 (EET_LOG_TEXT_EVENT: text at +0x08, level at +0x0c) and passes it to the receiver's onEvent before falling back to Printer::vprint.",
+    "action": "keep: owned by glitch-scene-collada-gui; make it derive from the canonical glitch::ILogger"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/platform_stubs.hpp",
+    "class": "glitch::os::Printer",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "Declares only Printer::log(const char*, ELOG_LEVEL). The canonical class has the static Logger pointer, setLogLevel/getLogLevel, three log overloads, vprint, print and two logf overloads.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_02.hpp",
+    "class": "glitch::SEvent (in glitch::collada::recon_02)",
+    "canonical_header": "glitch-core-io/os/event_receiver.hpp",
+    "differences": "A different record: category (word 0) numbered 0 mouse, 1 GUI, 2 keyboard; element pointer at word 2, key code or related value at word 3, eventCode at word 4, guiCode at word 5, keyDown byte at offset 16, amount as the float in word 1. The binary numbering is 0 GUI, 1 mouse, 2 key (CGUIEnvironment::onEvent rejects 1 and 2, TouchScreenWin32::onEvent tests 1 for mouse, InputManagerEventReceiver tests 2 for key) and the mouse payload is X +0x08, Y +0x0c, Wheel +0x10, Event +0x14; the key payload is Char +0x08, Key +0x0c, PressedDown +0x10; the GUI payload is Caller +0x08, Element +0x0c, EventType +0x10.",
+    "action": "replace with #include; renumber the categories and rename the words"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_30.hpp",
+    "class": "glitch::io::IWriteFile and glitch::io::IReadFile (in glitch::collada::recon_30)",
+    "canonical_header": "glitch-core-io/io/interfaces.hpp",
+    "differences": "Two structs with a virtual destructor and one pure method each: IWriteFile::write(const void*, uint32_t) -> uint32_t and IReadFile::read(void*, uint32_t) -> uint32_t. The canonical IWriteFile has six pure slots (write -> size_t, flush, seek, getPos, getFileName, getFullPath) and IReadFile nine plus three defaults, both on IReferenceCounted; read returns int32_t. The test fake tests/recon_slice_30_test.cpp (struct MemFile : IWriteFile, IReadFile) implements the stand-ins.",
+    "action": "replace with #include; the fake implements the canonical slots"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/recon/slice_31.hpp",
+    "class": "glitch::io::IAttributes (in glitch::collada::recon_31)",
+    "canonical_header": "glitch-core-io/io/iattributes.hpp",
+    "differences": "A 25-method subset of the 187 slots with the right vtable offsets in the comments (addInt +0x4c, addFloat +0x64, addBool +0xd8, addString(char) +0x7c, addString(wchar_t) +0x94 named addStringW here, addEnum(int) +0xf4, addColor +0x118, addPosition2d +0x1d8, addRect +0x1f0, addVector3d +0x1a8, addTexture +0x2b0, existsAttribute +0x24, getInt +0x58, getFloat +0x70, getBool +0xe4, getString +0x84, getStringW +0x9c, getEnum(name, literals) +0x100, getColor +0x124, getPosition2d +0x1e4, getRect +0x1fc, getVector3d +0x1b4, getTexture +0x2bc, push +0x30, pop +0x3c; all agree with the canonical slot order). The stand-in has no IReferenceCounted base, so its own vtable does not put them at those offsets, and addStringW is addString(const char*, const wchar_t*, bool) in the binary. tests/recon_slice_31_test.cpp (RecordingAttributes : IAttributes) implements the stand-in.",
+    "action": "replace with #include; the recording fake must implement the pure slots it does not use (or derive from CAttributes)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/include/glitch-scene-collada-gui/irr_alloc.hpp",
+    "class": "irr_malloc / irr_free (GlitchAlloc / GlitchFree wrappers)",
+    "canonical_header": "core-platform/memory.hpp",
+    "differences": "extern \"C\" irr_malloc (0x5341a0) and irr_free (0x534180) are stand-ins over malloc and free; the originals forward to GlitchAlloc(size, 0) and GlitchFree from core-platform. With one program they can call the real functions.",
+    "action": "replace the bodies with calls to GlitchAlloc / GlitchFree"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-scene-collada-gui/src/recon/v2/wave_01.cpp",
+    "class": "extern \"C\" GlitchAlloc(size_t, int) / GlitchFree",
+    "canonical_header": "core-platform/memory.hpp",
+    "differences": "Declares C-linkage GlitchAlloc(std::size_t, int) and GlitchFree(void*) and relies on the test (tests/recon_v2_wave_01_test.cpp) to define them. The real functions are the C++ overloads GlitchAlloc(unsigned, glitch::memory::E_MEMORY_HINT) and GlitchFree(void*) in core-platform/memory.hpp; a C-linkage GlitchFree(void*) would clash with the C++ one.",
+    "action": "replace with #include; drop the extern \"C\" declarations and the test definitions"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/net-session-online/include/net-session-online/deps/slim_xml_node.hpp",
+    "class": "slim::XmlNode",
+    "canonical_header": "core-platform/slim_xml.hpp",
+    "differences": "Stand-in: default and (name, text) constructors, children_ as std::vector<XmlNode> by value, findChild(const char*) const -> const XmlNode*, findFirstChild/findNextChild with an int cursor (an index; the comment says the original cursor type was not recovered), Text() returning the node text (the original reads it at node+0x2c), AddChild as a test seam. Canonical: XmlBase name_ (+0x10) and value_ (+0x28), XmlNode(NodeType, XmlNode* parent), children as std::list<XmlNode*>, findChild -> XmlNode*, findFirstChild(name, ChildIterator&) and findNextChild(name, ChildIterator&) with a std::list<XmlNode*>::const_iterator cursor (the binary's iterator), addChild(name, type), XmlDocument::loadFromMemory/parse to build trees; no Text() (value_.c_str()). Users: channel::read (src/channel.cpp), item::read (src/item.cpp) and their tests.",
+    "action": "replace with #include; change the cursor type to slim::XmlNode::ChildIterator, Text() to value_.c_str(), and build test trees with XmlDocument / addChild"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/net-session-online/include/net-session-online/i_event.hpp",
+    "class": "IEvent",
+    "canonical_header": "dh2/IEvent.hpp",
+    "differences": "The stand-in has getEventID() as a non-virtual accessor over a protected eventId_ (+0x04) and a virtual destructor. The binary's IEvent (_ZTV6IEvent, 20 bytes) has D1 (0x31d8d8), D0 (0x31fc20) and getEventID (0x31d8dc) as the virtual slot +0x08. The canonical dh2/IEvent.hpp declares getEventID virtual and keeps the id at +0x04 (protected, with a constructor taking the id).",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/net-session-online/include/net-session-online/i_event_receiver.hpp",
+    "class": "::IEventReceiver",
+    "canonical_header": "dh2/IEventReceiver.hpp",
+    "differences": "The stand-in has only the virtual destructor. The binary's IEventReceiver (_ZTV14IEventReceiver) also has onEvent(const IEvent*, const EventManager*) pure at +0x08; the canonical dh2/IEventReceiver.hpp declares it.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/net-session-online/include/net-session-online/deps/platform_stand_ins.hpp",
+    "class": "CustomFree and operator new[](size, MemoryHintState) (as NewArrayWithHint)",
+    "canonical_header": "core-platform/memory.hpp",
+    "differences": "CustomFree is defined inline here (std::free); the canonical CustomFree (0x310440, core-platform/src/memory.cpp) is an out-of-line function declared in memory.hpp, so a translation unit that sees both has two definitions (the game headers work around it with a macro rename in dh2/Character.hpp). NewArrayWithHint(bytes, hint) stands for _Znaj15MemoryHintState, operator new[](unsigned, MemoryHintState) at 0x31056c, declared in dh2/global/runtime_support.hpp. OnlineClockStorage/OnlineNowMs are not core.",
+    "action": "replace with #include for CustomFree; replace NewArrayWithHint(n, h) with operator new[](n, MemoryHintState(h))"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/net-transport/include/net-transport/deps/byte_array.hpp",
+    "class": "CustomFree (and ByteArrayAllocate)",
+    "canonical_header": "core-platform/memory.hpp",
+    "differences": "Inline `CustomFree(void*)` over std::free, next to a stand-in ByteArray (game-app now has dh2/ByteArray.hpp) and ByteArrayAllocate (the engine's operator new[](n, 2), a MemoryHintState call). The canonical CustomFree is out of line in core-platform/memory.hpp; the ByteArray class is not part of the core domain.",
+    "action": "replace with #include for CustomFree"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/pydata-accessors/include/pydata-accessors/deps/stream_reader.hpp",
+    "class": "CustomFree and MemoryHintState(size, hint)",
+    "canonical_header": "core-platform/memory.hpp",
+    "differences": "Inline CustomFree over std::free, and a function named MemoryHintState(size, hint) that mallocs: the name collides with core-platform's `enum MemoryHintState` (the original allocation is operator new[](size, MemoryHintState)). IStreamBase/StreamReader in the same file are game-app stream classes, not core.",
+    "action": "replace with #include for CustomFree; replace MemoryHintState(n) with operator new[](n, MemoryHintState)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/vox-audio/include/vox-audio/deps/glitch_vector3d.hpp",
+    "class": "glitch::core::vector3d<T>",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "Three T members X, Y, Z at +0x00, +0x04, +0x08 with no initialisers: the same layout as the canonical struct.",
+    "action": "replace with #include"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::IReferenceCounted",
+    "canonical_header": "glitch-core-io/core/reference_counted.hpp",
+    "differences": "Held a second definition (drop() out of line in src/reference_counted.cpp) next to glitch-shared/reference_counted.hpp (inline). Done: the definition is the canonical core/reference_counted.hpp (header-only), this header and glitch-shared/reference_counted.hpp include it.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::IEventReceiver",
+    "canonical_header": "glitch-core-io/os/event_receiver.hpp",
+    "differences": "Held a destructor-only IEventReceiver. Done: os/event_receiver.hpp is the definition (SEvent, EEVENT_TYPE, IEventReceiver with onEvent pure at +0x08); the header includes it.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IVideoDriver",
+    "canonical_header": "glitch-video/video_driver.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (empty class over IReferenceCounted; only its reference counting is used). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::ITexture",
+    "canonical_header": "glitch-video/texture.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (IReferenceCounted plus slotType at +0x38; the real ITexture is born with count 0 and has its own members). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CLight",
+    "canonical_header": "glitch-video/light.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (IReferenceCounted base; the real CLight keeps its count at +0x00 and returns its matrix to the Matrix4Pool on release). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CVideoModeList",
+    "canonical_header": "glitch-video/video_mode_list.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (default-constructible stub). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CMaterial and CMaterialRenderer",
+    "canonical_header": "glitch-video/material.hpp and glitch-video/material_renderer.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (a count at +0x00 and intrusive_ptr_add_ref/release that delete; the real classes define their own). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::SVertexStream and CVertexStreams",
+    "canonical_header": "glitch-video/vertex_streams.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (a shared_ptr buffer and a vector of 16-byte entries; the real class keeps the count at +0x00). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IShader and IShaderCode",
+    "canonical_header": "glitch-video/shader_attributes.hpp and glitch-video/shader_code.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (IReferenceCounted stubs). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::IBuffer",
+    "canonical_header": "glitch-video/buffer.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (IReferenceCounted with data/size and an owning vector). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::video::CImage",
+    "canonical_header": "glitch-video/image.hpp",
+    "differences": "Stand-in kept in glitch-core-io for the io code (IReferenceCounted stub). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/deps/glitch_core_objects.hpp",
+    "class": "glitch::scene::CMeshBuffer",
+    "canonical_header": "glitch-scene-collada-gui (scene owner)",
+    "differences": "Stand-in kept in glitch-core-io for the io code (IReferenceCounted stub). Not a core-domain type: the video / scene maps name the real headers; the core-io sources that use these names (io/attributes, tb/glitch_io, material_parameters) follow once those headers are wired in.",
+    "action": "keep: another domain owns the class; replace with its real header in the wave that wires glitch-video in"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/tb/cprimitivestream.hpp",
+    "class": "glitch::video::CPrimitiveStream",
+    "canonical_header": "glitch-video/primitive_stream.hpp",
+    "differences": "The io view of the class (buffer +0x00, offset +0x04, count +0x08, two header words, indexType +0x14, primitiveType +0x16); glitch-video's primitive_stream.hpp lays out only m_count and the primitive type. getPrimitiveCount (0x5a0300) is defined in glitch-video.",
+    "action": "keep: glitch-video owns the class; merge the io view into its header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/collada_binary_file_loader.hpp",
+    "class": "glitch::scene::CColladaBinaryFileLoader",
+    "canonical_header": "glitch-scene-collada-gui (scene owner)",
+    "differences": "Constructor-only class (0x6b9310, 0x6b9360) that sits in glitch-core-io by a routing accident; it belongs to the scene category (the STATUS.md note lists it).",
+    "action": "keep: scene owns the class; move it to glitch-scene-collada-gui"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/core/sided_collection.hpp",
+    "class": "glitch::core::detail::SIDedCollection (old std::map implementation)",
+    "canonical_header": "glitch-shared/sid_collection.hpp",
+    "differences": "Two implementations existed: this one (id first in the mapped value, natural-copy values, an add() test helper, no insert/rename) and glitch-shared/sid_collection.hpp (id fixed at +0x1c, manual reference counting through addRef/release, insert/rename). The binary has the id at the end of the instance's Props record (ITexture +0x1c, IShader +0x04, CMaterialRenderer +0x0a, IShaderCode +0x00, SShaderParameterDef +0x04). Done: one template in glitch-shared/sid_collection.hpp (natural-copy values, SIdValue derives from Props, insert/rename/remove/removeAll, the add() helper); this header only spells the original names over it.",
+    "action": "done: forwards (alias layer over the canonical template)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/core/sid_collection.hpp",
+    "class": "glitch::core::detail::SIDedCollection",
+    "canonical_header": "glitch-shared/sid_collection.hpp",
+    "differences": "Forwarder to glitch-shared/sid_collection.hpp.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/core/kd_tree.hpp",
+    "class": "glitch::core::CKdTree layout",
+    "canonical_header": "glitch-shared/kd_tree.hpp",
+    "differences": "Identical to the shared copy except for the include of the value types.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/core/shared_string_heap.hpp",
+    "class": "glitch::core::SharedStringHeap layout",
+    "canonical_header": "glitch-shared/shared_string_heap.hpp",
+    "differences": "Identical to the shared copy.",
+    "action": "done: forwards to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/os/logging.hpp",
+    "class": "glitch::os::ELOG_LEVEL and glitch::os::ILogger (former spelling)",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "The header declared both in glitch::os with a destructor-only-style ILogger that lacked the wide-hint log overload (+0x1c) and named slot +0x24 logv. Done: glitch::ELOG_LEVEL and glitch::ILogger (IReferenceCounted, seven pure slots, vlogf at +0x24), with glitch::os using-declarations for the old spelling.",
+    "action": "done: corrected in place (this is the canonical header)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/io/read_file.hpp",
+    "class": "glitch::io::IReadFile",
+    "canonical_header": "glitch-core-io/io/interfaces.hpp",
+    "differences": "Declared IReadFile with inert defaults, read returning void, getFileName/getFullPath returning const std::string& and readAsync(+0x10) returning void. Done: IReadFile is in io/interfaces.hpp in vtable order with read -> int32_t, readAsync -> bool, getFileName/getFullPath -> const char*, pure slots +0x0c..+0x2c; read_file.hpp keeps CReadFile (derived, with the virtual isOpen at +0x3c).",
+    "action": "done: moved to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/io/xml_writer.hpp",
+    "class": "glitch::io::IXMLWriter",
+    "canonical_header": "glitch-core-io/io/interfaces.hpp",
+    "differences": "Declared IXMLWriter with inert defaults and CXMLWriter in the same header. Done: IXMLWriter is in io/interfaces.hpp with seven pure slots (writeXMLHeader, two writeElement, writeComment, writeClosingTag, writeText, writeLineBreak).",
+    "action": "done: moved to the canonical header"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/glitch-core-io/include/glitch-core-io/io/interfaces.hpp",
+    "class": "glitch::io::IAttributes, IFileSystem, IFileReadCallBack, IAttributeExchangingObject (old stubs)",
+    "canonical_header": "glitch-core-io/io/interfaces.hpp",
+    "differences": "IAttributes and IFileSystem were empty classes and IFileReadCallBack::read returned void. Done: IFileSystem has its 24 pure slots, IFileReadCallBack::read returns the count, IAttributes (io/iattributes.hpp) has 187 pure slots, IAttributeExchangingObject has serializeAttributes at +0x00 and deserializeAttributes at +0x04.",
+    "action": "done: completed in place (this is the canonical header)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/shared/include/glitch-shared/reference_counted.hpp",
+    "class": "glitch::IReferenceCounted",
+    "canonical_header": "glitch-core-io/core/reference_counted.hpp",
+    "differences": "Held the inline definition that glitch-core-io's glitch_core_objects.hpp duplicated. Done: the canonical definition moved to glitch-core-io/core/reference_counted.hpp (same members, same inline drop); this header forwards so that the includes in glitch-video (material_renderer_manager.hpp, tests) and glitch-scene-collada-gui keep working.",
+    "action": "keep: forwards to the canonical header (callers may switch their includes)"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/MenuBase.hpp",
+    "class": "gameswf::rect",
+    "canonical_header": "vendor-gameswf (not a glitch type)",
+    "differences": "Declares `struct rect` inside namespace gameswf (xmin, xmax, ymin, ymax floats). Not glitch::core::rect (UpperLeftCorner, LowerRightCorner position2d).",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/CharTimers.hpp",
+    "class": "Timer",
+    "canonical_header": "glitch-core-io/os/logging.hpp",
+    "differences": "The game's own Timer class; not glitch::os::Timer (static virtual-time functions in glitch-core-io/os/logging.hpp).",
+    "action": "keep: not the same class"
+  },
+  {
+    "stand_in_file": "port/decomp-reconstruction/game/include/dh2/Point3D.hpp",
+    "class": "glitch::core::CMatrix4 (forward declaration)",
+    "canonical_header": "glitch-shared/glitch_core.hpp",
+    "differences": "Forward-declares `template <typename T> class CMatrix4;` where the canonical type is `template <typename T> struct CMatrix4` (a mismatched tag, harmless for GCC and a warning for MSVC). The same mismatch occurs in glitch-scene-collada-gui ps_types.hpp, recon/slice_07.hpp, slice_22.hpp and slice_32.hpp.",
+    "action": "keep: switch the tag to struct when convenient; or include glitch-shared/glitch_core.hpp"
+  }
+]

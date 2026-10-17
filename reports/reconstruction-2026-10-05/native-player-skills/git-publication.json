@@ -1,0 +1,1568 @@
+{
+  "validation": "PASS",
+  "scope": "Staged source versus raw tested compiler capture; explicit LF normalization only for source. Original packaged resources and all copied receipts retain raw bytes. Not a clean-checkout rebuild claim.",
+  "compiler_inputs": 534,
+  "raw_identical": 223,
+  "lf_normalization_only": 311,
+  "normalization_paths": [
+    {
+      "path": "port/adam-script-runtime/lua/lapi.c",
+      "captured_sha256": "88603b1d26a282cd6c637e0b637b6ecea3373dd05a1ca1bc3e2b9cc56a251b3f",
+      "git_blob_sha256": "6aa0d9fdd88b13fe46568ad6722ecf44164fb84476cfdf6480cf05b5704935f8"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lapi.h",
+      "captured_sha256": "d303b261fe6018f51e0ce84b9f90acef8683cbe8ac257f81225d42e4b85efee1",
+      "git_blob_sha256": "4aea4c1b975d43184f4f1fd1a42c79cf11d74d2801315740cec07fe9abebb56d"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lauxlib.c",
+      "captured_sha256": "864f1e52a7e12688e148679356fedf8a3baff8a66800d527617535ac1d678d6d",
+      "git_blob_sha256": "b564650bf4aca2757b9966311d32c8d5fea8803f6f33d72a856448d3b5d6d992"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lauxlib.h",
+      "captured_sha256": "82d7bcc075308fd1dcee8a8766ab69cda6945624fc4899021e5e971717df1b59",
+      "git_blob_sha256": "c741f9c1587f29fd08a79acbe0c46884768a47f89bee4147669f774c5cf50fc0"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lbaselib.c",
+      "captured_sha256": "9005372de751bf9be09a7c412ea25157632465b4e3ee1d5ccc5b6daae8d5f222",
+      "git_blob_sha256": "703b8c0de8142d486bc6d6082cf6427583189319a4aed3a02dd8c1653e0fd42b"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lcode.c",
+      "captured_sha256": "2c5f2dea541c59fb52634ea46fe40d3e05aa1259e6a9e2c03730cfe0b1b15197",
+      "git_blob_sha256": "f8026741a3e6ea3520c751ef2e7f6c0b88e0e36b4dab93a238d2a5ef0dab18a5"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lcode.h",
+      "captured_sha256": "f13b4081ad1d48f8423580a624d7d0ecc7dea6cb052aa4318a77cf40af38c206",
+      "git_blob_sha256": "97d5a37f3b1b19eda1ef39607b3358aa0f7e917568ccd27ed0f14bc6a70d4b17"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldebug.c",
+      "captured_sha256": "791fdeeff52e67ebb3d2a196822bbae14cb853413c981b9f903615a50c7cd669",
+      "git_blob_sha256": "afa5840195befaec55177273c8168748026b38df3243767fc740cc7ced0c4c8f"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldebug.h",
+      "captured_sha256": "f02eded8c4860046b5b2058fca83a4b55fcaa4422a5e16ab92acd94d7e82ed2c",
+      "git_blob_sha256": "d036f0dbb996bdecd48d505746f72c31b82fb2fc38f111b780568338d4ed9e9c"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldo.c",
+      "captured_sha256": "816fa9f50d1674ea75a2bb7452b39608136b159f4dc40cc3ec31d8fb1ad2c19f",
+      "git_blob_sha256": "1839bd9227430c5344b348f57e5cd680f56e854932abde31f402282d95882326"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldo.h",
+      "captured_sha256": "be1970358a771004937d263282326daab04277a4ea63c0e518e52a2a41d5bcf2",
+      "git_blob_sha256": "591ad9a90098d3fbf06839da3de752d2c2585cbf5801dde4cdaffe12b23a182e"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldump.c",
+      "captured_sha256": "41dd832b0c03e2c9e5d0352eeeb6e32bdb076bf79bb4f2cea59316c89d0865cd",
+      "git_blob_sha256": "661d499262e9808732b2bf67d2d0cedafcaf0b4eefb54c922959af450fd2b87b"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lfunc.c",
+      "captured_sha256": "344d6f5f003cb87aab783d2ef4d72d0f732cec4a2807de9ddf25db405ab99073",
+      "git_blob_sha256": "525681d79098958530e5c937f7cbe94a4dafa679746ffdb16258f82b7ece29ce"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lfunc.h",
+      "captured_sha256": "0f18fd116cc0a8091a7c40e5c33bb438e6211d6db349513148f1ea10e686d404",
+      "git_blob_sha256": "3cea0071ffda94eac378adb5f1ecb467ef2ffafff4315459e4ccdf05b5119da4"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lgc.c",
+      "captured_sha256": "affe7edb37514bbb83521b660f663fa820c31cfd2c31d8c366dcc5c6f0b42f00",
+      "git_blob_sha256": "d80a0d7f440f5b1c2a39eaf7f9e51fced0eeb02d220a3cce2e993b7590f522fa"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lgc.h",
+      "captured_sha256": "42fe93edf3a4bf7938a6adb18882872a59b2de9c44f5e962ff2109729286b3a6",
+      "git_blob_sha256": "fbab2b989515377729d4c029dd58b3b6242877a88a7c4cfa703ea0deeb069a1e"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/llex.c",
+      "captured_sha256": "31dbfd76b2288bc3c5d0745b3a0b278d762519fbe5f2c75a478d5bea99d26688",
+      "git_blob_sha256": "aecb5f00908832222e62fb1b970825278dc460a65a080d79a3693f82438e52c8"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/llex.h",
+      "captured_sha256": "c86e68a0dc2a9692462730a7d3bde6bec2e3e13a9192f420340505cba4167015",
+      "git_blob_sha256": "0f3715d22b025727ef11debd641600a123b81718d195cd8445ac6378814458e6"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/llimits.h",
+      "captured_sha256": "f0e369d46b79026107f4b7ac54d3ee70b15e9482d8e05f5cc16154600bae336c",
+      "git_blob_sha256": "1910669296681d9d2814ca46c325063724bb634c0428dae4e5ff59be54e0b758"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lmathlib.c",
+      "captured_sha256": "6a2e9673eda84cf41d43040875705ba0bac36b2032460603546be06625aecd9f",
+      "git_blob_sha256": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lmem.c",
+      "captured_sha256": "08a47c61d5347280fac3040cbe3c07e1fbba81dcef10417136cf7b319a0ad628",
+      "git_blob_sha256": "e63c50cb1c75356bd4123c9ca05f77bd0cd99e05c099cf6d1bf472086761e9c5"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lmem.h",
+      "captured_sha256": "465e212c1cf0c25d750f20ac9cd6095dad1c3aa23f34724c9492ac733654a22b",
+      "git_blob_sha256": "abd1258418486c69bf5a93ceea3a1b9f8af2c7497a4fa6c27b442ffec2c5bbb1"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lobject.c",
+      "captured_sha256": "5160a4348317285d003aaa7b4c8db374da89459898b441b06a5aaee395c96226",
+      "git_blob_sha256": "d704915c79c721556cc5850d741ed3bef1611221356f0e3a2f0ee5cfd5fd3632"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lobject.h",
+      "captured_sha256": "6ea53c1bcdaabb4bdbe02287eb3b3fddbac497d7642147395f49646542186b03",
+      "git_blob_sha256": "274c18373fbbad71bfebd534cae4b2d2e49934abf6672f44735edc6646fb6a8b"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lopcodes.c",
+      "captured_sha256": "fa1233a188697642be338114ce31a623bbfe49c5e718fe5b33a6b4bce2c8bb8c",
+      "git_blob_sha256": "63cd74edc75970092a8ce078c4ab970efa1ee18de960d00eb826d49fe98d8a76"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lopcodes.h",
+      "captured_sha256": "6dc1c16676e28cad35e6acf40b4c110b04630ebffa2e36c4fd6866df43028a5b",
+      "git_blob_sha256": "a15fe349da7c1e73b563e8c3249fe7d535eccc844cb30ec80b4e335b0699279b"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lparser.c",
+      "captured_sha256": "90b79276da5a08dcecd782ce23812eff55f2b95de030bb1fd258d1688bc422ab",
+      "git_blob_sha256": "61c85a7c4f5387d36b91d53a60df3802d7639928b1d76675ede6fb0868ad2510"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lparser.h",
+      "captured_sha256": "398b81305656d8f0a9827943d7ab77e6ccaf06794d129a0dfff3532389688d4e",
+      "git_blob_sha256": "84512d6540b83ab599cd8de5a1c8c4deaf71ff353f8e4fbc2e4ca135ba4e9ef0"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstate.c",
+      "captured_sha256": "a09cc02990c27639560c357babbe2c01c753ac19d8b7bea903abf01c5c3c63fb",
+      "git_blob_sha256": "c36d6b9354aaa30b5323b4984f3172783f69e0deb3186c2ef6f16a8281c59c29"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstate.h",
+      "captured_sha256": "620cb6779a368c9c083e91bafd5a014c3c3c02951b5d5d4b10e59725c1d2ea48",
+      "git_blob_sha256": "dc64ea7ec74d7c1efaeaf6a9e2257f0b7856a5c988747948af2e76cf079d20fe"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstring.c",
+      "captured_sha256": "53cc6dd8cbbef5c91fe390d293f209ae867211c36bbe596dcd5a5857827706d7",
+      "git_blob_sha256": "aa7e934c435d870b9d937ac2fb03dbfa15d367012d46e7e995a2ad8d440f2f6d"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstring.h",
+      "captured_sha256": "845244bef3dfb35e323503cd57b3be0a038e73a9b041d733f4c1f427a5b93b81",
+      "git_blob_sha256": "c0e8af4eb33e3357be79f906e7e1191ba53a3a790d36ca15b50471d3a339e1f0"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstrlib.c",
+      "captured_sha256": "207703835595b62a0e9c43b0f89ade77804ae1b80854acb1d6a591f3a7e3d700",
+      "git_blob_sha256": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltable.c",
+      "captured_sha256": "d5df266f7ed1bb832c10f32958f8f2940c0205a513c9af1c88ed1a7b164dc4fc",
+      "git_blob_sha256": "3a853ce89bf5e834ec53f2a0dd2386eb8b84accbe5fdc18dabd7515b819f0f7c"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltable.h",
+      "captured_sha256": "a93a3ab6d8d515c9086eacc8967c236daa68064d488185d885ea48900d22dcf9",
+      "git_blob_sha256": "219e6ac2bf43aaa93093c6bcd571c012660325e6b87ea3d6c1b40679a0acfd64"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltablib.c",
+      "captured_sha256": "1e1aa085f3ba40cfc136399002ebf284222b26e1dc7d353d01200933c719fc97",
+      "git_blob_sha256": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltm.c",
+      "captured_sha256": "a7551c630c2c86701af7ef57648062b3d802b69b2c5bb8081553fe36bf570303",
+      "git_blob_sha256": "9759ae5d1aa3b11e1c7faa6c0f65e05c7126417f7f8f3f989d82fc170b07f891"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltm.h",
+      "captured_sha256": "dd24d1e73f109bbea9a97940b68c0e7a968ce0e3b3b76e7210b7e701c2bdf891",
+      "git_blob_sha256": "54f4c2fa76b8ed8d48163e31807a19999f5d65b009ae862cb757e0773f2aa485"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lua.h",
+      "captured_sha256": "9a8ee0cb834877ad723a6bd29f92385376dea5f012d32f9e181388c33820c5a3",
+      "git_blob_sha256": "c2a78484b53d115d9229a62e8d16db8309f1c68415b56ad5672e00674119bebb"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/luaconf.h",
+      "captured_sha256": "cf26ba410be013a61d04322d507e6442691db20c52604ddeb19bfc47e3723761",
+      "git_blob_sha256": "b3ec2e1f0d42e099157cc0adc8a4ef5c62afa09f5fefad9c95de3ef3be89cf23"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lualib.h",
+      "captured_sha256": "fdc28369da6fffb836b744b8a6d4b78d386e2b7348247f5cf3246b421d9f0439",
+      "git_blob_sha256": "13f880e9dd997a0f7fd0b17ccd949c98f33e95bd120f084de66084e888217413"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lundump.c",
+      "captured_sha256": "b9db5bc6d0096e4662d630f097a15a56afe4309f376fc5e20526bc697d7de06d",
+      "git_blob_sha256": "611fdad9c97d2b81c918d08bc610c830dc6b8f1167b718cb32b5d1eb76149f21"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lundump.h",
+      "captured_sha256": "e34c2063b73b24e9a05a29a984ae1a9adf5c4463ab75850f3acee3b2ed2ebdd6",
+      "git_blob_sha256": "9f3a2924d1585620993a70eea6cf3def34acb8322b2d9c3629bcdacc037edc64"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lvm.c",
+      "captured_sha256": "88cd8a3e80acf774deaef846883f46298ebed29ad3a286e00cb18d285643d1e3",
+      "git_blob_sha256": "f9f0979df389c571193c4b5d20ae80180d9857ca5a9873c601c42055583cf19d"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lvm.h",
+      "captured_sha256": "dde27a5ef887e8ec43518906f8a491c9ff1a91617c3c9035e8e0ea3eb5796a6a",
+      "git_blob_sha256": "db4b79dc7f4e7656078aa527350fbf14b2fde5d136ccf1cb4f3dc397def5fb67"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lzio.c",
+      "captured_sha256": "e0c2de4dc36d404a907b0a80506f6637acb00a7b17b6db10d74975f7b31e1972",
+      "git_blob_sha256": "892bc24d898c19cbedceba419c68f910b99321c0b462be2c2c00b9d763563173"
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lzio.h",
+      "captured_sha256": "716d05b89824c09dbd7daf4ce31244131b4adceff19a46065a41fc0379b46aab",
+      "git_blob_sha256": "0ec77d0179bf29c1ccab97028fed761944d5c21c02808e10cd7b5883b58b2ca6"
+    },
+    {
+      "path": "port/adam-script-runtime/script_function_alias.cpp",
+      "captured_sha256": "2f40e5f8ba2ebafaf217cb5efe0d795bd193f366e42a83b70960dd57c64f3cea",
+      "git_blob_sha256": "d6bc06c9ac09969b914f4d8025d2efea281eaf2bd91a9bb52dccc141512e3271"
+    },
+    {
+      "path": "port/adam-script-runtime/script_function_alias.h",
+      "captured_sha256": "767ea8b24a05e04416ca4b29e0873b772295d742b9a2e5101d6e6122a05c0d0b",
+      "git_blob_sha256": "9d138d3aa92e96fd0d0dabddea721c7fc8470b7e64d5bf116c98865e7c84d868"
+    },
+    {
+      "path": "port/adam-script-runtime/script_game_bindings.c",
+      "captured_sha256": "3f2d89631c1908c88677a10417345031f50473fadc1a958db651443f19983292",
+      "git_blob_sha256": "779f245eb5b5b738381bd003f622f84e83390af254cd2268dc9f81503e3df482"
+    },
+    {
+      "path": "port/adam-script-runtime/script_game_bindings.h",
+      "captured_sha256": "a8d768040ea89440014c9707f6104bfb83b3cdb1be6e80cab165f08fdee4c3f2",
+      "git_blob_sha256": "3772bc95bcb5e26fe4969586705c89912ed468b301f40c1fcd35d628bd257266"
+    },
+    {
+      "path": "port/adam-script-runtime/script_runtime.c",
+      "captured_sha256": "2c7f1bb0e82370df7f4c0882c92d916ab66bf6458e9a541ab14be178e6ad8e95",
+      "git_blob_sha256": "4b9648f2fea5abc98d717341692a1bb3e0c6ec41689ed8d801d26e12dee43d33"
+    },
+    {
+      "path": "port/adam-script-runtime/script_runtime.h",
+      "captured_sha256": "5d637bcf54a1e5978630667da852a7c3e93e6cca73f64236a35a9e9f8af20081",
+      "git_blob_sha256": "1f7babd33e55c51270de6622b74dfdcd00daf415f164762cdc3c3158ef0f39b3"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "captured_sha256": "b49615757c3e8bc85951ec31336760c0726f1a39c64d7e37d71ddd45d8470b52",
+      "git_blob_sha256": "d267c2f79be587436a24a88d3a2d47e2f609d893e4c4d0e8917f0ac6b38f6714"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.hpp",
+      "captured_sha256": "1e6f8a8a9e5bb8a37a452768c89d63bac55edecf059487ae7fa204cbf6c08c93",
+      "git_blob_sha256": "bc5b2b626c45b00c479eb470bd336cb2ea2f87ae84f918eb07fb0d8498d6e37d"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "captured_sha256": "4fa3a94afec4642a8884f3dba006a2e5b52142ac2b8b939bab88483668067b7a",
+      "git_blob_sha256": "3055e6ba4c8d642ffd6b79e2a3269a74c8c9e4998de8d437edcb87bb8c1bf533"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_player_skills.cpp",
+      "captured_sha256": "d8b98b1923e6089270d10b83be3abad07982e4b72b2b802489f18043446a0156",
+      "git_blob_sha256": "d64880584dacce5c687f14d3bfd38e5008aa0effcad076f0b7d30e84eb01cb67"
+    },
+    {
+      "path": "port/asset-payloads/payloads.cpp",
+      "captured_sha256": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+      "git_blob_sha256": "b0f391f8be6a4cef0ed8818a390d3fa7f0353472e31bae461d334809d9b08179"
+    },
+    {
+      "path": "port/asset-payloads/payloads.hpp",
+      "captured_sha256": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+      "git_blob_sha256": "6cd094eef4d8acbded6d3b013bc3eed6fb7e919f3f9d709792d98f20e77770de"
+    },
+    {
+      "path": "port/engine-animation/angle_interpreter.cpp",
+      "captured_sha256": "5b509d60a4d0800742b14f67a979df6a24c9dc194f5be1016ae60ee20c692787",
+      "git_blob_sha256": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f"
+    },
+    {
+      "path": "port/engine-animation/angle_interpreter.hpp",
+      "captured_sha256": "0d764435b154c1e5b8b59f044cc8a36fccaa2c272ee4e128705f0fc55abf8658",
+      "git_blob_sha256": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df"
+    },
+    {
+      "path": "port/engine-animation/animation.cpp",
+      "captured_sha256": "c1ffcca1fd140744e5587251a8fde8a6392da1d169c4879730ea78f35c2a6903",
+      "git_blob_sha256": "741a4df6e1c1753a9fbcf20192c2b1f09ed0d1bfc5701ab9ccd943e76713237f"
+    },
+    {
+      "path": "port/engine-animation/animation.hpp",
+      "captured_sha256": "1f3316e168168c898a9786d931e1dfaec78f1f110f518aa28d2ab5121711ff83",
+      "git_blob_sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3"
+    },
+    {
+      "path": "port/engine-animation/animation_blend.cpp",
+      "captured_sha256": "428d5b26789fbe8bc519f9a9531cfe6dac1e77c1b98a9a25c53375b31be98f11",
+      "git_blob_sha256": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac"
+    },
+    {
+      "path": "port/engine-animation/animation_blend.hpp",
+      "captured_sha256": "f2569d361bc50b2e7e3e82c80af2fc50df6ecafcd3fc57ea10bdd43d03dbf209",
+      "git_blob_sha256": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3"
+    },
+    {
+      "path": "port/engine-animation/animation_registration.cpp",
+      "captured_sha256": "612c97d63223bfc571815fd561828b756ac74a43628c1467e4e28ba52e4ba108",
+      "git_blob_sha256": "74365756322d081aa171ca54802fbf5a94488f1e29a9b9a0260ff0bb2514f0ae"
+    },
+    {
+      "path": "port/engine-animation/animation_registration.hpp",
+      "captured_sha256": "27d3e197b413b856b40281ec974f2b5a7d325307fce59d9d1d8087f49d927d73",
+      "git_blob_sha256": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1"
+    },
+    {
+      "path": "port/engine-animation/component_applicator.cpp",
+      "captured_sha256": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+      "git_blob_sha256": "6f0a3e4ea2b8be7c73747e0749830ec8d8cc052ef463a652b2944b9fc1fde711"
+    },
+    {
+      "path": "port/engine-animation/component_applicator.hpp",
+      "captured_sha256": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+      "git_blob_sha256": "6b48f994981a2b5222030f648e47fdc6fbd167a6520b394952d90adb40433970"
+    },
+    {
+      "path": "port/engine-animation/event_track.cpp",
+      "captured_sha256": "1cc2528d615a85123695cf9717cc3eb04add55d474ab4aa467915371dacec863",
+      "git_blob_sha256": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792"
+    },
+    {
+      "path": "port/engine-animation/events.cpp",
+      "captured_sha256": "e53937ac01560ddef84f1304cb0a848669604d3cf7c6ebb5cd82b72f49dc9c74",
+      "git_blob_sha256": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35"
+    },
+    {
+      "path": "port/engine-animation/events.hpp",
+      "captured_sha256": "e48e965c35361461d222526f9142825ffb9bdd1be16be18cd1116890278e6029",
+      "git_blob_sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a"
+    },
+    {
+      "path": "port/engine-math/math.cpp",
+      "captured_sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+      "git_blob_sha256": "9bb0ad401cd274aad9172158039b107d29b9c7b01ce4a6627b0a4630523313d4"
+    },
+    {
+      "path": "port/engine-math/math.hpp",
+      "captured_sha256": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+      "git_blob_sha256": "978108687aa3f88adb46a4716e689787925acddac00d2df4e8a9473f5a0a97ff"
+    },
+    {
+      "path": "port/engine-resources/resources.cpp",
+      "captured_sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+      "git_blob_sha256": "9b93e43036f62094fd9d2fa68514f6e0035fbd3ff3aacc6acfaf9a605f476083"
+    },
+    {
+      "path": "port/engine-resources/resources.hpp",
+      "captured_sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+      "git_blob_sha256": "2cf4a179e8d8bbe1caa62c5c543ee540cc41b45fd0f7da605dea6f8173f54d61"
+    },
+    {
+      "path": "port/engine-skinning/skinning.cpp",
+      "captured_sha256": "e887fa5f9ae1b8774e795d451d30869bee4331eb87170ea2245e15977c8197b1",
+      "git_blob_sha256": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102"
+    },
+    {
+      "path": "port/engine-skinning/skinning.hpp",
+      "captured_sha256": "fda3f6e14c0215d8cadd42003b3816e673ca43cab390d5bbe5ab27ac5eed5bb1",
+      "git_blob_sha256": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2"
+    },
+    {
+      "path": "port/engine-textures/pvrtc.cpp",
+      "captured_sha256": "20d5000c9d9b6062f4c2f0bcce02413eafa296d581eda501b462a691b38b5602",
+      "git_blob_sha256": "dd88a34faff7b5741da77be72a49c0668e75f5aa57c146a3ea7c51817228d575"
+    },
+    {
+      "path": "port/engine-textures/textures.cpp",
+      "captured_sha256": "81852739c6b921cb4e38c13e36e127ed0e73b0d9c77852e8799438af7b25a6fe",
+      "git_blob_sha256": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb"
+    },
+    {
+      "path": "port/engine-textures/textures.hpp",
+      "captured_sha256": "0730f0a7b517fcb4da569c94adc58ccd138439340a26e033c85d9c01ddb1f90e",
+      "git_blob_sha256": "806ba7487bda7dda7de8e8f7b8c22f3165cd9ee46cadb635f4f0bf8ccf34cb61"
+    },
+    {
+      "path": "port/game-data/aggro.cpp",
+      "captured_sha256": "c9f10eb5697227dad1e7fb767b07929da4b5373327d49ce350dc1318e6b2f050",
+      "git_blob_sha256": "ae05055695fb38680e41b8a11c79ce8f31b3865c14d44864e6da52def34c89fe"
+    },
+    {
+      "path": "port/game-data/aggro.hpp",
+      "captured_sha256": "3a8d50a78c05e4e2759ffa92c1a881c811573d7d2e37191a9e513e7588b4e742",
+      "git_blob_sha256": "a4624693ae19a5ab6f058f4137d535a9b3ad41a5129faa5c0eb1a82850a1f703"
+    },
+    {
+      "path": "port/game-data/ai.cpp",
+      "captured_sha256": "f53b4473fa4dd02ed73d514fe5b84d02058807c4bf800ab1952fc7141a229928",
+      "git_blob_sha256": "e36de5efc51972186aa9a480e55da72b1353fd4c05bbca2211441685881b2e01"
+    },
+    {
+      "path": "port/game-data/ai.hpp",
+      "captured_sha256": "00eb983ad3120ba68f86f104186d8216e70f73da54451b59a2b760b16468e8a5",
+      "git_blob_sha256": "e74238d1609df42c9086c0bdbad0b0e3a863d8081dba7260cc33fa67e512bf70"
+    },
+    {
+      "path": "port/game-data/animation_bank.cpp",
+      "captured_sha256": "d01fc6391ddb543eb2eadca8ce52e6b6e814cdd52d146d358c221d5a418d044f",
+      "git_blob_sha256": "157397a725c0c86e1f4e91a398402b459c1801992c56bf68f8075a5155d898ff"
+    },
+    {
+      "path": "port/game-data/animation_bank.hpp",
+      "captured_sha256": "8e858b78976ee8d4dbaee87f6379228df12a30ed4819b2d3acf03f2df8c4ac33",
+      "git_blob_sha256": "6273ee6614948256576bfc6a1d741f2f605539dcc48b628f177709a7165abdcb"
+    },
+    {
+      "path": "port/game-data/animation_scheduler.cpp",
+      "captured_sha256": "a75190454cb98071e91483125861abe41f84217d280b44d6db5bc1fff432cfd4",
+      "git_blob_sha256": "9e59745dab060de37f56268e39be515bb918ccf24e18b8de115e1a7be32727b5"
+    },
+    {
+      "path": "port/game-data/animation_scheduler.hpp",
+      "captured_sha256": "001547189bcb3d47fd096541db08ce5bd3b6935725a543735dd253da840b7aa3",
+      "git_blob_sha256": "4786d3ffedb4dc3596607841179cdf8156add19c37c3fc5bdeedae4b84ca613f"
+    },
+    {
+      "path": "port/game-data/animation_selection.cpp",
+      "captured_sha256": "f9f985cc772e1adea4cdc7dfa1bf27f987d06308f55b3603b64722877de857ad",
+      "git_blob_sha256": "3c45ece50511df67d7885388d8f56e64f1a979e9ed2a52d1983b6fa1dbea2880"
+    },
+    {
+      "path": "port/game-data/animation_tables.cpp",
+      "captured_sha256": "436cff5b347f1d756777775e35110bab113de3547b6a878932538afac21ef86e",
+      "git_blob_sha256": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67"
+    },
+    {
+      "path": "port/game-data/animation_tables.hpp",
+      "captured_sha256": "031dbc1ec565bc468357a21a9994abfba2c00f046796f4e8c409c63b8b872ecc",
+      "git_blob_sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d"
+    },
+    {
+      "path": "port/game-data/class_tables.cpp",
+      "captured_sha256": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+      "git_blob_sha256": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595"
+    },
+    {
+      "path": "port/game-data/class_tables.hpp",
+      "captured_sha256": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+      "git_blob_sha256": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7"
+    },
+    {
+      "path": "port/game-data/combat.cpp",
+      "captured_sha256": "228da172df7ee0ef290a59ccaf2fcf21890705f7165528366bf5f6615fdeb4cc",
+      "git_blob_sha256": "cd7adcea012ce9a7f4e8fba10a3bd16f515cea8bd66848c374bc6f5d42db1312"
+    },
+    {
+      "path": "port/game-data/combat.hpp",
+      "captured_sha256": "61cb840335e6eec650dc5520873067e89bafca8aac7dec22cd6c081ca846afd7",
+      "git_blob_sha256": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958"
+    },
+    {
+      "path": "port/game-data/combat_application.cpp",
+      "captured_sha256": "ef5c7a603160b99cbec98851f69f61f8a62612cacd6dccf1e20f8f0362769557",
+      "git_blob_sha256": "2cd3e5e75b78cd023a0510e5b8f2ff9554e1c5fe3c10bce15d7c36c7e8634b84"
+    },
+    {
+      "path": "port/game-data/combat_application.hpp",
+      "captured_sha256": "7b1bf8f631a3c3221c5eb2d03901dd96d43f6a168bd4a47733ce6eff97e23127",
+      "git_blob_sha256": "f32e8d69188beecc3f84551fd61c2d55e61d515a1b43df540734b9d222724334"
+    },
+    {
+      "path": "port/game-data/combat_events.cpp",
+      "captured_sha256": "a7ac6d24c1d221506617bcfe2b2e86275e7dddac597ae28ae1911218c5238b32",
+      "git_blob_sha256": "4abdcbb44dc3b00348436f80658366ada3f9ec3473f94af25cd3a85bb4f8783a"
+    },
+    {
+      "path": "port/game-data/combat_events.hpp",
+      "captured_sha256": "5ea137c6d04a3fd19a6ef57305e304d5d7653893ec29a6ec071f311603b0b8b1",
+      "git_blob_sha256": "9b8779bb369add564066f2da52ca6f444420806faa54959dd09fb1a3434bb7cf"
+    },
+    {
+      "path": "port/game-data/combat_result.cpp",
+      "captured_sha256": "8c049006cb01b294304bb9820950f1d8da733bd8f7d4d7c5518d9718f18a18e3",
+      "git_blob_sha256": "e7a90976e2cc02d6a55dc6cd4d446b8f1f20bd62353f82d29cd85f7ef518e6b8"
+    },
+    {
+      "path": "port/game-data/combat_result.hpp",
+      "captured_sha256": "80c13844301caea0c6df3f34a0f4d722c8f794a661f681a509729ab132f7c5b2",
+      "git_blob_sha256": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120"
+    },
+    {
+      "path": "port/game-data/data.cpp",
+      "captured_sha256": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+      "git_blob_sha256": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f"
+    },
+    {
+      "path": "port/game-data/data.hpp",
+      "captured_sha256": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+      "git_blob_sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901"
+    },
+    {
+      "path": "port/game-data/health.cpp",
+      "captured_sha256": "98035dd3c80ecac8e0e96c3f06d7f045dd42df80ecfe935411729bf8bff98595",
+      "git_blob_sha256": "04a52298a1841645eb472b08b33095f80e09c8f6d9bdb211644e5389f495eeea"
+    },
+    {
+      "path": "port/game-data/health.hpp",
+      "captured_sha256": "54dc3a4600ac752fc8c434bddcd29f3c77df9900eaf5c958ea54ad0aa39140f6",
+      "git_blob_sha256": "fa8d4508a841c26cfcb72526cb5b811eee0a7775d82bea1b209588149c630aa8"
+    },
+    {
+      "path": "port/game-data/items.cpp",
+      "captured_sha256": "2468a9e5fcc12a00859bf403dba09b66dbc9a39a3231de6c1ac88abb6fd5f091",
+      "git_blob_sha256": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb"
+    },
+    {
+      "path": "port/game-data/items.hpp",
+      "captured_sha256": "12661c391735a81c29ffff587a5322dc2753c3ebe324e56be2b4a86db7e9e633",
+      "git_blob_sha256": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f"
+    },
+    {
+      "path": "port/game-data/properties.cpp",
+      "captured_sha256": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+      "git_blob_sha256": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877"
+    },
+    {
+      "path": "port/game-data/properties.hpp",
+      "captured_sha256": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+      "git_blob_sha256": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d"
+    },
+    {
+      "path": "port/game-data/vitals.cpp",
+      "captured_sha256": "34999512b1bff69e99dd39aa9f252470366c8a950c9de03dc894cf299b67e5b9",
+      "git_blob_sha256": "117d155de48432916b4c86c897c2284e46cd1c4ed3d23d08244406fad20c59d8"
+    },
+    {
+      "path": "port/game-data/vitals.hpp",
+      "captured_sha256": "c0a378ae928dbb6a7c579385e1dcb70c7731fe1772c7d48b37991d51d6fd0de3",
+      "git_blob_sha256": "526cb0138fadc5964f4a74e27c65d33d2054a0cd61f3a71cbf08981c8954ed85"
+    },
+    {
+      "path": "port/level-world/actor_blended_playback.cpp",
+      "captured_sha256": "f4f84d16734eb0a9bd071a8234708fa2795b8b8b102bfd93502ab521452de567",
+      "git_blob_sha256": "139ebade8b14e07771c1a9a34d4996fa9940dcf99b05e291db3a07f1056cfa3b"
+    },
+    {
+      "path": "port/level-world/actor_blended_playback.hpp",
+      "captured_sha256": "f6342a4694c654b567c656bb26883faa6272ae628b0a6188fcfedb1bcd2d4eee",
+      "git_blob_sha256": "6bfe572044fa203f877acdd500fe48e2a3eef41886a6fd0a673694b02bef3bf2"
+    },
+    {
+      "path": "port/level-world/actor_playback.cpp",
+      "captured_sha256": "337ea66e2b4955c581d0e1226ca3a3080561f87ab3b6df07aae2ff0d1ae55493",
+      "git_blob_sha256": "64d4ccdf7efe30c644d1bb0982a98fda78582d25fd5fc0c2e9d908d10faa9c29"
+    },
+    {
+      "path": "port/level-world/actor_playback.hpp",
+      "captured_sha256": "eb267319a7bd38ab1335b72cddb8b677fbe3bf0388b9f0f1056e4d6d44d11ac2",
+      "git_blob_sha256": "a6dab849421a916bb34856a182fe98da57cf3829199423b6bff47eaaf9ac68f4"
+    },
+    {
+      "path": "port/level-world/actor_rotation.cpp",
+      "captured_sha256": "c966a0fcfa693c327b9e95253efba52d45f2f9bc11202bed152138296602c35f",
+      "git_blob_sha256": "3351581401858a0cfa462de899de720fb292b06e038e074a5e0199c04fdc0c58"
+    },
+    {
+      "path": "port/level-world/actor_rotation.hpp",
+      "captured_sha256": "02cf9c62cf3e8c096b6fd82d2d340631a4cba0019d3b526b9fca3255604d00e0",
+      "git_blob_sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212"
+    },
+    {
+      "path": "port/level-world/actor_runtime.cpp",
+      "captured_sha256": "e3c2c016f930e67caf7dd1f7d8c47b91435c87e48d01ec1a43fc96ee05a83d9d",
+      "git_blob_sha256": "d276eac12a0cce1faaa40e9b13a16fdfad07b19e0cd28316a8a669ac21f0f9d5"
+    },
+    {
+      "path": "port/level-world/actor_runtime.hpp",
+      "captured_sha256": "58e973db47b6c274c450b05ee01c77e0acb1f8d3d9b7108c618145c4285e5d98",
+      "git_blob_sha256": "e1e0f84529dbf69811994a73c092afded509ec07a066d7f411fc7ed849195c38"
+    },
+    {
+      "path": "port/level-world/animation_blender.cpp",
+      "captured_sha256": "2ec38b31d7e2bb1a3f97a7ef6debe7a2ce170316cfe1948245e863cba796938f",
+      "git_blob_sha256": "6701d9be1d72b85537d3aa90eb461741e25312c307e8db820cc665626dfba694"
+    },
+    {
+      "path": "port/level-world/animation_blender.hpp",
+      "captured_sha256": "b4021869fdcea3f4b43535bee8cd77e67afcf222cb9cec5ea4df89530c05df88",
+      "git_blob_sha256": "1cbd58f878b9a050c07f6b2a1cfc120808811cf0417f509220154b8ab9bc605c"
+    },
+    {
+      "path": "port/level-world/body_transform.cpp",
+      "captured_sha256": "f814c74e8fbd4c4048a64b3ae928e8def5a8d4436086a2dd3075d03942d1c4d2",
+      "git_blob_sha256": "c744fa0504bc5f0361e85fcce41a24bcf8abc8de14f2e1276b2ce45359092adf"
+    },
+    {
+      "path": "port/level-world/body_transform.hpp",
+      "captured_sha256": "39d8c2529fbb66d5611c3f5e0b64f0619ad663519fcdc0d4200adff933fa947d",
+      "git_blob_sha256": "9f1249603a4cc7425c288ea2f1e87ce23ed59d2cd82763ad75757ff7b925f34f"
+    },
+    {
+      "path": "port/level-world/character_aggro_character_list.cpp",
+      "captured_sha256": "fe15f152e10f23175c53fb0af8eee36ddcf94f65bd643e6ba4447820916fe1d2",
+      "git_blob_sha256": "cc79aeaf99f6e504df965ac70968005609c94f96450c714175a7a738e4955087"
+    },
+    {
+      "path": "port/level-world/character_ai_attack.cpp",
+      "captured_sha256": "517b8fd84b871827ab05c19b2f5a0d3580b2394ce90fd79306ea872fe5207e8b",
+      "git_blob_sha256": "8f85ccec8afd24c0d3b47cf5ecad897a53364a7e2b467c19a831b987d0473562"
+    },
+    {
+      "path": "port/level-world/character_ai_attack.hpp",
+      "captured_sha256": "61bdf138134271768d00d12129b9303523d3340cadcce208f8af1c4bc02192db",
+      "git_blob_sha256": "f329c57cf11a0d8542549dfbd3cd8934257838e5bcdd3eefd256ee3de21420a0"
+    },
+    {
+      "path": "port/level-world/character_ai_events.cpp",
+      "captured_sha256": "0e81bd5a93bf67e3be0c558fd637c28624a2a6cf71b0353764f2e782512b2a62",
+      "git_blob_sha256": "fa459fb66755400887d4e042d1038013001ec2ebd3746962a7d2f29830baa5b0"
+    },
+    {
+      "path": "port/level-world/character_ai_events.hpp",
+      "captured_sha256": "6efbb946bdda798c1fcf6dbbefc6cfcc06992b8b49f09db0453bf5a56683436a",
+      "git_blob_sha256": "e78a1542dd1316047414419bcea7d8ad9fee32a410959d2f80db4af47ef357c3"
+    },
+    {
+      "path": "port/level-world/character_ai_frame.cpp",
+      "captured_sha256": "3e3cc6064dc9315f8ec66622f7980a540b8faca5cd1d79b8d5c44506c4228718",
+      "git_blob_sha256": "9694d48f363c07102988223ccb1c89c932b0693afa919f95d491f70099993e04"
+    },
+    {
+      "path": "port/level-world/character_ai_frame.hpp",
+      "captured_sha256": "ac6e1b08d98f10253853c30ce050b5fa977267c223633c90ffb3c6a0238201df",
+      "git_blob_sha256": "6f93867b30aeb651c68787493a7ea377670a86f0f11e0e4f1f406e03f3ac883f"
+    },
+    {
+      "path": "port/level-world/character_ai_ranged_range.cpp",
+      "captured_sha256": "e05996fedf0d19f470214c129fedbf351c57a71134f9dc1fdc4f44ee681db7be",
+      "git_blob_sha256": "8bdb66362d1dbb89524b5a5d0b7fa199bdc3171ae3300eead10d37bf0b769557"
+    },
+    {
+      "path": "port/level-world/character_ai_ranged_range.hpp",
+      "captured_sha256": "4ff33987e8f0d97a2fc4ca0fd04cb675124d9c7bba540966a41236530a3333ab",
+      "git_blob_sha256": "97d6c94f10ddfdfc477419bc09d3d0d8ae6064307a2419a0c71be3276d5d1a5f"
+    },
+    {
+      "path": "port/level-world/character_ai_state.cpp",
+      "captured_sha256": "3453b19410ab038b889ceba40b41b73b937dc2f0ca4faabd5f98fe5df03b8107",
+      "git_blob_sha256": "c2449141c8c7564438fb162871746a0f06d78910c214537f178156ce5a12f97b"
+    },
+    {
+      "path": "port/level-world/character_ai_state.hpp",
+      "captured_sha256": "e6188f3b92742c409167127feeab2783e3abb3ecd96979e38c606963dade8955",
+      "git_blob_sha256": "c55db3bfcda83c2531ef60c4e6dbe2d42d4ffb3f8d4b57b0ba91a0b7a3ebea8c"
+    },
+    {
+      "path": "port/level-world/character_ai_update.cpp",
+      "captured_sha256": "936d520aeeed25e7356e92efd9403161864b437b862b06e16eee3a3d63339a3d",
+      "git_blob_sha256": "ba39216c5ab26eb3a3f04a165c57d7644b819548fb387332c8e8076f68662e39"
+    },
+    {
+      "path": "port/level-world/character_ai_update.hpp",
+      "captured_sha256": "ff896c1a49d5000d5b55f7c70a75bee75210644cf100cbfffbc87c0af075d0fd",
+      "git_blob_sha256": "35efb90d8a55675e48a602d21dcce1ddbdb1aa211a6fca0acddcaa66d77e2758"
+    },
+    {
+      "path": "port/level-world/character_animation_ai.cpp",
+      "captured_sha256": "2cad2aca1bdfd4140e42305ee9ba1ae2ae062fc2f0630775e5721d12d355a842",
+      "git_blob_sha256": "92396b47fce401114bfdbd1ab114a8459174aef24e127b492f659bafc821aeec"
+    },
+    {
+      "path": "port/level-world/character_animation_ai.hpp",
+      "captured_sha256": "8652a206c3d0c5bc84d3086f6ee8e929a730ee271fb0735903ccb825874c0523",
+      "git_blob_sha256": "d7af17ad1a831587c93f65365120d2f337fcdb23c07abf97a4895f5697cadfe4"
+    },
+    {
+      "path": "port/level-world/character_animation_events.cpp",
+      "captured_sha256": "387e8245a4ed5d7ecf7e09c31e950cfd349aeedd2c99b55305605a8ba7c3d5c1",
+      "git_blob_sha256": "30f6c6ec8ddad18d89f1162943554d5e19228cd447601db5824aeed3cc1811a0"
+    },
+    {
+      "path": "port/level-world/character_animation_events.hpp",
+      "captured_sha256": "0e060ee682c7ee49b9a7517833ecb6fd32653a7244e35f9e42688f49c3dbc753",
+      "git_blob_sha256": "63dc4657bc693de9755e4be2575fc7592cc7e054ce83509fa85520010c4f7b34"
+    },
+    {
+      "path": "port/level-world/character_attack_geometry.cpp",
+      "captured_sha256": "c00bcda08b2f0aa6e4609cd97a3c2d7365e7f7a4fb63e4a0611f96476547177f",
+      "git_blob_sha256": "ea1f629b88bdd223253e51a6a344f01c87b257b18791169eae1cb92e9f413dd0"
+    },
+    {
+      "path": "port/level-world/character_attack_geometry.hpp",
+      "captured_sha256": "af9d0501d5409ffd7bf6526e99bcf925c34ed895e895feeb3724031729ec3e2c",
+      "git_blob_sha256": "7dc77693466a6e547ff3948648ad58c0c79c3e210e3585528f708b617113acf2"
+    },
+    {
+      "path": "port/level-world/character_body_config.cpp",
+      "captured_sha256": "a882504c827554b6fb7bf4d00cf8ec66a72cb7779ffbf9f9ad1fb529494b6eaf",
+      "git_blob_sha256": "acef13c8923143a1ad22aa8d57bbdc7c949d24183b6104bc15095db10442f58c"
+    },
+    {
+      "path": "port/level-world/character_body_config.hpp",
+      "captured_sha256": "cec9d32b55b6fb74f09853a993f32191fbf41313d181bf0715b1e792c7944869",
+      "git_blob_sha256": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d"
+    },
+    {
+      "path": "port/level-world/character_combat_queries.cpp",
+      "captured_sha256": "a11da8bf0515312db35489b8692962f8d76bca576b1e4fb3bd7f75002d7811b0",
+      "git_blob_sha256": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225"
+    },
+    {
+      "path": "port/level-world/character_combat_queries.hpp",
+      "captured_sha256": "dc840c1073ef4f1f4eebc3618bff70547c72666b32b12ce3224d9709ec668a02",
+      "git_blob_sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf"
+    },
+    {
+      "path": "port/level-world/character_controller_commands.cpp",
+      "captured_sha256": "93dda5dc4300a41e3e1250f8d86974368ff386d76e0aa98da180e0231258a806",
+      "git_blob_sha256": "68cb770d894bb2504947678701a03173a6a6cb693ac47df080b18723c96bb342"
+    },
+    {
+      "path": "port/level-world/character_controller_commands.hpp",
+      "captured_sha256": "ee16f28dee18d04156601f32edcc7235f3356d9ae891e10f8ba77710864c787b",
+      "git_blob_sha256": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5"
+    },
+    {
+      "path": "port/level-world/character_native_bindings.cpp",
+      "captured_sha256": "bf5002296a5ec3ff4f0d1d22a706ae4b5bb92c0385a9c32362f6a1c1a1701cff",
+      "git_blob_sha256": "b1ed191a7a8df2dcf371b14f1ea8353408b132caa355893fb828497c58804109"
+    },
+    {
+      "path": "port/level-world/character_native_bindings.hpp",
+      "captured_sha256": "3754dc6bbe1ea2bc2f8f50ffd2b1c482d69eb5ec766c1129a9324345f42e263a",
+      "git_blob_sha256": "842fd3c07a74f14119ef66391fe9c8d0dc48e929ec20b42b2913eb41a6087e7d"
+    },
+    {
+      "path": "port/level-world/character_path_commands.cpp",
+      "captured_sha256": "a8562e98fd449081d2a0fdd27444e302c8e4f7d6807acbf214f13c9bc86d5baf",
+      "git_blob_sha256": "0c9f22f1f8ba398e5549c2ab6329d47d32ac09c35da99c38df25d9895f1b243c"
+    },
+    {
+      "path": "port/level-world/character_path_commands.hpp",
+      "captured_sha256": "56189c414ae0afcd5962248e14950dd1ea5713ec796e524a63c7fdf233f62c00",
+      "git_blob_sha256": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7"
+    },
+    {
+      "path": "port/level-world/character_scene.cpp",
+      "captured_sha256": "f4e11f40ebffc3868341d4313718edc81aad23dbd6ac1aefeda4942426768b72",
+      "git_blob_sha256": "3659d37e59559781fe7ab9f61e3383e1042187577df0cbba0a65bd7c3b8294f0"
+    },
+    {
+      "path": "port/level-world/character_scene.hpp",
+      "captured_sha256": "ed04dea82ee305f96deed12a827845f6245342fe9842dd239c05b34377377b38",
+      "git_blob_sha256": "73f428a7f369a9f924bda424be7215b1d4e522e3edcd3b928f1d679c76d69534"
+    },
+    {
+      "path": "port/level-world/character_script_collision.cpp",
+      "captured_sha256": "82864d4a41ba468168fa32923cf8b8aa761741f0041855e32ada7669acf34be2",
+      "git_blob_sha256": "51d0c80d7a712770747e1d91aa99ed16393a4917b17b2c9f2192df1a4729a2a8"
+    },
+    {
+      "path": "port/level-world/character_script_collision.hpp",
+      "captured_sha256": "8d966813fe224ee7f510c5042494336730d101b8231c331fcc0c19566279147e",
+      "git_blob_sha256": "4f17cc2e4bdbe869533dc5bda1bd1ec8aeeaf5620f498fa18b6521580272ea42"
+    },
+    {
+      "path": "port/level-world/character_script_lifecycle.cpp",
+      "captured_sha256": "291251995f3c1db5161460611c72c3e384c4f422363ad7adcecf464ed4a91583",
+      "git_blob_sha256": "7161ac627879454dfb6166d1db46108ef238bb171e64eb85b5a0d50248c4a6df"
+    },
+    {
+      "path": "port/level-world/character_script_lifecycle.hpp",
+      "captured_sha256": "6c25371e6dc6579a6d0f0293561e94f1e23466caf31802da708d4c25bde9acd5",
+      "git_blob_sha256": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7"
+    },
+    {
+      "path": "port/level-world/character_script_selection.cpp",
+      "captured_sha256": "83f48d3eaaf05baae41948c66e3099688f849a089b84322f66fec1590a7d6ccd",
+      "git_blob_sha256": "7be3767ab0b91a18d965862ab2ebaef6e0c8469ce1ee2ef0dfb29e55caa0e93a"
+    },
+    {
+      "path": "port/level-world/character_script_selection.hpp",
+      "captured_sha256": "69a918de2860f1c9966b7fa6e526b3273ab7ba3c14850d5964551fc877f2db16",
+      "git_blob_sha256": "4414d0203ca20c90d40460863f75c3f0d373b43017664547386e41c43c73514e"
+    },
+    {
+      "path": "port/level-world/character_script_timers.cpp",
+      "captured_sha256": "355a6810caf2864c88e668b18f94734568a53589dd4c0147d882dc7754c285ec",
+      "git_blob_sha256": "4e43fafc6ed2f58998fc53630ab0e8397045608af1f9a1bbcffb381778a6fa21"
+    },
+    {
+      "path": "port/level-world/character_script_timers.hpp",
+      "captured_sha256": "b33fb151a63f951b8eee7ddf7ee85fb507aef1835426ff753f4e856d7fb5abf1",
+      "git_blob_sha256": "7db0bf26b906477b3c8ba39ee1466c699b1e1080c62c8f430cbac08d470fd63e"
+    },
+    {
+      "path": "port/level-world/character_script_update.cpp",
+      "captured_sha256": "2bf32b7a6e65a4d3bcb4f421c27bce831929291c46e0176cb52a4ffe96b6008c",
+      "git_blob_sha256": "2c0eea6dea5ed38e483abaaa6f8e8cb5ce410deda376d5b68d9e710dd3ee8eb9"
+    },
+    {
+      "path": "port/level-world/character_script_update.hpp",
+      "captured_sha256": "fe4fd4fde7b0f8a09668993c9f01ffcedb22e3b24a4f8f44410ca707d2288a84",
+      "git_blob_sha256": "d50372020d0f99fe88aa12c5172fcee54b2c5e4f81a464d080ade1f89c30a4d4"
+    },
+    {
+      "path": "port/level-world/character_stance.cpp",
+      "captured_sha256": "1db27edbff8a8a4a37a31495a1f5fd3aba5684af70ce6f36822c4c98181b14c2",
+      "git_blob_sha256": "7aa106e88b4931132013be78f918143940e93780fdbff8f9c4fb08dff2483f6f"
+    },
+    {
+      "path": "port/level-world/character_stance.hpp",
+      "captured_sha256": "6ce708a75947413a499b6bf329d4928881cabdb011fcfb85025ed79ec3bb22ee",
+      "git_blob_sha256": "b4166f82c932a2122cccb1bee48cfedc930ee78903413a0ed342e6ed61e6c757"
+    },
+    {
+      "path": "port/level-world/character_state.cpp",
+      "captured_sha256": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+      "git_blob_sha256": "f96e42ac27ad675b732a729ab5ca0a8d9d48f58c3a71491b868b25946c6fd6aa"
+    },
+    {
+      "path": "port/level-world/character_state.hpp",
+      "captured_sha256": "22d512b11c0f20d00ea01c4344bbf0d3b072c4be74ad2a297e2b4519e2e9cdc9",
+      "git_blob_sha256": "a90e256b5cfc353537f6202c749783086df8b16622123d844046c4e9497bc5c1"
+    },
+    {
+      "path": "port/level-world/character_target_search.cpp",
+      "captured_sha256": "c1c43e7e1ee1b9cee94ddb6cf14f40af9d7a6353a17d8755e8498f33868590c7",
+      "git_blob_sha256": "a5ae15fd5818a1d7646061adc536af30383295324594ecaeef29cbefbf5c1063"
+    },
+    {
+      "path": "port/level-world/character_target_search.hpp",
+      "captured_sha256": "c22abdb55677bf15192b0fd97b5dee91bf4dad437ed244d776b5812f40d5297a",
+      "git_blob_sha256": "38ce6f1b5742642abe5e79e222330264d2a67933dddfa38bb81569b40b2e9c8a"
+    },
+    {
+      "path": "port/level-world/character_timers.cpp",
+      "captured_sha256": "5bb3e0181f361c7c3b3633069a6148abcdbfaa99806d6798619a996bef203ba9",
+      "git_blob_sha256": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4"
+    },
+    {
+      "path": "port/level-world/character_timers.hpp",
+      "captured_sha256": "d57e1c747cd582a2948a90799754681e6a876f8b50a6b3537881142f9f9f505c",
+      "git_blob_sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883"
+    },
+    {
+      "path": "port/level-world/collision.cpp",
+      "captured_sha256": "828f8ec6ff4c0de9388c21930e8aa7774dce324661430b6c384653c3e4c2f9a5",
+      "git_blob_sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378"
+    },
+    {
+      "path": "port/level-world/collision.hpp",
+      "captured_sha256": "87c4b94767d11a7aa276e0e5507d2455e0f3471f49d6b22eb83ef035afca178d",
+      "git_blob_sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b"
+    },
+    {
+      "path": "port/level-world/controller_physical.cpp",
+      "captured_sha256": "f59e5fd3ddfb21674af730c8fe06a510378e7d1ab57c9729048df621b632a171",
+      "git_blob_sha256": "825c49d208897c23735e9b6e22cacd70e45ff3571c848588a1e8688a18915330"
+    },
+    {
+      "path": "port/level-world/controller_physical.hpp",
+      "captured_sha256": "15e4dcb1db80e50882fd4eac8b466f9a687d0d07d62b1c342e14939052111cbf",
+      "git_blob_sha256": "090f8ab4433146f415201b56fe13dacba8618188b9c4c77d5de4b2decaa1a7c3"
+    },
+    {
+      "path": "port/level-world/decor_body_config.cpp",
+      "captured_sha256": "627dec02e5464556e6d04185e99f614c7f6604a6e6fc5f173bf14e50252a9277",
+      "git_blob_sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa"
+    },
+    {
+      "path": "port/level-world/decor_body_config.hpp",
+      "captured_sha256": "3015c7eaad806ea427386e4386aaa19d47cf4cf070f9eaf266b3ee8889d4196a",
+      "git_blob_sha256": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd"
+    },
+    {
+      "path": "port/level-world/decor_scene.cpp",
+      "captured_sha256": "23e477c209dd4545639b7d87cba864b9db6938610cd1eed6f71ba18e48af6f10",
+      "git_blob_sha256": "fb9e12a72dc1ccde580ba3973b11e9c40737954d4e58a76579949a3252c55a4a"
+    },
+    {
+      "path": "port/level-world/decor_scene.hpp",
+      "captured_sha256": "488d86ae895e3a6659c25056e5c45a6b033788fa6dede4acf78d0edd0917d89c",
+      "git_blob_sha256": "a6af7f3f8f8dc5e54bec46eb2f82572af27b3d9f128d712c59365638c638cb73"
+    },
+    {
+      "path": "port/level-world/floor_source.cpp",
+      "captured_sha256": "483c7bbaa71536b148a79d8ed38c11ac0930ae499ef52607fc32f899e6252aea",
+      "git_blob_sha256": "d5b1975107ad31a889cf0d37c25bd13bebf01969bf41b412a74bae64d1d4b706"
+    },
+    {
+      "path": "port/level-world/floor_source.hpp",
+      "captured_sha256": "84e227bc57ea1d6ffb02ec79f7a1d48a949f08e896881b3fa05d4d2e3c907262",
+      "git_blob_sha256": "8491cb902451cd4b82a25509819661a060db7f4e44e4a8c87f02f9cf8e46bfe8"
+    },
+    {
+      "path": "port/level-world/floors.cpp",
+      "captured_sha256": "d4dc2d56875cd2f06d5492a19430282845cd472e0a30edbab6105c022984ad55",
+      "git_blob_sha256": "02c8357c2300d7f19bdc08a7bb156c350fff9c32e14e026f0ef94b68aa03d1a4"
+    },
+    {
+      "path": "port/level-world/floors.hpp",
+      "captured_sha256": "cb9108b5c40e2ccbbae1b8ebc6ebc24f8dc13610e32c2a646d78e920434b1bd0",
+      "git_blob_sha256": "8d770c1b41e29c9261c6074dc942b9db2d4b343d87743a66c7475bb9cb3267f0"
+    },
+    {
+      "path": "port/level-world/move_state.cpp",
+      "captured_sha256": "74622f90da0bd193540b08592549ae3bdddc664554ce71e1b5ba448127537264",
+      "git_blob_sha256": "671596b24c3bce671fc5da633652f93ab5377e26586599369772b0efa4cf1b77"
+    },
+    {
+      "path": "port/level-world/move_state.hpp",
+      "captured_sha256": "2ec7bf0ca12ac3745945af532355a8d22d7f682e863b7cf138d5899b00504186",
+      "git_blob_sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0"
+    },
+    {
+      "path": "port/level-world/native_body.cpp",
+      "captured_sha256": "e820fd71bb6c9387ca9c47a7233a881a399ef8c2cfbfdef091f74a5bd3201bd1",
+      "git_blob_sha256": "242a54b3ce929e57da9ff41e91206189e7cf31be8a289eb11f676c846b7df6e9"
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "captured_sha256": "903f9329f9e97ef695e771aa28965b560728d12b9167bb417af16cdd1b608b18",
+      "git_blob_sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140"
+    },
+    {
+      "path": "port/level-world/navigation.cpp",
+      "captured_sha256": "f39f65eb39f315c10e0f4e917df3bd453599572bfdf4646948c927b0d8bcffaa",
+      "git_blob_sha256": "b598f4ff669792c36382d92639f61e7e4df793d809eb9bd8990b0e8b3d4c336f"
+    },
+    {
+      "path": "port/level-world/navigation.hpp",
+      "captured_sha256": "9d6f01d85e7d0533050dd53bb3c61e86d18bd344b90bf86a99ba11a1e79ddeab",
+      "git_blob_sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71"
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.cpp",
+      "captured_sha256": "1e30e3e2b6e90466e5f1060cc4656439221460de6e03bbdf40c0f6a79fbc5fcc",
+      "git_blob_sha256": "5b34aeffe47c370fe8683d7dd71d5a383dd44324218b4a1d8e7f0e3cff74d7de"
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.hpp",
+      "captured_sha256": "1a8738338c4a5a691ee0088cb70a92672d2b52ccebd522661f77b650f8e713be",
+      "git_blob_sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36"
+    },
+    {
+      "path": "port/level-world/navigation_controller.cpp",
+      "captured_sha256": "e48a96e0a733c7e6bf4a70b7d889176dc018d6eecd2e2ba85b61c457ed417810",
+      "git_blob_sha256": "43e6d236fa5d7bdf7d2befda7f288008a6cfb87ec06a411c19fdcf2465eed9ae"
+    },
+    {
+      "path": "port/level-world/navigation_controller.hpp",
+      "captured_sha256": "f30bb259c4e56e65c2728fcef97d1b920973f7d816ab96176f6b6f123d119c4b",
+      "git_blob_sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6"
+    },
+    {
+      "path": "port/level-world/navigation_heading.cpp",
+      "captured_sha256": "8067293e41a4bdaddebafbc9f996ac9484b77f9968290bc3f500bf3bf7c60bc4",
+      "git_blob_sha256": "98f771927be4021dad6432e1aee509bf91f4db17f7525668ef1332ba09b3818d"
+    },
+    {
+      "path": "port/level-world/navigation_heading.hpp",
+      "captured_sha256": "932e8d204efa7c3864d31ef3ccbc4cb3fa9a38eb643f6fe21fa8fcc1523af38b",
+      "git_blob_sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e"
+    },
+    {
+      "path": "port/level-world/navigation_motion.cpp",
+      "captured_sha256": "ddfef4bcc72719fb01e77e0b7296dfafe3fd06417fc8a2da22292caa177df577",
+      "git_blob_sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f"
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "captured_sha256": "a05c6a893cdbdd172bc286abc31c46008abc37fafb7ddb4d565735ba215961b5",
+      "git_blob_sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac"
+    },
+    {
+      "path": "port/level-world/navigation_objects.cpp",
+      "captured_sha256": "fd3a1c4d33af78262b22a55b92ded760c482cb1b9b60dc049c122e6c7627affa",
+      "git_blob_sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9"
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "captured_sha256": "cf120827d5df79ce5c09340ebf453e654eed93140f7cfd0dd152971bed6634db",
+      "git_blob_sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011"
+    },
+    {
+      "path": "port/level-world/navigation_path.cpp",
+      "captured_sha256": "3e898bf804d38b0b91f2f4cdefcfb001796cf170ccee4966efd74cf9cd3522ce",
+      "git_blob_sha256": "48216b8fc84c158e3e278e0895e464e3b801490aebe5074c1edadffb8b1c1591"
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "captured_sha256": "d9044a95ee529ddbaf215f421ef021da697bf88d1f45d2bf407a3224b3d32d80",
+      "git_blob_sha256": "af1c1dce850c0b51e68793d79d8d354e237bb3934fe63f12c5c79535a0dfde5a"
+    },
+    {
+      "path": "port/level-world/navigation_producers.cpp",
+      "captured_sha256": "034e4ef93faf4de950f280f09dd96f8983a7081551bc4b802d1713b23b4e908e",
+      "git_blob_sha256": "6983efb07745d539cb82eb09adc2b841cf14349037e06a9f2f69d33baddb49ac"
+    },
+    {
+      "path": "port/level-world/navigation_producers.hpp",
+      "captured_sha256": "a53b42be122b26269044a86e646b7e842ce1782a9bb96cba6778ae30d5f826e3",
+      "git_blob_sha256": "b1f5eee90199451fca19bc7436e27bd67771dd28f488982782d1bf7d9e549904"
+    },
+    {
+      "path": "port/level-world/navigation_search.cpp",
+      "captured_sha256": "c7464583741b171b1a22ce19c092ce09d055aec2507c57076c499ebde13f1579",
+      "git_blob_sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0"
+    },
+    {
+      "path": "port/level-world/navigation_search.hpp",
+      "captured_sha256": "1cb12c0b9d50c75d6f205f377fba03ddec439c1439bc9770ded9063d30871d41",
+      "git_blob_sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0"
+    },
+    {
+      "path": "port/level-world/navigation_world.cpp",
+      "captured_sha256": "e12ab20917f787732cd4795bdd21ecb787a264cf6c9043593f7b6c6d71d88e16",
+      "git_blob_sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d"
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "captured_sha256": "2e35d819626702b055c0840ba8d9f5ef4ef9dbd11bc017251e3ee81982fb7659",
+      "git_blob_sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e"
+    },
+    {
+      "path": "port/level-world/objects.cpp",
+      "captured_sha256": "8a4de5306ba09867a29c66859b15712c1c5bc8f3d12a8e38aabbdafcf957c93f",
+      "git_blob_sha256": "22a70dc64f500fd494318add7ce2b253a9d5edc7c5d3051b66df1bb485d56eb7"
+    },
+    {
+      "path": "port/level-world/objects.hpp",
+      "captured_sha256": "fc801b16c8b834f8479f89366427854dab19ffe867c930278324aba51885e9ea",
+      "git_blob_sha256": "104135d8f613fecae1453e11f801d0dfae97270301851c452399af1da5afb9da"
+    },
+    {
+      "path": "port/level-world/octree.cpp",
+      "captured_sha256": "c2d630197ef49a190fdde5ab52bf52d919c41aeb766b9de1aa47749664e2a5c1",
+      "git_blob_sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a"
+    },
+    {
+      "path": "port/level-world/octree.hpp",
+      "captured_sha256": "b7e01f0bb6f117baa579a5c956d7d00259cbbd0e2fd63d839a3f002cb48fb6fc",
+      "git_blob_sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83"
+    },
+    {
+      "path": "port/level-world/physical_controls.cpp",
+      "captured_sha256": "4b9f11b6de5d8145dfc697e745bab5c8dbf8cabd801922bd4c16eb63878dd20a",
+      "git_blob_sha256": "104b8b409e40eb1e733388d8977b7c0dbe333dfd7b61fc9d17aef67dca77aea6"
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "captured_sha256": "9209492d39631c26775c9b9b5dddc55e358463caca071878c0f7f52f319ec7e4",
+      "git_blob_sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85"
+    },
+    {
+      "path": "port/level-world/physical_lifecycle.cpp",
+      "captured_sha256": "a92de0e8831484389cda3aa566a8f6c2bafc1517d86099e21682f9d0817779ab",
+      "git_blob_sha256": "717afdf187fb884c44d1eb0dba0b2f957fcda8c0a613ccb3efd852808746ca3b"
+    },
+    {
+      "path": "port/level-world/physical_lifecycle.hpp",
+      "captured_sha256": "63b3c2918dc58e7636cb9ad828f88b7070eb10ce0413f48d205a401119f930be",
+      "git_blob_sha256": "f7741420fb2dbeddf23392000b563ed67f27d7ee432189ef9a27067702b53510"
+    },
+    {
+      "path": "port/level-world/physical_world.cpp",
+      "captured_sha256": "ec9116b687452f5cd3808f64d229aa0af4a9d9b830978fdc7d2f1d6fb75c85e7",
+      "git_blob_sha256": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15"
+    },
+    {
+      "path": "port/level-world/physical_world.hpp",
+      "captured_sha256": "ecb4180baf21facd5ee5235bdf3708fca8650fb1431e1a36f525a4023ca549f3",
+      "git_blob_sha256": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6"
+    },
+    {
+      "path": "port/level-world/selector.cpp",
+      "captured_sha256": "b4cc745ade1732c555a8019a5c4dc2e65a9e4a6e1445718381ff72faa27134b1",
+      "git_blob_sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5"
+    },
+    {
+      "path": "port/level-world/selector.hpp",
+      "captured_sha256": "3f46e5b20bd7aab7fcd3a7c6efa7f46ac451a18abd9bc0b69ab2df771fe2c23a",
+      "git_blob_sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790"
+    },
+    {
+      "path": "port/level-world/subobjects_update.cpp",
+      "captured_sha256": "de6c05d22a767fb324634354c9fa03259c1244a86b793802b251a4057d5a0e8d",
+      "git_blob_sha256": "da7407030dee5be659b4ffe3b9e5c3f10671fb47b08b2694a7eab2526ba56bfe"
+    },
+    {
+      "path": "port/level-world/subobjects_update.hpp",
+      "captured_sha256": "cbee76cd842d3e4029f3a853c509edb05992553da5a76f5f52e1bc4221e8d540",
+      "git_blob_sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03"
+    },
+    {
+      "path": "port/level-world/visual_motion.cpp",
+      "captured_sha256": "f2e5efbfcf4263c73b8a9cbeca9efb87340906966df41f7cdc41613e49d6464f",
+      "git_blob_sha256": "7d9e9ab6fa0f6a2653f67b114b36dd38a18338409d1969390f75b4ba4a59d414"
+    },
+    {
+      "path": "port/level-world/visual_motion.hpp",
+      "captured_sha256": "7e388529a1c6bfb5022b1b54a26b53573427e21b1458405d2c45944877548346",
+      "git_blob_sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f"
+    },
+    {
+      "path": "port/level-world/visual_timeline.cpp",
+      "captured_sha256": "babda2abc443c38e5bef7e0c8786b9663523cb9229d9c130b3c948e0437c175a",
+      "git_blob_sha256": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca"
+    },
+    {
+      "path": "port/level-world/visual_timeline.hpp",
+      "captured_sha256": "2386f96aed8483d0134bec0aedbf7687e86a72d9a0e5a499f96c79af34b22d8a",
+      "git_blob_sha256": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611"
+    },
+    {
+      "path": "port/level-world/world.cpp",
+      "captured_sha256": "8c75d0de6488719fae4606352fd59cc38cf80a08bb3ddaf47c20231f12a051c8",
+      "git_blob_sha256": "02f32e5549ac9122972b0a4b2e53417ea9838e26fdf5f996072f7d6de111f6dc"
+    },
+    {
+      "path": "port/level-world/world.hpp",
+      "captured_sha256": "2d8645655a91a667c4a02b4321cb2f49b351954b5275686532234f386401749b",
+      "git_blob_sha256": "8ac00eafe7a504f6484aa4359846bdb5469091d512c5d6404c71861d7add52d3"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Include/Box2D.h",
+      "captured_sha256": "0ad13b9cdae52a4d57f70f824a856601b151d7d5ac483d354740a3e9a46aa7a5",
+      "git_blob_sha256": "232f3578d5aa12f3e59761e97009be2a548022b7651260b99cf9efb999f4445d"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.cpp",
+      "captured_sha256": "0629b27c6fd842dea90070e8ea7dcb27fc0eb86bafe9aadaa13b114dfb61aa20",
+      "git_blob_sha256": "d84d3826a351bbcca7acaa64d0daf0c90ff8017e45b93dcc990da5b3b024d0be"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.h",
+      "captured_sha256": "a575f875afa9c0aae4e01b1aa186ddfb4fc2aa6f217be69d7d09996e4ab30fcd",
+      "git_blob_sha256": "f0d2b0c6a6d12e3bf6e3507979d05bc0cb5b69d894aa5ddffb957ea268f54235"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.cpp",
+      "captured_sha256": "2281e552b7cf16b79d704a89160550c5e0a56da2a210ce926fd0719301cb61e1",
+      "git_blob_sha256": "b589190cf79be83ec582c473a2b7314a4c1e45c9c577ea61149946e89b071792"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.h",
+      "captured_sha256": "54b78992f13caf81515710d9341eba4f61a72820a341ce567fdad3062b7041c6",
+      "git_blob_sha256": "e8b3f9243e7929a552665d4beb9fea8ae000c2e0a0c8cf8e49b364f262c2db05"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.cpp",
+      "captured_sha256": "2bcfc135682d3c311ea246b2b8d2ce14ccc7694a5d586348761ae12bc9cd696e",
+      "git_blob_sha256": "47e59b0e961fb01bdcaa3b2d902a703dc64a62038bf67ed26bdf9a804b0298d4"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.h",
+      "captured_sha256": "ea59008f09889b632c0ac6cd5f2724781c9dbe23f9663ab9d38a2b21ef07fa4c",
+      "git_blob_sha256": "c5aae433a436de27ae3ba01d1759e2af3efbbced6bbb3d4bfa4c9bf964374f66"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.cpp",
+      "captured_sha256": "cfa4503a3c9a95db001e10dcc4cd6a9f27a97cbe5c676e46a5751cab7a8c06af",
+      "git_blob_sha256": "de732862b7f2e9d43afd415955b57ab22885e119d2669f272ac916fd20c4f403"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.h",
+      "captured_sha256": "b5e0f3f4c15c15f365bae101f819e21098b6a1c819fc2329f3830aa5bdd953d8",
+      "git_blob_sha256": "b5108b02113cf5e1fd442196e24b265ef1d635346512dd02627d29f60fd88fb9"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollideCircle.cpp",
+      "captured_sha256": "a0ce1f621ae819514cfd26b2b9231cfd1fb301d960857256c809bd0620495113",
+      "git_blob_sha256": "2d2fad863c3069929960353638a021ce7c71a7384a9d5828ae158a14fff25743"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollidePoly.cpp",
+      "captured_sha256": "22b2e4611e696f041298ae0b63596f2eb54159d4a039fc65036290295080dacc",
+      "git_blob_sha256": "27d38fe463b8620432584d8ab1ce6bb9f4175eb4ae6355eb84493be40f3f51b4"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.cpp",
+      "captured_sha256": "052c979a72176b10b404c7c8b900e1a8662f661ffa6476d2c18edec47e57ddd4",
+      "git_blob_sha256": "23aa011a3d412b25b39e1c47b08c3cc75a64145d1e40dccb67b9646a350d2f72"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.h",
+      "captured_sha256": "d1f825e57717f8163ff8e937b02f2e39a99a16714a37919fa83daca9a62f84a9",
+      "git_blob_sha256": "27ee41cff4e9d1b0ae602fd59361fb11019b960d291b016ea58efc933adbe94f"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Distance.cpp",
+      "captured_sha256": "0e5e43d8a6318555994ad7dbd44e3d8d38430964ea8989991aed9c880365dc1a",
+      "git_blob_sha256": "52b84efaa4862a62426d5328f33d4880049e5b2199555dc53aec5ff982274b90"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.cpp",
+      "captured_sha256": "0ba3ce40b97bc5c4c50aacbd131f665a63e44c8130c2ddf4c9ecc9abe75e2f4c",
+      "git_blob_sha256": "416a6ed7c370116ffe67d9894cf568a7f22bcbec2b3c2bf2ab724be5b83d6fe9"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.h",
+      "captured_sha256": "f22b19e47d91b75d2fe2f691e5e10100ce1463672524c1fadecb79339e91c1ae",
+      "git_blob_sha256": "b67e089d15635a24f1bac9b4c617798a1e243c7858582cf2d36b29f78a21de1b"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2TimeOfImpact.cpp",
+      "captured_sha256": "a4b145c6773ad798844f83ee7fb621a143261a237372e1fbb82c27bb72ee6201",
+      "git_blob_sha256": "06bbbaca6b674d8f3eacc5326eff7f38e464cec12594df3dd40a3bd106c1b183"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.cpp",
+      "captured_sha256": "12426570e627db745da2bc5f7edbe0629d95b834dfabf87ef621a91623ae39f5",
+      "git_blob_sha256": "79a90c30084cc22651edb3afc83514e78a0655ca58e568274c2e371282db293d"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.h",
+      "captured_sha256": "b9056e01399ee810604c54097a25d71f8e867e0ffad2712bc98498fce2d5bfce",
+      "git_blob_sha256": "43b435851bf8d92f3b0828ae46e9bfc99ed699becd2fee47299e7a36530b1f9a"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.cpp",
+      "captured_sha256": "9dd538fca46377fc5ddfccaa5aaf293397c83d06e8400426856f0dbb8489a688",
+      "git_blob_sha256": "40b19183b8fcf2a678fb413d6552a11dbcc4548a5b019e32ccf6cfd247908e48"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.h",
+      "captured_sha256": "bb9eb24351da6c1bb1ff6fee57e013e502057e4837511b1d236c2b252d1ba418",
+      "git_blob_sha256": "195966e0000a73e8116c84887f4158c937191bedc7a318387a682fe7fc90ad71"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.cpp",
+      "captured_sha256": "5a5d9af838afb02ff85ae840b83c2e3ebd30550005b80ed61109e2eb1cd63625",
+      "git_blob_sha256": "3ee6f2cd9a6de15be2d79d8705e2ae495edfaa2c5fb7d26cb3ac20a057270a31"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.h",
+      "captured_sha256": "ac5ba67e35bacea5965b8ea939641b8b5f6d337b37f8c4776c739057a9f9369d",
+      "git_blob_sha256": "96bf15dff66884df1aaabd9f39e2ef0c0c41e9d66ac1cbd1e59c1a90dc74f6a2"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.cpp",
+      "captured_sha256": "abbfebe42cd6d45ee5a46d8afb031c8e6560908eadaab010152afb94e3a8a8c4",
+      "git_blob_sha256": "0c1ae0d31d75a306fae4902e8dc2b1bcc08705cf5ab4370ade5017b1389a72d3"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.h",
+      "captured_sha256": "3b65b1456f10ccf5ecb72583f05eaaf50094d3cffbbca1012cb0bee100484e60",
+      "git_blob_sha256": "ae0ea171393346cd98ee039b8f0966e581d4234306c7a0bed8dcec7d8e674224"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.cpp",
+      "captured_sha256": "ded2f2cda858750019b6859922ac5d2b0916ff1f0d388a3fab2ed9689a665c9d",
+      "git_blob_sha256": "563ddcf79aad58042a9739ccb04b749e1fa914c439a9bc3e2e4dd06f49a6e166"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.h",
+      "captured_sha256": "7d5d026bc0f7e4d05bfb43f6f01cc5581b672138cd30ab5fb804a8dd42abd231",
+      "git_blob_sha256": "3f8456b82c204f08fbe12a4fa734390a6c9b22731b7e9777368004c5c0c8c8f2"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.cpp",
+      "captured_sha256": "a0875445d2a2b253fa2815b26373611fe1cfdfcc24084cae74dba20a21e81b2b",
+      "git_blob_sha256": "6c343de91e1be3d371d8e6ad59116249ba986b940873bc7091b269a7acc60f0e"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.h",
+      "captured_sha256": "da89817056b93e124f53bb520402466df01986d3da9d449222838ff6ad841ac0",
+      "git_blob_sha256": "eaf80ceb4d163d171a57c502748000345451345414003b5262a84ce3e6a270f5"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.cpp",
+      "captured_sha256": "c9c0560fe24e87b37c54268b8a90a36ce3261e61647fc76acf4b38f09b6cf65c",
+      "git_blob_sha256": "23eaf0d94b20ae8cb70ff9928ec9c25cf4a986f56cf13bb96a39550eddf405a5"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.h",
+      "captured_sha256": "4a41c009fd2af2aee9b7c499095f767c92812dc06ab309add137b91be68ebe60",
+      "git_blob_sha256": "85424facf0fd869b30e407535fc4538fab24db1a4f55ee94eb4a09e279d89514"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2NullContact.h",
+      "captured_sha256": "74899863e071428be4d71d6c1fe062650cde7d49ba7064fc9f9d7f5e8c43d8aa",
+      "git_blob_sha256": "b45a18ba02ca0152642646a77c5ef8c660be4cdc2e24e4939f1c0d26e475f722"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.h",
+      "captured_sha256": "a15c3588c089059af1d99b7733412518059e16c2dc2df6c92cd99089fb66d55e",
+      "git_blob_sha256": "1c17c09af333dd5b0c466471dfc72fb7d88dc046fb6a9ef35538ae7b8497e8c5"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.cpp",
+      "captured_sha256": "04e0d8d2be9eb55e2374935f01d09be785959e806f49ec478700cd07f7d6955c",
+      "git_blob_sha256": "0fd571b506e48505d674129112430dc36654adaa3ab4be2312a2c31e912fd707"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.h",
+      "captured_sha256": "67ad4841a0f4a008722bbd1fb41b49b46bb60ea0b1d63fd92002528224acbd8a",
+      "git_blob_sha256": "aa24a5b5ec6a93185660cab8c7af67284b8944f081c2dacf57e34e4df81320dd"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.cpp",
+      "captured_sha256": "0853ceb8d146a5db0ec0eea208f8751f61386f41532f4edf3ac0e72a0108a34c",
+      "git_blob_sha256": "7a70ec7f5b79ef93fcc07b61af83c735019e04c07b2e99cd704cd7c5fb946af1"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.h",
+      "captured_sha256": "c167e9f0362edb80c8949e8c66fb9ac267fed3628313c4b696cd055cd88ed100",
+      "git_blob_sha256": "81905cfcc51a112763b22c6d8f6da906793e97f9de4338e17345b2ed031c4d82"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.cpp",
+      "captured_sha256": "4a5424b398f016dc9a8c5b5538066a6c5e391e9748498e702bb5d060ad44083d",
+      "git_blob_sha256": "9f96a369fea976cb39a89faba2cb0171777ed89560d96d321b58929277c717e2"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.h",
+      "captured_sha256": "e61df42dd9366d6f472bf18843838579863602281c336b4148f634b7f9a60fd5",
+      "git_blob_sha256": "a0d53326fcefe981f9fd2849cda7778177f8b5bc89615f9826b38d411ce85a7b"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.cpp",
+      "captured_sha256": "b6a439cbbf8bc4a4fe835d29b652fcfedf5affb3a8dc7786b68ed1e1a45547dd",
+      "git_blob_sha256": "e6a0262ce1725cb20cdab1bf6d45e7f7b0cb7dcbc5f4a1cc75e656b5c356b50c"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.h",
+      "captured_sha256": "b01f4e90a0ea7044b9cadeb5c8cf91ae752e2c115cf0f764c1f45a249e4778f9",
+      "git_blob_sha256": "ce6985999a864d50accfb6968922bb22185f5e2d7de5c455a965d529f2df53ae"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.cpp",
+      "captured_sha256": "0a9d8342dfa3dc12af1876421d3c33e71b5532d14db8cba0bbf24bf80f6b1e78",
+      "git_blob_sha256": "2b6e4ab9e09542e98783ad144b86b1db67b0a29a5e754e440552d173561296a0"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.h",
+      "captured_sha256": "820476f8770f51e86df059703a54244e37291cadf48be436582d2341d5921473",
+      "git_blob_sha256": "fd18295b9b45346470993306c82a167c5935c5ed031e29a572c64d7bf26a1fa6"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.cpp",
+      "captured_sha256": "ee3981cfa0e94d82799d6eebecf81a09cd2bc137ac6f43a6c04ef5de197a9a28",
+      "git_blob_sha256": "e328bf8b408d58e3b266db474d29903691a51aa5955a5e2b331755b072e64a2d"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.h",
+      "captured_sha256": "0f9fc788a01c0cb02b3e959d9d2a2d6eed1012276288bff39d1dd6cd019f9081",
+      "git_blob_sha256": "3bdf56803e48a46c92e3559640a04296b8b036acd48f91accbd1271acc9a933a"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.cpp",
+      "captured_sha256": "5cb5b0c762d2e6164c79e62316930f9d317fe4f99be8376481f08ebae157a83a",
+      "git_blob_sha256": "9a14c34dee41552c4419ec4f782b7e891eee61fd691ca1afe29c65d4e254db15"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.h",
+      "captured_sha256": "3a3b2642c88952e5412c29409ea066d18b82611710e8cb926b2d83f1931731c4",
+      "git_blob_sha256": "d26b137548731906b0e7765b3d4aeef0a480eb28597ff18cfbc466a85f446b29"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.cpp",
+      "captured_sha256": "c720e0b2cfe29d40292536913d32b2da0f74cc2d60759c5fe6e67cb735b56c33",
+      "git_blob_sha256": "5e644eaf889fe45de323b64ae0d11f46a657593eb89cec887dc428e7e251ebbd"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.h",
+      "captured_sha256": "608269ad82b95ba822abcb65d55f1c82dcba40ed07cb35eba22236ebfc58d1ff",
+      "git_blob_sha256": "d048e453e0d51f39328dd39ebe617848518d6148d4d745e700ebf1961b065ace"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.cpp",
+      "captured_sha256": "54055e4d49d2dbfb618768bac214855b20eceba404864a585eaf665cd9698cf3",
+      "git_blob_sha256": "053d5da77d62f34c66748a59bccf40c6bf1abc67e47b2f13ad1b688e86749675"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.h",
+      "captured_sha256": "634324f14ef3835a5d33e2043a80dbcc4fb2bcbc1db9f9089e8205be998216ea",
+      "git_blob_sha256": "5c69e407dd6e339f55719beb67fa78a297e9e261db245541183d9fe29bb6e5f8"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.cpp",
+      "captured_sha256": "7c370f2d5012f921ce8b2a3ae194332792f5e773f3031e61e7c2c4f4a9dcb6a8",
+      "git_blob_sha256": "e882b9b1efc0418bc4a8ab2b4325ca8cd8a8e5a920669b4716d576353df054ce"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.h",
+      "captured_sha256": "1e17705e78b21186149ae7177a3725911e7d35a42c503eec383b5eb7813777ed",
+      "git_blob_sha256": "c6bb1dcc382d7bc920de0b93aeaa851d8e670beed102271211295ff806a50d11"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.cpp",
+      "captured_sha256": "6cb95aa76e75683326a5e0a1c841d7df4501559d79d5456ef74dcc7787a0d79f",
+      "git_blob_sha256": "fe67b07d389830d87a67edb79c25350da81135385ce84e626e0cff15317247ad"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.h",
+      "captured_sha256": "12a643d7d1215966c1f95dc10857bdbce50f1f55aef33a122345b89b12b2d733",
+      "git_blob_sha256": "b794f90b0aeb1cf827b21760f8a8d6eb10ed02d44184aedb1f50c196ad43ea56"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.cpp",
+      "captured_sha256": "ad0dd30502b442b6b27bc05e62239ff6ef823ade04a19c34482665c25ecbdd56",
+      "git_blob_sha256": "79ee833da8ab3e95a24a914afa089bf301f0974509dea5308389c07e4f9c20e0"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.h",
+      "captured_sha256": "8b54a4fc617e0e15828063ca00b8529c9c254a1b13a100bc91ad7b3d322df93d",
+      "git_blob_sha256": "c86f96c508653059c0ce8a89c9134138a42552d45fc19cfb9c0a1d9f242ff40b"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.cpp",
+      "captured_sha256": "335f631fd1ab520f44025ca684568905be30fe5ab0eb6f9449af1a756be64ee9",
+      "git_blob_sha256": "84b2474f28b93147749e9c74ae1fe83e11d17db73c6e5bfb3a66850b449633da"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.h",
+      "captured_sha256": "3aab4ccbfc8a8c4d207d7ac82d2fa0509a8942eba792cb0f788e9c1b115b1d19",
+      "git_blob_sha256": "03013b5448bf2c02169c0a6b1963ca5ad90eb594ee5c660400efd881ac10e4ac"
+    },
+    {
+      "path": "port/scene-materials/scene.cpp",
+      "captured_sha256": "2e9b93fa4fb414731c5729e8280b02b6f26be66af37f2cf36fb6b425bfa26ada",
+      "git_blob_sha256": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d"
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "captured_sha256": "c869cb708659096a90dfa68c26b4d7b65cb279ca50a59e7522772540c17b16b6",
+      "git_blob_sha256": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp",
+      "captured_sha256": "0ff192b00e5a99843a0c9515b60a600540f2bdb87b0c493d7d8427798b1891fb",
+      "git_blob_sha256": "92804f8e2e219f80ff6d3e97064bca4056ee9ee7f997a89e3844fbef8b843e9b"
+    },
+    {
+      "path": "port/android-native/app/src/main/AndroidManifest.xml",
+      "captured_sha256": "a676882caa6442c320e91f521f05ea111b5782debce140f9ab789214e380b47b",
+      "git_blob_sha256": "c00fbacc3affa77af48bffe77d8aabafe4a26f99d4ed7ed7ea3475541490b5fc"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "captured_sha256": "a7b568f2325f398e05efb59480b7145fc0359e0d2805fb9e4b391b1ea6057100",
+      "git_blob_sha256": "59b219ad48055752be97e4d143350dd9b7d45e052dbe218276f1d013a251c341"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/drawable/ic_launcher_background.xml",
+      "captured_sha256": "38381d0d0a64770d992c98e5b5e492555690af40e2fc6ee59e5a1c2a7c0fdcde",
+      "git_blob_sha256": "ed423c73a6f40a4d2909f0901e60527b3a807cd59e1b5593bcaae1808b1c6321"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/drawable/ic_launcher_foreground.xml",
+      "captured_sha256": "6e3c1bb64d9bec079cf0030d867c58b064d2fb19ca6c5a691543c43134f64a2a",
+      "git_blob_sha256": "01d1a6a6c1234eb7fe270d097eb283d72b9c95ae5118886f1b6573aad280f1f7"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "captured_sha256": "e7c073fbec1a51a73f678b266a1cb207aa6468e3ea1504d24f43591f31d2b7c5",
+      "git_blob_sha256": "88f7653499ef524126ea5018a99baf9cc3269e7e584d6205dfdd76db39f39cc0"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "captured_sha256": "e7c073fbec1a51a73f678b266a1cb207aa6468e3ea1504d24f43591f31d2b7c5",
+      "git_blob_sha256": "88f7653499ef524126ea5018a99baf9cc3269e7e584d6205dfdd76db39f39cc0"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values/colors.xml",
+      "captured_sha256": "31e0230ab2d96fa128a11705e85e590f3462745dc3c04bc851bc724a445921c1",
+      "git_blob_sha256": "b5626527d503417f0d8e5b1e08f338de7b31173bf0e122815f03e64932adbd88"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values/strings.xml",
+      "captured_sha256": "527ecba0816217b7efdb2146311a2b56c1ba59ead9e9b6c861d23c5f1ca6fc09",
+      "git_blob_sha256": "f2ee0196c3e7eee8128ba213a5ef94483d7a449255ebba680fd65722db05f170"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values/themes.xml",
+      "captured_sha256": "6f3e4e683630fd062ca76931da8a66541078cdc27294fc6019751c1635425d58",
+      "git_blob_sha256": "227eeba8df87b86c9d63ea9f69e98c42d8244bcf02d6e50ef994f52eb1b67ba1"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values-night/themes.xml",
+      "captured_sha256": "27df89a04e7bab96cdc046a7cc672433b3989bd64f2b48e59e1c6ba93333f08b",
+      "git_blob_sha256": "ccf3c9d622cc046847ede718aee413e638c8bd11427c335463872bb1034611ba"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/xml/backup_rules.xml",
+      "captured_sha256": "facaaef2162be6dd86544a819278042729ed481c38933a410651b81424da7ea7",
+      "git_blob_sha256": "6cf1a27e6807b1d24e41d3fbe7ddc1bfe1f42226027964f6eaf477d71b43b283"
+    },
+    {
+      "path": "port/android-native/app/src/main/res/xml/data_extraction_rules.xml",
+      "captured_sha256": "940f48fb2ba4d9ec5a55671126796fefa71661c0a5d7b434dc1e9be23da41690",
+      "git_blob_sha256": "cb1fc47ab4a984530ed60e0e6ee638929c3038290e7e7e0b4b03a3a30fbe7381"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "captured_sha256": "36d05d585b87b497bcb08e3b5e42ef00782b062e03acf6906534f2f27a4c0f96",
+      "git_blob_sha256": "ed74418933cbf31d6e9508d2ce58b9a3d943ac147bb9dd926ef05de0589cd2f7"
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java",
+      "captured_sha256": "d13b57768efefbcde4ef125f8eb2c3321d484a265e2fac9c7f617903ecf46393",
+      "git_blob_sha256": "62493c0e41efea99a0a9462138b079e02fbfa1adb9834ade121bad1ddaa0151c"
+    },
+    {
+      "path": "port/engine-animation/CMakeLists.txt",
+      "captured_sha256": "53439a82988cadd8674a36d6da1e70d254a5e86b50c4aa264859813018ab2741",
+      "git_blob_sha256": "3d52b1cfc0a3f2ac9d2f1fc14f8aa8c861d61fc25f4247a5d6159e223b8a19e3"
+    },
+    {
+      "path": "port/engine-skinning/CMakeLists.txt",
+      "captured_sha256": "358f9d0a366d8fc861e64277147a3510bd14a95dbf3186d2cb4ca8f71fa04c8c",
+      "git_blob_sha256": "736195abf2bdb0b18f74f32e23da37f121873a6cb96439663355f1b28a485a6c"
+    },
+    {
+      "path": "port/engine-textures/CMakeLists.txt",
+      "captured_sha256": "7e7f662bc93ee81fb558230737ddf58dad8cd157904d6f790f2b73ac907f8bac",
+      "git_blob_sha256": "e8b9b1a4e0179fb68fd7659b672e38108b5208fbd4c06f0bf28cac736004423c"
+    },
+    {
+      "path": "port/game-data/CMakeLists.txt",
+      "captured_sha256": "1bda4c7fa86ae2f6083b53a7b0d4c0ee2fc2acca584a66a329d23a7854c5a0f3",
+      "git_blob_sha256": "460d21cc226a8cb2aaa7b1325cfd66ff1bff75b69d006e461c70e883e1a18721"
+    },
+    {
+      "path": "port/physics-backend/CMakeLists.txt",
+      "captured_sha256": "42d80313e12296c9f71a8fadb252cbad5d88574e265805e4b7cff1a35a4c7cb6",
+      "git_blob_sha256": "8e7041f90cf62cc78a52085cac6ddcceface17825916f493ff836561616d0d10"
+    },
+    {
+      "path": "port/scene-materials/CMakeLists.txt",
+      "captured_sha256": "6274830b9960800a3653cc0c1545aecc13a30fc678eb5a6dccc9a3888f778f6a",
+      "git_blob_sha256": "4b6805b94d9ff1115fe8106d2f0639aa4b5a037a25ce4014e157688c7770ceff"
+    }
+  ],
+  "original_packaged_resource_git_blobs_exact": 33,
+  "copied_receipt_git_blobs_exact": 23,
+  "raw_capture_local_path": "port/android-native/build/captures/native-player-skills-2026-10-05.zip",
+  "raw_capture_sha256": "83c3093f1850ba7371f6e960d5ad4fc75e8684e793b37da823455ee6bca78052"
+}

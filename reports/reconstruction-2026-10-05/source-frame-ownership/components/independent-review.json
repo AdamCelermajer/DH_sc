@@ -1,0 +1,74 @@
+{
+  "validation": "PASS",
+  "scope": "Independent read-only bridge and native Owner host composition review. Port ownership bridge adds zero original body credit; Android Ghost activation is not claimed.",
+  "components": [
+    {
+      "path": "port/level-world/build/monster-created-service-install-review/validation.json",
+      "sha256": "38c58ff9e1911afd2367e981f539526f17e90002a9d0f933598c02e1da1acda5",
+      "source_and_fixture_checks": 68,
+      "executable_sha256": "d5e56b4692cdae6cfe89818b474559774bf22ae69efa9254c09bebdf3020a5f2",
+      "host": {
+        "validation": "PASS",
+        "bridge_cases": 7,
+        "guard_cases": 11,
+        "retirement_cases": 3,
+        "same_actual_vm": true,
+        "original_scripts_used": true,
+        "native_wired": false,
+        "new_original_bodies": 0,
+        "mismatches": 0
+      }
+    },
+    {
+      "path": "port/android-native/build/ghost-ai-owner-created-review/validation.json",
+      "sha256": "2fa9fc753a231669c7df6b8652ce78cf1d82da2187284019dd81c01687b95dec",
+      "source_and_fixture_checks": 75,
+      "executable_sha256": "8a5fcaf820a9ac806c89fdc43955c3dbd52ca8670d9d1ae11c2466467cf7d4ee",
+      "host": {
+        "ghost_ai_owner_host_cases": 8,
+        "existing_target_cases": 6,
+        "pending_vm_shared": true,
+        "constructor_before_pending_cases": 3,
+        "flat_character_owner_cases": 4,
+        "flat_published_vm_shared": true,
+        "manager_cursor_owner_cases": 2,
+        "manager_cursor_live_links": true,
+        "status": "PASS",
+        "frame_status": 0,
+        "last_service": 4,
+        "candidates": 1,
+        "events": 1,
+        "script_callbacks": 1,
+        "set_target_calls": 1,
+        "head_to_calls": 1,
+        "path_count": 1,
+        "target_id": 30064771168,
+        "ais_update_calls": 2,
+        "mismatches": 0
+      }
+    }
+  ],
+  "findings": [],
+  "verified_contracts": [
+    "created-stage and same-owner replacement only",
+    "deferred VM identity retained through preparation/binding/load/adoption",
+    "services snapshot before retirement of table backing",
+    "new service lifetime committed before old lifetime release",
+    "install/reset/destructor retirement mutation reentry rejected",
+    "error storage explicitly outlives synchronous operation and callbacks",
+    "external callback context retained through VM close while native projection owners remain borrowed"
+  ],
+  "original_construction_order": {
+    "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "function": "CharAI::SetScript<AISExternal>",
+    "entry": "0x3ccaf4",
+    "size": 240,
+    "constructor_call": "0x3ccb68",
+    "pending_store": "0x3ccb6c"
+  },
+  "test_limits": [
+    "Owner fixtures prove constructor/VM/pending/bind/load/publication/adoption order at external provider boundaries, not complete original AIS construction or InitScriptProcess execution.",
+    "Focused bridge proof executes unchanged Lua load and EnemySpotted; it does not claim a new native OnInit or live movement test.",
+    "Lifetime holds callback tables/context only; callers retain lifecycle/property/world/path projections separately until VM close."
+  ]
+}

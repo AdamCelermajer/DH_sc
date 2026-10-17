@@ -1,0 +1,601 @@
+category,address,symbol,source_file,pseudo_lines
+core-platform,0x487bb0,_ZN7Array2dIPN3rnd4TileEE5ClearEv,core-platform/include/core-platform/array2d.hpp,160
+core-platform,0x48b7fc,_ZN7Array2dIPN3rnd4TileEEclEii,core-platform/include/core-platform/array2d.hpp,38
+core-platform,0x530ba8,appInit,core-platform/src/app_entry.cpp,79
+core-platform,0x89bfb4,_ZN10ConfigFile6DecodeEPKcPcS2_S2_,core-platform/src/config_file.cpp,107
+core-platform,0x34f8a4,_ZNK15FileSystemWin3214formatFilePathERKSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS2_6memory13E_MEMORY_HINTE0EEEE,core-platform/src/filesystem_win32.cpp,142
+core-platform,0x840000,_Z8in_cksumPti,core-platform/src/misc_util.cpp,31
+core-platform,0x827970,_Z9TransToIpRPc,core-platform/src/misc_util.cpp,25
+core-platform,0x30f334,_Z8StrToObjPKcRN6glitch4core8vector3dIfEE,core-platform/src/obj_str.cpp,36
+core-platform,0x33271c,_ZN7Console16onEventNotOpenedEPK6IEventPK12EventManager,core-platform/src/ok3-Console.cpp,668
+core-platform,0x331cfc,_ZN7Console23UpdateToggleDisplayListEv,core-platform/src/ok3-Console.cpp,124
+core-platform,0x334940,_ZN7Console21_setMenuDebugSwitchesEv,core-platform/src/ok3-Console.cpp,78
+core-platform,0x330ee0,_ZN7Console19_setMenuCharModulesEv,core-platform/src/ok3-Console.cpp,38
+core-platform,0x330bf0,_ZN7Console16_setMenuAnimListEv,core-platform/src/ok3-Console.cpp,26
+core-platform,0x339830,LoadSubtitles,core-platform/src/ok3-global.cpp,192
+core-platform,0x381a10,_Z48TabarnakDeNodeHierarchyAvecDesEmptyNodeDuCalissePN6glitch5scene10ISceneNodeE,core-platform/src/ok3-global.cpp,45
+core-platform,0x312584,_ZN12PerfCounters8GetEntryERKSs,core-platform/src/perf_counters.cpp,84
+core-platform,0x844270,_ZN4slim11utf16toutf8EPKwjPcj,core-platform/src/slim_text.cpp,61
+core-platform,0x844464,_ZN4slim11XmlDocument9findLabelERPKcjS3_Rj,core-platform/src/slim_xml.cpp,56
+core-platform,0x844c8c,_ZN4slim7XmlNodeD2Ev,core-platform/src/slim_xml.cpp,43
+core-platform,0x844acc,_ZN4slim7XmlBaseD2Ev,core-platform/src/slim_xml.cpp,30
+core-platform,0x3102b4,_ZrsRSiRN6glitch5video6SColorE,core-platform/src/stream_ops.cpp,32
+core-platform,0x33aad8,_ZNK15TouchScreenBase12getDimensionEv,core-platform/src/touch_screen_base.cpp,56
+core-platform,0x33bd2c,_ZNK15TouchScreenBase14getTouchIDListEv,core-platform/src/touch_screen_base.cpp,37
+core-platform,0x33cf84,_ZN17TouchScreenIPhone14touchCancelledEffdiffl,core-platform/src/touch_screen_iphone.cpp,29
+core-platform,0x33d4b4,_ZN16TouchScreenWin327onEventERKN6glitch6SEventE,core-platform/src/touch_screen_win32.cpp,51
+core-platform,0x89c5dc,_Z19UTF8ToUnicode_OldLCPtPKc,core-platform/src/utf_text.cpp,82
+core-platform,0x82a938,_Z17UTF8ToUnicode_OldPtPKc,core-platform/src/utf_text.cpp,75
+core-platform,0x82a868,_Z20ConvertUTF8ToUnicodePtPKci,core-platform/src/utf_text.cpp,63
+core-platform,0x317a04,_Z7strrstrPKcS0_,core-platform/src/util.cpp,45
+core-platform,0x34e090,_Z11ToLowerCaseRSbIcSt11char_traitsIcEN6glitch4core10SAllocatorIcLNS1_6memory13E_MEMORY_HINTE0EEEEii,core-platform/src/util.cpp,28
+core-platform,0x876518,_ZL22imdct_step3_iter0_loopiPfiiS_,core-platform/src/vorbis_util.cpp,57
+core-platform,0x32fe28,_ZN7Console11_createListERSt6vectorISsSaISsEEPc,core-platform/src/w7_console_00.cpp,91
+core-platform,0x50e4d0,_Z21NodeRemoveAllChildrenPN6glitch5scene10ISceneNodeE,core-platform/src/w7_global_01.cpp,26
+core-platform,0x53013c,pressContinueInIGM,core-platform/src/w7_global_02.cpp,49
+core-platform,0x52f11c,appOnTouch,core-platform/src/w7_global_02.cpp,48
+core-platform,0x52f5d4,pressMainMenuInMutiIGM,core-platform/src/w7_global_02.cpp,29
+core-platform,0x530280,pressBackButtonInGame,core-platform/src/w7_global_02.cpp,27
+core-platform,0x7f8018,_ZL12ProcessThreeP6b2Vec2S0_S0_S0_S0_,core-platform/src/w7_global_03.cpp,144
+core-platform,0x876e8c,_ZL21convert_samples_shortiPPsiiPPfii,core-platform/src/w7_global_04.cpp,159
+core-platform,0x82aa10,_Z24ConvertUnicodeToUTF8_OldPcPKt,core-platform/src/w7_global_04.cpp,120
+core-platform,0x41f834,_Z18playerClassAsStrIDi,core-platform/src/w7_global_rem.cpp,34
+core-platform,0x33401c,_ZN7ConsoleC2Ev,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,148
+core-platform,0x331a2c,_ZN7ConsoleD2Ev,port/decomp-reconstruction/core-platform/src/w7_console_01.cpp,30
+game-anim,0x475404,_ZNK14AnimSetManager6ExistsEi,game-anim/src/g1-game-anim-AnimSetManager-d3d27a-0.cpp,30
+game-anim,0x3650b4,_ZN12AnimationSet15UnloadAnimationEib,game-anim/src/g1-game-anim-AnimationSet-4fa4a6-0.cpp,43
+game-anim,0x36504c,"AnimationSet::_RemoveAnimation(std::priv::_Rb_tree_iterator<std::pair<int const, Animation>, std::priv::_MapTraitsT<std::pair<int const, Animation> > >, bool)",game-anim/src/g1-game-anim-AnimationSet-4fa4a6-0.cpp,25
+game-anim,0x366b80,AnimatorBlender::BlenderApplicator::SetRefNode(glitch::scene::ISceneNode*),game-anim/src/g1-game-anim-AnimatorBlender-0caed3-0.cpp,60
+game-anim,0x366eb8,"AnimatorBlender::SetCallbacks(void (*)(glitch::scene::ITimelineController*, void*), void*, void (*)(glitch::collada::STriggeredEvent const&, void*), void*)",game-anim/src/g1-game-anim-AnimatorBlender-0caed3-0.cpp,44
+game-anim,0x367790,AnimatorSet::AnimatorSet(boost::intrusive_ptr<AnimationSet> const&),game-anim/src/g1-game-anim-AnimatorSet-8cd819-0.cpp,36
+game-anim,0x3684d8,AnimatorSynchronizedBlender::Blend(int),game-anim/src/g1-game-anim-AnimatorSynchronizedBlender-e23b0b-0.cpp,39
+game-anim,0x3cab38,"CharAnimator::_SetAnim(int, unsigned int)",game-anim/src/g1-game-anim-CharAnimator-2af513-1.cpp,47
+game-anim,0x3c9c7c,_ZN12CharAnimator21_AddTemplateAnimTableEiij,game-anim/src/g1-game-anim-CharAnimator-2af513-1.cpp,41
+game-anim,0x3c955c,_ZN12CharAnimator17_PlayItemSwooshFXEP12ItemInstanceb,game-anim/src/g1-game-anim-CharAnimator-2af513-1.cpp,35
+game-anim,0x3c96dc,_ZNK12CharAnimator13ANIM_IsRandomEj,game-anim/src/g1-game-anim-CharAnimator-2af513-1.cpp,24
+game-anim,0x4057fc,v2Controller::Cmd_UseOOI(GameObject*),game-anim/src/g1-game-anim-v2Controller-227be4-1.cpp,58
+game-anim,0x405a20,v2Controller::Cmd_BeginSkill(unsigned int),game-anim/src/g1-game-anim-v2Controller-227be4-1.cpp,40
+game-anim,0x405954,v2Controller::Cmd_EndSkill(unsigned int),game-anim/src/g1-game-anim-v2Controller-227be4-1.cpp,34
+game-anim,0x408ad8,_ZN17v2MixedController6UpdateEv,game-anim/src/g1-game-anim-v2MixedController-0ac955-0.cpp,27
+game-app,0x3206d0,"Application::GetTitleString(char*, int)",game-app/src/g1-game-app-Application-b291be-1.cpp,27
+game-app,0x32d980,Application::Application(),game-app/src/g1-game-app-Application-b291be-2.cpp,79
+game-app,0x322924,Application::Pause(),game-app/src/g1-game-app-Application-b291be-2.cpp,61
+game-app,0x32fab4,Application::InitWin32(glitch::IDevice*),game-app/src/g1-game-app-Application-b291be-3.cpp,50
+game-app,0x3391a0,DataReloaderManager::~DataReloaderManager(),game-app/src/g1-game-app-DataReloaderManager-df2149-0.cpp,33
+game-app,0x337404,"DebugSwitches::SetModule(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, bool)",game-app/src/g1-game-app-DebugSwitches-d73440-0.cpp,30
+game-app,0x33811c,"EventManager::Detach(int, IEventReceiver*)",game-app/src/g1-game-app-EventManager-913641-0.cpp,57
+game-app,0x3846fc,GSFlashMenu::Ctor(StateMachine const*),game-app/src/g1-game-app-GSFlashMenu-353474-0.cpp,34
+game-app,0x384f64,GSInit::SwitchBackground(),game-app/src/g1-game-app-GSInit-78f1fa-0.cpp,73
+game-app,0x385cf0,_ZN10GSKeyboard11QueryStringEPKcjS1_b,game-app/src/g1-game-app-GSKeyboard-b78115-0.cpp,44
+game-app,0x385a8c,_ZN10GSKeyboard6UpdateEP12StateMachined,game-app/src/g1-game-app-GSKeyboard-b78115-0.cpp,37
+game-app,0x479408,GameEvent::Update(),game-app/src/g1-game-app-GameEvent-9380de-0.cpp,39
+game-app,0x479718,GameEventManager::LoopOnAllEvents(void (GameEvent::*)()),game-app/src/g1-game-app-GameEventManager-6d1529-0.cpp,35
+game-app,0x33e138,void IStreamBase::writeAs<bool>(bool const&),game-app/src/g1-game-app-IStreamBase-e228fc-0.cpp,26
+game-app,0x38b758,void IStreamBase::readAs<int>(int&),game-app/src/g1-game-app-IStreamBase-e228fc-0.cpp,26
+game-app,0x3a3970,void IStreamBase::readAs<Structs::CharacterProperties>(Structs::CharacterProperties&),game-app/src/g1-game-app-IStreamBase-e228fc-0.cpp,26
+game-app,0x461828,void IStreamBase::readAs<unsigned long long>(unsigned long long&),game-app/src/g1-game-app-IStreamBase-e228fc-1.cpp,26
+game-app,0x469120,void IStreamBase::readAs<signed char>(signed char&),game-app/src/g1-game-app-IStreamBase-e228fc-1.cpp,26
+game-app,0x34db1c,InputManager::GetReceiver(),game-app/src/g1-game-app-InputManager-dd3002-0.cpp,30
+game-app,0x37e9ec,"LuaScript::_BitAnd(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)",game-app/src/g1-game-app-LuaScript-5015a8-1.cpp,90
+game-app,0x37e420,"LuaScript::_PlayMusic(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)",game-app/src/g1-game-app-LuaScript-5015a8-1.cpp,49
+game-app,0x37e730,"LuaScript::_StopSound(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)",game-app/src/g1-game-app-LuaScript-5015a8-1.cpp,47
+game-app,0x37f354,_ZN9LuaScript9_GetPyCstERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-app/src/g1-game-app-LuaScript-5015a8-2.cpp,46
+game-app,0x37ef3c,_ZN9LuaScript13_CallPyScriptERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-app/src/g1-game-app-LuaScript-5015a8-2.cpp,32
+game-app,0x46fe68,"POCharacter::onCollisionBegins(PhysicalBaseObject*, Point2D<float> const&, bool)",game-app/src/g1-game-app-POCharacter-203f4e-0.cpp,41
+game-app,0x33a010,_ZNK12StateMachine13RecurseUpdateEd,game-app/src/g1-game-app-StateMachine-4cb24d-0.cpp,41
+game-app,0x336718,"void StreamReader::writeAs<unsigned char>(IStreamBase*, unsigned char)",game-app/src/g1-game-app-StreamReader-cab859-0.cpp,28
+game-app,0x429d84,"void StreamReader::writeAs<bool>(IStreamBase*, bool)",game-app/src/g1-game-app-StreamReader-cab859-0.cpp,28
+game-app,0x31763c,"StreamReader::readString(IStreamBase*, wchar_t*, unsigned long long)",game-app/src/g1-game-app-StreamReader-cab859-0.cpp,26
+game-app,0x3df1a0,"void StreamReader::readAs<unsigned int>(IStreamBase*, unsigned int*)",game-app/src/g1-game-app-StreamReader-cab859-0.cpp,26
+game-app,0x459090,"void StreamReader::readAs<int>(IStreamBase*, int*)",game-app/src/g1-game-app-StreamReader-cab859-0.cpp,26
+game-app,0x4db94c,"void StreamReader::readAs<float>(IStreamBase*, float*)",game-app/src/g1-game-app-StreamReader-cab859-0.cpp,26
+game-app,0x3364ec,int StreamReader::readAs<int>(IStreamBase*),game-app/src/g1-game-app-StreamReader-cab859-0.cpp,25
+game-app,0x43de30,NativeStartFromGCInvite(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,97
+game-app,0x43e0d0,NativeStartGame(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,89
+game-app,0x43e494,NativeStatsReset(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,55
+game-app,0x43d43c,NativeStatsRemoveAssign(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,33
+game-app,0x43dafc,NativeOnHUDOpenEvent(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,31
+game-app,0x43ee40,NativeHUDSetActiveFaery(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-11.cpp,42
+game-app,0x444ebc,NativeGetStringFromSymbol(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-12.cpp,52
+game-app,0x444990,NativeBackToHud(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-12.cpp,51
+game-app,0x444ae0,NativeLoginInfos(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-12.cpp,48
+game-app,0x44a820,NativeHUDGetActiveFaery(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-13.cpp,70
+game-app,0x4594a8,"Script_CharacterState_Callback(char const*, int, void (*)(ObjectBase*))",game-app/src/g1-game-app-global-f216b6-18.cpp,29
+game-app,0x50e41c,"SetNodeVisibleRecur(glitch::scene::ISceneNode*, bool)",game-app/src/g1-game-app-global-f216b6-19.cpp,27
+game-app,0x50e568,"GetNodePolyCount(glitch::scene::ISceneNode*, bool)",game-app/src/g1-game-app-global-f216b6-20.cpp,64
+game-app,0x50ed8c,"GetWorldPosFromScreenPos(Point2D<float> const&, Point3D<float>&, float)",game-app/src/g1-game-app-global-f216b6-20.cpp,44
+game-app,0x50e830,"GetScreenPosFromWorldPos(glitch::core::vector3d<float> const&, glitch::core::position2d<int>&)",game-app/src/g1-game-app-global-f216b6-20.cpp,26
+game-app,0x3b0868,"CF__CalcCrit(Character*, Character*, int, int)",game-app/src/g1-game-app-global-f216b6-3.cpp,25
+game-app,0x3fc790,int TrophyCheckArmorSetPhantasm(ItemInventory*),game-app/src/g1-game-app-global-f216b6-4.cpp,24
+game-app,0x43a450,NativeShowLeaderboard(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-6.cpp,63
+game-app,0x43a248,NativeSendGLInvite(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-6.cpp,26
+game-app,0x43b1e4,NativeReviveAllPlayers(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-8.cpp,25
+game-app,0x43cdac,NativeChangeRolloverInputBehavior(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-9.cpp,36
+game-app,0x43ce3c,NativeOpenKeyboard(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-9.cpp,30
+game-app,0x34cd0c,Gamepad::Gamepad(),game-app/src/g1-game-app-pack0-8e4185-0.cpp,83
+game-app,0x36ddac,"ByteArray::SetBuffer(void const*,int)",game-app/src/g1-game-app-pack0-8e4185-0.cpp,35
+game-app,0x379fe8,LuaManager::FlushBufferedFiles(void),game-app/src/g1-game-app-pack1-dbf367-0.cpp,54
+game-app,0x45eb14,"Script_ShowActor::Execute(bool, int)",game-app/src/g1-game-app-pack10-ec557a-0.cpp,34
+game-app,0x45eec0,"Script_StopActor::Execute(bool, int)",game-app/src/g1-game-app-pack11-61230f-0.cpp,86
+game-app,0x4701fc,"POItem::onCollisionEnds(PhysicalBaseObject*, Point2D<float> const&, bool)",game-app/src/g1-game-app-pack2-e00359-0.cpp,36
+game-app,0x32f2b4,PlayerLightTweaker::PlayerLightTweaker(),game-app/src/g1-game-app-pack3-d077cc-0.cpp,110
+game-app,0x45f2fc,"Script_AISetInt::Execute(bool, int)",game-app/src/g1-game-app-pack4-c4671c-0.cpp,30
+game-app,0x45d1d8,"Script_ActivateTriggerPlate::Execute(bool, int)",game-app/src/g1-game-app-pack4-c4671c-0.cpp,27
+game-app,0x4599ac,"Script_ExitCutSceneMode::Execute(bool, int)",game-app/src/g1-game-app-pack6-496562-0.cpp,61
+game-app,0x4613d4,"Script_EnqueueTutorialMessage::Execute(bool, int)",game-app/src/g1-game-app-pack6-496562-0.cpp,38
+game-app,0x45e028,"Script_HideActor::Execute(bool, int)",game-app/src/g1-game-app-pack6-496562-0.cpp,24
+game-app,0x45e124,"Script_PlayAnimByName::Execute(bool, int)",game-app/src/g1-game-app-pack8-a39f92-0.cpp,41
+game-app,0x45fa9c,"Script_PlayEffect::Execute(bool, int)",game-app/src/g1-game-app-pack8-a39f92-0.cpp,40
+game-app,0x45fefc,"Script_PlaySound::Execute(bool, int)",game-app/src/g1-game-app-pack8-a39f92-0.cpp,31
+game-app,0x45d75c,"Script_OpenDoor::Execute(bool, int)",game-app/src/g1-game-app-pack8-a39f92-0.cpp,28
+game-app,0x45a2ec,Script_PlayActorAnim::Init(),game-app/src/g1-game-app-pack8-a39f92-0.cpp,24
+game-app,0x488704,rnd::RandomGenerator::~RandomGenerator(),game-app/src/g1-game-app-rnd-8b06ae-0.cpp,104
+game-app,0x487e84,rnd::RandomGenerator::RandomGenerator(),game-app/src/g1-game-app-rnd-8b06ae-0.cpp,50
+game-app,0x4865f0,rnd::RandomGenerator::LoadListRules(TiXmlNode*),game-app/src/g1-game-app-rnd-8b06ae-0.cpp,28
+game-app,0x48a90c,rnd::MgxBlock::LoadFromXml(TiXmlHandle&),game-app/src/g1-game-app-rnd-8b06ae-1.cpp,57
+game-app,0x48b8f0,"rnd::MgxBlock::RemoveFromMap(Array2d<rnd::Tile*>&, rnd::Tile*, int, int)",game-app/src/g1-game-app-rnd-8b06ae-2.cpp,58
+game-app,0x48ac24,rnd::Block::Block(),game-app/src/g1-game-app-rnd-8b06ae-2.cpp,41
+game-app,0x48c51c,rnd::ListElem::LoadFromXml(TiXmlNode *),game-app/src/g1-game-app-rnd-8b06ae-3.cpp,62
+game-app,0x48bebc,"rnd::Rule::Impl::Impl(rnd::Rule const&,rnd::Rule::Impl*)",game-app/src/g1-game-app-rnd-8b06ae-3.cpp,46
+game-app,0x48d0b4,rnd::RootRule::Impl::Impl(rnd::RootRule const&),game-app/src/g1-game-app-rnd-8b06ae-3.cpp,42
+game-app,0x48c638,rnd::BlockSearch::operator()(rnd::ListElem &) const,game-app/src/g1-game-app-rnd-8b06ae-3.cpp,32
+game-app,0x48d1a0,"rnd::Rule::Impl::~Impl() (D1, _ZN3rnd4Rule4ImplD1Ev)",game-app/src/g1-game-app-rnd-8b06ae-4.cpp,65
+game-app,0x48e184,rnd::RandomGenerator::GetBlock(char const*) const,game-app/src/g1-game-app-rnd-8b06ae-5.cpp,48
+game-app,0x48dc08,"rnd::Rule::Rule(rnd::RootRule&,rnd::Rule*)",game-app/src/g1-game-app-rnd-8b06ae-5.cpp,25
+game-app,0x48f05c,"rnd::Path::Impl::AddExit(std::vector<std::pair<rnd::Exit const*,rnd::ListElem>>&,rnd::Exit const*,int)",game-app/src/g1-game-app-rnd-8b06ae-6.cpp,85
+game-app,0x491d90,"rnd::Tile::SaveAsModuleXML(TiXmlElement*,int)",game-app/src/g1-game-app-rnd-8b06ae-7.cpp,171
+game-app,0x491850,"rnd::Tile::Tile(rnd::RandomGenerator&,rnd::Block&,rnd::Tile*,rnd::ListElem&)",game-app/src/g1-game-app-rnd-8b06ae-7.cpp,25
+game-app,0x51e758,"sfc::math::graph::GraphSparse<PFGInnerEdge>::addEdge(unsigned int, unsigned int)",game-app/src/g1-game-app-sfc-57f3bb-0.cpp,166
+game-app,0x522f70,sfc::math::graph::GraphSparse<PFGOuterEdge>::clear(),game-app/src/g1-game-app-sfc-57f3bb-0.cpp,105
+game-app,0x52ca20,"sfc::math::graph::AlgoAStar<PFGInnerGraph,DijkstraHeuristic>::_markNode(std::map<unsigned int, _InEdge>&, _InEdge&)",game-app/src/g1-game-app-sfc-57f3bb-1.cpp,93
+game-app,0x3198e0,"sfc::script::lua::Arguments::Arguments(lua_State*, int)",game-app/src/n2-game-app-sfc_script_lua_Arguments-3e968c-0.cpp,84
+game-app,0x31b018,"const char* sfc::script::lua::Instance::_chunkReader(lua_State*, void*, size_t*)",game-app/src/n2-game-app-sfc_script_lua_Instance-deec90-0.cpp,60
+game-app,0x31cac4,sfc::script::lua::Value::_pushOnStack(lua_State*) const,game-app/src/n2-game-app-sfc_script_lua_Value-c98984-0.cpp,74
+game-app,0x31c9c8,"sfc::script::lua::Value::_setFromStack(lua_State*, int)",game-app/src/n2-game-app-sfc_script_lua_Value-c98984-0.cpp,43
+game-app,0x31bbf0,sfc::script::lua::Value::getNumber() const,game-app/src/n2-game-app-sfc_script_lua_Value-c98984-0.cpp,32
+game-app,0x3fce48,int TrophyCheckArmorSetLordly(ItemInventory*),game-app/src/r2a-game-app-global-f216b6-3.cpp,67
+game-app,0x3fca40,int TrophyCheckArmorSetRage(ItemInventory*),game-app/src/r2a-game-app-global-f216b6-3.cpp,24
+game-app,0x386c20,"void sfc::script::lua::Binder::bindMethod<TestUD>(char const*, void (TestUD::*)(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&))",game/include/dh2/sfc/script/lua/Binder.hpp,29
+game-character,0x3dbfa0,_ZN10AISDefault18OnCollisionPersistEP10GameObjectb,game-character/src/g1-game-character-AISDefault-7ff887-1.cpp,52
+game-character,0x3dc560,_ZN10AISDefault21OnTargetInRangedRangeEv,game-character/src/g1-game-character-AISDefault-7ff887-2.cpp,66
+game-character,0x3dc284,_ZN10AISDefault20OnTargetInMeleeRangeEv,game-character/src/g1-game-character-AISDefault-7ff887-2.cpp,26
+game-character,0x3dde48,_ZN9AISPlayer9OnDeAggroEP9Character,game-character/src/g1-game-character-AISPlayer-a14aa9-0.cpp,72
+game-character,0x3c3020,_ZN6CSIdle7OnFocusEiP9CharacterP16CharStateMachineiiPv,game-character/src/g1-game-character-CSIdle-2d5f4b-0.cpp,24
+game-character,0x3c0f18,"CSMove::UpdateType(Character*, CharStateMachine*)",game-character/src/g1-game-character-CSMove-401d7e-0.cpp,96
+game-character,0x3cbb34,"CharAI::RaiseAIEvent(int, void*)",game-character/src/g1-game-character-CharAI-2ae0f1-0.cpp,218
+game-character,0x3ccaf4,void CharAI::SetScript<AISExternal>(),game-character/src/g1-game-character-CharAI-2ae0f1-0.cpp,39
+game-character,0x3cb7c0,CharAI::SetCharacter(Character*),game-character/src/g1-game-character-CharAI-2ae0f1-0.cpp,26
+game-character,0x3cf1f0,CharAI::LoadScriptProcess(),game-character/src/g1-game-character-CharAI-2ae0f1-1.cpp,93
+game-character,0x3ceeb0,CharAI::SetScriptByName(char const*),game-character/src/g1-game-character-CharAI-2ae0f1-1.cpp,59
+game-character,0x3ccfe4,void CharAI::SetScript<AISPlayerIPhone>(),game-character/src/g1-game-character-CharAI-2ae0f1-1.cpp,47
+game-character,0x3cd11c,void CharAI::SetScript<AISPlayer>(),game-character/src/g1-game-character-CharAI-2ae0f1-1.cpp,46
+game-character,0x3cce14,void CharAI::SetScript<AISDefault>(),game-character/src/g1-game-character-CharAI-2ae0f1-1.cpp,41
+game-character,0x3d076c,_ZN6CharAI16AI_DoRangeAttackEP10GameObjectb,game-character/src/g1-game-character-CharAI-2ae0f1-2.cpp,133
+game-character,0x3d0f1c,_ZN6CharAI9OnRevivedEP10GameObject,game-character/src/g1-game-character-CharAI-2ae0f1-3.cpp,28
+game-character,0x3d2ff8,CharAI::RemoveFromGroup(),game-character/src/g1-game-character-CharAI-2ae0f1-5.cpp,89
+game-character,0x3d511c,_ZNK6CharAI11AI_IsFriendEPK10GameObject,game-character/src/g1-game-character-CharAI-2ae0f1-6.cpp,112
+game-character,0x3d4d80,_ZN6CharAI12AI_SetMasterEP9Character,game-character/src/g1-game-character-CharAI-2ae0f1-6.cpp,36
+game-character,0x3d4ed8,_ZNK6CharAI12AI_IsInSightEPK10GameObject,game-character/src/g1-game-character-CharAI-2ae0f1-6.cpp,25
+game-character,0x3d5fa8,CharAI::AI_ClearAllAggro(void),game-character/src/g1-game-character-CharAI-2ae0f1-7.cpp,129
+game-character,0x3d7c68,"CharAI::AI_AddAggro(Character*,float)",game-character/src/g1-game-character-CharAI-2ae0f1-7.cpp,57
+game-character,0x3d81c0,CharAI::AI_BeginSpell(bool),game-character/src/g1-game-character-CharAI-2ae0f1-8.cpp,70
+game-character,0x3d86bc,CharAI::AI_BeginSkill(unsigned int),game-character/src/g1-game-character-CharAI-2ae0f1-8.cpp,68
+game-character,0x3d85d4,CharAI::AI_IsSkillActive(unsigned int) const,game-character/src/g1-game-character-CharAI-2ae0f1-8.cpp,32
+game-character,0x3da794,CharAISkillScript::OnSkill(),game-character/src/g1-game-character-CharAISkillScript-56b6ea-0.cpp,45
+game-character,0x3da9dc,_ZN17CharAISkillScript19OnSkillCheck_UsableEv,game-character/src/g1-game-character-CharAISkillScript-56b6ea-0.cpp,43
+game-character,0x3df81c,_ZNK14CharProperties26PROPS_GetBonusAttackRatingEb,game-character/src/g1-game-character-CharProperties-53ed14-1.cpp,27
+game-character,0x3df314,_ZN14CharProperties23PROPS_ApplyClassToSheetEiPN7Structs19CharacterPropertiesE,game-character/src/g1-game-character-CharProperties-53ed14-1.cpp,24
+game-character,0x3dfe60,_ZN14CharProperties14RecalcPropertyEi,game-character/src/g1-game-character-CharProperties-53ed14-2.cpp,442
+game-character,0x3df980,_ZNK14CharProperties21PROPS_GetIntWithBonusEib,game-character/src/g1-game-character-CharProperties-53ed14-2.cpp,37
+game-character,0x3e232c,"CharProperties::PROPS_AddBuff(int, unsigned int, int, unsigned int, int, char const*)",game-character/src/g1-game-character-CharProperties-53ed14-3.cpp,247
+game-character,0x3e3154,_ZN14CharProperties14_LoadGearStatsEib,game-character/src/g1-game-character-CharProperties-53ed14-3.cpp,59
+game-character,0x3c00e0,"CharStateMachine::_HasEvent(int, int) const",game-character/src/g1-game-character-CharStateMachine-33fc5a-0.cpp,65
+game-character,0x3c1938,_ZN16CharStateMachine9_SetStateEiiPv,game-character/src/g1-game-character-CharStateMachine-33fc5a-1.cpp,51
+game-character,0x3c2734,_ZN16CharStateMachine16SM_SetSpawnStateEbb,game-character/src/g1-game-character-CharStateMachine-33fc5a-1.cpp,50
+game-character,0x3c1b58,_ZN16CharStateMachineC2Ev,game-character/src/g1-game-character-CharStateMachine-33fc5a-1.cpp,29
+game-character,0x3c5ea0,"CharStateMachine::SM_SetKnockBackState(bool, void*, bool)",game-character/src/g1-game-character-CharStateMachine-33fc5a-2.cpp,48
+game-character,0x3c6394,"CharStateMachine::SM_SetCastState(unsigned int, void*, bool)",game-character/src/g1-game-character-CharStateMachine-33fc5a-2.cpp,31
+game-character,0x3a2f48,_ZN9Character17HasCharOIDInCacheEi,game-character/src/g1-game-character-Character-ee9946-0.cpp,41
+game-character,0x3b73a4,_ZN9Character9_SetLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-11.cpp,37
+game-character,0x3b7704,_ZN9Character9_RotateByERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-11.cpp,26
+game-character,0x3b7064,_ZN9Character10_StopTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-11.cpp,24
+game-character,0x3b751c,_ZN9Character11_PauseTimerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-11.cpp,24
+game-character,0x3b8d98,_ZN9Character11_WarpBehindERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-12.cpp,55
+game-character,0x3ba71c,"Character::_HeadTo(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)",game-character/src/g1-game-character-Character-ee9946-13.cpp,149
+game-character,0x3b9d8c,_ZN9Character8_GetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-13.cpp,99
+game-character,0x3b97e0,"Character::_SetSkillCooldownTimerId(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)",game-character/src/g1-game-character-Character-ee9946-13.cpp,66
+game-character,0x3b96b0,_ZN9Character14_SetScareStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-13.cpp,62
+game-character,0x3b94ac,_ZN9Character10_StopSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-13.cpp,45
+game-character,0x3b93cc,_ZN9Character9_EndSkillERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-13.cpp,41
+game-character,0x3ba298,_ZN9Character20_SetProjectileTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-13.cpp,33
+game-character,0x3b9084,_ZN9Character10_SetMasterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-13.cpp,28
+game-character,0x3b8f38,_ZN9Character10_SetTargetERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-character/src/g1-game-character-Character-ee9946-13.cpp,27
+game-character,0x3bc6b8,_ZN9Character14CancelSneakingEv,game-character/src/g1-game-character-Character-ee9946-17.cpp,39
+game-character,0x3bc784,Character::GetCharSkill(int) const,game-character/src/g1-game-character-Character-ee9946-17.cpp,25
+game-character,0x3bcc58,"Character::IncSkill(int, bool)",game-character/src/g1-game-character-Character-ee9946-18.cpp,93
+game-character,0x3bd140,Character::ValidateHPMP(),game-character/src/g1-game-character-Character-ee9946-18.cpp,30
+game-character,0x3bdef4,Character::UseMana(int),game-character/src/g1-game-character-Character-ee9946-19.cpp,55
+game-character,0x3bdd90,Character::RegenTick(bool),game-character/src/g1-game-character-Character-ee9946-19.cpp,38
+game-character,0x3bd810,_ZN9Character10IncStatStrEv,game-character/src/g1-game-character-Character-ee9946-19.cpp,30
+game-character,0x3a4398,"Character::SetRelativeAABB(aabb<float> const&, bool)",game-character/src/g1-game-character-Character-ee9946-2.cpp,36
+game-character,0x3a469c,Character::UpdateSpotTarget(),game-character/src/g1-game-character-Character-ee9946-3.cpp,64
+game-character,0x3a4a3c,"Character::INV_TransmuteItem(ItemInstance*, bool)",game-character/src/g1-game-character-Character-ee9946-3.cpp,52
+game-character,0x3a52a4,Character::CanUpdate(),game-character/src/g1-game-character-Character-ee9946-3.cpp,35
+game-character,0x3a5184,Character::GetImmunityTimer(int),game-character/src/g1-game-character-Character-ee9946-3.cpp,30
+game-character,0x3aa1b4,_ZN9CharacterC1EN10ObjectBase6GO_IDSE,game-character/src/g1-game-character-Character-ee9946-5.cpp,170
+game-character,0x3a999c,Character::INV_UpdateSkin(),game-character/src/g1-game-character-Character-ee9946-5.cpp,137
+game-character,0x3a7c84,_ZN9CharacterD1Ev,game-character/src/g1-game-character-Character-ee9946-5.cpp,37
+game-character,0x3ad478,_ZN9Character12Ctrl_OpenIGMEv,game-character/src/g1-game-character-Character-ee9946-6.cpp,25
+game-character,0x3adb60,Character::Ctrl_HeadTowards(Point3D<float> const&),game-character/src/g1-game-character-Character-ee9946-7.cpp,53
+game-character,0x3aeac0,Character::GetCharFaery(int) const,game-character/src/g1-game-character-Character-ee9946-8.cpp,62
+game-character,0x3b4d60,Character::InitPost(),game-character/src/g1-game-character-Character-ee9946-9.cpp,271
+game-character,0x3b395c,Character::_InitEquipment(),game-character/src/g1-game-character-Character-ee9946-9.cpp,48
+game-character,0x3b36ec,Character::SafeGetCharPropsTemplateId(),game-character/src/g1-game-character-Character-ee9946-9.cpp,32
+game-character,0x373bdc,PlayerInfo::Reset(),game-character/src/g1-game-character-PlayerInfo-3a5de8-0.cpp,233
+game-character,0x370cf8,PlayerInfo::ClearLoadingInfo(),game-character/src/g1-game-character-PlayerInfo-3a5de8-0.cpp,37
+game-character,0x370908,PlayerInfo::SetReadyToRoll(bool),game-character/src/g1-game-character-PlayerInfo-3a5de8-0.cpp,26
+game-character,0x370e48,PlayerInfo::SetCharacterLevel(int),game-character/src/g1-game-character-PlayerInfo-3a5de8-0.cpp,26
+game-character,0x36d850,_ZN13PlayerManager16_UnpackInventoryER10PlayerInfo,game-character/src/g1-game-character-PlayerManager-025dba-0.cpp,72
+game-character,0x375eb4,PlayerManager::_CheckGlobalDeaths(),game-character/src/g1-game-character-PlayerManager-025dba-2.cpp,57
+game-character,0x378a40,"PlayerManager::_AddPlayer(int, int, int, bool)",game-character/src/g1-game-character-PlayerManager-025dba-2.cpp,57
+game-character,0x376100,PlayerManager::_CheckLocalDeaths(),game-character/src/g1-game-character-PlayerManager-025dba-2.cpp,27
+game-character,0x378fb4,PlayerManager::Update(),game-character/src/g1-game-character-PlayerManager-025dba-3.cpp,33
+game-character,0x3e907c,_ZN17SpawnGroupManager8DelSpawnEP9SpawnSpot,game-character/src/g1-game-character-SpawnGroupManager-ae66a7-0.cpp,109
+game-character,0x3ea098,_ZN17SpawnGroupManager8InsSpawnEP9SpawnSpot,game-character/src/g1-game-character-SpawnGroupManager-ae66a7-0.cpp,79
+game-character,0x3eaa98,SpawnSpot::DeclareProperties(),game-character/src/g1-game-character-SpawnSpot-3714d9-0.cpp,35
+game-character,0x3c404c,_ZN8CSAttack7OnFocusEiP9CharacterP16CharStateMachineiiPv,game-character/src/g1-game-character-pack0-362e60-0.cpp,103
+game-character,0x3c4f8c,_ZN10CSInteract6OnBlurEiP9CharacterP16CharStateMachinei,game-character/src/g1-game-character-pack3-72cb83-0.cpp,35
+game-character,0x3c5ab0,_ZN13CSKnockedBack7OnEventEiP9CharacterP16CharStateMachineiPv,game-character/src/g1-game-character-pack3-72cb83-0.cpp,27
+game-character,0x3c34cc,_ZN9CSRevived7OnFocusEiP9CharacterP16CharStateMachineiiPv,game-character/src/g1-game-character-pack6-54e920-0.cpp,36
+game-character,0x3c3cc0,_ZN9CSStunned7OnFocusEiP9CharacterP16CharStateMachineiiPv,game-character/src/g1-game-character-pack8-870e63-0.cpp,42
+game-character,0x41f8f0,_ZN17CharPropTextFieldC1EPN7gameswf9characterES2_,game-character/src/g1-game-character-pack8-870e63-0.cpp,40
+game-items-save,0x33eb28,_ZN13ConditionData4InitEv,game-items-save/src/g1-game-items-save-ConditionData-4a6aba-0.cpp,46
+game-items-save,0x3fa038,_ZNK12ItemInstance10GetPowerIdEj,game-items-save/src/g1-game-items-save-ItemInstance-594b18-0.cpp,26
+game-items-save,0x3fcff8,_ZN13ItemInventory19TrophyCheckArmorSetEv,game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-0.cpp,67
+game-items-save,0x3ffa68,"ItemInventory::TransferInventoryTo(ItemInventory&, bool, bool)",game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-1.cpp,81
+game-items-save,0x3ffd54,_ZNK13ItemInventory22GetModularCategoryNameEj,game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-2.cpp,32
+game-items-save,0x3ffebc,_ZNK13ItemInventory14CanRangeAttackERiS0_S0_,game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-2.cpp,24
+game-items-save,0x4009f8,ItemInventory::_EquipItemAuto(uint),game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-3.cpp,101
+game-items-save,0x401b90,"ItemInventory::_GetProbQuantity(int,int)",game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-3.cpp,99
+game-items-save,0x402bdc,ItemInventory::_DoPctRoll(Structs::LootEntry const&),game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-3.cpp,28
+game-items-save,0x402854,ItemInventory::_GetEffectiveProb(Structs::LootEntry const&),game-items-save/src/g1-game-items-save-ItemInventory-cf6f6b-3.cpp,26
+game-items-save,0x3ebd5c,_ZN10ItemObject11ShowTooltipEv,game-items-save/src/g1-game-items-save-ItemObject-eb7cc3-0.cpp,56
+game-items-save,0x3ec974,"ItemObject::DropInventory(ItemInventory&, GameObject const*, GameObject const*, Character const*)",game-items-save/src/g1-game-items-save-ItemObject-eb7cc3-1.cpp,68
+game-items-save,0x462394,LevelSavegame::CheckpointExists(int) const,game-items-save/src/g1-game-items-save-LevelSavegame-0b011d-0.cpp,53
+game-items-save,0x463130,"LevelSavegame::SaveCheckPoint(int, int, int)",game-items-save/src/g1-game-items-save-LevelSavegame-0b011d-0.cpp,48
+game-items-save,0x4626f4,"LevelSavegame::Delete(unsigned int, int, int, int, bool, bool)",game-items-save/src/g1-game-items-save-LevelSavegame-0b011d-0.cpp,29
+game-items-save,0x47a7c4,_ZNK13ObjectiveList9LoopOnAllEM9ObjectiveKFvP7__sFILEES2_,game-items-save/src/g1-game-items-save-ObjectiveList-953dbe-0.cpp,36
+game-items-save,0x47a8cc,_ZN13ObjectiveListD1Ev,game-items-save/src/g1-game-items-save-ObjectiveList-953dbe-1.cpp,38
+game-items-save,0x47e16c,_ZNK30ObjectiveTemplate_InteractWithIN7Structs21v2QuestOpenGameObjectE17QE_OpenGameObjectE37DBG_TraceDetailedObjectiveInformationEP7__sFILE,game-items-save/src/g1-game-items-save-ObjectiveTemplate_InteractWith-131786-0.cpp,71
+game-items-save,0x47f3e4,_ZN30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectE11handleEventEPK6IEventPK12EventManager,game-items-save/src/g1-game-items-save-ObjectiveTemplate_InteractWith-131786-1.cpp,34
+game-items-save,0x47f634,_ZN30ObjectiveTemplate_InteractWithIN7Structs16v2QuestTriggerOnE12QE_TriggerOnE11handleEventEPK6IEventPK12EventManager,game-items-save/src/g1-game-items-save-ObjectiveTemplate_InteractWith-131786-1.cpp,34
+game-items-save,0x47ecd0,_ZN30ObjectiveTemplate_InteractWithIN7Structs24v2QuestDestroyGameObjectE20QE_DestroyGameObjectE7CompileEv,game-items-save/src/g1-game-items-save-ObjectiveTemplate_InteractWith-131786-1.cpp,24
+game-items-save,0x47b1f8,"ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::DBG_TraceDetailedObjectiveInformation(__sFILE*) const",game-items-save/src/g1-game-items-save-ObjectiveTemplate_KillCharacter-592ede-0.cpp,33
+game-items-save,0x47ef50,_ZN31ObjectiveTemplate_KillCharacterIN7Structs25v2QuestClearEnemyTemplateE21QE_ClearEnemyTemplate16TestCharTemplate18Objective_SavedQtyE7CompileEv,game-items-save/src/g1-game-items-save-ObjectiveTemplate_KillCharacter-592ede-0.cpp,32
+game-items-save,0x47f2bc,"ObjectiveTemplate_KillCharacter<Structs::v2QuestKillEnemyTemplate, QE_KillEnemyTemplate, TestCharTemplate, Objective_SavedQty>::handleEvent(IEvent const*, EventManager const*)",game-items-save/src/g1-game-items-save-ObjectiveTemplate_KillCharacter-592ede-1.cpp,30
+game-items-save,0x47ae70,Objective_EventReceiver::Register(),game-items-save/src/g1-game-items-save-Objective_EventReceiver-4e7672-0.cpp,31
+game-items-save,0x47c7f4,"int Objective_EventReceiver::HasEnemyOfTypeLoaded<TestCharPropId>(int, int)",game-items-save/src/g1-game-items-save-Objective_EventReceiver-4e7672-0.cpp,26
+game-items-save,0x466d10,_ZNK14PlayerSavegame17SG_GetMapLocStateEii,game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-1.cpp,38
+game-items-save,0x46663c,_ZN14PlayerSavegame17SG_SetFaerieLevelEjii,game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-1.cpp,30
+game-items-save,0x466e48,_ZN14PlayerSavegame16SG_SetLevelStateEiii,game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-2.cpp,71
+game-items-save,0x468574,PlayerSavegame::_LoadVolatileQuestsLog(int),game-items-save/src/g1-game-items-save-PlayerSavegame-56ccee-3.cpp,42
+game-items-save,0x3796c4,"PlayerStatManager::Invoke(EStatType, int, int) const",game-items-save/src/g1-game-items-save-PlayerStatManager-d6e093-0.cpp,47
+game-items-save,0x379d18,PlayerStatManager::UpdateRanking(EStatType) const,game-items-save/src/g1-game-items-save-PlayerStatManager-d6e093-1.cpp,32
+game-items-save,0x5136ec,_ZN11PropertyMap21LoadDefaultPropertiesEv,game-items-save/src/g1-game-items-save-PropertyMap-ab4ea6-0.cpp,51
+game-items-save,0x513674,_ZN11PropertyMap14DumpPropertiesEv,game-items-save/src/g1-game-items-save-PropertyMap-ab4ea6-0.cpp,40
+game-items-save,0x47fa80,_ZNK5Quest17GetScriptIDFromIDEi,game-items-save/src/g1-game-items-save-Quest-1defd1-0.cpp,56
+game-items-save,0x48081c,_ZN5Quest12AssignPyDataEPN7Structs7v2QuestE,game-items-save/src/g1-game-items-save-Quest-1defd1-1.cpp,45
+game-items-save,0x481818,Quest::Update(),game-items-save/src/g1-game-items-save-Quest-1defd1-2.cpp,85
+game-items-save,0x46b940,_ZN13QuestSavegame15SG_GetQuestByIDEiib,game-items-save/src/g1-game-items-save-QuestSavegame-ef02ce-0.cpp,39
+game-items-save,0x46b1d0,_ZNK13QuestSavegame15SG_GetQuestByIDEPFbPK5QuestEii,game-items-save/src/g1-game-items-save-QuestSavegame-ef02ce-0.cpp,36
+game-items-save,0x46b004,_ZN13QuestSavegameC2Ev,game-items-save/src/g1-game-items-save-QuestSavegame-ef02ce-0.cpp,35
+game-items-save,0x46b824,_ZN13QuestSavegame13CompileQuestsEb,game-items-save/src/g1-game-items-save-QuestSavegame-ef02ce-0.cpp,25
+game-items-save,0x482ba8,RewardList::~RewardList(),game-items-save/src/g1-game-items-save-RewardList-9d3d31-0.cpp,39
+game-items-save,0x315848,_ZN8Savegame4loadEPKcPFvP11IStreamBasePvES6_S4_,game-items-save/src/g1-game-items-save-Savegame-c870a2-0.cpp,52
+game-items-save,0x313fb0,Savegame::DeleteAllSlotFiles(int),game-items-save/src/g1-game-items-save-Savegame-c870a2-0.cpp,35
+game-items-save,0x46c7b8,"SavegameManager::__loadLanguageAndOrientation(IStreamBase*, void*)",game-items-save/src/g1-game-items-save-SavegameManager-ca9830-0.cpp,100
+game-items-save,0x46ca78,"SavegameManager::__saveOptions(IStreamBase*, void*)",game-items-save/src/g1-game-items-save-SavegameManager-ca9830-0.cpp,54
+game-items-save,0x46cd4c,SavegameManager::SavegameManager(),game-items-save/src/g1-game-items-save-SavegameManager-ca9830-0.cpp,27
+game-items-save,0x387e40,_ZN18SimpleTypePropertyIN6glitch4core8vector3dIfEEE5CloneEv,game-items-save/src/g1-game-items-save-SimpleTypeProperty-cdc6b3-1.cpp,24
+game-items-save,0x37fc98,TrophyManager::UnloadTrophies(),game-items-save/src/g1-game-items-save-TrophyManager-f8fac6-0.cpp,34
+game-items-save,0x37fab4,TrophyManager::UnlockTrophiesGLLive(),game-items-save/src/g1-game-items-save-TrophyManager-f8fac6-0.cpp,33
+game-items-save,0x478db4,Condition_IsEventInState::Eval(),game-items-save/src/g1-game-items-save-pack0-dae626-0.cpp,30
+game-items-save,0x478fe8,_ZN31Condition_IsQuestInStateGeneric4EvalEv,game-items-save/src/g1-game-items-save-pack1-f220a8-0.cpp,29
+game-items-save,0x47ee18,"ObjectiveTemplate_KillEnemies<Structs::v2QuestKillEnemyTemplate,QE_KillEnemyTemplate,TestCharTemplate,Objective_SavedQty>::Compile()",game-items-save/src/g1-game-items-save-pack2-1b7c6e-0.cpp,43
+game-items-save,0x47c868,_ZN20Objective_MoveInZone7CompileEv,game-items-save/src/g1-game-items-save-pack3-27fb18-0.cpp,33
+game-items-save,0x482f4c,Reward_ConsumeLoot::DBG_TraceDetailedRewardInformation(__sFILE*),game-items-save/src/g1-game-items-save-pack6-e1e5d0-0.cpp,25
+game-ui,0x478420,_ZN11AnchorGroup13_RemoveAnchorEPS_,game-ui/src/g1-game-ui-AnchorGroup-fe0c7f-0.cpp,27
+game-ui,0x434434,"DialogMsg::DialogMsg(int,int,int,int)",game-ui/src/g1-game-ui-DialogMsg-3e9364-0.cpp,24
+game-ui,0x413b1c,_ZN16FlashAnimManager16FindAnimInstanceEi,game-ui/src/g1-game-ui-FlashAnimManager-797a71-0.cpp,53
+game-ui,0x416fe0,_ZN12GameSWFUtils8PlayAnimEP6MenuFXPN7gameswf9characterEPKc,game-ui/src/g1-game-ui-GameSWFUtils-e60dd5-0.cpp,36
+game-ui,0x41b628,HUDMinimap::HideAllIcons(),game-ui/src/g1-game-ui-HUDMinimap-93879d-0.cpp,76
+game-ui,0x41d384,HUDMinimap::SetRoomVisibility(glitch::scene::ISceneNode*),game-ui/src/g1-game-ui-HUDMinimap-93879d-1.cpp,81
+game-ui,0x41f29c,InfoHUDManager::~InfoHUDManager(),game-ui/src/g1-game-ui-InfoHUDManager-662b8c-0.cpp,50
+game-ui,0x41ecb0,_ZN14InfoHUDManagerC1Ev,game-ui/src/g1-game-ui-InfoHUDManager-662b8c-0.cpp,37
+game-ui,0x41d570,InfoHUDManager::HideLocalDeathTimer(),game-ui/src/g1-game-ui-InfoHUDManager-662b8c-0.cpp,27
+game-ui,0x420624,"MenuBase::FS_ToggleOption(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-1.cpp,26
+game-ui,0x421164,"MenuBase::FS_PlaySoundFX(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-2.cpp,27
+game-ui,0x421fe0,MenuBase::Update(),game-ui/src/g1-game-ui-MenuBase-8948cc-3.cpp,28
+game-ui,0x424288,"MenuBase::FS_GotoFrame(char const*, char const*, void*)",game-ui/src/g1-game-ui-MenuBase-8948cc-4.cpp,43
+game-ui,0x453014,_ZN23MenuCharMenu_InvDetails4ShowEv,game-ui/src/g1-game-ui-MenuCharMenu_InvDetails-2ae384-0.cpp,29
+game-ui,0x452810,MenuCharMenu_InvMain::DestroyAvatarCamera(),game-ui/src/g1-game-ui-MenuCharMenu_InvMain-17e1b1-0.cpp,25
+game-ui,0x454108,"MenuCharMenu_Map::RenderMap(gameswf::render_state&, void*)",game-ui/src/g1-game-ui-MenuCharMenu_Map-2d6327-0.cpp,59
+game-ui,0x4548ac,MenuCharMenu_Map::ShowObjectivesIcons(),game-ui/src/g1-game-ui-MenuCharMenu_Map-2d6327-1.cpp,54
+game-ui,0x42a08c,MenuDebug::SetText(char const*),game-ui/src/g1-game-ui-MenuDebug-521bad-0.cpp,35
+game-ui,0x42c128,MenuMainMenu::Hide(),game-ui/src/g1-game-ui-MenuMainMenu-3de27c-0.cpp,26
+game-ui,0x42d0ec,_ZNK11MenuManager19DBG_Draw2DDeadZonesEv,game-ui/src/g1-game-ui-MenuManager-a5622d-0.cpp,31
+game-ui,0x42d73c,_ZN11MenuManager5ResetEv,game-ui/src/g1-game-ui-MenuManager-a5622d-1.cpp,41
+game-ui,0x42d59c,_ZN11MenuManager21SwitchMenusToMainMenuEv,game-ui/src/g1-game-ui-MenuManager-a5622d-1.cpp,30
+game-ui,0x3ecff8,"MenuMessageManager<StatusMsg, 4>::EnqueueMessage(StatusMsg const&, int, bool)",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-0.cpp,62
+game-ui,0x480b2c,"MenuMessageManager<DialogMsg, 1>::EnqueueMessage(DialogMsg const&, int, bool)",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-1.cpp,62
+game-ui,0x442890,"MenuMessageManager<AchievementMsg, 1>::Invoke(char const*, int) const",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-1.cpp,50
+game-ui,0x442da0,"MenuMessageManager<OnlineStatusMsg, 1>::Invoke(char const*, int) const",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-1.cpp,50
+game-ui,0x459f64,"MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-1.cpp,38
+game-ui,0x49b858,"MenuMessageManager<DialogMsg, 1>::Invoke(char const*, int) const",game-ui/src/g1-game-ui-MenuMessageManager-4d4518-1.cpp,38
+game-ui,0x4353e4,"MenuMinimap::RenderMap(gameswf::render_state&, void*)",game-ui/src/g1-game-ui-MenuMinimap-b3671b-0.cpp,102
+game-ui,0x43641c,_ZN12MenuWorldMapC1Ev,game-ui/src/g1-game-ui-MenuWorldMap-7eeef2-0.cpp,39
+game-ui,0x435d7c,_ZN12MenuWorldMap12InputHandler7onEventERKN6glitch6SEventE,game-ui/src/g1-game-ui-MenuWorldMap-7eeef2-0.cpp,33
+game-ui,0x436ee0,_ZN12MenuWorldMapD1Ev,game-ui/src/g1-game-ui-MenuWorldMap-7eeef2-0.cpp,28
+game-ui,0x437b3c,_ZN16MultiMenuManager13UnloadSWFFileEi,game-ui/src/g1-game-ui-MultiMenuManager-1c2651-0.cpp,56
+game-ui,0x497070,_ZN7SWFAnimC1EP6MenuFXPN7gameswf9characterE,game-ui/src/g1-game-ui-SWFAnim-b79bba-0.cpp,36
+game-ui,0x496ff4,_ZN7SWFAnim12SetTextColorEjj,game-ui/src/g1-game-ui-SWFAnim-b79bba-0.cpp,28
+game-ui,0x498bcc,_ZN14SWFAnimManager8GrabAnimEPKcP6MenuFXi,game-ui/src/g1-game-ui-SWFAnimManager-c5dc0b-0.cpp,46
+game-ui,0x507788,_ZN13StringManager15unloadPackSheetEjj,game-ui/src/g1-game-ui-StringManager-afda5d-0.cpp,49
+game-ui,0x507a94,_ZN13StringManager10switchPackEjb,game-ui/src/g1-game-ui-StringManager-afda5d-0.cpp,24
+game-ui,0x4126a0,"Dropable::TestDragable(Dragable*, bool)",game-ui/src/g1-game-ui-pack2-a7677d-0.cpp,87
+game-ui,0x42cd84,MenuFlash2DCamera::Update(),game-ui/src/g1-game-ui-pack3-9e17e4-0.cpp,69
+game-ui,0x41f6c4,SlideEventCharacter::SlideEventCharacter(gameswf::character*),game-ui/src/g1-game-ui-pack4-0efacf-0.cpp,24
+game-ui,0x7a9008,RenderFX::DBG_TraceContextInformation(gameswf::character*),game-ui/src/n2-game-ui-RenderFX-849cdc-1.cpp,42
+game-ui,0x7a9708,RenderFX::CreateContext(RenderFX::InitializationParameters&),game-ui/src/n2-game-ui-RenderFX-849cdc-1.cpp,29
+game-ui,0x7a95a8,RenderFX::PreloadGlyphs(gameswf::character*),game-ui/src/n2-game-ui-RenderFX-849cdc-1.cpp,28
+game-ui,0x7a9dd0,"RenderFX::SetColorTransform(gameswf::character*, unsigned int, unsigned int)",game-ui/src/n2-game-ui-RenderFX-849cdc-2.cpp,53
+game-ui,0x7ab2e0,RenderFX::~RenderFX(),game-ui/src/n2-game-ui-RenderFX-849cdc-2.cpp,47
+game-ui,0x7a8098,"RenderFX::DepthSearchData::Init(gameswf::character*, char const*)",game-ui/src/n2-game-ui-pack0-47efa6-0.cpp,71
+game-ui,0x7a9a34,RenderFX::Controller::~Controller(),game-ui/src/n2-game-ui-pack0-47efa6-0.cpp,26
+game-world,0x50bdb4,"AssetManager::loadTexture(char const*, int)",game-world/src/g1-game-world-AssetManager-cbdbfa-0.cpp,64
+game-world,0x50c124,AssetManager::dropTexture(boost::intrusive_ptr<glitch::video::ITexture>),game-world/src/g1-game-world-AssetManager-cbdbfa-0.cpp,59
+game-world,0x50a564,_ZN12AssetManager15GetAssetManagerEv,game-world/src/g1-game-world-AssetManager-cbdbfa-0.cpp,32
+game-world,0x35b9bc,BaseMeshSceneNode<glitch::collada::CModularSkinnedMeshSceneNode>::~BaseMeshSceneNode(),game-world/src/g1-game-world-BaseMeshSceneNode-fb9ec3-0.cpp,29
+game-world,0x38781c,Billboard::InitPost(),game-world/src/g1-game-world-Billboard-1e5d36-0.cpp,102
+game-world,0x387fc4,Billboard::DeclareProperties(),game-world/src/g1-game-world-Billboard-1e5d36-0.cpp,37
+game-world,0x7d4768,_ZN16BufferedRendererC1EPN6glitch5video12IVideoDriverE,game-world/src/g1-game-world-BufferedRenderer-ec26b3-0.cpp,141
+game-world,0x7d6894,BufferedRenderer::flush(),game-world/src/g1-game-world-BufferedRenderer-ec26b3-0.cpp,96
+game-world,0x7d72b4,_ZN16BufferedRenderer5resetEv,game-world/src/g1-game-world-BufferedRenderer-ec26b3-0.cpp,49
+game-world,0x818a28,CRoomAttributes::Clear(),game-world/src/g1-game-world-CRoomAttributes-90a94b-1.cpp,62
+game-world,0x818948,CRoomAttributes::EraseAttributeBin(tROOM_ATTRIBUTES_BIN),game-world/src/g1-game-world-CRoomAttributes-90a94b-1.cpp,31
+game-world,0x819cf8,_ZN17CRoomSearchFilter21SetSearchAttributeIntE20tROOM_ATTRIBUTES_INT20ROOM_SEARCH_OPERATORi,game-world/src/g1-game-world-CRoomSearchFilter-434a1f-0.cpp,92
+game-world,0x819edc,"CRoomSearchFilter::SetSearchAttributeBin(tROOM_ATTRIBUTES_BIN, ROOM_SEARCH_OPERATOR, void*, unsigned int)",game-world/src/g1-game-world-CRoomSearchFilter-434a1f-0.cpp,88
+game-world,0x40e928,_ZNK10CameraBase14GetCameraUpVecEv,game-world/src/g1-game-world-CameraBase-b32e3c-0.cpp,30
+game-world,0x41068c,"CameraLevel::Load(char const*, int, char const*)",game-world/src/g1-game-world-CameraLevel-aa3485-0.cpp,93
+game-world,0x411830,CameraTarget::HandleTransition(),game-world/src/g1-game-world-CameraTarget-255099-0.cpp,64
+game-world,0x4119c4,"CameraTarget::SetTarget(GameObject*,int)",game-world/src/g1-game-world-CameraTarget-255099-0.cpp,42
+game-world,0x39f6f0,Container::Deserialize(IStreamBase*),game-world/src/g1-game-world-Container-e6443a-0.cpp,40
+game-world,0x39f910,Container::InitPost(),game-world/src/g1-game-world-Container-e6443a-1.cpp,83
+game-world,0x3a083c,_ZN9Container17DeclarePropertiesEv,game-world/src/g1-game-world-Container-e6443a-1.cpp,62
+game-world,0x3a0598,_ZN9ContainerD2Ev,game-world/src/g1-game-world-Container-e6443a-1.cpp,54
+game-world,0x3a0788,Container::Container(ObjectBase::GO_IDS),game-world/src/g1-game-world-Container-e6443a-1.cpp,24
+game-world,0x3e8990,_ZN4Door17DeclarePropertiesEv,game-world/src/g1-game-world-Door-478d47-1.cpp,50
+game-world,0x3e8324,_ZN4DoorC2EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-Door-478d47-1.cpp,24
+game-world,0x38b110,_ZN10GameObject15SetRelativeAABBERK4aabbIfEb,game-world/src/g1-game-world-GameObject-5d2019-1.cpp,34
+game-world,0x38be5c,GameObject::InitPost(),game-world/src/g1-game-world-GameObject-5d2019-2.cpp,126
+game-world,0x38c130,_ZN10GameObjectC1EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-GameObject-5d2019-2.cpp,105
+game-world,0x38bd64,GameObject::CheckSpawnProbability(),game-world/src/g1-game-world-GameObject-5d2019-2.cpp,49
+game-world,0x38cd48,GameObject::InitFinal(),game-world/src/g1-game-world-GameObject-5d2019-3.cpp,72
+game-world,0x38d378,GameObject::~GameObject(),game-world/src/g1-game-world-GameObject-5d2019-3.cpp,56
+game-world,0x38cee8,_ZN10GameObject17DeclarePropertiesEv,game-world/src/g1-game-world-GameObject-5d2019-3.cpp,45
+game-world,0x38e930,_ZN10GameObject18_GetTargetListSizeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-3.cpp,28
+game-world,0x38ef60,_ZN10GameObject18LoadExternalScriptEPKcS1_,game-world/src/g1-game-world-GameObject-5d2019-4.cpp,41
+game-world,0x38fc74,_ZN10GameObject7_DropFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-4.cpp,24
+game-world,0x392b80,_ZN10GameObject21_TargetListSearchRectERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-5.cpp,253
+game-world,0x3923cc,_ZN10GameObject7_PlayFXERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-5.cpp,100
+game-world,0x390c50,_ZN10GameObject16_SummonTimerTrapERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-5.cpp,82
+game-world,0x391670,_ZN10GameObject18_SummonTriggerTrapERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv,game-world/src/g1-game-world-GameObject-5d2019-5.cpp,82
+game-world,0x393310,"GameObject::_Rand(sfc::script::lua::Arguments const&, sfc::script::lua::ReturnValues&, void*)",game-world/src/g1-game-world-GameObject-5d2019-5.cpp,70
+game-world,0x393ea0,_ZN10GameObject14UpdatePFObjectEv,game-world/src/g1-game-world-GameObject-5d2019-6.cpp,38
+game-world,0x3e3fcc,_ZN19LaserTypeProjectile6UpdateEv,game-world/src/g1-game-world-LaserTypeProjectile-a4dda1-0.cpp,186
+game-world,0x3e3e2c,"LaserTypeProjectile::OnCollision(GameObject*, Point2D<float> const&)",game-world/src/g1-game-world-LaserTypeProjectile-a4dda1-0.cpp,67
+game-world,0x3efaec,"Level::SG_SavePlayer(int, bool)",game-world/src/g1-game-world-Level-7c7f5d-1.cpp,49
+game-world,0x3efca4,Level::_LoadFinalInit(),game-world/src/g1-game-world-Level-7c7f5d-1.cpp,47
+game-world,0x3ef8f8,Level::SG_IsLevelLocked(int) const,game-world/src/g1-game-world-Level-7c7f5d-1.cpp,35
+game-world,0x3f01c8,Level::_LoadFromXML(TiXmlElement*),game-world/src/g1-game-world-Level-7c7f5d-1.cpp,29
+game-world,0x3f3b40,"Level::LoadFile(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&, std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)",game-world/src/g1-game-world-Level-7c7f5d-2.cpp,248
+game-world,0x3f0ae0,Level::UpdateListener(),game-world/src/g1-game-world-Level-7c7f5d-2.cpp,197
+game-world,0x3f1008,Level::_LoadCamera(),game-world/src/g1-game-world-Level-7c7f5d-2.cpp,136
+game-world,0x3f34c0,"Level::Level(char const*, int, unsigned int, unsigned int, unsigned int, bool, bool, int, int)",game-world/src/g1-game-world-Level-7c7f5d-2.cpp,134
+game-world,0x3f0898,Level::PlaceFaeryAndFollowers(Character*),game-world/src/g1-game-world-Level-7c7f5d-2.cpp,113
+game-world,0x3f254c,Level::Draw() const,game-world/src/g1-game-world-Level-7c7f5d-2.cpp,97
+game-world,0x3f150c,_ZN5Level14SetLevelConfigEP11LevelConfig,game-world/src/g1-game-world-Level-7c7f5d-2.cpp,80
+game-world,0x3f1430,Level::EnableFog(glitch::scene::ISceneNode*),game-world/src/g1-game-world-Level-7c7f5d-2.cpp,33
+game-world,0x3f3a58,_ZN5Level12_LoadScriptsEv,game-world/src/g1-game-world-Level-7c7f5d-2.cpp,32
+game-world,0x3f07f8,_ZN5Level19GenerateRandomLevelER12StreamBufferj,game-world/src/g1-game-world-Level-7c7f5d-2.cpp,31
+game-world,0x3f9870,Level::UpdateCameraZoom(),game-world/src/g1-game-world-Level-7c7f5d-3.cpp,112
+game-world,0x3f4910,_ZN11LevelConfigC2EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-LevelConfig-14ee90-0.cpp,92
+game-world,0x3f20c8,_ZN11LevelConfigD1Ev,game-world/src/g1-game-world-LevelConfig-14ee90-0.cpp,25
+game-world,0x3ee468,LiftableObject::Release(),game-world/src/g1-game-world-LiftableObject-ad7bbe-0.cpp,44
+game-world,0x3eeec8,LiftableObject::InitFinal(),game-world/src/g1-game-world-LiftableObject-ad7bbe-1.cpp,32
+game-world,0x35acb4,ModularSkinnedMeshSceneNode::prepareSkinForRendering(),game-world/src/g1-game-world-ModularSkinnedMeshSceneNode-a4b53e-0.cpp,54
+game-world,0x38a38c,_ZNK6Module11_ChooseXmlsERSsS0_,game-world/src/g1-game-world-Module-b8ff02-0.cpp,190
+game-world,0x389fa8,_ZN6ModuleC1EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-Module-b8ff02-0.cpp,50
+game-world,0x389444,_ZN6ModuleD1Ev,game-world/src/g1-game-world-Module-b8ff02-0.cpp,33
+game-world,0x33e998,_ZN10ObjectBaseD2Ev,game-world/src/g1-game-world-ObjectBase-670ee4-1.cpp,43
+game-world,0x33ec0c,_ZN10ObjectBase8InitPostEv,game-world/src/g1-game-world-ObjectBase-670ee4-1.cpp,38
+game-world,0x4593f4,_ZN12ObjectHandlecvPT_I9ContainerEEv,game-world/src/g1-game-world-ObjectHandle-4d223d-0.cpp,25
+game-world,0x3409f4,"ObjectManager::IsObjectSerializable(ObjectBase*, int)",game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp,69
+game-world,0x3426b0,"ObjectManager::GetObjectsByType(char const*, std::list<Character*, std::allocator<Character*> >&) const",game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp,63
+game-world,0x34072c,_ZN13ObjectManager24DeleteRandomOnlineObjectEv,game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp,44
+game-world,0x3407a0,_ZN13ObjectManager26GetObjectHandleByNetworkIdEi,game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp,36
+game-world,0x340848,_ZN13ObjectManager13CanSendUpdateEP10ObjectBase,game-world/src/g1-game-world-ObjectManager-5017c7-0.cpp,29
+game-world,0x346178,_ZN13ObjectManager25ProcessAcknowledgedPacketEii,game-world/src/g1-game-world-ObjectManager-5017c7-1.cpp,81
+game-world,0x3454dc,_ZN13ObjectManager27FlushAllOrphanRenderObjectsEv,game-world/src/g1-game-world-ObjectManager-5017c7-1.cpp,26
+game-world,0x345c20,_ZN13ObjectManager15GetObjectByTypeEPKc,game-world/src/g1-game-world-ObjectManager-5017c7-1.cpp,25
+game-world,0x34a1e8,ObjectManager::ObjectManager(),game-world/src/g1-game-world-ObjectManager-5017c7-2.cpp,107
+game-world,0x34b724,_ZN13ObjectManager5SpawnEPKcS1_bb,game-world/src/g1-game-world-ObjectManager-5017c7-3.cpp,56
+game-world,0x4a1ab8,ObjectSearcher::TargetList::_IsCharacterValid(Character*),game-world/src/g1-game-world-ObjectSearcher-3d104b-2.cpp,70
+game-world,0x4a2730,_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii,game-world/src/g1-game-world-ObjectSearcher-3d104b-2.cpp,57
+game-world,0x4a1a38,_ZN14ObjectSearcher10TargetList18FlushBackupResultsEv,game-world/src/g1-game-world-ObjectSearcher-3d104b-2.cpp,41
+game-world,0x51c2c0,PFFloor::_DBG_Draw(),game-world/src/g1-game-world-PFFloor-da331b-0.cpp,128
+game-world,0x524cd0,PFObject::DBG_DrawObstacleForces() const,game-world/src/g1-game-world-PFObject-34f48a-0.cpp,86
+game-world,0x521eb8,"PFRoom::_LoadFloor(glitch::scene::IMeshSceneNode*, char const*)",game-world/src/g1-game-world-PFRoom-5b155a-0.cpp,146
+game-world,0x521718,_ZN6PFRoomC2EPKcjP7PFWorldP13PFGOuterGraphP13PFGInnerGraph,game-world/src/g1-game-world-PFRoom-5b155a-0.cpp,74
+game-world,0x522844,_ZN7PFWorld5_InitEv,game-world/src/g1-game-world-PFWorld-d9994a-0.cpp,98
+game-world,0x5236d0,_ZN7PFWorld5FlushEv,game-world/src/g1-game-world-PFWorld-d9994a-0.cpp,66
+game-world,0x522e2c,_ZN7PFWorldC1Ev,game-world/src/g1-game-world-PFWorld-d9994a-0.cpp,46
+game-world,0x523864,_ZN7PFWorldD1Ev,game-world/src/g1-game-world-PFWorld-d9994a-0.cpp,34
+game-world,0x528234,"""PFWorld::InitObstacle(PFObject&",game-world/src/g1-game-world-PFWorld-d9994a-1.cpp,133
+game-world,0x528ea0,PFWorld::_GetClosestNode(PFObject const&),game-world/src/g1-game-world-PFWorld-d9994a-1.cpp,103
+game-world,0x528484,_ZN7PFWorld25_ChangeObstacleParentListERK8PFObjectP7PFFloor,game-world/src/g1-game-world-PFWorld-d9994a-1.cpp,76
+game-world,0x46f2f0,_ZN14PhysicalObjectC2EP13PhysicalWorldP10GameObjectbbbbstti,game-world/src/g1-game-world-PhysicalObject-442e5f-1.cpp,122
+game-world,0x46edf0,_ZN14PhysicalObject5_initEP10b2ShapeDefffbb,game-world/src/g1-game-world-PhysicalObject-442e5f-1.cpp,48
+game-world,0x46ed64,_ZN14PhysicalObject9getLookAtER7Point2DIfE,game-world/src/g1-game-world-PhysicalObject-442e5f-1.cpp,28
+game-world,0x34c304,_ZN13PhysicalWorld13ShouldCollideEP7b2ShapeS1_,game-world/src/g1-game-world-PhysicalWorld-6d6c7e-0.cpp,39
+game-world,0x3e58cc,"Projectile::SetInfo(int, GameObject*, GameObject*, int (*)(Projectile*, void*), int (*)(Projectile*, void*), void*, bool)",game-world/src/g1-game-world-Projectile-6685f5-0.cpp,187
+game-world,0x3e55b4,_ZN10Projectile11OnCollisionEP10GameObjectRK7Point2DIfE,game-world/src/g1-game-world-Projectile-6685f5-0.cpp,71
+game-world,0x3e4fe4,_ZN10Projectile10SetManagerEP17ProjectileManager,game-world/src/g1-game-world-Projectile-6685f5-0.cpp,26
+game-world,0x3e6edc,_ZN17ProjectileManager5SpawnEiP10GameObjectS1_PFiP10ProjectilePvES6_S4_f,game-world/src/g1-game-world-ProjectileManager-fb6a9d-0.cpp,48
+game-world,0x39cdc4,ProjectileTrap::SpecificUpdate(),game-world/src/g1-game-world-ProjectileTrap-a3961a-0.cpp,60
+game-world,0x3968cc,_ZN8RoomZone12RemoveObjectEP10GameObject,game-world/src/g1-game-world-RoomZone-830132-0.cpp,34
+game-world,0x3967a0,_ZN8RoomZoneD2Ev,game-world/src/g1-game-world-RoomZone-830132-0.cpp,27
+game-world,0x35d910,RootSceneNode::RootSceneNode(glitch::collada::CColladaDatabase const&),game-world/src/g1-game-world-RootSceneNode-e402f1-1.cpp,30
+game-world,0x3527fc,"SceneManager::SetMaterialEffects(boost::intrusive_ptr<glitch::video::CMaterial>, glitch::core::vector3d<float>, float, float)",game-world/src/g1-game-world-SceneManager-9fc3ac-0.cpp,75
+game-world,0x3523c4,"SceneManager::SetCustomFog(boost::intrusive_ptr<glitch::video::CMaterial>&, glitch::core::vector3d<float>, glitch::core::vector3d<float>, glitch::core::vector3d<float>)",game-world/src/g1-game-world-SceneManager-9fc3ac-0.cpp,42
+game-world,0x35233c,"SceneManager::EnableFog(float, float, Point3D<float> const&, glitch::scene::ISceneNode*)",game-world/src/g1-game-world-SceneManager-9fc3ac-0.cpp,31
+game-world,0x354588,"SceneManager::DBG_WireFrame(bool, glitch::scene::ISceneNode*)",game-world/src/g1-game-world-SceneManager-9fc3ac-1.cpp,132
+game-world,0x3551e4,"SceneManager::ChangeCommonTechnique(boost::intrusive_ptr<glitch::video::CMaterial>, bool, bool, bool)",game-world/src/g1-game-world-SceneManager-9fc3ac-1.cpp,120
+game-world,0x355484,"SceneManager::ResetCommonTechniqueToDefault(glitch::scene::ISceneNode*, bool, bool, bool)",game-world/src/g1-game-world-SceneManager-9fc3ac-1.cpp,108
+game-world,0x35a3d8,"SceneManager::registerNodeForCustomRendering(glitch::scene::ISceneNode*, boost::intrusive_ptr<glitch::video::CMaterial> const&, void*, E_SCENE_NODE_CUSTOM_RENDER_PASS, glitch::core::vector3d<float> const*, int)",game-world/src/g1-game-world-SceneManager-9fc3ac-2.cpp,335
+game-world,0x357ea4,SceneManager::_registerSceneNodes(glitch::scene::ISceneNode*),game-world/src/g1-game-world-SceneManager-9fc3ac-2.cpp,78
+game-world,0x357dc0,SceneManager::clearRenderLists(),game-world/src/g1-game-world-SceneManager-9fc3ac-2.cpp,55
+game-world,0x35a0e4,_ZN12SceneManager12SearchByNameEPN6glitch5scene10ISceneNodeEPKcb,game-world/src/g1-game-world-SceneManager-9fc3ac-2.cpp,24
+game-world,0x360b7c,ShadowSkinnedMeshSceneNode::~ShadowSkinnedMeshSceneNode(),game-world/src/g1-game-world-ShadowSkinnedMeshSceneNode-844318-0.cpp,28
+game-world,0x35ad8c,SkinnedMeshSceneNode::prepareSkinForRendering(),game-world/src/g1-game-world-SkinnedMeshSceneNode-f843bf-0.cpp,53
+game-world,0x362398,SkyBoxMeshSceneNode::render(void*),game-world/src/g1-game-world-SkyBoxMeshSceneNode-1f1d6a-0.cpp,116
+game-world,0x3a2640,SlotContainer::InitPost(),game-world/src/g1-game-world-SlotContainer-53addb-0.cpp,222
+game-world,0x3951c0,SoundEmitter::Update(),game-world/src/g1-game-world-SoundEmitter-aa1880-0.cpp,90
+game-world,0x395718,_ZN12SoundEmitter17DeclarePropertiesEv,game-world/src/g1-game-world-SoundEmitter-aa1880-0.cpp,46
+game-world,0x39d724,"TimerTrap::Create(GameObject*, int, int)",game-world/src/g1-game-world-TimerTrap-9a2c23-0.cpp,56
+game-world,0x39d688,_ZN9TimerTrap14SpecificUpdateEv,game-world/src/g1-game-world-TimerTrap-9a2c23-0.cpp,35
+game-world,0x399214,_ZN7TriggerD2Ev,game-world/src/g1-game-world-Trigger-d3f06a-1.cpp,42
+game-world,0x3993bc,TriggerObject::TestInteractiveCond(),game-world/src/g1-game-world-TriggerObject-bcf06e-0.cpp,36
+game-world,0x39e670,_ZN11TriggerTrapC2EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-TriggerTrap-4c3d15-1.cpp,32
+game-world,0x39c0a8,TriggerZone::InitPost(),game-world/src/g1-game-world-TriggerZone-8e2902-0.cpp,105
+game-world,0x39b990,_ZN11TriggerZoneC2EN10ObjectBase6GO_IDSE,game-world/src/g1-game-world-TriggerZone-8e2902-0.cpp,25
+game-world,0x39c33c,TriggerZoneExitLevel::Update(),game-world/src/g1-game-world-TriggerZoneExitLevel-2febd1-0.cpp,128
+game-world,0x47a9b4,_ZN13Vector3DFList6setNewEi,game-world/src/g1-game-world-Vector3DFList-3ca439-0.cpp,45
+game-world,0x494978,_ZN15VisualFXManager14DropAnimatedFXERP10AnimatedFX,game-world/src/g1-game-world-VisualFXManager-29ec2f-0.cpp,69
+game-world,0x493328,_ZNK15VisualFXManager22DBG_GetAnimatedFXStatsERjS0_,game-world/src/g1-game-world-VisualFXManager-29ec2f-0.cpp,56
+game-world,0x496434,_ZN15VisualFXManager16RegisterFXToLoadEi,game-world/src/g1-game-world-VisualFXManager-29ec2f-1.cpp,39
+game-world,0x496364,_ZN15VisualFXManager18_HandleEndOfLoopCBEP10AnimatedFXPNS_13AnimFXSetDataE,game-world/src/g1-game-world-VisualFXManager-29ec2f-1.cpp,26
+game-world,0x470b78,VisualObject::SetXraySkinnedMeshVisible(bool),game-world/src/g1-game-world-VisualObject-0654b6-0.cpp,27
+game-world,0x471298,VisualObject::ExternalNodeSync(RootSceneNode*),game-world/src/g1-game-world-VisualObject-0654b6-1.cpp,58
+game-world,0x474318,VisualObject::ApplyMaterialBaseParam(),game-world/src/g1-game-world-VisualObject-0654b6-2.cpp,111
+game-world,0x47295c,VisualObject::SetParent(GameObject*),game-world/src/g1-game-world-VisualObject-0654b6-2.cpp,40
+game-world,0x474568,_ZNK12VisualObject18GetModularModuleIdEiPKc,game-world/src/g1-game-world-VisualObject-0654b6-2.cpp,29
+game-world,0x363574,XrayModularSkinnedMeshSceneNode::onRegisterSceneNode(),game-world/src/g1-game-world-XrayModularSkinnedMeshSceneNode-7b0f5c-0.cpp,113
+game-world,0x362c38,XrayModularSkinnedMeshSceneNode::updateXrayMaterial(),game-world/src/g1-game-world-XrayModularSkinnedMeshSceneNode-7b0f5c-0.cpp,44
+game-world,0x364174,"XrayModularSkinnedMeshSceneNode::XrayModularSkinnedMeshSceneNode(boost::intrusive_ptr<glitch::collada::IMesh>, glitch::scene::ISceneNode const*)",game-world/src/g1-game-world-XrayModularSkinnedMeshSceneNode-7b0f5c-0.cpp,36
+game-world,0x3980a8,_ZN6ZoneEx6UpdateEv,game-world/src/g1-game-world-ZoneEx-dd645a-0.cpp,89
+game-world,0x3f1868,batch::BatchNodeCompiler::Free(),game-world/src/g1-game-world-batch-7f01fe-0.cpp,27
+game-world,0x388730,Decor::LoadFloorMap(),game-world/src/g1-game-world-pack0-9565e8-0.cpp,32
+game-world,0x388a98,_ZN5Decor8InitPostEv,game-world/src/g1-game-world-pack0-9565e8-0.cpp,25
+game-world,0x395bd0,_ZN14CheckpointZoneD2Ev,game-world/src/g1-game-world-pack0-9565e8-0.cpp,24
+game-world,0x7d4a08,MaterialData::setMaterial(boost::intrusive_ptr<glitch::video::CMaterial> const&),game-world/src/g1-game-world-pack1-bc81ef-0_material.cpp,40
+game-world,0x381cf0,_ZN17UnderlaySceneNode19onRegisterSceneNodeEv,game-world/src/g1-game-world-pack4-608cd6-0.cpp,51
+game-world,0x381b90,UnderlaySceneNode::render(void*),game-world/src/g1-game-world-pack4-608cd6-0.cpp,47
+net-session-online,0x89ab08,_ZN13ALicenseCheck4InitEP7_JNIEnvP7_jclass,net-session-online/src/a_license_check.cpp,26
+net-session-online,0x7fe330,_ZN15CEventQueueBase9FindEventEib,net-session-online/src/c_event_queue_base.cpp,50
+net-session-online,0x7fe2b8,_ZN15CEventQueueBase5ClearEi,net-session-online/src/c_event_queue_base.cpp,33
+net-session-online,0x7fde10,_ZN15CEventQueueBase9HasEventsEv,net-session-online/src/c_event_queue_base.cpp,27
+net-session-online,0x837224,_ZN23CLobbyParameterAndQueryC2Ev,net-session-online/src/c_lobby_parameter_and_query.cpp,140
+net-session-online,0x836c0c,_ZN23CLobbyParameterAndQuery17SetParameterValueEiPc,net-session-online/src/c_lobby_parameter_and_query.cpp,36
+net-session-online,0x804234,_ZN18CMatchingBluetooth13ProcessEventsEv,net-session-online/src/c_matching_bluetooth.cpp,579
+net-session-online,0x804cf8,_ZN18CMatchingBluetooth6UpdateEv,net-session-online/src/c_matching_bluetooth.cpp,357
+net-session-online,0x803448,_ZN18CMatchingBluetooth18AddBluetoothServerEii13tMatchingPeer,net-session-online/src/c_matching_bluetooth.cpp,118
+net-session-online,0x803274,_ZN18CMatchingBluetooth16JoinRoomInternalEy,net-session-online/src/c_matching_bluetooth.cpp,92
+net-session-online,0x80246c,_ZN18CMatchingBluetoothD1Ev,net-session-online/src/c_matching_bluetooth.cpp,26
+net-session-online,0x81bd3c,_ZN15CMatchingGLLive17SaveGLLiveProfileEv,net-session-online/src/c_matching_gl_live_glx04.cpp,38
+net-session-online,0x81f858,_ZN15CMatchingGLLive9TerminateEv,net-session-online/src/c_matching_gl_live_lifecycle.cpp,37
+net-session-online,0x81c5e8,_ZN15CMatchingGLLive17GetGLXPlayerLoginEv,net-session-online/src/c_matching_gl_live_lifecycle.cpp,34
+net-session-online,0x81dd04,_ZNK15CMatchingGLLive17GetGLLiveMemberIdEv,net-session-online/src/c_matching_gl_live_member_calls.cpp,59
+net-session-online,0x81ee6c,_ZN15CMatchingGLLive16GetGLFriendsListEv,net-session-online/src/c_matching_gl_live_member_calls.cpp,26
+net-session-online,0x805de0,_ZN14CMatchingLocal18SendServerResponseEb,net-session-online/src/c_matching_local_messages.cpp,60
+net-session-online,0x808774,_ZN14CMatchingLocal16JoinRoomInternalEy,net-session-online/src/c_matching_local_rooms.cpp,70
+net-session-online,0x8094fc,_ZN14CMatchingLocal9AddServerEiR10CNetworkIdiR15CRoomAttributes,net-session-online/src/c_matching_local_servers.cpp,154
+net-session-online,0x8097c4,_ZN14CMatchingLocal20ProcessServerMessageER10CNetworkIdR12NetBitStream,net-session-online/src/c_matching_local_servers.cpp,37
+net-session-online,0x80cd18,"CMessaging::ProcessAcknowledgedPacket(int, int)",net-session-online/src/c_messaging.cpp,98
+net-session-online,0x80b900,"CMessaging::PackMessages(int, NetBitStream&)",net-session-online/src/c_messaging.cpp,80
+net-session-online,0x80a994,"CMessaging::AcknowledgeSentMessages(int, std::set<unsigned short, std::less<unsigned short>, std::allocator<unsigned short> >&)",net-session-online/src/c_messaging.cpp,54
+net-session-online,0x80afe4,CMessaging::CMessaging(),net-session-online/src/c_messaging.cpp,44
+net-session-online,0x81a6ac,_ZN7CSignIn3GetEv,net-session-online/src/c_sign_in.cpp,43
+net-session-online,0x824bbc,_ZN21CSignInGLLiveObserver16OnRequestSuccessEiPci,net-session-online/src/c_sign_in_gl_live_observer.cpp,43
+net-session-online,0x52e1b4,_ZN15CXPlayerManager16OnRequestFailureEii,net-session-online/src/cxplayer_manager.cpp,40
+net-session-online,0x52e358,_ZN15CXPlayerManager5LoginEPcS0_,net-session-online/src/cxplayer_manager.cpp,32
+net-session-online,0x52df98,_ZN15CXPlayerManagerD2Ev,net-session-online/src/cxplayer_manager.cpp,28
+net-session-online,0x801120,_ZN9CMatching13ProcessEventsEv,net-session-online/src/e2-net-session-online-pack0-9acceb-0.cpp,239
+net-session-online,0x499f24,_ZN10GameCenter22GCStartMultiplayerGameEv,net-session-online/src/game_center.cpp,34
+net-session-online,0x89cf04,LC_API_IP_STR2INT,net-session-online/src/glx_84ae28.cpp,32
+net-session-online,0x82d298,_ZN13GLXPlayerHttpD1Ev,net-session-online/src/glx_player_http.cpp,47
+net-session-online,0x82d6e0,_ZN13GLXPlayerHttp15sendVideoByPostEPcS0_S0_RiS0_,net-session-online/src/glx_player_http_requests.cpp,96
+net-session-online,0x82d444,_ZN13GLXPlayerHttp10sendByPostEPcS0_,net-session-online/src/glx_player_http_requests.cpp,89
+net-session-online,0x82d9ac,_ZN13GLXPlayerHttp9sendByGetEPcS0_,net-session-online/src/glx_player_http_requests.cpp,68
+net-session-online,0x82cf4c,_ZN13GLXPlayerHttp12downloadFileEPcS0_S0_S0_ll,net-session-online/src/glx_player_http_requests.cpp,67
+net-session-online,0x8321cc,GLXPlayerLeaderboard::getLeaderboardEntry(int; char*&; int&; int&; int*&; int&),net-session-online/src/glx_player_leaderboard.cpp,31
+net-session-online,0x833244,GLXPlayerLeaderboard::GLXPlayerLeaderboard() C1,net-session-online/src/glx_player_leaderboard.cpp,25
+net-session-online,0x8344a0,GLXPlayerLogin::processGetProductInfo(char*),net-session-online/src/glx_player_login.cpp,64
+net-session-online,0x834a8c,_ZN14GLXPlayerLoginD2Ev,net-session-online/src/glx_player_login_requests.cpp,84
+net-session-online,0x8368e0,_ZN16GLXPlayerMessageC1Ev,net-session-online/src/glx_player_message.cpp,27
+net-session-online,0x83615c,GLXPlayerMessage::SendGetMessageHeader(int; int; int; int),net-session-online/src/glx_player_message_requests.cpp,95
+net-session-online,0x836474,GLXPlayerMessage::SendGetMessageCount(int; int),net-session-online/src/glx_player_message_requests.cpp,74
+net-session-online,0x83a744,_ZN16GLXPlayerMPLobby31mpSendCreateLobbyWithGameCenterEPchhiS0_iS0_iP23CLobbyParameterAndQueryRSt4listISsSaISsEE,net-session-online/src/glx_player_mp_lobby.cpp,57
+net-session-online,0x8387a4,_ZN16GLXPlayerMPLobby17mpSendCreateLobbyEPchhiS0_iS0_iP23CLobbyParameterAndQuery,net-session-online/src/glx_player_mp_lobby.cpp,46
+net-session-online,0x8377c0,_ZN16GLXPlayerMPLobby23mpSendGetLobbyForFriendEihiPci,net-session-online/src/glx_player_mp_lobby.cpp,33
+net-session-online,0x8381a8,_ZN16GLXPlayerMPLobby22mpSendSetGameParameterEPciP23CLobbyParameterAndQuery,net-session-online/src/glx_player_mp_lobby.cpp,29
+net-session-online,0x837e18,_ZN16GLXPlayerMPLobby13mpSendKickOutEPc,net-session-online/src/glx_player_mp_lobby.cpp,25
+net-session-online,0x8382c8,_ZN16GLXPlayerMPLobby21mpSendSetPlayerStatusEh,net-session-online/src/glx_player_mp_lobby.cpp,25
+net-session-online,0x838890,_ZN16GLXPlayerMPLobby30mpSendLobbyLoginWithGameCenterElPcihhS0_S0_,net-session-online/src/glx_player_mp_lobby.cpp,25
+net-session-online,0x840564,"GLXPlayerPing::GLXPlayerPing(char const*,int)",net-session-online/src/glx_player_ping.cpp,27
+net-session-online,0x82e0bc,_ZN22GLXPlayerSereverConfig16SaveServerConfigEv,net-session-online/src/glx_player_serever_config_io.cpp,119
+net-session-online,0x830448,GLXPlayerSocket::ParseHttpHeader(char*),net-session-online/src/glx_player_socket.cpp,40
+net-session-online,0x83fda0,_ZN13GLXPlayerUserD2Ev,net-session-online/src/glx_player_user.cpp,162
+net-session-online,0x82bc78,_ZN19GLXPlayerUserFriend16clearFriendsListEv,net-session-online/src/glx_player_user_friend_lists.cpp,231
+net-session-online,0x82cbf8,_ZN19GLXPlayerUserFriendC2Ev,net-session-online/src/glx_player_user_friend_requests.cpp,27
+net-session-online,0x83eb14,_ZN13GLXPlayerUser18sendUpdateUserInfoEPciS0_S0_S0_iS0_,net-session-online/src/glx_player_user_requests.cpp,88
+net-session-online,0x83d77c,_ZN13GLXPlayerUser20sendUploadUserAvatarEPc,net-session-online/src/glx_player_user_requests.cpp,28
+net-session-online,0x83b82c,_ZN13GLXPlayerUser17processUserAvatarEPc,net-session-online/src/glx_player_user_responses.cpp,116
+net-session-online,0x83adec,_ZN13GLXPlayerUser16processLiveFeedsEPc,net-session-online/src/glx_player_user_responses.cpp,85
+net-session-online,0x83b424,_ZN13GLXPlayerUser21processUserAvatarListEPc,net-session-online/src/glx_player_user_responses.cpp,61
+net-session-online,0x83bae4,_ZN13GLXPlayerUser20processUserBestScoreEPc,net-session-online/src/glx_player_user_responses.cpp,33
+net-session-online,0x8315c4,GLXPlayerWebComponent::LoadConfig(),net-session-online/src/glx_player_web_component.cpp,55
+net-session-online,0x831dfc,GLXPlayerWebComponent::Update(),net-session-online/src/glx_player_web_component.cpp,42
+net-session-online,0x8a0af0,_ZN15LCXPlayerSocket19ParseChunkedContentEv,net-session-online/src/lcx_player_socket.cpp,472
+net-session-online,0x8a0314,_ZN15LCXPlayerSocketC1EPciP23LCXPlayerSocketObserver,net-session-online/src/lcx_player_socket.cpp,34
+net-session-online,0x49b990,_ZN19MultiplayerCallback20HandleMenuBackButtonEPv,net-session-online/src/multiplayer_callback.cpp,152
+net-session-online,0x49a808,_ZN19MultiplayerCallback16HandlePlayerLeftEPv,net-session-online/src/multiplayer_callback.cpp,66
+net-session-online,0x49a75c,_ZN19MultiplayerCallback17LoadGLLiveFriendsEv,net-session-online/src/multiplayer_callback.cpp,58
+net-session-online,0x49b660,_ZN19MultiplayerCallback10searchRoomEPv,net-session-online/src/multiplayer_callback.cpp,55
+net-session-online,0x49a0d4,_ZN19MultiplayerCallback32HandleAskResendAttributesMessageEPv,net-session-online/src/multiplayer_callback.cpp,41
+net-session-online,0x49a17c,_ZN19MultiplayerCallback24HandleGlobalDeathMessageEPv,net-session-online/src/multiplayer_callback.cpp,36
+net-session-online,0x49a9fc,_ZN19MultiplayerCallback19HandleIsHostMessageEPv,net-session-online/src/multiplayer_callback.cpp,25
+net-session-online,0x808208,_ZN13tMatchingPeerC1ERKS_,net-session-online/src/t_matching_peer.cpp,42
+net-session-online,0x7ff120,_ZN9CMatching8JoinRoomEy,net-session-online/src/tb_session-online-CMatching-0.cpp,77
+net-session-online,0x7ff350,_ZN9CMatching14CreateJoinRoomEb15CRoomAttributes,net-session-online/src/tb_session-online-CMatching-0.cpp,76
+net-session-online,0x800b00,_ZN9CMatchingD1Ev,net-session-online/src/tb_session-online-CMatching-0.cpp,31
+net-session-online,0x80003c,_ZN9CMatchingC2Ev,net-session-online/src/tb_session-online-CMatching-0.cpp,30
+net-session-online,0x81ec5c,_ZN15CMatchingGLLive14GetFriendsListEb,net-session-online/src/tb_session-online-CMatchingGLLive-0.cpp,45
+net-session-online,0x81c4ac,_ZN15CMatchingGLLive6IsInRoomEv,net-session-online/src/tb_session-online-CMatchingGLLive-0.cpp,27
+net-session-online,0x81c524,_ZNK15CMatchingGLLive14GetMemberCountEv,net-session-online/src/tb_session-online-CMatchingGLLive-0.cpp,25
+net-session-online,0x8217a8,_ZN28CMatchingGLLiveLobbyObserver22OnMPListSessionSuccessEP10DataPacket,net-session-online/src/tb_session-online-CMatchingGLLiveLobbyObserver-0.cpp,183
+net-session-online,0x822c58,_ZN28CMatchingGLLiveLobbyObserver28OnMPProcessPushKickOutPlayerEP10DataPacket,net-session-online/src/tb_session-online-CMatchingGLLiveLobbyObserver-0.cpp,66
+net-session-online,0x8074a4,_ZN14CMatchingLocal5ResetEv,net-session-online/src/tb_session-online-CMatchingLocal-0.cpp,177
+net-session-online,0x806b98,_ZN14CMatchingLocal19MemberInfoNetStructC1Ev,net-session-online/src/tb_session-online-CMatchingLocal_MemberInfoNetStruct-0.cpp,39
+net-session-online,0x80a82c,CMessaging::PrintSendQueue(),net-session-online/src/tb_session-online-CMessaging-0.cpp,28
+net-session-online,0x7fd914,_ZN7COnline14ReceivePacketsEv,net-session-online/src/tb_session-online-COnline-0.cpp,29
+net-session-online,0x7fdb58,_ZN7COnline6UpdateEf,net-session-online/src/tb_session-online-COnline-0.cpp,26
+net-session-online,0x84ad78,GLXPlayerMPBase::mpSendEstablishConnection(),net-session-online/src/tb_session-online-GLXPlayerMPBase-0.cpp,35
+net-session-online,0x84abd8,GLXPlayerMPBase::setErrMsg(),net-session-online/src/tb_session-online-GLXPlayerMPBase-0.cpp,31
+net-session-online,0x4a04c0,_ZN15OnlineGameState4InitEi,net-session-online/src/tb_session-online-OnlineGameState-0.cpp,970
+net-session-online,0x49fb0c,_ZN15OnlineGameState15processMessagesEv,net-session-online/src/tb_session-online-OnlineGameState-0.cpp,224
+net-session-online,0x82b634,XP_API_PARSE_DATA_NEW,net-session-online/src/xp_api.cpp,46
+net-session-online,0x82b014,XP_API_STRTRIM,net-session-online/src/xp_api.cpp,41
+net-session-online,0x82b368,XP_API_IP_STR2INT,net-session-online/src/xp_api.cpp,32
+net-session-online,0x83aa3c,_ZN13GLXPlayerUser20clearUserInformationEv,port/decomp-reconstruction/net-session-online/src/glx_player_user.cpp,87
+net-session-online,0x83de3c,_ZN13GLXPlayerUser18sendChangePasswordEPcS0_S0_S0_,port/decomp-reconstruction/net-session-online/src/glx_player_user_requests.cpp,30

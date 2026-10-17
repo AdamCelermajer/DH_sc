@@ -1,0 +1,1179 @@
+{
+  "validation": "PASS",
+  "host_cases": 12,
+  "original_arm_cases": 60,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "results": [
+    {
+      "paused": 0,
+      "duration": 0,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 0,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 0,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 0,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1000,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1000,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1000,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 1000,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 2147483648,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 2147483648,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 2147483648,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 2147483648,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 4294967295,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 4294967295,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 4294967295,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 0,
+      "duration": 4294967295,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 0,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 0,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 0,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 0,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1000,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1000,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1000,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 1000,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 2147483648,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 2147483648,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 2147483648,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 2147483648,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 4294967295,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 4294967295,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 4294967295,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 1,
+      "duration": 4294967295,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 0,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 0,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 0,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 0,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 0,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1000,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1000,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1000,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 1000,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 1000,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 2147483648,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 2147483648,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 2147483648,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 2147483648,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 2147483648,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 4294967295,
+      "mutation": 0,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 4294967295,
+      "mutation": 1,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 1,
+        "owner": 268447744
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 4294967295,
+      "mutation": 2,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 0,
+        "owner": 268443648
+      }
+    },
+    {
+      "paused": 255,
+      "duration": 4294967295,
+      "mutation": 3,
+      "matched": true,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "paused_at_call": 1,
+        "timer_owner": 268443648,
+        "duration": 4294967295,
+        "repeat": 0,
+        "event": 49,
+        "user_ref": 0,
+        "timer_id": -17,
+        "paused": 255,
+        "owner": 268447744
+      }
+    }
+  ],
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_pause_update.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_events.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_timers.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_pause_update.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-ai-pause-update-root\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_ai_pause_update.cpp": "9e26911f837c1a83e834cffea583279f81e9abb5a21668ed32623daca38525a6",
+    "port/level-world/character_ai_events.cpp": "0e81bd5a93bf67e3be0c558fd637c28624a2a6cf71b0353764f2e782512b2a62",
+    "port/level-world/character_timers.cpp": "5bb3e0181f361c7c3b3633069a6148abcdbfaa99806d6798619a996bef203ba9",
+    "port/level-world/tests/character_ai_pause_update.cpp": "edb712a4cdad2e2143ff289d69aa465b59bce66e90b4d7e3dabc4668a53eae2f",
+    "port/level-world/character_ai_pause_update.hpp": "aca55bf8a231cec5b81375ec94d0e02299368ec76968d657c42e1681ee2a0db8",
+    "port/level-world/character_ai_frame.hpp": "ac6e1b08d98f10253853c30ce050b5fa977267c223633c90ffb3c6a0238201df",
+    "port/level-world/character_ai_events.hpp": "6efbb946bdda798c1fcf6dbbefc6cfcc06992b8b49f09db0453bf5a56683436a",
+    "port/level-world/character_timers.hpp": "d57e1c747cd582a2948a90799754681e6a876f8b50a6b3537881142f9f9f505c",
+    "port/level-world/tests/run_character_ai_pause_update_host.py": "36c893c1fe40457ec599e469845ec3762a1409055603e0c4884092e3ff43c203",
+    "port/level-world/reference/character-ai-pause-update/original-functions.json": "8822414b83e708f19bf241f15d53e197e63f5d992a1370b260af87c8eb5b0868",
+    "port/level-world/reference/character-ai-pause-update/NOTES.md": "f39b52a3d95edd52ee2e092da1fb64718b026135062ae9670d92eeb153001824"
+  },
+  "native_wired": false,
+  "scope": "Complete original52B pause caller executes; TMR_Start hooked to compare captured owner/embedded offset, duration/repeat/event/user and pre-call pause byte. Additional source-timer/AI-event composition verifies 999+1 expiry, blocked updates, zero duration and storage failure. Original Start/Event bodies and Android pursuit not ARM-replayed by this unit."
+}

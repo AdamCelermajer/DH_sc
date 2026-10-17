@@ -20,4 +20,8 @@ extern "C" unsigned dh2_class_apply(const dh2::data::ClassRow* table,std::uint32
 // Original normal base-sheet evaluation: linear source reads resolve the
 // current owner property. The target must be the view's base sheet.
 extern "C" unsigned dh2_class_apply_to_base(const dh2::data::ClassRow*,std::uint32_t,std::int32_t,std::int32_t* base,dh2::data::PropertyView*);
+// PROPS_ApplyClass(false): same ordered class walker and live source-property
+// resolution, targeting the owner's canonical resolved sheet. No recalculation
+// of unrelated properties or snapshot/rollback is added.
+extern "C" unsigned dh2_class_apply_to_resolved(const dh2::data::ClassRow*,std::uint32_t,std::int32_t,std::int32_t* resolved,dh2::data::PropertyView*);
 extern "C" unsigned dh2_class_recalc_base(const dh2::data::ClassRow*,std::uint32_t,std::int32_t* base,dh2::data::PropertyView*);

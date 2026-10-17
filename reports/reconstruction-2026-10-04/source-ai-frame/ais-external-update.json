@@ -1,0 +1,375 @@
+{
+  "validation": "PASS",
+  "host_cases": 15,
+  "original_arm_cases": 13,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-O2",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\ais_external_update.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\ais_external_update_host.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\ais-external-update-root\\host.exe"
+  ],
+  "results": [
+    {
+      "case": "empty_no_override",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 0,
+        "table": 0,
+        "pause_due": 0,
+        "on_update": 0,
+        "calls": []
+      }
+    },
+    {
+      "case": "counter_199_no_pause",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 199,
+        "owner": 268443648,
+        "flags": 0,
+        "table": 0,
+        "pause_due": 0,
+        "on_update": 0,
+        "calls": []
+      }
+    },
+    {
+      "case": "counter_200_pause_stop",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 0,
+        "table": 0,
+        "pause_due": 1,
+        "on_update": 0,
+        "calls": [
+          [
+            0,
+            268444616,
+            1000,
+            ""
+          ],
+          [
+            1,
+            268451840,
+            0,
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "case": "counter_max_pause_stop",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 0,
+        "table": 0,
+        "pause_due": 1,
+        "on_update": 0,
+        "calls": [
+          [
+            0,
+            268444616,
+            1000,
+            ""
+          ],
+          [
+            1,
+            268451840,
+            0,
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "case": "state_callbacks_no_override",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 0,
+        "table": 1,
+        "pause_due": 0,
+        "on_update": 0,
+        "calls": [
+          [
+            2,
+            268439552,
+            0,
+            "TickState"
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "CheckState"
+          ]
+        ]
+      }
+    },
+    {
+      "case": "override_and_state_callbacks",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 1,
+        "table": 1,
+        "pause_due": 0,
+        "on_update": 1,
+        "calls": [
+          [
+            2,
+            268439552,
+            0,
+            "OnUpdate"
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "TickState"
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "CheckState"
+          ]
+        ]
+      }
+    },
+    {
+      "case": "noncanonical_flag_without_bit0",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 2,
+        "table": 1,
+        "pause_due": 0,
+        "on_update": 0,
+        "calls": [
+          [
+            2,
+            268439552,
+            0,
+            "TickState"
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "CheckState"
+          ]
+        ]
+      }
+    },
+    {
+      "case": "pause_replaces_owner_before_stop",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268447744,
+        "flags": 0,
+        "table": 0,
+        "pause_due": 1,
+        "on_update": 0,
+        "calls": [
+          [
+            0,
+            268444616,
+            1000,
+            ""
+          ],
+          [
+            1,
+            268455936,
+            0,
+            ""
+          ]
+        ]
+      }
+    },
+    {
+      "case": "pause_sets_live_override_flag",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 1,
+        "table": 0,
+        "pause_due": 1,
+        "on_update": 1,
+        "calls": [
+          [
+            0,
+            268444616,
+            1000,
+            ""
+          ],
+          [
+            1,
+            268451840,
+            0,
+            ""
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "OnUpdate"
+          ]
+        ]
+      }
+    },
+    {
+      "case": "pause_clears_live_override_flag",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 0,
+        "table": 1,
+        "pause_due": 1,
+        "on_update": 0,
+        "calls": [
+          [
+            0,
+            268444616,
+            1000,
+            ""
+          ],
+          [
+            1,
+            268451840,
+            0,
+            ""
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "TickState"
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "CheckState"
+          ]
+        ]
+      }
+    },
+    {
+      "case": "override_registers_live_state_table",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 1,
+        "table": 1,
+        "pause_due": 0,
+        "on_update": 1,
+        "calls": [
+          [
+            2,
+            268439552,
+            0,
+            "OnUpdate"
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "TickState"
+          ],
+          [
+            2,
+            268439552,
+            0,
+            "CheckState"
+          ]
+        ]
+      }
+    },
+    {
+      "case": "state_update_removes_table_before_conditions",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 0,
+        "owner": 268443648,
+        "flags": 0,
+        "table": 0,
+        "pause_due": 0,
+        "on_update": 0,
+        "calls": [
+          [
+            2,
+            268439552,
+            0,
+            "TickState"
+          ]
+        ]
+      }
+    },
+    {
+      "case": "override_mutates_counter",
+      "matched": true,
+      "result": {
+        "status": 0,
+        "counter": 305419896,
+        "owner": 268443648,
+        "flags": 1,
+        "table": 0,
+        "pause_due": 0,
+        "on_update": 1,
+        "calls": [
+          [
+            2,
+            268439552,
+            0,
+            "OnUpdate"
+          ]
+        ]
+      }
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/ais_external_update.cpp": "23f9267964858e163373626c5aa7a68b9ace75001be1a7a359167fe2f9a273b0",
+    "port/level-world/tests/ais_external_update_host.cpp": "5b1222277ab27f0392d1918236799faab546b9690b54119550105b223c8ff79b",
+    "port/level-world/ais_external_update.hpp": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+    "port/level-world/tests/run_ais_external_update_host.py": "239110d37c8802490cc81d3dc473c594cc4164cb8647879c51fef48704e87b03",
+    "port/level-world/reference/ais-external-update/original-functions.json": "af40f131a5b10f54818516f17a1640267b53d7b73c50b6a8f6bb3bf8493f5adb",
+    "port/level-world/reference/ais-external-update/NOTES.md": "8c040d703792e69341502cb3bd7871ec84ceb5dc1d0c21579fc2b4ec5b403536"
+  },
+  "scope": "Original AISExternal::OnUpdate and AISDefault::OnUpdate caller instructions execute. AI_PauseUpdate, Cmd_Stop and LuaScript::Call are observed fixture boundaries; CallStateUpdate/Conditions original null-check wrappers execute and their Lua calls are hooked. The fixture does not execute Android gameplay or source VM callback bodies.",
+  "native_wired": false
+}

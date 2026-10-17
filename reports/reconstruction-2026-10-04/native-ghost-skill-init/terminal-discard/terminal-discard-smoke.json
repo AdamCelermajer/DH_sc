@@ -1,0 +1,45 @@
+{
+  "validation": "FAIL",
+  "apk_sha256": "0dbb44c703d1768a36f2186b05c2f8ca9d9c787f5ddf3426e3c842edcd4d04ff",
+  "serial": "emulator-5558",
+  "package": "com.example.dh2",
+  "test": "UI texture selection -> terminal Ghost teardown -> same-PID Crypt re-entry",
+  "installed_or_relaunched_by_test": false,
+  "full_game_parity_claimed": false,
+  "physical_device_tested": false,
+  "device": {
+    "api_level": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "pid_before": "6711",
+  "installed_base_apk_sha256": "0dbb44c703d1768a36f2186b05c2f8ca9d9c787f5ddf3426e3c842edcd4d04ff",
+  "pre_discard_crypt_selection": "worlds/crypt01.dwld",
+  "pre_discard_damaged_ghost": {
+    "name": "_prim_Monster_SURPRISE_01",
+    "hp_raw": 25344,
+    "max_hp_raw": 25600,
+    "retained": 1
+  },
+  "screenshots": [
+    {
+      "path": "crypt-before-discard.png",
+      "sha256": "3df567c90116f44b1376e7fc98a520d1b77ab22e8b0ae8c5715756c0c304f4a7",
+      "bytes": 1601364
+    },
+    {
+      "path": "texture-after-discard.png",
+      "sha256": "22aee12393250d6c9866145aa97c82c8e436a729967f796c5c3e28adfed65a70",
+      "bytes": 2130249
+    }
+  ],
+  "selected_texture_via_spinner": "textures/atlas_dh2_game_objects_001.tga",
+  "terminal_discard": {
+    "ghost_references": 2,
+    "remaining": 0,
+    "groups": 0,
+    "saved_actors": 0,
+    "catalogue": 0
+  },
+  "failure": "AssertionError: fresh Crypt Ghost initialization after terminal discard not observed before timeout\n--------- beginning of main\nD/WindowOnBackDispatcher( 6711): setTopOnBackInvokedCallback (unwrapped): android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@73aefc3\nD/WindowOnBackDispatcher( 6711): setOnBackInvokedCallbackInfo: android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@73aefc3\nI/Surface ( 6711): Creating surface for consumer unnamed-6711-10 with slotExpansion=1 for 64 slots\nI/Surface ( 6711): Creating surface for consumer VRI[PopupWindow:f60e01d]#10(BLAST Consumer)10 with slotExpansion=1 for 64 slots\n"
+}

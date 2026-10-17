@@ -1,0 +1,207 @@
+{
+  "complete_game": false,
+  "native_wired": false,
+  "comparison": "Original ARM32 LuaScript caller outputs versus the compiled host source kernel on identical typed query inputs",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_executable_sha256": "1de4dcafffd2d4035303e922b2a923665a3d43f423170fa976013cb7febc85e0",
+  "host_probe_sha256": "d58cdfd4f2d2c6c555ae87090e10602963328c01ac0b1b7333a88198c225ca33",
+  "source_sha256": {
+    "port/level-world/lua_script_level_queries.cpp": "cc8a97a495ba6f98410f3a27bd9b87ba364bb5bef46216203d78780a8d070bcd",
+    "port/level-world/lua_script_level_queries.hpp": "8b05ca372a84272a5a71e36d0aad40c4312461cea25308257ce952a6daef1b9e",
+    "port/level-world/tests/lua_script_level_queries.cpp": "f4e6ab059c6d172f72f4457795e28535b2364b1017e3bf8133a52df4b1105ed3",
+    "port/level-world/tests/run_lua_script_level_queries_host.py": "0a43487561b99454a50abf25a64e9d2ba920c03831ad5f0fde8e67d3c0f4a4fc"
+  },
+  "functions": [
+    {
+      "elf_address": "0x0037cc00",
+      "size": 60,
+      "original_symbol": "_ZN9LuaScript19_GetHostPlayerLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "0e8d9eb81a822929624f7f3a95ec99fff4a4d744d7a0ae6d462e80e30e7d3220"
+    },
+    {
+      "elf_address": "0x0037cb8c",
+      "size": 76,
+      "original_symbol": "_ZN9LuaScript24_GetHostPlayerDifficultyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "b0b7426eca797f16e33effebdf019e1fb3bf1cd81e79f9b65f5c30cf9f665300"
+    },
+    {
+      "elf_address": "0x0037f1f0",
+      "size": 356,
+      "original_symbol": "_ZN9LuaScript21_GetCurrentLevelRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "9af8bee09940520ff80f69ed4f456adb93e278b88f2dd6d0080dd8ad4cb6a411"
+    }
+  ],
+  "supporting_functions": [
+    {
+      "elf_address": "0x0031f594",
+      "size": 32,
+      "original_symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1"
+    },
+    {
+      "elf_address": "0x0036e09c",
+      "size": 112,
+      "original_symbol": "_ZN13PlayerManager16GetHostingPlayerEv",
+      "sha256": "e00e77f9a58281185b7840208afbc95fb217efbdd0201f57ab830829b2da9be1"
+    },
+    {
+      "elf_address": "0x0031bbf0",
+      "size": 144,
+      "original_symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de"
+    },
+    {
+      "elf_address": "0x0037cb24",
+      "size": 104,
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValues11pushIntegerEi",
+      "sha256": "f82c34ddaa9becff30d931e6ec79c8a9c3a73c1da5f7bf1980a70c750825eb68"
+    }
+  ],
+  "verified_imports": {
+    "0x30e4cc": "__aeabi_f2iz"
+  },
+  "host_report": {
+    "lua_script_level_query_cases": 17,
+    "host_player_level_order": true,
+    "current_level_difficulty_null_zero": true,
+    "range_order_and_table_reread": true,
+    "captured_oid_and_argument_order": true,
+    "arm32_row_offset_wrap": true,
+    "provider_fail_closed": true,
+    "mismatches": 0
+  },
+  "comparisons": [
+    {
+      "case": "normal-and-fresh-backing-after-push",
+      "outputs": [
+        11,
+        22
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "nonzero-level-row-index",
+      "outputs": [
+        23,
+        33
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "numeric-hard-from-original-getNumber-and-f2iz",
+      "outputs": [
+        131,
+        141
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "non-number-defaults-to-normal",
+      "outputs": [
+        51,
+        61
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "unsupported-numeric-difficulty-pushes-nothing",
+      "outputs": [],
+      "mismatches": 0
+    },
+    {
+      "case": "sentinel-oid-bypasses-table-and-arguments",
+      "outputs": [
+        -1,
+        -1
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "host-player-level-0",
+      "outputs": [
+        0
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "host-player-level-1",
+      "outputs": [
+        1
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "host-player-level-42",
+      "outputs": [
+        42
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "host-player-level-2147483647",
+      "outputs": [
+        2147483647
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "host-player-level--4",
+      "outputs": [
+        -4
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "current-level-difficulty-True-0",
+      "outputs": [
+        0
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "current-level-difficulty-True-2",
+      "outputs": [
+        2
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "current-level-difficulty-True--1",
+      "outputs": [
+        -1
+      ],
+      "mismatches": 0
+    },
+    {
+      "case": "current-level-difficulty-False-0",
+      "outputs": [
+        0
+      ],
+      "mismatches": 0
+    }
+  ],
+  "comparison_count": 15,
+  "mismatches": 0,
+  "provider_boundaries": [
+    "Application::GetCurrentLevel",
+    "PlayerManager::GetHostingPlayer",
+    "ReturnValues::pushInteger",
+    "global LevelTable object/backing pointer"
+  ],
+  "actual_original_bodies_executed": [
+    "three LuaScript callers",
+    "Value::getNumber for numeric case",
+    "relocated PLT stub identity for __aeabi_f2iz"
+  ],
+  "import_model": {
+    "__aeabi_f2iz": "identity independently executed; bounded finite signed conversion modeled by host dependency handler",
+    "other_imports": {
+      "__aeabi_f2iz": 2
+    }
+  },
+  "limitations": [
+    "No complete LuaScript VM/gameplay execution claim.",
+    "Missing Level, host Player, or LevelTable service results fail closed in the port adapter; the source callbacks themselves do not all have null guards.",
+    "Level+0x3c/+0x118 and Player+0x330 are consumed fields; their live native producers remain a separate unresolved integration boundary."
+  ]
+}

@@ -1,0 +1,63 @@
+{
+  "scope": "Static skinned character pose, no animation/gameplay",
+  "runs": [
+    {
+      "serial": "emulator-5560",
+      "android_release": "17",
+      "sdk": "37",
+      "page_size": "4096",
+      "apk_sha256": "664595b19de049d9a745d6e3b8f629ff1d65c9121abf927de895f6ad4be8fdb8",
+      "pose_status": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it."
+      ],
+      "texture_status": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene."
+      ],
+      "screenshots": [
+        {
+          "file": "DH2-source-character-pose-Android17-4k.png",
+          "sha256": "82713849815fc612d79a2f6abdd76699d9f5ca30a31394c8ce699bb0bceb4cfa"
+        },
+        {
+          "file": "DH2-source-character-pose-Android17-4k-rotated.png",
+          "sha256": "685c5488890189d50638e2fc04fa1ab7990dac2adfd1ea527473280fd3909a6d"
+        }
+      ],
+      "pid": "20197",
+      "complete_game": false,
+      "animation_playback": false,
+      "installed_apk_sha256": "664595b19de049d9a745d6e3b8f629ff1d65c9121abf927de895f6ad4be8fdb8",
+      "captured_pid_log_has_fatal_since": "None since 10-02 11:56:00.000 emulator GMT; earlier reused PID entries excluded",
+      "screenshots_visually_checked": true
+    },
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "sdk": "37",
+      "page_size": "16384",
+      "apk_sha256": "664595b19de049d9a745d6e3b8f629ff1d65c9121abf927de895f6ad4be8fdb8",
+      "pose_status": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it."
+      ],
+      "texture_status": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene."
+      ],
+      "screenshots": [
+        {
+          "file": "DH2-source-character-pose-Android17-16k.png",
+          "sha256": "eafc2dda0456d9ac227db88b1aff5e3eaab3d5953448245af31f3e7079dd92d2"
+        },
+        {
+          "file": "DH2-source-character-pose-Android17-16k-rotated.png",
+          "sha256": "9b03ae828ed30a82b8733798c1482a5905d9b7506dcfd314f4cc758bceb17ba3"
+        }
+      ],
+      "pid": "23230",
+      "complete_game": false,
+      "animation_playback": false,
+      "installed_apk_sha256": "664595b19de049d9a745d6e3b8f629ff1d65c9121abf927de895f6ad4be8fdb8",
+      "captured_pid_log_has_fatal_since": "None since 10-02 11:56:00.000 emulator GMT; earlier reused PID entries excluded",
+      "screenshots_visually_checked": true
+    }
+  ]
+}

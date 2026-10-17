@@ -1,0 +1,143 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_arm_comparisons": 67594,
+  "character_true_results": 33810,
+  "base_game_object_checks": 1024,
+  "instruction_coverage": [
+    {
+      "symbol": "_ZNK10GameObject29IsUpdatingPositionFromPhysicsEv",
+      "instructions": 2,
+      "executed": 2
+    },
+    {
+      "symbol": "_ZNK9Character29IsUpdatingPositionFromPhysicsEv",
+      "instructions": 3,
+      "executed": 3
+    }
+  ],
+  "vtable_dispatch": [
+    {
+      "class": "GameObject",
+      "vtable_symbol": "_ZTV10GameObject",
+      "vtable_address": "0x964748",
+      "vtable_size": 244,
+      "address_point": "0x964750",
+      "slot_offset": "0x64",
+      "entry_address": "0x9647b4",
+      "entry_value": "0x34006c",
+      "entry_bytes_sha256": "9a4d79944ad12fcea7a9f922b25cf99bcf853c4f0fc5b7e2096d7700edb4ac8c",
+      "relocation_type": 23,
+      "role": "Base GameObject policy."
+    },
+    {
+      "class": "Character",
+      "vtable_symbol": "_ZTV9Character",
+      "vtable_address": "0x965f30",
+      "vtable_size": 812,
+      "address_point": "0x965f38",
+      "slot_offset": "0x64",
+      "entry_address": "0x965f9c",
+      "entry_value": "0x3a2e44",
+      "entry_bytes_sha256": "acd2a8641f209b2f0667605870da055fdd90a63d0c536590581dbdb74a5bfe9d",
+      "relocation_type": 23,
+      "role": "Crypt Ghost uses Character, so Stop dispatches this override."
+    }
+  ],
+  "constructor_address_point": {
+    "symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+    "got_entry": "0x9978a0",
+    "address_point": "0x965f38",
+    "stored_at_object_offset": "0x0"
+  },
+  "source_properties": {
+    "idle_flags": "0x2380",
+    "move_flags": "0x23c1",
+    "position_from_physics_bit": 1,
+    "idle_move_value": 0,
+    "evidence": "port/level-world/reference/move-state/NOTES.md"
+  },
+  "native_replay": {
+    "validation": "PASS",
+    "comparisons": 67594,
+    "position_from_physics_true": 33810
+  },
+  "native_guards": {
+    "guard_checks": 8
+  },
+  "reference_sha256": "a69b252ed0f19243f399f843dbb0b85f73e67f838e78770837defb4b71c80513",
+  "source_sha256": {
+    "port/level-world/character_physics_position.cpp": "200f5cfbe4d9801122c1adcebce1678a916377ec2c61a4f48be9e90288ad939a",
+    "port/level-world/move_state.cpp": "74622f90da0bd193540b08592549ae3bdddc664554ce71e1b5ba448127537264",
+    "port/level-world/tests/character_physics_position.cpp": "4575a29ff21bb184eb675631937be48daba761831db09469a5ab458e2e28d250",
+    "port/level-world/character_physics_position.hpp": "51f100f7a69f513a512b16769275637b883104d56a407feca64abb78bd4f8297",
+    "port/level-world/move_state.hpp": "2ec7bf0ca12ac3745945af532355a8d22d7f682e863b7cf138d5899b00504186",
+    "port/level-world/tests/run_character_physics_position_host.py": "3698bc37a1712434113dd5b6b1d109f4127ad2daf6bcf9f8bc9aab54250e27dd",
+    "port/level-world/reference/character-physics-position/original-functions.json": "8065e15c1f128b12e85c3da087f347dd56b215e6ddcbdb1b877304513cc72aa5",
+    "port/level-world/reference/character-physics-position/NOTES.md": "3446ec07a5dc6bea87b1045eaac6cf79b783df3227bf422e9c0adbb59842c529"
+  },
+  "compiler_commands": [
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_physics_position.cpp",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-physics-position-final\\character_physics_position_0.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\move_state.cpp",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-physics-position-final\\character_physics_position_1.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-pedantic",
+      "-ffunction-sections",
+      "-fdata-sections",
+      "-I",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_physics_position.cpp",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-physics-position-final\\character_physics_position_2.o"
+    ],
+    [
+      "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.EXE",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-physics-position-final\\character_physics_position_0.o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-physics-position-final\\character_physics_position_1.o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-physics-position-final\\character_physics_position_2.o",
+      "-Wl,--gc-sections",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-physics-position-final\\character_physics_position_host.exe"
+    ]
+  ],
+  "scope": "Complete Character::IsUpdatingPositionFromPhysics getter adapter and its exact source vtable owner. Source ARM methods, vtable entries and constructor address-point bytes are verified; GameObject base getter is separately executed. This does not bind Ghost controller state or prove every Character policy producer.",
+  "elapsed_seconds": 7.23
+}

@@ -1,0 +1,54 @@
+{
+  "source_archive": "Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "assets": [
+    {
+      "asset": "original-cache/data/pydata/game_objects_pyarray.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_pyarray.bin",
+      "bytes": 5326,
+      "sha256": "8b02cf1bd776621c18d82fd24ef0320d996b28ea77e3a24be3f986e84160e07d"
+    },
+    {
+      "asset": "original-cache/data/pydata/game_objects_pyarraynames.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_pyarraynames.bin",
+      "bytes": 3846,
+      "sha256": "f06d1dcc8bb754c14a42a66af1def8bf2b35dc4f6452d67f596ec2dc0a2baa53"
+    },
+    {
+      "asset": "original-cache/data/pydata/game_objects_pystructnames.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_pystructnames.bin",
+      "bytes": 921,
+      "sha256": "6e9a9f7087b9abe0d777270353149c3825a2a1135522f582146664345ad5e1ca"
+    },
+    {
+      "asset": "original-cache/data/pydata/game_objects_dictionary_pyarray.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_dictionary_pyarray.bin",
+      "bytes": 4144,
+      "sha256": "99ef357caa883a0f5ba0709d6fc4abcb6b8ab9741adc275ca9a295dd70b8be9a"
+    },
+    {
+      "asset": "original-cache/data/pydata/game_objects_dictionary_pyarraynames.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_dictionary_pyarraynames.bin",
+      "bytes": 2019,
+      "sha256": "b01c74698bd0dcbcfb05d0d3a8ad645342bfed294bfa82c9c46185bb9dc0ccad"
+    },
+    {
+      "asset": "original-cache/data/3d/gameobjects/go_swamp_urn_breakable.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/gameobjects/go_swamp_urn_breakable.bdae",
+      "bytes": 43828,
+      "sha256": "534b1f5c99e1d005ffa9c7970412e496a062783b1b847abeeefcd1420f18706a"
+    },
+    {
+      "asset": "original-cache/data/3d/gameobjects/go_urn_crypt.bdae",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/3d/gameobjects/go_urn_crypt.bdae",
+      "bytes": 64308,
+      "sha256": "49bbd217628405e3ed37a599ef23622e4d41cba8d4c1f117df2d625ae7bf03b7"
+    },
+    {
+      "asset": "original-cache/data/pydata/game_objects_pycst.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/game_objects_pycst.bin",
+      "bytes": 1570,
+      "sha256": "055dadeb6982ebfa47220574b10999a4f9eb78375dfd3f33f69a475313ee4597"
+    }
+  ]
+}

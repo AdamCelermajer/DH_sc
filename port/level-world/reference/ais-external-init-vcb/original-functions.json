@@ -1,0 +1,229 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 2,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/ais_external_init_vcb.hpp",
+      "port/level-world/ais_external_init_vcb.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/ais_external_init_vcb.cpp",
+      "port/level-world/tests/run_ais_external_init_vcb_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN10AISDefault7InitVCBEv",
+      "elf_address": "0x3dc7d8",
+      "size": 92,
+      "sha256": "6584dea7728e55ba8e9a1e9c080d3c951f2dc8375bbf0176459c8f439ffc5341",
+      "scope": "New complete original caller"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal7InitVCBEv",
+      "elf_address": "0x3dcec8",
+      "size": 408,
+      "sha256": "a2a4d954371616e7a8892f874e218d4224da59344422ea1ca451cc077da676a4",
+      "scope": "New complete original caller"
+    },
+    {
+      "original_symbol": "_ZNK9LuaScript11IsInVFTableEPKc",
+      "elf_address": "0x37c2a0",
+      "size": 116,
+      "sha256": "e6cce18e10a1e722288100ce9693feb32a338c139066c79b309043ed0fabccd4",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN6glitch4core10hashStringEPKc",
+      "elf_address": "0x37c164",
+      "size": 316,
+      "sha256": "eb3c5f18f0394185bddafaf8b91447a63b8610101590b857b7334cdd70a0026d",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC1Eb",
+      "elf_address": "0x3d8f44",
+      "size": 108,
+      "sha256": "b8c95e59d686ce373262c1c6e8aa7b3d558fbd4a7414e87e7aba126964d1b98a",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScriptC2Eb",
+      "elf_address": "0x3d8fb0",
+      "size": 108,
+      "sha256": "ce859293ac04fa52f9989fd0ff46df28670c87b80ccfd204ccb8a52e1e1c5afd",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC1Eb",
+      "elf_address": "0x3dd0e4",
+      "size": 68,
+      "sha256": "e71ffa6c1cd72616f2f6750112f8f7d6c08ca7068939c3edef875846222312ee",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN11AISExternalC2Eb",
+      "elf_address": "0x3dd128",
+      "size": 68,
+      "sha256": "68fdd9e38a0f766ae8be40045639838447a66a798beee51171bceb08f3a1a740",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12_ChangeStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3d9710",
+      "size": 128,
+      "sha256": "a3e41147d3ecff25e7f1967f6c8ecb23ad78ed77feaaca3aabac85698e6610a5",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript13CallStateInitEv",
+      "elf_address": "0x3d8e8c",
+      "size": 20,
+      "sha256": "d2c787f5492a5709113ab1630a47515a6782077333aa4c69e5246490937959d7",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript19CallStateConditionsEv",
+      "elf_address": "0x3d8ea0",
+      "size": 20,
+      "sha256": "dc6f8887142c6d1db5d90d035740a2342645d48af746b5c8c4511e7f0bbcbb4f",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript15CallStateUpdateEv",
+      "elf_address": "0x3d8eb4",
+      "size": 20,
+      "sha256": "a220137eb4be41b001f29b24a8f1bf809e4b8f3aeacd89dad90cd92497fb2369",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript13CallStatePostEv",
+      "elf_address": "0x3d8e78",
+      "size": 20,
+      "sha256": "9ba93ce5ab74bc325bd855bd6fbeb9f2cbd5a54ddff43e95886e07d5cb93ab5a",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript14_RegisterStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3da144",
+      "size": 652,
+      "sha256": "8a1b2bb339c706a8e19b855b91be7d8eb0f5cc0a884ee901d80cbddb61a73d98",
+      "scope": "Supporting boundary/evidence; no new full-body implementation claim"
+    }
+  ],
+  "queries": [
+    {
+      "name": "OnTargetHit",
+      "bit": 2048,
+      "pc_add_address": "0x3dc7e4",
+      "literal_address": "0x3dc82c",
+      "string_address": "0x8c5968",
+      "string_sha256": "09dc03b9fcd5aafee32a67f4af579a17cbb785b7af0fb0e75b38f13a5d54d3d4"
+    },
+    {
+      "name": "OnTargetMissed",
+      "bit": 4096,
+      "pc_add_address": "0x3dc808",
+      "literal_address": "0x3dc830",
+      "string_address": "0x8c5978",
+      "string_sha256": "f97aee15bb25032be33d1c1faeba4a9f2c7e99e7be71acea685d8d8d75408770"
+    },
+    {
+      "name": "OnUpdate",
+      "bit": 1,
+      "pc_add_address": "0x3dcee0",
+      "literal_address": "0x3dd038",
+      "string_address": "0x8c5b10",
+      "string_sha256": "47eeedae893fd25041d401ba5c9aa6a736eaecfd72c85d650650cf19656e5871"
+    },
+    {
+      "name": "OnFriendSpotted",
+      "bit": 2,
+      "pc_add_address": "0x3dcef4",
+      "literal_address": "0x3dd03c",
+      "string_address": "0x8c5b28",
+      "string_sha256": "4472f2f6ba3d56ebbd6e5882b655cb0a5072b873ecb1a52c5f1f8b09f6bef481"
+    },
+    {
+      "name": "OnTargetOutOfRange",
+      "bit": 4,
+      "pc_add_address": "0x3dcf14",
+      "literal_address": "0x3dd040",
+      "string_address": "0x8c5aa0",
+      "string_sha256": "0609bfe34aeaa96e57ec6b9b7f6e730ded411388e5490adfb31de41ccba90050"
+    },
+    {
+      "name": "OnTargetInRangedRange",
+      "bit": 8,
+      "pc_add_address": "0x3dcf38",
+      "literal_address": "0x3dd044",
+      "string_address": "0x8c5a88",
+      "string_sha256": "cbc5be0e6b77e41fef7548bc8c11d763774f237a87b0acb2b5e983b1d4943cbf"
+    },
+    {
+      "name": "OnTargetInCloseRange",
+      "bit": 16,
+      "pc_add_address": "0x3dcf5c",
+      "literal_address": "0x3dd048",
+      "string_address": "0x8c5a70",
+      "string_sha256": "83ef48bad78ec7d8f13bb613c912c1f90c4b4bff028305ac7fa939e0dd49d229"
+    },
+    {
+      "name": "OnTargetInMeleeRange",
+      "bit": 32,
+      "pc_add_address": "0x3dcf80",
+      "literal_address": "0x3dd04c",
+      "string_address": "0x8c5a58",
+      "string_sha256": "0df58caa1d267941317a7cffc0efe916be824bbbb200623e728c471fec145603"
+    },
+    {
+      "name": "OnMasterOutOfRange",
+      "bit": 64,
+      "pc_add_address": "0x3dcfa4",
+      "literal_address": "0x3dd050",
+      "string_address": "0x8c5a08",
+      "string_sha256": "578432513f91e1f238220040cc3e62eaa96ed7e5faff66e8773f3adffc1b3fde"
+    },
+    {
+      "name": "OnMasterInRangedRange",
+      "bit": 128,
+      "pc_add_address": "0x3dcfc8",
+      "literal_address": "0x3dd054",
+      "string_address": "0x8c59f0",
+      "string_sha256": "6f72aa3777bf9a46771ca29dde3cd992b939c630254bd6b247cb1b05f34b84f4"
+    },
+    {
+      "name": "OnMasterInCloseRange",
+      "bit": 256,
+      "pc_add_address": "0x3dcfec",
+      "literal_address": "0x3dd058",
+      "string_address": "0x8c59d8",
+      "string_sha256": "f509a5703b670d2f2e956659befa220d1246190c6c5291785cad42b52f18a6fb"
+    },
+    {
+      "name": "OnMasterInMeleeRange",
+      "bit": 512,
+      "pc_add_address": "0x3dd014",
+      "literal_address": "0x3dd05c",
+      "string_address": "0x8c59c0",
+      "string_sha256": "162ad51839452af0188d8b3da67753c2531ab6389c4bbff8440958c2dd234f9c"
+    }
+  ]
+}

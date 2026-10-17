@@ -1,0 +1,1850 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 17,
+    "guard_cases": 10,
+    "failure_cases": 6,
+    "mismatches": 0
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 32,
+    "mismatches": 0,
+    "caller_instructions_observed": 8,
+    "instruction_addresses": [
+      "0x3b3a70",
+      "0x3b3a74",
+      "0x3b3a78",
+      "0x3b3a7c",
+      "0x3b3a80",
+      "0x3b3a84",
+      "0x3b3a88",
+      "0x3b3a8c"
+    ],
+    "imports_executed": {},
+    "results": [
+      {
+        "identity": 101,
+        "mutation": 0,
+        "raw_original_void_tail_r0_discarded": 2147483648,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 1,
+        "raw_original_void_tail_r0_discarded": 2147483649,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 2,
+        "raw_original_void_tail_r0_discarded": 2147483650,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 3,
+        "raw_original_void_tail_r0_discarded": 2147483651,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 4,
+        "raw_original_void_tail_r0_discarded": 2147483652,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 5,
+        "raw_original_void_tail_r0_discarded": 2147483653,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 6,
+        "raw_original_void_tail_r0_discarded": 2147483654,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 7,
+        "raw_original_void_tail_r0_discarded": 2147483655,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 8,
+        "raw_original_void_tail_r0_discarded": 2147483656,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 9,
+        "raw_original_void_tail_r0_discarded": 2147483657,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 10,
+        "raw_original_void_tail_r0_discarded": 2147483658,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 11,
+        "raw_original_void_tail_r0_discarded": 2147483659,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 12,
+        "raw_original_void_tail_r0_discarded": 2147483660,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 101,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 13,
+        "raw_original_void_tail_r0_discarded": 2147483661,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 14,
+        "raw_original_void_tail_r0_discarded": 2147483662,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 101,
+        "mutation": 15,
+        "raw_original_void_tail_r0_discarded": 2147483663,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 101,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              101,
+              4294967295
+            ],
+            [
+              1,
+              101,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 0,
+        "raw_original_void_tail_r0_discarded": 2147483648,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 1,
+        "raw_original_void_tail_r0_discarded": 2147483649,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 2,
+        "raw_original_void_tail_r0_discarded": 2147483650,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 3,
+        "raw_original_void_tail_r0_discarded": 2147483651,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 4,
+        "raw_original_void_tail_r0_discarded": 2147483652,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 5,
+        "raw_original_void_tail_r0_discarded": 2147483653,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 6,
+        "raw_original_void_tail_r0_discarded": 2147483654,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 7,
+        "raw_original_void_tail_r0_discarded": 2147483655,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 8,
+        "raw_original_void_tail_r0_discarded": 2147483656,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 9,
+        "raw_original_void_tail_r0_discarded": 2147483657,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 10,
+        "raw_original_void_tail_r0_discarded": 2147483658,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 11,
+        "raw_original_void_tail_r0_discarded": 2147483659,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 12,
+        "raw_original_void_tail_r0_discarded": 2147483660,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 13,
+        "raw_original_void_tail_r0_discarded": 2147483661,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 202,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 14,
+        "raw_original_void_tail_r0_discarded": 2147483662,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      },
+      {
+        "identity": 202,
+        "mutation": 15,
+        "raw_original_void_tail_r0_discarded": 2147483663,
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "captured": 202,
+          "calls": 2,
+          "last": 1,
+          "hp": 1,
+          "mp": 1,
+          "owner": 0,
+          "effects": [
+            1,
+            1
+          ],
+          "trace": [
+            [
+              0,
+              202,
+              4294967295
+            ],
+            [
+              1,
+              202,
+              4294967295
+            ]
+          ]
+        }
+      }
+    ],
+    "scope": "All eight original instructions execute, including pop-before-tail-B to RegenMP. HP/MP provider bodies are explicit named observing fixtures and not credited here. Owner-projection mutation does not replace captured this; source raw void r0 is discarded, not misused as a port error. No numeric helper or guessed import is modeled."
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_init_hp_mp.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_init_hp_mp.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-init-hp-mp-parent\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_init_hp_mp.hpp": "c4ee2159b091c672d978a2c4b2c9cec21895a6ac6f4ee16fd70143376f1cd2d1",
+    "port/level-world/character_init_hp_mp.cpp": "48bc25a9e04a0182797499544057d70f1283ec951dfcf0f14fecc47c054cdb9e",
+    "port/level-world/tests/character_init_hp_mp.cpp": "9628b22264c93aee1df2c1f88d1f3f810ec5789a4afe9fc4bc9e8e191b689c29",
+    "port/level-world/tests/run_character_init_hp_mp_host.py": "c90afca8caa998a5edbdbea86f48c009f3360b0e0a0e110d6da30f61d96e3651",
+    "port/level-world/reference/character-init-hp-mp/original-functions.json": "73870edad9d784b9a746deca013f0db96e667914c3802ad758e945c2d41016e2",
+    "port/level-world/reference/character-init-hp-mp/NOTES.md": "643971180eb8ebb9f9db97caf0a77e43cf82f2ec92e0dd997215e26d30bea110"
+  },
+  "reused_source_sha256": {
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a"
+  },
+  "new_complete_caller_bodies": 1,
+  "new_complete_dependency_bodies": 0,
+  "native_wired": false
+}

@@ -1,0 +1,26 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {"name":"GSLevel::LoadLevel","address":"0x386818","size":148,"sha256":"91ed1d33a7432d06d74be9ebaac3a5a784687d8b0808f8bd5a8b70e9ccc87aa1"},
+    {"name":"StateMachine::SwitchState","address":"0x33a388","size":68,"sha256":"c470326d111f7dc8f240c647e8209e889e0dea4450740be3d27aa6e8f7834cec"},
+    {"name":"StateMachine::Update","address":"0x33a7f4","size":92,"sha256":"dbea0d7b2a92631a730887477e0cb1eb04c21c49e5e0e73637bf47b6fd322ede"},
+    {"name":"StateMachine::_handleQueuedOp","address":"0x33a740","size":180,"sha256":"9037e48b9dcbbffb58dfa0bd2d70c0bbc2eb13f398cd43402f2e817ab675e211"},
+    {"name":"StateMachine::_switchState","address":"0x33a720","size":32,"sha256":"ef72ee1175fd9066811bc86adfc23d86d4b546a94d411d4965ca9c5efa09a663"},
+    {"name":"GSLevel::~GSLevel","address":"0x3860bc","size":124,"sha256":"58eb3fbfb3ea3f964436edeea36460e91b9a50fc0bb26d974d08686adf234811"},
+    {"name":"Level::Unload","address":"0x3f0690","size":264,"sha256":"5cbaa19e78bc28b554d9cbe295e962dd9518b4c537ea9ea0a4a4e79edbb4f746"},
+    {"name":"Level::QuickSave","address":"0x3f059c","size":236,"sha256":"7e6c40fc5b27a4fe6eaccc6ad42ffb1e2ec6a5ff5dbe91a4a7c74502f7ca8ee6"}
+  ],
+  "queued_state_order": [
+    "GSLevel::LoadLevel stores request values and calls StateMachine::SwitchState",
+    "SwitchState appends a queued operation; it does not synchronously pop the active GSLevel",
+    "StateMachine::Update drains queued operations through _handleQueuedOp",
+    "_switchState calls _popAllState before _pushState, so old GSLevel teardown precedes destination construction",
+    "GSLevel destructor calls Level::Unload, closes HUD, deletes old Level, then clears GSLevel::s_level",
+    "Level::Unload calls QuickSave(Level+0xf0); after Application::LoadLevel reset Level state to zero, QuickSave state-38 gate skips without serializers",
+    "Level::Unload pushes loading UI, deletes optional Level fields +0x128 then +0x12c, calls SG_SaveAllPlayer(Level+0xf0), stops sounds with 500ms, conditionally pops loading UI, clears state, network-uninitializes ObjectManager, updates PlayerManager, and resets RNG to real-time seed/zero synchronized seed",
+    "StateMachine updates the new top state after draining the operation and toggles the updating flag around its update callback"
+  ],
+  "owner_boundary": "The adapter borrows the existing old GSLevel, Level, LevelSavegame, ObjectManager, PlayerManager and StateMachine identities. It routes QuickSave through the existing level_quick_save_v1 kernel and leaves SaveAllPlayer, Level cleanup, state construction, and destination update to providers. It owns no queue, Save, Level, or renderer scene.",
+  "validation": "Host fixture composes the existing QuickSave kernel and checks the state-zero skip, preserved force byte for SaveAllPlayer, old-state teardown order, destination request identity, update guard, and no replay after destructive handoff. This is source-order adapter evidence, not runtime gameplay parity."
+}

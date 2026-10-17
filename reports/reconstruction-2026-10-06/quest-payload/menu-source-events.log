@@ -1,0 +1,82 @@
+Surface resized to 2424 x 880
+Surface resized to 2424 x 1080
+Original front screen loaded | screen main | uri data/menus/dqmenus_droid.swf | clip _root.menu_MainMenu | id 510 | frames 31
+Native menu preview selection | slot 0 | force 0 | avatar producer pending
+Original front/HUD screen submitted | screen main
+Owned menu renderer selected | name menu_EnterName | renderer main
+Owned menu navigation | push menu_EnterName | depth 2
+Original class selection updated | index 0 | class KnightPlayerBase | preview actors pending
+Owned menu renderer selected | name menu_SelectClass | renderer main
+Owned menu navigation | push menu_SelectClass | depth 3
+Original class scene connected | clips 7 | tracks 27 | body previews 3 | weapons and lighting pending
+Original class scene animation | lol_1_idle | 6000 6033
+Native menu profile created | slot 0 | class 263 | level 1 | metadata sections 7 | online reads 3 | name private
+Native offline registration | entries 1 | added 1 | controllers 4 | renumber 1 | counter 39 | before authored slot assignment; Character association pending
+Native menu slot assigned | slot 0 | ordinal 0 | manager stores 1 | player stores 1 | Character association pending
+Owned menu renderer selected | name menu_EnterName | renderer main
+Owned menu navigation | pop menu_SelectClass | current menu_EnterName | depth 2
+Owned menu renderer selected | name menu_MainMenu | renderer main
+Owned menu navigation | pop menu_EnterName | current menu_MainMenu | depth 1
+Owned menu navigation | pop above menu_MainMenu | current menu_MainMenu | depth 1
+Owned menu renderer selected | name menu_StartGame | renderer main
+Owned menu navigation | push menu_StartGame | depth 2
+Native offline registration | entries 1 | added 0 | controllers 4 | renumber 0 | counter 39 | before authored slot assignment; Character association pending
+Native menu slot assigned | slot 0 | ordinal 0 | manager stores 1 | player stores 1 | Character association pending
+Development Crypt start requested | slot 0 | numeric 1 | requested difficulty 0 | full source level transition pending
+Authored NativeStartGame request queued | selected slot 0 | numeric difficulty 1 | requested difficulty 0 | development Crypt continuation | delivery unwinds before world load
+Native WorldMap catalogue | locations 13 | lockers 3 | distinct from FastTravelList; gameplay Save state loader pending
+Native Quest catalogue | definitions 64 | immutable table and constants generation
+Native managed metadata | players 1 | slot 0 | published680 1 | name setters 1 | class setters 1 | level setters 1 | Save 133951533569264 | Character660 0 | bounded normal offline Manage path; spawn/InitPost pending
+Native gameplay class | slot 0 | class 263 | preset KnightPlayerBase | player queries 1 | mask1 calls 1 | publications 1 | own Save 133951533595784 | profile 133951801643144
+Native gameplay property cache | class 263 | animation table 48 | max HP 42265 | max MP 6976
+Native Quest startup | Save 133951533595784 | Character 4294967297 | log b8 192 | log118 192 | constants 1608 | retained 0 | Compile and quest gameplay pending
+Native Player AIS initialized | AI 0x300000001 | AIS 0x79d365864d78 | active 0x79d365864d78 | pending 0x79d365864d78 | phase 7 | VM 0x79d395899bf0 | init mask 1f | HP 42264 / 42265 | MP 6975 / 6976 | timer33 0 | timer34 1 | one source InitProcess; Character profile/grants/frame/activation pending
+Native full PlayerInfo | fields 33 | factory 1 | level 1 | class 263 | Character660 0 | slot664 0 | counter 45 | canonical registered; Character association pending
+Menu game start | slot 0 | Crypt | 8 rooms | 13 monsters | 84 scenery objects
+Connected player HUD submitted | viewport 2424 1080 | character 0x100000001 | HP 42264 42265 | MP 6975 6976 | XP 0 25600 | frames 98 98 0 98 98 | dirty 11 | retained movie 0x79d41585d370 | original timeline and viewport
+Connected player HUD submitted | viewport 2424 1080 | character 0x100000001 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0x79d41585d370 | original timeline and viewport
+Player position -2227.7700 1220.9301 842.3644 | moved 0 | blocked 0
+Player position -2242.4272 1403.3232 842.3644 | moved 14 | blocked 2
+Player input | Walk closer to an enemy
+Player position -2242.4272 1403.3232 842.3644 | moved 14 | blocked 2
+Native Quest terminal discard | destroyed b8 192 | log118 192 | source log vectors empty
+Original front screen loaded | screen main | uri data/menus/dqmenus_droid.swf | clip _root.menu_MainMenu | id 510 | frames 31
+Original front/HUD screen submitted | screen main
+Surface resized to 2424 x 880
+Surface resized to 2424 x 1080
+Original front screen loaded | screen main | uri data/menus/dqmenus_droid.swf | clip _root.menu_MainMenu | id 510 | frames 31
+Native menu preview selection | slot 0 | force 0 | avatar producer pending
+Original front/HUD screen submitted | screen main
+Owned menu renderer selected | name menu_StartGame | renderer main
+Owned menu navigation | push menu_StartGame | depth 2
+Native offline registration | entries 1 | added 1 | controllers 4 | renumber 1 | counter 39 | before authored slot assignment; Character association pending
+Native menu slot assigned | slot 0 | ordinal 0 | manager stores 1 | player stores 1 | Character association pending
+Development Crypt start requested | slot 0 | numeric 1 | requested difficulty 0 | full source level transition pending
+Authored NativeStartGame request queued | selected slot 0 | numeric difficulty 1 | requested difficulty 0 | development Crypt continuation | delivery unwinds before world load
+Native WorldMap catalogue | locations 13 | lockers 3 | distinct from FastTravelList; gameplay Save state loader pending
+Native Quest catalogue | definitions 64 | immutable table and constants generation
+Native managed metadata | players 1 | slot 0 | published680 1 | name setters 1 | class setters 1 | level setters 1 | Save 133951533722720 | Character660 0 | bounded normal offline Manage path; spawn/InitPost pending
+Native gameplay class | slot 0 | class 263 | preset KnightPlayerBase | player queries 1 | mask1 calls 1 | publications 1 | own Save 133951533716120 | profile 133951801068344
+Native gameplay property cache | class 263 | animation table 48 | max HP 42265 | max MP 6976
+Native Quest startup | Save 133951533716120 | Character 4294967297 | log b8 192 | log118 192 | constants 1608 | retained 0 | Compile and quest gameplay pending
+Native Player AIS initialized | AI 0x300000001 | AIS 0x79d365850168 | active 0x79d365850168 | pending 0x79d365850168 | phase 7 | VM 0x79d395891f10 | init mask 1f | HP 42264 / 42265 | MP 6975 / 6976 | timer33 0 | timer34 1 | one source InitProcess; Character profile/grants/frame/activation pending
+Native full PlayerInfo | fields 33 | factory 1 | level 1 | class 263 | Character660 0 | slot664 0 | counter 45 | canonical registered; Character association pending
+Menu game start | slot 0 | Crypt | 8 rooms | 13 monsters | 84 scenery objects
+Connected player HUD submitted | viewport 2424 1080 | character 0x100000001 | HP 42264 42265 | MP 6975 6976 | XP 0 25600 | frames 98 98 0 98 98 | dirty 11 | retained movie 0x79d41585d550 | original timeline and viewport
+Connected player HUD submitted | viewport 2424 1080 | character 0x100000001 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0x79d41585d550 | original timeline and viewport
+Player position -2227.7700 1220.9301 842.3644 | moved 0 | blocked 0
+Surface resized to 2424 x 1080
+Native WorldMap catalogue | locations 13 | lockers 3 | distinct from FastTravelList; gameplay Save state loader pending
+Native Quest catalogue | definitions 64 | immutable table and constants generation
+Native managed metadata | players 1 | slot 0 | published680 1 | name setters 0 | class setters 0 | level setters 0 | Save 133951533710576 | Character660 0 | bounded normal offline Manage path; spawn/InitPost pending
+Native gameplay class | slot 0 | class 263 | preset KnightPlayerBase | player queries 1 | mask1 calls 1 | publications 1 | own Save 133951533705080 | profile 133951801136264
+Native gameplay property cache | class 263 | animation table 48 | max HP 42265 | max MP 6976
+Native Quest startup | Save 133951533716120 | Character 4294967297 | log b8 192 | log118 192 | constants 1608 | retained 1 | Compile and quest gameplay pending
+Native Player AIS retained | initialized 1 | AI 0x300000001 | AIS 0x79d365850168 | active 0x79d365850168 | pending 0x79d365850168 | phase 7 | timer33 0 | timer34 1 | same owner/failure latch; no load/InitProcess replay
+Native full PlayerInfo | fields 33 | factory 1 | level 1 | class 263 | Character660 0 | slot664 0 | counter 45 | canonical registered; Character association pending
+Menu game start | slot 0 | Crypt | 8 rooms | 13 monsters | 84 scenery objects
+Connected player HUD submitted | viewport 2424 1080 | character 0x100000001 | HP 42265 42265 | MP 6976 6976 | XP 0 25600 | frames 99 99 0 99 99 | dirty 11 | retained movie 0x79d41585d550 | original timeline and viewport
+Player position -2227.7700 1220.9301 842.3644 | moved 0 | blocked 0
+Native Quest terminal discard | destroyed b8 192 | log118 192 | source log vectors empty
+Original front screen loaded | screen main | uri data/menus/dqmenus_droid.swf | clip _root.menu_MainMenu | id 510 | frames 31
+Original front/HUD screen submitted | screen main

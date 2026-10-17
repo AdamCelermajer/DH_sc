@@ -1,0 +1,1343 @@
+{
+  "validation": "PASS",
+  "stance_mask": 210,
+  "bank_character": "KnightPlayerBase",
+  "bank_table": 48,
+  "bank_resources": 116,
+  "class_rows": [
+    {
+      "table": 48,
+      "character": "PlayerKnight",
+      "states": {
+        "Idle": {
+          "base": 262,
+          "stance_bit": 2,
+          "stanced": true,
+          "roots": [
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "clip_ids": [
+            1035,
+            1036,
+            1037,
+            1038,
+            1039,
+            1040,
+            1041
+          ],
+          "missing": []
+        },
+        "Walk": {
+          "base": 280,
+          "stance_bit": 16,
+          "stanced": true,
+          "roots": [
+            280,
+            281,
+            282,
+            283,
+            284
+          ],
+          "clip_ids": [
+            1126
+          ],
+          "missing": []
+        },
+        "Run": {
+          "base": 271,
+          "stance_bit": 32,
+          "stanced": false,
+          "roots": [
+            271
+          ],
+          "clip_ids": [
+            1114
+          ],
+          "missing": []
+        },
+        "Attack": {
+          "base": 248,
+          "stance_bit": 64,
+          "stanced": true,
+          "roots": [
+            248,
+            249,
+            250,
+            251,
+            252
+          ],
+          "clip_ids": [
+            956,
+            959,
+            962,
+            964,
+            965,
+            966,
+            968,
+            970,
+            972,
+            974,
+            976,
+            978,
+            980,
+            984,
+            986,
+            988,
+            990,
+            1000,
+            1003,
+            1006,
+            1009,
+            1011,
+            1012,
+            1013,
+            1014,
+            1016,
+            1018,
+            1020,
+            1022,
+            1077,
+            1078,
+            1079,
+            1218
+          ],
+          "missing": []
+        },
+        "AttackStatic": {
+          "base": 243,
+          "stance_bit": 128,
+          "stanced": true,
+          "roots": [
+            243,
+            244,
+            245,
+            246,
+            247
+          ],
+          "clip_ids": [
+            955,
+            957,
+            958,
+            960,
+            961,
+            963,
+            967,
+            969,
+            971,
+            973,
+            975,
+            977,
+            979,
+            981,
+            983,
+            985,
+            987,
+            989,
+            999,
+            1001,
+            1002,
+            1004,
+            1005,
+            1007,
+            1008,
+            1010,
+            1015,
+            1017,
+            1019,
+            1021,
+            1077,
+            1078,
+            1079,
+            1218
+          ],
+          "missing": []
+        },
+        "Died": {
+          "base": 259,
+          "stance_bit": 32768,
+          "stanced": false,
+          "roots": [
+            259
+          ],
+          "clip_ids": [
+            1023
+          ],
+          "missing": []
+        },
+        "DeadlyGreatKB": {
+          "base": 255,
+          "stance_bit": 131072,
+          "stanced": false,
+          "roots": [
+            255
+          ],
+          "clip_ids": [
+            1026,
+            1028
+          ],
+          "missing": []
+        },
+        "Despawn": {
+          "base": 257,
+          "stance_bit": 65536,
+          "stanced": false,
+          "roots": [
+            257
+          ],
+          "clip_ids": [
+            992
+          ],
+          "missing": []
+        },
+        "DespawnGreatKB": {
+          "base": 256,
+          "stance_bit": 262144,
+          "stanced": false,
+          "roots": [
+            256
+          ],
+          "clip_ids": [
+            1027
+          ],
+          "missing": []
+        },
+        "IdleOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleFromOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleToOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleSneak": {
+          "base": 526,
+          "roots": [
+            526
+          ],
+          "clip_ids": [
+            1091
+          ],
+          "missing": []
+        },
+        "WalkSneak": {
+          "base": 527,
+          "roots": [
+            527
+          ],
+          "clip_ids": [
+            1093
+          ],
+          "missing": []
+        },
+        "RunSneak": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Spawn": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Revived": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Reviving": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Template": {
+          "base": 279,
+          "roots": [
+            279
+          ],
+          "clip_ids": [
+            1111
+          ],
+          "missing": []
+        },
+        "MenuIdle": {
+          "base": 352,
+          "roots": [
+            352
+          ],
+          "clip_ids": [
+            1063
+          ],
+          "missing": []
+        },
+        "MenuOnSelect": {
+          "base": 353,
+          "roots": [
+            353
+          ],
+          "clip_ids": [
+            1064
+          ],
+          "missing": [
+            1064
+          ]
+        }
+      }
+    },
+    {
+      "table": 49,
+      "character": "PlayerMage",
+      "states": {
+        "Idle": {
+          "base": 262,
+          "stance_bit": 2,
+          "stanced": true,
+          "roots": [
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "clip_ids": [
+            1035,
+            1036,
+            1037,
+            1038,
+            1039,
+            1040,
+            1041
+          ],
+          "missing": []
+        },
+        "Walk": {
+          "base": 280,
+          "stance_bit": 16,
+          "stanced": true,
+          "roots": [
+            280,
+            281,
+            282,
+            283,
+            284
+          ],
+          "clip_ids": [
+            1126
+          ],
+          "missing": []
+        },
+        "Run": {
+          "base": 271,
+          "stance_bit": 32,
+          "stanced": false,
+          "roots": [
+            271
+          ],
+          "clip_ids": [
+            1114
+          ],
+          "missing": []
+        },
+        "Attack": {
+          "base": 248,
+          "stance_bit": 64,
+          "stanced": true,
+          "roots": [
+            248,
+            249,
+            250,
+            251,
+            252
+          ],
+          "clip_ids": [
+            956,
+            959,
+            962,
+            964,
+            965,
+            966,
+            968,
+            970,
+            972,
+            974,
+            976,
+            978,
+            980,
+            984,
+            986,
+            988,
+            990,
+            1000,
+            1003,
+            1006,
+            1009,
+            1011,
+            1012,
+            1013,
+            1014,
+            1016,
+            1018,
+            1020,
+            1022,
+            1077,
+            1078,
+            1079,
+            1218
+          ],
+          "missing": []
+        },
+        "AttackStatic": {
+          "base": 243,
+          "stance_bit": 128,
+          "stanced": true,
+          "roots": [
+            243,
+            244,
+            245,
+            246,
+            247
+          ],
+          "clip_ids": [
+            955,
+            957,
+            958,
+            960,
+            961,
+            963,
+            967,
+            969,
+            971,
+            973,
+            975,
+            977,
+            979,
+            981,
+            983,
+            985,
+            987,
+            989,
+            999,
+            1001,
+            1002,
+            1004,
+            1005,
+            1007,
+            1008,
+            1010,
+            1015,
+            1017,
+            1019,
+            1021,
+            1077,
+            1078,
+            1079,
+            1218
+          ],
+          "missing": []
+        },
+        "Died": {
+          "base": 259,
+          "stance_bit": 32768,
+          "stanced": false,
+          "roots": [
+            259
+          ],
+          "clip_ids": [
+            1023
+          ],
+          "missing": []
+        },
+        "DeadlyGreatKB": {
+          "base": 255,
+          "stance_bit": 131072,
+          "stanced": false,
+          "roots": [
+            255
+          ],
+          "clip_ids": [
+            1026,
+            1028
+          ],
+          "missing": []
+        },
+        "Despawn": {
+          "base": 257,
+          "stance_bit": 65536,
+          "stanced": false,
+          "roots": [
+            257
+          ],
+          "clip_ids": [
+            992
+          ],
+          "missing": []
+        },
+        "DespawnGreatKB": {
+          "base": 256,
+          "stance_bit": 262144,
+          "stanced": false,
+          "roots": [
+            256
+          ],
+          "clip_ids": [
+            1027
+          ],
+          "missing": []
+        },
+        "IdleOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleFromOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleToOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleSneak": {
+          "base": 526,
+          "roots": [
+            526
+          ],
+          "clip_ids": [
+            1091
+          ],
+          "missing": []
+        },
+        "WalkSneak": {
+          "base": 527,
+          "roots": [
+            527
+          ],
+          "clip_ids": [
+            1093
+          ],
+          "missing": []
+        },
+        "RunSneak": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Spawn": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Revived": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Reviving": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Template": {
+          "base": 279,
+          "roots": [
+            279
+          ],
+          "clip_ids": [
+            1111
+          ],
+          "missing": []
+        },
+        "MenuIdle": {
+          "base": 419,
+          "roots": [
+            419
+          ],
+          "clip_ids": [
+            1065
+          ],
+          "missing": [
+            1065
+          ]
+        },
+        "MenuOnSelect": {
+          "base": 420,
+          "roots": [
+            420
+          ],
+          "clip_ids": [
+            1066
+          ],
+          "missing": [
+            1066
+          ]
+        }
+      }
+    },
+    {
+      "table": 50,
+      "character": "PlayerRogue",
+      "states": {
+        "Idle": {
+          "base": 262,
+          "stance_bit": 2,
+          "stanced": true,
+          "roots": [
+            262,
+            263,
+            264,
+            265,
+            266
+          ],
+          "clip_ids": [
+            1035,
+            1036,
+            1037,
+            1038,
+            1039,
+            1040,
+            1041
+          ],
+          "missing": []
+        },
+        "Walk": {
+          "base": 280,
+          "stance_bit": 16,
+          "stanced": true,
+          "roots": [
+            280,
+            281,
+            282,
+            283,
+            284
+          ],
+          "clip_ids": [
+            1126
+          ],
+          "missing": []
+        },
+        "Run": {
+          "base": 271,
+          "stance_bit": 32,
+          "stanced": false,
+          "roots": [
+            271
+          ],
+          "clip_ids": [
+            1114
+          ],
+          "missing": []
+        },
+        "Attack": {
+          "base": 248,
+          "stance_bit": 64,
+          "stanced": true,
+          "roots": [
+            248,
+            249,
+            250,
+            251,
+            252
+          ],
+          "clip_ids": [
+            956,
+            959,
+            962,
+            964,
+            965,
+            966,
+            968,
+            970,
+            972,
+            974,
+            976,
+            978,
+            980,
+            984,
+            986,
+            988,
+            990,
+            1000,
+            1003,
+            1006,
+            1009,
+            1011,
+            1012,
+            1013,
+            1014,
+            1016,
+            1018,
+            1020,
+            1022,
+            1077,
+            1078,
+            1079,
+            1218
+          ],
+          "missing": []
+        },
+        "AttackStatic": {
+          "base": 243,
+          "stance_bit": 128,
+          "stanced": true,
+          "roots": [
+            243,
+            244,
+            245,
+            246,
+            247
+          ],
+          "clip_ids": [
+            955,
+            957,
+            958,
+            960,
+            961,
+            963,
+            967,
+            969,
+            971,
+            973,
+            975,
+            977,
+            979,
+            981,
+            983,
+            985,
+            987,
+            989,
+            999,
+            1001,
+            1002,
+            1004,
+            1005,
+            1007,
+            1008,
+            1010,
+            1015,
+            1017,
+            1019,
+            1021,
+            1077,
+            1078,
+            1079,
+            1218
+          ],
+          "missing": []
+        },
+        "Died": {
+          "base": 259,
+          "stance_bit": 32768,
+          "stanced": false,
+          "roots": [
+            259
+          ],
+          "clip_ids": [
+            1023
+          ],
+          "missing": []
+        },
+        "DeadlyGreatKB": {
+          "base": 255,
+          "stance_bit": 131072,
+          "stanced": false,
+          "roots": [
+            255
+          ],
+          "clip_ids": [
+            1026,
+            1028
+          ],
+          "missing": []
+        },
+        "Despawn": {
+          "base": 257,
+          "stance_bit": 65536,
+          "stanced": false,
+          "roots": [
+            257
+          ],
+          "clip_ids": [
+            992
+          ],
+          "missing": []
+        },
+        "DespawnGreatKB": {
+          "base": 256,
+          "stance_bit": 262144,
+          "stanced": false,
+          "roots": [
+            256
+          ],
+          "clip_ids": [
+            1027
+          ],
+          "missing": []
+        },
+        "IdleOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleFromOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleToOOC": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "IdleSneak": {
+          "base": 526,
+          "roots": [
+            526
+          ],
+          "clip_ids": [
+            1091
+          ],
+          "missing": []
+        },
+        "WalkSneak": {
+          "base": 527,
+          "roots": [
+            527
+          ],
+          "clip_ids": [
+            1093
+          ],
+          "missing": []
+        },
+        "RunSneak": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Spawn": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Revived": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Reviving": {
+          "base": -1,
+          "roots": [],
+          "clip_ids": [],
+          "missing": []
+        },
+        "Template": {
+          "base": 279,
+          "roots": [
+            279
+          ],
+          "clip_ids": [
+            1111
+          ],
+          "missing": []
+        },
+        "MenuIdle": {
+          "base": 522,
+          "roots": [
+            522
+          ],
+          "clip_ids": [
+            1067
+          ],
+          "missing": [
+            1067
+          ]
+        },
+        "MenuOnSelect": {
+          "base": 523,
+          "roots": [
+            523
+          ],
+          "clip_ids": [
+            1068
+          ],
+          "missing": [
+            1068
+          ]
+        }
+      }
+    }
+  ],
+  "input_sha256": {
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_pystructnames.bin": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134",
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_pycst.bin": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f",
+    "port\\android-native\\app\\src\\main\\assets\\data\\animations_dictionary_pyarray.bin": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7",
+    "port\\android-native\\app\\src\\main\\assets\\data\\prince-animation-bank.json": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81",
+    "port\\android-native\\app\\src\\main\\assets\\data\\prince-animation-bank.bin": "c0cf8bfbb804256050e0d1ac326b8388b472c9b3034c8366c992f2056f477b0b"
+  },
+  "scope": "Actual serialized37-field class tables and all reachable requested gameplay/stance/base roots against shared Knight PAB1 asset membership and byte hashes. Source constants count/mask used. Actual configured native graph includes each relevant TU once for both ABIs. No new Rogue/Mage original registration producer parity or live gameplay proof. Selected DSOs additionally execute actual class base/class recalc, cached property2, source-derived starting-loot projection,4 exact modules per preview/default body, original ordered Knight bank and84 class/stance root selections with1356 real pose samples. This is host composition; Android/live confirmation belongs to the separate root receipts.",
+  "android_or_live_verification": false,
+  "stance_count": 5,
+  "source_constants": {
+    "AnimStancedAnim/SL__LIST_IPHONE": 210,
+    "AnimStances/COUNT_IPHONE": 5,
+    "AnimStancedAnim/SL_IDLE": 2,
+    "AnimStancedAnim/SL_WALK": 16,
+    "AnimStancedAnim/SL_RUN": 32,
+    "AnimStancedAnim/SL_ATTACK": 64,
+    "AnimStancedAnim/SL_ATTACK_STATIC": 128,
+    "AnimStancedAnim/SL_DIED": 32768,
+    "AnimStancedAnim/SL_DEADLYGKB": 131072,
+    "AnimStancedAnim/SL_DESPAWN": 65536,
+    "AnimStancedAnim/SL_DESPAWNGKB": 262144
+  },
+  "all_37_field_comparison": {
+    "48": {
+      "only_differences_from_table48": [],
+      "base_roots": 31,
+      "missing_base_resources": [
+        {
+          "field": "MenuOnSelect",
+          "root": 353,
+          "clips": [
+            1064
+          ]
+        }
+      ]
+    },
+    "49": {
+      "only_differences_from_table48": [
+        {
+          "field": "MenuIdle",
+          "table48": [
+            352
+          ],
+          "selected": [
+            419
+          ]
+        },
+        {
+          "field": "MenuOnSelect",
+          "table48": [
+            353
+          ],
+          "selected": [
+            420
+          ]
+        }
+      ],
+      "base_roots": 31,
+      "missing_base_resources": [
+        {
+          "field": "MenuIdle",
+          "root": 419,
+          "clips": [
+            1065
+          ]
+        },
+        {
+          "field": "MenuOnSelect",
+          "root": 420,
+          "clips": [
+            1066
+          ]
+        }
+      ]
+    },
+    "50": {
+      "only_differences_from_table48": [
+        {
+          "field": "MenuIdle",
+          "table48": [
+            352
+          ],
+          "selected": [
+            522
+          ]
+        },
+        {
+          "field": "MenuOnSelect",
+          "table48": [
+            353
+          ],
+          "selected": [
+            523
+          ]
+        }
+      ],
+      "base_roots": 31,
+      "missing_base_resources": [
+        {
+          "field": "MenuIdle",
+          "root": 522,
+          "clips": [
+            1067
+          ]
+        },
+        {
+          "field": "MenuOnSelect",
+          "root": 523,
+          "clips": [
+            1068
+          ]
+        }
+      ]
+    }
+  },
+  "resource_byte_checks": 116,
+  "missing_gameplay_resources": [],
+  "menu_selection_boundary": {
+    "idle_assets_staged": [
+      "data/3D/characters/prince/animations/prince_menu_idle_knight.bdae",
+      "data/3D/characters/prince/animations/prince_menu_idle_mage.bdae",
+      "data/3D/characters/prince/animations/prince_menu_idle_rogue.bdae"
+    ],
+    "menu_on_select_missing_clip_ids": [
+      1064,
+      1066,
+      1068
+    ],
+    "menu_on_select_consumed_by_current_adapter": false,
+    "current_adapter": "Body MenuIdle plus authored class_selection camera lol_* transitions."
+  },
+  "source_sha256": {
+    "port/game-data/animation_tables.cpp": "436cff5b347f1d756777775e35110bab113de3547b6a878932538afac21ef86e",
+    "port/game-data/animation_tables.hpp": "031dbc1ec565bc468357a21a9994abfba2c00f046796f4e8c409c63b8b872ecc",
+    "port/game-data/animation_bank.cpp": "d01fc6391ddb543eb2eadca8ce52e6b6e814cdd52d146d358c221d5a418d044f",
+    "port/game-data/class_preview_setup.cpp": "b4e6d98d78277b0f8992acf81eaf9f325c9770307f80909502a9241365602312",
+    "port/game-data/class_preview_setup.hpp": "1d68419d6ec3a5346832250858b6692544a2ed0352910ba4ea9fbb230e8fcd57",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/level-world/character_stance.cpp": "1db27edbff8a8a4a37a31495a1f5fd3aba5684af70ce6f36822c4c98181b14c2",
+    "port/level-world/character_state.cpp": "51d851465d885003f1280922330b242ef775a53873c8a2611604caf6211f34bd",
+    "port/level-world/actor_blended_playback.cpp": "f4f84d16734eb0a9bd071a8234708fa2795b8b8b102bfd93502ab521452de567",
+    "port/engine-animation/animation_registration.cpp": "612c97d63223bfc571815fd561828b756ac74a43628c1467e4e28ba52e4ba108",
+    "port/android-native/app/src/main/cpp/model_menu_scene_v69.hpp": "fe99da347b2b2cbfcae24379f4e1cb28599aec2e7bf000e2f3c9ac77148119a6"
+  },
+  "native_compile_manifest": {
+    "arm64-v8a": {
+      "sha256": "82945fc9efc3885d0bc12f00c0f115f44eaa031d28949c68f6c517da34fdd3cb",
+      "selected_tu_counts": {
+        "model_renderer.cpp": 1,
+        "animation_tables.cpp": 1,
+        "animation_bank.cpp": 1,
+        "properties.cpp": 1,
+        "class_tables.cpp": 1,
+        "class_preview_setup.cpp": 1,
+        "character_stance.cpp": 1,
+        "character_state.cpp": 1,
+        "actor_blended_playback.cpp": 1,
+        "animation_registration.cpp": 1
+      },
+      "selected_compiler_entries": {
+        "model_renderer.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_native_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-textures -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-camera -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/../asset-payloads -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/../scene-materials -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -Werror -o CMakeFiles\\dh2_native.dir\\model_renderer.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp"
+          }
+        ],
+        "animation_tables.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\animation_tables.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_tables.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_tables.cpp"
+          }
+        ],
+        "animation_bank.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\animation_bank.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_bank.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_bank.cpp"
+          }
+        ],
+        "properties.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\properties.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp"
+          }
+        ],
+        "class_tables.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\class_tables.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp"
+          }
+        ],
+        "class_preview_setup.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\class_preview_setup.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_preview_setup.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_preview_setup.cpp"
+          }
+        ],
+        "character_stance.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_stance.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_stance.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_stance.cpp"
+          }
+        ],
+        "character_state.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_state.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_state.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_state.cpp"
+          }
+        ],
+        "actor_blended_playback.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\actor_blended_playback.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\actor_blended_playback.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\actor_blended_playback.cpp"
+          }
+        ],
+        "animation_registration.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/arm64-v8a",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=aarch64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_engine_animation_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o engine-animation\\CMakeFiles\\dh2_engine_animation.dir\\animation_registration.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\animation_registration.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\animation_registration.cpp"
+          }
+        ]
+      },
+      "scope": "Actual configured compile graph, not a successful Android build receipt."
+    },
+    "x86_64": {
+      "sha256": "74f8511d34be4187a70ed3549613969ff4b6cebc7f018da6980fcc8725a39394",
+      "selected_tu_counts": {
+        "model_renderer.cpp": 1,
+        "animation_tables.cpp": 1,
+        "animation_bank.cpp": 1,
+        "properties.cpp": 1,
+        "class_tables.cpp": 1,
+        "class_preview_setup.cpp": 1,
+        "character_stance.cpp": 1,
+        "character_state.cpp": 1,
+        "actor_blended_playback.cpp": 1,
+        "animation_registration.cpp": 1
+      },
+      "selected_compiler_entries": {
+        "model_renderer.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_native_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-textures -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-camera -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/../asset-payloads -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/../scene-materials -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -Werror -o CMakeFiles\\dh2_native.dir\\model_renderer.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\app\\src\\main\\cpp\\model_renderer.cpp"
+          }
+        ],
+        "animation_tables.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\animation_tables.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_tables.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_tables.cpp"
+          }
+        ],
+        "animation_bank.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\animation_bank.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_bank.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_bank.cpp"
+          }
+        ],
+        "properties.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\properties.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp"
+          }
+        ],
+        "class_tables.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\class_tables.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp"
+          }
+        ],
+        "class_preview_setup.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -o level-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\class_preview_setup.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_preview_setup.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_preview_setup.cpp"
+          }
+        ],
+        "character_stance.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_stance.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_stance.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_stance.cpp"
+          }
+        ],
+        "character_state.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\character_state.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_state.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_state.cpp"
+          }
+        ],
+        "actor_blended_playback.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o level-world\\CMakeFiles\\dh2_level_world.dir\\actor_blended_playback.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\actor_blended_playback.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\actor_blended_playback.cpp"
+          }
+        ],
+        "animation_registration.cpp": [
+          {
+            "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/android-native/app/.cxx/Debug/1c6t1ql2/x86_64",
+            "command": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\emulator-test\\sdk\\ndk\\29.0.14206865\\toolchains\\llvm\\prebuilt\\windows-x86_64\\bin\\clang++.exe --target=x86_64-none-linux-android24 --sysroot=C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/emulator-test/sdk/ndk/29.0.14206865/toolchains/llvm/prebuilt/windows-x86_64/sysroot -Ddh2_engine_animation_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -g -DANDROID -fdata-sections -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -D_FORTIFY_SOURCE=2 -Wformat -Werror=format-security   -fno-limit-debug-info  -fPIC -Wall -Wextra -fno-fast-math -ffp-contract=off -o engine-animation\\CMakeFiles\\dh2_engine_animation.dir\\animation_registration.cpp.o -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\animation_registration.cpp",
+            "file": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\engine-animation\\animation_registration.cpp"
+          }
+        ]
+      },
+      "scope": "Actual configured compile graph, not a successful Android build receipt."
+    }
+  },
+  "class_definition_asset_preflight": {
+    "validation": "PASS",
+    "missing": [],
+    "required_assets_sha256": {
+      "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+      "character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+      "character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+      "character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+      "loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+      "animations_pyarray.bin": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469",
+      "animations_pyarraynames.bin": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4",
+      "animations_pystructnames.bin": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    }
+  },
+  "selected_host_audit": {
+    "validation": "PASS",
+    "classes": 3,
+    "actual_player_rows": [
+      263,
+      325,
+      290
+    ],
+    "cached_property2": [
+      48,
+      50,
+      49
+    ],
+    "base_property_and_loot_definitions": 3,
+    "preview_modules": 12,
+    "default_modules": 12,
+    "gameplay_stance_roots": 84,
+    "reachable_gameplay_clips": 80,
+    "bank_resources": 116,
+    "registration_occurrences": 158,
+    "real_pose_samples": 1356,
+    "Rogue_Mage_registration_oracle": false
+  },
+  "selected_host_replay_report": {
+    "path": "port/level-world/reports/player-inventory-retained-lifetime-v1-selected-host.json",
+    "sha256": "988e9630dc1f551ffe196d6f52c74b8362fe4e809b06b0679c9c9682aea8dd93",
+    "guarded_project_inputs": 603,
+    "source_before_after_equal": true,
+    "production_tu_counts": {
+      "port/level-world/player_saved_inventory_v1.cpp": 1,
+      "port/game-data/fresh_inventory_owned_v4.cpp": 1
+    },
+    "script_runtime_tu_count": 1,
+    "shared_text_tu_count": 5
+  },
+  "selected_host_compile": {
+    "thin_cpp_source_sha256": "a5f14079d527a9825fb80f4048b30c7ef4305bfed0475bea3e2237f657f16223",
+    "thin_cpp_source": "#include \"actor_blended_playback.hpp\"\n#include \"animation_bank.hpp\"\n#include \"class_preview_setup.hpp\"\n#include \"objects.hpp\"\n#include <cmath>\n#include <fstream>\n#include <functional>\n#include <iostream>\n#include <set>\n#include <stdexcept>\nusing namespace dh2;\nnamespace {\nvoid ck(bool b,const std::string& e){if(!b)throw std::runtime_error(e);}\nstd::vector<std::uint8_t> read(const std::string& p){std::ifstream f(p,std::ios::binary);ck(bool(f),\"missing \"+p);return {std::istreambuf_iterator<char>(f),{}};}\ndata::Bytes bytes(const std::vector<std::uint8_t>& b){return {b.data(),b.size()};}\nstd::string leaf(const std::string& p){return p.substr(p.find_last_of(\"/\\\\\")+1);}\nvoid finite(const scene::Scene& s){for(const auto& n:s.graph)for(float v:n.world)ck(std::isfinite(v),\"nonfinite rendered world matrix\");}\n}\nint main(int argc,char** argv){try{\n ck(argc==2,\"assets arg\");const std::string a=argv[1];std::string error;\n auto an=read(a+\"/data/animations_dictionary_pyarraynames.bin\"),av=read(a+\"/data/animations_dictionary_pyarray.bin\");data::Dictionary clips;ck(data::load_dictionary(bytes(an),bytes(av),clips,error),error);\n auto ar=read(a+\"/data/animations_pyarray.bin\"),ak=read(a+\"/data/animations_pyarraynames.bin\"),as=read(a+\"/data/animations_pystructnames.bin\");data::AnimationTables tables;ck(data::load_animation_tables(bytes(ar),bytes(ak),bytes(as),clips,tables,error),error);\n auto cr=read(a+\"/data/character_properties_pyarray.bin\"),ckeys=read(a+\"/data/character_properties_pyarraynames.bin\"),cs=read(a+\"/data/character_properties_pystructnames.bin\");data::CharacterTable chars;ck(data::load_characters(bytes(cr),bytes(ckeys),bytes(cs),chars,error),error);\n auto xr=read(a+\"/data/character_classes_pyarray.bin\"),xk=read(a+\"/data/character_classes_pyarraynames.bin\"),xs=read(a+\"/data/character_classes_pystructnames.bin\");data::ClassTables classes;ck(data::load_classes(bytes(xr),bytes(xk),bytes(xs),classes,error),error);data::PropertyRules rules;ck(data::load_property_rules(chars,rules,error),error);\n auto lr=read(a+\"/data/loot_table_pyarray.bin\"),lk=read(a+\"/data/loot_table_pyarraynames.bin\"),ls=read(a+\"/data/loot_table_pystructnames.bin\");data::LootTablesV2 loot;ck(loot.load(bytes(lr),bytes(lk),bytes(ls),error),error);std::array<data::ClassPreviewDefinition,3> defs;ck(data::class_preview_definitions(chars,classes,rules,loot.borrow(),tables,clips,defs,error),error);\n const int rows[]={263,325,290},animtables[]={48,50,49};const char* names[]={\"KnightPlayerBase\",\"RoguePlayerBase\",\"MagePlayerBase\"};const char* suffix[]={\"warrior\",\"rogue\",\"mage\"};\n auto model=read(a+\"/models/prince_modular.bdae\");unsigned preview_modules=0,default_modules=0,samples=0,root_cases=0;std::set<int> required;\n resources::BresView bres{};scene::Scene factory;ck(dh2_bres_open(&bres,model.data(),model.size())==resources::BresError::ok&&scene::load(bres,factory,error),error);ck(factory.graph.size()==35,\"Prince graph35\");\n auto br=read(a+\"/data/prince-animation-bank.bin\");data::AnimationBank meta;ck(data::load_animation_bank(bytes(br),meta,error),error);ck(meta.character==\"KnightPlayerBase\"&&meta.animation_table==48&&meta.resources.size()==116&&meta.registration_requests.size()==158,\"Knight receipt boundary\");actor::ClipBank bank;\n for(const auto& row:meta.resources){auto raw=read(a+\"/\"+row.asset);animation::Player p;ck(p.load(raw.data(),raw.size(),factory,error,animation::MissingTargets::ignore),error);bank.emplace(row.clip_id,std::move(p));}\n animation::RegistrationSet registration;for(int id:meta.registration_requests)ck(registration.append(id,data::animation_resource_identity(meta,id),&bank.at(id),error),error);ck(registration.set_default(data::animation_resource_identity(meta,meta.template_clip_id),&bank.at(meta.template_clip_id),error),error);registration.refresh_indices();\n for(unsigned i=0;i<3;++i){const auto& d=defs[i];ck(d.row==rows[i]&&d.animation_table==animtables[i]&&d.character==names[i],\"actual player row/property2 mismatch\");\n  std::vector<std::string> modules{\"MC_Head__naked-mesh-skin\"};for(const auto& item:d.starting_items)if(item.module.find(\"MC_Torso_\")==0||item.module.find(\"MC_Feet_\")==0||item.module.find(\"MC_Hands_\")==0)modules.push_back(item.module+\"-mesh-skin\");ck(modules.size()==4,\"actual starter4\");auto idle=read(a+\"/animations/\"+leaf(d.idle_clip));objects::Resource preview;ck(objects::load_modular_resource(model.data(),model.size(),modules,idle.data(),idle.size(),preview,error),error);ck(!preview.animation.skipped&&preview.primitives.size()==4,\"preview4/unsupported\");preview_modules+=preview.primitives.size();ck(objects::sample(preview,preview.animation.start,error)&&objects::sample(preview,preview.animation.end,error),error);finite(preview.scene);samples+=2;\n  modules.clear();for(const char* part:{\"Head\",\"Torso\",\"Hands\",\"Feet\"})modules.push_back(std::string(\"MC_\")+part+\"_default_\"+suffix[i]+\"-mesh-skin\");auto game_idle=read(a+\"/animations/\"+leaf(clips.values.at(1040)));objects::Resource defaults;ck(objects::load_modular_resource(model.data(),model.size(),modules,game_idle.data(),game_idle.size(),defaults,error),error);ck(defaults.primitives.size()==4,\"default module4\");default_modules+=defaults.primitives.size();ck(objects::sample(defaults,defaults.animation.start,error)&&objects::sample(defaults,defaults.animation.end,error),error);finite(defaults.scene);samples+=2;\n  auto live=defaults.scene;visual::SceneBinding visual;ck(visual.bind(live,error),error);actor::BlendedPlayback p;ck(p.compile_dynamic(bank,registration,factory,visual,error),error);data::AnimationRandom random;\n  const char* states[]={\"Idle\",\"Walk\",\"Run\",\"Attack\",\"AttackStatic\",\"Died\",\"DeadlyGreatKB\",\"Despawn\",\"DespawnGreatKB\",\"IdleSneak\",\"WalkSneak\",\"Template\"};\n  const unsigned bits[]={2,16,32,64,128,32768,131072,65536,262144,0,0,0};\n  for(unsigned n=0;n<12;++n){const auto* base=data::animation_state(tables,d.animation_table,states[n]);ck(base,\"source base absent\");const int root=int(base-tables.sequences.data());\n   for(unsigned stance=0;stance<((210&bits[n])?5u:1u);++stance){const int seq=root+int(stance);++root_cases;\n    std::function<void(int,unsigned)> collect=[&](int q,unsigned depth){ck(depth<3,\"redirect source limit\");for(const auto& st:tables.sequences.at(q).steps)if(st.redir)collect(st.anim,depth+1);else if(st.anim>=0){required.insert(st.anim);ck(bank.count(st.anim)&&p.engine_index(st.anim)>=0,\"missing source clip\");}};collect(seq,0);\n    for(unsigned trial=0;trial<16;++trial){random={trial+1,0};ck(p.start(tables,seq,random,bank,visual,live,1,error),error);ck(p.engine_index(p.current_clip())==p.current_engine_clip(),\"game engine mapping\");ck(p.scene_phase(1000+samples*17,bank,visual,live,error),error);finite(live);++samples;}\n   }\n  }\n }\n ck(root_cases==84&&required.size()==80&&preview_modules==12&&default_modules==12,\"declared class coverage changed\");\n std::cout<<\"{\\\"validation\\\":\\\"PASS\\\",\\\"classes\\\":3,\\\"actual_player_rows\\\":[263,325,290],\\\"cached_property2\\\":[48,50,49],\\\"base_property_and_loot_definitions\\\":3,\\\"preview_modules\\\":\"<<preview_modules<<\",\\\"default_modules\\\":\"<<default_modules<<\",\\\"gameplay_stance_roots\\\":\"<<root_cases<<\",\\\"reachable_gameplay_clips\\\":\"<<required.size()<<\",\\\"bank_resources\\\":116,\\\"registration_occurrences\\\":158,\\\"real_pose_samples\\\":\"<<samples<<\",\\\"Rogue_Mage_registration_oracle\\\":false}\\n\";\n return 0;\n}catch(const std::exception& e){std::cerr<<e.what()<<'\\n';return 1;}}\n",
+    "exe_sha256": "7a903bf61b1780cf76f6a8597e0934ecc48ffd3673c6d303b6de0dc6b7c8231f",
+    "production_sources_compiled_directly_into_test": false,
+    "DSO_sha256": {
+      "build/selected-world/libdh2_level_world.dll": "15a52d307a9aa81995b0e6be1c5909833936d4b526bc99aebc2a27246876fc93",
+      "build/selected-world/game-data/libdh2_game_data.dll": "08f28b382af5108aaf659e424d06491bfeb4efd71ff20fd739b5b6fefd28decd",
+      "build/selected-world/engine-skinning/engine-animation/libdh2_engine_animation.dll": "2a06c0b5cc7eb43dd61829278197f43e7bb722afcffd6092fe8fd0080d0dcd1b",
+      "build/selected-world/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.dll": "463b7f90c24941f6b6a0b9673a8c293218e6c6489537c226c28fa739b3c38891"
+    },
+    "DLL_imports": [
+      "libdh2_engine_animation.dll",
+      "libdh2_scene_materials.dll",
+      "libdh2_game_data.dll",
+      "libdh2_level_world.dll",
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-environment-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll"
+    ],
+    "compiler_sha256": "38feec1282ef1628153a57819a91662b67074acdb2980f408fde6340c44294e1",
+    "command": [
+      "g++.exe",
+      "-std=c++17",
+      "-O1",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-fno-fast-math",
+      "-ffp-contract=off",
+      "class_bank_compatibility.cpp",
+      "-Iport/level-world",
+      "-Iport/game-data",
+      "-Iport/engine-animation",
+      "-Iport/scene-materials",
+      "-Iport/engine-skinning",
+      "-Lbuild/selected-world",
+      "-Lbuild/selected-world/game-data",
+      "-Lbuild/selected-world/engine-skinning/engine-animation",
+      "-Lbuild/selected-world/engine-skinning/engine-animation/scene-materials",
+      "-ldh2_level_world",
+      "-ldh2_game_data",
+      "-ldh2_engine_animation",
+      "-ldh2_scene_materials",
+      "-o",
+      "class_bank_compatibility.exe"
+    ],
+    "scope": "Thin fixture linked to the already source-equality-guarded actual selected DSOs; no duplicated production TU. Real class/property/loot/module and playback composition. Actual constants independently asserted by serialized receipt, then bounded five-stance fixture. Not original Rogue/Mage registration producer replay."
+  },
+  "host_resource_inputs_sha256": {
+    "port/android-native/app/src/main/assets/models/prince_modular.bdae": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_knight.bdae": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_rogue.bdae": "17dee5ad32e29307c25a83b4db898d14091de5e198ed5e50a5928c61444bbfa0",
+    "port/android-native/app/src/main/assets/animations/prince_menu_idle_mage.bdae": "63f1673b3c8074079b8033514087f4f0a614f3d32c983fd2193bc48a14462058"
+  }
+}

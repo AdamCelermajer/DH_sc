@@ -1,0 +1,40 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "62557f036d3ee0b29de5c2376b4d2bc33de9f9df930ba528a265d8ddf4b39dad",
+  "source_commit": "d4142762",
+  "emulator": {
+    "serial": "emulator-5558",
+    "api": 37,
+    "page_size_bytes": 16384,
+    "abi": "x86_64"
+  },
+  "launch": "Direct crypt01.dwld development-world launch; menu and NativeStartGame were not exercised.",
+  "movement": {
+    "input": "Android touchscreen joystick",
+    "start": [-2227.77, 1220.9301, 842.3644],
+    "end": [-1486.1838, -426.4712, 161.8689]
+  },
+  "enemy_ai": {
+    "enabled": true,
+    "catalogue_configs": 76,
+    "factions": 16,
+    "automatic_melee_enabled": true,
+    "explicit_debug_target_used": false,
+    "target": "_prim_tmp_cultist07",
+    "target_object_index": 4,
+    "player_damage_events_observed": 7,
+    "hp_before_after": [[42265, 40250], [42010, 40817], [42265, 40225], [41985, 39767], [41527, 39364], [41124, 39137], [40897, 38766]]
+  },
+  "player_attack": {
+    "input": "One tap on the in-game Attack button; target selected by the normal nearest-target path.",
+    "explicit_debug_target_used": false,
+    "target": "_prim_tmp_cultist07",
+    "observed_attempt": 4,
+    "result_amount": 57,
+    "target_hp_before_after": [12036, 11979],
+    "weapon_category": -1,
+    "equipment_damage_binding": false
+  },
+  "screenshot_sha256": "379928039929ae2fa55ba48f8191abc0774fdcce5837a994ed1f3b982840e1b2",
+  "scope": "Confirms a bounded live Crypt exchange on API37/16KiB. No original combat-oracle comparison, equipment-derived damage, full AI pursuit/FSM, campaign startup, loot or level-completion claim."
+}

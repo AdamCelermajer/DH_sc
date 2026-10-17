@@ -1,0 +1,124 @@
+{
+  "validation": "PASS",
+  "branch": "reconstruction/android17-irrlicht-rebuild-2026-10-03",
+  "parent_source_commit": "29431c4865946fb4f722c65dca7f426ba77e9c77",
+  "adam_reference": "791e961b12233100b303038c961666834f4beb9d",
+  "apk_sha256": "220b2b659a3216316feab26c83aeeada6704bfe4e0e3ca8ecdf3892dbfa1797f",
+  "apk_bytes": 30076721,
+  "actual_compiler_configure_inputs": 597,
+  "apk_path": "port/android-native/build/native-backbone-r2-2026-10-05/crypt-native-backbone.apk",
+  "Downloads_APK_identical": true,
+  "new_source_modules": [
+    "actor_scene_retention_v1",
+    "player_initial_equipment_v1",
+    "player_kill_continuation_v1"
+  ],
+  "full_game_playable": false,
+  "physical_arm64_tested": false,
+  "scope": "Selected borrowed equipment and ordinary Player Kill continuation: host verified, both Android ABIs compiled/exported, not natively dispatched. Development CPU pose/clock/playback recreation, terminal ownership cleanup and prior Player/Crypt regressions: live API37/16KiB. Controlled fatal-hit/cooldown/mana/spawn fixtures do not prove complete combat/profile/rewards.",
+  "host": {
+    "actor-scene-retention-v1-selected-host.json": {
+      "path": "../../../port/level-world/reports/actor-scene-retention-v1-selected-host.json",
+      "sha256": "6ac620bbc98732929754ce3431c99f0cf61976d09c9c7dca00471910e18c0a6b",
+      "validation": "PASS",
+      "source_inputs": 552,
+      "summary": {
+        "validation": "PASS",
+        "actual_bank_resources": 116,
+        "actual_registration_occurrences": 158,
+        "restoration_boundaries": 7,
+        "exact_continuation_frames": 402,
+        "graph_owner_failure_guards": 9,
+        "real_authored_attack_events": 1,
+        "real_finite_closures": 3,
+        "native_recreation": false
+      },
+      "scope": "Development CPU scene recreation API only. Actual packaged Prince116-resource/158-occurrence bank and source timeline/blender/event/selection playback kernels. Interrupted reconstruction is compared with uninterrupted playback at matching phase timestamps: exact pose/world/root/fade/slot/event/key cursors/RNG/completion and callback receipts. Attack/Died and pending-selection paths use real clip resources with declared direct-sequence test producers. No native Activity/GL/GPU recreation, game-frame scheduling or new original-body claim."
+    },
+    "player-initial-equipment-v1-selected-host.json": {
+      "path": "../../../port/level-world/reports/player-initial-equipment-v1-selected-host.json",
+      "sha256": "4629ba86f97c4dcae6b6b715e3b7f9ffb007c70bb330c14a969934e4d444c4c8",
+      "validation": "PASS",
+      "source_inputs": 564,
+      "summary": {
+        "validation": "PASS",
+        "original_caller_cases": 18,
+        "actual_player_classes": 3,
+        "failure_prefix_cases": 13,
+        "guard_cases": 8,
+        "same_buff_view_cases": 1,
+        "checks": 2151,
+        "native_InitPost": false,
+        "text_files": [
+          "text/gameplaymenus.english",
+          "text/global.english",
+          "text/ingame.english",
+          "text/items.english"
+        ]
+      },
+      "scope": "Whole original _InitEquipment caller with real nested cached _GetProperty; declared external callee fixtures. Actual selected sole V4 inventory, property/kernel/equipment services, five shared text TUs and real three player starter tables. Full AddLoot is mandatory; host V4 fixed-loot transport is proven only for these unpowered fixed starter rows at source difficulty zero. Online/locality/profile/scene attachment providers remain unbound natively. No InitPost, deployment or live gameplay claim."
+    },
+    "player-kill-continuation-v1-host-audit.json": {
+      "path": "../../../port/level-world/reports/player-kill-continuation-v1-host-audit.json",
+      "sha256": "0bcb9fdc54ed35127bf61858e51c9fd26d4477af369b1895fd1d7bd863d5a1a1",
+      "validation": "PASS",
+      "source_inputs": 560,
+      "summary": {
+        "validation": "PASS",
+        "continuation_cases": 43,
+        "failure_prefix_cases": 27,
+        "guard_cases": 7,
+        "actual_event2_classes": 3,
+        "native_locality_bound": false
+      },
+      "scope": "Ordinary Player Kill continuation after the already-reached dead/HP prefix; exact outer Ctrl_Kill and existing AI event2 dispatcher compose same-Session death cleanup and Coordinator in three actual player classes. Application/PlayerManager/Matching/locality/trophy/online leaves are explicitly declared caller fixtures. No genuine native locality or full general Kill rewards/backends claimed."
+    }
+  },
+  "runtime": {
+    "death": {
+      "path": "death/validation.json",
+      "sha256": "9982236e701cb538197f989c08e7edd61aa726db1055fffd8927b2c015334fb9",
+      "validation": "PASS"
+    },
+    "skills": {
+      "path": "skills/player-skills-smoke.json",
+      "sha256": "b4c5b48b0ca001a09ebe6831e55232d868a6f10a64a47532f8b6cdfea4f11065",
+      "validation": "PASS"
+    },
+    "crypt": {
+      "path": "crypt/crypt-script-smoke.json",
+      "sha256": "9e15f4495d25a457450499d91246b4910f7accb52223aad617e787de8f89f887",
+      "validation": "PASS"
+    },
+    "test_source_sha256": {
+      "port/android-native/tools/player_death_runtime_smoke.py": "0e3a2ddcf690c18546540d8a628e1f652f6c14c0b3e438d89775bb0f9e662d65",
+      "port/android-native/tools/player_skill_runtime_smoke.py": "26abe00f1e0e8528781c4ddc713083855aa819469193d474532982303a62058d",
+      "port/android-native/tools/crypt_script_runtime_smoke.py": "07568b50400e4c6f6b136851f6ab88ee039e9950bd208ed54360c011025041b2"
+    }
+  },
+  "provenance_audit_sha256": "67266d1b06278c39b1e23363516294118b1ed75dc52f7e141efd0ca1d4716071",
+  "capture": {
+    "sha256": "4fb72d81eaec307189f28a24fd56512a4b62d1548a5211646c53c9e975500094",
+    "path": "port/android-native/build/captures/native-backbone-r2-complete-2026-10-05.zip",
+    "repository_files": 623,
+    "scope": "Actual build inputs and packaged APK captured; no Android Studio IDE parity claim."
+  },
+  "ELF64_16KiB_libraries": 20,
+  "known_live_findings": [
+    "Exact CPU playback/pose and source event count retain across dead-world reload and rotation. Host retention covers seven boundaries and 402 exact continuation frames; this is not full GPU/animation coverage.",
+    "Terminal model preview cancels source timers33/34 for both loaded Ghost owners before VM closure, releases saved Actor/Player owners. Full original AIS termination/effect cleanup remains separate.",
+    "Skill regression now resumes explicitly after reload because inspection time is correctly retained. Earlier failed local test receipts are preserved in ignored build directories."
+  ],
+  "remaining_native_providers": [
+    "PlayerManager/PlayerInfo/Matching locality and profile/SG_Load/InitPost",
+    "full AddLoot, inventory ownership, native text/Skin",
+    "Kill trophy/online/general rewards/event2 providers",
+    "skill activation, nonempty linked aggro and autonomous enemy frames",
+    "campaign factories/transitions, durable saves, UI/audio/effects and physical ARM64 acceptance"
+  ],
+  "staged_source_parity": {
+    "path": "staged-source-parity.json",
+    "sha256": "292f2e556449b626a08aee70acfa3cf5584a2bf9d030335970da5c9c911de223",
+    "validation": "PASS"
+  }
+}

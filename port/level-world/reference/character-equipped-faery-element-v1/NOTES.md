@@ -1,0 +1,3 @@
+Adam c3ae797 character_faery_element_v3 reused. Original Character::_GetEquippedFaeryElement3b6dc4/52: captured Character -> SG_Current(-1) -> GetCharFaery(id) -> signed row+8 -> pushInteger; Arguments ignored. Existing CurrentSpell SavedBindings/source selector/sole save/catalogue/VM reused; no new store or dependency-body credit.
+
+run_character_equipped_faery_element_v1_host.py --compiler <g++> --cache <cache> --original-elf <original.so> --output <ignored-build>. Caller is imported from the selected world DLL; current shared game-data/sole Lua used. Adjacent headers are conservative guards, not Android compiler inputs. Required provider failures preserve prefixes. Native activation/full faery buffs remain pending.

@@ -1,0 +1,193 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "2a93a0e2d9ad48310e123f1050f62d7f1d2384b4bf862667da0b431fab0605ec",
+  "scope": "Live native CharAI::OnDied -> AI_SetDead after existing raw F_ApplyResult health/Kill prefix. Full Character::Kill trophies/online/event2 forwarding, rewards, AI frame and campaign combat remain unbound.",
+  "api": 37,
+  "page_size": 16384,
+  "abi": "x86_64",
+  "libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "0583090ee56a05e376db595db34d50324069bb30e83badcc2bc4345febd5b353",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "5bd2601c07ca43faaa93bf150f547d210a6ec4e3a2393b58fb07bdad62cc9dc6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "ad041c8781848da418ff63c2c87db570b588c1a1786e6c880846a01217efde69",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "b2afd191b4897f262d263227c37aaf0a9a3f37e25a8c4181c109f3976f5d27da",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "f31bafe7cf94e43f7c294a859d9cc241c64dd51bc5468925b427e18504dee643",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "a254e7775df3a8911c8cc629109b905261cc0597ea355b3bac17254f4f84b493",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "969600255a317ac8daf041e2b363633afd6650042eb5e0fb343d03e42c9cd7d9",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "e66f1ecae11ecb67ec9aa0ab53df6db408e263c06ed85cf2e7bb5f59841dbc4f",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "screenshots": [
+    {
+      "file": "alive-before-fixture.png",
+      "sha256": "2d01c0bc4f79d9e604e70ae7a7979a269261b303105bf71d3535d890c26860b3"
+    },
+    {
+      "file": "dead-after-authored-animation.png",
+      "sha256": "15f953fe8c8e7c374d87036ae9d5c9624ca892a233cdfb46bad692efa95b3be4"
+    },
+    {
+      "file": "dead-after-reload.png",
+      "sha256": "706e38435c43acca2bd443638bfe37cedb6f5dbbb768cd6b50420b883bd825ec"
+    }
+  ],
+  "cleanup_receipts": [
+    [
+      "1",
+      "16",
+      "8",
+      "8",
+      "0"
+    ],
+    [
+      "2",
+      "5",
+      "5",
+      "5",
+      "0"
+    ]
+  ],
+  "snapshots": [
+    {
+      "phase": "dead",
+      "VM": "0x71715c0465a0",
+      "AIS": "0x71711c054de8",
+      "HP": 0,
+      "buffs": 0,
+      "update_attempts": 1
+    },
+    {
+      "phase": "restore",
+      "VM": "0x71715c0465a0",
+      "AIS": "0x71711c054de8",
+      "HP": 0,
+      "buffs": 0,
+      "update_attempts": 1
+    }
+  ],
+  "retired_ai_timers": [
+    [
+      "dead",
+      0,
+      51,
+      0,
+      0
+    ],
+    [
+      "dead",
+      1,
+      52,
+      0,
+      0
+    ],
+    [
+      "restore",
+      0,
+      51,
+      0,
+      0
+    ],
+    [
+      "restore",
+      1,
+      52,
+      0,
+      0
+    ]
+  ],
+  "source_update_call_count": 1,
+  "retained_VM": "0x71715c0465a0",
+  "no_post_death_regeneration": true,
+  "no_buff_recreation": true,
+  "same_process_reload": true
+}

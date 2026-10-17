@@ -1,0 +1,34 @@
+{
+  "validation": "PASS",
+  "cases": 72,
+  "compared_projection_bytes": 84148,
+  "original_words": 1286,
+  "declared_provider_calls": {
+    "0x30e460": 160,
+    "0x3116e8": 160,
+    "0x32b918": 176,
+    "0x31167c": 160,
+    "0x30e5e0": 168,
+    "0x318254": 176,
+    "0x30e868": 32,
+    "0x3109e0": 8
+  },
+  "implementation": "selected library",
+  "scope": "CNetPlayerInfo lifecycle and scalar/string leaves. Empty history ARM copy/assignment bodies execute; string representation, memcpy/memset/memcmp are declared providers. Packet operations, full PlayerInfo construction, offline map registration and gameplay are not validated here.",
+  "shared_serial_wrap_cases": true,
+  "borrowed_pointer_aliases_preserved": true,
+  "source_sha256": {
+    "cnet_player_info_v1.cpp": "d02c4897e2b659645392c08c764c50ce207be90aab38ca0fd51d1e10812c51ac",
+    "netstruct_members_v1.cpp": "a7703fea61e98164982e3303e93c8a31585a7703732b50630db465e193cd1d6f",
+    "character_level_member.cpp": "e5d9ee9f1c5f23c98cd47edecca16fe124a92b9ed69012ce4fd99c1514247f36"
+  },
+  "binary_sha256": {
+    "cnet_player_info_v1_host.exe": "c5ac053f9d1f92607b32d153e0c42bb58aa2ca711655866103e667fef78f84b9",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "f0519299da3df08e24c3b869833503091c53875d044696d6811f9d75b96b56c8",
+    "libdh2_scene_materials.dll": "88a49b4734050c374110f5d41559bee96cfaf940edcdfb9f42c6cf544c55058a",
+    "libdh2_engine_skinning.dll": "7b711dc5a207b65df63aa61405e20328a7f12498103d161caea748c7ddbe0d10",
+    "libdh2_game_data.dll": "03d6a96d38c88550692d57e77429ab0b5668b1ffb0069702fcc3d2b9fbadc8aa",
+    "libdh2_level_world.dll": "5bae5751941cafbe9241f291bd8efb2a809265df534787409c649aea284173a5"
+  }
+}

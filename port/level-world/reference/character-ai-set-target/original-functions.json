@@ -1,0 +1,118 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "One renderer-independent CharAI::AI_SetTarget(GameObject*,bool) body and its synchronous source call boundaries. It is not integrated into Android or the live Character runtime.",
+  "port_sources": [
+    "port/level-world/character_ai_set_target.hpp",
+    "port/level-world/character_ai_set_target.cpp",
+    "port/level-world/tests/character_ai_set_target.cpp",
+    "port/level-world/tests/run_character_ai_set_target_host.py",
+    "port/level-world/tests/character_ai_set_target_differential.py"
+  ],
+  "source_semantics": [
+    "Always stores target at CharAI+0x3c first. If force is nonzero, stores target at +0x40 and returns without debug, owner marker, last-target, dead, or sight work.",
+    "For force=false, compares the initial +0x40 target with the argument and clears the owner's 16-bit Character+0x14d0 marker when they differ, before loading/querying DebugSwitches.",
+    "Loads and queries exact key IsTracingCharAITarget. The source rereads +0x40 after that query; if the main trace switch is on and the current pointer changed, it queries lowercase isTracingCharAITarget when either old or new pointer is nonnull. The lowercase result is diagnostic and ignored.",
+    "The traced old-nonnull to new-null branch writes current target null and returns early. Other ordinary paths store +0x40; null targets return without changing +0x44/+0x48/+0x49/+0x4c.",
+    "For nonnull targets, calls Character::GetCharAIId on the then-current owner; the getter clamps invalid IDs to AI row 8 and AI_SetTarget discards the result. It compares freshly read +0x40 with +0x44; a difference clears +0x4c and copies current target to +0x44.",
+    "Dispatches current target vtable slot +0x34 as IsDead, stores return XOR 1 in +0x48, reloads +0x40, calls CharAI::AI_IsInSight(GameObject const*) and stores that result in +0x49.",
+    "The setter has no Character-only target gate. Character and base GameObject targets use their own vtable +0x34 IsDead implementation; sight/range remains an external source-method boundary.",
+    "Any adapter service failure stops at that point without rolling back target/owner/snapshot mutations already completed. The original method is void and these adapter failures are port protocol errors."
+  ],
+  "service_boundaries": [
+    {"operation":"debug_switches_load", "original_symbol":"_ZN13DebugSwitches4loadEv", "elf_address":"0x337888"},
+    {"operation":"debug_switch_lookup", "original_symbol":"_ZN13DebugSwitches9GetSwitchERKSs", "keys":["IsTracingCharAITarget","isTracingCharAITarget"], "elf_address":"0x337a88"},
+    {"operation":"target_is_dead", "virtual_slot":"GameObject address-point +0x34", "targets":["Character::IsDead","GameObject::IsDead"]},
+    {"operation":"ai_is_in_sight", "original_symbol":"_ZNK6CharAI12AI_IsInSightEPK10GameObject", "elf_address":"0x3d4ed8", "note":"Its parameter may be null; the original helper then consults the live CharAI+0x40 target."}
+  ],
+  "functions": [
+    {
+      "original_symbol":"_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "demangled":"CharAI::AI_SetTarget(GameObject*, bool)",
+      "elf_address":"0x3d6890",
+      "size":556,
+      "sha256":"59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c",
+      "port_coverage":"bounded full function body; debug manager, target IsDead and AI_IsInSight are explicit services"
+    },
+    {
+      "original_symbol":"_ZNK9Character11GetCharAIIdEv",
+      "demangled":"Character::GetCharAIId() const",
+      "elf_address":"0x3a2fec",
+      "size":56,
+      "sha256":"829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad",
+      "port_coverage":"pure row-index fallback is represented; getter result is discarded by AI_SetTarget"
+    },
+    {
+      "original_symbol":"_ZNK9Character6IsDeadEv",
+      "demangled":"Character::IsDead() const",
+      "elf_address":"0x3a2ed4",
+      "size":12,
+      "sha256":"80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b",
+      "port_coverage":"dynamic virtual service boundary"
+    },
+    {
+      "original_symbol":"_ZNK10GameObject6IsDeadEv",
+      "demangled":"GameObject::IsDead() const",
+      "elf_address":"0x3400ac",
+      "size":8,
+      "sha256":"6dcd5e75586fe6683156c0d559d4827b73bd48d501fa5781a1c6099aacd7c877",
+      "port_coverage":"dynamic virtual service boundary; base implementation returns false"
+    },
+    {
+      "original_symbol":"_ZNK6CharAI12AI_IsInSightEPK10GameObject",
+      "demangled":"CharAI::AI_IsInSight(GameObject const*) const",
+      "elf_address":"0x3d4ed8",
+      "size":192,
+      "sha256":"0c2044d083ae7973c74d3b18a8c13279cffa62ef96c03289cce95b8d2571d667",
+      "port_coverage":"explicit service; own owner, GameObject position and selected AI view-radius details are not copied here"
+    },
+    {
+      "original_symbol":"_ZN13DebugSwitches4loadEv",
+      "demangled":"DebugSwitches::load()",
+      "elf_address":"0x337888",
+      "size":512,
+      "sha256":"3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "port_coverage":"explicit service, called before each exact-key lookup"
+    },
+    {
+      "original_symbol":"_ZN13DebugSwitches9GetSwitchERKSs",
+      "demangled":"DebugSwitches::GetSwitch(std::string const&)",
+      "elf_address":"0x337a88",
+      "size":196,
+      "sha256":"34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "port_coverage":"explicit key lookup service; uppercase result gates tracing branch; lowercase result is ignored"
+    },
+    {
+      "original_symbol":"_ZNK10GameObject17GetTargetPositionEv",
+      "demangled":"GameObject::GetTargetPosition() const",
+      "elf_address":"0x3935dc",
+      "size":36,
+      "sha256":"23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f",
+      "port_coverage":"transitive dependency of external AI_IsInSight service"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "symbol":"_ZTV9Character",
+      "elf_address":"0x965f30",
+      "size":812,
+      "sha256":"f70c64efb22ede0466b05d4a5888896153d0ff20575aabb1143b4400b27652b7",
+      "address_point":"0x965f38",
+      "slots":[{"address_point_offset":"0x34","target":"_ZNK9Character6IsDeadEv","target_address":"0x3a2ed4"}]
+    },
+    {
+      "symbol":"_ZTV10GameObject",
+      "elf_address":"0x964748",
+      "size":244,
+      "sha256":"04aca56769967aba543bc567f95a4cde4793c8617f517f11f77a989714b80c63",
+      "address_point":"0x964750",
+      "slots":[{"address_point_offset":"0x34","target":"_ZNK10GameObject6IsDeadEv","target_address":"0x3400ac"}]
+    }
+  ],
+  "test_scope": {
+    "host_runner":"port/level-world/tests/run_character_ai_set_target_host.py",
+    "arm_oracle":"port/level-world/tests/character_ai_set_target_differential.py",
+    "original_arm_scenarios":9,
+    "not_tested":["live Android actor binding", "debug-switch manager implementation", "AI_IsInSight geometry/design data", "long-lived target object ownership"]
+  }
+}

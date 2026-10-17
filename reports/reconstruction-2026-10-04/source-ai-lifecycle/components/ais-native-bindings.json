@@ -1,0 +1,1467 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 88
+  },
+  "original_arm_cases": 6,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\ais_native_bindings.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\ais_native_bindings.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\ais-native-bindings-root\\host.exe"
+  ],
+  "cases": [
+    {
+      "entry": "_ZN9LuaScript12BindFunctionEv",
+      "live_vm_mutation": false,
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "calls": 37,
+        "libraries_opened": 4,
+        "functions_bound": 33,
+        "events": [
+          {
+            "kind": "open_library",
+            "library": 0,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 1,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 2,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 3,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Include",
+            "function_id": 0,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Trace",
+            "function_id": 1,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetInt",
+            "function_id": 2,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetInt",
+            "function_id": 3,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "AddToVFTable",
+            "function_id": 4,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PushVFTable",
+            "function_id": 5,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PopVFTable",
+            "function_id": 6,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ToFixed",
+            "function_id": 7,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "FromFixed",
+            "function_id": 8,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "MulFixed",
+            "function_id": 9,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "DivFixed",
+            "function_id": 10,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Rand",
+            "function_id": 11,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RandF",
+            "function_id": 12,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitNot",
+            "function_id": 13,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitAnd",
+            "function_id": 14,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitOr",
+            "function_id": 15,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitXOr",
+            "function_id": 16,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyCst",
+            "function_id": 17,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyStruct",
+            "function_id": 18,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyOID",
+            "function_id": 19,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "CallPyScript",
+            "function_id": 20,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetNumPlayers",
+            "function_id": 21,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayer",
+            "function_id": 22,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerLevel",
+            "function_id": 23,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerDifficulty",
+            "function_id": 24,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetCurrentLevelRange",
+            "function_id": 25,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameObjectsByType",
+            "function_id": 26,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetGameType",
+            "function_id": 27,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameScript",
+            "function_id": 28,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "OnTargetDied",
+            "function_id": 29,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlayMusic",
+            "function_id": 30,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlaySound",
+            "function_id": 31,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "StopSound",
+            "function_id": 32,
+            "userdata": 268500992
+          }
+        ]
+      }
+    },
+    {
+      "entry": "_ZN9LuaScript12BindFunctionEv",
+      "live_vm_mutation": true,
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "calls": 37,
+        "libraries_opened": 4,
+        "functions_bound": 33,
+        "events": [
+          {
+            "kind": "open_library",
+            "library": 0,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 1,
+            "wrapper": 268500996,
+            "raw_vm": 268566544
+          },
+          {
+            "kind": "open_library",
+            "library": 2,
+            "wrapper": 268500996,
+            "raw_vm": 268566560
+          },
+          {
+            "kind": "open_library",
+            "library": 3,
+            "wrapper": 268500996,
+            "raw_vm": 268566576
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Include",
+            "function_id": 0,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Trace",
+            "function_id": 1,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetInt",
+            "function_id": 2,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetInt",
+            "function_id": 3,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "AddToVFTable",
+            "function_id": 4,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PushVFTable",
+            "function_id": 5,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PopVFTable",
+            "function_id": 6,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ToFixed",
+            "function_id": 7,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "FromFixed",
+            "function_id": 8,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "MulFixed",
+            "function_id": 9,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "DivFixed",
+            "function_id": 10,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Rand",
+            "function_id": 11,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RandF",
+            "function_id": 12,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitNot",
+            "function_id": 13,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitAnd",
+            "function_id": 14,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitOr",
+            "function_id": 15,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitXOr",
+            "function_id": 16,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyCst",
+            "function_id": 17,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyStruct",
+            "function_id": 18,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyOID",
+            "function_id": 19,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "CallPyScript",
+            "function_id": 20,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetNumPlayers",
+            "function_id": 21,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayer",
+            "function_id": 22,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerLevel",
+            "function_id": 23,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerDifficulty",
+            "function_id": 24,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetCurrentLevelRange",
+            "function_id": 25,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameObjectsByType",
+            "function_id": 26,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetGameType",
+            "function_id": 27,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameScript",
+            "function_id": 28,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "OnTargetDied",
+            "function_id": 29,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlayMusic",
+            "function_id": 30,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlaySound",
+            "function_id": 31,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "StopSound",
+            "function_id": 32,
+            "userdata": 268500992
+          }
+        ]
+      }
+    },
+    {
+      "entry": "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+      "live_vm_mutation": false,
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "calls": 2,
+        "libraries_opened": 0,
+        "functions_bound": 2,
+        "events": [
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RegisterAIState",
+            "function_id": 33,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ChangeAIState",
+            "function_id": 34,
+            "userdata": 268500992
+          }
+        ]
+      }
+    },
+    {
+      "entry": "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+      "live_vm_mutation": true,
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "calls": 2,
+        "libraries_opened": 0,
+        "functions_bound": 2,
+        "events": [
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RegisterAIState",
+            "function_id": 33,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ChangeAIState",
+            "function_id": 34,
+            "userdata": 268500992
+          }
+        ]
+      }
+    },
+    {
+      "entry": "_ZN12CharAIScript12BindFunctionEv",
+      "live_vm_mutation": false,
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "calls": 39,
+        "libraries_opened": 4,
+        "functions_bound": 35,
+        "events": [
+          {
+            "kind": "open_library",
+            "library": 0,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 1,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 2,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 3,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Include",
+            "function_id": 0,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Trace",
+            "function_id": 1,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetInt",
+            "function_id": 2,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetInt",
+            "function_id": 3,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "AddToVFTable",
+            "function_id": 4,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PushVFTable",
+            "function_id": 5,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PopVFTable",
+            "function_id": 6,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ToFixed",
+            "function_id": 7,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "FromFixed",
+            "function_id": 8,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "MulFixed",
+            "function_id": 9,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "DivFixed",
+            "function_id": 10,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Rand",
+            "function_id": 11,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RandF",
+            "function_id": 12,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitNot",
+            "function_id": 13,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitAnd",
+            "function_id": 14,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitOr",
+            "function_id": 15,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitXOr",
+            "function_id": 16,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyCst",
+            "function_id": 17,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyStruct",
+            "function_id": 18,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyOID",
+            "function_id": 19,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "CallPyScript",
+            "function_id": 20,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetNumPlayers",
+            "function_id": 21,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayer",
+            "function_id": 22,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerLevel",
+            "function_id": 23,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerDifficulty",
+            "function_id": 24,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetCurrentLevelRange",
+            "function_id": 25,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameObjectsByType",
+            "function_id": 26,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetGameType",
+            "function_id": 27,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameScript",
+            "function_id": 28,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "OnTargetDied",
+            "function_id": 29,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlayMusic",
+            "function_id": 30,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlaySound",
+            "function_id": 31,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "StopSound",
+            "function_id": 32,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RegisterAIState",
+            "function_id": 33,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ChangeAIState",
+            "function_id": 34,
+            "userdata": 268500992
+          }
+        ]
+      }
+    },
+    {
+      "entry": "_ZN12CharAIScript12BindFunctionEv",
+      "live_vm_mutation": true,
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "calls": 39,
+        "libraries_opened": 4,
+        "functions_bound": 35,
+        "events": [
+          {
+            "kind": "open_library",
+            "library": 0,
+            "wrapper": 268500996,
+            "raw_vm": 268566528
+          },
+          {
+            "kind": "open_library",
+            "library": 1,
+            "wrapper": 268500996,
+            "raw_vm": 268566544
+          },
+          {
+            "kind": "open_library",
+            "library": 2,
+            "wrapper": 268500996,
+            "raw_vm": 268566560
+          },
+          {
+            "kind": "open_library",
+            "library": 3,
+            "wrapper": 268500996,
+            "raw_vm": 268566576
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Include",
+            "function_id": 0,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Trace",
+            "function_id": 1,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetInt",
+            "function_id": 2,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetInt",
+            "function_id": 3,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "AddToVFTable",
+            "function_id": 4,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PushVFTable",
+            "function_id": 5,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PopVFTable",
+            "function_id": 6,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ToFixed",
+            "function_id": 7,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "FromFixed",
+            "function_id": 8,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "MulFixed",
+            "function_id": 9,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "DivFixed",
+            "function_id": 10,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "Rand",
+            "function_id": 11,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RandF",
+            "function_id": 12,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitNot",
+            "function_id": 13,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitAnd",
+            "function_id": 14,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitOr",
+            "function_id": 15,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "BitXOr",
+            "function_id": 16,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyCst",
+            "function_id": 17,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyStruct",
+            "function_id": 18,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetPyOID",
+            "function_id": 19,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "CallPyScript",
+            "function_id": 20,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetNumPlayers",
+            "function_id": 21,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayer",
+            "function_id": 22,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerLevel",
+            "function_id": 23,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetHostPlayerDifficulty",
+            "function_id": 24,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetCurrentLevelRange",
+            "function_id": 25,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameObjectsByType",
+            "function_id": 26,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "SetGameType",
+            "function_id": 27,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "GetGameScript",
+            "function_id": 28,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "OnTargetDied",
+            "function_id": 29,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlayMusic",
+            "function_id": 30,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "PlaySound",
+            "function_id": 31,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "StopSound",
+            "function_id": 32,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "RegisterAIState",
+            "function_id": 33,
+            "userdata": 268500992
+          },
+          {
+            "kind": "binding",
+            "binder": 268501008,
+            "name": "ChangeAIState",
+            "function_id": 34,
+            "userdata": 268500992
+          }
+        ]
+      }
+    }
+  ],
+  "native_high_pointer": {
+    "status": 0,
+    "calls": 39,
+    "libraries_opened": 4,
+    "functions_bound": 35,
+    "events": [
+      {
+        "kind": "open_library",
+        "library": 0,
+        "wrapper": 4294967301,
+        "raw_vm": 268566528
+      },
+      {
+        "kind": "open_library",
+        "library": 1,
+        "wrapper": 4294967301,
+        "raw_vm": 268566544
+      },
+      {
+        "kind": "open_library",
+        "library": 2,
+        "wrapper": 4294967301,
+        "raw_vm": 268566560
+      },
+      {
+        "kind": "open_library",
+        "library": 3,
+        "wrapper": 4294967301,
+        "raw_vm": 268566576
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "Include",
+        "function_id": 0,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "Trace",
+        "function_id": 1,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "SetInt",
+        "function_id": 2,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetInt",
+        "function_id": 3,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "AddToVFTable",
+        "function_id": 4,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "PushVFTable",
+        "function_id": 5,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "PopVFTable",
+        "function_id": 6,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "ToFixed",
+        "function_id": 7,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "FromFixed",
+        "function_id": 8,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "MulFixed",
+        "function_id": 9,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "DivFixed",
+        "function_id": 10,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "Rand",
+        "function_id": 11,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "RandF",
+        "function_id": 12,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "BitNot",
+        "function_id": 13,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "BitAnd",
+        "function_id": 14,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "BitOr",
+        "function_id": 15,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "BitXOr",
+        "function_id": 16,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetPyCst",
+        "function_id": 17,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetPyStruct",
+        "function_id": 18,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetPyOID",
+        "function_id": 19,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "CallPyScript",
+        "function_id": 20,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetNumPlayers",
+        "function_id": 21,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetHostPlayer",
+        "function_id": 22,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetHostPlayerLevel",
+        "function_id": 23,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetHostPlayerDifficulty",
+        "function_id": 24,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetCurrentLevelRange",
+        "function_id": 25,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetGameObjectsByType",
+        "function_id": 26,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "SetGameType",
+        "function_id": 27,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "GetGameScript",
+        "function_id": 28,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "OnTargetDied",
+        "function_id": 29,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "PlayMusic",
+        "function_id": 30,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "PlaySound",
+        "function_id": 31,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "StopSound",
+        "function_id": 32,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "RegisterAIState",
+        "function_id": 33,
+        "userdata": 4294967297
+      },
+      {
+        "kind": "binding",
+        "binder": 4294967313,
+        "name": "ChangeAIState",
+        "function_id": 34,
+        "userdata": 4294967297
+      }
+    ]
+  },
+  "source_sha256": {
+    "port/level-world/ais_native_bindings.cpp": "7b02b2566eef6cb559d0dd372f560593c5e8085e7adb60de8252136ab5370771",
+    "port/level-world/ais_native_bindings.hpp": "09a53e2655519e0ecdcad7b99b18c081f47eecc26a4812b56b77c623cd66b81d",
+    "port/level-world/tests/ais_native_bindings.cpp": "0c8aadb63c09dd1868eb0d19e7671f90fc2cca30744bc433295046f50b0fe334",
+    "port/level-world/tests/run_ais_native_bindings_host.py": "842b546e417e17810084632d9a42bf9988d05967108f92652adf7453a97d8f98",
+    "port/level-world/reference/ais-native-bindings/original-functions.json": "0ec6afda83dc91a48baf1213a14a61522979f675bf0d7147c437de1ad3158ab3",
+    "port/level-world/reference/ais-native-bindings/NOTES.md": "653cb7ba2b9a2aaf216537bc5d3fdcb52663b8155bb60ce23c58a27436baf502"
+  },
+  "native_wired": false,
+  "registered_callback_bodies_reconstructed": 0,
+  "scope": "Original1252B base,100B AI and24B composite callers plus actual8B library wrappers execute. 35 exact names/function identities/userdata and base/math/table/string open order match. Library bodies and Binder344B remain named provider boundaries. Native service failures are host contract tests, not source ARM failure branches. No active Ghost runtime claim."
+}

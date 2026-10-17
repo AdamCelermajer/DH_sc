@@ -1,0 +1,21 @@
+{
+  "address_sanitizer": true,
+  "undefined_behavior_sanitizer": true,
+  "cases": 5000,
+  "seed": 20261002,
+  "sample_sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+  "complete_engine": false,
+  "tests": [
+    "corruption",
+    "actual buffer truncation",
+    "controller pointers and counts",
+    "palette capacity",
+    "input/output aliases",
+    "immutable input"
+  ],
+  "source_sha256": {
+    "port\\skin-payloads\\skin.cpp": "c3b61a63e47bdd5e37a6f784e5b89f4626fe9499d1232a8f2f3760beb7cc8c83",
+    "port\\skin-payloads\\skin.hpp": "65f95933766b6dfb9461c4faede0e806cf3403672fc311c6a3f1e93d54780e36",
+    "port\\skin-payloads\\tests\\safety.cpp": "4ddb62676c48a83ae2769fb9a7f93290b98837eaaf2344ce5f23e6733596ab69"
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "source": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata",
+  "format_evidence": {
+    "Arrays::Charater_Templates::read": "libDungeonHunter2.so+0x4b3f5c",
+    "Structs::CharTemplate::read": "libDungeonHunter2.so+0x4dcd38",
+    "Structs::CharInfoName::read": "libDungeonHunter2.so+0x4f1c90",
+    "read_contract": "u32 row count; per template u32 alternative count followed by ordered signed 32-bit CharacterTable IDs; names sidecar is count plus length-prefixed names"
+  },
+  "inputs": {
+    "character_templates_pyarray.bin": {"bytes": 2516, "sha256": "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2"},
+    "character_templates_pyarraynames.bin": {"bytes": 3227, "sha256": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0"},
+    "character_properties_pyarraynames.bin": {"bytes": 8993, "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"},
+    "character_classes_pyarraynames.bin": {"bytes": 6607, "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"}
+  },
+  "crypt_template": {
+    "name": "GothicusCrypt_Ghosts",
+    "ordered_character_table_ids": [35, 35, 35, 35, 37],
+    "ordered_character_names": ["Crypt_Ghost", "Crypt_Ghost", "Crypt_Ghost", "Crypt_Ghost", "Crypt_Ghost_RE"],
+    "selection": "runtime slot choice; duplicates are preserved"
+  }
+}

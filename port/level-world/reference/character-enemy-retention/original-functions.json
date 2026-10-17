@@ -1,0 +1,136 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Bounded flags1/filter2 enemy retention search and caller continuation; retained PlayerInfo Character identity and outgoing aggro map, not a property registry. Dependencies are explicitly borrowed or reused; no full native AI claim.",
+  "implemented_callers": 1,
+  "implemented_specialized_search_domain": 1,
+  "full_native_function_bodies_claimed": 0,
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager23GetLocalPlayerCharacterEv",
+      "elf_address": "0x330794",
+      "size": 24,
+      "sha256": "0fb7e07874b9bcf1664de9c038ac83657e9f939b069c6615a58a32729b19924d"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager23_GetInternalIDByLocalIDEib",
+      "elf_address": "0x36e2cc",
+      "size": 428,
+      "sha256": "0465671728895de95f65bbc290d5cb54762dde24242a8fb066a7cbab65e22d4f"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "elf_address": "0x36e478",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    },
+    {
+      "original_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE3popEv",
+      "elf_address": "0x38fb18",
+      "size": 160,
+      "sha256": "edd7c1f63d0651ed403629b5afffb028408d06321570fd3033591d3b1154d42d"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject12GetLookAtVecER7Point3DIfE",
+      "elf_address": "0x393ae4",
+      "size": 56,
+      "sha256": "1e5b3d921d7d5f82cfa2557bfbbfdcdb3248b93a8530e9f9e92ea03c82817066"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateAggroEv",
+      "elf_address": "0x3cf3f0",
+      "size": 2052,
+      "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692",
+      "scope": "Bounded existing-enemy continuation 0x3cf9a8..0x3cfbac only; other caller branches/dependencies not counted as reconstructed bodies."
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI10AI_IsEnemyEPK10GameObject",
+      "elf_address": "0x3d574c",
+      "size": 844,
+      "sha256": "e99c62ec437b85a44ef4162fb17029fd851e01f66a92d226dc2d92b785713f4d"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12AI_SetTargetEP10GameObjectb",
+      "elf_address": "0x3d6890",
+      "size": 556,
+      "sha256": "59e960e083eb4c7fbc17a3373ec303b0688f7345bf9d4c8d145dfce349b7ee7c"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character",
+      "elf_address": "0x3d6d68",
+      "size": 388,
+      "sha256": "d59c80b01af4f6b38ff7a70f4eb21a3382a04edab27f4f6b51394c221f568040"
+    },
+    {
+      "original_symbol": "_ZN6CharAI11AI_AddAggroEP9Characterf",
+      "elf_address": "0x3d7c68",
+      "size": 308,
+      "sha256": "710b6a40b61b134ddc8b165a38ac5bd0784dd1b2915ec4fce53d2e1bb4825193"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList12SetRefObjectEP10GameObject",
+      "elf_address": "0x4a191c",
+      "size": 52,
+      "sha256": "352e90a1c50195ce1c9d5527196cfe14bf209e6dc80bf1c422b30d56820b569c"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList18_IsGameObjectValidEP10GameObject",
+      "elf_address": "0x4a1950",
+      "size": 116,
+      "sha256": "e4993162123bc1a08943c119ee83f30618ac82f757fa3d04d2f71330db6bd1f5"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList17_IsCharacterValidEP9Character",
+      "elf_address": "0x4a1ab8",
+      "size": 528,
+      "sha256": "c3f7b4fd5555b4d8c2d5a6a9c0eab6d450959f43c553561f6f3ff60eddfe965d"
+    },
+    {
+      "original_symbol": "_ZNSt14priority_queueIN14ObjectSearcher10TargetInfoESt5dequeIS1_SaIS1_EENS0_12TargetSorterEE4pushERKS1_",
+      "elf_address": "0x4a2440",
+      "size": 164,
+      "sha256": "32bb191ceb2c71c9e795ed76f839558298c47b1eb33b5e31a5c2248af0d955d4"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetListC1EP10GameObjectiii",
+      "elf_address": "0x4a2730",
+      "size": 296,
+      "sha256": "d91cd6624877041b7b8bae61aae1b85691210bfa839a68916ccf9b138d36d88a"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchERK7Point3DIfEfS4_fRNS_11IObjectListE",
+      "elf_address": "0x4a2f34",
+      "size": 1172,
+      "sha256": "09e52604dce572790bf238dae055d88b063b8a685d692de73e0421085ba1a0b6"
+    },
+    {
+      "original_symbol": "_ZN14ObjectSearcher10TargetList6SearchEffRNS_11IObjectListE",
+      "elf_address": "0x4a3428",
+      "size": 100,
+      "sha256": "940cc0a5eac7a2b4d371fed4a90b4441a86c0b53e462a792b82e94e321e181e1"
+    }
+  ]
+}

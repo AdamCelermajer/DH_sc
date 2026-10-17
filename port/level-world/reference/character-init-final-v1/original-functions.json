@@ -1,0 +1,24 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character9InitFinalEv",
+      "elf_address": "0x3b4978",
+      "size": 588,
+      "sha256": "41df759e7f4d5ab4926dae5f67e304b6e67d2a2ec4d3f4d555080878fca6e44f"
+    }
+  ],
+  "literals": [
+    {
+      "elf_address": "0x8c3e30",
+      "text": "MonsterLight",
+      "sha256": "b711274b45933789ee238e0cb919420f6628b9283166b6fee7ea27808378b33c"
+    },
+    {
+      "elf_address": "0x8c3e40",
+      "text": "SceneLight",
+      "sha256": "0c926dcbbb9c2743c0a1ed796c2faf27f063727dc408744ab81801d26a9d7fa2"
+    }
+  ],
+  "scope": "Whole Character::InitFinal caller; reached game services remain providers.\nReal original branch/field/virtual instructions execute, including the1395\nlatch, fresh visual publication and194-byte truncation. GameObject InitFinal,\nclassification, local record, position/light/CharAI/property/Save bodies are\ndeclared observing providers, not new reconstructed dependency bodies.\n"
+}

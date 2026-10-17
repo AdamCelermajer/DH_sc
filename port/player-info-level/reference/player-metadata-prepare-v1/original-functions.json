@@ -1,0 +1,85 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "elf_address": "0x37280c",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo16SetCharacterNameESs",
+      "elf_address": "0x371ccc",
+      "size": 180,
+      "sha256": "718537843cd64c17fe31f6faf7768435dfd75ddb72e50aad66dfe8a441ce1e15"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo17SetCharacterClassEi",
+      "elf_address": "0x370ef0",
+      "size": 168,
+      "sha256": "28d9401fe154728c00023f21d9eb8c2e17629e25f587cc36908c0ab3ccc9f108"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo17SetCharacterLevelEi",
+      "elf_address": "0x370e48",
+      "size": 168,
+      "sha256": "8f7da2a903e351f20a16438937583cb58b6fb219bd4677c48fd9b1b0808ce506"
+    }
+  ],
+  "reached_regions": [
+    {
+      "elf_address": "0x3728b8",
+      "size": 80,
+      "sha256": "3a27b0364838e4583fd184075e0e668f5cbf5b6c83b44ac35a49466452229822"
+    },
+    {
+      "elf_address": "0x372f8c",
+      "size": 16,
+      "sha256": "4615bc907a90c662287bc64a4bfd6326fb8480b042fa3e91e06ed7869477c0f4"
+    },
+    {
+      "elf_address": "0x37317c",
+      "size": 80,
+      "sha256": "1e1190ab2f45ac8012a1b823dfc135bac78b333f420248067a73538b4b310a62"
+    },
+    {
+      "elf_address": "0x372974",
+      "size": 28,
+      "sha256": "4174700e42a5c1cdf118f10f678f5758b2825141ac8aeea19bdf14c4e178b453"
+    },
+    {
+      "elf_address": "0x373028",
+      "size": 52,
+      "sha256": "c38939926851611f3a45cbb03c12b63dc8bb6b86ad91dd6219f588c345389255"
+    },
+    {
+      "elf_address": "0x3739d8",
+      "size": 40,
+      "sha256": "fca0943e6d1434018d5ce0205d05b6fc58297c7ac157d3c421622a258bdae638"
+    }
+  ],
+  "declared_callee_dependencies": [
+    {
+      "original_symbol": "_ZN10PlayerInfo8IsActiveEv",
+      "elf_address": "0x36d48c",
+      "size": 96,
+      "sha256": "97610b632e3326da91be3d822ddea1296517af5a7fd4356bd6653b6df0fda0b9"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegameC1Ejib",
+      "elf_address": "0x4655ac",
+      "size": 272,
+      "sha256": "f71ad71b4199fb3278527c0de72ad43ae6020ffcfde1fccc3f5fbe8c43b3027f"
+    }
+  ],
+  "scope": "Bounded selected-player normal metadata path after GetPlayer; original name/class/level setters and member bodies execute. Active, allocation, indexed Save constructor, Debug/GameState and C++ string platform helpers are declared providers. Stops before current-Level/Character decision, not whole Manage5072.",
+  "domain": {
+    "debug_name_11": 0,
+    "game_state_name_28": 0
+  },
+  "native_policies": [
+    "Source stack residues for scalar setter temporaries supplied explicitly",
+    "Allocation backing retained by existing provider until reached indexed constructor succeeds; record680 publishes only afterward",
+    "Nonzero Debug/GameState alternate name paths return outside_domain"
+  ]
+}

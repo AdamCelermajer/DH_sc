@@ -1,0 +1,79 @@
+{
+  "schema": "dh2-swamp-music-source-export-v1",
+  "level": {
+    "member": "com.gameloft.android.GAND.GloftD2SS/files/data/scene/001_swamp.mlx",
+    "music": "SwampHubAmbientMusic",
+    "safezone_music": "SwampMerchantCampMusic"
+  },
+  "sounds_member": "com.gameloft.android.GAND.GloftD2SS/files/data/sounds/sounds.xml",
+  "music_rows": {
+    "SwampHubAmbientMusic": {
+      "bank": "1",
+      "filename": "m_level_swamp_sfx_swamp.vxn",
+      "format": "vxn",
+      "group": "2",
+      "label": "SwampHubAmbientMusic",
+      "loadingflags": "none",
+      "loop": "yes",
+      "priority": "1",
+      "uid": "467"
+    },
+    "SwampMerchantCampMusic": {
+      "bank": "1",
+      "filename": "m_safe_zone_01_sfx_swamp.wav",
+      "format": "adpcm",
+      "group": "2",
+      "label": "SwampMerchantCampMusic",
+      "loadingflags": "none",
+      "loop": "yes",
+      "priority": "1",
+      "uid": "505"
+    }
+  },
+  "hub_vxn": {
+    "file_bytes": 12278272,
+    "sha256": "980137ac5b032e5cee50e3f8e6940d31dbd5e0fd0d70346a5167d3c00567e0a8",
+    "crc32": "52dba0e4",
+    "audio_base": 512,
+    "codec": "VoxNativeSubDecoderIMAADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "states": [
+      "ambient",
+      "combat"
+    ]
+  },
+  "state_assets": [
+    {
+      "asset": "swamp_ambient_music.wav",
+      "bytes": 6138940,
+      "sha256": "8dd44692c8e09c83d2d0e56943d7304e73f0da7bd21b158ff7bfc6ffebf831a9",
+      "source_segment_offset": 0,
+      "source_segment_bytes": 6138880,
+      "sample_frames": 6096650
+    },
+    {
+      "asset": "swamp_combat_music.wav",
+      "bytes": 6138940,
+      "sha256": "e772ce4273f620a2d5ef0e170b52840094412a4ea9f0a528a6b17c864f137e1f",
+      "source_segment_offset": 6138880,
+      "source_segment_bytes": 6138880,
+      "sample_frames": 6096650
+    }
+  ],
+  "safezone_asset": {
+    "file_bytes": 3591228,
+    "sha256": "9f2dc2ae2df224b4f40434a468f189b12e4cc22da146912f332a5483afdc75fb",
+    "crc32": "0189ca63",
+    "codec": "WAVE_FORMAT_IMA_ADPCM",
+    "channels": 2,
+    "sample_rate_hz": 32000,
+    "block_bytes": 1024,
+    "frames_per_block": 1017,
+    "sample_frames": 3565714,
+    "payload_bytes": 3591168,
+    "asset": "swamp_merchant_camp_music.wav"
+  }
+}

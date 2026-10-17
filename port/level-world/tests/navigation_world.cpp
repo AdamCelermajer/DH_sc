@@ -23,6 +23,20 @@ int main(int argc,char** argv){
   const auto nodes=r.block(n*56),edges=r.block(e*20);std::vector<FloorGraph> floors(count);r.read(floors.data(),count*48);require(r.word()==count,"Missing world geometry");
   Reader a(argv[2]),b(argv[3]);dh2::resources::BresView view{};require(dh2_bres_open(&view,a.bytes.data(),a.bytes.size())==dh2::resources::BresError::ok,"Invalid authored BRES");dh2::world::Level level;std::string error;require(dh2::world::load(view,b.bytes.data(),b.bytes.size(),level,error),error.c_str());auto& world=*level.native_floor;
   require(world.graph.node_count==n&&world.graph.edge_count==e&&!std::memcmp(world.graph.nodes,nodes.data(),nodes.size())&&!std::memcmp(world.graph.edges,edges.data(),edges.size())&&!std::memcmp(world.floor_graphs.data(),floors.data(),count*48),"Native asset-loader graph differs from original gold");
+  const std::uint32_t room_floor_ids[]{0};
+  const dh2::selector::Floor room_selector{};
+  const CollisionFloor room_floor[]{ {&room_selector,{0,0}} };
+  CollisionRoom room_geometry[]{
+      {{{0,0,0},{10,10,10}},room_floor_ids,1,0,0},
+      {{{20,20,20},{30,30,30}},room_floor_ids,1,0,0}};
+  const CollisionWorld room_world{room_geometry,room_floor,2,1,{{0,0,0},{30,30,30}}};
+  std::uint32_t room_id=~0u;const float room_point[]{5,5,5};
+  require(dh2_nav_world_room_at(&room_id,&room_world,room_point)==1&&room_id==0,"GetRoomAt did not select the first inclusive source room bound");
+  room_geometry[0].source_flags=1;
+  require(dh2_nav_world_room_at(&room_id,&room_world,room_point)==0,"GetRoomAt accepted a room with source exclusion flag bit 0");
+  room_geometry[0].source_flags=0;
+  const float outside_room[]{40,40,40};
+  require(dh2_nav_world_room_at(&room_id,&room_world,outside_room)==0,"GetRoomAt accepted a point outside PFWorld bounds");
   for(unsigned i=0;i<count;++i){const unsigned triangles=r.word();const auto expected=r.block(triangles*36);dh2::octree::Box box;r.read(&box,24);require(world.records[i]->triangles.size()==triangles&&!std::memcmp(world.records[i]->triangles.data(),expected.data(),expected.size())&&!std::memcmp(&world.records[i]->bounds,&box,24),"Native authored geometry differs from route gold");require(world.collision_rooms[i].count==1&&world.collision_rooms[i].floors[0]==i&&!std::memcmp(&world.collision_rooms[i].bounds,&box,24),"Native room geometry differs from caller gold");}
   RouteObject object;unsigned direct=0,graph=0,failed=0,rejections=0,sessions=0,query_records=0;
   for(unsigned ci=0;ci<cases;++ci){

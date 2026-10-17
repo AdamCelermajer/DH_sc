@@ -1,0 +1,681 @@
+{
+  "validation": "PASS",
+  "scope": "Current selected shared-library host verification. V4 borrows properties/RNG; gear text/debug are fixtures and Skin exercises null Visual. No native inventory, skill execution, loot pickup or gameplay claim.",
+  "upstream_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+  "source_before_after_equal": true,
+  "source_sha256": {
+    "port/game-data/aggro.cpp": "c9f10eb5697227dad1e7fb767b07929da4b5373327d49ce350dc1318e6b2f050",
+    "port/game-data/ai.cpp": "f53b4473fa4dd02ed73d514fe5b84d02058807c4bf800ab1952fc7141a229928",
+    "port/game-data/animation_bank.cpp": "d01fc6391ddb543eb2eadca8ce52e6b6e814cdd52d146d358c221d5a418d044f",
+    "port/game-data/animation_scheduler.cpp": "a75190454cb98071e91483125861abe41f84217d280b44d6db5bc1fff432cfd4",
+    "port/game-data/animation_selection.cpp": "f9f985cc772e1adea4cdc7dfa1bf27f987d06308f55b3603b64722877de857ad",
+    "port/game-data/animation_tables.cpp": "436cff5b347f1d756777775e35110bab113de3547b6a878932538afac21ef86e",
+    "port/game-data/campaign_profile_files_v1.cpp": "33a4da5f1f04612ac303c6eac42c6f1d7833a545a5a7413fe3cbcc80f3bc58d6",
+    "port/game-data/class_preview_setup.cpp": "b4e6d98d78277b0f8992acf81eaf9f325c9770307f80909502a9241365602312",
+    "port/game-data/class_tables.cpp": "2ce809b6f057fb40747ebdc8a31ecd3d1cd99529bfe79221efc5aea31ac652fd",
+    "port/game-data/combat.cpp": "228da172df7ee0ef290a59ccaf2fcf21890705f7165528366bf5f6615fdeb4cc",
+    "port/game-data/combat_application.cpp": "ef5c7a603160b99cbec98851f69f61f8a62612cacd6dccf1e20f8f0362769557",
+    "port/game-data/combat_events.cpp": "a7ac6d24c1d221506617bcfe2b2e86275e7dddac597ae28ae1911218c5238b32",
+    "port/game-data/combat_result.cpp": "8c049006cb01b294304bb9820950f1d8da733bd8f7d4d7c5518d9718f18a18e3",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/fresh_inventory_owned_v4.cpp": "40a693118ddfb98a79999513fd8b2de042a8027e6aa6c89984c2c98c1ad66ca3",
+    "port/game-data/health.cpp": "98035dd3c80ecac8e0e96c3f06d7f045dd42df80ecfe935411729bf8bff98595",
+    "port/game-data/items.cpp": "2468a9e5fcc12a00859bf403dba09b66dbc9a39a3231de6c1ac88abb6fd5f091",
+    "port/game-data/item_gear_properties_v5.cpp": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+    "port/game-data/item_instance.cpp": "d3d0160862d89b1d512ad7682ba16b65540d496c83148bb463b1ef672ef5d423",
+    "port/game-data/item_power_tables_v5.cpp": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391",
+    "port/game-data/item_presentation_v5.cpp": "a6900bc1065b6928ea2b8c247aae6b61b9664e34840af1b851e1d814e15e8128",
+    "port/game-data/level_tables.cpp": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+    "port/game-data/loot_power_creation_v7.cpp": "9b87befc02c3a3d3588dcc77c0bd8a2df09f0e0e3231dd629a7ed9a9f9d30ef3",
+    "port/game-data/loot_power_resources_v7.cpp": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+    "port/game-data/loot_tables_v2.cpp": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+    "port/game-data/menu_profile_metadata_v1.cpp": "0d9c038d9def8204f5c7727318cb85754bc30c813408ff8a75fe00b97889c19d",
+    "port/game-data/player_equipment_live_services_v1.cpp": "9e75499afff0884c0b3b3e51e80167c1e368b30d1cef63af384f3374eaa51986",
+    "port/game-data/player_equipment_queries_live_v1.cpp": "c93ce664885042b3daa650b7b3c7de2d9f2503c0809259423484fd4b456977f2",
+    "port/game-data/player_gear_effects_v5.cpp": "863f410ae216da1e43399be9c8983999475dd9af7a6e03ce30d062c67fa9ad42",
+    "port/game-data/player_profile_create_v1.cpp": "4ae5e1ba5be9617c5f7476303ae31beaa9bcd36e24edf9d19139eaa2fc3b0641",
+    "port/game-data/player_profile_filename_v1.cpp": "51b3652d1ec8ced62241defa4adf3feef4d436bd75f1f59a47c80a33312695d6",
+    "port/game-data/player_profile_index_v1.cpp": "e794d0229dfbd9c970f30eace3408ea88e32bbd2bcca4db37f99460191fbc5ef",
+    "port/game-data/player_saved_fast_travel_v1.cpp": "b608a880f1aeb566cc4ec53761e2c28ee13d0019b395bbd366a03224761eab0c",
+    "port/game-data/player_saved_level_states_v1.cpp": "761b33487c69574b1583abcad0397c09dbbde203dabffb8c701f870d62f0dc0d",
+    "port/game-data/player_saved_quests_v1.cpp": "a79fa3f79cb16d58edb5a2235083118ac5eea1cae6df7bcd8161f6f0bb5467ac",
+    "port/game-data/player_saved_skill_slots_v1.cpp": "77f3682f9b8f675d7901126938437b67ec990b5f59238c4429a88da5417e63e8",
+    "port/game-data/player_savegame_v1.cpp": "fc8881c5379ed9d6bab38bd2b20ec7ae7c11e2e92bcc4d681f04ac0443df74c2",
+    "port/game-data/player_save_level_states_v1.cpp": "b0213f808967681c6e5f1a2ffaea598dde141f252c19ea5b7b2b8454ab4bbcee",
+    "port/game-data/player_save_load_owner_v1.cpp": "101f7385e07d48c3ca4d03373dd61625c3dc100825cd1781304ef0b6d81e84a5",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/quest_compile_v1.cpp": "328ae87ea3ca39876a9bc7d78374185e5bc6fbc00a1f8342e0a7236ac9439a5e",
+    "port/game-data/quest_condition_eval_v1.cpp": "244742ac8bb705afa0a7819d8ec33761112beaae9d7db595e92827f6098a1e2a",
+    "port/game-data/quest_condition_factory_v1.cpp": "d985cc5444c1f0b4d8f2ee00f1a67b536700b2f8d85b3aaca6f687ab732e8235",
+    "port/game-data/quest_condition_list_v1.cpp": "b50b0956dcabaf9b61ab36f98cba3771444aabfe400a79a5e3694cc3b4c1d214",
+    "port/game-data/quest_instance_v1.cpp": "fea15e89d082918fef200f86a2a5494a6ad048ff0a91f49bb8cffb5dc4fd4092",
+    "port/game-data/quest_objective_factory_v1.cpp": "733320288f65f9471f2b001860cbfa0574a0399a3494f383f91fde7399eefaa7",
+    "port/game-data/quest_objective_list_v1.cpp": "459aaccfa748ca671a7c552d1d890fa8a99211bc43ff1e4977dec3feccef2059",
+    "port/game-data/quest_objective_payload_v1.cpp": "2c8070dfce204348c768fad36df4522c3169059698e14198f10b085814b2cbd1",
+    "port/game-data/quest_reward_execution_v1.cpp": "7560192f7e601736f8c7e4bcb04bc1d0afd391df1b6b044516ec4fefec5632d3",
+    "port/game-data/quest_reward_factory_v1.cpp": "8e288b4092c80037edbde5bfaf2d977ba91b4a28a076bd5e80f6b0e13125f17c",
+    "port/game-data/quest_reward_list_v1.cpp": "8309f5e90fb186cebcd5c5ae66df448d561acfdb9cf19c59a7fddaab318f9ad9",
+    "port/game-data/quest_runtime_fields_v1.cpp": "262d79d45b1c7d678ee82c57c43052974eb2c86b1b86a06b75bcfd57c443a026",
+    "port/game-data/quest_savegame_v1.cpp": "a69406ff9e612401776edd58054d10d89f405e38bbbeedb0934af7490074df1a",
+    "port/game-data/quest_stream_read_v1.cpp": "e9b8db1ffb893512fc485b8571c10d2a3b8c3ffad31e86dde5aa8aff1a543006",
+    "port/game-data/quest_table_bindings_v1.cpp": "da344dfc5cae14c0f2121f12418248b250704806cf4690aa43786bfb273e8adc",
+    "port/game-data/savegame_options_v1.cpp": "6e29f8d64dd697513804f8f138a0157e2ba5e99b1266fb4c23e6519e8c693b3b",
+    "port/game-data/skill_tables.cpp": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+    "port/game-data/vitals.cpp": "34999512b1bff69e99dd39aa9f252470366c8a950c9de03dc894cf299b67e5b9",
+    "port/game-data/world_map_tables.cpp": "daead775de85a01077f11866c603abedff8f5ab2be149aef73c09f244cb496e8",
+    "port/game-data/aggro.hpp": "3a8d50a78c05e4e2759ffa92c1a881c811573d7d2e37191a9e513e7588b4e742",
+    "port/game-data/ai.hpp": "00eb983ad3120ba68f86f104186d8216e70f73da54451b59a2b760b16468e8a5",
+    "port/game-data/animation_bank.hpp": "8e858b78976ee8d4dbaee87f6379228df12a30ed4819b2d3acf03f2df8c4ac33",
+    "port/game-data/animation_scheduler.hpp": "001547189bcb3d47fd096541db08ce5bd3b6935725a543735dd253da840b7aa3",
+    "port/game-data/animation_tables.hpp": "031dbc1ec565bc468357a21a9994abfba2c00f046796f4e8c409c63b8b872ecc",
+    "port/game-data/campaign_profile_files_v1.hpp": "ad2320070512f203f2f31864fce42af965894497c230e5a0a7aaa1dff5184e0a",
+    "port/game-data/class_preview_setup.hpp": "1d68419d6ec3a5346832250858b6692544a2ed0352910ba4ea9fbb230e8fcd57",
+    "port/game-data/class_tables.hpp": "cad8938b4edda851ccc2a2a3ed4b6b2bdbc31fa0cfaa997119e78630698c8af2",
+    "port/game-data/combat.hpp": "61cb840335e6eec650dc5520873067e89bafca8aac7dec22cd6c081ca846afd7",
+    "port/game-data/combat_application.hpp": "7b1bf8f631a3c3221c5eb2d03901dd96d43f6a168bd4a47733ce6eff97e23127",
+    "port/game-data/combat_events.hpp": "5ea137c6d04a3fd19a6ef57305e304d5d7653893ec29a6ec071f311603b0b8b1",
+    "port/game-data/combat_result.hpp": "80c13844301caea0c6df3f34a0f4d722c8f794a661f681a509729ab132f7c5b2",
+    "port/game-data/data.hpp": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+    "port/game-data/fresh_inventory_owned_v4.hpp": "cdfae35675bb68a1663585dbbfda150bd55d7f7191a078680862450c3d5065c5",
+    "port/game-data/health.hpp": "54dc3a4600ac752fc8c434bddcd29f3c77df9900eaf5c958ea54ad0aa39140f6",
+    "port/game-data/items.hpp": "12661c391735a81c29ffff587a5322dc2753c3ebe324e56be2b4a86db7e9e633",
+    "port/game-data/item_gear_properties_v5.hpp": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+    "port/game-data/item_instance.hpp": "c95b0b07ca099ac525ac7bead4e327934164e959c2369a3fb3661aeabe9f9578",
+    "port/game-data/item_power_tables_v5.hpp": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+    "port/game-data/item_presentation_v5.hpp": "732ed9ad83e3adc0cee0c3827f5e4dc94da90b4d690bb2afb5d80e65f266272d",
+    "port/game-data/level_tables.hpp": "aa20e39db0aaab7dfdd9556db275e3d41c2e3709939c9f074851907a6470f742",
+    "port/game-data/loot_power_creation_v7.hpp": "01d2e1877aeb12e95a61b352955533fe55b3d0b53e9f86442ab2c7ad6b1798d5",
+    "port/game-data/loot_power_resources_v7.hpp": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+    "port/game-data/loot_tables_v2.hpp": "2e7cf1a4ece3778e109b1d758be4c3e052ee7a9154a41917a53840c83c387d72",
+    "port/game-data/menu_profile_metadata_v1.hpp": "96ed3e853b68989887cb743ee2379d83910971520729ac39805bfaba85bd712c",
+    "port/game-data/player_equipment_live_services_v1.hpp": "614afe87f8b492ce60ce0b6a7fbe7ee5e4cdaa9f1dd527be32ea8a2b9825092a",
+    "port/game-data/player_equipment_queries_live_v1.hpp": "1b4a55ced7dbee79659b2fa972a00f2a82513c306f2a716576e6540873e19978",
+    "port/game-data/player_gear_effects_v5.hpp": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7",
+    "port/game-data/player_profile_create_v1.hpp": "44a626b1c9997f286a42fc7432a5d9c4d55eda50e78a16eba3cc2010bb0935a8",
+    "port/game-data/player_profile_filename_v1.hpp": "b05db5cd2b9740046cdd07dce15a5a55497e6ded3cb391a9b1324b476f898388",
+    "port/game-data/player_profile_index_v1.hpp": "5bfcb8b934cce80ef507f8a96a0db0e9eaacc344e046d3c1817e2c398add0ef7",
+    "port/game-data/player_saved_fast_travel_v1.hpp": "9888b5571a6b237e6b6bd2f4053ab738b584276c9fa2d68c6e8d8b4e74103ea2",
+    "port/game-data/player_saved_level_states_v1.hpp": "ebed60cfa3eaff09ccc0e68bd3811b917edded3acb2a81b8730101366e93f838",
+    "port/game-data/player_saved_quests_v1.hpp": "1cc384115af55b38e89d0ddae7b83b7636abd21af1d91c09e0b7a82f1cd3eacd",
+    "port/game-data/player_saved_skill_slots_v1.hpp": "4ce996da152ff134ed745afbdafe488c574382fedea66c5da5e5cc55b596f321",
+    "port/game-data/player_savegame_v1.hpp": "77063bf03a9db57e004c43f8f61cf85258235e80f996a60dc95d6b64a47727c2",
+    "port/game-data/player_save_level_states_v1.hpp": "4a2ab822cde7da7ed9df5abef0bf0b02b807e52412b8dea6de2c7ea48be4a10a",
+    "port/game-data/player_save_load_owner_v1.hpp": "e4313b94c95c8d0083c1f3d6d39f735276b1d1f5f8c4a8cf1b59923e6ad234bc",
+    "port/game-data/properties.hpp": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+    "port/game-data/quest_compile_v1.hpp": "e3c9c02223fd7bb285b6e798a4c784371f7e34d72ee9e1331a1b050b0e479c46",
+    "port/game-data/quest_condition_eval_v1.hpp": "8f83f48180b2b6064afd3e1ee52046b10d5e55adfa111e07c42727f45b09537b",
+    "port/game-data/quest_condition_factory_v1.hpp": "751f8ef80205b73db024e276f249a8b9526e85b259586dd9d81872bc96e06f97",
+    "port/game-data/quest_condition_list_v1.hpp": "da4e90407ea8e1d53934f337c7aaeb5926b3665fbb01d85204af9c5e8bdb8d30",
+    "port/game-data/quest_instance_v1.hpp": "4ad4c2cd1b42de02626ff2758bc37b5855729d3847a822aa6fba505e3382dc11",
+    "port/game-data/quest_objective_factory_v1.hpp": "c655d0a4fa74ead6dace0eced7fd2baebca65e91715be9eca62232611af0785b",
+    "port/game-data/quest_objective_list_v1.hpp": "4762c42ef18e47f74f5913cf9955cfb828cade2ffe99d9fd151169eb1761c827",
+    "port/game-data/quest_objective_payload_v1.hpp": "1ecec96d7ae245ad75b3a0ff598ec16d87cec70d4a0e8f3fabcc0f76e9a9d1d3",
+    "port/game-data/quest_reward_execution_v1.hpp": "fd33798d71886df370d298d422bcbcfc426c6eaf6910b9a3bbe225efd62c5ee8",
+    "port/game-data/quest_reward_factory_v1.hpp": "1d2048325eb5710e855d97904421f09b7f5ff0389a961c603fe0af9e09344372",
+    "port/game-data/quest_reward_list_v1.hpp": "6d3d71c76db7b02164fe675d06ddcac14c8d6ba99f2f99483e9ddb889bde3305",
+    "port/game-data/quest_runtime_fields_v1.hpp": "9c4b77a213f45648c06817cdb81690d3d186e385601993077d54475b87319d6b",
+    "port/game-data/quest_savegame_v1.hpp": "d6c905d4ea9fe3752af2e32cfc84d0d08c260c7ab0dbbbfcecc327d6d2aedb3d",
+    "port/game-data/quest_stream_read_v1.hpp": "525351c5a7c8fb749a4378b8fe59d307a96aaae4146f1fcf611bbe436afef4da",
+    "port/game-data/quest_table_bindings_v1.hpp": "07e109bfd77f1f6e755899b9b41cec61ce4c117ac1160c1d72dfa83aaac59266",
+    "port/game-data/savegame_options_v1.hpp": "26863444946843b5e1c2e51157140a578ae0560ead7b0409ca76a146c338483e",
+    "port/game-data/skill_tables.hpp": "8004113c312d881f7e2f5e83252c3531300c68a88c902bfa35f241339a1facab",
+    "port/game-data/vitals.hpp": "c0a378ae928dbb6a7c579385e1dcb70c7731fe1772c7d48b37991d51d6fd0de3",
+    "port/game-data/world_map_tables.hpp": "bcb7b98cd2c2d3419e33f12fbb9fa3a32af421153a25d5aada20208e2032405f",
+    "port/game-data/CMakeLists.txt": "043d238c56245ce3988f56fd25683b46abd1602282b9523d1ec78108d6edff42",
+    "port/random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "port/random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+    "port/game-data/tests/run_adam_integrated_host.py": "7fbb42087ed5752f03c2df17b41d9f6b59daabe27e8d26b515e86b7b5be363c2",
+    "port/game-data/tests/aggro.cpp": "e82cc0e3fdb293fae051a84932d3592f423a8294bc56b29b987ddf159616e1f2",
+    "port/game-data/tests/ai.cpp": "d3ba2e98c98c842dc831d46bcd93cb7abf09dd99fc37f5a1f23f4cc110c37629",
+    "port/game-data/tests/animation_bank.cpp": "a5276b5204b6d00e65f3a5e93754f98f77aab0d78a17d13187442e335aa8bf5b",
+    "port/game-data/tests/animation_scheduler.cpp": "0c352b630143bdddaefec28f17434dea28962902ffdbd3e13961b6813abd9a40",
+    "port/game-data/tests/animation_tables.cpp": "4ad347ed2835414fa2a7cf989111c8cee9ea020fe76ee6d77c5684574abad1e7",
+    "port/game-data/tests/audit.cpp": "db15452bc59de0053fea6508642547172514f9e6b1710698125703be584e54ca",
+    "port/game-data/tests/classes.cpp": "e48882bfffde9000489d154cfedd00a615957441fa0ef857362562844c7070ca",
+    "port/game-data/tests/combat.cpp": "b699f22a7c9dfd3c876e840f6e7e6d1a23747051f65aeaecb04ab72692dc5345",
+    "port/game-data/tests/combat_application.cpp": "c42a58f2078c1260e05484443f728021e023eebdb6869310484cf1953edaa9ba",
+    "port/game-data/tests/combat_result.cpp": "6a38082b477121a510598874be4a917d6fc8ec8191a74824be5c68d027deaaf6",
+    "port/game-data/tests/fresh_inventory_owned_v4.cpp": "e400baf80f0b26abbbbfbf5086a12505af3e0ddca42dd058d63d9538f2808491",
+    "port/game-data/tests/health.cpp": "c46145dffc30b10e24aaa665c550dcbc69c1faf25ffeb749595f29044b084d8e",
+    "port/game-data/tests/items.cpp": "831af1778bf9c14153e68a852892c22e086b4ec2decf86877eb6e45f639f312f",
+    "port/game-data/tests/item_gear_properties_v5.cpp": "a423c04213f22c149a5f5ab30b6d0a698d07d98b059c12029b931d1ef5df34cb",
+    "port/game-data/tests/item_loot_backbone_v7.cpp": "07356a9b1ade0b6d3e1ff5ccaee51ced53bde2e3b2a8e7ed3a1d76b4b4c495ff",
+    "port/game-data/tests/item_power_instance_v5_fixture.cpp": "f85989864d9853f543261d0434a0e929b6fbf1589c042a24565f00de8c75ee4d",
+    "port/game-data/tests/item_presentation_v5.cpp": "3327a31dd94cbee81db25268acad5041481e9d7457349aa853970cd29f41dba2",
+    "port/game-data/tests/item_presentation_v5_fixture.cpp": "8cf5008fbd7917a092f44c3bf4f0991d37852b696350b44b98344dcdd5f4f3ae",
+    "port/game-data/tests/level_tables.cpp": "1854d32f864ec0f274fdc7b0efbafba2398f5c3d8f3923304056c19cde258d20",
+    "port/game-data/tests/loot_power_creation_v7_fixture.cpp": "c3a060bbdaec9d354a0bcd1e10b11a40b45dd8e50beb68d8700497c2b9fb91a1",
+    "port/game-data/tests/loot_power_resources_v7.cpp": "c4eddc38c4cc46308b4864e1bce8da58dd18de05ee8f3fc9c7236926a11e894c",
+    "port/game-data/tests/loot_tables_v2.cpp": "ef6bce7067c0a6345a62aaab4b77d39e35a34448f90797cd3a27e500a6771568",
+    "port/game-data/tests/player_equipment_live_services_v1.cpp": "016ccbaf0e17b9686bd66d31da46d3b6155acc3afd36461b29ea55d092a4e92f",
+    "port/game-data/tests/player_faeries_reader_host.cpp": "f531f3b67d089e1162674de88ccdb32a96de2c6c45751685a9be4a8d7d0eb77d",
+    "port/game-data/tests/player_gear_effects_v5.cpp": "548f75d5f047e989dd66a72480f590307467aff2b35c36d4cddf27feef12f6af",
+    "port/game-data/tests/player_profile_create_v1.cpp": "a719ea040899cd2dabbefe24de87ba39faa06e19d8354eec0a196cc041d4dbc7",
+    "port/game-data/tests/player_profile_index_v1.cpp": "58053c72542979c61d207ff5c864337d031c0b267ed4106025e0b5deb06c016b",
+    "port/game-data/tests/player_saved_fast_travel_v1_host.cpp": "e3159a2a84b3a2c904db6b44e3c64ce388cfb1280708009efd82c95f1dd636f3",
+    "port/game-data/tests/player_saved_level_states_v1_host.cpp": "b587e56718cd6b2c63c1a05aa8b0ae023b6531e9d6345fa86554844c42ce4e78",
+    "port/game-data/tests/player_saved_quests_v1_host.cpp": "4a3fc6113ed7da4d04a9afa9fac3fbbb175e2d5ca10c653368f5b00ec6341228",
+    "port/game-data/tests/player_saved_skill_slots_v1.cpp": "d853aca9babde403bf2cfe1e08cfa02c69a4fe844fcb327cd42fba0fc4013d3a",
+    "port/game-data/tests/player_savegame_v1.cpp": "8de433c862ba37919258e7e8009c0303d05cfbcffef33afe03f753d009dc7128",
+    "port/game-data/tests/player_save_level_states_v1_host.cpp": "54fa0448961893e86ee56f7261cb0c9096f572832757f5d0cfd87126378272c9",
+    "port/game-data/tests/properties.cpp": "e5ab650194ec985884c95bd03fc5abac6ccf39378639c7bff575dcdf57d7f5f2",
+    "port/game-data/tests/quest_compile_v1_host.cpp": "5daacc6baef41845e585963b2b07683c923be08ee9add4980712176feaff0ae3",
+    "port/game-data/tests/quest_condition_eval_v1_host.cpp": "58f8ff32f713262afd0452909c88ba499f18027ab299c34055db14a8b722c864",
+    "port/game-data/tests/quest_condition_factory_v1_host.cpp": "2ca1c70358d67c530b9223e83f05c1c4fbff0cff84d3ac393a644e7ad62c563c",
+    "port/game-data/tests/quest_condition_list_v1_host.cpp": "2b629987eb42285914f387f4df30a666852b4ab3060cd95fface060099824715",
+    "port/game-data/tests/quest_instance_v1_host.cpp": "9e008f0e564fdf7c42453dff095a7085a624de1495b131ff4c458d3e68154c54",
+    "port/game-data/tests/quest_objective_factory_v1_host.cpp": "1024a5b4f9763bcdb386931cfbb7b0a1cfbdd31c5ca735a874b3c097fbf4f826",
+    "port/game-data/tests/quest_objective_list_v1_host.cpp": "8e09bf99ad5c550a18a6324b9921665dc6a565ba6d25f168603ef21108a742cf",
+    "port/game-data/tests/quest_objective_payload_v1_host.cpp": "8a600b388ebae5694403ab1cf94a580d7c71d7575a999c171b4d0df724dd73a8",
+    "port/game-data/tests/quest_reward_execution_v1_host.cpp": "71197784c2c01398e463f9662cffd54dc851891674aa501aee4c567a56f12cd8",
+    "port/game-data/tests/quest_reward_factory_v1_host.cpp": "64b14dec7093afda060d957b22e745daf565d900b866a8e57f4e9c69b1b5dfb8",
+    "port/game-data/tests/quest_reward_list_v1_host.cpp": "31793f572319f0b3f477c3e25dcaf00596309e8ff4f14321eeed35daf5bcda85",
+    "port/game-data/tests/quest_runtime_fields_v1_host.cpp": "02d4d7a8bd7a1b3a1add12976e17113bee46fd306f555f22dd112500b3334eca",
+    "port/game-data/tests/quest_savegame_v1_host.cpp": "76b3900daf4fa06cc9b663480a4611a39bb3f25eccd7a6834592da620ba920d9",
+    "port/game-data/tests/quest_stream_read_v1_host.cpp": "7592f6ffe55fba9c0557d2a0f2e0396da618fb3dfc60ad3aa6da7558006f7a31",
+    "port/game-data/tests/quest_table_bindings_v1_host.cpp": "b1340ee60e3889bfc5ad21685bc597822078724fad34d719cbcb0af9289f29e0",
+    "port/game-data/tests/savegame_options_v1.cpp": "fc48643ffdd03d1d268f224f36cb86ccc0873c6f71fcb034fb0c1d3b5ebdedda",
+    "port/game-data/tests/skill_tables.cpp": "0cacc4d650806e2ebd66689a17141350aefcd06db573dcd43447f651d46da0bb",
+    "port/game-data/tests/vitals.cpp": "ec25ee75438153f566154562f173da31fdc8f58dc7e19ca125f6ccc21a4b2f1d",
+    "port/game-data/tests/world_map_tables_host.cpp": "b971211d638d5d4ce62dc576149f0e2d9fd31602342e09398dc522c5a4c53540"
+  },
+  "selected_library": {
+    "path": "..\\loot-v4-regression-build\\libdh2_game_data.dll",
+    "sha256": "c23890348efa9ce8dc2bac29dbf9baa6e407b50ac43a5d540e2ae6f98fa6ff2c"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\data.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\data.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/data.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/data.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\items.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\items.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/items.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/items.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\animation_bank.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_bank.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_bank.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/animation_bank.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\animation_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/animation_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\animation_selection.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_selection.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_selection.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/animation_selection.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\animation_scheduler.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\animation_scheduler.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/animation_scheduler.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/animation_scheduler.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\class_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/class_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/class_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\properties.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\properties.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/properties.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/properties.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\vitals.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\vitals.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/vitals.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/vitals.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\combat.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/combat.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\combat_events.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat_events.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_events.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/combat_events.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\combat_result.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat_result.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_result.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/combat_result.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\health.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\health.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/health.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/health.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\combat_application.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\combat_application.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/combat_application.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/combat_application.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\aggro.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\aggro.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/aggro.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/aggro.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\ai.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\ai.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/ai.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/ai.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\level_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\level_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/level_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/level_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\world_map_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\world_map_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/world_map_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/world_map_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\class_preview_setup.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\class_preview_setup.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/class_preview_setup.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/class_preview_setup.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_profile_create_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_profile_create_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_profile_create_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_profile_create_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\skill_tables.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\skill_tables.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/skill_tables.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/skill_tables.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_savegame_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_savegame_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_savegame_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_savegame_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_save_level_states_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_save_level_states_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_save_level_states_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_save_level_states_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_saved_level_states_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_level_states_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_level_states_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_saved_level_states_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_saved_fast_travel_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_fast_travel_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_fast_travel_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_saved_fast_travel_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_profile_index_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_profile_index_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_profile_index_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_profile_index_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_save_load_owner_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_save_load_owner_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_save_load_owner_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_save_load_owner_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_profile_filename_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_profile_filename_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_profile_filename_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_profile_filename_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\savegame_options_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\savegame_options_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/savegame_options_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/savegame_options_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\item_gear_properties_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_gear_properties_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_gear_properties_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/item_gear_properties_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\item_power_tables_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_power_tables_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_power_tables_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/item_power_tables_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\loot_power_resources_v7.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\loot_power_resources_v7.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_resources_v7.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/loot_power_resources_v7.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\item_instance.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_instance.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_instance.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/item_instance.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\loot_tables_v2.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\loot_tables_v2.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_tables_v2.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/loot_tables_v2.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\fresh_inventory_owned_v4.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\fresh_inventory_owned_v4.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/fresh_inventory_owned_v4.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/fresh_inventory_owned_v4.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\player_gear_effects_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_gear_effects_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_gear_effects_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_gear_effects_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\item_presentation_v5.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\item_presentation_v5.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/item_presentation_v5.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/item_presentation_v5.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -ffp-contract=off -o CMakeFiles\\dh2_game_data.dir\\loot_power_creation_v7.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\loot_power_creation_v7.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/loot_power_creation_v7.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/loot_power_creation_v7.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_saved_skill_slots_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_skill_slots_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_skill_slots_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_saved_skill_slots_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_equipment_live_services_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_equipment_live_services_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_equipment_live_services_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_equipment_live_services_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_savegame_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_savegame_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_savegame_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_savegame_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_runtime_fields_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_runtime_fields_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_runtime_fields_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_runtime_fields_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_saved_quests_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_quests_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_quests_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_saved_quests_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_table_bindings_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_table_bindings_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_table_bindings_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_table_bindings_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\40df62e5382f2961b65318f4f1b290d9\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/40df62e5382f2961b65318f4f1b290d9/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_condition_list_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_condition_list_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_condition_list_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_condition_list_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_objective_list_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_objective_list_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_objective_list_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_objective_list_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_reward_list_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_reward_list_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_reward_list_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_reward_list_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_condition_factory_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_condition_factory_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_condition_factory_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_condition_factory_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_instance_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_instance_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_instance_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_instance_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_objective_factory_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_objective_factory_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_objective_factory_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_objective_factory_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_reward_factory_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_reward_factory_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_reward_factory_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_reward_factory_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_condition_eval_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_condition_eval_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_condition_eval_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_condition_eval_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_reward_execution_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_reward_execution_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_reward_execution_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_reward_execution_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_objective_payload_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_objective_payload_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_objective_payload_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_objective_payload_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_stream_read_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_stream_read_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_stream_read_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_stream_read_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\quest_compile_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_compile_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_compile_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/quest_compile_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O2 -g -DNDEBUG -Wall -Wextra -fno-fast-math -o CMakeFiles\\dh2_game_data.dir\\player_equipment_queries_live_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_equipment_queries_live_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_equipment_queries_live_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/loot-v4-regression-build/CMakeFiles/dh2_game_data.dir/player_equipment_queries_live_v1.cpp.obj"
+    }
+  ],
+  "tests": [
+    {
+      "command": [
+        "..\\loot-v4-regression-build\\item_gear_properties_v5_audit.exe",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\adam-c3ae797-item-v5\\gear-fixtures.bin",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\adam-c3ae797-item-v5\\power-fixtures.bin",
+        "..\\cache\\files\\data\\pydata"
+      ],
+      "result": {
+        "validation": "PASS",
+        "gear_original_cases": 4037,
+        "actual_power_rows": 937,
+        "actual_power_properties": 1224,
+        "atomic_guards": 946,
+        "checks": 34350,
+        "mismatches": 0
+      }
+    },
+    {
+      "command": [
+        "..\\loot-v4-regression-build\\loot_power_resources_v7_audit.exe",
+        "..\\cache\\files\\data\\pydata"
+      ],
+      "result": {
+        "validation": "PASS",
+        "power_lists": 121,
+        "quantity_lists": 39,
+        "power_definitions": 937,
+        "same_power_authority": true,
+        "guards": 13,
+        "checks": 41,
+        "scope": "selected-library host resources and lifetime; no loot creation or gameplay"
+      }
+    },
+    {
+      "command": [
+        "..\\loot-v4-regression-build\\fresh_inventory_owned_v4_audit.exe",
+        "--random-only"
+      ],
+      "result": {
+        "validation": "PASS",
+        "checks": 54,
+        "source_rng_adapter": true,
+        "cache_required": false
+      }
+    },
+    {
+      "command": [
+        "..\\loot-v4-regression-build\\fresh_inventory_owned_v4_audit.exe",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\player-inventory-owned-v4\\fixtures.bin",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\player-creation-v2\\fresh-fixtures.bin",
+        "..\\cache\\files\\data\\pydata"
+      ],
+      "result": {
+        "validation": "PASS",
+        "original_owned_cases": 84,
+        "original_owned_steps": 1720,
+        "source_effect_requests": 10828,
+        "legacy_loot_regressions": 60,
+        "native_item_deletions": 240,
+        "native_fullness_queries": 952,
+        "guards": 1461,
+        "checks": 78388,
+        "mismatches": 0
+      }
+    },
+    {
+      "command": [
+        "..\\loot-v4-regression-build\\fresh_inventory_owned_v4_audit.exe",
+        "--borrowed",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\player-inventory-owned-v4\\fixtures.bin",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\player-creation-v2\\fresh-fixtures.bin",
+        "..\\cache\\files\\data\\pydata"
+      ],
+      "result": {
+        "validation": "PASS",
+        "borrowed_mode": true,
+        "borrowed_owner_cases": 144,
+        "original_owned_cases": 84,
+        "original_owned_steps": 1720,
+        "source_effect_requests": 10828,
+        "legacy_loot_regressions": 60,
+        "borrowed_rng_draws": 676,
+        "property_alias_checks": 3584,
+        "checks": 81783,
+        "mismatches": 0
+      }
+    },
+    {
+      "command": [
+        "..\\loot-v4-regression-build\\player_gear_effects_v5_audit.exe",
+        "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\reference\\player-item-effects-v5\\starter-effects-fixtures.bin",
+        "..\\cache\\files\\data\\pydata",
+        "..\\cache\\files\\data\\pydata",
+        "..\\cache\\files\\data\\pydata",
+        "..\\cache\\files\\data\\pydata"
+      ],
+      "result": {
+        "validation": "PASS",
+        "actual_starter_classes": 3,
+        "original_owner_cases": 6,
+        "original_owner_steps": 112,
+        "native_property_effects": 64,
+        "native_vitals_effects": 64,
+        "original_null_visual_skin_branches": 64,
+        "item_text_fixture_deliveries": 128,
+        "checks": 1073,
+        "mismatches": 0
+      }
+    }
+  ],
+  "fresh_gear_original_receipt": {
+    "validation": "PASS",
+    "original_cases": 6,
+    "original_steps": 112,
+    "all_three_actual_classes": true,
+    "gold_sha256": "f930701df4f04068afb651f263106e4ad4f224de16959261ea636889b8f54937",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "script_sha256": "3b280ff632468e1aeaab2d1d281ab1e974bd2c362a1e90f3f8d241e4caced942",
+    "scope": "Three actual starter sets, authoritative source equipment graph and live\nCharacter gear/class/vitals bodies. Item text and Debug are explicit fixtures.\nActual source Skin executes its null-VisualObject branch; no Skin factory proof.\n",
+    "native_comparison": false
+  },
+  "cache": {
+    "character_classes_pyarray.bin": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+    "character_classes_pyarraynames.bin": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+    "character_classes_pycst.bin": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+    "character_classes_pystructnames.bin": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268",
+    "character_properties_extra_pystructnames.bin": "864d6bcd58ab6671e2354613b50f2fa618bdf8f6adc667020cbc75c20b443d42",
+    "character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+    "character_properties_pyarraynames.bin": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+    "character_properties_pycst.bin": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+    "character_properties_pystructnames.bin": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+    "item_powers_monopoly_pyarray.bin": "6591e5ca591b63d3c81eb0d4d3811a2f8409f4b835cb64f35dde87bee4f63d4b",
+    "item_powers_monopoly_pyarraynames.bin": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
+    "item_powers_monopoly_pystructnames.bin": "79dab4b044f7f7f614dab597fc280d8d5947b96b3ed672aac1339316ed7d6400",
+    "item_powers_pyarray.bin": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+    "item_powers_pyarraynames.bin": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+    "item_powers_pycst.bin": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981",
+    "item_powers_pystructnames.bin": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444",
+    "loot_table_extra_pystructnames.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    "loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    "loot_table_pycst.bin": "bf60c406ba80b49d337bc82dda35f2f6bc2848d1d6983a37cfb0f881d24cb6fe",
+    "loot_table_pystructnames.bin": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+  }
+}

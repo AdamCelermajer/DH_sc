@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN12ItemInstanceD1Ev",
+      "elf_address": "0x3faa64",
+      "size": 76,
+      "sha256": "fbd77ccfef38b0a21441e513587be444f26de6af00dfa8c09bb2a8415748edda"
+    }
+  ]
+}

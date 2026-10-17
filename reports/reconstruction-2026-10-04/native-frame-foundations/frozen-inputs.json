@@ -1,0 +1,168 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "1b3a255122f0248f5d6608d1b2fe15def631645765ce40792481ceb89125a6e8",
+  "apk_bytes": 26068604,
+  "compiled_source_archive_sha256": "cc06bdc53e364873e23ab360a38336dc60e05b911204fff8dd3fcd3818189660",
+  "compiled_source_archive_bytes": 888934,
+  "actual_repository_compiler_inputs": 460,
+  "component_source_hash_checks": 813,
+  "components": {
+    "native-ghost-owner": {
+      "report_sha256": "6e83a9fd31d0cd8a49a209c6a35b59f7304a0e8fd3c5231d7d09d249c4e5bcb2",
+      "source_hashes_verified": true,
+      "scope": "host-only search/Lua/path owner; not autonomous Android AI",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/native-ghost-owner.json"
+    },
+    "ghost-session": {
+      "report_sha256": "f168ccce74f425156f9bd350a016283e6d45df8a0aa88d710d793ac3734b9778",
+      "source_hashes_verified": true,
+      "scope": "host-only same-VM search/event/path composition",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/ghost-session.json"
+    },
+    "character-list": {
+      "report_sha256": "25bc4e50fd448835a84e52ec9705ebe6ef4f5dd200acce0313469dcbd34cafa0",
+      "source_hashes_verified": true,
+      "scope": "14 native owned nodes in Android; autonomous query not invoked",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/character-list.json"
+    },
+    "manager-character-list": {
+      "report_sha256": "4e23eeae2e5340477edd7cb4bcc155930cfc87f358387b5c42c3675a48f801b4",
+      "source_hashes_verified": true,
+      "scope": "node/cursor helpers compiled; full ObjectManager factory pending",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/manager-character-list.json"
+    },
+    "ais-init-callbacks": {
+      "report_sha256": "61c4cb4feefc70c87410f78be36944ef952fb69aef48820cdce67301c88af32d",
+      "source_hashes_verified": true,
+      "scope": "OnInit/Post/Final live on retained Ghost VMs",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/ais-init-callbacks.json"
+    },
+    "monster-session": {
+      "report_sha256": "a737409a72989ec695f70392944abd012f2a17b01bf7e984b1f1c66d89a8197c",
+      "source_hashes_verified": true,
+      "scope": "Ghost OnInit/Post/Final live; full skill callbacks pending",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/monster-session.json"
+    },
+    "init-hp-mp": {
+      "report_sha256": "006ec5c0425acf8448ec61f1dda9596ec29fde3393628a357c724040c94d1c24",
+      "source_hashes_verified": true,
+      "scope": "source HP/MP caller live for the two Ghosts",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/init-hp-mp.json"
+    },
+    "character-level-runtime": {
+      "report_sha256": "6ab5819e6b338fe4a692f3661110da032285ea39549cca3ce312714cf254478c",
+      "source_hashes_verified": true,
+      "scope": "SetLevel and InitHpMp adapter live for the two Ghosts",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/character-level-runtime.json"
+    },
+    "dot-attack": {
+      "report_sha256": "7ef241bbd57a2ad00f34b3af3b96cf58d005be8d96d985d9404dbe20749f9bc8",
+      "source_hashes_verified": true,
+      "scope": "source-only bounded caller; unlinked",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/dot-attack.json"
+    },
+    "apply-result": {
+      "report_sha256": "f08d5255859519a223935306c587395a563697c80be871482b08f910c52ac824",
+      "source_hashes_verified": true,
+      "scope": "source-only bounded offline nonplayer caller; unlinked",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/apply-result.json"
+    },
+    "skill-state-queries": {
+      "report_sha256": "8d03a8dd7ce33c032e8d81126bc7174d57a9e1473957361d285013abe239f3a2",
+      "source_hashes_verified": true,
+      "scope": "source predicates linked to actual native FSM state",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/skill-state-queries.json"
+    },
+    "point-query-original": {
+      "report_sha256": "04e63e3e5f0ca3c70f0000835ace47f4faba3d958574785a77d7a11850b261e4",
+      "source_hashes_verified": true,
+      "scope": "five original ARM/host cases; query linked, autonomous calls pending",
+      "report_path": "reports/reconstruction-2026-10-04/native-character-query-init/components/point-query-original.json"
+    },
+    "skill-faery-tables": {
+      "report_sha256": "158201d3fc8d855f572465ada43414fe86fa841b01aed82bbba4c5788d6c7789",
+      "source_hashes_verified": true,
+      "scope": "183 decoded records compared with original ARM readers; live catalogue owner",
+      "report_path": "reports/reconstruction-2026-10-04/native-ghost-skill-init/components/skill-faery-tables.json"
+    },
+    "set-skills-and-spells": {
+      "report_sha256": "3126c322bd3130f2cd329366c1bd44fce20e3ccac371496121eef8fcf24f17c3",
+      "source_hashes_verified": true,
+      "scope": "14 host/seven original ARM cases; live Ghost empty skill/five null faery path",
+      "report_path": "reports/reconstruction-2026-10-04/native-ghost-skill-init/components/set-skills-and-spells.json"
+    },
+    "native-ghost-skills": {
+      "report_sha256": "e6f4e7e9a901d45c3364970bd60da98c4248347f54fc815206b6e1a9ea61f2ed",
+      "source_hashes_verified": true,
+      "scope": "real cache/Debug/path/vector adapter; four host cases and live Ghost integration",
+      "report_path": "reports/reconstruction-2026-10-04/native-ghost-skill-init/components/native-ghost-skills.json"
+    },
+    "skill-script-update": {
+      "report_sha256": "d816577d38d6d9500a6849acdf06464857f069536d2d50906ed40253efa4b954",
+      "source_hashes_verified": true,
+      "scope": "complete bounded OnSkillUpdate caller; unlinked",
+      "report_path": "reports/reconstruction-2026-10-04/native-ghost-skill-init/components/skill-script-update.json"
+    },
+    "skill-script-check": {
+      "report_sha256": "c18f61ad3bf80a1d8bb63b0652b4f10887fa1cf5b0e122dc3721f70ff57511e1",
+      "source_hashes_verified": true,
+      "scope": "complete Usable/Active callers; unlinked; Lua dependencies remain providers",
+      "report_path": "reports/reconstruction-2026-10-04/native-ghost-skill-init/components/skill-script-check.json"
+    },
+    "script-value-boolean": {
+      "report_sha256": "842d9207be0da2c2a699651fa8a40b63bff5f618a9b0637ac820d8cd9b627777",
+      "source_hashes_verified": true,
+      "scope": "complete getBool caller and isolated real float32 Lua adapter; unlinked",
+      "report_path": "reports/reconstruction-2026-10-04/native-ghost-skill-init/components/script-value-boolean.json"
+    },
+    "lua-script-load-once": {
+      "report_sha256": "3d8bd8d1a9a136b2602d4060480cbff76294ee9cb12ad64edc897af5cc961fa2",
+      "source_hashes_verified": true,
+      "scope": "60 isolated Lua checks; Session load_resolved now compiled; full AddFile/path owner and native calls pending",
+      "report_path": "reports/reconstruction-2026-10-04/native-ghost-skill-init/components/lua-script-load-once.json"
+    },
+    "character-update-eligibility-review": {
+      "report_sha256": "b852e9f67045dc79993ef5dbf2a1ebd3fd815819db685bba58fbf2489da58263",
+      "source_hashes_verified": true,
+      "scope": "348 final original ARM cases/all77 instructions, 24 independent guards; complete predicate only, native frame/services pending",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/character-update-eligibility-review.json"
+    },
+    "character-ai-classification": {
+      "report_sha256": "7bae6d61ec10a7c8e655e8a7f634d81caf16e7ab84ba70579407ab8c6cc31f94",
+      "source_hashes_verified": true,
+      "scope": "514 original ARM cases; cached ID/type selects live Ghost AIS; DACT name and normalized death remain adapter inputs",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/character-ai-classification.json"
+    },
+    "character-zonability": {
+      "report_sha256": "6a038db29b9e8ddc1a4108d48916c6827d6f5eabcad2ae221c142629031e4a53",
+      "source_hashes_verified": true,
+      "scope": "45 original ARM cases/19 sanitized guards; live Ghost result logged, actual zone enrollment pending",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/character-zonability.json"
+    },
+    "character-update-eligibility": {
+      "report_sha256": "ad86532102f9b64366703f42363d769641f98bb64a1f640f2631dcd8d063cafd",
+      "source_hashes_verified": true,
+      "scope": "complete CanUpdate caller; compiled, real native visibility/culling services and frame invocation pending",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/character-update-eligibility.json"
+    },
+    "session-update-regressions": {
+      "report_sha256": "35da7da57910bb7c2cacbeac695f00239224b854e6de4ca5ad369cdd3c7e54e6",
+      "source_hashes_verified": true,
+      "scope": "32 legacy same-VM regression cases",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/session-update-regressions.json"
+    },
+    "session-init-regressions": {
+      "report_sha256": "f28ff5e91bb1a3a4fbec63efa5b2bf4236ae7ecf527c66ab378127ccc7daa3da",
+      "source_hashes_verified": true,
+      "scope": "28 initialization regressions with extended Session",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/session-init-regressions.json"
+    },
+    "session-debug-regressions": {
+      "report_sha256": "a14a7ec6bafe7fa1b2851e779ee861d476461d450de8426d3133ff3fd68baabe",
+      "source_hashes_verified": true,
+      "scope": "24 Debug/persistence regressions with extended Session",
+      "report_path": "reports/reconstruction-2026-10-04/native-frame-foundations/components/session-debug-regressions.json"
+    }
+  },
+  "scope": "Exact APK/compiler inputs and API37/16KiB Crypt ambush/initialization/recreation with source Character classification for AIS selection and diagnostic zonability. CanUpdate, state callbacks and resolved-path cache are compiled/host-tested but lack the native frame/path owners. Autonomous pursuit, nonempty skills, combat and campaign remain unfinished."
+}

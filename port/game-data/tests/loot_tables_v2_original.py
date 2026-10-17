@@ -6,9 +6,9 @@ import argparse,hashlib,json,struct,sys,random
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]
 sys.path.insert(0,str(ROOT/'port/game-data/tests'))
-from items_differential import Original
+from items_differential_v4_original import Original
 sys.path.insert(0,str(ROOT/'port/level-world/tests'))
-from navigation_differential import Cpu
+from navigation_differential_v4_original import Cpu
 W=lambda *x:struct.pack('<'+'I'*len(x),*(v&0xffffffff for v in x))
 def digest(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def projection(c,p):

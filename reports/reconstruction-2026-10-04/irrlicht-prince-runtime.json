@@ -1,0 +1,541 @@
+{
+  "scope": "SWAMP module-zero source geometry and source-coordinate touch movement diagnostic; not complete DH2 gameplay",
+  "serial": "emulator-5558",
+  "android_release": "17",
+  "sdk": "37",
+  "abi": "x86_64",
+  "page_size_bytes": "16384",
+  "renderer": "GLES: Google (Google Inc.), Android Emulator OpenGL ES Translator (Google SwiftShader), OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)",
+  "package": "local.dh2.sourceviewer.irrlichtswamp",
+  "activity": "local.dh2.sourceviewer.irrlichtswamp/android.app.NativeActivity",
+  "launch_status": "ok",
+  "pid": "26179",
+  "touch_pad": {
+    "center": {
+      "x": 436,
+      "y": 832
+    },
+    "radius": 259
+  },
+  "built_apk": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\dh2-swamp-irrlicht-source-local-debug.apk",
+    "bytes": 70054398,
+    "sha256": "eeb3b1932b5584c1d9766bfc86e239ab3edfd9f4033407bfb4e2424491dfe9a0"
+  },
+  "installed_base_apk": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\installed-base.apk",
+    "bytes": 70054398,
+    "sha256": "eeb3b1932b5584c1d9766bfc86e239ab3edfd9f4033407bfb4e2424491dfe9a0"
+  },
+  "source_geometry": {
+    "source_draws": 54,
+    "visible_diagnostic_draws": 53,
+    "omitted_unresolved_draws": 1,
+    "vertices": 10816,
+    "indices": 13284,
+    "path_mask": 2,
+    "start": {
+      "x": 1090.75,
+      "y": -212.202,
+      "z": 255.0
+    },
+    "diffuse_sampler_refs": 49,
+    "diffuse_draws_mapped": 49,
+    "alpha_map_sampler_refs": 22,
+    "alpha_map_unresolved_refs": 25,
+    "alpha_cutout_draws": 22,
+    "source_additive_one_one_passes_mapped": 2
+  },
+  "source_prince": {
+    "controllers": 4,
+    "joints": 27,
+    "vertices": 487,
+    "triangles": 586,
+    "parts": 4,
+    "mapped_diffuse_parts": 4,
+    "unmapped_diffuse_parts": 0,
+    "ignored_alpha_maps": 0,
+    "source_visual_binding_reported": true,
+    "placement": "source visual owner/helper/graph with fixed first-Idle placement offset; complete Character playback and original camera remain pending"
+  },
+  "prince_motion_assertions_required": true,
+  "texture_visual_qa": {
+    "sample": "initial screenshot central scene region",
+    "swamp_green_pixels": 257598,
+    "timber_brown_pixels": 56849,
+    "criteria": "at least 10,000 swamp-green and 1,000 timber-brown pixels, plus 49 diffuse source references mapped to 49 draws",
+    "passed": true
+  },
+  "startup_log_contains_assembly_before_screenshot": true,
+  "movement_assertions": {
+    "x_movement": {
+      "from": {
+        "state": "IDLE",
+        "animation": "IDLE",
+        "x": 1090.75,
+        "y": -212.202,
+        "z": 255.0,
+        "stick_x": 0.0,
+        "stick_y": 0.0,
+        "path_mask": 2
+      },
+      "during": {
+        "state": "MOVE",
+        "animation": "WALK",
+        "x": 1099.104,
+        "y": -212.306,
+        "z": 255.0,
+        "stick_x": 0.625,
+        "stick_y": -0.004,
+        "path_mask": 2
+      },
+      "idle_start": {
+        "state": "IDLE",
+        "animation": "IDLE",
+        "x": 1099.104,
+        "y": -212.306,
+        "z": 255.0,
+        "stick_x": 0.0,
+        "stick_y": 0.0,
+        "path_mask": 2
+      },
+      "idle_end": {
+        "state": "IDLE",
+        "animation": "IDLE",
+        "x": 1099.104,
+        "y": -212.306,
+        "z": 255.0,
+        "stick_x": 0.0,
+        "stick_y": 0.0,
+        "path_mask": 2
+      },
+      "screenshot": {
+        "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\x-held.png",
+        "bytes": 1928894,
+        "sha256": "e0250448029451afe885994a67080ed31bdf333bad977bde0de5727c7232eff7",
+        "width": 2424,
+        "height": 1080,
+        "changed_pixels": 820808,
+        "swamp_green_pixels": 258314,
+        "timber_brown_pixels": 56347
+      }
+    },
+    "y_movement": {
+      "from": {
+        "state": "IDLE",
+        "animation": "IDLE",
+        "x": 1099.104,
+        "y": -212.306,
+        "z": 255.0,
+        "stick_x": 0.0,
+        "stick_y": 0.0,
+        "path_mask": 2
+      },
+      "during": {
+        "state": "MOVE",
+        "animation": "WALK",
+        "x": 1099.104,
+        "y": -204.259,
+        "z": 255.0,
+        "stick_x": 0.0,
+        "stick_y": 0.602,
+        "path_mask": 2
+      },
+      "idle_start": {
+        "state": "IDLE",
+        "animation": "IDLE",
+        "x": 1099.104,
+        "y": -203.522,
+        "z": 255.0,
+        "stick_x": 0.0,
+        "stick_y": 0.0,
+        "path_mask": 2
+      },
+      "idle_end": {
+        "state": "IDLE",
+        "animation": "IDLE",
+        "x": 1099.104,
+        "y": -203.522,
+        "z": 255.0,
+        "stick_x": 0.0,
+        "stick_y": 0.0,
+        "path_mask": 2
+      },
+      "screenshot": {
+        "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\y-held.png",
+        "bytes": 1928222,
+        "sha256": "b5216603b9cd4e7606c037515089516df95a94eef6e2a36d8a6ef355ece3f6fa",
+        "width": 2424,
+        "height": 1080,
+        "changed_pixels": 819896,
+        "swamp_green_pixels": 259616,
+        "timber_brown_pixels": 56435
+      }
+    }
+  },
+  "background_resume": {
+    "same_process": true,
+    "before": {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    "after": {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    "scope": "HOME/background then same-process Activity resume; not process-death save restoration",
+    "screenshot": {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\resumed.png",
+      "bytes": 1936399,
+      "sha256": "22d7e2eebdccbd752653379b6d1c8648c234bc8e837d836d1b6672f329899bd7",
+      "width": 2424,
+      "height": 1080,
+      "changed_pixels": 821128,
+      "swamp_green_pixels": 261487,
+      "timber_brown_pixels": 57825
+    }
+  },
+  "move_log_records": [
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1090.75,
+      "y": -212.202,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1090.75,
+      "y": -212.202,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1090.75,
+      "y": -212.202,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1090.762,
+      "y": -212.207,
+      "z": 255.0,
+      "stick_x": 0.019,
+      "stick_y": -0.004,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1091.443,
+      "y": -212.232,
+      "z": 255.0,
+      "stick_x": 0.154,
+      "stick_y": -0.004,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1092.879,
+      "y": -212.255,
+      "z": 255.0,
+      "stick_x": 0.317,
+      "stick_y": -0.004,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1095.455,
+      "y": -212.281,
+      "z": 255.0,
+      "stick_x": 0.456,
+      "stick_y": -0.004,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.625,
+      "stick_y": -0.004,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -212.306,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1099.104,
+      "y": -212.297,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.019,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1099.104,
+      "y": -211.734,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.162,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1099.104,
+      "y": -210.314,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.305,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1099.104,
+      "y": -207.759,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.463,
+      "path_mask": 2
+    },
+    {
+      "state": "MOVE",
+      "animation": "WALK",
+      "x": 1099.104,
+      "y": -204.259,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.602,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    },
+    {
+      "state": "IDLE",
+      "animation": "IDLE",
+      "x": 1099.104,
+      "y": -203.522,
+      "z": 255.0,
+      "stick_x": 0.0,
+      "stick_y": 0.0,
+      "path_mask": 2
+    }
+  ],
+  "screenshots": {
+    "after-x-release.png": {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\after-x-release.png",
+      "bytes": 1928715,
+      "sha256": "8ed19809c8d2c18c2631b142f26d76d50947708e256343d818913538e8c24d41"
+    },
+    "after-y-release.png": {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\after-y-release.png",
+      "bytes": 1936386,
+      "sha256": "d6611a7a92c714280ee5daf5cd31700b232ae32ad66cf74f7656325bb46cac08"
+    },
+    "initial.png": {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\initial.png",
+      "bytes": 1929231,
+      "sha256": "b3da1384eda65a397ca9772de5d3c3b685e88a8e51499ab0a5f53b2114ce04a5"
+    },
+    "x-held.png": {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\x-held.png",
+      "bytes": 1928894,
+      "sha256": "e0250448029451afe885994a67080ed31bdf333bad977bde0de5727c7232eff7"
+    },
+    "y-held.png": {
+      "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\y-held.png",
+      "bytes": 1928222,
+      "sha256": "b5216603b9cd4e7606c037515089516df95a94eef6e2a36d8a6ef355ece3f6fa"
+    }
+  },
+  "app_pid_logcat": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-app\\build\\irrlicht-swamp-prince-preview\\runtime-final-16k\\logcat.txt",
+  "fatal_error_markers": {}
+}

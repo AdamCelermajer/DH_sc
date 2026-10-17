@@ -1,0 +1,42 @@
+{
+  "scope": "standalone source-only texture and BRES/material reader smoke harness; no game renderer or APK",
+  "ndk_api": 35,
+  "intended_avd_api": 37,
+  "host_synthetic_checks_passed": true,
+  "host_private_fixture_checks_passed": true,
+  "android_runtime_tested": true,
+  "runtime_report": "runtime-validation.json",
+  "elf": {
+    "elf_class": "ELF64",
+    "elf_type": "ET_DYN_PIE",
+    "machine": "EM_X86_64",
+    "interpreter": "/system/bin/linker64",
+    "pt_load_segments": [
+      {
+        "alignment": 16384,
+        "offset_vaddr_congruent_16k": true
+      },
+      {
+        "alignment": 16384,
+        "offset_vaddr_congruent_16k": true
+      },
+      {
+        "alignment": 16384,
+        "offset_vaddr_congruent_16k": true
+      },
+      {
+        "alignment": 16384,
+        "offset_vaddr_congruent_16k": true
+      }
+    ],
+    "bytes": 34192,
+    "sha256": "fd355c42a339a184e2765d238ea5f872768b285cdf338db0367df8611284a8c8"
+  },
+  "source_sha256": {
+    "port/android-smoke/smoke.cpp": "e18e6759d4f6e028adf562aa99247c0e9bce1f87dba0d04b19f0bc3331bfeb2a",
+    "port/texture-assets/texture.cpp": "b3590aa070633718ca3aa9db027b471d53547282acdf146df0be22cdb2fad423",
+    "port/texture-assets/decode.cpp": "8405e9fbae0cea4278c9618a03f4b0fc009ddc54acf24f9b72d1bde9d81cbd4a",
+    "port/material-bindings/bindings.cpp": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+    "port/engine-resources/resources.cpp": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 1,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_interactive.hpp",
+      "port/level-world/character_interactive.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_interactive.cpp",
+      "port/level-world/tests/run_character_interactive_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character13IsInteractiveEP10GameObject",
+      "elf_address": "0x3a4870",
+      "size": 192,
+      "sha256": "98594cbfb1cf08a894782c03ba19831bd0bd1852373a9b2cfbfb342dd9fad03f",
+      "scope": "New complete original caller"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsDeadEv",
+      "elf_address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK9Character8IsFaerieEv",
+      "elf_address": "0x3a3094",
+      "size": 24,
+      "sha256": "7e136a3b446fab71029f62918585b9ea849d3df0bbf68477a2c5f776862a29a4",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsSummonedEv",
+      "elf_address": "0x3a30ac",
+      "size": 24,
+      "sha256": "19f7355baa1349fa90bde5e8f047f3f87c201683f3572a6906f96e4983b03599",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharTypeEv",
+      "elf_address": "0x3a3054",
+      "size": 16,
+      "sha256": "c3c6ac60324ce38733ebad4c0210947ae208b7fc052d6d8e0a6ec2aef2ca3a69",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI11AI_IsFriendEPK10GameObject",
+      "elf_address": "0x3d511c",
+      "size": 720,
+      "sha256": "5b7cc3cd157969e3301a40fbec86806e68de7ed8cc453fff3fab3f3f7500f81c",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBase6DeleteEv",
+      "elf_address": "0x33ddb4",
+      "size": 20,
+      "sha256": "6d08cd7f978a5782dea3fb962e11cce067617af10baaa85c387b58f14e76d537",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN10ObjectBase9SetEnableEb",
+      "elf_address": "0x33ddc8",
+      "size": 60,
+      "sha256": "4e05a1e3d74b287a26dba956ec69e7ab644ff42cc11c14bbca9bc3337129b2b5",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN6CharAIC1Ev",
+      "elf_address": "0x3ced50",
+      "size": 352,
+      "sha256": "e4a3df105876c622bb394d7f12bb43ac915bf8ba4927708337bf8ba786323919",
+      "scope": "Supporting field producer; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN6CharAIC2Ev",
+      "elf_address": "0x3cebf0",
+      "size": 352,
+      "sha256": "90203efdaeb5c4e378736be80a95ab30a278cf81e2ccbe097e43a20f34db4009",
+      "scope": "Supporting field producer; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN9Character16_SetIsTargetableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b7a64",
+      "size": 104,
+      "sha256": "0f5fb0baf26c7da18bab5bca11d836a31005f676d119e69fea48e64ab4e7086e",
+      "scope": "Supporting field producer; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4",
+      "scope": "Supporting field producer; no new full-body implementation claim"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 148,
+      "sha256": "04691ee43521cd503f6e22929bb3f93c3e55c532490ada19c24c823d1f34559e",
+      "address_point": "0x965f38",
+      "slots": [
+        {
+          "byte_offset": "0x34",
+          "target": "0x3a2ed4",
+          "symbol": "_ZNK9Character6IsDeadEv"
+        },
+        {
+          "byte_offset": "0x88",
+          "target": "0x3a4870",
+          "symbol": "_ZNK9Character13IsInteractiveEP10GameObject"
+        }
+      ]
+    }
+  ]
+}

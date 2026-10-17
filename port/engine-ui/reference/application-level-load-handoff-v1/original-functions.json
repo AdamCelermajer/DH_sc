@@ -1,0 +1,30 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {"name":"Application::LoadLevel","address":"0x32bdc8","size":996,"sha256":"abfbed4cfb0c90e774b2f8190bf8e70ecbf4053b5340cd6768f0c6f03471f6f6"},
+    {"name":"Level::SG_SaveLocalPlayer","address":"0x3f07b0","size":64,"sha256":"1d86b0596346a6aea35552f68fba9ee1726034b19d95967e1bc9ceb6bcc6330b"},
+    {"name":"Level::QuickSave","address":"0x3f059c","size":236,"sha256":"7e6c40fc5b27a4fe6eaccc6ad42ffb1e2ec6a5ff5dbe91a4a7c74502f7ca8ee6"},
+    {"name":"Level::ResetIsLoaded","address":"0x3ef224","size":16,"sha256":"f905a83fe34a7a8c0d1d085e9385a79f9a42a98316a32efdd5cf69b9b0da725c"},
+    {"name":"GSLevel::LoadLevel","address":"0x386818","size":148,"sha256":"91ed1d33a7432d06d74be9ebaac3a5a784687d8b0808f8bd5a8b70e9ccc87aa1"},
+    {"name":"GSLevel::Dtor","address":"0x3860bc","size":124,"sha256":"58eb3fbfb3ea3f964436edeea36460e91b9a50fc0bb26d974d08686adf234811"},
+    {"name":"Level::Unload","address":"0x3f0690","size":264,"sha256":"5cbaa19e78bc28b554d9cbe295e962dd9518b4c537ea9ea0a4a4e79edbb4f746"},
+    {"name":"StateMachine::SwitchState","address":"0x33a388","size":68,"sha256":"c470326d111f7dc8f240c647e8209e889e0dea4450740be3d27aa6e8f7834cec"},
+    {"name":"StateMachine::Update","address":"0x33a7f4","size":92,"sha256":"dbea0d7b2a92631a730887477e0cb1eb04c21c49e5e0e73637bf47b6fd322ede"},
+    {"name":"StateMachine::_handleQueuedOp","address":"0x33a740","size":180,"sha256":"9037e48b9dcbbffb58dfa0bd2d70c0bbc2eb13f398cd43402f2e817ab675e211"},
+    {"name":"StateMachine::_switchState","address":"0x33a720","size":32,"sha256":"ef72ee1175fd9066811bc86adfc23d86d4b546a94d411d4965ca9c5efa09a663"}
+  ],
+  "existing_level_state_38_order": [
+    "when Level+0x198 is clear, invoke the loading-menu callback",
+    "set Level+0x145 to 1",
+    "Application::SendGLHiScore",
+    "set Level+0xf0 to 1",
+    "Level::SG_SaveLocalPlayer(true)",
+    "Level::QuickSave(true)",
+    "Level::ResetIsLoaded: Level+0x144=0 and Level+0x130=0",
+    "continue the new-level seed/online branch; GSLevel::LoadLevel stores request fields and requests StateMachine::SwitchState"
+  ],
+  "deferred_world_transition": "GSLevel::LoadLevel calls StateMachine::SwitchState, which only enqueues a switch. The later StateMachine::Update drains it; _switchState pops the old state before pushing the new one. The old GSLevel dtor calls Level::Unload, closes the HUD, deletes the old Level, then clears GSLevel::s_level. Level::Unload itself runs another QuickSave using Level+0xf0, then loading-menu/object-manager cleanup, SG_SaveAllPlayer using that same force byte, sound stop, loaded-state clear, network uninit, PlayerManager update, and RNG reseed. The call order is static source evidence; the current adapter ends at the request boundary.",
+  "owner_boundary": "The adapter passes one existing Level identity, canonical PlayerSavegame identity, and separate per-level LevelSavegame identity into their existing providers. It does not allocate either Save owner or synchronously destroy/recreate the scene. Selected player and LevelSavegame owners exist, but Level OBJS still depends on exact serializers for live actors; the adapter test does not claim those providers are wired for gameplay.",
+  "validation": "Host fixture checks source order, force=true values, identity preservation, non-38 early return, and failure stop before ResetIsLoaded/destination continuation. Static ELF trace only; not live gameplay evidence."
+}

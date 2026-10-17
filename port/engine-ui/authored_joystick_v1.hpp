@@ -1,4 +1,6 @@
 #pragma once
+// Authored joystick kernel reused from AdamCelermajer/DH_sc commit
+// 11fa5242de525e0fd132d8019920baa862ef70d7.
 #include <cstdint>
 #include <string>
 namespace dh2::ui {
@@ -22,6 +24,10 @@ struct AuthoredJoystickServicesV1 {
 bool authored_joystick_initialize_v1(AuthoredJoystickStateV1&,float actual_bg_width_twips,std::string&);
 // Original event4 stores event x/20,y/20 into center14/18.
 bool authored_joystick_press_v1(AuthoredJoystickStateV1&,float source_event_x,float source_event_y,std::string&);
+// Source Point3D.normalize + rotateXYBy(double, origin) used by the SWF stick.
+// Keeps the original double-degree conversion and binary32 operation order.
+bool authored_joystick_rotate_direction_v1(const float base[3],float degrees,
+ float out[3],std::string&);
 // Whole joystick event5 numeric/state/callback branch419764..419978. Input
 // receiver LOCAL tx/ty must be the original event character matrix+8/+14.
 bool authored_joystick_drag_v1(AuthoredJoystickStateV1&,float source_event_x,float source_event_y,

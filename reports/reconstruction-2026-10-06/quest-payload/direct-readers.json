@@ -1,0 +1,85 @@
+{
+  "status": "PASS",
+  "arm_comparisons": 2514,
+  "whole_reader_words": 114,
+  "native_checks": 33,
+  "mismatches": [],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port\\game-data\\quest_stream_read_v1.cpp": "e9b8db1ffb893512fc485b8571c10d2a3b8c3ffad31e86dde5aa8aff1a543006",
+    "port\\game-data\\quest_stream_read_v1.hpp": "525351c5a7c8fb749a4378b8fe59d307a96aaae4146f1fcf611bbe436afef4da",
+    "port\\game-data\\tests\\quest_stream_read_v1_host.cpp": "7592f6ffe55fba9c0557d2a0f2e0396da618fb3dfc60ad3aa6da7558006f7a31",
+    "port\\game-data\\tests\\run_quest_stream_read_v1.py": "16cbe022981e2ace2295e9d338883fbafed824070607c028fd9825102b6650ca",
+    "port\\game-data\\reference\\quest-stream-read-v1\\original-functions.json": "2e72c6ff0cf20438b336731b8787515b7c1e109b0a54e5ef0b1a2fdd583f938e",
+    "port\\game-data\\quest_runtime_fields_v1.cpp": "262d79d45b1c7d678ee82c57c43052974eb2c86b1b86a06b75bcfd57c443a026",
+    "port\\game-data\\quest_runtime_fields_v1.hpp": "9c4b77a213f45648c06817cdb81690d3d186e385601993077d54475b87319d6b",
+    "port\\game-data\\player_saved_quests_v1.hpp": "1cc384115af55b38e89d0ddae7b83b7636abd21af1d91c09e0b7a82f1cd3eacd",
+    "port\\player-info-level\\tests\\player_locality_v1_original.py": "8b913f371459673f85b29f55dd9215d4ffa1992e02e007571f8b8d506d35f7bc"
+  },
+  "source_unchanged": true,
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_stream_read_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_stream_read_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_stream_read_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_stream_read_v1.cpp.obj"
+    }
+  ],
+  "selected_dependencies": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_runtime_fields_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_runtime_fields_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_runtime_fields_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_runtime_fields_v1.cpp.obj"
+    }
+  ],
+  "compile_commands_sha256": "6a8bfb2e4266d8cb9d2bbdb450462a55a28e99bab0bce9e3f07ef019b29feacd",
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "selected_library_sha256": "e5dbc3ab2f69e932ab7d39f4c680d1d6ffc3d7c62e97655ec5d4b70a12fe05c0",
+  "binary_sha256": {
+    "host.exe": "7e7636451a6818f7d26470da20118fc69cbe774bd28a612a2831524820f5904a",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1247a68e1d554efa24affe9a865d25ff48cf05dd2b4aaed23577bf4710cde528",
+    "libdh2_level_world.dll": "7449226dda23e17ed74114f6ab8b6f2e021764ca908d63663247b1c0564daaf5"
+  },
+  "binaries_unchanged": true,
+  "selected_kernel": true,
+  "imports": [
+    "0000c6e0  <none>  0071  _ZN3dh24data20quest_stream_read_v17Runtime11read_signedEPiPNS1_6ResultE",
+    "0000c6e8  <none>  0072  _ZN3dh24data20quest_stream_read_v17Runtime13read_unsignedEPjPNS1_6ResultE",
+    "0000c6f0  <none>  0073  _ZN3dh24data20quest_stream_read_v17Runtime17read_quest_signedEPiPNS1_6ResultE",
+    "0000c6f8  <none>  00bf  _ZN3dh24data23quest_runtime_fields_v17Runtime15load_quest_dataERNS0_22player_saved_quests_v19StreamRefEjPNS1_6ResultE"
+  ],
+  "scope": {
+    "implemented": [
+      "Whole direct IStreamBase::readAs<unsigned>(unsigned&)176B",
+      "Whole direct IStreamBase::readAs<int>(int&)176B",
+      "Whole direct StreamReader::readAs<int>(IStreamBase*,int*)176B"
+    ],
+    "original_execution": "All114 executable words of the three unmodified reader bodies. Actual virtual18 stream read and logger are declared external leaves. The source assertion global is read by the original body. Callback error/throw stops the oracle at the delivery boundary; native statuses are not original exception ABI.",
+    "native_composition": "Selected actual Quest::_loadQuestData caller borrows its actual Record.state_0 destination and same StreamRef, proving partial destination/cursor prefix before a reached explicit action failure. No empty action provider succeeds.",
+    "not_claimed": [
+      "Native QEST wiring",
+      "Android compilation",
+      "Live gameplay",
+      "Original null-store continuation on a writable zero page"
+    ],
+    "native_guards": [
+      "Null/misaligned/aliased destination or output, reentry, stream identity changes, missing callbacks and errors/throws retain actual reached effects and stop native continuation."
+    ]
+  },
+  "source_policies": [
+    "All three readers pass the actual supplied destination to stream virtual18 with requested uint64(4). No returned-value scratch is used.",
+    "Success requires both returned low32==4 and high32==0. Destination content is not validated.",
+    "Short-read partial destination writes occur before assertion checks and remain visible on provider failure or assertion boundary.",
+    "Actual source mode2 stops at the original null-store boundary; mode1 invokes mandatory logger and returns after delivery; other actual modes return directly. No invented mode default is supplied.",
+    "IStreamBase signed/unsigned logger uses Utils/IStream.h line69. Quest pointer reader uses Utils/StreamReader.h line80. Source format/condition/file bytes and addresses are pinned.",
+    "Logger and assertion-mode providers may change the actual destination; no rollback, second copy, clearing or post-read value publication occurs.",
+    "One borrowed StreamRef, no cursor/profile/Save/Quest/property/table/VM store or separate assertion owner."
+  ],
+  "android_compilation": false,
+  "live_gameplay": false
+}

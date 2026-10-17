@@ -1,4 +1,6 @@
 #include "../actor_playback.hpp"
+#include "../application_clock_v1.hpp"
+#include "../move_state.hpp"
 #include <algorithm>
 #include <cmath>
 #include <cstring>
@@ -33,6 +35,48 @@ int main(int argc,char** argv){try{
  check(rest.graph.size()==35,"Prince graph node count differs");actor::ClipBank bank;
  for(int id:ids){const auto path=dictionary.values.at(id);const auto name=path.substr(path.find_last_of("/\\")+1);auto clip=read(assets+"/animations/"+name);animation::Player player;
   check(player.load(clip.data(),clip.size(),rest,error),error);check(!player.unbound&&!player.skipped&&player.end>player.start,"Unbound/unsupported/empty Prince clip");bank.emplace(id,std::move(player));
+ }
+ if(std::string(argv[2])=="--root-motion-speed"){
+  struct Step {std::uint32_t elapsed_ms;std::int32_t walk_property;int sequence;int expected_clip;};
+  constexpr Step step{16,12800,280,1126};
+  auto walk_sequence=data::animation_state(tables,48,"Walk");
+  check(walk_sequence==&tables.sequences[step.sequence],"Root-speed differential selected another authored Walk row");
+  const auto& authored_step=walk_sequence->steps.front();
+  check(authored_step.anim==step.expected_clip&&authored_step.speed==1.3f&&authored_step.move_go,
+        "Knight Walk BDAE speed/root-displacement contract differs");
+  std::array<std::int32_t,224> properties{};properties[move::walk_property]=step.walk_property;
+  move::Speed resolved{};
+  check(dh2_move_speed(&resolved,properties.data(),&authored_step.speed)==0&&
+        resolved.walk_multiplier==1.5f&&
+        resolved.clip_time_multiplier==resolved.walk_multiplier*authored_step.speed,
+        "CSMove speed property and authored BDAE speed product differs");
+  actor::application_clock_v1::State app_clock{};actor::application_clock_v1::Result frame{};
+  check(actor::application_clock_v1::compute(&app_clock,step.elapsed_ms,&frame)==
+        actor::application_clock_v1::Status::complete&&frame.dt_ms==step.elapsed_ms,
+        "Application frame delta differs for movement-step fixture");
+  actor::Playback one_step;data::AnimationRandom one_step_random;
+  visual::SceneBinding one_step_binding;scene::Scene one_step_scene=rest,reference_scene=rest;
+  check(one_step_binding.bind(one_step_scene,error),error);
+  check(one_step.start(tables,step.sequence,one_step_random,bank,one_step_binding,one_step_scene,
+                       resolved.walk_multiplier,error),error);
+  check(one_step.scene_phase(0,bank,one_step_binding,one_step_scene,error),error);
+  check(one_step.scene_phase(frame.dt_ms,bank,one_step_binding,one_step_scene,error),error);
+  volatile float frame_seconds=static_cast<float>(step.elapsed_ms)/1000.f;
+  volatile float scaled_seconds=frame_seconds*resolved.clip_time_multiplier;
+  volatile float clip_start_seconds=static_cast<float>(bank.at(step.expected_clip).start)/1000.f;
+  volatile float source_seconds=clip_start_seconds+scaled_seconds;
+  volatile float source_milliseconds=source_seconds*1000.f;
+  const auto source_clip_ms=static_cast<std::int32_t>(source_milliseconds);
+  check(one_step.timeline.current_ms==source_clip_ms&&source_clip_ms==bank.at(step.expected_clip).start+31,
+        "Frame dt was not scaled once by CSMove property x authored BDAE speed");
+  auto& walk_clip=bank.at(step.expected_clip);
+  check(walk_clip.sample(reference_scene,walk_clip.start,error),error);
+  const float initial_root[3]{reference_scene.graph[33].translation[0],reference_scene.graph[33].translation[1],reference_scene.graph[33].translation[2]};
+  check(walk_clip.sample(reference_scene,source_clip_ms,error),error);
+  const float expected_step[3]{reference_scene.graph[33].translation[0]-initial_root[0],reference_scene.graph[33].translation[1]-initial_root[1],0.f};
+  for(unsigned axis=0;axis<3;++axis)check(std::fabs(one_step_binding.root.position[axis]-expected_step[axis])<1e-5f,
+        "One-frame BDAE root delta differs from source-sampled displacement");
+  std::cout<<"PASS: one ComputeDt/CSMove/BDAE root-motion speed step, clip_ms="<<source_clip_ms<<"\n";return 0;
  }
  auto gold=read(argv[2]);check(gold.size()>=8&&!std::memcmp(gold.data(),"APG1",4),"Playback gold header rejected");
  const auto count=value<std::uint32_t>(gold.data()+4);check(gold.size()==8ull+count*108ull,"Playback gold dimensions rejected");

@@ -1,0 +1,287 @@
+{
+  "scope": "decoded original Crypt script tables only; no trigger or live scheduler integration claim",
+  "common_names_count": 15,
+  "crypt_script_count": 25,
+  "inputs": {
+    "007_crypt_01_pyscriptnames.bin": {
+      "sha256": "0270ad4f4fb2d2fe9ed0b6cefe208f5431b38504937aff0ea1aafabffd6f8b13",
+      "bytes": 507
+    },
+    "007_crypt_01_pyscripts.bin": {
+      "sha256": "78666c2e163441f806f9fae017030b475613d849f74b833fa6ed58000c5ec3cc",
+      "bytes": 2129
+    }
+  },
+  "scripts": [
+    {
+      "name": "GhostAmbush01",
+      "local_index": 2,
+      "global_id": 17,
+      "byte_offset": 134,
+      "byte_end": 220,
+      "commands": [
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            250
+          ],
+          "byte_offset": 138,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_01"
+          ],
+          "byte_offset": 146,
+          "byte_size": 33
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            75
+          ],
+          "byte_offset": 179,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_02"
+          ],
+          "byte_offset": 187,
+          "byte_size": 33
+        }
+      ]
+    },
+    {
+      "name": "GhostAmbush02",
+      "local_index": 3,
+      "global_id": 18,
+      "byte_offset": 220,
+      "byte_end": 306,
+      "commands": [
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            150
+          ],
+          "byte_offset": 224,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_03"
+          ],
+          "byte_offset": 232,
+          "byte_size": 33
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            75
+          ],
+          "byte_offset": 265,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_04"
+          ],
+          "byte_offset": 273,
+          "byte_size": 33
+        }
+      ]
+    },
+    {
+      "name": "GhostAmbush03",
+      "local_index": 4,
+      "global_id": 19,
+      "byte_offset": 306,
+      "byte_end": 392,
+      "commands": [
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            200
+          ],
+          "byte_offset": 310,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_05"
+          ],
+          "byte_offset": 318,
+          "byte_size": 33
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            75
+          ],
+          "byte_offset": 351,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_06"
+          ],
+          "byte_offset": 359,
+          "byte_size": 33
+        }
+      ]
+    },
+    {
+      "name": "GhostAmbush04",
+      "local_index": 5,
+      "global_id": 20,
+      "byte_offset": 392,
+      "byte_end": 478,
+      "commands": [
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            200
+          ],
+          "byte_offset": 396,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_07"
+          ],
+          "byte_offset": 404,
+          "byte_size": 33
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            75
+          ],
+          "byte_offset": 437,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_Monster_SURPRISE_08"
+          ],
+          "byte_offset": 445,
+          "byte_size": 33
+        }
+      ]
+    },
+    {
+      "name": "GhostAmbushHallway",
+      "local_index": 6,
+      "global_id": 21,
+      "byte_offset": 478,
+      "byte_end": 634,
+      "commands": [
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            200
+          ],
+          "byte_offset": 482,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_tmp_ambusher01"
+          ],
+          "byte_offset": 490,
+          "byte_size": 28
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            50
+          ],
+          "byte_offset": 518,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_tmp_ambusher02"
+          ],
+          "byte_offset": 526,
+          "byte_size": 28
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            50
+          ],
+          "byte_offset": 554,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_tmp_ambusher03"
+          ],
+          "byte_offset": 562,
+          "byte_size": 28
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            50
+          ],
+          "byte_offset": 590,
+          "byte_size": 8
+        },
+        {
+          "id": 30,
+          "name": "SpawnCharacter",
+          "payload": [
+            "_prim_tmp_ambusher04"
+          ],
+          "byte_offset": 598,
+          "byte_size": 28
+        },
+        {
+          "id": 26,
+          "name": "Wait",
+          "payload": [
+            50
+          ],
+          "byte_offset": 626,
+          "byte_size": 8
+        }
+      ]
+    }
+  ]
+}

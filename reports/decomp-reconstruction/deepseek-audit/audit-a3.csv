@@ -1,0 +1,80 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x34e96c,FileSystemBase::ApplyFilenameHacks(char const*),core-platform/src/filesystem_base.cpp,98,low,call,"glitch::io::CFileSystem::getFileBasename(v18, a2, this, 1);","glitch::io::CFileSystem::getFileBasename(result, true);","The original's .tga branch takes the basename of the raw name argument a2, but the reconstruction takes it of the already-trimmed working-directory result. The basename is the same for both in practice, since trimming removes only a leading prefix. Low because the decompiled 4-argument call signature is ambiguous."
+0x33d054,"TouchScreenIPhone::touchBegan(float,float,double,int,float,float,long)",core-platform/src/touch_screen_iphone.cpp,42,low,side-effect,"DebugSwitches::load((DebugSwitches *)&DebugSwitches::s_inst);
+DebugSwitches::GetSwitch((DebugSwitches *)&DebugSwitches::s_inst, (const std::string *)&v16);","const int slot = getID(touchId);
+TouchScreenBase::touchBegan(ToPoint(x, y), slot);","After getID, the original loads DebugSwitches and calls GetSwitch on a literal key (the decompile shows it as """"; the asm at 0x33d0ac/0x33d0b4 forms the pointer from a pc-relative literal plus 0x12, so the key is non-empty and unrecovered here). GetSwitch (0x337a88, game-app DebugSwitches.cpp) inserts a missing key as false, so the original can add a switch entry, which the save path writes. The reconstruction omits both calls with no note, unlike the other sites that keep this pattern. Low: only debug switch state is affected, and the key may already exist."
+0x320da4,Application::ComputeDt(void),game-app/src/g1-game-app-Application-b291be-1.cpp,187,low,math,"v4 = RealTime - v3;
+*((_DWORD *)this + 35) = v4;
+v5 = (int)(float)((float)v4 * *((float *)this + 39));","const std::uint32_t delta = now - static_cast<std::uint32_t>(m_lastTime);
+m_dt = static_cast<int>(static_cast<float>(delta) * m_dtFactor);","The original converts the elapsed time v4 with a signed (float)v4, which is the decompiled int type. The reconstruction converts it as unsigned (static_cast<float>(uint32)). The two differ only when getRealTime goes backwards (RealTime < previous m_lastTime), where the original yields a small negative delta and the reconstruction a huge positive one. Low: a monotonic timer never triggers it, and the original's int type is inferred from the decompile, not confirmed from the declaration."
+0x328fe0,Application::Resume(void),game-app/src/g1-game-app-Application-b291be-2.cpp,509,low,other,*(_DWORD *)(LODWORD(v1) + 112) = (*(int (__fastcall **)(_DWORD))(**(_DWORD **)(*(_DWORD *)(LODWORD(v1) + 16) + 32) + 12))(...);,"const unsigned int now = glitch::os::Timer::getRealTime();
+...
+m_lastTickTime = static_cast<int>(now);","The original reads the device timer twice: once at the top for the online pause check and again near the end (after WakeUp and ResetTouch) to store this+0x70 (m_lastTickTime). The reconstruction reuses the first reading for m_lastTickTime, so the stored value can be a few milliseconds earlier than the original's. Low: the difference is small and only affects the timestamp, not control flow."
+0x43e830,NativeMoveCharacter(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,551,low,math,"LODWORD(v8) = gameswf::as_value::to_number((gameswf::as_value *)(**((_DWORD **)v1 + 3) + 12 * *((_DWORD *)v1 + 5)));
+gameswf::as_value::to_number((gameswf::as_value *)(**((_DWORD **)v1 + 3) + 12 * (*((_DWORD *)v1 + 5) - 1)));
+...
+HIDWORD(v8) = v7;","const double scale = call.arg(1).to_number();
+...
+const Point3D<float> target{scaleF * heading.X, scaleF * heading.Y, scaleF * heading.Z};","In the decompile, the second argument's to_number result is discarded and the value is not visible in any later use. The only visible use is the angle (arg 0), and the decompile's Cmd_HeadTowards call shows only the controller. The reconstruction multiplies the heading by that second argument (scale) before Cmd_HeadTowards, and its comment says the binary does this. Not confirmed from the asm: if the binary does not use the scale, the target magnitude is wrong for any scale other than 1. Low, pending an asm check of the to_number result registers."
+0x43eac0,NativeLockCharacter(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,598,low,side-effect,"gameswf::as_value::set_bool(*v1, 0);","void NativeLockCharacter(const gameswf::fn_call& call) {
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        LockCharacterControl(call.arg(0).to_int());","After locking, the original sets the script-visible return value to false (set_bool on the fn_call result). The reconstruction calls LockCharacterControl and never writes call.result, so a script reading the return value gets undefined. Other natives in this file (e.g. NativeHUDGetIsFaeryUnlocked) do write call.result. Low: only matters if a script uses the return value."
+0x43ea0c,NativeUnlockCharacter(gameswf::fn_call const&),game-app/src/g1-game-app-global-f216b6-10.cpp,580,low,side-effect,"NativeSetLockZoom(0);
+return (Character *)gameswf::as_value::set_bool(*v1, 0);","void NativeUnlockCharacter(const gameswf::fn_call& call) {
+    if (call.nargs == 1 && call.arg(0).is_number()) {
+        UnlockCharacterControl(call.arg(0).to_int());","Same as the lock native: the original sets the script return value to false after unlocking, and the reconstruction never writes call.result. Low: only matters if a script uses the return value."
+0x45cba0,"Script_ChangeLevel::Execute(bool,int)",game-app/src/g1-game-app-pack5-057b13-0.cpp,267,low,branch,"v10 = -72;
+v8 = -1;
+...
+v14 = *(char **)(v11 + v10 + 32);","if (levelIndex >= 0) {
+    const auto* rows = ...;
+    const char* levelFile = ...rows[levelIndex].LevelFile;
+    ...app.LoadLevel(levelFile, ...);","When the level name is not in Arrays::LevelList, the original sets the row offset to -72 (index -1) and still reads the level file pointer at members - 40 and calls Application::LoadLevel with it. That read is outside the table, so the original's behaviour is undefined here. The reconstruction skips the LoadLevel entirely for a missing level. Low: the original path is undefined, so this only changes what happens for an invalid level name in a script."
+0x3d7da8,CharAI::AI_SpellInfo(float &),game-character/src/g1-game-character-CharAI-2ae0f1-7.cpp,412,low,compare,"CurrentFaerieId = Character::SG_GetCurrentFaerieId(*(this + 1), -1);
+...
+if ( CurrentFaerieId >= ((int)*(this + 49) - v5) >> 2 )","const unsigned int spellId = static_cast<unsigned int>(m_character->SG_GetCurrentFaerieId(-1));
+if (spellId >= count) {
+    AssertFailed(""spellId < m_spellScripts.size()"", kCharAISkills, 457);","The original compares the faerie id as a signed int. A -1 id (no current faerie) fails neither the assert test nor the bounds, and the original then reads the script pointer at begin - 4, which is out of range (undefined). The reconstruction converts to unsigned, so -1 takes the assert path and returns info = 0 with a null script. Low: the original path reads out of bounds, so this only changes behaviour where the original is undefined; the reconstruction's result is the safe one."
+0x3c184c,CharStateMachine::_GetState(int),game-character/src/g1-game-character-CharStateMachine-33fc5a-1.cpp,105,low,branch,"if ( v5 != v4 && a2 >= *((_DWORD *)v4 + 4) )
+  v5 = v4;
+...
+return v5 + 20;","const auto it = m_states.find(stateId);
+if (it == m_states.end()) {
+    return nullptr;  // PARTIAL: absent key, see above","For an absent state the original returns the tree header plus 20 (a non-null pointer into the map header), after the assert. The reconstruction returns nullptr. Only the assert path differs: a caller that checks for null behaves differently, and a caller that dereferences crashes in the original but not here. Low, because the original value is not a valid StateInfo."
+0x3c1694,"CharStateMachine::_GetEvent(int,int)",game-character/src/g1-game-character-CharStateMachine-33fc5a-1.cpp,80,low,branch,"...
+if ( v13 != v12 && *((_DWORD *)v12 + 4) <= a3 )
+  v13 = v12;
+...
+return v13 + 20;","const auto event = events.find(eventId);
+if (event == events.end()) {
+    return nullptr;  // PARTIAL: absent key, see above","Same pattern as _GetState: for an absent event the original returns the event tree header plus 20 (non-null), after the assert. The reconstruction returns nullptr. Low: only the post-assert path differs, and the original value is not a valid Event."
+0x374cc0,PlayerInfo::PlayerInfo() (C2; C1 0x37418c),game-character/src/g1-game-character-PlayerInfo-3a5de8-0.cpp,48,medium,side-effect,"NetStructMember::SetChanged((PlayerInfo *)((char *)this + 648));
+... (15 SetChanged calls in the 0x374cc0 body, some on stale stack temporaries)","PlayerInfo::PlayerInfo() : CNetPlayerInfo(), unk_288(), m_characterName(std::string()), ...  // PARTIAL: stale-temporary SetChanged not reproduced","The original constructor calls NetStructMember::SetChanged about 15 times. Each call advances NetStruct::s_changeCounter, which the multiplayer net-sync code uses to decide what to send. The reconstruction (per its own PARTIAL notes at lines 14-21 and 150, 214) omits the calls that the original makes on stale stack temporaries, so the counter, and therefore the first-sync state of a new PlayerInfo, can differ. Medium: an edge case of networking, documented by the author but not closed. Not a gameplay-logic error in single player."
+0x4247c0,"MenuBase::FS_GetCharProp(char const*,char const*,void *)",game-ui/src/g1-game-ui-MenuBase-8948cc-4.cpp,235,medium,other,"Property = CharProperties::_GetProperty((int)result + 1376, (int)result + 4084, v5);
+sprintf(s, ""%d"", Property);
+RenderFX::SetMember(a3[1], ""_root"", ""retval"", s);","char text[8];
+std::snprintf(text, sizeof text, ""%d"", character->_GetProperty(character->m_props, propId));
+static_cast<MenuBase*>(menu)->m_menu->SetMember(""_root"", ""retval"", text);","The original formats the property with an unbounded sprintf into the shared buffer s, so the whole number reaches the menu. The reconstruction formats into a local char[8] with snprintf, which keeps 7 characters. Any value printed with 8 or more characters (for example 10000000, or a negative value with 7 digits) is cut off in the menu text. The size of the original's global s is not confirmed here, so the cap is only proven for the reconstruction. Medium: a visible UI difference for large property values, not a logic error."
+0x507c0c,"StringManager::formatForMulti(std::string,bool)",game-ui/src/g1-game-ui-StringManager-afda5d-0.cpp,237,low,other,"if ( *(_DWORD *)&a2._M_buffers._M_static_buf[8] )
+    v9 = ""
+"";
+  else
+    v9 = """";","const char* newline = multiline ? ""
+"" : """";","In the decompile the newline before and after the font tag is chosen from a member of the first argument (the value at offset 8 of a2), and the bool argument (a3) is never read. The reconstruction takes the newline from the bool (multiline). If a2+8 is a separate flag, newline placement differs for multiline=false text that contains wide characters (and vice versa). The decompiled a2 is typed std::string but its field accesses look like a different layout, so this could be a decompile artefact. Low: needs an assembly check of the argument registers at 0x507c0c."
+0x50bf28,AssetManager::dropTexture(char const*),game-world/src/g1-game-world-AssetManager-cbdbfa-0.cpp,202,low,refcount,"++*((_DWORD *)v7 + 1);
+...
+glitch::video::CTextureManager::removeTexture(*(...+224), &v7);
+...
+if ( v7 )
+  return glitch::IReferenceCounted::drop((glitch::IReferenceCounted *)result);","++texture->referenceCounter;
+...
+boost::intrusive_ptr<glitch::video::ITexture> handle(static_cast<glitch::video::ITexture*>(texture));
+application.m_device->videoDriver->m_textureManager->removeTexture(handle);","The original takes a reference (++refcount) and, on the removal path, releases it with a final drop after removeTexture (the pointer is passed by reference to removeTexture, which may clear it). The reconstruction takes the same extra reference and never releases it on this path: the only explicit drop is in the null-manager else branch. If removeTexture does not release the handle, the texture keeps one extra count and is leaked. Low: depends on removeTexture's ownership semantics, which were not checked here."
+0x3ef614,Level::GetSpawnPoint(),game-world/src/g1-game-world-Level-7c7f5d-0.cpp,155,medium,branch,"if ( !result || *(_DWORD *)(result + 244) != 13 ) { result = 0; ... }
+if ( !*(_BYTE *)(result + 138) || *((_DWORD *)this + 68) != *(_DWORD *)(result + 884) ) goto LABEL_7;
+... if ( v6 ) return result;
+...
+return result;","if (resolved == nullptr || resolved->m_goId != 13) continue;
+if (resolved->m_enabled && m_entryPointId == ...) return ...;
+...
+return nullptr;","When no goId-13 object matches the level's entry point, the original does not return null: v6 stays 0, the loop ends and returns the stale 'result' left by the last iteration, i.e. the last visited goId-13 object (an enabled or disabled spawn that does not match the entry point). The reconstruction returns nullptr in that case. Both call sites (PlayerManager-025dba-2.cpp:527 and Level-7c7f5d-3.cpp:621) fall back to the local player's position on null, so the restart position differs whenever a non-matching spawn exists. The iteration order also differs (list in the original, m_objectMap in the reconstruction), so which stale object is returned cannot be matched exactly. Not verified against a runtime trace."

@@ -18,7 +18,7 @@ using Events=std::vector<std::pair<std::int32_t,std::string>>;
 void collect(const animation::TriggeredEvent* e,void* context){static_cast<Events*>(context)->emplace_back(e->lag_ms,e->name);}
 struct Context {
  const data::AnimationTables* tables;data::AnimationRandom* random;const actor::ClipBank* bank;visual::SceneBinding* binding;scene::Scene* live;
- Events events;unsigned authored=0,closures=0,replayed=0,switches=0;bool switch_trigger=false,closure_idle=false,drop_observer=false;const char* switch_name="attack_mainhand";float speed=1;float before[3]{};std::uint32_t prior_time=0;std::string error;
+ Events events;std::vector<std::uint32_t> scheduler_events;unsigned authored=0,closures=0,replayed=0,switches=0;bool switch_trigger=false,closure_idle=false,drop_observer=false,switch_completion=false;const char* switch_name="attack_mainhand";float speed=1;float before[3]{};std::uint32_t prior_time=0;std::string error;
 };
 void observe(void* raw,actor::Playback& p,const actor::PlaybackEvent& e){
  auto& c=*static_cast<Context*>(raw);
@@ -32,10 +32,23 @@ void observe(void* raw,actor::Playback& p,const actor::PlaybackEvent& e){
    check(p.start(*c.tables,259,*c.random,*c.bank,*c.binding,*c.live,c.speed,c.error),c.error);
    check(origin!=p.clip_id&&p.clip_id==1023,"Synchronous trigger failed to select Died");++c.switches;if(c.drop_observer)p.observer={};
   }
- }else{
-  check(e.handoff.event_id==0x22&&!e.handoff.payload&&e.phase==actor::sequence_event,"Sequence closure identity differs");
+ }else if(e.handoff.event_id==0x22){
+  check(e.handoff.event_id==0x22&&e.handoff.payload==reinterpret_cast<const char*>(&p.sequence_closed)&&e.phase==actor::sequence_event,"Finite Update closure latch payload differs");
   check(!p.scheduler.active()&&p.sequence_closed==1,"Closure not marked before observer");++c.closures;
   if(c.closure_idle){const int old=p.clip_id;check(p.start(*c.tables,262,*c.random,*c.bank,*c.binding,*c.live,c.speed,c.error),c.error);check(p.clip_id==old,"Closure ANIM_Set was not held until callback return");++c.switches;c.closure_idle=false;}
+ }else{
+  check((e.handoff.event_id==0x27||e.handoff.event_id==0x25||e.handoff.event_id==0x23||
+         e.handoff.event_id==0x24||e.handoff.event_id==0x26)&&!e.handoff.payload,
+        "Unknown CharAnimator completion/selection event");
+  check(e.phase==(e.handoff.event_id==0x24||e.handoff.event_id==0x26?
+        actor::playback_selection_event:actor::playback_animator_event),"CharAnimator event phase differs");
+  c.scheduler_events.push_back(e.handoff.event_id);
+  if(c.switch_completion&&e.handoff.event_id==0x23){
+   c.switch_completion=false;
+   check(p.start(*c.tables,259,*c.random,*c.bank,*c.binding,*c.live,c.speed,c.error),c.error);
+   check(p.clip_id==e.clip,"Synchronous completion ANIM_Set was not deferred to the common tail");
+   ++c.switches;
+  }
  }
 }
 }
@@ -96,5 +109,31 @@ int main(int argc,char** argv){try{
   p=actor::Playback{};binding=visual::SceneBinding{};live=rest;check(binding.bind(live,error),error);ctx.events.clear();ctx.authored=ctx.replayed=0;p.observer={&ctx,observe};check(p.start(fixture,direct,random,bank,binding,live,1,error),error);ctx.prior_time=0;std::fill(ctx.before,ctx.before+3,0);check(p.scene_phase(1000,bank,binding,live,error),error);ctx.prior_time=1000;std::copy(binding.root.position,binding.root.position+3,ctx.before);check(p.scene_phase(1030,bank,binding,live,error),error);p.timeline.loop=1;check(p.replay_phase(1000,bank,binding,live,error),error);check(ctx.replayed==1,"Reentrant NewAnim source-loop callback missing");replayed+=ctx.replayed;
  }
  actor::EventHandoff out{99,44,"unchanged"};unsigned closed=0;check(dh2_actor_sequence_close(&out,&closed)==1&&closed==1&&out.event_id==0x22&&!out.payload,"Closure kernel first dispatch differs");out.event_id=99;check(dh2_actor_sequence_close(&out,&closed)==0&&out.event_id==99,"Closure duplicate mutated output");closed=2;check(dh2_actor_sequence_close(&out,&closed)==-1&&closed==2&&out.event_id==99,"Malformed closure was not atomic");check(dh2_actor_event_handoff(&out,nullptr,nullptr)==-1&&out.event_id==99,"Malformed handoff mutated output");
+ // Prove Character::Update's source completion callback order on a two-step
+ // sequence, including an ANIM_Set requested reentrantly from event35. The
+ // second authored step is selected first; the deferred Died selection then
+ // runs from the Update common tail.
+ {
+  data::AnimationTables fixture=tables;data::AnimationSequence sequence;
+  sequence.type=1;data::AnimationStep first,second;first.anim=955;second.anim=956;
+  sequence.steps={first,second};const int source_sequence=int(fixture.sequences.size());
+  fixture.sequences.push_back(sequence);
+  actor::Playback p;data::AnimationRandom random;auto live=rest;
+  visual::SceneBinding binding;check(binding.bind(live,error),error);
+  Context ctx{&fixture,&random,&bank,&binding,&live};ctx.switch_completion=true;
+  p.observer={&ctx,observe};check(p.start(fixture,source_sequence,random,bank,
+      binding,live,1,error),error);
+  ctx.scheduler_events.clear();
+  const auto first_duration=bank.at(955).end-bank.at(955).start;
+  check(p.scene_phase(1000,bank,binding,live,error),error);
+  check(p.scene_phase(1000+first_duration+1,bank,binding,live,error),error);
+  check(p.completion.pending,"Completion callback did not reach Animator phase");
+  check(p.animator_phase(fixture,random,bank,binding,live,1,
+      p.completion.extra_ms,error),error);
+  check(ctx.switches==1&&p.scheduler.frames().front().sequence==259&&
+        p.clip_id==1023,"Reentrant completion state selection did not win at common tail");
+  check(ctx.scheduler_events==std::vector<std::uint32_t>({0x27,0x23,0x26,0x24,0x26}),
+        "Two-step completion callback order differs from source Update");
+ }
  std::cout<<"{\"original_event_windows\":"<<windows<<",\"original_lag_cases\":"<<lags<<",\"original_swap_cases\":"<<swaps<<",\"original_callbacks\":"<<callback_comparisons<<",\"scene_phase_frames\":"<<scene_frames<<",\"root_samples\":"<<root_samples<<",\"authored_callbacks\":"<<authored<<",\"sequence_closures\":"<<closures<<",\"replay_callbacks\":"<<replayed<<",\"synchronous_transitions\":"<<transitions<<",\"terminal_pose_frames\":"<<terminal<<",\"metadata_swaps\":"<<metadata_swaps<<",\"retained_batch_callbacks\":"<<retained_batch<<",\"overshoot_replays\":"<<overshoot_replays<<",\"rejection_checks\":2,\"mismatches\":0}\n";return 0;
 }catch(const std::exception& e){std::cerr<<e.what()<<'\n';return 3;}}

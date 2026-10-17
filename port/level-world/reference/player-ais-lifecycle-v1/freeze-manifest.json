@@ -1,0 +1,204 @@
+{
+  "validation": "PASS",
+  "source_sha256": {
+    "port/level-world/player_ais_lifecycle_v1.hpp": "baf78808c7c9dd7189eea72460390e53108b4c7e0339a9db6283fda3a9fc9f09",
+    "port/level-world/player_ais_lifecycle_v1.cpp": "13ea6d501f14bb7adc074abd98f2dbe84237c50decf079b3a1a8d528dde62f98",
+    "port/level-world/tests/player_ais_lifecycle_v1.cpp": "89ebd9c5ac34fc87e8b21003f9c6836c10b09f7e25403e9024b8ea808d2f30ce",
+    "port/level-world/tests/player_ais_lifecycle_v1_original.py": "9ab7799bfc952099f124fa306ba3548a990af1cf3d8844f2ba4711012d161281",
+    "port/level-world/tests/run_player_ais_lifecycle_v1_host.py": "742119dcb6694810a3a840fd65df2611a75cccbdcd2015e21673e311b9cf335b",
+    "port/level-world/reference/player-ais-lifecycle-v1/NOTES.md": "555bf9c76032edd693f2c9cc330e95c76c684f5144a8d3022dd8641b6aac3ef4",
+    "port/level-world/reference/player-ais-lifecycle-v1/original-functions.json": "f582eae32c23e2969e8599cb93cc4516fc0b6b02f14bce915c97ffa70383eb7a",
+    "port/level-world/reference/player-ais-lifecycle-v1/original-capture.json": "b843c18de9d8879236bcbf7c446b9f10490049a3bb86a5d6cd9d8e955e629d9b",
+    "port/level-world/reports/player-ais-lifecycle-v1-host-audit.json": "dcc3b535b500f24c79d4fb2947f8930c83757fafcf95641944b3f20523976be2"
+  },
+  "whitelist": [
+    "port/level-world/player_ais_lifecycle_v1.hpp",
+    "port/level-world/player_ais_lifecycle_v1.cpp",
+    "port/level-world/tests/player_ais_lifecycle_v1.cpp",
+    "port/level-world/tests/player_ais_lifecycle_v1_original.py",
+    "port/level-world/tests/run_player_ais_lifecycle_v1_host.py",
+    "port/level-world/reference/player-ais-lifecycle-v1/NOTES.md",
+    "port/level-world/reference/player-ais-lifecycle-v1/original-functions.json",
+    "port/level-world/reference/player-ais-lifecycle-v1/original-capture.json",
+    "port/level-world/reports/player-ais-lifecycle-v1-host-audit.json",
+    "port/level-world/reference/player-ais-lifecycle-v1/freeze-manifest.json"
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_report": {
+    "validation": "PASS",
+    "real_player_classes": 3,
+    "completed_lifecycles": 5,
+    "failure_prefix_cases": 4,
+    "guard_cases": 7,
+    "split_phase_cases": 2,
+    "constructor_scalar_words": [
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0,
+      0
+    ],
+    "constructor_tree_empty": true,
+    "source_phase7_published": true,
+    "single_retained_vm": true,
+    "actual_coordinator_timers": true,
+    "selected_native_build": false,
+    "live_gameplay": false
+  },
+  "selected_existing_dependencies": true,
+  "new_module_selected": true,
+  "selected_native_build": false,
+  "live_gameplay": false,
+  "binary_sha256": {
+    "build/player_ais_lifecycle_audit.exe": "8d462c4af2815dfc9ef4ea829c6d0434d516df26ee6b7f762868f434e00a9026",
+    "build/selected-world/libdh2_level_world.dll": "89ccefb1addd9d09f7e69bffe34b01ba833afb7d7b62c82de6567c86c98f4441",
+    "build/selected-world/adam-script-runtime/libdh2_script_runtime.dll": "63e18ac3e4db58cc4cc246b9967af80995d36aec835f966af5d316067c9cfa8d",
+    "build/selected-world/engine-skinning/libdh2_engine_skinning.dll": "a618bde833104000ec281e7ce5aea8afe837cb90630863127b5f74d00301b7d4",
+    "build/selected-world/game-data/libdh2_game_data.dll": "a3b32badf981789d36e8e013462e4ed6f3ffedb857f9110338b806c2db05f64e",
+    "build/selected-world/engine-skinning/engine-animation/libdh2_engine_animation.dll": "78365353453a23c10c4a67232573065cc603904dbb531530332c5b2b466530f3",
+    "build/selected-world/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.dll": "6155bb1ccbb3374cb2c3cb2c735bfaccba7260fe02eee97fde8ad6d51a26b580"
+  },
+  "dso_imports": {
+    "build/player_ais_lifecycle_audit.exe": [
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-environment-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "libdh2_script_runtime.dll",
+      "libdh2_game_data.dll",
+      "libdh2_level_world.dll"
+    ],
+    "build/selected-world/libdh2_level_world.dll": [
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "libdh2_script_runtime.dll",
+      "libdh2_engine_animation.dll",
+      "libdh2_scene_materials.dll",
+      "libdh2_engine_skinning.dll",
+      "libdh2_game_data.dll"
+    ],
+    "build/selected-world/adam-script-runtime/libdh2_script_runtime.dll": [
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-convert-l1-1-0.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-locale-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "api-ms-win-crt-utility-l1-1-0.dll"
+    ],
+    "build/selected-world/engine-skinning/libdh2_engine_skinning.dll": [
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "libdh2_scene_materials.dll"
+    ],
+    "build/selected-world/game-data/libdh2_game_data.dll": [
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll"
+    ],
+    "build/selected-world/engine-skinning/engine-animation/libdh2_engine_animation.dll": [
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll",
+      "libdh2_scene_materials.dll"
+    ],
+    "build/selected-world/engine-skinning/engine-animation/scene-materials/libdh2_scene_materials.dll": [
+      "libgcc_s_seh-1.dll",
+      "libstdc++-6.dll",
+      "KERNEL32.dll",
+      "api-ms-win-crt-heap-l1-1-0.dll",
+      "api-ms-win-crt-math-l1-1-0.dll",
+      "api-ms-win-crt-private-l1-1-0.dll",
+      "api-ms-win-crt-runtime-l1-1-0.dll",
+      "api-ms-win-crt-stdio-l1-1-0.dll",
+      "api-ms-win-crt-string-l1-1-0.dll"
+    ]
+  },
+  "original_executed_pinned_words": {
+    "constructor": 87,
+    "load_and_init": 266
+  },
+  "original_import_calls": {},
+  "attribution": {
+    "upstream_commit": "791e961b12233100b303038c961666834f4beb9d",
+    "reuse": "V6 macro-includes unchanged V3 advance-before-InitProcess composition; maintained selected source kernels/Session/owners borrowed; no private owner imported",
+    "additional_complete_original_body_credit": 0,
+    "inherited_git_blob_sha256": {
+      "port/level-world/character_player_skills_v6.cpp": "d93765af157ac8f4e9ece7564af2e3cd99f2e8a59df198acb104801823c7b034",
+      "port/level-world/character_player_skills_v3.cpp": "0ce7b9150728d607b7628bbcb1c90f613a5f60defaee0107ee5d9b761ba21b3e",
+      "port/level-world/character_skills_owner_v6.cpp": "3bca2ba33b71b74c07c16d84eeb99a8e531e4c4b66d6c7d73b22cd0d57e4f41d",
+      "port/level-world/character_skills_owner_v3.cpp": "638f29cdb25ca05d1b5ee054b060f3d0c0d2c6eb9106cb1764cf1143ff2ae570"
+    }
+  },
+  "independent_review": {
+    "reviewer": "skill_state",
+    "source_order_and_ownership": "PASS",
+    "declaration_error_alias_regression": "PASS",
+    "native_source_order_and_ownership": "PASS after preallocating Runtime wrapper before source AIS publication; reviewed frozen native source only"
+  },
+  "remaining_dependencies": [
+    "Genuine native Character InitPost profile/equipment/recalc/initial-slot grant producer between load and initialize_process; this lifecycle gate intentionally supplies no such body.",
+    "Original CharAI OnDied/AI_SetDead producer must stop owned 0x33/0x34 timers before treating native FSM death as full source death cleanup.",
+    "Source pending AIS termination/destruction for replacement remains an owning provider dependency.",
+    "Native skill gameplay callback delivery and selected Android/live initialization gates remain separate from this selected-host lifecycle proof."
+  ],
+  "preselection_report_preserved": "C:/tmp/dh2-plais/preselection-host-audit.json",
+  "selected_host_output": "C:/tmp/dh2-player-ais-selected-host",
+  "compiled_input_guard": {
+    "sha256_inputs": 556,
+    "before_after_unchanged": true,
+    "exact_world_source_selected": true,
+    "separate_direct_module_object": false
+  },
+  "scoped_source_tu_count": 1,
+  "script_runtime_tu_count": 1,
+  "split_api": {
+    "load": "exact script_load_process, source publication without InitProcess",
+    "initialize_process": "exact script_init_process, explicit caller event without a replay guard",
+    "initialize": "existing source script_load_and_init with active guard",
+    "shared_busy_and_failure_latch": true
+  }
+}

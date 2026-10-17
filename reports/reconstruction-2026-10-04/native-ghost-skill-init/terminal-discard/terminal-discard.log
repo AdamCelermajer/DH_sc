@@ -1,0 +1,44 @@
+--------- beginning of main
+I/DH2Native( 6711): Actor clip completed | _prim_Monster_Ghost05 | state Idle | completions 28 | active 1 | next clip 706 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster_Ghost06 | state Idle | completions 28 | active 1 | next clip 706 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 97 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 97 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster | state Idle | completions 97 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster02 | state Idle | completions 97 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster05 | state Idle | completions 97 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 6711): Blended character event | event 0x27 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x25 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x23 | clip 1040 | slot 0 | phase 4 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x24 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x26 | clip 1040 | slot 0 | phase 5 | lag 0
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist07 | state Idle | completions 16 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist01 | state Idle | completions 15 | active 1 | next clip 1194 | layers 1
+I/DH2Native( 6711): Native actor frame | scene 3549 | Step 120 | actor 120 | source phase 5 | clip 1041 | ms 1252 | replays 2 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 98 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 98 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster | state Idle | completions 98 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster02 | state Idle | completions 98 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster05 | state Idle | completions 98 | active 1 | next clip 1259 | layers 1
+D/WindowOnBackDispatcher( 6711): setTopOnBackInvokedCallback (unwrapped): android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@115c3e3
+D/WindowOnBackDispatcher( 6711): setOnBackInvokedCallbackInfo: android.widget.PopupWindow$PopupDecorView$$ExternalSyntheticLambda1@115c3e3
+I/Surface ( 6711): Creating surface for consumer unnamed-6711-9 with slotExpansion=1 for 64 slots
+I/Surface ( 6711): Creating surface for consumer VRI[PopupWindow:f60e01d]#9(BLAST Consumer)9 with slotExpansion=1 for 64 slots
+I/DH2Native( 6711): Blended character event | event 0x27 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x25 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x23 | clip 1041 | slot 1 | phase 4 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x24 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 6711): Blended character event | event 0x26 | clip 1041 | slot 1 | phase 5 | lag 0
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist05 | state Idle | completions 99 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_tmp_cultist06 | state Idle | completions 99 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster | state Idle | completions 99 | active 1 | next clip 1259 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster02 | state Idle | completions 99 | active 1 | next clip 1258 | layers 1
+I/DH2Native( 6711): Actor clip completed | _prim_Monster05 | state Idle | completions 99 | active 1 | next clip 1258 | layers 1
+D/WindowOnBackDispatcher( 6711): setTopOnBackInvokedCallback (unwrapped): null
+D/WindowOnBackDispatcher( 6711): setOnBackInvokedCallbackInfo: null
+--------- beginning of system
+D/InsetsController( 6711): hide(ime())
+I/ImeTracker( 6711): com.example.dh2:2ff53156: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+D/HWUI    ( 6711): endAllActiveAnimators on 0x7d40c52269b0 (DropDownListView) with handle 0x7d42452a9f00
+I/DH2Native( 6711): Native terminal world discard | Ghost references 2 | remaining 0 | groups 0 | saved actors 0 | catalogue 0
+I/DH2Native( 6711): textures/atlas_dh2_game_objects_001.tga: 1024 x 1024 | format 1 | alpha 0 | RGBA upload OK
+I/DH2Native( 6711): Aspect ratio preserved

@@ -1,0 +1,71 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZNK12ItemInstance11IsStackableEv",
+      "elf_address": "0x3f9e58",
+      "size": 16,
+      "sha256": "5e0476218eade30aec5ff23b960f65ed889c51d3ec915282b1f23b91aba83124"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance5SplitEi",
+      "elf_address": "0x3fc3e0",
+      "size": 180,
+      "sha256": "de9ec67558fbb05bc47fe61d18f20c172d6edfbdbdfae79e9f76f97f865c199a"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory20_HasItemInstanceLikeEPK12ItemInstanceRj",
+      "elf_address": "0x3fe1cc",
+      "size": 136,
+      "sha256": "f34904b0991f5c69569db9644cc540521f8f9e468d1dd5d547f0de88293929bf"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties21UpdateGearsPropertiesEv",
+      "elf_address": "0x3e08a8",
+      "size": 36,
+      "sha256": "a6e6393033840308385123b125dee49f4b6d157c5bdb26228a1a07d36936304a"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory16_DelItemInstanceEP12ItemInstance",
+      "elf_address": "0x3fe7d8",
+      "size": 160,
+      "sha256": "bfbc646dbe5844331dbe69c83b2096f334187045f9ef304f840da88789c62a7f"
+    },
+    {
+      "original_symbol": "_ZN9Character12ValidateHPMPEv",
+      "elf_address": "0x3bd140",
+      "size": 140,
+      "sha256": "f8b614e857e216839762a9b9d060c3958babe0609f6c9a22ebae2d35b4127adb"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14IsItemEquippedEj",
+      "elf_address": "0x3fdaf0",
+      "size": 264,
+      "sha256": "36d1379b7350c717f44c421e06558cdaaa45c3f0a6247f917a7da1a3515b09c6"
+    },
+    {
+      "original_symbol": "_ZN9Character13EquipItemAutoEj",
+      "elf_address": "0x3a9fa8",
+      "size": 52,
+      "sha256": "f28e301b294aba0d3bb85e6a14c8d1d68d0be46f2839579911539ef8921b78b9"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac"
+    },
+    {
+      "original_symbol": "_ZN13ItemInventory7GetItemEj",
+      "elf_address": "0x3fc61c",
+      "size": 32,
+      "sha256": "eb67665df03c43c058b4cb2d93deda01b5f06e7a95ff04c1fdd79aa5b6d5f7c1"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance6AddQtyEi",
+      "elf_address": "0x3fa17c",
+      "size": 12,
+      "sha256": "af7638813c5f6c088456fdd2a6f47018f11b1ada7377753e2d3407bb2b2fd1be"
+    }
+  ]
+}

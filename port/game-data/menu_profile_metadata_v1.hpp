@@ -2,12 +2,18 @@
 #include "player_savegame_v1.hpp"
 #include "player_profile_index_v1.hpp"
 namespace dh2::data {
+// Display receipt copied from the existing Save's LNAM fields after its real
+// named reader. It owns no gameplay Save or mutable quest-log authority.
+struct MenuProfileLocationV1 {
+    std::uint32_t save_date{};
+    std::array<std::int32_t,3> levels{},seeds{},current_acts{{1,1,1}},volatile_acts{{1,1,1}};
+};
 // Temporary metadata for the source menu's PlayerSavegame(slot,17,false).
 // This is a display receipt, not a live gameplay Player/Character owner.
 struct MenuProfileMetadataV1 {
     std::int32_t slot=-1,level=1,character_row=-1,selected_difficulty=0,unlocked_difficulty=0;
     std::string name;
-    SavedLocationV1 location;
+    MenuProfileLocationV1 location;
 };
 struct MenuProfileMetadataServicesV1 {
     void* context{};
@@ -15,7 +21,10 @@ struct MenuProfileMetadataServicesV1 {
     // Required when QEST exists. The canonical owner must initialize/load its
     // actual quests with the source regular/rewound-volatile dispatch; both
     // act arrays arrive with LNAM values and must reflect reached QEST stores.
-    bool (*load_quest_acts)(void*,Bytes,std::array<std::int32_t,3>& regular,
+    // The Save and profile index are the exact owners used by this metadata
+    // read; providers must not parse the payload into another Save/cursor.
+    bool (*load_quest_acts)(void*,const std::shared_ptr<PlayerSavegameV1>&,
+        const PlayerProfileIndexV1::Borrow&,std::array<std::int32_t,3>& regular,
         std::array<std::int32_t,3>& volatile_acts,std::string&){};
 };
 // Actual metadata-reader order PNAM,PLVL,PCLS,PDFL,LNAM,LEPT,LUSP,QEST.

@@ -55,6 +55,10 @@ extern "C" unsigned dh2_class_apply_to_base(const dh2::data::ClassRow* table,std
  if(!table||!base||!owner||owner->base!=base||count>10000||dh2_property_validate(owner))return 4;
  std::int32_t stack[32];unsigned budget=0;return apply_rows(table,count,id,base,nullptr,stack,0,budget,owner);
 }
+extern "C" unsigned dh2_class_apply_to_resolved(const dh2::data::ClassRow* table,std::uint32_t count,std::int32_t id,std::int32_t* resolved,dh2::data::PropertyView* owner){
+ if(!table||!resolved||!owner||owner->resolved!=resolved||count>10000||dh2_property_validate(owner))return 4;
+ std::int32_t stack[32];unsigned budget=0;return apply_rows(table,count,id,resolved,nullptr,stack,0,budget,owner);
+}
 extern "C" unsigned dh2_class_recalc_base(const dh2::data::ClassRow* table,std::uint32_t count,std::int32_t* base,dh2::data::PropertyView* owner){
  if(!base)return 4;
  auto status=dh2_class_apply_to_base(table,count,base[26],base,owner);if(status)return status;

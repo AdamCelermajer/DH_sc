@@ -1,0 +1,3610 @@
+{
+  "result": "PASS",
+  "scope": "bounded inline ObjectManager::Update per-object slice; not full ObjectManager::Update",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_files": {
+    "port/level-world/object_update_dispatch.hpp": "ec15f800007e224f29986fd8f2179160ab5e34f729409d3e6ae8e6e05b0fab21",
+    "port/level-world/object_update_dispatch.cpp": "af4e63783d856fe3e5fc0a1d612633444e4e80fac22f735fb6e4a49c2282a0f7",
+    "port/level-world/tests/object_update_dispatch.cpp": "a38a0eac3ea68c02f1a89e9ede0e4267a4ff99b7d219b00612a562138bdb5bfa",
+    "port/level-world/tests/run_object_update_dispatch_host.py": "892d1cd533be2747b970a745c30bc927ef4905a15b4745c0be0da82aa9a6ced4",
+    "port/level-world/reference/object-update-dispatch/original-functions.json": "82803aa467f990e56e85199c1338ceb8a5199eacf74365be4d888be86dad0196",
+    "port/level-world/reference/object-update-dispatch/NOTES.md": "a53695bc2275f2fc02e1830a576877e51bc12db909e2fb62b3e9c093a541bbd1",
+    "port/engine-resources/tests/cpu.py": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a"
+  },
+  "host_binary_sha256": "c09f016a05ff7484446cdc193c2a368d757b5d158e3cf01ecffd8a31c524d785",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O2",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\object_update_dispatch.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\object_update_dispatch.cpp",
+    "-o",
+    "port\\level-world\\build\\object-update-dispatch-review-final\\host.exe"
+  ],
+  "host_guard_suite": {
+    "validation": "PASS",
+    "checks": 101
+  },
+  "executed_original_instruction_count": 52,
+  "executed_original_instruction_addresses": [
+    "0x34a7f4",
+    "0x34a7f8",
+    "0x34a7fc",
+    "0x34a800",
+    "0x34a804",
+    "0x34a808",
+    "0x34a80c",
+    "0x34a810",
+    "0x34a814",
+    "0x34a818",
+    "0x34a81c",
+    "0x34a820",
+    "0x34a824",
+    "0x34a828",
+    "0x34a82c",
+    "0x34a830",
+    "0x34a834",
+    "0x34a838",
+    "0x34a83c",
+    "0x34a840",
+    "0x34a844",
+    "0x34a848",
+    "0x34a84c",
+    "0x34aa10",
+    "0x34aa14",
+    "0x34aa18",
+    "0x34aa1c",
+    "0x34aa20",
+    "0x34aa24",
+    "0x34aa28",
+    "0x34aa2c",
+    "0x34aa30",
+    "0x34aa34",
+    "0x34aa38",
+    "0x34aa3c",
+    "0x34aa40",
+    "0x34aa44",
+    "0x34aa48",
+    "0x34aa4c",
+    "0x34aa50",
+    "0x34aa54",
+    "0x34aa58",
+    "0x34aa64",
+    "0x34aa68",
+    "0x34aa6c",
+    "0x34aa70",
+    "0x34aa74",
+    "0x34aa78",
+    "0x34aa7c",
+    "0x34aa80",
+    "0x34aa84",
+    "0x34aa88"
+  ],
+  "original_ARM_case_count": 30,
+  "cases": [
+    {
+      "name": "character_update",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 2,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 2,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 26,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 26
+    },
+    {
+      "name": "noncharacter_update",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 2,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 2,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 23,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 23
+    },
+    {
+      "name": "aipointer_mutates_gate_offline",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 34
+    },
+    {
+      "name": "offline_before_online_query",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 24,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34a8cc"
+      },
+      "source_instruction_count": 24
+    },
+    {
+      "name": "online_nonremote_unloads_character",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 6,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 6,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ],
+        "instructions": 40,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 40
+    },
+    {
+      "name": "online_nonremote_second_not_character",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 12,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 33,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010",
+          "0x2004000"
+        ],
+        "stop_address": "0x34a8cc"
+      },
+      "source_instruction_count": 33
+    },
+    {
+      "name": "online_remote_updates",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 9,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 9,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84",
+          "0x34aa88"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 34
+    },
+    {
+      "name": "remote_raw_one_updates",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 37,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84",
+          "0x34aa88"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 37
+    },
+    {
+      "name": "phase_reset_unconditional",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 255,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 255,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 24,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34a8cc"
+      },
+      "source_instruction_count": 24
+    },
+    {
+      "name": "gate8a_alone_requests_online",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 31,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 31,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 27,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34a8cc"
+      },
+      "source_instruction_count": 27
+    },
+    {
+      "name": "online_zero_ignores_remote",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 4,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 3,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 4,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 24,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34a8cc"
+      },
+      "source_instruction_count": 24
+    },
+    {
+      "name": "phase_nonzero_reset_after_aipointer_mutation",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 255,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 255,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 34
+    },
+    {
+      "name": "callback_mutation_2",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ],
+        "instructions": 37,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 37
+    },
+    {
+      "name": "callback_mutation_4",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 26,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 26
+    },
+    {
+      "name": "callback_mutation_8",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 34
+    },
+    {
+      "name": "callback_mutation_16",
+      "host": {
+        "status": 6,
+        "route": 0,
+        "calls": 4,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 6,
+        "route": 0,
+        "calls": 4,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 29,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84",
+          "0x34aa88"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010"
+        ],
+        "stop_address": "0x34a9e0"
+      },
+      "source_instruction_count": 29
+    },
+    {
+      "name": "callback_mutation_32",
+      "host": {
+        "status": 6,
+        "route": 0,
+        "calls": 4,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 6,
+        "route": 0,
+        "calls": 4,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 29,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84",
+          "0x34aa88"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010"
+        ],
+        "stop_address": "0x34a9e0"
+      },
+      "source_instruction_count": 29
+    },
+    {
+      "name": "callback_mutation_64",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 111,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 111,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 34
+    },
+    {
+      "name": "callback_mutation_128",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 26,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 26
+    },
+    {
+      "name": "callback_mutation_256",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            291,
+            0,
+            1110
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            291,
+            0,
+            1110
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 34
+    },
+    {
+      "name": "callback_mutation_1024",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 26,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 26
+    },
+    {
+      "name": "callback_mutation_2048",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 7,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 26,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004120"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 26
+    },
+    {
+      "name": "raw_gates_255_255",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 26,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 26
+    },
+    {
+      "name": "raw_gates_128_1",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 3,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 26,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 26
+    },
+    {
+      "name": "raw_gates_0_255",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84",
+          "0x34aa88"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 34
+    },
+    {
+      "name": "raw_gates_255_0",
+      "host": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 2,
+        "calls": 5,
+        "phase_writes": 0,
+        "marker_writes": 1,
+        "phase": 255,
+        "marker": 0,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            3,
+            84,
+            0,
+            0,
+            0
+          ],
+          [
+            5,
+            44,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 37,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34a83c",
+          "0x34a840",
+          "0x34a844",
+          "0x34a848",
+          "0x34a84c",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c",
+          "0x34aa70",
+          "0x34aa74",
+          "0x34aa78",
+          "0x34aa7c",
+          "0x34aa80",
+          "0x34aa84",
+          "0x34aa88"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004010",
+          "0x2004020"
+        ],
+        "stop_address": "0x34a850"
+      },
+      "source_instruction_count": 37
+    },
+    {
+      "name": "deletion_boundary_1",
+      "host": {
+        "status": 6,
+        "route": 0,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 6,
+        "route": 0,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 21,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000"
+        ],
+        "stop_address": "0x34a9e0"
+      },
+      "source_instruction_count": 21
+    },
+    {
+      "name": "deletion_boundary_128",
+      "host": {
+        "status": 6,
+        "route": 0,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 6,
+        "route": 0,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 21,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000"
+        ],
+        "stop_address": "0x34a9e0"
+      },
+      "source_instruction_count": 21
+    },
+    {
+      "name": "deletion_boundary_255",
+      "host": {
+        "status": 6,
+        "route": 0,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ]
+        ]
+      },
+      "original": {
+        "status": 6,
+        "route": 0,
+        "calls": 2,
+        "phase_writes": 0,
+        "marker_writes": 0,
+        "phase": 7,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ]
+        ],
+        "instructions": 21,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34a824",
+          "0x34a828",
+          "0x34a82c",
+          "0x34a830",
+          "0x34a834",
+          "0x34a838",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000"
+        ],
+        "stop_address": "0x34a9e0"
+      },
+      "source_instruction_count": 21
+    },
+    {
+      "name": "offline_deletion_still_unloads",
+      "host": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ]
+      },
+      "original": {
+        "status": 0,
+        "route": 1,
+        "calls": 5,
+        "phase_writes": 1,
+        "marker_writes": 0,
+        "phase": 0,
+        "marker": 9,
+        "trace": [
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            1,
+            3818308,
+            0,
+            0,
+            0
+          ],
+          [
+            2,
+            8378260,
+            0,
+            0,
+            0
+          ],
+          [
+            0,
+            36,
+            0,
+            0,
+            0
+          ],
+          [
+            4,
+            3832612,
+            2748,
+            0,
+            3567
+          ]
+        ],
+        "instructions": 34,
+        "instruction_addresses": [
+          "0x34a7f4",
+          "0x34a7f8",
+          "0x34a7fc",
+          "0x34a800",
+          "0x34a804",
+          "0x34a808",
+          "0x34a80c",
+          "0x34a810",
+          "0x34a814",
+          "0x34a818",
+          "0x34a81c",
+          "0x34a820",
+          "0x34aa10",
+          "0x34aa14",
+          "0x34aa18",
+          "0x34aa1c",
+          "0x34aa20",
+          "0x34aa24",
+          "0x34aa28",
+          "0x34aa2c",
+          "0x34aa30",
+          "0x34aa34",
+          "0x34aa38",
+          "0x34aa3c",
+          "0x34aa40",
+          "0x34aa44",
+          "0x34aa48",
+          "0x34aa4c",
+          "0x34aa50",
+          "0x34aa54",
+          "0x34aa58",
+          "0x34aa64",
+          "0x34aa68",
+          "0x34aa6c"
+        ],
+        "virtual_targets": [
+          "0x2004000",
+          "0x2004000"
+        ],
+        "stop_address": "0x34aa5c"
+      },
+      "source_instruction_count": 34
+    }
+  ],
+  "boundaries": [
+    "active-list traversal",
+    "current-Level outer gate",
+    "deletion+0x81 mark/unlink/free",
+    "manager post-update handle bookkeeping",
+    "Character::Update/CanUpdate body"
+  ]
+}

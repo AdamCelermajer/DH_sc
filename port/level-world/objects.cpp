@@ -22,13 +22,16 @@ std::array<float,16> placement(const Record& r){
 }
 bool load_records(const std::uint8_t* input,std::size_t size,unsigned rooms,const data::CharacterTable& table,const data::Dictionary& models,std::vector<Record>& out,std::string& error){
  out.clear();error.clear();try{
-  if(!input||size<16||std::memcmp(input,"DACT",4)||word(input+4)!=1||word(input+12)||!rooms||rooms>512)throw std::runtime_error("Object descriptor rejected");
-  unsigned count=word(input+8);if(!count||count>10000||size!=16+std::uint64_t(count)*256)throw std::runtime_error("Object record count rejected");
+  if(!input||size<16||std::memcmp(input,"DACT",4)||(word(input+4)!=1&&word(input+4)!=2)||word(input+12)||!rooms||rooms>512)throw std::runtime_error("Object descriptor rejected");
+  const auto version=word(input+4);
+  // A level whose Characters are all template/conditional rows has no direct records.
+  unsigned count=word(input+8);if(count>10000||size!=16+std::uint64_t(count)*256)throw std::runtime_error("Object record count rejected");
   std::vector<Record> candidate;std::set<std::pair<unsigned,std::string>> names;
   for(unsigned i=0;i<count;++i){const auto* p=input+16+i*256;Record r;r.kind=word(p);r.room=word(p+4);r.name=text(p+8);r.character=text(p+72,true);r.model=text(p+136);
    if((r.kind!=1&&r.kind!=2)||r.room>=rooms||basename(r.model)!=r.model||r.model.find("..")!=std::string::npos||!names.insert({r.room,r.name}).second)throw std::runtime_error("Object type, room or resource rejected");
    for(unsigned j=0;j<3;++j){r.position[j]=number(p+200+j*4,10000000);r.rotation_degrees[j]=number(p+212+j*4,3600);r.scale[j]=number(p+224+j*4,100);if(r.scale[j]<=0)throw std::runtime_error("Object scale rejected");}
-   for(unsigned j=236;j<256;++j)if(p[j])throw std::runtime_error("Object reserved bytes rejected");
+   if(version==2){const auto gate=word(p+236);if(gate>1||(gate&&r.kind!=1))throw std::runtime_error("Object spawn gate rejected");r.gated_spawn=gate!=0;}
+   for(unsigned j=version==2?240u:236u;j<256;++j)if(p[j])throw std::runtime_error("Object reserved bytes rejected");
    if(r.kind==1){auto* id=data::property(table,r.character,"ModelFile");if(!id||*id<0||unsigned(*id)>=models.values.size()||basename(models.values[*id])!=r.model)throw std::runtime_error("Character model differs from original table");}
    else if(!r.character.empty())throw std::runtime_error("Decor contains character link");
    r.placement=placement(r);for(float f:r.placement)if(!std::isfinite(f))throw std::runtime_error("Object placement overflow");candidate.push_back(std::move(r));
@@ -45,25 +48,37 @@ bool sample(Resource& r,std::int32_t ms,std::string& error){
  return sample(r,r.animation,ms,error);
 }
 bool sample(Resource& r,const animation::Player& clip,std::int32_t ms,std::string& error){
- if(!clip.sample_reuse(r.scene,ms,r.sample_workspace_v32,error))return false;
+ if(!clip.sample(r.scene,ms,error))return false;
  for(auto& p:r.primitives)if(!p.skin.nodes.empty()){
-  p.pose_cache_v32.bind(p.skin,p.rest_positions);
-  if(!p.pose_cache_v32.sample(r.scene,error))return false;
-  const auto& positions=p.pose_cache_v32.positions();
-  for(unsigned i=0;i<positions.size();++i){auto output=positions[i];
+  std::vector<skinning::Matrix> palette;std::vector<world::Point> output;
+  if(!skinning::palette(p.skin,r.scene,palette,error)||!skinning::positions(p.skin,palette,p.rest_positions,output,error))return false;
+  for(unsigned i=0;i<output.size();++i){
    // Native rendering policy for rigid vertices in partly skinned decors.
    // The recovered software kernel returns zero for an empty influence;
    // original hardware shader parity has not yet been established.
-   if(p.skin.influences[i].weights[0]==0){const auto& m=r.scene.graph[p.node].world;for(unsigned row=0;row<3;++row){output[row]=m[12+row];for(unsigned col=0;col<3;++col)output[row]+=m[col*4+row]*p.rest_positions[i][col];}}
-   for(float f:output)if(!std::isfinite(f)){error="Rigid object position overflow";return false;}
-   std::copy(output.begin(),output.end(),p.vertices[i].p);
+   if(p.skin.influences[i].weights[0]==0){const auto& m=r.scene.graph[p.node].world;for(unsigned row=0;row<3;++row){output[i][row]=m[12+row];for(unsigned col=0;col<3;++col)output[i][row]+=m[col*4+row]*p.rest_positions[i][col];}}
+   for(float f:output[i])if(!std::isfinite(f)){error="Rigid object position overflow";return false;}
+   std::copy(output[i].begin(),output[i].end(),p.vertices[i].p);
   }
  }return true;
 }
-static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const std::vector<std::string>* modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
+static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const std::vector<std::string>* modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error,bool allow_intentional_empty=false){
  out={};error.clear();try{
   resources::BresView view{};if(dh2_bres_open(&view,input,size)!=resources::BresError::ok)throw std::runtime_error("Object BRES rejected");
-  Resource candidate;if(!scene::load(view,candidate.scene,error))throw std::runtime_error(error);
+  const bool empty_asset=allow_intentional_empty&&size==960&&
+   dh2_bres_library_count(&view,resources::Library::geometry)==0&&
+   dh2_bres_library_count(&view,resources::Library::controller)==0&&
+   dh2_bres_library_count(&view,resources::Library::material)==0;
+  Resource candidate;if(!scene::load(view,candidate.scene,error,empty_asset?scene::EmptyGeometryPolicy::allow:scene::EmptyGeometryPolicy::reject))throw std::runtime_error(error);
+  if(empty_asset){
+   const auto& graph=candidate.scene.graph;
+   if(graph.size()!=3||candidate.scene.nodes!=3||candidate.scene.ignored_instances!=1||
+      !candidate.scene.instances.empty()||graph[0].id!="VisualSceneNode"||
+      graph[0].parent!=-1||graph[1].id!="root_camera-node"||graph[1].parent!=-1||
+      graph[2].id!="_character_invisible_man-node"||graph[2].parent!=1)
+    throw std::runtime_error("Source invisible Character scene signature differs");
+  }
+  candidate.intentional_empty_visual=empty_asset;
   if(modules){
    if(modules->empty()||modules->size()>32)throw std::runtime_error("Modular controller selection empty or oversized");
    const auto root=std::find_if(candidate.scene.graph.begin(),candidate.scene.graph.end(),[](const scene::Node& n){return n.id=="prince_modular-node";});
@@ -74,7 +89,8 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
     unsigned found=0;
     for(unsigned i=0;i<dh2_bres_library_count(&view,resources::Library::controller);++i){
      skinning::Skin skin;if(!skinning::load(view,i,candidate.scene,skin,error))throw std::runtime_error(error);
-     if(skin.id!=id)continue;++found;
+     if(skin.id!=id)continue;
+     ++found;
      assets::Mesh mesh{};if(dh2_mesh_open(&mesh,&view,skin.geometry)!=assets::Error::ok)throw std::runtime_error("Modular geometry rejected");
      scene::Instance instance{root->id,unsigned(root-candidate.scene.graph.begin()),skin.geometry,root->world,{}};instance.controller=i;
      for(unsigned j=0;j<mesh.primitives;++j){assets::Primitive p{};if(dh2_mesh_primitive(&mesh,j,&p)!=assets::Error::ok)throw std::runtime_error("Modular primitive rejected");
@@ -87,14 +103,32 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
     if(found!=1)throw std::runtime_error("Original modular controller absent or ambiguous: "+id);
    }
   }
+  // The source prop BDAEs also contain a far-away TemplateDefs visual whose
+  // nodes provide factories for runtime Decor objects. It is not part of the
+  // placed resource; discard the complete prototype subtree before resolving
+  // mesh/material bindings (some prototype materials intentionally alias).
+  std::vector<bool> template_nodes(candidate.scene.graph.size(),false);
+  for(std::size_t i=0;i<candidate.scene.graph.size();++i){const auto& node=candidate.scene.graph[i];
+   template_nodes[i]=node.id=="TemplateDefs-node"||(node.parent>=0&&
+    static_cast<std::size_t>(node.parent)<template_nodes.size()&&template_nodes[std::size_t(node.parent)]);
+  }
   auto& instances=candidate.scene.instances;const auto before=instances.size();
-  instances.erase(std::remove_if(instances.begin(),instances.end(),[](const scene::Instance& i){return i.node.find("_colbox_")!=std::string::npos||i.node.find("_mesh_shadow_")!=std::string::npos;}),instances.end());candidate.removed_helpers=before-instances.size();
+  instances.erase(std::remove_if(instances.begin(),instances.end(),[&](const scene::Instance& i){
+   return i.node.find("_colbox_")!=std::string::npos||i.node.find("_mesh_shadow_")!=std::string::npos||
+    (i.node_index<template_nodes.size()&&template_nodes[i.node_index]);
+  }),instances.end());candidate.removed_helpers=before-instances.size();
   unsigned total=0;
   for(const auto& instance:instances){assets::Mesh mesh{};if(dh2_mesh_open(&mesh,&view,instance.geometry)!=assets::Error::ok||mesh.primitives!=instance.materials.size())throw std::runtime_error("Object mesh/binding rejected");
    for(unsigned j=0;j<mesh.primitives;++j){assets::Primitive raw{};dh2_mesh_primitive(&mesh,j,&raw);
     if(raw.collada_type||raw.index_count%3||raw.index_count>3000000||mesh.vertices>65536||total>1000000-mesh.vertices)throw std::runtime_error("Object primitive budget rejected");
     total+=mesh.vertices;
-    Primitive p;p.node=instance.node_index;p.material=instance.materials[j];if(candidate.scene.materials.at(p.material).id!=raw.material)throw std::runtime_error("Object material binding differs");
+    // CColladaDatabase::constructGeometry (0x61aeb8) and constructController
+    // (0x61ace8) apply each instance material to mesh buffer j by ordinal.
+    // The instance target may override the geometry's material symbol; the
+    // original SwampKing binds Box01 this way. scene::load has already
+    // resolved the target URI. Retain range checks without requiring equal IDs.
+    Primitive p;p.node=instance.node_index;p.material=instance.materials[j];
+    if(p.material>=candidate.scene.materials.size())throw std::runtime_error("Object material binding outside library");
     if(instance.controller>=0&&!skinning::load(view,instance.controller,candidate.scene,p.skin,error))throw std::runtime_error(error);
     assets::Attribute positions{},uv{},color{};if(dh2_mesh_attribute(&mesh,raw.attributes[0],&positions)!=assets::Error::ok||positions.components<3)throw std::runtime_error("Object position missing");
     const bool have_uv=dh2_mesh_attribute(&mesh,raw.attributes[4],&uv)==assets::Error::ok&&uv.components>=2;
@@ -111,7 +145,7 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
     p.indices.resize(raw.index_count);for(unsigned k=0;k<raw.index_count;++k){unsigned index;dh2_index_read(&raw,k,&index);p.indices[k]=index;}candidate.triangles+=raw.index_count/3;candidate.primitives.push_back(std::move(p));
    }
   }
-  if(candidate.primitives.empty())throw std::runtime_error("Object has no visible primitives");
+  if(candidate.primitives.empty()&&!empty_asset)throw std::runtime_error("Object has no visible primitives");
   candidate.rest_scene=candidate.scene;
   if(!candidate.animation.load(clip?clip:input,clip?clip_size:size,candidate.scene,error,animation::MissingTargets::ignore)||!sample(candidate,candidate.animation.start,error))throw std::runtime_error(error);
   out=std::move(candidate);return true;
@@ -119,6 +153,9 @@ static bool load_resource_impl(const std::uint8_t* input,std::size_t size,const 
 }
 bool load_resource(const std::uint8_t* input,std::size_t size,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
  return load_resource_impl(input,size,nullptr,clip,clip_size,out,error);
+}
+bool load_intentional_empty_character_visual(const std::uint8_t* input,std::size_t size,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
+ return load_resource_impl(input,size,nullptr,clip,clip_size,out,error,true);
 }
 bool load_modular_resource(const std::uint8_t* input,std::size_t size,const std::vector<std::string>& modules,const std::uint8_t* clip,std::size_t clip_size,Resource& out,std::string& error){
  return load_resource_impl(input,size,&modules,clip,clip_size,out,error);

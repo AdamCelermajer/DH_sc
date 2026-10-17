@@ -115,9 +115,9 @@ struct Run {
    if(call(Op::is_monster,0,0,0,reinterpret_cast<std::uintptr_t>(ai)).value){chose_ai=true;target=reinterpret_cast<HudManagerActor*>(call(Op::target_character,0,0,0,id).identity);}}
   if(!chose_ai&&eligible)target=a->target;
   if(failure)return;
-  if(!target){if(!s.cached_target)return;s.cached_target=nullptr;visible(get(19),0);go(22,0);label(19,"Hide");return;}
+  if(!target){if(!s.cached_target_identity)return;s.cached_target_identity=0;visible(get(19),0);go(22,0);label(19,"Hide");return;}
   if(!aligned(target)){failure=-1;return;}
-  if(target!=s.cached_target){s.cached_target=target;
+  if(target->identity!=s.cached_target_identity){s.cached_target_identity=target->identity;
    auto name=call(Op::string_symbol,0,static_cast<std::int32_t>(target->name_symbol),0,reinterpret_cast<std::uintptr_t>(target)).text;if(!name&&!failure){failure=-1;return;}
    char leveltext[32]="??";if(!call(Op::is_boss,0,0,0,reinterpret_cast<std::uintptr_t>(target)).value){auto level=call(Op::level,0,0,0,reinterpret_cast<std::uintptr_t>(target)).value;if(level!=-1)std::snprintf(leveltext,sizeof leveltext,"%d",level);}
    visible(get(19),1);label(19,"Show");call(Op::debug_load);auto debug=call(Op::debug_switch,0,0,0,0,0,"ShowMonstersNamesAndNetID").value;
@@ -144,7 +144,7 @@ struct Run {
  void update(){
   auto level=call(Op::current_level);if(failure||(level.identity&&!level.value))return;
   if(!s.render_fx)return;
-  if(!s.initialized){auto old=s.initialized;initialize();if(!failure)one_time();if(failure)return;s.cached_target=reinterpret_cast<HudManagerActor*>(static_cast<std::uintptr_t>(old));}
+  if(!s.initialized){auto old=s.initialized;initialize();if(!failure)one_time();if(failure)return;s.cached_target_identity=old;}
   if(s.slow_ms<0){s.slow_ms=500;slow();}
   else {auto old=s.slow_ms;auto dt=call(Op::elapsed).value;if(failure)return;s.slow_ms=wrap_sub(old,dt);}
   if(!failure)fast();

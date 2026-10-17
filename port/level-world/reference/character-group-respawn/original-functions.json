@@ -1,0 +1,56 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "CharAI::GroupInfo::CanRespawn and its exact per-member CharStateMachine::SM_IsInLimbus predicate, exposed as a caller-owned source adapter for Limbus/Spawn eligibility.",
+  "caller_facts": [
+    "Character::CanRespawn first applies the authored Respawnable/delay gates, then delegates to GroupInfo::CanRespawn when a group pointer exists; the no-group path returns true after those gates.",
+    "GroupInfo member identities and their order are supplied by the caller from the existing +0x18 source vector. This source slice neither creates the group nor modifies membership.",
+    "SM_IsInLimbus calls SM_GetState and is true exactly when the member state is 0. The port invokes that query synchronously for each source-ordered member when actor state is 3 and group status is 1."
+  ],
+  "unsupported": [
+    "CharacterGroup construction, membership add/remove and lifetime ownership are not reconstructed here.",
+    "GroupInfo::OnDied, OnEnemySpotted, broader status producers, and CharAI linked-aggro death/revival cleanup remain separate source work.",
+    "Character::CanRespawn's outer respawnability and delay checks are caller facts and are not implemented by this kernel.",
+    "Native coordinator/SpawnFacts wiring is not part of this host-only source slice."
+  ],
+  "source_files": [
+    "port/level-world/character_group_respawn.hpp",
+    "port/level-world/character_group_respawn.cpp",
+    "port/level-world/tests/character_group_respawn.cpp",
+    "port/level-world/tests/run_character_group_respawn_host.py"
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZNK9Character10CanRespawnEv",
+      "demangled": "Character::CanRespawn() const",
+      "elf_address": "0x3a5248",
+      "size": 92,
+      "sha256": "27df1bd744d4a5811a3f66dbaa480d14a6ec6fd6b6cf6c2c0fc8f2fbf8355e28",
+      "scope": "caller boundary, respawn eligibility and GroupInfo delegation"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9GroupInfo10CanRespawnEP9Character",
+      "demangled": "CharAI::GroupInfo::CanRespawn(Character*)",
+      "elf_address": "0x3d2a34",
+      "size": 180,
+      "sha256": "e237df6da594de9a41e0ce53dde069500048b37988f52724a45ba04807f416f5",
+      "scope": "complete source branch/status kernel, with member predicate supplied synchronously"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine13SM_IsInLimbusEv",
+      "demangled": "CharStateMachine::SM_IsInLimbus() const",
+      "elf_address": "0x3c01c0",
+      "size": 20,
+      "sha256": "9a5a7da0e51a2036859e2a5634b8b29dce869733922178f3d9f15430b7c2b3a7",
+      "scope": "complete source predicate, bound as a member query service"
+    },
+    {
+      "original_symbol": "_ZNK16CharStateMachine11SM_GetStateEv",
+      "demangled": "CharStateMachine::SM_GetState() const",
+      "elf_address": "0x3c01ac",
+      "size": 20,
+      "sha256": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743",
+      "scope": "complete source getter called by SM_IsInLimbus"
+    }
+  ]
+}

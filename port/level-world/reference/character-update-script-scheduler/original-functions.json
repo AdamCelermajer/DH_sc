@@ -1,0 +1,70 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 0,
+    "new_bounded_callers": 1,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_update_script_scheduler.hpp",
+      "port/level-world/character_update_script_scheduler.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_update_script_scheduler.cpp",
+      "port/level-world/tests/run_character_update_script_scheduler_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character6UpdateEv",
+      "elf_address": "0x3abe98",
+      "size": 3776,
+      "sha256": "b74b4f3405a8456ce440b642e97f1b0c028c29e9e74abaa1be0aaf1534e1f8c2",
+      "scope": "Bounded lazy-script/concurrent-AI portion only; see source_ranges for included decision and insertion paths"
+    }
+  ],
+  "source_ranges": [
+    {
+      "start": "0x3ac34c",
+      "size": 552,
+      "sha256": "0b5c8f7fb9795c6c1e1f079afe4b64fed425ffb776f1b194635b50e9bf22f504",
+      "meaning": "FSM-state, Character flag, current Level OID, capacity/eviction, LoadNInit, class/online/3ec gates, and real-time insertion search caller"
+    },
+    {
+      "start": "0x3aca48",
+      "size": 28,
+      "sha256": "4fd855d940f938b3f912bfee74c3f7319f5e5874249f03c48e22213ad47aed45",
+      "meaning": "Reached OID-29 cap tail: map size compared with 0x18, selecting eviction only when size>24"
+    },
+    {
+      "start": "0x3aca98",
+      "size": 608,
+      "sha256": "c796b283aee79aaaefebc89001d5fbfd8b48142d169f38dd582eda00e337b703",
+      "meaning": "Reached std::map unique insertion/search return blocks and common mapped-Character store"
+    }
+  ],
+  "supporting_functions": [
+    {"original_symbol":"_ZNK16CharStateMachine11SM_GetStateEv","elf_address":"0x3c01ac","size":20,"sha256":"4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743","binding":"executed directly by the ARM oracle"},
+    {"original_symbol":"_ZNK11Application15GetCurrentLevelEv","elf_address":"0x31f594","size":32,"sha256":"f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1","binding":"typed live-Level provider at caller boundary"},
+    {"original_symbol":"_ZN12v2Controller8Cmd_KillEP10GameObjectb","elf_address":"0x40570c","size":28,"sha256":"0a2c77862173fe1e153fc8803367a7ef0de280e3ec56f1102133d9b273fb9f28","binding":"typed command provider; oracle observes null target and true flag"},
+    {"original_symbol":"_ZN9Character19UnLoadScriptProcessENSt4priv17_Rb_tree_iteratorISt4pairIKiPS_ENS0_11_MapTraitsTIS5_EEEEb","elf_address":"0x3a7b24","size":280,"sha256":"016d378fc1722c5c90fa2e4a9fa9abac4ad2a45914a65a033b795da7eff47b43","binding":"typed outer unload service; source erases map iterator before CharAI unload"},
+    {"original_symbol":"_ZN6CharAI22LoadNInitScriptProcessEb","elf_address":"0x3cf3a4","size":76,"sha256":"55367c650fe7526b36840fca97aee781cf9d8a5276ed3b3c580c90b3799f34a4","binding":"typed synchronous LoadNInit(true) provider"},
+    {"original_symbol":"_ZNK9Character9IsMonsterEv","elf_address":"0x3a3064","size":24,"sha256":"7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98","binding":"typed predicate provider"},
+    {"original_symbol":"_ZNK9Character10IsMiniBossEv","elf_address":"0x3a3144","size":20,"sha256":"887f3c9a46ed9d58834953160dbb85182b6da61c83a6a010ef607ae3f6f45138","binding":"typed predicate provider"},
+    {"original_symbol":"_ZNK9Character6IsBossEv","elf_address":"0x3a3158","size":20,"sha256":"02e178fdcedb17debeafd7894aa32f915c55b8c8d8feb2c786ac6d2936356a0f","binding":"typed predicate provider"},
+    {"original_symbol":"_Z9GetOnlinev","elf_address":"0x7fd794","size":4,"sha256":"39e1051e33bd200a0ebe62d8a3340b45bba86b3a31ac8822e6d4f2c7b60a152e","binding":"typed provider; caller's byte+5 load executes in original"},
+    {"original_symbol":"_ZN6glitch2os5Timer11getRealTimeEv","elf_address":"0x60b0cc","size":64,"sha256":"bb23d7abff133f833a6cb4418e5f80871485f5f2c556a4d58b0e18798e553b6d","binding":"typed raw millisecond clock provider"}
+  ],
+  "data_evidence": [
+    {"symbol":"_ZN9Character14s_concurrentAIE","address":"0x9a2944","size":24,"meaning":"shared std::map<int,Character*>; ARM caller reads map size at +0x10"},
+    {"source_got_base":"0x994a98","map_got_slot":"0x995bcc","application_singleton_got_slot":"0x99828c","meaning":"relative literal loads used by this caller"}
+  ],
+  "scope_boundaries": [
+    "The enclosing state!=0 gate at 0x3abf84 is outside this block; caller must already have taken it.",
+    "The separate Character+0x520 bit test at 0x3ac2b8 precedes this block and is excluded.",
+    "The OID-29 branch does compare map.size against 24 at 0x3aca54; it is not inferred from inherited planning text.",
+    "The ARM oracle intercepts map allocator/tree helper internals and source dependency bodies; scheduler branches and ordered call sites execute from the original image.",
+    "This does not reconstruct the complete 3776-byte Character::Update function or establish native wiring."
+  ]
+}

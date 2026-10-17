@@ -1,0 +1,62 @@
+{
+  "validation": "PASS",
+  "original_elf_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\.local-inputs\\libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "public_attribution_sha256": "f4badf4df8f26f318376450cc7a8fb14187a3ee773cb753e55e571e6ec544347",
+  "source_range_hashes": {
+    "_ZN9Character12ValidateHPMPEv": "f8b614e857e216839762a9b9d060c3958babe0609f6c9a22ebae2d35b4127adb",
+    "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510",
+    "_ZNK14CharProperties11_GetDefaultEi": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017",
+    "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2",
+    "_ZN14CharProperties20ResetGearsPropertiesEv": "3f77b4414e6ee3c3feccdb753b8dfb22f382a12822cb6361d700c0ba6f78ea95",
+    "_ZNK14CharProperties14_IsPropertySetERKN7Structs19CharacterPropertiesEi": "2d40e1a43f3becbe9b22b2d5a93c9043c6757e591415e227d31d80ff963c7303",
+    "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e",
+    "_ZN14CharProperties19LoadGearsPropertiesEv": "29e14f0559f8e10e5fbbb497f836dbfc7254b9793db2c28329f4ee6a21d035fe",
+    "_ZN14CharProperties16RecalcPropertiesEb": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9",
+    "_ZN14CharProperties21UpdateGearsPropertiesEv": "a6e6393033840308385123b125dee49f4b6d157c5bdb26228a1a07d36936304a",
+    "_ZN14CharProperties14_LoadGearStatsEib": "0bccbb9468eec29197b630bc2c3051123fe06a14e6f81ec144e2479991b296aa",
+    "_ZN14CharProperties14_LoadGearPowerEib": "654f8443e3f3e877d11f39d77cb94eb59f572c04bb6ebafa9d419d6645364c5d"
+  },
+  "source_ranges_verified": 12,
+  "arm64_library_sha256": "27ec4c3b52656245c1b11ea86737dff4ae2696fb4348a635f2030de6b71785e1",
+  "arm64_library_path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\.local-inputs\\power-v5-actual-arm64\\libdh2_game_data.so",
+  "apk_identity": {
+    "path": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\adam-reconciled-2026-10-05\\crypt-adam-reconciled.apk",
+    "sha256": "724bb2dbda2b45c32fcfe71251f828329c6da4bbb398f0768db761295a72bf4a",
+    "member": "lib/arm64-v8a/libdh2_game_data.so",
+    "member_size": 1085368,
+    "member_sha256": "27ec4c3b52656245c1b11ea86737dff4ae2696fb4348a635f2030de6b71785e1",
+    "matches_library": true
+  },
+  "arm64_runtime_fixture_scope": "Existing aggro_differential.Cpu supplies a stable TPIDR_EL0 TLS canary and handles __memcpy_chk; neither TLS runtime behavior nor Android loader behavior is reconstructed by this comparison.",
+  "gold_sha256": "da4c00dddc1e930c7de136ef898e22563b9b0d2191e4172e9bc416ded813894f",
+  "checked_in_fixture_sha256": "da4c00dddc1e930c7de136ef898e22563b9b0d2191e4172e9bc416ded813894f",
+  "matches_checked_in_fixture": true,
+  "actual_item_records": 1322,
+  "item_both_hands_comparisons": 2644,
+  "power_comparisons": 880,
+  "power_dispatch_types": 55,
+  "source_raw_sheet_calls": 13548,
+  "vitals_entire_owner_comparisons": 512,
+  "reset_defaults_comparisons": 1,
+  "comparisons": 4037,
+  "mismatches": 0,
+  "cache_inputs_sha256": {
+    "items-discovery/loot_table_pyarray.bin": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+    "items-discovery/loot_table_pyarraynames.bin": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+    "skill-tables/skills_pyarraynames.bin": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f",
+    "actors/character_properties_pyarray.bin": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+  },
+  "source_sha256": {
+    "port/game-data/item_gear_properties_v5.hpp": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+    "port/game-data/item_gear_properties_v5.cpp": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+    "port/game-data/properties.cpp": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+    "port/game-data/class_tables.cpp": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+    "port/game-data/data.cpp": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+    "port/game-data/tests/item_gear_properties_v5_original.py": "c84fa374112f56a031f1c94fd528fe4cf5f07f0fe539f2709b197879bedfc5a1"
+  },
+  "scope": "Real original gear arithmetic and vitals cap versus optimized native ARM64.\nOriginal _IsPropertySet/GetDefault/Add/Set/Resolve execute. Item records come\nfrom the real cache via its original loader. Power-entry vectors are explicit\ncaller projections, not a claimed ItemPower table decoder or powered owner.\nThe Android ARM64 harness uses the existing stable TLS-canary and checked-\nmemcpy fixture; TLS behavior itself is not reconstructed here.\n",
+  "ItemPower_decoder_parity": false,
+  "visual_Skin_factory_parity": false,
+  "item_presentation_parity": false
+}

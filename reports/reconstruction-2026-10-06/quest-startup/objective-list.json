@@ -1,0 +1,63 @@
+{
+  "validation": "PASS",
+  "cases": 776,
+  "original_reached_words": 157,
+  "function_reached_words": {
+    "0x47a3d4": 5,
+    "0x47a3c0": 5,
+    "0x47aa48": 27,
+    "0x47a3e8": 10,
+    "0x47a414": 12,
+    "0x47a798": 11,
+    "0x47a8cc": 29,
+    "0x47a940": 29,
+    "0x47a6f8": 29
+  },
+  "native_policy_checks": 35,
+  "implementation": "selected library",
+  "native_wired": false,
+  "android_compilation": false,
+  "live_gameplay": false,
+  "scope": "Whole ObjectiveList callers using actual retained QuestTable definitions.\n\nC1/C2, AssignPyData, CreateObjectiveWithPyData, SetOwner, _loadData, the full\nmember-pointer stream LoopOnAll, and D1/D2 execute versus pinned original ARM.\nThe actual immutable QuestTable adapter and unchanged decoder feed native calls;\nsource fixtures use the matching prior original decoder projections, pinned to\nthose exact private cache hashes. Type substitutions are explicit synthetic\ntest generations; original factory dispatch table is pinned. Array alloc/free,\ntype factories, deleting virtual4 and stream member bodies are observing fixture\nproviders. They do not validate missing Objective actions/Compile or gameplay.\nAssignment/destructor callback prefixes and source captured/live backing order\nare compared; invalid native backing stops at original fault boundaries. The\nsingle List owns its pointer publication, and factory records own sole scalar\nfields/ActionRef. Lost arrays stay in the provider arena as in the source.\nNo Android compilation, native hookup or live gameplay is claimed.\n",
+  "source_sha256": {
+    "quest_objective_list_v1.cpp": "459aaccfa748ca671a7c552d1d890fa8a99211bc43ff1e4977dec3feccef2059",
+    "quest_table_bindings_v1.cpp": "da344dfc5cae14c0f2121f12418248b250704806cf4690aa43786bfb273e8adc",
+    "quest_objective_list_v1.hpp": "4762c42ef18e47f74f5913cf9955cfb828cade2ffe99d9fd151169eb1761c827",
+    "quest_table_bindings_v1.hpp": "07e109bfd77f1f6e755899b9b41cec61ce4c117ac1160c1d72dfa83aaac59266",
+    "tests/quest_objective_list_v1_host.cpp": "8e09bf99ad5c550a18a6324b9921665dc6a565ba6d25f168603ef21108a742cf",
+    "tests/run_quest_objective_list_v1.py": "31f55e3896dfe87a2e1a756fa7e1dd550ca3a977cf92d76083098bf8a118c43c",
+    "reference/quest-objective-list-v1/original-functions.json": "1dc5abb8c4e69a3c85f24aa6be7dbac037e0a9518dd3764171c851a9551eda48",
+    "port/quest-data/quests.c": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "port/quest-data/quests.h": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2"
+  },
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_table_bindings_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_table_bindings_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_table_bindings_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_table_bindings_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\gcc.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\quest-data\\quests.c",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/quest-data/quests.c.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_objective_list_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_objective_list_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_objective_list_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_objective_list_v1.cpp.obj"
+    }
+  ],
+  "binary_sha256": {
+    "quest_objective_list_v1_host.exe": "a49533ff16d5407e53969909ef738fa610d485f745c189b4be7226737d816a4d",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1bff274e1c39d3e4b4727920693c51873492adeaebd4be0f62b2eae11f426d86",
+    "libdh2_level_world.dll": "3ba3e5ba9fe7dcd44e5b636786a7eab3a796155312bf7cf550136663c1fac884"
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "source": [
+      "port/level-world/level_construction_fields.hpp",
+      "port/level-world/level_construction_fields.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/level_construction_fields.cpp",
+      "port/level-world/tests/level_construction_probe.cpp",
+      "port/level-world/tests/run_level_construction_fields.py"
+    ],
+    "native_wired": false,
+    "scope": "Named Level constructor field projection and ordered LevelList LevelFile scan only"
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN5LevelC1EPKcijjjbbii",
+      "elf_address": "0x3f3128",
+      "size": 920,
+      "sha256": "c7a8d6eedd454223287bdb0cb2f8437142baaabeb09cf509f55a2733e2041b24",
+      "executed_span": ["0x3f32cc", "0x3f3370"],
+      "scope": "Original ARM32 LevelList scan and field writes executed from the C1 body; unrelated constructor body is not run"
+    },
+    {
+      "original_symbol": "_ZN5LevelC2EPKcijjjbbii",
+      "elf_address": "0x3f34c0",
+      "size": 920,
+      "sha256": "3830f760cf9d90022f8b4ea946ef906c9b915cffd0e72d99ab528bb9d6a78ba8",
+      "executed_span": ["0x3f3664", "0x3f3708"],
+      "scope": "Second original constructor variant scan replay; production GSLevel caller enters C1"
+    },
+    {
+      "original_symbol": "_Z11ToLowerCasePcii",
+      "elf_address": "0x34e414",
+      "size": 108,
+      "sha256": "c95db745595854fb9d83ae9069e591bdb6900c273868de5f2aeee0dd42a4fef4",
+      "scope": "Full helper body executes for each scanned LevelFile; imported strlen uses a bounded host dependency"
+    }
+  ],
+  "supporting_functions": [
+    {
+      "original_symbol": "_ZN7GSLevel4CtorEPK12StateMachine",
+      "elf_address": "0x386190",
+      "size": 328,
+      "sha256": "b0ee44f427742a78703ba733896cfc44595cdb7044baa465baaf3d6f46524fa2",
+      "scope": "Call-chain evidence: the constructor forwards its stored level filename and arguments to Level C1; not executed by this runner"
+    },
+    {
+      "original_symbol": "_ZN7GSLevel9LoadLevelEPKcijjjbbii",
+      "elf_address": "0x386818",
+      "size": 160,
+      "sha256": "fddb53e2b67b1ddde925ee45384496b092010f00b55822aaded58b752c716737",
+      "scope": "Call-chain evidence for the owned filename and raw constructor difficulty; not executed by this runner"
+    }
+  ],
+  "imports": [
+    {"plt_address": "0x30e520", "symbol": "strcpy", "scope": "Bounded host dependency; source row remains under 1024 bytes in compared fixtures"},
+    {"plt_address": "0x30de54", "symbol": "strlen", "scope": "Bounded host dependency called by the original ASCII-lowercase helper"},
+    {"plt_address": "0x30ebd4", "symbol": "strstr", "scope": "Bounded host dependency implementing case-sensitive first substring search"}
+  ],
+  "cache_evidence": {
+    "level_list_rows": 51,
+    "crypt_level_name": "GOTHICUS_CRYPT_01",
+    "crypt_level_file": "007_crypt_01.rule.xml",
+    "crypt_ordinal": 23,
+    "crypt_hub": 2,
+    "crypt_is_random": true,
+    "duplicate_darkwood_file_ordinals": [4, 5, 6, 35],
+    "source_first_match_ordinal": 4
+  },
+  "validation": {
+    "host_assertions": 12,
+    "input_comparisons": 7,
+    "constructor_span_comparisons": 14,
+    "mismatches": 0,
+    "report": "port/level-world/build/level-construction-fields/validation.json"
+  },
+  "excluded_claims": [
+    "No complete Level or GSLevel construction claim",
+    "No live current-Level lifecycle/publication or native wiring claim",
+    "No source equivalence for overlong or embedded-NUL strings rejected by port guards"
+  ]
+}

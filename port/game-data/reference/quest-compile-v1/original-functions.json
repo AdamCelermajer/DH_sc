@@ -1,0 +1,77 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN5Quest7CompileEv",
+      "elf_address": "0x480178",
+      "size": 316,
+      "sha256": "1328557df40fca2082692eeaa90552115393f95c324287c91ce3a94871e49a7c"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegame13CompileQuestsEb",
+      "elf_address": "0x46b824",
+      "size": 140,
+      "sha256": "7d0a14ef011b40d0c390294b3911743a5f4593c46626a109f330fa29230c6c8f"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList17InvalidateCompileEv",
+      "elf_address": "0x47a638",
+      "size": 52,
+      "sha256": "f2c0243f8ea8df565d5439a7399580ace31dbfc1f3f1e7301c9b4963c5901192"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList7CompileEv",
+      "elf_address": "0x47a66c",
+      "size": 36,
+      "sha256": "58235565b042dcbdb9281d48155fed00ed3b0b4ecee102ca03d09d54272daa56"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList8RegisterEv",
+      "elf_address": "0x47a614",
+      "size": 36,
+      "sha256": "e08e2d16039ff6069cc52f117b88dd151c03d93c3a063506437da7bc21d95093"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList23InstallObjectiveMarkersEii",
+      "elf_address": "0x47a4ec",
+      "size": 84,
+      "sha256": "510ab3f94fa69206318e46ba2ea69d885795e13af4b98d69435347fa8c5ac635"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList9LoopOnAllEM9ObjectiveFvvE",
+      "elf_address": "0x47a540",
+      "size": 104,
+      "sha256": "b451fd6f9cff862dc8903a96cf191cb622e0c9dd51b13f48c3107a24666a1619"
+    },
+    {
+      "original_symbol": "_ZN9Objective17InvalidateCompileEv",
+      "elf_address": "0x479f70",
+      "size": 16,
+      "sha256": "0a8343ba3d269cbdce31871f5f89da0e1148b6d9a01a3488ebdb11400f26ce39"
+    },
+    {
+      "original_symbol": "_ZN10RewardList17InvalidateCompileEv",
+      "elf_address": "0x4838fc",
+      "size": 84,
+      "sha256": "92d9890a09fc0f0a5bec1e177023688d76a29d5c157238c339d71283fd85bf30"
+    },
+    {
+      "original_symbol": "_ZN10RewardList7CompileEv",
+      "elf_address": "0x482978",
+      "size": 68,
+      "sha256": "d842c0f0dac2810faae5b7d80a73dfd32e29968fbdaa3bef097b9550a5367728"
+    },
+    {
+      "original_symbol": "_ZN11Reward_Gold7CompileEv",
+      "elf_address": "0x482880",
+      "size": 20,
+      "sha256": "c62212575cccd09fec0c2269fff7c0bab62f7e7f9a8bf21d47e1b23cb4bb33a6"
+    }
+  ],
+  "remaining_external": [
+    "Objective full member bodies",
+    "std::string empty assignment implementation",
+    "Character::SG_GetGameDifficulty52B"
+  ],
+  "scope": "Whole Quest Compile316B, log CompileQuests140B and reached list wrappers.\n\nThe original noarg LoopOnAll104B, Objective invalidation16B, list invalidation /\nCompile / Register / markers, Reward invalidation84B / Compile68B and Gold20B\nCompile execute. Full gameplay Objective member bodies are explicit observing\nfixture providers: their callback order, mutation, failure and partial-store\nprefixes are compared, not their missing world/event/marker/script behavior.\nNative reward Compile reuses the selected RewardExecution body. Existing one\nInstance/list/factory/log owners supply all state. Difficulty is a mandatory\nobserving fixture for SG_GetGameDifficulty; it can change between each source\nquery. Captured vector length and fresh vector selection/backing are verified.\nNative slots beyond a vector's live element range are a separately scoped\ncontainer-lifetime guard, even when source allocation capacity still remains.\nNo Android compilation, native hookup or live gameplay claim.\n"
+}

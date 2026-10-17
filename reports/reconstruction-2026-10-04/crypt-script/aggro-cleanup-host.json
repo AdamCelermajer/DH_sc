@@ -1,0 +1,33 @@
+{
+  "validation": "PASS",
+  "executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character_aggro_cleanup_host.exe",
+  "host_report": {
+    "clear_all_aggro_cases": 7,
+    "ordered_peer_callbacks": 4,
+    "on_deaggro_virtual_notifications": true,
+    "self_peer_supported": true,
+    "self_peer_callbacks": 1,
+    "incoming_erase_precedes_owner_clear": true,
+    "source_reentry_snapshot": true,
+    "retained_peers_not_freed": true,
+    "callback_failure_rollback_claimed": false,
+    "mismatches": 0
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_aggro_cleanup.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_cleanup.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character_aggro_cleanup_host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/tests/character_aggro_cleanup.cpp": "41abdfb15ce44b0c97812b3b0aea69d76f157c203508cdf29a0fd102be49609b",
+    "port/level-world/character_aggro_cleanup.cpp": "f7d55bdd59ce88810b3bdb8e8303117f4ef4e4dc5acb76962de18fff59bfae8c"
+  },
+  "live_aggro_tables_wired": false
+}

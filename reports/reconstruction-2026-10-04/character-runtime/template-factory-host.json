@@ -1,0 +1,117 @@
+{
+  "status": "passed",
+  "compiler": "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+  "command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_template_factory.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_template_factory.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-template-factory\\character-template-factory-host.exe"
+  ],
+  "test_output": "character template factory host checks passed",
+  "fixture": {
+    "cache_inputs": {
+      "templates": {
+        "path": "data\\pydata\\character_templates_pyarray.bin",
+        "sha256": "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2",
+        "bytes": 2516
+      },
+      "template_names": {
+        "path": "data\\pydata\\character_templates_pyarraynames.bin",
+        "sha256": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+        "bytes": 3227
+      },
+      "property_names": {
+        "path": "data\\pydata\\character_properties_pyarraynames.bin",
+        "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+        "bytes": 8993
+      },
+      "property_rows": {
+        "path": "data\\pydata\\character_properties_pyarray.bin",
+        "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+        "bytes": 401608
+      },
+      "property_fields": {
+        "path": "data\\pydata\\character_properties_pystructnames.bin",
+        "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+        "bytes": 5032
+      },
+      "class_names": {
+        "path": "data\\pydata\\character_classes_pyarraynames.bin",
+        "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe",
+        "bytes": 6607
+      }
+    },
+    "template": {
+      "name": "GothicusCrypt_Ghosts",
+      "ordered_property_ids": [
+        35,
+        35,
+        35,
+        35,
+        37
+      ],
+      "selection_is_external": true
+    },
+    "projections": {
+      "Crypt_Ghost": {
+        "property_id": 35,
+        "class_id": 18,
+        "class_name": "BaseMonster",
+        "model_file_id": 44,
+        "animation_table_id": 24,
+        "ai_id": 68
+      },
+      "Crypt_Ghost_RE": {
+        "property_id": 37,
+        "class_id": 18,
+        "class_name": "BaseMonster",
+        "model_file_id": 44,
+        "animation_table_id": 24,
+        "ai_id": 68
+      }
+    },
+    "character_properties_unparsed_suffix_bytes": 196,
+    "source_mgp": {
+      "path": "data\\3d\\modules\\crypt\\mgp\\crypt_straight_ns_01.mgp",
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25",
+      "bytes": 3365,
+      "objects": [
+        {
+          "name": "_prim_tmp_ambusher01",
+          "editor_template": "MonsterCommonType1",
+          "template_data_class": "Charater_Templates",
+          "template_name": "GothicusCrypt_Ghosts",
+          "explicit_property": ""
+        },
+        {
+          "name": "_prim_tmp_ambusher02",
+          "editor_template": "MonsterCommonType1",
+          "template_data_class": "Charater_Templates",
+          "template_name": "GothicusCrypt_Ghosts",
+          "explicit_property": ""
+        },
+        {
+          "name": "_prim_tmp_ambusher03",
+          "editor_template": "MonsterCommonType1",
+          "template_data_class": "Charater_Templates",
+          "template_name": "GothicusCrypt_Ghosts",
+          "explicit_property": ""
+        },
+        {
+          "name": "_prim_tmp_ambusher04",
+          "editor_template": "MonsterCommonType1",
+          "template_data_class": "Charater_Templates",
+          "template_name": "GothicusCrypt_Ghosts",
+          "explicit_property": ""
+        }
+      ]
+    }
+  },
+  "scope": "cache/MGP source validation plus host resolver tests; not a native game runtime integration"
+}

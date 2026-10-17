@@ -1,0 +1,144 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z20NativeCreateSaveSlotRKN7gameswf7fn_callE",
+      "elf_address": "0x43f630",
+      "size": 504,
+      "sha256": "c20967da466b9064099da3669667dd0d49f6ef007d0d570315610e403f5d7174"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegameC1Ejib",
+      "elf_address": "0x4655ac",
+      "size": 272,
+      "sha256": "f71ad71b4199fb3278527c0de72ad43ae6020ffcfde1fccc3f5fbe8c43b3027f"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame7SG_LoadEi",
+      "elf_address": "0x465430",
+      "size": 32,
+      "sha256": "e1733c6af3054e499ed2a742b42bbb25ff574f857df8aa0de897752035ac99b3"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame22_LoadVolatileQuestsLogEi",
+      "elf_address": "0x468574",
+      "size": 188,
+      "sha256": "fa8721402ea98819d67a38d99d65234cbc6c045bc0bf069d69cfb7c5367ecc42"
+    },
+    {
+      "original_symbol": "_Z17IsPlayableClassIDi",
+      "elf_address": "0x439c34",
+      "size": 44,
+      "sha256": "d0e65e4b1280a496ad9c95a1d84eda55c5c5d4b8374c6fe8b400db9fec76abbe"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame16SG_GenerateSeedsEv",
+      "elf_address": "0x467718",
+      "size": 44,
+      "sha256": "bada47ec6371768c47fade4b0285b16d9aa89fd7f72b262741237bdd7aebbaf9"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame14SG_SetSaveDateEv",
+      "elf_address": "0x467744",
+      "size": 24,
+      "sha256": "676105ad7239b950750f4b357abb0da5b01f69dd8471ccf5beb1c867281ca454"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame7SG_SaveEv",
+      "elf_address": "0x464b2c",
+      "size": 372,
+      "sha256": "58b309ffe6a97b932db567acb64ed24e8ebf68d852b8efc3bfc0696807a97352"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame22_SaveVolatileQuestsLogEv",
+      "elf_address": "0x4684f0",
+      "size": 132,
+      "sha256": "88a742cc688eef944480c9e43c71bd24977fcacc5c40f38cfad6e6d4a6add0e7"
+    },
+    {
+      "original_symbol": "_ZN8Savegame7saveAllEv",
+      "elf_address": "0x315fb8",
+      "size": 1032,
+      "sha256": "c1df30aa936cf1b982127964e23318236e6c7449bb7aaef95205aaaedb6e1692"
+    },
+    {
+      "original_symbol": "_ZN6Arrays19GetMemberIDByStringINS_14CharacterTableEEEiPKc",
+      "elf_address": "0x3fa188",
+      "size": 116,
+      "sha256": "4b9140fa8ddcf4434045b900176873863daab0d60442f7578c7baca80637ccf4"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegameC1Ev",
+      "elf_address": "0x46b0a4",
+      "size": 160,
+      "sha256": "b8b36a07ba0c24b1d1c1909da8df91bfa0d2eef849e8c599c6794456572897bb"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase7writeAsERKSs",
+      "elf_address": "0x461668",
+      "size": 80,
+      "sha256": "88bc09d70ad10f573528c182e7e9e960a7dfd8e02ff71ccb7b98140086256758"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase7writeAsIiEEvRKT_",
+      "elf_address": "0x38b808",
+      "size": 176,
+      "sha256": "1a2187b5cc20fac9c1777584a6fcabd1d4ace87fbe1d67ec338cc6d886017fec"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase7writeAsIjEEvRKT_",
+      "elf_address": "0x461770",
+      "size": 176,
+      "sha256": "f6c42c135ef09bc954bec06e7c020ae89ff57b1ffc170b186d0c94e2d1f9def1"
+    },
+    {
+      "original_symbol": "_ZN11IStreamBase7writeAsIbEEvRKT_",
+      "elf_address": "0x33e138",
+      "size": 176,
+      "sha256": "f011e4de6dc85aea2a2a48d1d85f06983cbcba6d03d3cd95c75f7522f2e063b1"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame16__SavePlayerNameEP11IStreamBasePv",
+      "elf_address": "0x4688c0",
+      "size": 8,
+      "sha256": "ee86daf4c54130572ec27945169c5e145dc637bedef7ce4ea3884b7cd0cb839f"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__SavePlayerLevelEP11IStreamBasePv",
+      "elf_address": "0x468930",
+      "size": 8,
+      "sha256": "89db028713d37fe13e16d9775053cf082af4d30f5d949b77a04925b1e10cc9df"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame17__SavePlayerClassEP11IStreamBasePv",
+      "elf_address": "0x4698e4",
+      "size": 188,
+      "sha256": "018512b976fbf0f792f814c6415c57bef7c001bfffaa185f1304c83bcf544428"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame21__SaveDifficultyLevelEP11IStreamBasePv",
+      "elf_address": "0x4688f8",
+      "size": 56,
+      "sha256": "6248f69c1b989109b7133534a7b0173e692dc9cbf77d6a239a07cf07d6fa3375"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame15__SaveLevelNameEP11IStreamBasePv",
+      "elf_address": "0x468b20",
+      "size": 88,
+      "sha256": "eb19e4c528fe3e097c82a5a5b14aeb573d178bc445e8c8df967b0d183baa8888"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame21__SaveLevelEntryPointEP11IStreamBasePv",
+      "elf_address": "0x4688c8",
+      "size": 48,
+      "sha256": "ae783d5279fa98f778ecce46fd0a1fb5eb4aec43f1bfa042b23124ad5ca98b2e"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame19__SaveUseSpawnPointEP11IStreamBasePv",
+      "elf_address": "0x4689a8",
+      "size": 48,
+      "sha256": "4d3bed5e53542d730b44c1e838f8a2eef6846f3a8b56e40134e8fec82b5e9e29"
+    }
+  ],
+  "scope": "Whole NativeCreate, indexed ctor, offline SG_Save, seven writers and saveAll.\nAS conversion, filename/profile registration, clock/online/slot providers,\nstring byte storage, stream virtuals, lock/I/O/cache publication and temporary\ndestruction are declared leaves. No private campaign or name is used.\n"
+}

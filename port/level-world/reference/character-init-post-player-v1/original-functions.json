@@ -1,0 +1,10 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "symbol": "_ZN9Character8InitPostEv",
+  "address": "0x3b4d60",
+  "size": 2164,
+  "sha256": "80de661077e88ee5df672be65b792776cb2c859e38d32304019289422c6ca079",
+  "executed_start": "0x3b513c",
+  "exclusive_cutoff": "0x3b51bc",
+  "scope": "Original ARM instructions execute from SG_Load(4) at 0x3b513c through the second locality branch to 0x3b51bc. Direct service callees and Level/locality/property/quest/equipment/skills bodies are declared provider fixtures."
+}

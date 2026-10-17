@@ -29,14 +29,18 @@ def main():
    name=f'assets/{folder}/{row["name"]}';raw=archive.read(name);assert len(raw)==row['bytes'] and hashlib.sha256(raw).hexdigest()==row['sha256'];assets.append(name)
   for row in level['inputs']:
    name='assets/worlds/'+row['name'];raw=archive.read(name);assert len(raw)==row['bytes'] and hashlib.sha256(raw).hexdigest()==row['sha256'];assets.append(name)
+  for row in level['rule_assets']:
+   name='assets/worlds/'+row['name'];raw=archive.read(name);assert len(raw)==row['bytes'] and hashlib.sha256(raw).hexdigest()==row['sha256']
+   if name not in assets:assets.append(name)
   descriptor=archive.read('assets/worlds/crypt01.dwld');assert hashlib.sha256(descriptor).hexdigest()==level['compiled_descriptor_sha256'];assets.append('assets/worlds/crypt01.dwld')
+  spawnpoints=archive.read('assets/worlds/crypt01.spwn');assert len(spawnpoints)==level['compiled_entrypoints_bytes'] and hashlib.sha256(spawnpoints).hexdigest()==level['compiled_entrypoints_sha256'];assets.append('assets/worlds/crypt01.spwn')
   for name in ('worlds/crypt01-provenance.json','texture-provenance.json'):
    assert archive.read('assets/'+name)==(assets_root/name).read_bytes();assert digest(assets_root/name)==digest(a.studio/'app/src/main/assets'/name)
   assets.append('assets/worlds/crypt01-provenance.json')
   assert sorted(n for n in archive.namelist() if n.startswith(('assets/models/','assets/animations/','assets/textures/','assets/worlds/')))==sorted(assets)
   for name in assets:
    relative=name.removeprefix('assets/');assert archive.read(name)==(a.studio/'app/src/main/assets'/relative).read_bytes(),relative
- assert len(assets)==40
+ assert len(assets)==60
  for name in ('world-android-build.log','world-studio-build.log'):assert 'BUILD SUCCESSFUL' in log(local/name),name
  assert 'Verification successful' in log(local/'world-zipalign.log')
  host=read(local/'world-host-audit.json');assert host['rooms']==8 and host['visual_instances']==97 and host['triangles']==14251 and host['navigation_triangles']==314 and host['mutated_descriptors']==2000 and host['synthetic_movement_checks']==9

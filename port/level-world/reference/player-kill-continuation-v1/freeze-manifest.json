@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "production_frozen": true,
+  "host_report": {
+    "validation": "PASS",
+    "continuation_cases": 43,
+    "failure_prefix_cases": 27,
+    "guard_cases": 7,
+    "actual_event2_classes": 3,
+    "native_locality_bound": false
+  },
+  "original_comparisons": 58,
+  "original_executed_words": 277,
+  "mismatches": 0,
+  "selected_world": true,
+  "scoped_source_tu_count": 1,
+  "script_runtime_tu_count": 1,
+  "project_inputs": 560,
+  "cache_inputs": 59,
+  "files_sha256": {
+    "port/level-world/player_kill_continuation_v1.hpp": "cdb42711dd1856c933c51ee0f135f21d4f996590acd410e5f8fee8ca6d67f05b",
+    "port/level-world/player_kill_continuation_v1.cpp": "0c5f76ad36f8852dcebaaae44e2b19ff153120ff6a54443ee837f91baed4d478",
+    "port/level-world/tests/player_kill_continuation_v1.cpp": "c2eeb28427250190b767805712f97cf064a529159a4a44115bd0d0fe57e8ef50",
+    "port/level-world/tests/player_kill_continuation_v1_original.py": "9655716023acf404be5c7451462013ca10f601dcd8b06c621803f381637f8be2",
+    "port/level-world/tests/run_player_kill_continuation_v1_host.py": "3b70a8359c43b7afc9b9076cc45dca9e71c1d6d9757c666427dfe01fab54b314",
+    "port/level-world/reference/player-kill-continuation-v1/NOTES.md": "26d8d1cf8a5cad2a4e6aa99975357164d80c45180327b675cfc9dc39770e9180",
+    "port/level-world/reference/player-kill-continuation-v1/original-functions.json": "b1da62f8ab02c60c8291b0bb30b71fc10375f90d61f2d6648ac8cf5cdf556d7b",
+    "port/level-world/reference/player-kill-continuation-v1/original-capture.json": "e9ae8ef7bf9aba95b49e6110e27bd5a4fff849bf9d36fd32b1f2bdbfa46c6fc4",
+    "port/level-world/reports/player-kill-continuation-v1-host-audit.json": "0bcb9fdc54ed35127bf61858e51c9fd26d4477af369b1895fd1d7bd863d5a1a1"
+  },
+  "commit_whitelist": [
+    "port/level-world/player_kill_continuation_v1.hpp",
+    "port/level-world/player_kill_continuation_v1.cpp",
+    "port/level-world/tests/player_kill_continuation_v1.cpp",
+    "port/level-world/tests/player_kill_continuation_v1_original.py",
+    "port/level-world/tests/run_player_kill_continuation_v1_host.py",
+    "port/level-world/reference/player-kill-continuation-v1/NOTES.md",
+    "port/level-world/reference/player-kill-continuation-v1/original-functions.json",
+    "port/level-world/reference/player-kill-continuation-v1/original-capture.json",
+    "port/level-world/reports/player-kill-continuation-v1-host-audit.json",
+    "port/level-world/reference/player-kill-continuation-v1/freeze-manifest.json"
+  ],
+  "scope": "Scoped Kill continuation and separate Ctrl_Kill/event2 host composition; required Application/PlayerManager/Matching/locality/trophy/online providers declared in fixtures. Native full Kill and general rewards/XP/quest branch remain unbound."
+}

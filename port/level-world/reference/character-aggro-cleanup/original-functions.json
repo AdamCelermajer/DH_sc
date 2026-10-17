@@ -1,0 +1,121 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "One ordering kernel: source-ordered outgoing-peer traversal, conditional mirrored incoming-entry erase, owner-map clear, and all-peer OnDeAggro notification boundary for CharAI::AI_ClearAllAggro, called by CSLimbus::OnFocus. Native map storage and selected AI consumer effects remain injected; references do not claim complete recovered bodies.",
+  "caller_facts": [
+    "Every normal CSLimbus::OnFocus path converges on AI_ClearAllAggro at 0x3c2ee0. Character byte +0x530 zero skips the optional respawn-timer branch; nonzero evaluates delay/hosting and may start a timer before the same cleanup call.",
+    "The owner outgoing peers are supplied in original map traversal order; the kernel does not sort portable identities.",
+    "For every outgoing peer in source map order, the source searches that peer's incoming tree for the owner, erases the entry if found, and appends the peer unconditionally to the callback snapshot.",
+    "The port obtains a strong actor hold for every outgoing peer before the first source mutation and passes the retained handle to lookup, erase, and dispatch callbacks; the adapter must guarantee a successful hold prevents destruction until release.",
+    "After all per-peer incoming erases, the owner-map clear callback clears only the owner's outgoing map. Then every outgoing peer receives peer CharAI::OnDeAggro(owner), including peers with no mirrored incoming entry.",
+    "The original accepts self relations; the owner can be an outgoing peer because outgoing and incoming maps are distinct source stores.",
+    "AI_ClearAggro is a separate pair operation, not the vptr +0x3c callback. All-aggro cleanup does not itself remove peers' reverse outgoing relations or clear their target/controller state."
+  ],
+  "unsupported": [
+    "CharAI outgoing/incoming tree storage and source map traversal are not owned by this kernel.",
+    "Native map storage, actor-identity mapping, selected AI notification consumer, and the exact effects inside OnDeAggro are adapter responsibilities; no linked actor graph or renderer integration is claimed.",
+    "Actor-owned AI/Lua consumers are not bound by this kernel. CharAI::OnDeAggro forwards to CharAIScript when present; no direct Lua callback is claimed here.",
+    "Implementing strong retained ownership is a caller responsibility; the kernel guarantees all-holds-before-mutation, held-handle lookup/erase/dispatch, and release-after-the-snapshot.",
+    "CharAI::AI_ClearAllAggroTowardMe(bool), including its termination path and optional current-target cleanup, is separate and not implemented.",
+    "CharacterGroup construction, membership registration/removal, aggro acquisition, automatic target selection, combat, and revive presentation remain separate."
+  ],
+  "source_files": [
+    "port/level-world/character_aggro_cleanup.hpp",
+    "port/level-world/character_aggro_cleanup.cpp",
+    "port/level-world/tests/character_aggro_cleanup.cpp",
+    "port/level-world/tests/run_character_aggro_cleanup_host.py"
+  ],
+  "functions": [
+    {
+      "original_symbol": "_ZN8CSLimbus7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "demangled": "CSLimbus::OnFocus(int, Character*, CharStateMachine*, int, int, void*)",
+      "elf_address": "0x3c2e58",
+      "size": 292,
+      "sha256": "8e29e9bed96add4ce42ccaf3d9ad2b51ec9850bca6064f9e74924405f50d1bc7",
+      "scope": "caller: dispatches AI_ClearAllAggro once after the optional respawn-timer branch on every normal return path"
+    },
+    {
+      "original_symbol": "_ZN6CharAI16AI_ClearAllAggroEv",
+      "demangled": "CharAI::AI_ClearAllAggro()",
+      "elf_address": "0x3d5fa8",
+      "size": 480,
+      "sha256": "9cf1065d84a6b5f84f26ef7debd8bec0bc834a646ccd8c9f6f29a5c38eb101a3",
+      "scope": "source-owned lookup, conditional incoming erase, unconditional peer snapshot, owner-map clear, and all-peer dispatch ordering; native maps and callback effects are injected"
+    },
+    {
+      "original_symbol": "_ZN6CharAI9OnDeAggroEP9Character",
+      "demangled": "CharAI::OnDeAggro(Character*)",
+      "elf_address": "0x3d2014",
+      "size": 180,
+      "sha256": "fc26e32d20ebe2196ff1b625d4e2105dc0e427c3bbe209f3214cbbb79b33f42d",
+      "scope": "verified actual vptr +0x3c notification boundary, dispatched once per saved peer; debug work and selected CharAIScript forwarding remain an injected live service"
+    }
+  ],
+  "related_but_separate": [
+    {
+      "original_symbol": "_ZN6CharAI13AI_ClearAggroEP9Character",
+      "demangled": "CharAI::AI_ClearAggro(Character*)",
+      "elf_address": "0x3d6d68",
+      "size": 388,
+      "sha256": "d59c80b01af4f6b38ff7a70f4eb21a3382a04edab27f4f6b51394c221f568040",
+      "scope": "separate pair removal, OnDeAggro notification, then fresh target query, conditional AI_SetTarget(nullptr,false), and fresh controller Cmd_Stop; not the all-aggro virtual callee"
+    },
+    {
+      "original_symbol": "_ZN6CharAI24AI_ClearAllAggroTowardMeEb",
+      "demangled": "CharAI::AI_ClearAllAggroTowardMe(bool)",
+      "elf_address": "0x3d6abc",
+      "size": 544,
+      "sha256": "0012a66decb3a0881c65af6597d53705d83aec1e651e9c5c00c7ad3cd8929543",
+      "scope": "separate termination cleanup path; not part of this source kernel"
+    }
+  ],
+  "vtable_callback_proof": {
+    "vtable_symbol": "_ZTV6CharAI",
+    "vtable_elf_address": "0x966790",
+    "vptr_address_point": "0x966798",
+    "vptr_slot_offset": "0x3c",
+    "full_table_offset": "0x44",
+    "entry_elf_address": "0x9667d4",
+    "entry_size": 4,
+    "entry_bytes_hex": "14203d00",
+    "entry_value": "0x3d2014",
+    "entry_sha256": "74bd23e42304b222805ba890b3918ccf3bc494d97985e2a7f66a8b879137e3e1",
+    "entry_relocation": "R_ARM_RELATIVE (23)",
+    "constructor": {
+      "original_symbol": "_ZN6CharAIC2Ev",
+      "demangled": "CharAI::CharAI()",
+      "elf_address": "0x3cebf0",
+      "size": 352,
+      "sha256": "90203efdaeb5c4e378736be80a95ab30a278cf81e2ccbe097e43a20f34db4009",
+      "scope": "supporting address-point proof only; constructor is not reconstructed here",
+      "got_entry_elf_address": "0x9990e4",
+      "got_entry_size": 4,
+      "got_entry_bytes_hex": "90679600",
+      "got_entry_value": "0x966790",
+      "got_entry_sha256": "2630e25cc4373e8f1c2f088dec9f845571d47cafd76393072ca454479806b8e9",
+      "got_entry_relocation": "R_ARM_RELATIVE (23)",
+      "address_point_instructions_elf_address": "0x3cec0c",
+      "address_point_instructions_size": 8,
+      "address_point_instructions_bytes_hex": "082082e2002084e5",
+      "address_point_instructions_sha256": "9dcfef1374aeb427058a4b44b394e7fad1c698cb22d8f9545b9774342e282e5f"
+    }
+  },
+  "notification_consumer_evidence": [
+    {
+      "original_symbol": "_ZN10AISDefault9OnDeAggroEP9Character",
+      "demangled": "AISDefault::OnDeAggro(Character*)",
+      "elf_address": "0x3dbea8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f",
+      "scope": "inspected default no-op consumer, also inherited by AISMonster; not bound by this kernel"
+    },
+    {
+      "original_symbol": "_ZN9AISPlayer9OnDeAggroEP9Character",
+      "demangled": "AISPlayer::OnDeAggro(Character*)",
+      "elf_address": "0x3dde48",
+      "size": 668,
+      "sha256": "8554251f270065a0124698415e87d5b5febab7afff7fbd353e4df238f63f02a3",
+      "scope": "inspected nontrivial player consumer; full body and live integration are not reconstructed here"
+    }
+  ]
+}

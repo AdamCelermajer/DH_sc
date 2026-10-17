@@ -1,0 +1,110 @@
+{
+  "original_library": "test_strategy/libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character8_SetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b7eac",
+      "size": 492,
+      "sha256": "c76adc68db53c9dc679d5ea3c669f88d95177385dd413a76f89fe41553d31b21",
+      "scope": "Source callback range pin; bounded skill-field adapter, not a full callback ARM differential"
+    },
+    {
+      "original_symbol": "_ZN9Character11_ClearPropsERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b82e4",
+      "size": 328,
+      "sha256": "f345908236abac169f1593c9eb77bc7a34b143349309e9713edd7586512d792e",
+      "scope": "Source callback range pin; clear-to-shared-temp branch exercised by the bounded adapter"
+    },
+    {
+      "original_symbol": "_ZN9Character8_GetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b9d8c",
+      "size": 440,
+      "sha256": "aca6d61d2d0a5e330c79a38a01dde437fde4a4a14216edd969a3846f1879b08f",
+      "scope": "Source callback range pin; all schema-valid IDs read from the selected raw sheet; callback ARM execution not claimed"
+    },
+    {
+      "original_symbol": "_ZN9Character15_ApplyPropClassERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3babdc",
+      "size": 460,
+      "sha256": "37671f1fc224366a32d34868360b04a4b6a90d336645ce3c2df60f6d360427df",
+      "scope": "Source callback range pin; no destination type gate. Ordinary/false selects owner resolved; true selects process s_temp."
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f",
+      "scope": "Source raw selected-sheet getter range pin; returned word is not recomputed by this adapter"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties16PROPS_ApplyClassEib",
+      "elf_address": "0x3df3b8",
+      "size": 56,
+      "sha256": "7f84917c9003e247ed0660438304df06bc8fb77070254f5737e73e2113c281d0",
+      "scope": "Actual sheet and buff-mode selection; tailcalls _LoadClass."
+    },
+    {
+      "original_symbol": "_ZN14CharProperties10_LoadClassERN7Structs19CharacterPropertiesEib",
+      "elf_address": "0x3e2e20",
+      "size": 500,
+      "sha256": "ea1c47f34e1c1c2359e4f86125017701d87ff2e1ed7bb1fab94c3f0aa78135d1",
+      "scope": "Actual ordered group/formula loader; every destination type accepted; ignored formula3/unknown and type8 termination."
+    },
+    {
+      "original_symbol": "_ZN14CharProperties28_LinearWithPropPlusBaseValueERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "elf_address": "0x3e2d4c",
+      "size": 212,
+      "sha256": "b8b7d6bf3cda3aaddb025068ed61f290e0e4332b76579916dcce40369fa2078a",
+      "scope": "False ordinary target resolves source at3e2de8; true reads owner cached sheet at3e2db8; -666 reads destination first."
+    },
+    {
+      "original_symbol": "_ZN14CharProperties6_GroupERN7Structs19CharacterPropertiesEPNS0_9ClassFuncEb",
+      "elf_address": "0x3e3014",
+      "size": 100,
+      "sha256": "f340adc1e89a696ba95bda938d47b8df946edbf1deef4b99960f99218871d70b",
+      "scope": "Nested p1,p2,p3 order; skip negative child IDs."
+    }
+  ],
+  "source_contract": {
+    "property_schema_count": 224,
+    "temporary_sheet": "One caller-owned process-wide CharProperties::s_temp shared by all Character skill VMs",
+    "clear_props_true": "Copies the current Character property sheet into s_temp before the temporary class operation",
+    "set_prop_third_argument": "The observed Lua boolean true follows the source callback fallthrough to the Character property setter; source skill SetProp writes type-8 fields 172..190",
+    "get_prop": "With no selector or false, reads the current Character resolved sheet. With true, reads s_temp. The raw selected-sheet getter is used for every schema-valid property ID, not only type-8 fields.",
+    "apply_prop_class": "Every valid class row is dispatched without property type restriction. True writes s_temp and reads current owner cached values; ordinary/false writes owner resolved and each linear source resolves through the existing canonical buff-aware PropertyView. Both use the one selected class walker and retain delivered mutations on a reached kernel failure.",
+    "unresolved": [
+      "External identity-selected sheets are delegated by the native caller to its sole registered buff owner, outside this four-callback adapter.",
+      "Full callback wrapper instruction execution is not claimed; temporary class loader executes original ARM instructions with all getter/setter/group/arithmetic callees.",
+      "Positive whole passive updates that reach target acquisition or FX require those actual native providers; the host fixture verifies saved-level0 whole updates and positive level2 common SetTempProps only."
+    ],
+    "ordinary_live_view": "Trailing borrowed owner_view must project the exact rules/state arrays, including existing buff-owner groups. Unbound/mismatched/aliased views fail explicitly; no new view owner or recalculation is inserted for temporary mode."
+  },
+  "related_verified_class_application": {
+    "report": "port/game-data/reports/classes-arm64-differential.json",
+    "sha256": "e52983dcccb39f401aac5c32e5312f9554185525cd890d0d87a66d19ec8a9293",
+    "bit_exact_entire_property_sheet_cases": 3120,
+    "buff_snapshot_cases": 1560,
+    "original_character_sheet_cases": 448,
+    "scope": "Separate ARM differential of class formula application and source buff snapshots; not a differential of the property callbacks above"
+  },
+  "startup_failure_recovered": {
+    "player": "RoguePlayerBase",
+    "script": "data/scripts/skills/prince_rogue_roundhouse.luac",
+    "class_id": 210,
+    "class_name": "Skill_Rogue_Roundhouse",
+    "formula": [
+      63,
+      1,
+      1792,
+      172,
+      76
+    ],
+    "destination": "Rating_Critical",
+    "destination_type": 4,
+    "call": "ApplyPropClass(210,true)",
+    "source_helper": "data/scripts/skills/_commons.luac:245-248",
+    "preceding_class_id": 208,
+    "completed_callbacks_before_required_failure": 3
+  }
+}

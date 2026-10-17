@@ -1,0 +1,388 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 3,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/ais_native_bindings.hpp",
+      "port/level-world/ais_native_bindings.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/ais_native_bindings.cpp",
+      "port/level-world/tests/run_ais_native_bindings_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript12BindFunctionEv",
+      "elf_address": "0x37b5a0",
+      "size": 1252,
+      "sha256": "91d033024f6aca2114db5debdef452e67a0fe2b7ce7d332567d43d9fbd2cfb7d",
+      "scope": "New complete original caller"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript24CharAIScriptBindFunctionEv",
+      "elf_address": "0x3d8ec8",
+      "size": 100,
+      "sha256": "d45b3732ffe08455782ccd53300dac9bc109adef7e444fa9a9194e0aec451beb",
+      "scope": "New complete original caller"
+    },
+    {
+      "original_symbol": "_ZN12CharAIScript12BindFunctionEv",
+      "elf_address": "0x3d8f2c",
+      "size": 24,
+      "sha256": "2e24a5f9be3c511be8d4a56e5bf06dc6bb29b1715fc8ac8af1e34db163ea4130",
+      "scope": "New complete original caller"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance11includeBaseEv",
+      "elf_address": "0x31b010",
+      "size": 8,
+      "sha256": "8c3675de1d157bfdc51fc09f0bd5257e8e0716d4e8c17222762624e4117cd2b4",
+      "scope": "Supporting named library wrapper boundary; source8B wrapper executed in differential, library body remains external"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance11includeMathEv",
+      "elf_address": "0x31b000",
+      "size": 8,
+      "sha256": "a872ebb1dbbb770a2b05400a1ced2a3604be1db2c4498197805cf990e9331fe9",
+      "scope": "Supporting named library wrapper boundary; source8B wrapper executed in differential, library body remains external"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance12includeTableEv",
+      "elf_address": "0x31aff8",
+      "size": 8,
+      "sha256": "dcc60b55cfa38ee4079647597adfd4da33c4e05817829c4596ebf3ba6e7d6e6f",
+      "scope": "Supporting named library wrapper boundary; source8B wrapper executed in differential, library body remains external"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance13includeStringEv",
+      "elf_address": "0x31b008",
+      "size": 8,
+      "sha256": "4031ecb54b5c3449aef6eb602c5f6aec88332c17a35cf72b73c4071944b8389e",
+      "scope": "Supporting named library wrapper boundary; source8B wrapper executed in differential, library body remains external"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua6Binder12bindFunctionEPKcPFvRKNS1_9ArgumentsERNS1_12ReturnValuesEPvESA_",
+      "elf_address": "0x31a4d4",
+      "size": 344,
+      "sha256": "90942f487523fa49e311d580d9de5db063f6173fc04f98d2426cefc165c79417",
+      "scope": "Supporting original Binder boundary; provider owns registration, not a reconstructed full body"
+    }
+  ],
+  "libraries": [
+    {
+      "library_id": 0,
+      "name": "base",
+      "wrapper_address": "0x31b010",
+      "leaf_address": "0x84dbfc",
+      "leaf_symbol": "luaopen_base"
+    },
+    {
+      "library_id": 1,
+      "name": "math",
+      "wrapper_address": "0x31b000",
+      "leaf_address": "0x853e38",
+      "leaf_symbol": "luaopen_math"
+    },
+    {
+      "library_id": 2,
+      "name": "table",
+      "wrapper_address": "0x31aff8",
+      "leaf_address": "0x85b174",
+      "leaf_symbol": "luaopen_table"
+    },
+    {
+      "library_id": 3,
+      "name": "string",
+      "wrapper_address": "0x31b008",
+      "leaf_address": "0x85a0dc",
+      "leaf_symbol": "luaopen_string"
+    }
+  ],
+  "bindings": [
+    {
+      "name": "Include",
+      "name_address": "0x8c1a50",
+      "name_sha256": "6d2f50c480ebe8ded5ffb1de0d8caa09ded74b5bfd337a866d8a570d35acdf5e",
+      "function_id": 0,
+      "original_symbol": "_ZN9LuaScript8_IncludeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37efe4"
+    },
+    {
+      "name": "Trace",
+      "name_address": "0x8c1a58",
+      "name_sha256": "d97fdc9a0bb817556e1702ea5990be46cb8049a561a626f76851d7f871da4feb",
+      "function_id": 1,
+      "original_symbol": "_ZN9LuaScript6_TraceERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ee80"
+    },
+    {
+      "name": "SetInt",
+      "name_address": "0x8c1a60",
+      "name_sha256": "94939c3f6b3c7b94f81fa9d2dd72045cff2afc8da400b6af01c5a9799e52b3e7",
+      "function_id": 2,
+      "original_symbol": "_ZN9LuaScript7_SetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37de5c"
+    },
+    {
+      "name": "GetInt",
+      "name_address": "0x8c1a68",
+      "name_sha256": "c824ef0db37c49e6ed26134545497f0f6e0b6d0516e7d17e26647131b59127c4",
+      "function_id": 3,
+      "original_symbol": "_ZN9LuaScript7_GetIntERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ec14"
+    },
+    {
+      "name": "AddToVFTable",
+      "name_address": "0x8c1a70",
+      "name_sha256": "27d400e6c89af36517fadb7f3b09d3e8e97d5704559f675a176c84d82655e849",
+      "function_id": 4,
+      "original_symbol": "_ZN9LuaScript13_AddToVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ec70"
+    },
+    {
+      "name": "PushVFTable",
+      "name_address": "0x8c1a80",
+      "name_sha256": "aff6114034534ff06db097d9ce7496756605f08302f4f60040893ed9b7e35381",
+      "function_id": 5,
+      "original_symbol": "_ZN9LuaScript12_PushVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37be00"
+    },
+    {
+      "name": "PopVFTable",
+      "name_address": "0x8c1a90",
+      "name_sha256": "1ee443d77a2f9e92d02b528a42211d4c6834eb7906135deb82935a632b266202",
+      "function_id": 6,
+      "original_symbol": "_ZN9LuaScript11_PopVFTableERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37dc44"
+    },
+    {
+      "name": "ToFixed",
+      "name_address": "0x8c1aa0",
+      "name_sha256": "aec3ac95bf03a849b7838ce70a13526d443b50540caf884d16a04e4783bcc689",
+      "function_id": 7,
+      "original_symbol": "_ZN9LuaScript8_ToFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ebc4"
+    },
+    {
+      "name": "FromFixed",
+      "name_address": "0x8c1aa8",
+      "name_sha256": "14c5be0c2ff223f4b025629e3d6f25b68e7cef774b2fe324b6ad73c8d8c5c357",
+      "function_id": 8,
+      "original_symbol": "_ZN9LuaScript10_FromFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ee84"
+    },
+    {
+      "name": "MulFixed",
+      "name_address": "0x8c1ab8",
+      "name_sha256": "04851bfb3b0baf7f714f52d95c490c86c9b122a195ec94e61445c60f42def394",
+      "function_id": 9,
+      "original_symbol": "_ZN9LuaScript9_MulFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e1a4"
+    },
+    {
+      "name": "DivFixed",
+      "name_address": "0x8c1ac8",
+      "name_sha256": "b6bd056ce30326455fd2d3896ec6ec47900df66ea60f337bd22580ded8c7440c",
+      "function_id": 10,
+      "original_symbol": "_ZN9LuaScript9_DivFixedERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e068"
+    },
+    {
+      "name": "Rand",
+      "name_address": "0x8c1ad8",
+      "name_sha256": "9dbf76c67476cb9cc65dcde2245ad48adcc0d2238358559da95bc697c9a8054f",
+      "function_id": 11,
+      "original_symbol": "_ZN9LuaScript5_RandERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37df30"
+    },
+    {
+      "name": "RandF",
+      "name_address": "0x8c1ae0",
+      "name_sha256": "5d90570cebcf2cbda37380310f9aa266df80b3a7e335229580d407073297ceb3",
+      "function_id": 12,
+      "original_symbol": "_ZN9LuaScript6_RandFERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e2d8"
+    },
+    {
+      "name": "BitNot",
+      "name_address": "0x8c1ae8",
+      "name_sha256": "4606ae3230dd819c16add79470be6bef2cb98b8f3880d7d7d661cacd254899ef",
+      "function_id": 13,
+      "original_symbol": "_ZN9LuaScript7_BitNotERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f814"
+    },
+    {
+      "name": "BitAnd",
+      "name_address": "0x8c1af0",
+      "name_sha256": "9cead8cd55d989523ff01207cdadc8f6bb17cb32f9e37b9e8cf643022a0dc44e",
+      "function_id": 14,
+      "original_symbol": "_ZN9LuaScript7_BitAndERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e9ec"
+    },
+    {
+      "name": "BitOr",
+      "name_address": "0x8c1af8",
+      "name_sha256": "dbad20c917cc68bec287641371250810b5f07f1fc5008dc5ab241b79ae0e07b6",
+      "function_id": 15,
+      "original_symbol": "_ZN9LuaScript6_BitOrERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e814"
+    },
+    {
+      "name": "BitXOr",
+      "name_address": "0x8c1b00",
+      "name_sha256": "de696ad64d811191bdb9593c896edef890cb9426b4ad67f293d622d254fd6608",
+      "function_id": 16,
+      "original_symbol": "_ZN9LuaScript7_BitXOrERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f750"
+    },
+    {
+      "name": "GetPyCst",
+      "name_address": "0x8c1b08",
+      "name_sha256": "c73f4ec91853cc609a0581f2aec3a86eee511609b130f96327e03d423013f4dd",
+      "function_id": 17,
+      "original_symbol": "_ZN9LuaScript9_GetPyCstERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f354"
+    },
+    {
+      "name": "GetPyStruct",
+      "name_address": "0x8c1b18",
+      "name_sha256": "064bd18931a51e4f333b0ddc13094839a27b71281ad1fb2eebd868fa6d208c7e",
+      "function_id": 18,
+      "original_symbol": "_ZN9LuaScript12_GetPyStructERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f4a8"
+    },
+    {
+      "name": "GetPyOID",
+      "name_address": "0x8c1b28",
+      "name_sha256": "2367d96a1bb3aa5d86ead648a09295fa9c5b0aa042b31c3b8d3c606bddebb9d5",
+      "function_id": 19,
+      "original_symbol": "_ZN9LuaScript9_GetPyOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f5fc"
+    },
+    {
+      "name": "CallPyScript",
+      "name_address": "0x8c1b38",
+      "name_sha256": "82ec62a4f3891fc8d6a1f189b59a6cb568304e7ac0ddc10be5931a226bbbd812",
+      "function_id": 20,
+      "original_symbol": "_ZN9LuaScript13_CallPyScriptERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ef3c"
+    },
+    {
+      "name": "GetNumPlayers",
+      "name_address": "0x8c1b48",
+      "name_sha256": "1c1fba71796cdfc2b40057bc3f62754a86d5ef8d45ab89cf1ebd841e27c87364",
+      "function_id": 21,
+      "original_symbol": "_ZN9LuaScript14_GetNumPlayersERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37cbd8"
+    },
+    {
+      "name": "GetHostPlayer",
+      "name_address": "0x8c1b58",
+      "name_sha256": "d64bf4bad3b750c45826e7ed55c3890ab35044ecfd7701f6e68402588be263ba",
+      "function_id": 22,
+      "original_symbol": "_ZN9LuaScript14_GetHostPlayerERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ca60"
+    },
+    {
+      "name": "GetHostPlayerLevel",
+      "name_address": "0x8c1b68",
+      "name_sha256": "0686c5313949827110c5e7ed9367fccc5934a26f202feb29f8ccb2c98b614f43",
+      "function_id": 23,
+      "original_symbol": "_ZN9LuaScript19_GetHostPlayerLevelERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37cc00"
+    },
+    {
+      "name": "GetHostPlayerDifficulty",
+      "name_address": "0x8c1b80",
+      "name_sha256": "cda982bfd7bca84c31aa822d30d4e67cb531a0ea5ddb89e3620c58b5c24ac281",
+      "function_id": 24,
+      "original_symbol": "_ZN9LuaScript24_GetHostPlayerDifficultyERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37cb8c"
+    },
+    {
+      "name": "GetCurrentLevelRange",
+      "name_address": "0x8c1b98",
+      "name_sha256": "0d12750fb662b184e9e65a0733bc4dab12665f97b9be94f539b688f5e0ebbd33",
+      "function_id": 25,
+      "original_symbol": "_ZN9LuaScript21_GetCurrentLevelRangeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f1f0"
+    },
+    {
+      "name": "GetGameObjectsByType",
+      "name_address": "0x8c1bb0",
+      "name_sha256": "b1c84cb7243206432026bc29c95e338e9add79259488d072e54c9626073f393c",
+      "function_id": 26,
+      "original_symbol": "_ZN9LuaScript21_GetGameObjectsByTypeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f03c"
+    },
+    {
+      "name": "SetGameType",
+      "name_address": "0x8c1bc8",
+      "name_sha256": "dfdb2ca65c3bd206b92705e9e340b793142d9fcc7ecc690bacba823499e0808e",
+      "function_id": 27,
+      "original_symbol": "_ZN9LuaScript12_SetGameTypeERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37f878"
+    },
+    {
+      "name": "GetGameScript",
+      "name_address": "0x8c1bd8",
+      "name_sha256": "d9c7da54d4d3556f64ddbd855b8f9fccfe27f691334ae91c4d54ec0178263893",
+      "function_id": 28,
+      "original_symbol": "_ZN9LuaScript14_GetGameScriptERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37c934"
+    },
+    {
+      "name": "OnTargetDied",
+      "name_address": "0x8c1be8",
+      "name_sha256": "df5b12b52e3404c2b8cc297ba5a1fb95db86eaa06b2008ac6c8bae8249fde7ac",
+      "function_id": 29,
+      "original_symbol": "_ZN9LuaScript18_IsPlayerCharacterERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37ddc8"
+    },
+    {
+      "name": "PlayMusic",
+      "name_address": "0x8c1bf8",
+      "name_sha256": "9d96e7afbf342dbf0a859d165b8d7d204a982de21c522b52a79827827e73fed3",
+      "function_id": 30,
+      "original_symbol": "_ZN9LuaScript10_PlayMusicERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e420"
+    },
+    {
+      "name": "PlaySound",
+      "name_address": "0x8c1c08",
+      "name_sha256": "dea5f3776fcc718273c392f68b3e4def9d9e894b905651763bdd8e635555c3e5",
+      "function_id": 31,
+      "original_symbol": "_ZN9LuaScript10_PlaySoundERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e578"
+    },
+    {
+      "name": "StopSound",
+      "name_address": "0x8c1c18",
+      "name_sha256": "48557537a3042541a3ae7f35ee32d79ac617aae6fe0965bb4f04a537811b07b0",
+      "function_id": 32,
+      "original_symbol": "_ZN9LuaScript10_StopSoundERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x37e730"
+    },
+    {
+      "name": "RegisterAIState",
+      "name_address": "0x8c57e0",
+      "name_sha256": "9fb8eb3b6e5d8fa25a4a44b66f488b81e00fe513c11d2b6f5215d52a5cd03b77",
+      "function_id": 33,
+      "original_symbol": "_ZN12CharAIScript14_RegisterStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x3da144"
+    },
+    {
+      "name": "ChangeAIState",
+      "name_address": "0x8c57f0",
+      "name_sha256": "38ceddf5b7a5295b9701ac71adfe171f2279308ed5c860adf27d25ef9ba2a2ff",
+      "function_id": 34,
+      "original_symbol": "_ZN12CharAIScript12_ChangeStateERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "function_address": "0x3d9710"
+    }
+  ],
+  "scope": "35 registrations are 33 base plus2 AI, not35+2; library opens base/math/table/string. Table/caller reconstruction does not implement every registered callback body. OnTargetDied intentionally binds source _IsPlayerCharacter."
+}

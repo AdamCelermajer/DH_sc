@@ -1,0 +1,30 @@
+{
+  "validation": "PASS",
+  "cases": 74,
+  "valid_payload_cases": 1,
+  "count_mismatch_cases": 3,
+  "truncated_prefixes": 69,
+  "uninitialized_policy_cases": 1,
+  "native_policy_checks": 8,
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "original_symbol": "_ZN14PlayerSavegame13__LoadFaeriesEP11IStreamBasePv",
+  "original_entry": "0x4691d0",
+  "original_size": 348,
+  "original_entry_sha256": "bd85e7fde608ed8be9d986dc97dd3b4a829a49d872e9819249b0f3879b3c9f0f",
+  "original_instruction_addresses": 166,
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll",
+  "native_implementation": "selected game-data library",
+  "valid_and_mismatch_projection_parity": true,
+  "mismatch_behavior": "reader exits at mismatch after ID+count; later difficulty remains unread",
+  "truncated_native_policy": "reject incomplete field; compare all fields fully consumed by native; source readAs<T> continues after short reads under gAssertLevel=0",
+  "truncated_complete_projection_fields_compared": 1011,
+  "truncated_prefixes_with_raw_projection_differences": 20,
+  "uninitialized_policy": "original skips null row pointers with assertion mode 0 and consumes no bytes; native rejects before consuming",
+  "relevant_source_sha256": {
+    "native_method": "fc8881c5379ed9d6bab38bd2b20ec7ae7c11e2e92bcc4d681f04ac0443df74c2",
+    "native_header": "75e057ae9896d2019fae4b3461e1199ae48e7ba7f338fb6352fc55246e6d76c8",
+    "host_fixture": "f531f3b67d089e1162674de88ccdb32a96de2c6c45751685a9be4a8d7d0eb77d",
+    "runner": "5ba3490c9b6475cd34ea88ee85a1d562e877dd1390d55fc66d15c79ec9ca79a6"
+  },
+  "scope": "Original ARM __LoadFaeries and four IStreamBase::readAs<T> wrappers execute. The stream vtable read provider supplies bounded bytes and source gAssertLevel is zero. InitFaeries allocation and live SG_Load/Transport route are outside this test."
+}

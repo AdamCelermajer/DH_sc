@@ -1,0 +1,126 @@
+{
+  "upstream": {
+    "repository": "https://github.com/AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "files": {
+      "port/game-data/player_savegame_v1.hpp": {
+        "sha256": "3addcdbb3a286f15b7ebd479e0a1e54395a030aa1117be0ba35f3193bfa66e8c",
+        "bytes": 5691
+      },
+      "port/game-data/player_savegame_v1.cpp": {
+        "sha256": "5affc8e4c046ab84156fb2a9b12dac3fffca5af827f1431367c2aa73dea78e92",
+        "bytes": 10571
+      }
+    },
+    "adaptation": "Retains the single upstream PlayerSavegame saved-field owner, adapting its table boundary to the selected local SkillTables API. Character PropertyState, runtime inventory and profile lifecycle are not copied into this owner."
+  },
+  "original": {
+    "library": "libDungeonHunter2.so",
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "functions": [
+      {
+        "symbol": "_ZN14PlayerSavegame11_InitSkillsEv",
+        "address": "0x469764",
+        "size": 288,
+        "role": "Initializes one saved-skill row for each selected Character SkillList member, initially level zero."
+      },
+      {
+        "symbol": "_ZN14PlayerSavegame16SG_SetSkillLevelEji",
+        "address": "0x4667c4",
+        "size": 280,
+        "role": "Updates an existing saved skill level."
+      },
+      {
+        "symbol": "_ZNK14PlayerSavegame16SG_GetSkillLevelEj",
+        "address": "0x4668dc",
+        "size": 300,
+        "role": "Reads a saved level by selected-list index."
+      },
+      {
+        "symbol": "_ZN14PlayerSavegame17SG_SetSkillInSlotEij",
+        "address": "0x4680a8",
+        "size": 968,
+        "role": "Writes a skill-slot mapping and calls the supplied skill-update boundary."
+      },
+      {
+        "symbol": "_ZN14PlayerSavegame12__LoadSkillsEP11IStreamBasePv",
+        "address": "0x46ac74",
+        "size": 912,
+        "role": "Reads the named Skills profile section against the selected SkillList and slot maps."
+      },
+      {
+        "symbol": "_ZN9Character18_GetSkillIDFromOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+        "address": "0x3b856c",
+        "size": 220,
+        "sha256": "2e336b8f38bc58fe761aa0ea47aaf658c58d75993e49ef3f6e0d1bdf2c8e586e",
+        "role": "Empty argument vector appends nothing; otherwise reads/converts the argument, scans selected SkillList OIDs, and appends the matching index or -1."
+      },
+      {
+        "symbol": "_ZN9Character20_GetCurrentSkillInfoERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+        "address": "0x3b8f9c",
+        "size": 232,
+        "sha256": "2379324b10def096a69c7b50f1557f9a019b406937b20a8c5c9d80f8242aeba6",
+        "role": "Empty arguments or an out-of-range selected-list index append nothing; a valid index validates the SkillTable member and appends the saved level, with a null save owner yielding -1."
+      },
+      {
+        "symbol": "_ZNK9Character18GetCharSkillListIdEv",
+        "address": "0x3bc5c0",
+        "size": 60,
+        "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20",
+        "role": "Negative or out-of-range SkillTree selector uses SkillList row 3."
+      },
+      {
+        "symbol": "_ZNK9Character16GetCharSkillListEv",
+        "address": "0x3bc5fc",
+        "size": 48,
+        "role": "Resolves the selected source SkillList row."
+      },
+      {
+        "symbol": "_ZNK9Character17GetSkillIDFromOIDEi",
+        "address": "0x3bc62c",
+        "size": 92,
+        "role": "Returns the first matching SkillList member index, or -1."
+      },
+      {
+        "symbol": "_ZNK9Character12GetCharSkillEi",
+        "address": "0x3bc784",
+        "size": 220,
+        "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad",
+        "role": "Resolves and validates the selected SkillList member against SkillTables before saved-level lookup."
+      },
+      {
+        "symbol": "_ZNK9Character16SG_GetSkillLevelEj",
+        "address": "0x3bbed0",
+        "size": 28,
+        "role": "Forwards the index to the Character's save owner, returning -1 for null."
+      }
+    ]
+  },
+  "local_scope": {
+    "owner": "PlayerSavegameV1 owns saved fields and zero-initialized skill levels; current SkillTree and SkillTables are borrowed. Invalid selector fallback is the real empty row 3.",
+    "callbacks": "The borrowed callback adapters in player_savegame_v1.hpp use the current PropertyView and SkillTables. Current-info validates that the save owner identity matches the invoking Character; this is an adapter binding guard, while the source obtains the pointer from Character+0x14e8.",
+    "not_reconstructed": [
+      "Starter skill grants or nonzero skill levels",
+      "Full SG_Load/profile-file lifecycle and I/O",
+      "Character Lua Value conversion/Argument vector Invoke ABI",
+      "Native Player lifecycle ownership; the caller must retain this single owner through script calls"
+    ]
+  },
+  "local_files": {
+    "port/game-data/player_savegame_v1.hpp": "050edc426773e456d8f1aec7d0dfda30f37e6886ae27d2a73e4e397fa0114aeb",
+    "port/game-data/player_savegame_v1.cpp": "e9088a632d74ee276e2157a32130ade41a2f566ef20fb0082e7ad5709c021483",
+    "port/game-data/tests/player_savegame_v1.cpp": "8de433c862ba37919258e7e8009c0303d05cfbcffef33afe03f753d009dc7128",
+    "port/game-data/tests/player_savegame_v1_original.py": "c702984b55168ad6d52e5cf7c0ce8024072963184b58dc2be77d4a3b7f7f5409",
+    "port/game-data/tests/run_player_savegame_v1_host.py": "4a3886b87763dfed93ef4092bb84ba9df3016d524f3eb30bc2757a2f41151da1",
+    "port/game-data/reference/player-savegame-v1/fixtures.bin": "b59991c83ab64c3f2987ffeda12797339085211a4f044278f3edccee5098a92a"
+  },
+  "evidence": {
+    "original_runner": "port/game-data/tests/player_savegame_v1_original.py",
+    "original_gold": "port/game-data/reference/player-savegame-v1/original-gold.json",
+    "gold_sha256": "b59991c83ab64c3f2987ffeda12797339085211a4f044278f3edccee5098a92a",
+    "original_cases": 64,
+    "original_state_comparisons": 1536,
+    "host_runner": "port/game-data/tests/run_player_savegame_v1_host.py",
+    "host_scope": "Source save-owner differential replay plus real-cache selector/callback guards; callback wrappers themselves are pinned to recovered ARM functions, not run as a second native ABI emulator."
+  }
+}

@@ -1,0 +1,259 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_bounded_source_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/player_skill_tables_adapter.hpp",
+      "port/level-world/player_skill_tables_adapter.cpp",
+      "port/level-world/character_player_skills_preparation_v3.hpp",
+      "port/level-world/character_player_skills_preparation_v3.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_player_skills_preparation_v3.cpp",
+      "port/level-world/tests/run_character_player_skills_preparation_v3_host.py"
+    ]
+  },
+  "attribution": {
+    "adam_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "paths": [
+      "port/level-world/character_skills_owner_v3.cpp",
+      "port/level-world/character_skills_owner_v3.hpp"
+    ],
+    "adapted": "Stable nullable-instance/vector/Arguments/path ownership; existing current source callers/tables retained."
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI18SetSkillsAndSpellsEv",
+      "demangled": "CharAI::SetSkillsAndSpells()",
+      "elf_address": "0x3ce044",
+      "size": 1916,
+      "sha256": "ca650d7059d273436362d2d10ba973fbbc0fe1dfd632b86857e982470593ded2",
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit.",
+      "executed": true
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "demangled": "DebugSwitches::load()",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "demangled": "DebugSwitches::GetSwitch(std::string const&) const",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "demangled": "Character::GetCharSkillList() const",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210",
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit.",
+      "executed": true
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "demangled": "Character::GetCharSkill(int) const",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad",
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit.",
+      "executed": true
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharFaeryListEv",
+      "demangled": "Character::GetCharFaeryList() const",
+      "elf_address": "0x3ae5dc",
+      "size": 48,
+      "sha256": "05234890042d96d3204fdd2ad4e37847b3c5a92150438c3dc1c40f13ac502b07",
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit.",
+      "executed": true
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "demangled": "Character::GetCharFaery(int) const",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f",
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit.",
+      "executed": true
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIP17CharAISkillScriptSaIS1_EE7reserveEj",
+      "demangled": "std::vector<CharAISkillScript*>::reserve(unsigned int)",
+      "elf_address": "0x3cd584",
+      "size": 204,
+      "sha256": "b0162a77a29a3ca47815be12b1abe88ca0e4cb23d8c5e3afa071aafaad65d633",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9ArgumentsC1Ev",
+      "demangled": "sfc::script::lua::Arguments::Arguments()",
+      "elf_address": "0x3192b4",
+      "size": 56,
+      "sha256": "ecff21dac0d948631c7d396560380f046c04bfa519f31879dcc4f96f0ceb26bb",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9Arguments10pushStringEPKc",
+      "demangled": "sfc::script::lua::Arguments::pushString(char const*)",
+      "elf_address": "0x39ec10",
+      "size": 104,
+      "sha256": "5ca3d6060080cbdec9f5b09f1ecd1d2e8e6532174fdbf0cf59dc59b3bd7a0307",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9Arguments11pushIntegerEi",
+      "demangled": "sfc::script::lua::Arguments::pushInteger(int)",
+      "elf_address": "0x3cdd78",
+      "size": 180,
+      "sha256": "483cbe87eabf700aabba2356c996d5ad1173e0a505066bd35a4a75a0d45b7204",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua9ArgumentsD1Ev",
+      "demangled": "sfc::script::lua::Arguments::~Arguments()",
+      "elf_address": "0x319228",
+      "size": 56,
+      "sha256": "b2161d9478508698d32ed1a10ec04f7f3fac21c378911d12f99e3756b6151744",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Value9setStringEPKc",
+      "demangled": "sfc::script::lua::Value::setString(char const*)",
+      "elf_address": "0x31c46c",
+      "size": 48,
+      "sha256": "9de10720c2d691b9d514139a2afc73cc9aff0ccf99419213629de294bf559a96",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua5Value9setNumberEf",
+      "demangled": "sfc::script::lua::Value::setNumber(float)",
+      "elf_address": "0x31b5e8",
+      "size": 16,
+      "sha256": "e6051f936693b6c02e69a0a20ccc8bb7374424886d0b02369985736207be7554",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4LoadEPKc",
+      "demangled": "LuaScript::Load(char const*)",
+      "elf_address": "0x37b574",
+      "size": 44,
+      "sha256": "cd9ec4280f7e48da11034c6005df78f232e0ef350df4e78f0e434a60c805828e",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsE",
+      "demangled": "LuaScript::Call(char const*, Arguments const&)",
+      "elf_address": "0x37c41c",
+      "size": 120,
+      "sha256": "e9a24628fc5e1790fd128bed17d3e6d82744c40691fc3e2e17ef67262e1ac031",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKc",
+      "demangled": "LuaScript::Call(char const*)",
+      "elf_address": "0x37c514",
+      "size": 112,
+      "sha256": "bd5f9d01fa32fcf2e4e458d913958481ded2d873a49c0165c4069484374f29fc",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_Znwj15MemoryHintState",
+      "demangled": "operator new(unsigned int, MemoryHintState)",
+      "elf_address": "0x310570",
+      "size": 4,
+      "sha256": "b7330ca7e9765d241ce9356767bcc60211d56d244a09941d26895b422bae8901",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScriptC1EP9CharacterPKcj",
+      "demangled": "CharAISkillScript::CharAISkillScript(Character*, char const*, unsigned int)",
+      "elf_address": "0x3cde2c",
+      "size": 336,
+      "sha256": "e755548faab63d7cf4f2cb9b89529661532ef7752e67019871d075623daa2959",
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit.",
+      "executed": true
+    },
+    {
+      "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+      "demangled": "std::string::string(char const*, std::allocator<char> const&)",
+      "elf_address": "0x3140ec",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZNSs9_M_assignEPKcS0_",
+      "demangled": "std::string::_M_assign(char const*, char const*)",
+      "elf_address": "0x3109e0",
+      "size": 192,
+      "sha256": "0dec702175815372c1050956647c127d6a120d13c7e55234ee29385735be3e7c",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZNSs19_M_range_initializeEPKcS0_",
+      "demangled": "std::string::_M_range_initialize(char const*, char const*)",
+      "elf_address": "0x3116e8",
+      "size": 72,
+      "sha256": "45075e105c133d266caf029231a17938018bb62a8a095f967f74e12f09d34d07",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZNSsD1Ev",
+      "demangled": "std::string::~string()",
+      "elf_address": "0x318254",
+      "size": 68,
+      "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+      "scope": "Named modeled provider boundary only.",
+      "executed": false
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20",
+      "executed": true,
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit."
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca",
+      "executed": true,
+      "scope": "Existing original body executes over actual decoded cache data; reused body, no new credit."
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794",
+      "executed": false,
+      "scope": "Named modeled provider boundary only."
+    }
+  ]
+}

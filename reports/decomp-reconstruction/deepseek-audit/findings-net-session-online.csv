@@ -1,0 +1,5 @@
+address,function,source_file,line,severity,kind,original_snippet,reconstruction_snippet,explanation
+0x7fdf24,_ZN6CEvent8CopyDataEPvi,net-session-online/src/c_event.cpp,76,medium,constant,"  memcpy(a2, *((const void **)this + 2), v6);
+  return *((_DWORD *)this + 3);","        std::memcpy(dst, data_, size_);
+    }
+    return -1;","On the success path the original returns the copied payload size (return *((_DWORD *)this + 3), the size at +0x0c, recovered/native/hexrays-all/chunk_052.c:15259) but the reconstruction always returns -1, and CEventQueueBase::GetEventData forwards that value (c_event_queue_base.cpp:22-24), so every delivered event looks like a missing/failed event to its consumers."

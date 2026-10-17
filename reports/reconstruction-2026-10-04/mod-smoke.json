@@ -1,0 +1,22 @@
+{
+  "validation": "PASS",
+  "api": 37,
+  "page_size": 16384,
+  "serial": "emulator-5558",
+  "apk_sha256": "9bf6d31264a577bdfa71e82a1f17e89b622c9602f4c6ea4f96c9281d44824ac3",
+  "scope": "Modified world spawn, malformed override rejection and bundled recovery; not original-game parity",
+  "baseline": [
+    -2227.77,
+    1220.9301,
+    842.3644
+  ],
+  "modified_spawn": [
+    -2127.77,
+    1220.9301,
+    842.3644
+  ],
+  "mod_sha256": "0ba76d0813a1ae5bd83d6026e2d8d3f9a3503fa5ae5d9f06144150464223a2b1",
+  "malformed_override_rejected": true,
+  "baseline_recovered": true,
+  "previous_mod_restored": true
+}

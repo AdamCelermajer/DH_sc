@@ -1,0 +1,165 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "1193fa7d098e324263046422cff4faedff52d97271e7f3e470cf2012d7006891",
+  "apk_bytes": 24822127,
+  "artifact_report_sha256": "274f3b556829071fe1b8767cb71ff36cd76d1b9419e75588802157663ec40fc2",
+  "abis": {
+    "arm64-v8a": {
+      "source_unit_exports": {
+        "aggro_delay": [
+          "_ZN3dh221character_aggro_delay6updateEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "turn_selection": [
+          "_ZN3dh217character_ai_turn8evaluateEPNS0_5StateEPKNS0_7GlobalsEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "target_search": [
+          "dh2_aggro_target_list_init",
+          "dh2_aggro_target_pop",
+          "dh2_aggro_target_search"
+        ],
+        "candidate_events": [
+          "_ZN3dh232character_aggro_candidate_events7consumeEPNS0_5StateEPNS_9character12aggro_search10TargetListEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "enemy_spotted": [
+          "_ZN3dh223character_enemy_spotted16on_enemy_spottedEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "external_monster_script": [
+          "_ZN3dh223monster_external_script7Session8dispatchENS0_5EventEmRNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE"
+        ],
+        "target_mutation": [
+          "dh2_character_ai_set_target"
+        ],
+        "faction_relations": [
+          "_ZN3dh222character_ai_relations5queryENS0_8RelationEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "combat_query": [
+          "_ZN3dh222character_ai_in_combat8evaluateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "acquisition_prefix": [
+          "_ZN3dh234character_aggro_acquisition_prefix7prepareEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "monster_retarget": [
+          "_ZN3dh226character_monster_retarget6updateEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_distance": [
+          "_ZN3dh218character_ai_sight17evaluate_distanceEPNS0_5StateEjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_object": [
+          "_ZN3dh218character_ai_sight15evaluate_objectEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ghost_actor_composition": [
+          "_ZN3dh216ghost_ai_session12ActorSession19search_and_dispatchEPNS_9character12aggro_search10TargetListEPKNS3_12RoomRegistryEffPNS0_10ScanResultE"
+        ]
+      },
+      "lua_core_definitions": [
+        "lib/arm64-v8a/libdh2_script_runtime.so"
+      ]
+    },
+    "x86_64": {
+      "source_unit_exports": {
+        "aggro_delay": [
+          "_ZN3dh221character_aggro_delay6updateEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "turn_selection": [
+          "_ZN3dh217character_ai_turn8evaluateEPNS0_5StateEPKNS0_7GlobalsEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "target_search": [
+          "dh2_aggro_target_list_init",
+          "dh2_aggro_target_pop",
+          "dh2_aggro_target_search"
+        ],
+        "candidate_events": [
+          "_ZN3dh232character_aggro_candidate_events7consumeEPNS0_5StateEPNS_9character12aggro_search10TargetListEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "enemy_spotted": [
+          "_ZN3dh223character_enemy_spotted16on_enemy_spottedEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "external_monster_script": [
+          "_ZN3dh223monster_external_script7Session8dispatchENS0_5EventEmRNSt6__ndk112basic_stringIcNS3_11char_traitsIcEENS3_9allocatorIcEEEE"
+        ],
+        "target_mutation": [
+          "dh2_character_ai_set_target"
+        ],
+        "faction_relations": [
+          "_ZN3dh222character_ai_relations5queryENS0_8RelationEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "combat_query": [
+          "_ZN3dh222character_ai_in_combat8evaluateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "acquisition_prefix": [
+          "_ZN3dh234character_aggro_acquisition_prefix7prepareEPNS0_5StateEP16dh2_random_statePKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "monster_retarget": [
+          "_ZN3dh226character_monster_retarget6updateEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_distance": [
+          "_ZN3dh218character_ai_sight17evaluate_distanceEPNS0_5StateEjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "sight_object": [
+          "_ZN3dh218character_ai_sight15evaluate_objectEPNS0_5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ghost_actor_composition": [
+          "_ZN3dh216ghost_ai_session12ActorSession19search_and_dispatchEPNS_9character12aggro_search10TargetListEPKNS3_12RoomRegistryEffPNS0_10ScanResultE"
+        ]
+      },
+      "lua_core_definitions": [
+        "lib/x86_64/libdh2_script_runtime.so"
+      ]
+    }
+  },
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "30bd56d495e0837e533add1a292d086e09eacc4795b4f6038f6342be478b75af",
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "a30af787cae3df867a28991a5db05b5540f6779aba5f7e914a48f21cf6056d40",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "ee3713fc4f753a6a163c68c31359e8dc6532915e52075d100311b556967c3dbb",
+    "port/level-world/CMakeLists.txt": "3080e21c3de84f2480bfd5bbd2403c5b72cf99de82c8a65bb0aba99ec160a3d4",
+    "port/level-world/crypt_spawn_script_session.cpp": "d9898c58fd89cc6be41ace89801bdb9d7f3480f0136de8729bd1442b928bcbba",
+    "port/level-world/crypt_spawn_script_session.hpp": "32cf96caa69727f7d4e7801b6de7f5ba54f451d1ab28257b0568803d2f958539",
+    "port/level-world/crypt_spawn_trigger.cpp": "49b4f1a03dae63cb3f75be7da466c90e59511598b8d0ffc35fdb1579448836dd",
+    "port/level-world/crypt_spawn_trigger.hpp": "e821aaa8459c0827053e39ca95dcfa65e5b232e1d61e0354bcb4d7f1f8b28cc3",
+    "port/level-world/character_factory.cpp": "28f86f3a3b87fdee1ecb476110a145a6935847229ac6e48ddaceccafa5a65168",
+    "port/level-world/character_state.cpp": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+    "port/level-world/character_state.hpp": "22d512b11c0f20d00ea01c4344bbf0d3b072c4be74ad2a297e2b4519e2e9cdc9",
+    "port/script-runtime/script_runtime.cpp": "5acf91646b99d844e122052de7bf3af39a1c1b3381bdd3c4cf13f481de39ba42",
+    "port/script-runtime/script_runtime.hpp": "84fc1fdcd9761e1e0d45003dbb8993e74b54bc33a93ea2d08f1ce524de384570",
+    "port/trigger-contact/trigger_contact.cpp": "6cca865cf78b7305f921204eae9ae098266b197c54711eacfc6aa87b2f285426",
+    "port/trigger-contact/trigger_contact.hpp": "5c3f6e3ec1d9e91bbfab8dde8e88f58bc5cf8fb87b0544792f03c09454c54e78",
+    "port/zone-contact-runtime/zone_geometry.cpp": "309b5488892877ee0c8ebbcd4bfc8ea5874a82709e0856a10c87e8ef4a2fbd52",
+    "port/pydata-scripts/native/pydata_scripts.cpp": "a146a72dc96f20cd1610a2be18beb91d534174c717bed6a8c958a2d4504d5aa0",
+    "port/pydata-scripts/native/pydata_scripts.h": "f452a4e529a84a334a262f5bcd5e8a4e7987fb72644033ff64429835f872bf70",
+    "port/level-world/character_aggro_delay.hpp": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+    "port/level-world/character_aggro_delay.cpp": "041e7e2eea050be466169ecddddd604f912a173233733c761a6010330b870a9e",
+    "port/level-world/character_ai_turn.hpp": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+    "port/level-world/character_ai_turn.cpp": "e0eb5bf3bb58dd59798116d4c54e953321de4bfb0dca13bb7ccacaa7746d4cf7",
+    "port/level-world/character_aggro_target_search.hpp": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+    "port/level-world/character_aggro_target_search.cpp": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+    "port/level-world/character_aggro_candidate_events.hpp": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+    "port/level-world/character_aggro_candidate_events.cpp": "dedf5be12e89fcd4b0d5b57652144505b8b2f277bf3fcf3844513664a91f8e5d",
+    "port/level-world/character_enemy_spotted.hpp": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+    "port/level-world/character_enemy_spotted.cpp": "e9e5cb5d17f3621f69f3ffab31106f61cbedb3b3736044d9ce4c1ca9ee877c6b",
+    "port/level-world/monster_external_script_session.hpp": "1d8f9cc2f7f812614e409fb8a26ed3e1eed90c0b98accbe7156835fa858b8515",
+    "port/level-world/monster_external_script_session.cpp": "bc7aa3602d752a99f67e0a90cad0098913b08d0e5f48e0d2c2d4cd11a4fb1454",
+    "port/level-world/character_ai_set_target.hpp": "13e569adc9eec552333c6a265eb35bf4ff22175145691a011f0a0ecf6e56e184",
+    "port/level-world/character_ai_set_target.cpp": "27185727ef99d803d451b9168e90a32aa665202721d942b5056d048ea5e0487d",
+    "port/level-world/character_ai_relations.hpp": "d2555cde0441bdcccc2a9a2df69099b899c5121171b67a18ef7506cf4be62ebf",
+    "port/level-world/character_ai_relations.cpp": "b88021247e65d54a407e3f1e350e683ba6e4a6dbf1827b8e62c16f94977f5f42",
+    "port/level-world/character_ai_in_combat.hpp": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+    "port/level-world/character_ai_in_combat.cpp": "b762ddde559413c8bc63b9081581b44bac2a447bf8d9e1f20633eeca148bcf58",
+    "port/level-world/character_aggro_acquisition_prefix.hpp": "1ce70f05d83d50e9652b201ba0647bbd64eec6115e79cb3f640071eeba375d8b",
+    "port/level-world/character_aggro_acquisition_prefix.cpp": "057f78dbcde4e2852f0c9a3e73858dcef94fe145d2ad14b040f8d60cbec9c0b2",
+    "port/level-world/character_ai_sight.hpp": "ae36f54ffd97cfb079905e3e03854fc354853304609135aba76591bfb07e9a81",
+    "port/level-world/character_ai_sight.cpp": "841b1b72e26de327434fd337ce8a0d50449805b5fef03e3a0030d82defd6298f",
+    "port/level-world/ghost_ai_session.hpp": "22f1d4fb4abb0dc55b0c46487266c0ab52905b603be0c3c1c374544b97acdd13",
+    "port/level-world/ghost_ai_session.cpp": "1977fca9fd13781e7513c96c0e7ea7994c8793c9a38072d20fc085e91001bf89",
+    "port/level-world/character_monster_retarget.hpp": "cde628b6f6445b5490f4f0b8c7af7bc36bc3e0807b77630469b5aacfd49ba6ac",
+    "port/level-world/character_monster_retarget.cpp": "a20a9aaeb2f34034bda22a33ee64c4735c237cc407e5f3a4ddf58213a61fa9b0",
+    "port/random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+    "port/random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "port/lua-numeric/numeric.h": "03237985e1b5d0e10f61cacbbbc6320a75a052f9d8e08a9f94b8ba24a7467475",
+    "port/lua-numeric/numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8"
+  },
+  "compiled_source_units": 13,
+  "required_export_groups": 14,
+  "native_ai_wired": false,
+  "full_game_playable": false,
+  "scope": "13 bounded source AI/script units compiled and exported for ELF64 ARM64/x86_64; one reused Adam Lua core per ABI. Existing Crypt spawn runtime passed. Live acquisition/controller integration is pending."
+}

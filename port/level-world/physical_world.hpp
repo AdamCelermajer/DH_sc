@@ -23,6 +23,7 @@ class NativeWorld final:public b2BoundaryListener,public b2ContactFilter,
  std::unique_ptr<b2World> world_;
  void dispatch(ContactEvent,const b2ContactPoint*);
 public:
+ NativeWorld();
  // PhysicalWorld::load passes these physics-unit bounds unchanged.
  void load(const float bounds[4]);
  void clear();

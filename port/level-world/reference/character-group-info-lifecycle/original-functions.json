@@ -1,0 +1,73 @@
+{
+  "original_library": "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/lib/armeabi-v7a/libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "evidence": "Live IDA database decompilation and function-byte hashes from the original ARMv7 ELF. The decompiled pseudocode is analyst interpretation of that static artifact, not gameplay observation.",
+  "port": {
+    "kernel": [
+      "port/level-world/character_group_info_owner_v1.hpp",
+      "port/level-world/character_group_info_owner_v1.cpp"
+    ],
+    "host_test": "port/level-world/tests/character_group_info_owner_v1.cpp",
+    "native_backend_observed": "port/android-native/app/src/main/cpp/model_renderer.cpp: NativeMonsterDeathCall::backend group_died, group_is_dead, group_cmd_kill",
+    "native_compile_verified": false,
+    "runtime_verified": false
+  },
+  "functions": [
+    {
+      "symbol": "_ZN9Character8InitPostEv",
+      "name": "Character::InitPost()",
+      "address": "0x3b4d60",
+      "size": 2100,
+      "sha256": "129a54e1eda59bd3a2028819242ed3042f5b26c17cc0961398f29277f77b62f3",
+      "scope": "population call site for CharAI::AddToGroup after the source Character init path"
+    },
+    {
+      "symbol": "_ZN6CharAI10AddToGroupEP9Character",
+      "name": "CharAI::AddToGroup(Character*)",
+      "address": "0x3d37d0",
+      "size": 760,
+      "sha256": "f7ac9e4d06e9b014c3b6caddc1e80ef042c6740b11e7b25b5cd85292cb7ebf80",
+      "scope": "complete source group-name/module lookup, role vector append, and Character GroupInfo/role assignments"
+    },
+    {
+      "symbol": "_ZN6CharAI9GroupInfo6OnDiedEP9CharacterP10GameObject",
+      "name": "CharAI::GroupInfo::OnDied(Character*,GameObject*)",
+      "address": "0x3d2628",
+      "size": 420,
+      "sha256": "3fea06ae2e3aef110f8e22e5eae5ec12ffa279246564fc0e87429ff9256267fb",
+      "scope": "complete decompiled source state switch and member callback ordering"
+    },
+    {
+      "symbol": "_ZN6CharAI15RemoveFromGroupEv",
+      "name": "CharAI::RemoveFromGroup()",
+      "address": "0x3d2ff8",
+      "size": 300,
+      "sha256": "3b58c0bab4bed41e76d8ad712a829fee8b961fd4e31cc8a5bd9b39f66c4100b7",
+      "scope": "complete role-selected vector removal; group pointer and tail remain unchanged"
+    },
+    {
+      "symbol": "_ZN6CharAI6OnDiedEP10GameObject",
+      "name": "CharAI::OnDied(GameObject*)",
+      "address": "0x3d1000",
+      "size": 80,
+      "sha256": "e872aa87b36c9d46638f7ea691bfcde728a6068401d2111dcf4c0cd3036cc2bc",
+      "scope": "ordering evidence: GroupInfo OnDied, selected AIS virtual +0x24, AI_SetDead"
+    },
+    {
+      "symbol": "_ZNK9Character6IsDeadEv",
+      "name": "Character::IsDead() const",
+      "address": "0x3a2ed4",
+      "size": 12,
+      "sha256": "80fe42313943b64d9253b823b0bab905b2f9c21ee829378ccb6634a2065d546b",
+      "scope": "complete leaf returns Character byte +0x1449"
+    },
+    {
+      "symbol": "_ZN12v2Controller8Cmd_KillEP10GameObjectb",
+      "name": "v2Controller::Cmd_Kill(GameObject*,bool)",
+      "address": "0x40570c",
+      "size": 28,
+      "sha256": "0a2c77862173fe1e153fc8803367a7ef0de280e3ec56f1102133d9b273fb9f28",
+      "scope": "complete leaf forwards to controller virtual +0x58"
+    }
+  ]
+}

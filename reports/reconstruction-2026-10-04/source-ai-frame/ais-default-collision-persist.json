@@ -1,0 +1,5870 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "validation": "PASS",
+    "host_cases": 54,
+    "shared_counter_composition": true,
+    "counter_store_before_dt": true,
+    "fresh_owner_and_peer_queries": true,
+    "failure_alias_contracts": true
+  },
+  "original_arm_comparison": {
+    "validation": "PASS",
+    "comparisons": 51,
+    "mismatches": 0,
+    "results": [
+      {
+        "case": "noncharacter_type2_counts",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "type21_counts",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "other_type_no_count",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "unknown_type_no_count",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "second_character_counts",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "moving_state_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "moving_state_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "moving_state_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "moving_state_19",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "moving_state_20",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "moving_state_4294967295",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": []
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "same_target_skip",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268566528,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268566528,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "no_collision_skip",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "raw_collision_truthy",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "same_frame_no_dt",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "owner_flag_no_dt",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "frame_wrap_difference",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 0,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 0,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            0,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "frame_equal_zero",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 0,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 0,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 0,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "raw_dt_0",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "raw_dt_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 181,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 181,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "raw_dt_4294967295",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 179,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 179,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "raw_dt_2147483648",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 2147483828,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 2147483828,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "raw_dt_2147483647",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 2147483827,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 2147483827,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "counter_wrap",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 16,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 16,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            4294967280
+          ]
+        ]
+      },
+      {
+        "case": "character_enemy_sets_and_tail_returns",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "character_no_collision_enemy_still_sets",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "character_non_enemy_qualifies_counter",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "master_equal_nonnull_skips_first_enemy",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268582912,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268582912,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "master_different_allows_set",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268566528,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268566528,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "null_master_null_target_allows_set",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 0,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 0,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "pointer_one_equal_blocks_set",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 1,
+          "master": 1,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 1,
+          "master": 1,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "first_player_raw_bypasses_set",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "second_player_enemy_cancels_sneaking",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "second_player_non_enemy_no_cancel",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "cancel_before_collision_false",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "two_enemy_queries",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "peer_character_fresh_changes_to_noncharacter",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268582912,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268582912,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "peer_noncharacter_fresh_changes_to_character",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_1",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268533760
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268533760
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_2",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_3",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268533760,
+              0,
+              0
+            ],
+            [
+              3,
+              268533760,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268533760,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268533760,
+              0,
+              0
+            ],
+            [
+              3,
+              268533760,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268533760,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_4",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268533760,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268533760,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_5",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268533760,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268533760,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268533760,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268533760,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_6",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268533760,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268533760,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_7",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              5,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_8",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 67,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 67,
+          "frame": 2,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            42
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_9",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 999,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 99,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 999,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 99,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_10",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268533760
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_11",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268582912,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 268582912,
+          "master": 268582912,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_12",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 0,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 180,
+          "frame": 1,
+          "owner": 268517376,
+          "target": 0,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              2,
+              268517376,
+              0,
+              0
+            ],
+            [
+              3,
+              268517376,
+              268566528,
+              0
+            ],
+            [
+              4,
+              268517376,
+              268566528,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": []
+      },
+      {
+        "case": "genuine_callee_fixture_mutation_13",
+        "matched": true,
+        "source_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "compiled_result": {
+          "status": 0,
+          "counter": 205,
+          "frame": 2,
+          "owner": 268533760,
+          "target": 268582912,
+          "master": 0,
+          "app_frame": 2,
+          "calls": [
+            [
+              0,
+              268517376,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              1,
+              268566528,
+              0,
+              0
+            ],
+            [
+              6,
+              268599296,
+              0,
+              0
+            ]
+          ],
+          "views": [
+            [
+              0,
+              268517376
+            ],
+            [
+              1,
+              268566528
+            ],
+            [
+              2,
+              0
+            ],
+            [
+              0,
+              268517376
+            ]
+          ]
+        },
+        "counter_captured_at_dt": [
+          [
+            2,
+            180
+          ]
+        ]
+      }
+    ],
+    "executed_scope": "Complete original396B OnCollisionPersist,52B SM_IsMoving(false),20B SM_GetState and8B GetDt. VirtualCharacter/Player,AI_IsEnemy/SetTarget andCancelSneaking are explicit fixtureproviders; mutation hooks check caller freshness, not original dependency-side-effect claims.",
+    "native_wired": false
+  },
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\ais_default_collision_persist.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\ais_external_update.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\ais_default_collision_persist.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\ais-default-collision-persist-root\\host.exe"
+  ],
+  "native_wired": false,
+  "source_sha256": {
+    "port/level-world/ais_default_collision_persist.cpp": "fccd18290a8d16f75122748d18837ba70b5d73d68a5b10386a6b9dddb3b135cf",
+    "port/level-world/ais_external_update.cpp": "23f9267964858e163373626c5aa7a68b9ace75001be1a7a359167fe2f9a273b0",
+    "port/level-world/tests/ais_default_collision_persist.cpp": "072bc5c30e74450447553edaab971351071fa4c596d8543d4517b1b36950ae07",
+    "port/level-world/ais_default_collision_persist.hpp": "835c383f95c11244d4a66be840b362ae36d9a301b293cac56be8b17c62648fc7",
+    "port/level-world/ais_external_update.hpp": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+    "port/level-world/tests/run_ais_default_collision_persist_host.py": "1134b9217613822c4a7ec491b7ce391b72b44484bcb7ba799e22e3727631b103",
+    "port/level-world/reference/ais-default-collision-persist/original-functions.json": "7739208103380cf7422e3400f9b0b9ec3a0243b92357b6bbdb765563b7df9dff",
+    "port/level-world/reference/ais-default-collision-persist/NOTES.md": "ec2ce1088845d7ca4c6cce83d27e4b05ac2b0961269029f4b249cc69ffe22988"
+  }
+}

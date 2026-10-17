@@ -1,0 +1,60 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 3,
+    "native_wired": false,
+    "source": [
+      "port/engine-camera/plane_intersection.hpp",
+      "port/engine-camera/plane_intersection.cpp"
+    ],
+    "tests": [
+      "port/engine-camera/tests/plane_intersection_host.cpp",
+      "port/engine-camera/tests/run_plane_intersection.py"
+    ]
+  },
+  "functions": [
+    {
+      "name": "plane3d<float>::getIntersectionWithLine",
+      "original_symbol": "_ZNK6glitch4core7plane3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_",
+      "elf_address": "0x34033c",
+      "size": 360,
+      "sha256": "c7c038769ce68abc3c393a5ebc5a1efdeb90373bfb918bb9143960c7d0e3e1cf",
+      "scope": "Complete caller: dot products, exact-zero denominator branch, signed numerator negation, division, and ordered XYZ output stores."
+    },
+    {
+      "name": "plane3d<float>::getIntersectionWithPlane",
+      "original_symbol": "_ZNK6glitch4core7plane3dIfE24getIntersectionWithPlaneERKS2_RNS0_8vector3dIfEES7_",
+      "elf_address": "0x341260",
+      "size": 888,
+      "sha256": "02a96375b30f9eb2dd155cfb9c3b3acdbf86f1ccb5b25133c37c920ae08da3fb",
+      "scope": "Complete caller: float normal lengths/dot/determinant, strict double 1e-8 rejection against determinant magnitude, signed determinant division, cross vector, coefficient solve, and source-ordered endpoint stores."
+    },
+    {
+      "name": "plane3d<float>::getIntersectionWithPlanes",
+      "original_symbol": "_ZNK6glitch4core7plane3dIfE25getIntersectionWithPlanesERKS2_S4_RNS0_8vector3dIfEE",
+      "elf_address": "0x3415d8",
+      "size": 100,
+      "sha256": "6f5874dc88d9a313a67e56afb44f9cca702a01a69db192da29de8774e3f33f63",
+      "scope": "Complete caller: zeroed local line endpoints; plane intersection first; line intersection only on success; output untouched on either false path."
+    }
+  ],
+  "imports": [
+    {"plt_address":"0x30ed6c","symbol":"__aeabi_fmul"},
+    {"plt_address":"0x30eba4","symbol":"__aeabi_fadd"},
+    {"plt_address":"0x30e3ac","symbol":"__aeabi_fsub"},
+    {"plt_address":"0x30ec94","symbol":"__aeabi_fdiv"},
+    {"plt_address":"0x30df8c","symbol":"__aeabi_fcmpeq"},
+    {"plt_address":"0x30e8a4","symbol":"__aeabi_f2d"},
+    {"plt_address":"0x30e6a0","symbol":"__aeabi_d2f"},
+    {"plt_address":"0x30e1c0","symbol":"sqrt"},
+    {"plt_address":"0x30eab4","symbol":"__aeabi_dmul"},
+    {"plt_address":"0x30e340","symbol":"__aeabi_ddiv"},
+    {"plt_address":"0x30e760","symbol":"__aeabi_dcmplt"}
+  ],
+  "limits": [
+    "The host exposes each imported floating operation as a typed MathServices callback so source operation order and binary32 rounding are testable.",
+    "Original ARM bodies execute in Unicorn. The runner compares imported operation order and raw operands (canonicalizing NaN payloads only). ABI arithmetic, sqrt, conversion, and compare imports are modeled with IEEE operations; historical Bionic details and NaN payload identity are not claimed.",
+    "No frustum ownership, camera construction, or native culling wiring is claimed."
+  ]
+}

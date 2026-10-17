@@ -1,0 +1,140 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6RewardC1Ev",
+      "elf_address": "0x482ca0",
+      "size": 112,
+      "sha256": "933b2f199590fa1f00fe63588778db04cb38285e2bda4984db80f8406ea73849"
+    },
+    {
+      "original_symbol": "_ZN6RewardC2Ev",
+      "elf_address": "0x482d10",
+      "size": 112,
+      "sha256": "7b0ffd2a4eacbc485720c063546087e1fd5597aa4d3988573eea55c9c0b6e19c"
+    },
+    {
+      "original_symbol": "_ZN6RewardD1Ev",
+      "elf_address": "0x4828ec",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6RewardD2Ev",
+      "elf_address": "0x4828e8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN6RewardD0Ev",
+      "elf_address": "0x482b8c",
+      "size": 28,
+      "sha256": "93fc078368749acd6795f7b86e43d9cdbb7abcae8af578ec0f40377f25024c63"
+    },
+    {
+      "original_symbol": "_Z21GetRewardImplInstanceI11Reward_GoldEP6Rewardv",
+      "elf_address": "0x482ef0",
+      "size": 92,
+      "sha256": "f8827ba6db2cc3d50dcf39edb7d28848e8a737e515ea60a9bb9d922a73f48544"
+    },
+    {
+      "original_symbol": "_Z21GetRewardImplInstanceI9Reward_XPEP6Rewardv",
+      "elf_address": "0x482e94",
+      "size": 92,
+      "sha256": "3466c4fc54af8027a73a498a7acdb99870b45afa5db95f74216a346113513299"
+    },
+    {
+      "original_symbol": "_Z21GetRewardImplInstanceI21Reward_CharacterPropsEP6Rewardv",
+      "elf_address": "0x482e34",
+      "size": 96,
+      "sha256": "330d4103a95e36bfccf867a3909351eca8acb28122e42c2ebde7f0dbfe04b7a4"
+    },
+    {
+      "original_symbol": "_Z21GetRewardImplInstanceI11Reward_LootEP6Rewardv",
+      "elf_address": "0x482dd8",
+      "size": 92,
+      "sha256": "d6646cd707998806b23872c0a4f9a059b9bacc2d4ac3a6330e7f05369c385363"
+    },
+    {
+      "original_symbol": "_Z21GetRewardImplInstanceI18Reward_ConsumeLootEP6Rewardv",
+      "elf_address": "0x482d80",
+      "size": 88,
+      "sha256": "ef2159727cf38e056989ea4d8113e7d2fbbc2c7e256bddf9856425d2bda996c2"
+    },
+    {
+      "original_symbol": "_ZN11Reward_GoldD1Ev",
+      "elf_address": "0x482ad8",
+      "size": 52,
+      "sha256": "2502082f6c1087e32b490ece424f55c4b66aee9665184741ca4a86b30c54dd6e"
+    },
+    {
+      "original_symbol": "_ZN11Reward_GoldD0Ev",
+      "elf_address": "0x4837d0",
+      "size": 60,
+      "sha256": "51585af2f9224b2321cad5f06316143f9e776e6b5245880de6c342e5a6d68a9f"
+    },
+    {
+      "original_symbol": "_ZN9Reward_XPD1Ev",
+      "elf_address": "0x482aa4",
+      "size": 52,
+      "sha256": "b29ede5c58fd0723ea481a143ef67abb0f66f91bbcce994b4a8236b9346cbc6c"
+    },
+    {
+      "original_symbol": "_ZN9Reward_XPD0Ev",
+      "elf_address": "0x4838c0",
+      "size": 60,
+      "sha256": "6aa121913350ee595400f4f261bf1879a9f1e3de1407c6a5f8df25014150ba3a"
+    },
+    {
+      "original_symbol": "_ZN21Reward_CharacterPropsD1Ev",
+      "elf_address": "0x482a70",
+      "size": 52,
+      "sha256": "899d3466c6a5a834de72a61fe2d038d1d510f55a90ef90b5f58b983841c17e40"
+    },
+    {
+      "original_symbol": "_ZN21Reward_CharacterPropsD0Ev",
+      "elf_address": "0x483884",
+      "size": 60,
+      "sha256": "d71323d2c57a779c2b21b02c2574fe516b7c744de5dda9c3101ed9e09cc597ce"
+    },
+    {
+      "original_symbol": "_ZN11Reward_LootD1Ev",
+      "elf_address": "0x482a3c",
+      "size": 52,
+      "sha256": "643d06b8b73cad3b58fff0015568de6310962b489a32e6c73e8bd688a4888851"
+    },
+    {
+      "original_symbol": "_ZN11Reward_LootD0Ev",
+      "elf_address": "0x483848",
+      "size": 60,
+      "sha256": "72759d918fad1d250ae843e165aab9abeb7cca373b0e2c35f5b9666218f1c804"
+    },
+    {
+      "original_symbol": "_ZN18Reward_ConsumeLootD1Ev",
+      "elf_address": "0x482a08",
+      "size": 52,
+      "sha256": "1a1040037a80f4b1d8025899a561ea2c734bdf794412b8f20e9bc60530c6e263"
+    },
+    {
+      "original_symbol": "_ZN18Reward_ConsumeLootD0Ev",
+      "elf_address": "0x48380c",
+      "size": 60,
+      "sha256": "6a3472cf1f69a644b7fb9ac7245e815a775dec991e97057bbbba49ef9038bc07"
+    }
+  ],
+  "constant_dependency": {
+    "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+    "elf_address": "0x4c4bdc",
+    "size": 84,
+    "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794"
+  },
+  "constant_strings": [
+    "v2QuestRewardType",
+    "Invalid"
+  ],
+  "platform_dependencies": [
+    "CustomAlloc@310570",
+    "CustomFree@310440"
+  ],
+  "scope": "Complete five reward factory constructors and Reward C1/C2/base/derived destructor bodies; original constant lookup and platform allocation/deallocation are explicit providers. Source padding byte9..b remains untouched. Compile/Give effects not implemented."
+}

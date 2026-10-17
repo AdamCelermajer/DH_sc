@@ -1,0 +1,60 @@
+{
+  "validation": "PASS",
+  "source_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+  "native_fixture": {
+    "validation": "PASS",
+    "comparisons": 8532,
+    "present_glyphs": 272,
+    "checks": 60239,
+    "atomic_guards": 234,
+    "owned_snapshot_survives_inputs": true,
+    "advance_twips_verified": true,
+    "mismatches": 0
+  },
+  "source_sha256": {
+    "port/engine-ui/gfnt.hpp": "601646de8d663764cd35626df42ff652b9d1a64bd9de2699e414c1b14cfe319d",
+    "port/engine-ui/gfnt.cpp": "53e004d0ea9271205ae07f90d6b4efc98e024fc0ec6bf41e2d687d83c72de8f9",
+    "port/engine-ui/tests/gfnt.cpp": "40688b30d5a94d3dda6f88a1364f281d463c193bd7852a2d6bb3b8d7a9a6a5a0"
+  },
+  "gold_sha256": "0131e172216d44ee092495c52adc72fab35ace25e5e359b9d4811cb69083d7ed",
+  "font_sha256": "45a426d731ec69996de61a2c47290afa0a59f6a64079440e298339cdfa15656d",
+  "run_command": [
+    "wsl",
+    "-d",
+    "Ubuntu-22.04",
+    "-e",
+    "env",
+    "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1",
+    "UBSAN_OPTIONS=print_stacktrace=1:halt_on_error=1",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/build/adam-import/gfnt-host",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/reference/gfnt/original-fixtures.bin",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/cache/files/data/menus/sct_font_3.fnt"
+  ],
+  "executable_sha256": "5f6acaa69fef32184a2d5a36eeec37b85375ec92224a2671a1b0cfa040b56b7f",
+  "sanitizers": [
+    "address",
+    "undefined",
+    "leak"
+  ],
+  "sanitizer_findings": 0,
+  "scope": "Fresh host compilation/replay against Adam frozen original-ARM GFNT fixtures and the identical local font. The imported historical ARM64 report retains its exact artifact scope; no Android run, GPU/font-manager integration or new original-body credit.",
+  "compile_command": [
+    "g++",
+    "-std=c++17",
+    "-O1",
+    "-g",
+    "-fno-fast-math",
+    "-ffp-contract=off",
+    "-fsanitize=address,undefined",
+    "-fno-omit-frame-pointer",
+    "-Wall",
+    "-Wextra",
+    "-Wno-misleading-indentation",
+    "-Werror",
+    "-I/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/gfnt.cpp",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/tests/gfnt.cpp",
+    "-o",
+    "/mnt/c/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-ui/build/adam-import/gfnt-host"
+  ]
+}

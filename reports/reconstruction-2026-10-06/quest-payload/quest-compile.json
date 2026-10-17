@@ -1,0 +1,93 @@
+{
+  "validation": "PASS",
+  "cases": 3914,
+  "native_policy_checks": 21,
+  "original_reached_words": 236,
+  "function_reached_words": {
+    "0x480178": 79,
+    "0x46b824": 35,
+    "0x47a638": 11,
+    "0x47a66c": 9,
+    "0x47a614": 9,
+    "0x47a4ec": 21,
+    "0x47a540": 26,
+    "0x479f70": 4,
+    "0x4838fc": 20,
+    "0x482978": 17,
+    "0x482880": 5
+  },
+  "scope": "Whole Quest Compile316B, log CompileQuests140B and reached list wrappers.\n\nThe original noarg LoopOnAll104B, Objective invalidation16B, list invalidation /\nCompile / Register / markers, Reward invalidation84B / Compile68B and Gold20B\nCompile execute. Full gameplay Objective member bodies are explicit observing\nfixture providers: their callback order, mutation, failure and partial-store\nprefixes are compared, not their missing world/event/marker/script behavior.\nNative reward Compile reuses the selected RewardExecution body. Existing one\nInstance/list/factory/log owners supply all state. Difficulty is a mandatory\nobserving fixture for SG_GetGameDifficulty; it can change between each source\nquery. Captured vector length and fresh vector selection/backing are verified.\nNative slots beyond a vector's live element range are a separately scoped\ncontainer-lifetime guard, even when source allocation capacity still remains.\nNo Android compilation, native hookup or live gameplay claim.\n",
+  "implementation": "selected library",
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "binary_sha256": {
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a": "e5dbc3ab2f69e932ab7d39f4c680d1d6ffc3d7c62e97655ec5d4b70a12fe05c0",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\adam-script-runtime\\libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\engine-skinning\\engine-animation\\libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\engine-skinning\\engine-animation\\scene-materials\\libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\engine-skinning\\libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll": "1247a68e1d554efa24affe9a865d25ff48cf05dd2b4aaed23577bf4710cde528",
+    "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\libdh2_level_world.dll": "7449226dda23e17ed74114f6ab8b6f2e021764ca908d63663247b1c0564daaf5",
+    "C:\\tmp\\dh2-quest-compile-selected\\quest_compile_v1_host.exe": "fd93f32f0c92a8855bd097710bdf66124eedb33686914d8e895250c7cf6e8630"
+  },
+  "source_sha256": {
+    "port\\game-data\\quest_compile_v1.cpp": "328ae87ea3ca39876a9bc7d78374185e5bc6fbc00a1f8342e0a7236ac9439a5e",
+    "port\\game-data\\quest_compile_v1.hpp": "e3c9c02223fd7bb285b6e798a4c784371f7e34d72ee9e1331a1b050b0e479c46",
+    "port\\game-data\\tests\\quest_compile_v1_host.cpp": "5daacc6baef41845e585963b2b07683c923be08ee9add4980712176feaff0ae3",
+    "port\\game-data\\tests\\run_quest_compile_v1.py": "ff080ef17324450a65cb081300c8852f2ec34533229f869734dbddcd14dd3d15",
+    "port\\game-data\\reference\\quest-compile-v1\\original-functions.json": "b447c351cd3f2850287e13a1c2a6ab55eac9ec81d089cc2ad491f411a08ea486"
+  },
+  "android_compilation": false,
+  "live_gameplay": false,
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_instance_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_instance_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_instance_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_instance_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_reward_execution_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_reward_execution_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_reward_execution_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_reward_execution_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_compile_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_compile_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_compile_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_compile_v1.cpp.obj"
+    }
+  ],
+  "actual_game_data_import": true,
+  "selected_exports": [
+    "000000031502c17c T dh2::data::quest_compile_v1::LogRuntime::compile_quests(bool, dh2::data::quest_compile_v1::Result*)",
+    "000000031502be94 T dh2::data::quest_compile_v1::Runtime::compile_rewards(dh2::data::quest_compile_v1::Result*)",
+    "000000031502bbbc T dh2::data::quest_compile_v1::Runtime::install_markers(int, int, dh2::data::quest_compile_v1::Result*)",
+    "000000031502bf5c T dh2::data::quest_compile_v1::Runtime::loop_objectives(unsigned int, int, dh2::data::quest_compile_v1::Result*)",
+    "000000031502b794 T dh2::data::quest_compile_v1::Runtime::compile_objectives(dh2::data::quest_compile_v1::Result*)",
+    "000000031502bdcc T dh2::data::quest_compile_v1::Runtime::invalidate_rewards(dh2::data::quest_compile_v1::Result*)",
+    "000000031502b9a8 T dh2::data::quest_compile_v1::Runtime::register_objectives(dh2::data::quest_compile_v1::Result*)",
+    "000000031502b580 T dh2::data::quest_compile_v1::Runtime::invalidate_objectives(dh2::data::quest_compile_v1::Result*)",
+    "000000031502a904 T dh2::data::quest_compile_v1::Runtime::compile(dh2::data::quest_compile_v1::Result*)"
+  ],
+  "binary_imports": [
+    "libgcc_s_seh-1.dll",
+    "libstdc++-6.dll",
+    "KERNEL32.dll",
+    "api-ms-win-crt-environment-l1-1-0.dll",
+    "api-ms-win-crt-heap-l1-1-0.dll",
+    "api-ms-win-crt-locale-l1-1-0.dll",
+    "api-ms-win-crt-math-l1-1-0.dll",
+    "api-ms-win-crt-private-l1-1-0.dll",
+    "api-ms-win-crt-runtime-l1-1-0.dll",
+    "api-ms-win-crt-stdio-l1-1-0.dll",
+    "api-ms-win-crt-string-l1-1-0.dll",
+    "libdh2_game_data.dll"
+  ],
+  "final_data_dll_sha256": "1247a68e1d554efa24affe9a865d25ff48cf05dd2b4aaed23577bf4710cde528",
+  "selected_source_occurrences": {
+    "quest_instance_v1.cpp": 1,
+    "quest_reward_execution_v1.cpp": 1,
+    "quest_compile_v1.cpp": 1
+  }
+}

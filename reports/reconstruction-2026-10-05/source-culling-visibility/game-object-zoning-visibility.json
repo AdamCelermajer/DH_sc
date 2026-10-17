@@ -1,0 +1,1108 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 15,
+  "mismatches": 0,
+  "host_guard_suite": "PASS",
+  "host_guard_cases": 12,
+  "pinned_original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "active_instructions": 120,
+  "covered_active_instructions": 120,
+  "functions": [
+    {
+      "original_symbol": "_ZN10GameObject13DisableZoningEv",
+      "demangled": "GameObject::DisableZoning()",
+      "elf_address": "0x38c600",
+      "size": 156,
+      "active_code_size": 148,
+      "sha256": "47fa96d4d91a54767abd925e2f27914bb3772231df5ece440ce109f2806bcdd9",
+      "scope": "Full body: optional old-room removal and ObjectManager no-room insertion, +2ee clear, virtual IsZonable, raw-byte setUpdating callback selection."
+    },
+    {
+      "original_symbol": "_ZN10GameObject12EnableZoningEv",
+      "demangled": "GameObject::EnableZoning()",
+      "elf_address": "0x38c790",
+      "size": 236,
+      "active_code_size": 224,
+      "sha256": "24c9d94288ca5582a38d4521805c19251a3c53b121c801d071b6831081e1604e",
+      "scope": "Full body: zero-to-one manager/room enrollment, room+389 enter/exit selection, optional SyncVisibility, repeated fresh IsZonable and setUpdating selection."
+    },
+    {
+      "original_symbol": "_ZN12VisualObject14SyncVisibilityEv",
+      "demangled": "VisualObject::SyncVisibility()",
+      "elf_address": "0x4713d0",
+      "size": 108,
+      "active_code_size": 108,
+      "sha256": "c12bd8d5cb7bc0e53560e134f53a090760751b352a917f89beaace5c29e3032d",
+      "scope": "Full body: owner current-visibility, virtual IsZonable, fresh +2ee/+2f0 checks and direct VisualObject::SetVisible argument."
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "symbol": "_ZTV10GameObject",
+      "elf_address": "0x964748",
+      "size": 244,
+      "address_point": "0x964750",
+      "sha256": "20946008a7c25972ba6ed28270cea7513d89965fdf2373e27fe4effabae3b68b",
+      "slots": [
+        {
+          "byte_offset": "0x3c",
+          "storage_address": "0x96478c",
+          "target": "0x33dcf0",
+          "symbol": "_ZN10ObjectBase11setUpdatingEb"
+        },
+        {
+          "byte_offset": "0xc4",
+          "storage_address": "0x964814",
+          "target": "0x3883b8",
+          "symbol": "_ZNK10GameObject9IsZonableEv"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 812,
+      "address_point": "0x965f38",
+      "sha256": "2f19be7616f9387498bf59506a7a0791038abb047253499b9d006e09e37349b6",
+      "slots": [
+        {
+          "byte_offset": "0x3c",
+          "storage_address": "0x965f74",
+          "target": "0x33dcf0",
+          "symbol": "_ZN10ObjectBase11setUpdatingEb"
+        },
+        {
+          "byte_offset": "0xc4",
+          "storage_address": "0x965ffc",
+          "target": "0x3a36e4",
+          "symbol": "_ZNK9Character9IsZonableEv"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV8RoomZone",
+      "elf_address": "0x964bd0",
+      "size": 260,
+      "address_point": "0x964bd8",
+      "sha256": "7378592ca256a8af411fd8870fcdc5aeb6f9fa300b85c20f3d228e9b4026618a",
+      "slots": [
+        {
+          "byte_offset": "0x3c",
+          "storage_address": "0x964c14",
+          "target": "0x33dcf0",
+          "symbol": "_ZN10ObjectBase11setUpdatingEb"
+        },
+        {
+          "byte_offset": "0xc4",
+          "storage_address": "0x964c9c",
+          "target": "0x3964a0",
+          "symbol": "_ZNK8RoomZone9IsZonableEv"
+        }
+      ]
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/game_object_zoning_visibility.cpp": "4b0733c5f5946045c12c7a09d75e2bc9b5ce85792cc912f138d9413af3d5ac52",
+    "port/level-world/game_object_zoning_visibility.hpp": "cc1d859e41a88fc0a704d4231bf74d1b735f49ae2cbd17e5befdca013d98a32e",
+    "port/level-world/tests/game_object_zoning_visibility.cpp": "057cab3093331bf7503c0128e48ca73e96cb829155f847eb64f8f8023d7f4b9b",
+    "port/level-world/tests/run_game_object_zoning_visibility_host.py": "3f8236de3697c77ae5a5f7c3403600a3926fd5bf1060a50201d62f9fcab0ecfb",
+    "port/level-world/reference/game-object-zoning-visibility/original-functions.json": "9002c1379d44132a39f42f576a6b71fb8bef0eb94311e93db01fb6cf80fafeb8"
+  },
+  "scope": "Full bounded DisableZoning, EnableZoning and SyncVisibility instruction bodies. Room/list/ObjectManager/ZoneEntered/ZoneExited/SetVisible and vtable leaves are typed synchronous service boundaries; their own source behavior is covered by separate maps. RoomZone identity is a runtime pointer and never inferred from DACT room indices. RoomZone AABB construction, native owner wiring, scene-node SetVisible body and allocator/list storage remain outside this kernel.",
+  "source_results": [
+    {
+      "mode": "d",
+      "scenario": 0,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            1,
+            38010880,
+            34668544,
+            0
+          ],
+          [
+            2,
+            34668544,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            2147483648
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 128,
+        "room": 38010880,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            1,
+            38010880,
+            34668544,
+            0
+          ],
+          [
+            2,
+            34668544,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            2147483648
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 128,
+        "room": 38010880
+      }
+    },
+    {
+      "mode": "d",
+      "scenario": 1,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            2,
+            34668544,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            128
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 0,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            2,
+            34668544,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            128
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 0
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 2,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            0
+          ],
+          [
+            4,
+            38010880,
+            34668544,
+            0
+          ],
+          [
+            5,
+            38010880,
+            34668544,
+            1
+          ],
+          [
+            6,
+            34668544,
+            38010880,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            128
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 38010880,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            0
+          ],
+          [
+            4,
+            38010880,
+            34668544,
+            0
+          ],
+          [
+            5,
+            38010880,
+            34668544,
+            1
+          ],
+          [
+            6,
+            34668544,
+            38010880,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            128
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 38010880
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 3,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            0
+          ],
+          [
+            4,
+            38010880,
+            34668544,
+            0
+          ],
+          [
+            5,
+            38076416,
+            34668544,
+            0
+          ],
+          [
+            7,
+            34668544,
+            38076416,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 38076416,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            0
+          ],
+          [
+            4,
+            38010880,
+            34668544,
+            0
+          ],
+          [
+            5,
+            38076416,
+            34668544,
+            0
+          ],
+          [
+            7,
+            34668544,
+            38076416,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 38076416
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 4,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 0,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 0
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 5,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 0,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 0
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 6,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            9,
+            35848192,
+            34668544,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            0
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 0,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            9,
+            35848192,
+            34668544,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            0
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 0
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 9,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            0
+          ],
+          [
+            4,
+            38076416,
+            34668544,
+            0
+          ],
+          [
+            5,
+            38076416,
+            34668544,
+            0
+          ],
+          [
+            7,
+            34668544,
+            38076416,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 38076416,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            3,
+            34668544,
+            0,
+            0
+          ],
+          [
+            4,
+            38076416,
+            34668544,
+            0
+          ],
+          [
+            5,
+            38076416,
+            34668544,
+            0
+          ],
+          [
+            7,
+            34668544,
+            38076416,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 0,
+        "room": 38076416
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 10,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            128
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 0,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            128
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 0
+      }
+    },
+    {
+      "mode": "e",
+      "scenario": 11,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 128,
+        "room": 0,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            1
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 128,
+        "room": 0
+      }
+    },
+    {
+      "mode": "d",
+      "scenario": 16,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            2,
+            34668544,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0,
+        "return": 34668544
+      },
+      "host": {
+        "calls": [
+          [
+            2,
+            34668544,
+            0,
+            0
+          ],
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            8,
+            34668544,
+            3398896,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0
+      }
+    },
+    {
+      "mode": "s",
+      "scenario": 7,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            9,
+            35782656,
+            34668544,
+            0
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0,
+        "return": 35782656
+      },
+      "host": {
+        "calls": [
+          [
+            9,
+            35782656,
+            34668544,
+            0
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0
+      }
+    },
+    {
+      "mode": "s",
+      "scenario": 8,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            4294967295
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0,
+        "return": 35782656
+      },
+      "host": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            4294967295
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            1
+          ]
+        ],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0
+      }
+    },
+    {
+      "mode": "s",
+      "scenario": 15,
+      "matched": true,
+      "source": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 0,
+        "return": 35782656
+      },
+      "host": {
+        "calls": [
+          [
+            0,
+            34668544,
+            3703736,
+            1
+          ],
+          [
+            9,
+            35782656,
+            34668544,
+            1
+          ]
+        ],
+        "zoning": 1,
+        "in_zone": 128,
+        "room": 0
+      }
+    },
+    {
+      "mode": "s",
+      "scenario": 17,
+      "matched": true,
+      "source": {
+        "calls": [],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0,
+        "return": 35782656
+      },
+      "host": {
+        "calls": [],
+        "zoning": 0,
+        "in_zone": 0,
+        "room": 0
+      }
+    }
+  ]
+}

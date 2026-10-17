@@ -24,6 +24,10 @@ struct Instance {
 struct Node {
     std::string id,sid,name,user_properties;
     std::int32_t parent=-1;
+    // Native VisualObject::Container::SetState writes the root scene node's
+    // +0x284 flags word. The checked scene reader has no other writer for
+    // this runtime-only word, so keep it separate from authored node data.
+    std::uint32_t source_flags_284{};
     float translation[3]{},quaternion[4]{0,0,0,1},scale[3]{1,1,1};
     std::array<float,16> world{};
 };
@@ -33,10 +37,12 @@ struct Scene {
     std::vector<Node> graph;
     unsigned nodes=0, ignored_instances=0;
 };
+enum class EmptyGeometryPolicy { reject, allow };
 // Checked reconstruction of serialized node, image and material links.
 // Owns strings and matrices, borrows no file bytes. Does not create the
 // original engine's shaders, lights, animation or runtime object ABI.
-bool load(const resources::BresView&, Scene&, std::string& error);
+bool load(const resources::BresView&, Scene&, std::string& error,
+          EmptyGeometryPolicy = EmptyGeometryPolicy::reject);
 bool update_world(Scene&,std::string& error);
 std::array<float,16> multiply(const std::array<float,16>&, const std::array<float,16>&);
 }

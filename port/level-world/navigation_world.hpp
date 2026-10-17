@@ -3,7 +3,9 @@
 #include "selector.hpp"
 namespace dh2::navigation {
 struct FloorTraits {std::uint32_t type,object;};
-struct CollisionRoom {octree::Box bounds;const std::uint32_t* floors;std::uint32_t count,reserved;};
+// source_flags projects PFRoom+0x24. The shipped constructor initializes it
+// to zero and the selected loader has no source call that mutates it.
+struct CollisionRoom {octree::Box bounds;const std::uint32_t* floors;std::uint32_t count,reserved,source_flags;};
 struct CollisionFloor {const selector::Floor* selector;FloorTraits traits;};
 struct CollisionWorld {const CollisionRoom* rooms;const CollisionFloor* floors;std::uint32_t room_count,floor_count;octree::Box bounds;};
 struct WorldHit {std::uint32_t hit,room,floor,reserved;collision::Result collision;};
@@ -20,7 +22,7 @@ struct RouteRequest {
 };
 struct RouteResult {std::uint32_t found,source,target,kind;SearchResult search;};
 struct RouteWorkspace {SearchWorkspace* search;std::uint32_t* internal_path;std::uint32_t internal_capacity,reserved;};
-static_assert(sizeof(CollisionRoom)==40&&sizeof(CollisionFloor)==16&&sizeof(CollisionWorld)==48);
+static_assert(sizeof(CollisionRoom)==48&&sizeof(CollisionFloor)==16&&sizeof(CollisionWorld)==48);
 static_assert(sizeof(WorldHit)==72&&sizeof(RouteWorld)==48&&sizeof(RouteRequest)==64&&sizeof(RouteResult)==56&&sizeof(RouteWorkspace)==24);
 }
 extern "C" {
@@ -28,6 +30,11 @@ extern "C" {
 // chain executes natively; scene/room grouping and ownership belong to caller.
 // 1 hit, 0 miss, -1 invalid caller data. Miss preserves point/triangle bytes.
 int dh2_nav_world_collision(dh2::navigation::WorldHit*,const dh2::navigation::CollisionWorld*,const float*,std::uint32_t include_special);
+// PFWorld::GetRoomAt bounds and first-room scan. Returns 1 with the first
+// matching room, 0 when no room contains the point, -1 for invalid input.
+int dh2_nav_world_room_at(std::uint32_t* room,
+                          const dh2::navigation::CollisionWorld*,
+                          const float* point);
 // Recovered PFWorld::_SearchGraph position-to-position wrapper. 0 completed,
 // 1 invalid caller contract, 2 insufficient bounded storage. Graphs/trees must
 // be well formed. Edge ID zero represents the PFObject-owned direct edge.

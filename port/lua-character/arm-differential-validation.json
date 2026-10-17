@@ -1,0 +1,173 @@
+{
+  "complete_game": false,
+  "lua_userdata_binding_tested": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "994459f1a468d62de5681690cd32243bf99787c2cc786b39bbb86674a901d739",
+  "arm64_sha256": "5a98eae33736027ad7c1b630f03fd57498c86494c2ae487e6f65016e67c28691",
+  "test_sha256": "f463b08ae22830986a34857669e8bcc6daa2ec47fa39bcb35c669e97007b4bd1",
+  "cache_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+  "cases": {
+    "SetProp": 681,
+    "GetProp": 905
+  },
+  "comparisons": 1586,
+  "mismatches": 0,
+  "function_evidence": [
+    {
+      "elf_address": "0x3b9d8c",
+      "size": 440,
+      "symbol": "_ZN9Character8_GetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "aca6d61d2d0a5e330c79a38a01dde437fde4a4a14216edd969a3846f1879b08f"
+    },
+    {
+      "elf_address": "0x3b7eac",
+      "size": 492,
+      "symbol": "_ZN9Character8_SetPropERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "sha256": "c76adc68db53c9dc679d5ea3c669f88d95177385dd413a76f89fe41553d31b21"
+    },
+    {
+      "elf_address": "0x37baf8",
+      "size": 88,
+      "symbol": "_ZNK3sfc6script3lua9ArgumentsixEj",
+      "sha256": "528e2585a4eea034eba7e0120a35cd1c132335414df62c491cd35c0691e92463"
+    },
+    {
+      "elf_address": "0x38d798",
+      "size": 16,
+      "symbol": "_ZNK3sfc6script3lua5Value11getUIntegerEv",
+      "sha256": "0553d12ea35fd62a6857d3f01e2f1f7c8385bff2bcfd8f834f888d28a3eed1f2"
+    },
+    {
+      "elf_address": "0x31bbf0",
+      "size": 144,
+      "symbol": "_ZNK3sfc6script3lua5Value9getNumberEv",
+      "sha256": "5d9d11729a2e880bfe8a07d2cdd890279798aaea748b6047d799be79e1b0c8de"
+    },
+    {
+      "elf_address": "0x31bc80",
+      "size": 172,
+      "symbol": "_ZNK3sfc6script3lua5Value7getBoolEv",
+      "sha256": "d156e3ff80823923f19f40cf626e4923b00ba2889f114cc8f383dfc8b60158b0"
+    },
+    {
+      "elf_address": "0x8be2a0",
+      "size": 84,
+      "symbol": "__aeabi_f2uiz",
+      "sha256": "1bfbab489e0e7b2166376f736f04f891a50f7bf04191cfb8731e5294b752d66f"
+    },
+    {
+      "elf_address": "0x004b4340",
+      "size": 324,
+      "symbol": "_ZN6Arrays14CharacterTable4readEP11IStreamBase",
+      "sha256": "114e5785de05fc00c84c205edfc7365b359990d124aec051cc65f18219cc048d"
+    },
+    {
+      "elf_address": "0x004b41f4",
+      "size": 332,
+      "symbol": "_ZN6Arrays25StatAutoAssignSchemeTable4readEP11IStreamBase",
+      "sha256": "c0f780de23feb18ab6fc1c839c85b0ffc690edb06c93b83fde9c0c56f83e6f46"
+    },
+    {
+      "elf_address": "0x004b40a8",
+      "size": 332,
+      "symbol": "_ZN6Arrays13StatListTable4readEP11IStreamBase",
+      "sha256": "89a8c1761d1e5334b48f512c1a9afa2953a7577854791fa7a0b2b1b8afa0a128"
+    },
+    {
+      "elf_address": "0x004f2750",
+      "size": 21276,
+      "symbol": "_ZN7Structs19CharacterProperties4readEP11IStreamBase",
+      "sha256": "e36675bc084dc08077b2f32397e55caff7d6e63fa0e1976fffa1c984d532f26d"
+    },
+    {
+      "elf_address": "0x004dce90",
+      "size": 348,
+      "symbol": "_ZN7Structs24StatAutoAssignTargetList4readEP11IStreamBase",
+      "sha256": "9d4d371867274a2c7dd95c50e55ea3f158c169d232528a318a88aeb1ade3577e"
+    },
+    {
+      "elf_address": "0x004ef520",
+      "size": 300,
+      "symbol": "_ZN7Structs20StatAutoAssignTarget4readEP11IStreamBase",
+      "sha256": "e65025c4e9e416c60589f9b5e1d95dd04c80bbd6c823ab8862740717ce769958"
+    },
+    {
+      "elf_address": "0x004eacc0",
+      "size": 292,
+      "symbol": "_ZN7Structs12StatListList4readEP11IStreamBase",
+      "sha256": "7e655808d197d6a013a9538d89757ce6b686b999152477e131dcd8a20c8764e0"
+    },
+    {
+      "elf_address": "0x00313a90",
+      "size": 184,
+      "symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "elf_address": "0x003df1a0",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "elf_address": "0x00459090",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "elf_address": "0x003deca0",
+      "size": 276,
+      "symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    },
+    {
+      "elf_address": "0x003dedb4",
+      "size": 292,
+      "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "elf_address": "0x003deed8",
+      "size": 56,
+      "symbol": "_ZNK14CharProperties8_GetTypeEi",
+      "sha256": "2767da71c9c875e51ac9db94b0947e106cac232f998cba6be36d4fd5a4b945bb"
+    },
+    {
+      "elf_address": "0x003def10",
+      "size": 36,
+      "symbol": "_ZNK14CharProperties11_GetDefaultEi",
+      "sha256": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017"
+    },
+    {
+      "elf_address": "0x003def34",
+      "size": 80,
+      "symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    },
+    {
+      "elf_address": "0x003df114",
+      "size": 44,
+      "symbol": "_ZNK14CharProperties14_IsPropertySetERKN7Structs19CharacterPropertiesEi",
+      "sha256": "2d40e1a43f3becbe9b22b2d5a93c9043c6757e591415e227d31d80ff963c7303"
+    },
+    {
+      "elf_address": "0x003df140",
+      "size": 96,
+      "symbol": "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii",
+      "sha256": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e"
+    },
+    {
+      "elf_address": "0x003df250",
+      "size": 84,
+      "symbol": "_ZN14CharProperties18_LoadFromCharTableERN7Structs19CharacterPropertiesEi",
+      "sha256": "64632e1381f967cb747d5071e8b93b6e36135fd51b6eadd01b31595f17743a45"
+    }
+  ],
+  "whole_four_sheet_state_comparison": true,
+  "input_preservation": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "dependency_model": "Actual original GetProp/SetProp, Arguments indexing, numeric/boolean Value accessors, unsigned float conversion and native property/calculation bodies execute. ReturnValues integer push is a capture boundary; signed finite float-to-int truncation, stream and allocation/copy dependencies are explicit models. Global s_temp is reset through the actual original body to serialized defaults. Pointer overloads, unsafe casts, empty original SetProp diagnostic path, buff-inclusive callbacks, original Lua interpreter and source Lua userdata/APK integration remain untested. Source ARM64 runs in Unicorn, without hardware execution."
+}

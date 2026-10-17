@@ -1,0 +1,150 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN7CSSkill7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c4480",
+      "size": 324,
+      "sha256": "32171bb0105dcd0bfcabfe810a5dc9ee44e7b562a7832398a55f4be74da914c1",
+      "scope": "complete normal caller control, compiler stack-corruption trap excluded"
+    },
+    {
+      "original_symbol": "_ZN7CSSkill6OnBlurEiP9CharacterP16CharStateMachinei",
+      "elf_address": "0x3c434c",
+      "size": 308,
+      "sha256": "e6761dc6c5d6f43b695b678924ee23ce4e7ef2af0bf2a15d96e222f389de5841",
+      "scope": "complete normal caller control, compiler stack-corruption trap excluded"
+    },
+    {
+      "original_symbol": "_ZNK9Character9IsMonsterEv",
+      "elf_address": "0x3a3064",
+      "size": 24,
+      "sha256": "7a90ee5513b9d9e9dd9a9c68da50030bd562d38e10153554b9fd4f4ed3471e98",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsMiniBossEv",
+      "elf_address": "0x3a3144",
+      "size": 20,
+      "sha256": "887f3c9a46ed9d58834953160dbb85182b6da61c83a6a010ef607ae3f6f45138",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZNK9Character6IsBossEv",
+      "elf_address": "0x3a3158",
+      "size": 20,
+      "sha256": "02e178fdcedb17debeafd7894aa32f915c55b8c8d8feb2c786ac6d2936356a0f",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN6CharAI17AI_SyncLastTargetEv",
+      "elf_address": "0x3d49c4",
+      "size": 12,
+      "sha256": "1d26e4e6644d0ec94f0daefc74f9c8505836921f95969dd265d097ab3f026ff1",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine10SM_SetAnimEi",
+      "elf_address": "0x3c0b50",
+      "size": 40,
+      "sha256": "9cae6594c392a0b84714abcd154eb114aa3b78ece9cdbd75315fc3f408894934",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN12CharAnimator13ANIM_SetSpeedEf",
+      "elf_address": "0x3c93fc",
+      "size": 72,
+      "sha256": "b0686250e5dc8c527ff2c724f349140fe95df216fccdf785f3e6d2c133a82835",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject5unpinEv",
+      "elf_address": "0x46eae0",
+      "size": 64,
+      "sha256": "b5f7cc0d5b6e28144c8e27c06e1d7d67ad08ec9d72acc7ff9f800449e4994342",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN14PhysicalObject3pinEv",
+      "elf_address": "0x46eb20",
+      "size": 80,
+      "sha256": "285e38208567ae5495448d7c6ce89ea069d52b91e20ba7dea731f697af8d1eb9",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+      "elf_address": "0x3140ec",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZNSsD1Ev",
+      "elf_address": "0x318254",
+      "size": 68,
+      "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN10GameObject4StopEv",
+      "elf_address": "0x3938f8",
+      "size": 248,
+      "sha256": "5fc7693c6c4b5e980f8cd0937aded93f9ce58e9e4b55f846925156b3c4077798",
+      "scope": "named provider boundary; no new dependency credit"
+    },
+    {
+      "original_symbol": "_ZN9Character10RaiseEventEiPv",
+      "elf_address": "0x3a4d5c",
+      "size": 28,
+      "sha256": "2422a21cba16aea71f10939f0f32fe6326e27beb11fe6160b058426b0e2156e3",
+      "scope": "named provider boundary; no new dependency credit"
+    }
+  ],
+  "debug_literal": {
+    "elf_address": "0x8c4e58",
+    "text": "isTracingCharState",
+    "sha256": "cbaff5c3a73674c7ccbf12df2b810c9f0c0728498a94c2250e90565ba0d5b8f7"
+  },
+  "attribution": {
+    "repository": "AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "files": {
+      "port\\level-world\\character_skill_state_v4.hpp": "5ce6150af437f7d3f1007915d6c7dfa2266b3d98730c5992b84c3c409d47fbc9",
+      "port\\level-world\\character_skill_state_v4.cpp": "ca7893706148353081d64c0b936ba68dc66acf4916116ce73f988816b97008ef"
+    },
+    "reused": "Focus/Blur algorithms only",
+    "adapted": "captured borrowed field locations and embedded identities; exact IsMonster classification retained; mandatory SyncLastTarget; captured Debug singleton and real string resource handles; explicit prefix failure/alias guards",
+    "no_reuse": "other V4 event/select/animation dispatch branches or owner"
+  },
+  "source_fields": {
+    "AI_SyncLastTarget": "CharAI+0x40 -> CharAI+0x44"
+  }
+}

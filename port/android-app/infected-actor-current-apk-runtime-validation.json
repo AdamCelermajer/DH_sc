@@ -1,0 +1,376 @@
+{
+  "date": "2026-10-03",
+  "apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+  "apk_bytes": 5465698,
+  "device_results": [
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "api": 37,
+      "page_size_bytes": 16384,
+      "abi": "x86_64",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "model_count": 6,
+      "clip_count": 3,
+      "pairs_tested": 18,
+      "returned_to_gameplay": true,
+      "tested_pairs": [
+        {
+          "model": "InfectedVillager",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedVillager",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedVillager",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedBurned",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedBurned",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedBurned",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedBlacksmith",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedBlacksmith",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedBlacksmith",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedMaid",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedMaid",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedMaid",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedMerchant",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedMerchant",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedMerchant",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedNun",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedNun",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedNun",
+          "clip": "Idle A"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "actor-01-infected-idle-a.png",
+          "bytes": 155138,
+          "sha256": "64ce2c33b1491c2af1083f7ee659fac8776bbf1ff3c76fba564f9fc38b03907a"
+        },
+        {
+          "file": "actor-02-InfectedVillager-idle-b.png",
+          "bytes": 156144,
+          "sha256": "252c80c3550dc4547dea8b08d0993fec3ee508e3df7c15f9c6e204f99457f481"
+        },
+        {
+          "file": "actor-03-InfectedVillager-walk.png",
+          "bytes": 149390,
+          "sha256": "5688ca304245c78d1ab55147df62841c332185d38215944904d94137530b52eb"
+        },
+        {
+          "file": "actor-04-InfectedBurned-walk.png",
+          "bytes": 151313,
+          "sha256": "4043e3146d11ef2fd5452359b976ef30ac6e38a893a1e24027cf75b56f9e1ab6"
+        },
+        {
+          "file": "actor-05-InfectedBurned-idle-a.png",
+          "bytes": 151586,
+          "sha256": "4c2aa2f8b72db50b69a32d27eb9a22088c8f5548ab492439665406f6272c063c"
+        },
+        {
+          "file": "actor-06-InfectedBurned-idle-b.png",
+          "bytes": 152163,
+          "sha256": "1630ba3dd85d10030ef49577ad040328217842fe66110739dc80ac676d1b84eb"
+        },
+        {
+          "file": "actor-07-InfectedBlacksmith-idle-b.png",
+          "bytes": 159547,
+          "sha256": "193f755e16b30c06cf47cf923a27f545ba9c542f50456b6f009890b0c5051fa5"
+        },
+        {
+          "file": "actor-08-InfectedBlacksmith-walk.png",
+          "bytes": 163934,
+          "sha256": "def5bd980c9b38a7d22d87b10be292f780a0bdc06b0e0d80d2c5c01c5980d93f"
+        },
+        {
+          "file": "actor-09-InfectedBlacksmith-idle-a.png",
+          "bytes": 167090,
+          "sha256": "661b5e411f81adf58eb4f45ff66514edab6af7d0877321c627e6ddb4988215a3"
+        },
+        {
+          "file": "actor-10-InfectedMaid-idle-a.png",
+          "bytes": 167652,
+          "sha256": "b8f41f57d5b600c75e10f080c7e92409a0bc6b3dc1b65302b5c357258c33e69b"
+        },
+        {
+          "file": "actor-11-InfectedMaid-idle-b.png",
+          "bytes": 159428,
+          "sha256": "acc41ba3060c7fc6c8afaefcc38c128b05c0d502440f44df13fcf97a00f2c89e"
+        },
+        {
+          "file": "actor-12-InfectedMaid-walk.png",
+          "bytes": 158195,
+          "sha256": "48c32be6169b765a03ca5bcaee110cd3c0be6d0867a42e5961a6ad4b557bc33e"
+        },
+        {
+          "file": "actor-13-InfectedMerchant-walk.png",
+          "bytes": 154925,
+          "sha256": "a6f2868ad6395a03c3e077b949355edb941a355431d715f3b0929be8c59c2bbd"
+        },
+        {
+          "file": "actor-14-InfectedMerchant-idle-a.png",
+          "bytes": 159407,
+          "sha256": "012510302e5bb8d41104db351c916dca2b7af3529a6bff58bfc37af4d5cdcc97"
+        },
+        {
+          "file": "actor-15-InfectedMerchant-idle-b.png",
+          "bytes": 142845,
+          "sha256": "2f754f6912fd2fd68015eb356d34d6c66a4b8387681b8535040b785e1a5cd035"
+        },
+        {
+          "file": "actor-16-InfectedNun-idle-b.png",
+          "bytes": 162929,
+          "sha256": "8fe639dc8e22e01a23b708ecab3ede50424fe1c32e5c05a6c11a86ff5582409d"
+        },
+        {
+          "file": "actor-17-InfectedNun-walk.png",
+          "bytes": 166061,
+          "sha256": "33a58962c3d5796f600d3401247304e88f6ca77efe5d506823aa02e899cd207e"
+        },
+        {
+          "file": "actor-18-InfectedNun-idle-a.png",
+          "bytes": 181896,
+          "sha256": "a095fd50dd954310a07ae82bf7c26a0ba4af67de32bb93e27ed3e69b3cc2b881"
+        },
+        {
+          "file": "actor-orbit.png",
+          "bytes": 185117,
+          "sha256": "b10b3a9059d6c7a1aea66a4e237ee78d7222b0ef75cb3279ff0ac74e6c4b806a"
+        }
+      ],
+      "evidence_directory": "build/actor-runtime-api37-16k"
+    },
+    {
+      "serial": "emulator-5556",
+      "android_release": "17",
+      "api": 37,
+      "page_size_bytes": 4096,
+      "abi": "x86_64",
+      "installed_apk_sha256": "ea9d0aef09125f0dac6b4cdb3d37727aae277e6bdabd2faf92b56e219d09583b",
+      "model_count": 6,
+      "clip_count": 3,
+      "pairs_tested": 18,
+      "returned_to_gameplay": true,
+      "tested_pairs": [
+        {
+          "model": "InfectedVillager",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedVillager",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedVillager",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedBurned",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedBurned",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedBurned",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedBlacksmith",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedBlacksmith",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedBlacksmith",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedMaid",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedMaid",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedMaid",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedMerchant",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedMerchant",
+          "clip": "Idle A"
+        },
+        {
+          "model": "InfectedMerchant",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedNun",
+          "clip": "Idle B"
+        },
+        {
+          "model": "InfectedNun",
+          "clip": "Walk"
+        },
+        {
+          "model": "InfectedNun",
+          "clip": "Idle A"
+        }
+      ],
+      "screenshots": [
+        {
+          "file": "actor-01-infected-idle-a.png",
+          "bytes": 155201,
+          "sha256": "0f662796a32b9e3ebd691a70c036472fc8cc6963a402a4c53bc0d30daeea0404"
+        },
+        {
+          "file": "actor-02-InfectedVillager-idle-b.png",
+          "bytes": 142685,
+          "sha256": "6f8639d8b929d6359a2d4714186f76f7496563b6748ed56eae839c0fd26cf36d"
+        },
+        {
+          "file": "actor-03-InfectedVillager-walk.png",
+          "bytes": 149197,
+          "sha256": "31180519205f1625a1673b6b78c13a496c9dae035c6777f8fbdc340dadd3d31a"
+        },
+        {
+          "file": "actor-04-InfectedBurned-walk.png",
+          "bytes": 149994,
+          "sha256": "1f96c8660d4d9f52e050a3d195ede8d39a959c79c2edd13c21e7c25b0569aec1"
+        },
+        {
+          "file": "actor-05-InfectedBurned-idle-a.png",
+          "bytes": 151281,
+          "sha256": "77387aa55ea395411e918cd6cfa21febbd05a3c524382505558c2cbb93e7e38b"
+        },
+        {
+          "file": "actor-06-InfectedBurned-idle-b.png",
+          "bytes": 136961,
+          "sha256": "79f589f03757bf775695ca0ca53f95d93649ecfaee6bfe55cf204a8c293fc2ea"
+        },
+        {
+          "file": "actor-07-InfectedBlacksmith-idle-b.png",
+          "bytes": 154706,
+          "sha256": "d71a9f73808aeb6508f11b68243a47fc3fda14b15bcdb05577306e9f38023b16"
+        },
+        {
+          "file": "actor-08-InfectedBlacksmith-walk.png",
+          "bytes": 159410,
+          "sha256": "f7f9b0bbddd4d185d1af8a911f574b26bcb7a059e813e0b5d8942d96cd801275"
+        },
+        {
+          "file": "actor-09-InfectedBlacksmith-idle-a.png",
+          "bytes": 167090,
+          "sha256": "661b5e411f81adf58eb4f45ff66514edab6af7d0877321c627e6ddb4988215a3"
+        },
+        {
+          "file": "actor-10-InfectedMaid-idle-a.png",
+          "bytes": 167993,
+          "sha256": "7f342eabc13c545635f716ebb8e0dda14b511df6cfd62761d2ecf79b6ab07400"
+        },
+        {
+          "file": "actor-11-InfectedMaid-idle-b.png",
+          "bytes": 145828,
+          "sha256": "56105a8724435cbd49cfdc70140d2acca2864773378756b0eb0000783ac3b6c1"
+        },
+        {
+          "file": "actor-12-InfectedMaid-walk.png",
+          "bytes": 157747,
+          "sha256": "d6677d092110baac01bbb4b3979e072a82b4450426fb1829b84179fa2d8f4188"
+        },
+        {
+          "file": "actor-13-InfectedMerchant-walk.png",
+          "bytes": 156027,
+          "sha256": "1b35263d495daf8a7dab49750103f5277a5ee0c10cae8be9e11b242e23e6f8c5"
+        },
+        {
+          "file": "actor-14-InfectedMerchant-idle-a.png",
+          "bytes": 158981,
+          "sha256": "3225e6ee0e97273e37fcc99ac9a75c5ff49549792e0f6a9247161c23b62671f0"
+        },
+        {
+          "file": "actor-15-InfectedMerchant-idle-b.png",
+          "bytes": 149507,
+          "sha256": "beaadfc946989d89691ab675975e461eae081d585d6b086d371fdcd4db185b24"
+        },
+        {
+          "file": "actor-16-InfectedNun-idle-b.png",
+          "bytes": 154778,
+          "sha256": "1d2eb23778e9667387a0d68b21d745ae319bf01f4863b4e60352db5ee0ac831a"
+        },
+        {
+          "file": "actor-17-InfectedNun-walk.png",
+          "bytes": 166149,
+          "sha256": "d17fb89fd182f20ebea9969ff1c39e764441458b90edc4296d83986271ff85f9"
+        },
+        {
+          "file": "actor-18-InfectedNun-idle-a.png",
+          "bytes": 179781,
+          "sha256": "0cd2a6db2f5a427842545f93dce1a261ae70ae7de32b7317b33aeea86cd4799b"
+        },
+        {
+          "file": "actor-orbit.png",
+          "bytes": 179845,
+          "sha256": "8d9f37519379018c75fd5bbbdf6e99f3d0da605eec27933df68943eb8c05d2b8"
+        }
+      ],
+      "evidence_directory": "build/actor-runtime-api37-4k"
+    }
+  ],
+  "fold7_tested": false
+}

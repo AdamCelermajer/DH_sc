@@ -1,0 +1,31 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "Both original CharAI constructor ranges, one native initialization behavior with explicit queue allocation boundary; owner/active-AIS association is separate.",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAIC1Ev",
+      "elf_address": "0x3ced50",
+      "size": 352,
+      "sha256": "e4a3df105876c622bb394d7f12bb43ac915bf8ba4927708337bf8ba786323919",
+      "scope": "Complete native scalar/container initialization and queue append boundary; original deque allocation remains a named provider."
+    },
+    {
+      "original_symbol": "_ZN6CharAIC2Ev",
+      "elf_address": "0x3cebf0",
+      "size": 352,
+      "sha256": "90203efdaeb5c4e378736be80a95ab30a278cf81e2ccbe097e43a20f34db4009",
+      "scope": "Complete native scalar/container initialization and queue append boundary; original deque allocation remains a named provider."
+    },
+    {
+      "original_symbol": "_ZNSt5dequeIP6CharAISaIS1_EE18_M_push_back_aux_vERKS1_.clone.17",
+      "elf_address": "0x3ce810",
+      "size": 424,
+      "sha256": "0f0fe6ea3f7a050dc19ccf28b61e64cbf97f58f54f7cab5dab48bb8a8c1e0a45",
+      "scope": "Named external deque growth/allocator boundary, not a new complete implementation."
+    }
+  ],
+  "unsupported": [
+    "Original deque allocator/block lifetime and exception unwind; source Character association and choosing/initializing active AIS."
+  ]
+}

@@ -40,7 +40,9 @@ def main():
     def run(args, timeout=30, binary=False):
         return subprocess.run(args, env=env, stdout=subprocess.PIPE,
                               stderr=subprocess.PIPE, timeout=timeout,
-                              text=not binary)
+                              text=not binary,
+                              encoding='utf-8' if not binary else None,
+                              errors='replace' if not binary else None)
 
     def adb(*args, **kwargs):
         return run(adb_base + list(args), **kwargs)
@@ -48,9 +50,9 @@ def main():
     def save_logcat():
         try:
             r = adb('logcat', '-d', timeout=30)
-            (a.out / 'logcat.txt').write_text(r.stdout + r.stderr)
-        except subprocess.TimeoutExpired:
-            pass
+            (a.out / 'logcat.txt').write_text(r.stdout + r.stderr, encoding='utf-8')
+        except Exception as error:
+            result['logcat_error'] = str(error)
 
     proc = None
     try:

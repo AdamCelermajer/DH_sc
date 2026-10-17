@@ -1,0 +1,65 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN11AISExternal6OnInitEv",
+      "elf_address": "0x3dcea4",
+      "size": 36,
+      "sha256": "ef4caf47ab701506950f666e8b37a3ad93a36bcf353c5982c2be2cf814e4d111"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal10OnInitPostEv",
+      "elf_address": "0x3dce54",
+      "size": 16,
+      "sha256": "a57b02f11c1c0397a892a7f1b7984d5155623b4fb763dcec11d88d1197e172a7"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal11OnInitFinalEv",
+      "elf_address": "0x3dce44",
+      "size": 16,
+      "sha256": "48239cfa097fc9dff6ae24ed2ca98f98c2c57b775f9033cf6f7f0ad68dad3e29"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault6OnInitEv",
+      "elf_address": "0x3dbe78",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault10OnInitPostEv",
+      "elf_address": "0x3dbe7c",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault11OnInitFinalEv",
+      "elf_address": "0x3dbe80",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    }
+  ],
+  "strings": [
+    {
+      "elf_address": "0x8c5b20",
+      "text": "OnInit",
+      "size": 7,
+      "sha256": "9e48ef4415f2301de0290ab668fc2259f4df4209ed14213bc9a80c9583707930"
+    },
+    {
+      "elf_address": "0x8c5b00",
+      "text": "OnInitPost",
+      "size": 11,
+      "sha256": "a63c17fe4ab267f3477565d98af1eba4077487f4da6611879a771f6b6c6dcb8f"
+    },
+    {
+      "elf_address": "0x8c5af0",
+      "text": "OnInitFinal",
+      "size": 12,
+      "sha256": "950e86f44a838432ae317a1931f8f64f38b42298b122062720176effe8a60545"
+    }
+  ],
+  "call_boundary": {
+    "address": "0x37c514",
+    "meaning": "LuaScript::Call(char const*) external provider; no full body claim"
+  }
+}

@@ -1,0 +1,146 @@
+{
+  "attribution": "Dungeon Hunter 2 original cached game resources; unchanged bytes. Native session adaptation reuses Adam Celermajer c3ae797 research.",
+  "scope": "Unchanged player/faery scripts, dictionaries, AI and animation constants. Source initialization/death composition borrows the same native owners; full activation/profile/combat remain unfinished.",
+  "files": {
+    "scripts/ai/_commons.luac": {
+      "bytes": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
+    },
+    "scripts/skills/_commons.luac": {
+      "bytes": 11291,
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d"
+    },
+    "scripts/skills/faerie_celest.luac": {
+      "bytes": 11449,
+      "sha256": "4ba609b50179669e73ab2c256fd2aa27d3740d05f85835464906353e2e0bdd7d"
+    },
+    "scripts/skills/faerie_hotty.luac": {
+      "bytes": 4286,
+      "sha256": "74203596081458abf514627c81f8c914990026b6cd35e1ea5f7bc8532e0e2cb5"
+    },
+    "scripts/skills/faerie_rocky.luac": {
+      "bytes": 4090,
+      "sha256": "c406df3e43dc36b010ad27d35f4fb3024aba94bf988acf4d6aae77bd23794099"
+    },
+    "scripts/skills/faerie_wetty.luac": {
+      "bytes": 4187,
+      "sha256": "ecf30512862a1de28af4bea0e309a8c8beec3e93fe2a12b21e90aff5f7ee23d2"
+    },
+    "scripts/skills/faerie_windy.luac": {
+      "bytes": 3987,
+      "sha256": "da0cf493790834d073fe401456c5f0eb1984789cb71f965a9b4667bb2fe78aec"
+    },
+    "scripts/skills/prince_mage_chain_lightning.luac": {
+      "bytes": 9037,
+      "sha256": "cf71fca1dda047016f19e83d5232f2d75d30d35a1e58dbbb74d0b2c6d2778d56"
+    },
+    "scripts/skills/prince_mage_coldray.luac": {
+      "bytes": 3500,
+      "sha256": "7afbe301d99522929e666017d7adc63596ad332ec8be69f78abec9733f364447"
+    },
+    "scripts/skills/prince_mage_cyclone.luac": {
+      "bytes": 8724,
+      "sha256": "d04c7053e2b15d27f3cf027b316b1004d053423d78804b54e2c3df20fa32af3e"
+    },
+    "scripts/skills/prince_mage_elemental_mastery.luac": {
+      "bytes": 1591,
+      "sha256": "1b44cec1778a6c2e36fda33e65451139b3798cdc9b2eeeef834a03148fff99c2"
+    },
+    "scripts/skills/prince_mage_faeryblood.luac": {
+      "bytes": 1684,
+      "sha256": "d511b0ca716553f011c5a947091b42cfd497a437b5e8f38ffae9b22295728bb7"
+    },
+    "scripts/skills/prince_mage_magi_shielding.luac": {
+      "bytes": 1472,
+      "sha256": "793497741d59bce7ad4320d8f32aa2b4de373529e1ba0a2fd6e9680d13c0efd6"
+    },
+    "scripts/skills/prince_mage_staffmaster.luac": {
+      "bytes": 1429,
+      "sha256": "b61c7b5a0d7039d0384f0b84aef66a7f460721fd7736882a7b1a9607eca0f84b"
+    },
+    "scripts/skills/prince_mage_stone_escape.luac": {
+      "bytes": 6843,
+      "sha256": "6390612bbf175bd72dd400fa2d01fbc00614f0c1fc7038f35b3a4d7ce697f881"
+    },
+    "scripts/skills/prince_rogue_acrobat.luac": {
+      "bytes": 1497,
+      "sha256": "aa41df8f3e75420fb2c6e4ddd0281e5aa76b7266402ac09c6fa318d737a9a1d7"
+    },
+    "scripts/skills/prince_rogue_ambidextrous.luac": {
+      "bytes": 2384,
+      "sha256": "c8a9c731db8988e381a9f5c94589fd0dc0026e43ed13d7fd0dadcd347222d864"
+    },
+    "scripts/skills/prince_rogue_combomaster.luac": {
+      "bytes": 1513,
+      "sha256": "892d3825dcf2a3e0cb1ca97faad6f0e3bcb162bf0a59a63596cba586db3dcd90"
+    },
+    "scripts/skills/prince_rogue_findweakness.luac": {
+      "bytes": 1617,
+      "sha256": "d6fa4b5c86ab7072ddf0ab22657429c8ccd1f93682403939e240154f631469a6"
+    },
+    "scripts/skills/prince_rogue_jump_kick.luac": {
+      "bytes": 3296,
+      "sha256": "7065b8f542f24033abaab2cab91812b40e863a873f3339dec4891343d52f31f1"
+    },
+    "scripts/skills/prince_rogue_quickness.luac": {
+      "bytes": 4059,
+      "sha256": "01a516c99ec5c8be9921718bab85c7ae1a68c64aeb098bd5b05e7562f106113d"
+    },
+    "scripts/skills/prince_rogue_roundhouse.luac": {
+      "bytes": 3425,
+      "sha256": "a26fb81a4fe1573a4d2fba1277919277f065f2bdc29e8e691eccf995f1cd5a85"
+    },
+    "scripts/skills/prince_rogue_vicious_strike.luac": {
+      "bytes": 3832,
+      "sha256": "8ab262b65496f70c64c7adcaa099b8d29cdd3b7bd293de2b355f1ac610a2b467"
+    },
+    "scripts/skills/prince_warrior_bashdown.luac": {
+      "bytes": 3278,
+      "sha256": "d9f41ce04e8e9c632df2377571ff85f76aacad168bb0bebdb111ccb6f8f4dde3"
+    },
+    "scripts/skills/prince_warrior_charge.luac": {
+      "bytes": 4272,
+      "sha256": "62345c14aef6ea218c2a9725b1c312acf37f4214f9bc712521b6a3edacbf8fe1"
+    },
+    "scripts/skills/prince_warrior_combat_master.luac": {
+      "bytes": 1514,
+      "sha256": "3dc445fd5c3d52bd26f2079d3b5b797e712675373e81b84e98c4d7bb95eff697"
+    },
+    "scripts/skills/prince_warrior_fast_metabolism.luac": {
+      "bytes": 1474,
+      "sha256": "c65e154d082fc6d2414e91c7007f8442df30037f43ed706fa45a204472704c64"
+    },
+    "scripts/skills/prince_warrior_ground_slam.luac": {
+      "bytes": 3651,
+      "sha256": "ed21121df8541350451072aff53a44abd03274ba0a0c0a7ceb0784f748463780"
+    },
+    "scripts/skills/prince_warrior_hardiness.luac": {
+      "bytes": 2133,
+      "sha256": "4a94206eedf3acd35651a0bb83bbf16fe4be81fc87ec7b5802f3c3c956b75352"
+    },
+    "scripts/skills/prince_warrior_leadership.luac": {
+      "bytes": 2572,
+      "sha256": "6c7ec5c934e095b21237e995fb43975f05becb64d97e877d59f7ea49a87563d0"
+    },
+    "scripts/skills/prince_warrior_potion_addict.luac": {
+      "bytes": 1456,
+      "sha256": "81df7fda3d598d90a28def7884f07b1b4720adca8eb61d26671f997ed418899d"
+    },
+    "data/effects_pyarraynames.bin": {
+      "bytes": 8906,
+      "sha256": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043"
+    },
+    "data/projectiles_pyarraynames.bin": {
+      "bytes": 717,
+      "sha256": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950"
+    },
+    "data/ai_pycst.bin": {
+      "bytes": 1042,
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e"
+    },
+    "data/animations_pycst.bin": {
+      "bytes": 1089,
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f"
+    }
+  }
+}

@@ -1,0 +1,133 @@
+{
+  "validation": "PASS",
+  "native_wired": false,
+  "apk_runtime_tested": false,
+  "source_sha256": {
+    "port/level-world/character_enemy_retention.cpp": "5884f734bfe51b4137b129c99e85c7f0c2cd7d70df52a3c8acdda1df0d779037",
+    "port/level-world/character_enemy_retention.hpp": "a8aedc3e9031ab1053931f7f9abd64378280fc9a01a1ba4837a08caa667cab95",
+    "port/level-world/character_ai_update_target.cpp": "6271d889d51a3044d45d2b4162810a0253640342904effd334e8d7c19d19dc8e",
+    "port/level-world/character_ai_update_target.hpp": "53b8a94ef3d82b46a64c76ebdfc63e668e7089f724721b59373e2dbc97f8e3d2",
+    "port/level-world/character_ai_master_update.cpp": "b9df80c86dec327a94f21e2074a6cab59cf7d3d6a42cd565566d0341fc5eab63",
+    "port/level-world/character_ai_master_update.hpp": "b7bd52f31a8dc6f130f13512190228f76c5e584bbcec0daf1b041a4a24706d8e",
+    "port/level-world/character_ai_melee_range.cpp": "5ece7ff32aa677db7e8b14b202e60ca37894fe4d4bfa066dae89a815d67f6fee",
+    "port/level-world/character_ai_melee_range.hpp": "94f493092f95d1ff91f64a5eac66f03563a939cb4e0185a19878ff14b4eb5f67",
+    "port/level-world/character_ai_interaction_range.cpp": "34441ec8721742a36e4129a38060a8db01090dbd9803b4ed6f22711d73e832e4",
+    "port/level-world/character_ai_interaction_range.hpp": "f2576cde0fb675ce3aa789caa5c5fb4993ae6d3fd1c29456174a45b2c3f9550a",
+    "port/level-world/ais_external_update.cpp": "23f9267964858e163373626c5aa7a68b9ace75001be1a7a359167fe2f9a273b0",
+    "port/level-world/ais_external_update.hpp": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+    "port/level-world/ais_state_callbacks.cpp": "b809836420fe255bbea75ad7db2529a3942ba0b6da007120747f4af3b106ffd8",
+    "port/level-world/ais_state_callbacks.hpp": "5cf435a846197974552e36d53eb072d265c5b06e299613e82109ef08422adaeb",
+    "port/level-world/character_ai_pause_update.cpp": "9e26911f837c1a83e834cffea583279f81e9abb5a21668ed32623daca38525a6",
+    "port/level-world/character_ai_pause_update.hpp": "aca55bf8a231cec5b81375ec94d0e02299368ec76968d657c42e1681ee2a0db8",
+    "port/level-world/CMakeLists.txt": "852721704699b9a295b63a2677ebdbeed636be181f3e210382aa735b9727c1f9",
+    "port/level-world/ais_default_collision_persist.cpp": "fccd18290a8d16f75122748d18837ba70b5d73d68a5b10386a6b9dddb3b135cf",
+    "port/level-world/ais_default_collision_persist.hpp": "835c383f95c11244d4a66be840b362ae36d9a301b293cac56be8b17c62648fc7"
+  },
+  "abis": {
+    "arm64-v8a": {
+      "library_bytes": 7158576,
+      "library_sha256": "8b49e3914ce2e63383c017939490e48732a32ec30d9fa265e24c738e7d4900db",
+      "minimum_load_alignment": 16384,
+      "exports": {
+        "ais_external_update": [
+          "_ZN3dh219ais_external_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_state_callbacks": [
+          "_ZN3dh219ais_state_callbacks6invokeEPNS0_5StateENS0_8CallbackEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_interaction_range": [
+          "_ZN3dh230character_ai_interaction_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_master_update": [
+          "_ZN3dh226character_ai_master_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_melee_range": [
+          "_ZN3dh224character_ai_melee_range10get_radiusEPNS_18character_ai_sight5StateEPKNS0_14RadiusServicesEPNS0_12RadiusResultE",
+          "_ZN3dh224character_ai_melee_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_pause_update": [
+          "_ZN3dh225character_ai_pause_update5pauseEPNS_9character14AIFrameState32EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_update_target": [
+          "_ZN3dh226character_ai_update_target6updateEPNS_9character10set_target5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_enemy_retention": [
+          "_ZN3dh225character_enemy_retention15character_validEPNS_13target_search6List40EPNS1_8Object48EPKNS0_14SearchServicesEPj",
+          "_ZN3dh225character_enemy_retention4initEPNS_13target_search6List40EPNS1_8Target24EjPNS1_8Object48EPKNS0_14SearchServicesE",
+          "_ZN3dh225character_enemy_retention6searchEPNS_13target_search6List40EPKNS1_9Registry8EfPKNS0_14SearchServicesE",
+          "_ZN3dh225character_enemy_retention6updateEPNS0_5StateEmPNS_13target_search8Target24EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_default_collision_persist": [
+          "_ZN3dh229ais_default_collision_persist7persistEPNS0_5StateEmjPKNS0_8ServicesEPNS0_6ResultE"
+        ]
+      },
+      "compile_commands_sha256": "e111e70444639919253b55d557fdf3661710ac2a0c3863d1b85469c917d37a90",
+      "new_source_units_in_compile_database": [
+        "ais_default_collision_persist",
+        "ais_external_update",
+        "ais_state_callbacks",
+        "character_ai_interaction_range",
+        "character_ai_master_update",
+        "character_ai_melee_range",
+        "character_ai_pause_update",
+        "character_ai_update_target",
+        "character_enemy_retention"
+      ],
+      "retention_pop_dependency_exported": true,
+      "char_ai_on_update_exported": true
+    },
+    "x86_64": {
+      "library_bytes": 6879456,
+      "library_sha256": "e0309e73ef081c3b541fd1e7be7a1943ef1befe4d865e7f407e3735786b19b69",
+      "minimum_load_alignment": 16384,
+      "exports": {
+        "ais_external_update": [
+          "_ZN3dh219ais_external_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_state_callbacks": [
+          "_ZN3dh219ais_state_callbacks6invokeEPNS0_5StateENS0_8CallbackEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_interaction_range": [
+          "_ZN3dh230character_ai_interaction_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_master_update": [
+          "_ZN3dh226character_ai_master_update6updateEPNS0_5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_melee_range": [
+          "_ZN3dh224character_ai_melee_range10get_radiusEPNS_18character_ai_sight5StateEPKNS0_14RadiusServicesEPNS0_12RadiusResultE",
+          "_ZN3dh224character_ai_melee_range15evaluate_objectEPNS_18character_ai_sight5StateEmPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_pause_update": [
+          "_ZN3dh225character_ai_pause_update5pauseEPNS_9character14AIFrameState32EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_ai_update_target": [
+          "_ZN3dh226character_ai_update_target6updateEPNS_9character10set_target5StateEPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "character_enemy_retention": [
+          "_ZN3dh225character_enemy_retention15character_validEPNS_13target_search6List40EPNS1_8Object48EPKNS0_14SearchServicesEPj",
+          "_ZN3dh225character_enemy_retention4initEPNS_13target_search6List40EPNS1_8Target24EjPNS1_8Object48EPKNS0_14SearchServicesE",
+          "_ZN3dh225character_enemy_retention6searchEPNS_13target_search6List40EPKNS1_9Registry8EfPKNS0_14SearchServicesE",
+          "_ZN3dh225character_enemy_retention6updateEPNS0_5StateEmPNS_13target_search8Target24EjPKNS0_8ServicesEPNS0_6ResultE"
+        ],
+        "ais_default_collision_persist": [
+          "_ZN3dh229ais_default_collision_persist7persistEPNS0_5StateEmjPKNS0_8ServicesEPNS0_6ResultE"
+        ]
+      },
+      "compile_commands_sha256": "564105913385b8fcda65ada12ea523b24181705c343ee03e989a121ca643a443",
+      "new_source_units_in_compile_database": [
+        "ais_default_collision_persist",
+        "ais_external_update",
+        "ais_state_callbacks",
+        "character_ai_interaction_range",
+        "character_ai_master_update",
+        "character_ai_melee_range",
+        "character_ai_pause_update",
+        "character_ai_update_target",
+        "character_enemy_retention"
+      ],
+      "retention_pop_dependency_exported": true,
+      "char_ai_on_update_exported": true
+    }
+  },
+  "scope": "Nine new frozen AI/AIS source units compile and export in actual NDK29 ELF64 ARM64/x86_64 level-world shared libraries, with16KiB load alignment and no unresolved symbols. Kernel source hashes match root component reports. This library link gate does not establish APK identity, native owner/controller binding, whole-library algorithm fidelity or Android gameplay."
+}

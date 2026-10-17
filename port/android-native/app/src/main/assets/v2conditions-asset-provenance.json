@@ -1,0 +1,30 @@
+{
+  "source_archive": "Dungeon-Hunter-2-HD-v1-0-2-cache.zip",
+  "source_archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "assets": [
+    {
+      "asset": "original-cache/data/pydata/v2conditions_pyarray.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pyarray.bin",
+      "bytes": 2796,
+      "sha256": "52b9f3d7d15182a0b5c5daa11bcba2720e9be752f1db5f0bcde054b6a5911f53"
+    },
+    {
+      "asset": "original-cache/data/pydata/v2conditions_pyarraynames.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pyarraynames.bin",
+      "bytes": 2789,
+      "sha256": "029b7b9253386078a87988344907a71de1a68ba105a034ff6ea48a0a3490ae9d"
+    },
+    {
+      "asset": "original-cache/data/pydata/v2conditions_pystructnames.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pystructnames.bin",
+      "bytes": 758,
+      "sha256": "94efc18c04974aca9fb3560333f7ca2702d519a52584a1c5be1b8fbf3cd6c080"
+    },
+    {
+      "asset": "original-cache/data/pydata/v2conditions_pycst.bin",
+      "archive_entry": "com.gameloft.android.GAND.GloftD2SS/files/data/pydata/v2conditions_pycst.bin",
+      "bytes": 230,
+      "sha256": "6a5bef06a0eff222c6cae50312bf5c42dfef421f3fed85e3d3122ede2d6550e7"
+    }
+  ]
+}

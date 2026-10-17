@@ -1,0 +1,115 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager23_GetInternalIDByLocalIDEib",
+      "elf_address": "0x36e2cc",
+      "size": 428,
+      "sha256": "0465671728895de95f65bbc290d5cb54762dde24242a8fb066a7cbab65e22d4f"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager14GetLocalPlayerEib",
+      "elf_address": "0x36e478",
+      "size": 32,
+      "sha256": "ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    },
+    {
+      "original_symbol": "_Z22AssignSaveSlotToPlayerii",
+      "elf_address": "0x43aac4",
+      "size": 60,
+      "sha256": "216b365ad0959a84e7e7dbd9c69726b127e6ca74dc83b475b32209ad4ac2de75"
+    }
+  ],
+  "scope": "Complete original _GetInternalIDByLocalID, GetLocalPlayer and AssignSaveSlotToPlayer callers execute, including the nested actual GetPlayerByInternalID body. Online/GameState/Matching.Get/IsInRoom/NetManager/initialized and _GetNetPlayerInfo callees are declared query fixtures. The compiled provider calls the existing actual selected host-level public selector over the sole canonical registry. No PlayerInfo construction, registration, Character creation, profile load or write is claimed.",
+  "static_dependencies_not_executed": [
+    {
+      "original_symbol": "_ZN15SavegameManagerC1Ev",
+      "elf_address": "0x46cd4c",
+      "size": 140,
+      "sha256": "99cfb00e6c427703b4defdeba4d658bc692b8f7063c1f8adc3f233673cfef691"
+    },
+    {
+      "original_symbol": "_ZN15SavegameManager14__saveLastSlotEP11IStreamBasePv",
+      "elf_address": "0x46c758",
+      "size": 32,
+      "sha256": "b3587d767341d294d3e4c0a4336f2a3c7126dd44e152d639e9fb544ce503e303"
+    },
+    {
+      "original_symbol": "_ZN11Application9InitWin32EPN6glitch7IDeviceE",
+      "elf_address": "0x32fab4",
+      "size": 428,
+      "sha256": "52564a5e065858938c32ffb6ef7004b81bd48c484fa2f99461d2f6dc0f8e6119"
+    },
+    {
+      "original_symbol": "_Z28NativeAssignSaveSlotToPlayerRKN7gameswf7fn_callE",
+      "elf_address": "0x43cf50",
+      "size": 100,
+      "sha256": "21bd54c2c8f4d842b5a9cef11488836e18765f38cfc27f8428b55591639c0308"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager10_AddPlayerEiiib",
+      "elf_address": "0x378a40",
+      "size": 340,
+      "sha256": "997afe7079b97090766a0bab0a755ba6dcae4024a8632bb35d68eabe7baf070a"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager22_CheckLocalControllersEv",
+      "elf_address": "0x378c80",
+      "size": 820,
+      "sha256": "ff40c836c8779b73b5a516da5833901ab1a5cefc0afe232ce4b36e65f830abeb"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager20_UpdatePlayerNumbersEv",
+      "elf_address": "0x36ed0c",
+      "size": 412,
+      "sha256": "37bb41cd53b9494591fa918e378e6e54bdf25ff75a18c02ce089fd2c91ccdac8"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager13_AddCharacterEi",
+      "elf_address": "0x372220",
+      "size": 1180,
+      "sha256": "65ea83bee92dba22f0ef9af011ace77538e81e2a81fee1fe0244d1e7571a8702"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "elf_address": "0x37280c",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo8IsActiveEv",
+      "elf_address": "0x36d48c",
+      "size": 96,
+      "sha256": "97610b632e3326da91be3d822ddea1296517af5a7fd4356bd6653b6df0fda0b9"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo8IsActiveEv",
+      "elf_address": "0x80f124",
+      "size": 64,
+      "sha256": "7a7dc707e920df51831466f264d5a42339c0180007bb8ef28391b7e7087c8229"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo8SetStateEc",
+      "elf_address": "0x36f40c",
+      "size": 168,
+      "sha256": "c952599d808edb1d6eddaec2ffcc8e738013ab5f9b434b90a694a5d86acd0341"
+    }
+  ],
+  "field_evidence": {
+    "Application.SavegameManager.store": "0x32fb28",
+    "SavegameManager.last_slot_8.constructor_store": "0x46cd78",
+    "Assign.first_last_slot_store": "0x43aae4",
+    "Assign.second_player_slot_664_store": "0x43aaf0",
+    "GetLocal.lookup_flag_for_final_GetPlayerByInternalID": 0,
+    "local_ID_vector": "PlayerManager+0x6b4/+0x6b8",
+    "offline_local_byte": "PlayerInfo+0x66c",
+    "offline_return_word": "PlayerInfo+0x670",
+    "Character_registration_store_not_delivered": "0x3722ec"
+  }
+}

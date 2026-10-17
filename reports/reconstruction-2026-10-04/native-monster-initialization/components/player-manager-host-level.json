@@ -1,0 +1,247 @@
+{
+  "validation": "PASS",
+  "host_cases": 12,
+  "original_arm_lookup_scenarios": 4,
+  "original_arm_reconcile_scenarios": 4,
+  "original_arm_constructor_scenarios": 2,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Executes original offline GetHostingPlayer/GetPlayerByInternalID paths and the original _ManageCharacters instruction slice 0x372cf8..0x372d30. GetOnline, PROPS_GetInt, and SetCharacterLevel are explicit source-boundary hooks; the actual GetInt result is passed as a plain signed integer.",
+  "lookup_results": [
+    {
+      "name": "hosting-id-zero-tree-hit",
+      "result": {
+        "selected_identity": 268443672,
+        "selected_level_330": 73,
+        "online_calls": 2
+      },
+      "matched": true
+    },
+    {
+      "name": "lookup-negative-id-manager-plus-8",
+      "result": {
+        "selected_identity": 268439560,
+        "selected_level_330": 41,
+        "online_calls": 0
+      },
+      "matched": true
+    },
+    {
+      "name": "lookup-offline-tree-hit",
+      "result": {
+        "selected_identity": 268443672,
+        "selected_level_330": 73,
+        "online_calls": 1
+      },
+      "matched": true
+    },
+    {
+      "name": "lookup-offline-tree-miss",
+      "result": {
+        "selected_identity": 268439560,
+        "selected_level_330": 41,
+        "online_calls": 1
+      },
+      "matched": true
+    }
+  ],
+  "reconcile_results": [
+    {
+      "initial_member": 5,
+      "property_values": [
+        5
+      ],
+      "original_arm": {
+        "property_reads": 1,
+        "setter_calls": 0,
+        "setter_argument": 0,
+        "level_after": 5,
+        "get_arguments": [
+          [
+            268455936,
+            19,
+            0
+          ]
+        ],
+        "setter_arguments": []
+      },
+      "host_kernel": {
+        "status": 0,
+        "property_reads": 1,
+        "setter_calls": 0,
+        "level_before": 5,
+        "first_property": 5,
+        "setter_argument": 0,
+        "level_after": 5
+      },
+      "matched": true
+    },
+    {
+      "initial_member": 5,
+      "property_values": [
+        7,
+        9
+      ],
+      "original_arm": {
+        "property_reads": 2,
+        "setter_calls": 1,
+        "setter_argument": 9,
+        "level_after": 9,
+        "get_arguments": [
+          [
+            268455936,
+            19,
+            0
+          ],
+          [
+            268455936,
+            19,
+            0
+          ]
+        ],
+        "setter_arguments": [
+          [
+            268439552,
+            9
+          ]
+        ]
+      },
+      "host_kernel": {
+        "status": 0,
+        "property_reads": 2,
+        "setter_calls": 1,
+        "level_before": 5,
+        "first_property": 7,
+        "setter_argument": 9,
+        "level_after": 9
+      },
+      "matched": true
+    },
+    {
+      "initial_member": 5,
+      "property_values": [
+        1,
+        5
+      ],
+      "original_arm": {
+        "property_reads": 2,
+        "setter_calls": 1,
+        "setter_argument": 5,
+        "level_after": 5,
+        "get_arguments": [
+          [
+            268455936,
+            19,
+            0
+          ],
+          [
+            268455936,
+            19,
+            0
+          ]
+        ],
+        "setter_arguments": [
+          [
+            268439552,
+            5
+          ]
+        ]
+      },
+      "host_kernel": {
+        "status": 0,
+        "property_reads": 2,
+        "setter_calls": 1,
+        "level_before": 5,
+        "first_property": 1,
+        "setter_argument": 5,
+        "level_after": 5
+      },
+      "matched": true
+    },
+    {
+      "initial_member": -4,
+      "property_values": [
+        -1,
+        -8
+      ],
+      "original_arm": {
+        "property_reads": 2,
+        "setter_calls": 1,
+        "setter_argument": -8,
+        "level_after": -8,
+        "get_arguments": [
+          [
+            268455936,
+            19,
+            0
+          ],
+          [
+            268455936,
+            19,
+            0
+          ]
+        ],
+        "setter_arguments": [
+          [
+            268439552,
+            4294967288
+          ]
+        ]
+      },
+      "host_kernel": {
+        "status": 0,
+        "property_reads": 2,
+        "setter_calls": 1,
+        "level_before": -4,
+        "first_property": -1,
+        "setter_argument": -8,
+        "level_after": -8
+      },
+      "matched": true
+    }
+  ],
+  "constructor_initializer_results": [
+    {
+      "original_arm": {
+        "input_value": 0,
+        "value_after": 0,
+        "set_changed_calls": 0,
+        "set_changed_member": 0
+      },
+      "matched": true
+    },
+    {
+      "original_arm": {
+        "input_value": 305419896,
+        "value_after": 0,
+        "set_changed_calls": 1,
+        "set_changed_member": 268440336
+      },
+      "matched": true
+    }
+  ],
+  "compiler_command": [
+    "g++",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "-I",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_manager_host_level.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\tests\\player_manager_host_level.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\build\\player-manager-host-level-parent\\host.exe"
+  ],
+  "source_sha256": {
+    "port/player-info-level/player_manager_host_level.cpp": "2d4ef7bee48d7dedecb247fc524b42757faba2354572da66855827d3f800fb9b",
+    "port/player-info-level/tests/player_manager_host_level.cpp": "87678068459646a90c35f9005da8dc0ec42b67bbd6ffb9369f3724c573d852bd",
+    "port/player-info-level/player_manager_host_level.hpp": "ab58feaa5f4fe67348cfb9d9127531f4a62c4d49ef685013aba6792883bd4cc5",
+    "port/player-info-level/tests/run_player_manager_host_level.py": "72ecdc8ff0d9757a7a7441f7aeffc5121706f46ccac974c05cb86d2e9772e168",
+    "port/player-info-level/reference/player-manager-host-level/original-functions.json": "b2019722e8d7cb7ee410877906fa8694046d4b9cc39425dbaf9a65d1e371911b",
+    "port/player-info-level/reference/player-manager-host-level/NOTES.md": "70c2e612891861d51090fdedfabdd49aa9cd2d3230924b20b40a0035a5998e9e"
+  },
+  "native_wired": false
+}

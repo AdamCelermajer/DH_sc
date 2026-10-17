@@ -1,0 +1,46 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "One bounded non-player/non-Faerie _UpdateAggro timing branch; supplied IsMyTurn/debug services and reused ordinary RNG; later NPC acquisition gate and native actor wiring excluded",
+  "source_files": [
+    "port/level-world/character_aggro_delay.hpp",
+    "port/level-world/character_aggro_delay.cpp",
+    "port/level-world/tests/character_aggro_delay.cpp",
+    "port/level-world/tests/run_character_aggro_delay_host.py"
+  ],
+  "reused_source": ["port/random/random.c", "port/random/random.h"],
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI12_UpdateAggroEv",
+      "demangled": "CharAI::_UpdateAggro()",
+      "elf_address": "0x3cf3f0",
+      "size": 2052,
+      "sha256": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692",
+      "scope": "Partial reconstruction only: timed branch 0x3cf75c..0x3cf8c0, wait continuation 0x3cf430, acquisition continuation 0x3cf468"
+    },
+    {
+      "original_symbol": "_ZN6CharAI8IsMyTurnEPKS_",
+      "demangled": "CharAI::IsMyTurn(CharAI const*)",
+      "elf_address": "0x3cc484",
+      "size": 288,
+      "sha256": "c64b83f2cfc69629118563c5b21dfb93be8a27a3e50282f022e4efca22804f0e",
+      "scope": "Dependency evidence only; its return value is supplied, its queue/global body is not reconstructed here"
+    },
+    {
+      "original_symbol": "_ZN11Application5GetDtEv",
+      "demangled": "Application::GetDt()",
+      "elf_address": "0x31f66c",
+      "size": 8,
+      "sha256": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387",
+      "scope": "Real leaf executed by the original oracle; source projection uses a fresh borrowed provider at each read"
+    },
+    {
+      "original_symbol": "_ZN6Random9GetRandomEib",
+      "demangled": "Random::GetRandom(int, bool)",
+      "elf_address": "0x33ff90",
+      "size": 196,
+      "sha256": "fc93b6feb58616e89b16d0bee33193af6b6cc36b6b29442fdca3e75c832ab665",
+      "scope": "Existing random.c ordinary-stream arithmetic reused; not counted as a newly reconstructed full function"
+    }
+  ]
+}

@@ -27,8 +27,6 @@ struct LocalizationServices {
  bool (*application_version)(void*,std::string&,std::string&){};
 };
 struct LocalizationResult {std::string text;bool found{};bool sets_menu_string_flag{};};
-struct LocalizationArgumentV1;
-std::string localization_utf_text_v1(const std::string&,bool add_space);
 // Exact bounded source transforms. color mode returns source's changed flag;
 // callers retain raw bytes if false. Plain mode rejects varargs directives whose
 // required arguments/services are outside this HUD string-only domain.
@@ -43,9 +41,11 @@ class Localization {
  bool switch_pack(std::int32_t pack,bool unload_old,std::string&); // -1..8
  bool preload(std::uint32_t pack,std::uint32_t sheet,bool force,const LocalizationServices&,std::string&);
  bool native_string(const std::string& symbol,const LocalizationServices&,LocalizationResult&,std::string&);
- bool parsed_string(const std::string& symbol,const std::vector<LocalizationArgumentV1>&,
-     const LocalizationServices&,std::string&,std::string&);
  bool string_id(std::uint32_t,const LocalizationServices&,std::string&,std::string&);
+ // Raw symbol result for NativeGetParsedString's later VarArgs parseEx. Uses
+ // this same cache and exact symbol/index/debug delivery, without plain parse.
+ bool raw_symbol(const std::string&,const LocalizationServices&,LocalizationResult&,std::string&);
+ bool ready()const noexcept{return ready_;}
  std::int32_t pack()const{return pack_;}
  const std::vector<std::string>& pack_names()const{return pack_names_;}
  const std::string& sheet_name(std::uint32_t pack,std::uint32_t sheet)const;

@@ -1,0 +1,113 @@
+{
+  "validation": "PASS",
+  "upstream_commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+  "current_dh2r_head": "41e75b7e33c5b7f8ccf592c36a493a9b6e27b89e",
+  "configure": {
+    "command": "cmake -S port/game-data -B port/game-data/build/adam-c3ae797-item-v5 -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo",
+    "cmake_version": "4.3.1",
+    "generator": "Ninja 1.13.2",
+    "compiler": "GNU 15.2.0",
+    "cxx_options": [
+      "-Wall",
+      "-Wextra",
+      "-fno-fast-math",
+      "-ffp-contract=off"
+    ]
+  },
+  "production_sha256": {
+    "port/game-data/item_gear_properties_v5.hpp": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+    "port/game-data/item_gear_properties_v5.cpp": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+    "port/game-data/item_power_tables_v5.hpp": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+    "port/game-data/item_power_tables_v5.cpp": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391",
+    "port/game-data/tests/item_gear_properties_v5.cpp": "a423c04213f22c149a5f5ab30b6d0a698d07d98b059c12029b931d1ef5df34cb",
+    "port/game-data/tests/item_gear_properties_v5_original.py": "1eecb1954a1d7d2b79071c6fd0af8b60ba8b102b1fa9bf6438d74dcd9a354376",
+    "port/game-data/tests/item_power_tables_v5_original.py": "96d8a38a8c24df00cbee5820a150968f7cbcc0cd3ba56b6a37e4db0a9d8815cb"
+  },
+  "cmake_sha256": "f16e1cca3de262695ea8db3d5da39e8ee641be29555647618b0809bf9e700c30",
+  "binaries": {
+    "libdh2_game_data.dll": {
+      "sha256": "3f36698e2dee8b025a37d59839bd21e65bee38fe56ca87ca2d18f0be2965a236",
+      "size": 5749661
+    },
+    "item_gear_properties_v5_audit.exe": {
+      "sha256": "39e3521d5ac8b6d50297a79654a224db072ee27e618ab6a6839af4b58c93f677",
+      "size": 353758
+    },
+    "loot_power_resources_v7_audit.exe": {
+      "sha256": "6a30aa7d76f7d298625a4e1d41b4abf1d47b958f05e2f35db69a1c391ff4fe3d",
+      "size": 435883
+    }
+  },
+  "gear_power_host": {
+    "command": "item_gear_properties_v5_audit.exe <gear-fixtures.bin> <power-fixtures.bin> <canonical-pydata-directory>",
+    "validation": "PASS",
+    "gear_original_fixture_cases": 4037,
+    "actual_power_rows": 937,
+    "actual_power_properties": 1224,
+    "atomic_guard_count": 946,
+    "checks": 34350,
+    "mismatches": 0,
+    "fixtures": {
+      "gear-fixtures.bin": {
+        "sha256": "da4c00dddc1e930c7de136ef898e22563b9b0d2191e4172e9bc416ded813894f",
+        "size": 10469744,
+        "upstream_path": "port/game-data/reference/player-item-effects-v5/gear-fixtures.bin"
+      },
+      "power-fixtures.bin": {
+        "sha256": "af0106cd1437dda390bd8c2469498429155454f03bc2a7f45935217d6496f6c2",
+        "size": 90289,
+        "upstream_path": "port/game-data/reference/player-item-effects-v5/power-fixtures.bin"
+      }
+    }
+  },
+  "loot_power_resources_host": {
+    "command": "loot_power_resources_v7_audit.exe <canonical-pydata-directory>",
+    "validation": "PASS",
+    "power_lists": 121,
+    "quantity_lists": 39,
+    "power_definitions": 937,
+    "same_power_authority": true,
+    "guards": 13,
+    "checks": 41,
+    "mismatches": 0
+  },
+  "cache_sha256": {
+    "item_powers_pyarray.bin": {
+      "sha256": "bba8cbb48cc3cc3c32b9419bbb709f253c68066500873a9f30f014a94914bc1e",
+      "size": 54443
+    },
+    "item_powers_pyarraynames.bin": {
+      "sha256": "3e190e2b8a939e086384cffe17ea2fb47c341896b2a81c7c7ecbbf171aafca66",
+      "size": 23714
+    },
+    "item_powers_pystructnames.bin": {
+      "sha256": "5875d43e74e9802ac3151d943c2458557e2604383db7d658433508718fbad444",
+      "size": 5747
+    },
+    "item_powers_monopoly_pyarray.bin": {
+      "sha256": "6591e5ca591b63d3c81eb0d4d3811a2f8409f4b835cb64f35dde87bee4f63d4b",
+      "size": 476
+    },
+    "item_powers_monopoly_pyarraynames.bin": {
+      "sha256": "673773445e377912072230e37ab621ec9b0a20dbdd9782fe6c9930124e107633",
+      "size": 1021
+    },
+    "item_powers_monopoly_pystructnames.bin": {
+      "sha256": "79dab4b044f7f7f614dab597fc280d8d5947b96b3ed672aac1339316ed7d6400",
+      "size": 20
+    },
+    "loot_table_pyarray.bin": {
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "size": 284104
+    },
+    "loot_table_pyarraynames.bin": {
+      "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba",
+      "size": 39604
+    },
+    "loot_table_pystructnames.bin": {
+      "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323",
+      "size": 8858
+    }
+  },
+  "scope": "Current selected host dh2_game_data compared against upstream original-derived fixture bytes and canonical cache. This run did not execute the original ARM ELF; inherited ARM report is not a DH2R run. The c3ae797 Power parser source differs from the hashes in Adam\u2019s standalone table-reader report."
+}

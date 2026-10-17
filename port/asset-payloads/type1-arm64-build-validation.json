@@ -1,0 +1,20 @@
+{
+  "scope": "Cross-build of the type-1 embedded-mesh reader after commit d037b99; structural ELF check only",
+  "android_ndk": "r29 (29.0.14206865), Windows x86_64 host",
+  "target": "aarch64-linux-android26",
+  "compiler_flags": "-std=c++17 -O2 -fPIC -fno-exceptions -fno-rtti -fno-fast-math -ffp-contract=off -Wall -Wextra -Werror -shared -nostdlib++ -Wl,-Bsymbolic -Wl,-z,max-page-size=16384 -Wl,--no-undefined",
+  "sources": {
+    "payloads.cpp_sha256": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+    "payloads.hpp_sha256": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+    "resources.cpp_sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+    "resources.hpp_sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230"
+  },
+  "artifact": {
+    "name": "libdh2_asset_payloads_arm64.so",
+    "bytes": 31560,
+    "sha256": "c2de89716dc90da91fb547e197783cb2cc951ca734e2d62086ba5771999c4751",
+    "pt_load_alignments": [16384, 16384]
+  },
+  "cross_build_passed": true,
+  "runtime_tested_on_arm64": false
+}

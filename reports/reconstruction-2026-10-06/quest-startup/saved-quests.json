@@ -1,0 +1,51 @@
+{
+  "validation": "PASS",
+  "cases": 534,
+  "original_words": 185,
+  "function_executed_words": {
+    "0x469478": 20,
+    "0x46c550": 13,
+    "0x46c48c": 49,
+    "0x46c344": 65,
+    "0x47f78c": 28,
+    "0x47f70c": 9
+  },
+  "native_policy_checks": 75,
+  "compared_projection_bytes": 501984,
+  "implementation": "selected library",
+  "native_wired": false,
+  "scope": "Whole QEST, LoadQuests, UnpackQuests and UnpackQuest versus original ARM.\n\nThe composed gate also executes the complete Quest::_loadQuestData112B and\nIsVolatileState40B on the same factory Record and stream. Signed/unsigned stream\nprimitives, action virtual+28, ObjectiveList payload and assertion logging are\nexplicit observing providers. They do not validate the still missing native\nchild/VM implementation. Direct writes, read-failure prefixes, actual streamed\nindices, live vector lookup, count capture, canonical acts and tell64/seek64\ntruncation are compared. Invalid vector reads and hard null assertion stores\nstop at their original fault boundaries; native bounds/reentry/alias policies\nare separate. No Android compilation, native wiring or live gameplay is inferred.\n",
+  "source_sha256": {
+    "player_saved_quests_v1.cpp": "a79fa3f79cb16d58edb5a2235083118ac5eea1cae6df7bcd8161f6f0bb5467ac",
+    "quest_runtime_fields_v1.cpp": "262d79d45b1c7d678ee82c57c43052974eb2c86b1b86a06b75bcfd57c443a026",
+    "player_saved_quests_v1.hpp": "1cc384115af55b38e89d0ddae7b83b7636abd21af1d91c09e0b7a82f1cd3eacd",
+    "player_savegame_v1.hpp": "75e057ae9896d2019fae4b3461e1199ae48e7ba7f338fb6352fc55246e6d76c8",
+    "quest_runtime_fields_v1.hpp": "9c4b77a213f45648c06817cdb81690d3d186e385601993077d54475b87319d6b",
+    "tests/player_saved_quests_v1_host.cpp": "4a3fc6113ed7da4d04a9afa9fac3fbbb175e2d5ca10c653368f5b00ec6341228",
+    "tests/run_player_saved_quests_v1.py": "22fc5f28a8afef9ec9d9a63756800c5cf465a1a57d8b68f6e7ef561d73a5665b",
+    "reference/player-saved-quests-v1/original-functions.json": "72a2f23330e6c149729cd3a20ef424e9a68b928e68187b9853e9a56870d65764"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_runtime_fields_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_runtime_fields_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_runtime_fields_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_runtime_fields_v1.cpp.obj"
+    },
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\player_saved_quests_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\player_saved_quests_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/player_saved_quests_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/player_saved_quests_v1.cpp.obj"
+    }
+  ],
+  "binary_sha256": {
+    "player_saved_quests_v1_host.exe": "f47343c287f9ebd2d8d3ead8d01e410bfb5ff824919e4b5e8c6873be5854d050",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1bff274e1c39d3e4b4727920693c51873492adeaebd4be0f62b2eae11f426d86",
+    "libdh2_level_world.dll": "3ba3e5ba9fe7dcd44e5b636786a7eab3a796155312bf7cf550136663c1fac884"
+  }
+}

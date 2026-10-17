@@ -1,0 +1,64 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI13_SkillCleanUpEv",
+      "elf_address": "0x3d8ae0",
+      "size": 72,
+      "sha256": "48496c272608ec923072a79d7bc3d31e383592b9f64010437647596b90bc415c",
+      "scope": "original caller executed"
+    },
+    {
+      "original_symbol": "_ZN6CharAI13_SpellCleanUpEv",
+      "elf_address": "0x3d8a98",
+      "size": 72,
+      "sha256": "221946bb28d69c3a38b1c8facd237368549c342a8282399bda287b871377d5aa",
+      "scope": "original caller executed"
+    },
+    {
+      "original_symbol": "_ZN17CharAISkillScript14OnSkillCleanUpEv",
+      "elf_address": "0x3daafc",
+      "size": 212,
+      "sha256": "0efeaf8f00d568bebdf907a13085f0d1384a6769cb072b341d573c30591d05d0",
+      "scope": "original caller executed"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRKN3sfc6script3lua9ArgumentsERNS4_12ReturnValuesE",
+      "elf_address": "0x37c390",
+      "size": 140,
+      "sha256": "ab961745cf32b5f2b83a51978a8feb7580351248a57f24f262ed49da6959df8c",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZN9LuaScript4CallEPKcRN3sfc6script3lua12ReturnValuesE",
+      "elf_address": "0x37c494",
+      "size": 128,
+      "sha256": "f26b03d05e3f9886a18f7d3de525a2cc05d067335ab5d74aad39800fda057538",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesC1Ev",
+      "elf_address": "0x31b434",
+      "size": 60,
+      "sha256": "91d8e18b350f18166bf4a88d144be55a04dbaa02981e7ca30dd221d3dbdb9651",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua12ReturnValuesD1Ev",
+      "elf_address": "0x31b398",
+      "size": 64,
+      "sha256": "e0448d33d2bc7d0bc12b783df3642de3db32bd76d95386172f4938883208168d",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIN3sfc6script3lua5ValueESaIS3_EE8_M_eraseEPS3_S6_RKSt12__false_type",
+      "elf_address": "0x31c3cc",
+      "size": 160,
+      "sha256": "8cbfc980ff6b0cc8c584d2f5723cb1ace0a2d8bfa1e69818eabdfa3fd84c6e19",
+      "scope": "pinned dependency; resource/Call boundary fixture, real host Session supplies Call"
+    }
+  ],
+  "new_complete_source_callers": 3,
+  "new_lua_resource_dependency_bodies": 0,
+  "scope": "Original source loops and exact OnSkillCleanUp protocol; maintained retained Session supplies real host VM Call/observer and preparation Arguments; no native death/retirement claimed."
+}

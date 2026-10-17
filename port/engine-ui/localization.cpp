@@ -1,6 +1,5 @@
+#include <cstdio>
 #include "localization.hpp"
-#include "localization_parse_ex_v1.hpp"
-#include <cstdlib>
 #include <cstring>
 #include <stdexcept>
 #include <utility>
@@ -32,51 +31,6 @@ bool add_space(std::int32_t pack){return pack>=4&&pack<=6;}
 std::uint32_t asr(std::uint32_t v,std::uint32_t n){n&=255;if(n>=32)return (v&0x80000000u)?~0u:0u;if(!n)return v;return(v>>n)|((v&0x80000000u)?(~0u<<(32-n)):0u);}
 struct Busy {bool& b;explicit Busy(bool& v):b(v){b=true;}~Busy(){b=false;}};
 } // namespace
-std::string localization_utf_text_v1(const std::string& input,bool spacing){return utf_text(input,spacing);}
-bool Localization::parsed_string(const std::string& symbol,const std::vector<LocalizationArgumentV1>& args,
-    const LocalizationServices& svc,std::string& output,std::string& e){
- e.clear();auto split=symbol.find('_');
- if(!ready_||busy_||!text_ok(symbol)||split==std::string::npos)return fail(e,"Parsed localization symbol outside bounds");
- if(!svc.debug)return fail(e,"Parsed localization debug provider missing");Busy guard(busy_);
- if(!svc.debug(svc.context,"isTracingStringManager",e))return false;
- unsigned p=pack_==-1?0:static_cast<unsigned>(pack_);std::string localized="notfound";bool found=false;
- for(unsigned sheet=0;sheet<37&&!found;++sheet){if(!prefix_equal(symbol,sheets_[p][sheet].name,split))continue;
-  std::string text;if(!index(sheet,0,8,svc,text,e))return false;
-  for(unsigned i=0;i<sheets_[8][sheet].strings.size();++i){if(i&&!index(sheet,i,8,svc,text,e))return false;
-   if(text.size()!=symbol.size()||!prefix_equal(text,symbol,text.size()))continue;
-   if(!index(sheet,i,pack_,svc,localized,e)||!svc.debug(svc.context,"isTracingStringManager",e))return false;found=true;break;
-  }
- }
- LocalizationNumberStyleV1 style;
- if(!localized.empty()){
-  std::string* outputs[]={&style.decimal,&style.thousands,nullptr};
-  const char* keys[]={"GLOBAL_DECIMAL_SEPERATOR","GLOBAL_THOUSANDS_SEPERATOR","GLOBAL_THOUSANDS_GROUP_AT"};
-  for(unsigned i=0;i<3;++i){std::uint32_t value{};std::string text;
-   if(!constant(svc,"StrID",keys[i],value,e)||!id(value,svc,text,e))return false;
-   if(outputs[i])*outputs[i]=std::move(text);else style.group_at=static_cast<std::int32_t>(std::strtol(text.c_str(),nullptr,10));
-  }
- }
- std::string next;bool changed=false;
- struct Application {Localization* owner;const LocalizationServices* services;} application{this,&svc};
- LocalizationParseExServicesV1 parse_services;
- parse_services.context=&application;
- parse_services.version=[](void* context,std::string& text,std::string& error){
-  auto& state=*static_cast<Application*>(context);const auto& service=*state.services;
-  if(!service.application_version)return fail(error,"Parsed application version service unavailable");
-  return service.application_version(service.context,text,error);
- };
- parse_services.title=[](void* context,std::string& text,std::string& error){
-  auto& state=*static_cast<Application*>(context);const auto& service=*state.services;
-  if(!service.application_language)return fail(error,"Parsed application language service unavailable");
-  std::int32_t language{};std::uint32_t title{};
-  if(!service.application_language(service.context,language,error))return false;
-  if(language==4)return fail(error,"Parsed Japanese title branch unconnected");
-  if(!constant(service,"StrID","MENU_GAME_TITLE",title,error))return false;
-  return state.owner->id(title,service,text,error);
- };
- if(!localization_parse_ex_v1(localized,args,style,add_space(pack_),parse_services,next,changed,e))return false;
- output=std::move(next);return true;
-}
 bool localization_colors(const std::string& input,bool spacing,const LocalizationServices& s,std::string& out,bool& changed,std::string& e){
  e.clear();if(!text_ok(input))return fail(e,"Localization color input outside bounds");try{
  std::string next;bool flag=false,escape=false;static const char* keys[]={"zero","one","two","three","four","five","six","seven","eight","nine"};
@@ -116,7 +70,7 @@ bool Localization::preload_impl(std::uint32_t p,std::uint32_t sheet,bool force,c
  e.clear();if(!ready_||p>8||sheet>36)return fail(e,"Localization preload outside bounds");auto& target=sheets_[p][sheet];if(target.loaded&&!force)return true;
  if(force){target.strings.clear();target.loaded=false;}if(!svc.open||!svc.close||!svc.debug)return fail(e,"Localization file/debug provider missing");
  bool found=false;std::vector<std::uint8_t> bytes;std::uintptr_t lease=0;const auto uri="text/"+target.filename;
- if(!svc.open(svc.context,uri.c_str(),found,bytes,lease,e))return false;if(!found){if(lease)return fail(e,"Missing localization file returned lease");return true;}
+ if(!svc.open(svc.context,uri.c_str(),found,bytes,lease,e))return false;if(!found){if(lease)return fail(e,"Missing localization file returned lease");std::fprintf(stderr,"[W/DH2Native] Localization sheet file not found | %s\n",uri.c_str());return true;}
  if(!lease)return fail(e,"Localization file has no retained lease");bool success=false;
  try{Reader r({bytes.data(),bytes.size()});auto count=r.word(2);if(count>32767)throw std::runtime_error("Localization signed source count outside port domain");std::vector<std::string> values;values.reserve(count);
  for(unsigned i=0;i<count;++i){auto raw=r.text(2);if(raw.find_first_of("^|")!=std::string::npos){std::string colored;bool changed;if(!localization_colors(raw,add_space(pack_),svc,colored,changed,e))throw std::runtime_error(e);if(changed)raw=std::move(colored);}values.push_back(std::move(raw));}r.end();target.strings=std::move(values);target.loaded=true;
@@ -134,7 +88,19 @@ bool Localization::id(std::uint32_t idvalue,const LocalizationServices& svc,std:
 }
 bool Localization::defaults(const LocalizationServices& svc,std::string& e){for(const char* key:{"GLOBAL_DECIMAL_SEPERATOR","GLOBAL_THOUSANDS_SEPERATOR","GLOBAL_THOUSANDS_GROUP_AT"}){std::uint32_t v;std::string out;if(!constant(svc,"StrID",key,v,e)||!id(v,svc,out,e))return false;}return true;}
 bool Localization::string_id(std::uint32_t value,const LocalizationServices& svc,std::string& out,std::string& e){
- e.clear();if(!ready_||busy_)return fail(e,"Localization ID lookup reentry unsupported");Busy guard(busy_);return id(value,svc,out,e);
+ e.clear();if(!ready_)return fail(e,"Localization ID lookup before StringManager initialization");if(busy_)return fail(e,"Localization ID lookup reentry unsupported");Busy guard(busy_);return id(value,svc,out,e);
+}
+bool Localization::raw_symbol(const std::string& symbol,const LocalizationServices& svc,LocalizationResult& out,std::string& e){
+ e.clear();auto split=symbol.find('_');if(!ready_||busy_||!text_ok(symbol)||split==std::string::npos)return fail(e,"Localization symbol caller outside bounds");
+ if(!svc.debug)return fail(e,"Localization debug provider missing");Busy guard(busy_);LocalizationResult next;
+ if(!svc.debug(svc.context,"isTracingStringManager",e))return false;
+ unsigned p=pack_==-1?0:static_cast<unsigned>(pack_);
+ for(unsigned sheet=0;sheet<37&&!next.found;++sheet){if(!prefix_equal(symbol,sheets_[p][sheet].name,split))continue;
+  std::string text;if(!index(sheet,0,8,svc,text,e))return false;
+  for(unsigned i=0;i<sheets_[8][sheet].strings.size();++i){if(i&&!index(sheet,i,8,svc,text,e))return false;if(text.size()!=symbol.size()||!prefix_equal(text,symbol,text.size()))continue;
+   if(!index(sheet,i,pack_,svc,next.text,e)||!svc.debug(svc.context,"isTracingStringManager",e))return false;next.found=true;break;}
+ }
+ if(!next.found)next.text="notfound";out=std::move(next);return true;
 }
 bool Localization::native_string(const std::string& symbol,const LocalizationServices& svc,LocalizationResult& out,std::string& e){
  e.clear();auto split=symbol.find('_');if(!ready_||busy_||!text_ok(symbol)||split==std::string::npos)return fail(e,"Localization symbol caller outside bounds");

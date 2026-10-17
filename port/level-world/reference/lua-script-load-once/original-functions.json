@@ -1,0 +1,77 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "ELF identity and call-path facts for the per-LuaScript resolved-path shortcut. This is not a whole LuaManager::AddFile execution comparison.",
+  "functions": [
+    {
+      "original_symbol": "_ZN9LuaScript4LoadEPKc",
+      "demangled": "LuaScript::Load(char const*)",
+      "elf_address": "0x37b574",
+      "size": 44,
+      "sha256": "cd9ec4280f7e48da11034c6005df78f232e0ef350df4e78f0e434a60c805828e",
+      "role": "thin source wrapper into LuaManager::AddFile"
+    },
+    {
+      "original_symbol": "_ZN10LuaManager7AddFileEP9LuaScriptPKc",
+      "demangled": "LuaManager::AddFile(LuaScript*, char const*)",
+      "elf_address": "0x37b23c",
+      "size": 808,
+      "sha256": "eed28284fab97acb165e01e0aa721a8cbd18265ca17252e903f14be10ba5fb7f",
+      "role": "resolved-path check, separate shared byte-cache lookup, target-VM execution, and success-only path insertion"
+    },
+    {
+      "original_symbol": "_ZN3sfc6script3lua8Instance8loadFileER12StreamBuffer",
+      "demangled": "sfc::script::lua::Instance::loadFile(StreamBuffer&)",
+      "elf_address": "0x31acf4",
+      "size": 244,
+      "sha256": "1cc5464357d685df3e8c502334f3dcbef7a595cf118f19de6b32e826b04e4f02",
+      "role": "source VM execution boundary called on a per-script cache miss"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESsNS_9_IdentityISsEENS_11_SetTraitsTISsEESaISsEE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "demangled": "source std::set<std::string>::find(char const*) helper",
+      "elf_address": "0x37a190",
+      "size": 368,
+      "sha256": "52dc1d1b20cda19706d674abcfdc169bb9845823a2860a49cd16f2b5a7742b50",
+      "role": "exact resolved-path lookup in LuaScript's executed-path set"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsP12StreamBufferENS_10_Select1stIS7_EENS_11_MapTraitsTIS7_EESaIS7_EE7_M_findIPKcEEPNS_18_Rb_tree_node_baseERKT_",
+      "demangled": "source std::map<std::string, StreamBuffer*>::find(char const*) helper",
+      "elf_address": "0x37a300",
+      "size": 368,
+      "sha256": "d3b534d832ba9fe057ee357d50bdd94914eda8e85d3ad09ee81709520e11d432",
+      "role": "separate LuaManager-wide byte-cache lookup"
+    },
+    {
+      "original_symbol": "_ZNSt4priv8_Rb_treeISsSt4lessISsESsNS_9_IdentityISsEENS_11_SetTraitsTISsEESaISsEE13insert_uniqueERKSs",
+      "demangled": "source std::set<std::string>::insert_unique(std::string const&)",
+      "elf_address": "0x37a9e8",
+      "size": 528,
+      "sha256": "3cdda168cedd4e33f1b67b4743a0a0816d122960a4922a4d3b09f5ca3cda5d33",
+      "role": "success-only insertion into the executed-path set"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsP12StreamBufferSt4lessISsESaISt4pairIKSsS1_EEEixIPKcEERS1_RKT_",
+      "demangled": "source std::map<std::string, StreamBuffer*>::operator[](char const*)",
+      "elf_address": "0x37b0fc",
+      "size": 320,
+      "sha256": "c4f249bebb02591cc482f5775ce0ee944b3fb33b932a6e3116e0c82bfe83e8b2",
+      "role": "separate manager-owned cache entry access on a per-script path miss"
+    }
+  ],
+  "asset": {
+    "path": "recovered/scripts/original/data/scripts/skills/_commons.luac",
+    "bytes": 11291,
+    "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+    "fact": "re-executing the file recreates the local SKILLS table and resets its global skill callbacks"
+  },
+  "source_facts": {
+    "path_set_owner": "LuaScript object/VM at +0x80",
+    "shared_byte_map_owner": "LuaManager object; path to StreamBuffer*",
+    "source_path_input": "full path after LuaScript's current-directory resolution",
+    "duplicate_path": "returns true before shared byte-cache lookup or Instance::loadFile",
+    "miss": "uses manager byte cache, calls target Instance::loadFile, inserts the full path only after successful execution",
+    "helper_boundary": "models only the per-VM executed-path set and synchronous load callback; it does not model path construction, extension resolution, or manager byte storage"
+  }
+}

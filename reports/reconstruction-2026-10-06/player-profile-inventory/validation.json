@@ -1,0 +1,388 @@
+{
+  "validation": "PASS",
+  "branch": "reconstruction/android17-irrlicht-rebuild-2026-10-03",
+  "parent_source_commit": "46a8d1c80a6a58396f403f466c42b71f752a8203",
+  "adam_reference": "791e961b12233100b303038c961666834f4beb9d",
+  "apk_sha256": "6792de5a33ecb272c1af76d184117a46b955fcce7240b015d8bd2d2c904820eb",
+  "apk_bytes": 30135449,
+  "apk_path": "port/android-native/build/native-profile-inventory-r1-2026-10-06/crypt-native-profile-inventory.apk",
+  "Downloads_APK_identical": true,
+  "actual_compiler_configure_inputs": 609,
+  "capture": {
+    "path": "port/android-native/build/captures/native-profile-inventory-r1-complete-2026-10-06.zip",
+    "sha256": "87856c01ded50bd0241394ddb0a1c060d0981f7a1917ce01198863fb5af1dbf5",
+    "repository_files": 635,
+    "studio_parity_checked": false
+  },
+  "host": {
+    "port/game-data/reports/player-profile-index-v1-host-audit.json": {
+      "sha256": "e60ab0dd1cee9c8483ffedae10d0ae5379566da9f884cc411f693d50363435c8",
+      "validation": "PASS",
+      "summary": {
+        "validation": "PASS",
+        "index_original_cases": 96,
+        "section_checks": 344,
+        "load_original_cases": 1780,
+        "ordered_boundaries": 23017,
+        "required_failure_prefixes": 23017,
+        "metadata_original_cases": 128,
+        "metadata_truncation_prefixes": 7043,
+        "guards": 155,
+        "private_campaign_mask1": true,
+        "saved_class_id": 263,
+        "saved_level": 1,
+        "selected_difficulty": 0,
+        "unlocked_difficulty": 0,
+        "mismatches": 0
+      },
+      "source_inputs": 88
+    },
+    "port/player-info-level/reports/player-locality-v1-selected-host.json": {
+      "sha256": "e9046e2786fae455912ef62a977cc5dfd4e90dd3b0e9089aff43129ce1b82b8a",
+      "validation": "PASS",
+      "summary": {
+        "validation": "PASS",
+        "failure_prefix_cases": 116,
+        "guard_cases": 10,
+        "factory_cases": 10,
+        "checks": 775,
+        "native_association": false
+      },
+      "source_inputs": 563
+    },
+    "port/level-world/reports/player-saved-inventory-v1-selected-host.json": {
+      "sha256": "58a620ca857118693ad44a4005c374e2acd15f731a5db5cdb3bef63a36677e76",
+      "validation": "PASS",
+      "summary": {
+        "validation": "PASS",
+        "original_caller_cases": 19,
+        "class_caller_comparisons": 57,
+        "actual_player_classes": 3,
+        "failure_prefix_cases": 26,
+        "read_prefix_cases": 8,
+        "guard_cases": 16,
+        "checks": 2495,
+        "actual_profile_items": 6,
+        "actual_profile_powers": 1,
+        "native_SG4_InitPost": false,
+        "text_files": [
+          "text/gameplaymenus.english",
+          "text/global.english",
+          "text/ingame.english",
+          "text/items.english"
+        ]
+      },
+      "source_inputs": 575
+    }
+  },
+  "runtime": {
+    "metadata-r4": {
+      "validation": "PASS",
+      "sha256": "707c0c0811ffc88e4f8d5aa4dc22ddc8e813b6fee7785aa8f1c23d1de00473de"
+    },
+    "death": {
+      "validation": "PASS",
+      "sha256": "ab13adbf359e857a07eabfd4b5f9d9c5fe9456a062db3dfd28e8094fbf8b3751"
+    },
+    "skills": {
+      "validation": "PASS",
+      "sha256": "467ae6fc02c21568b8155f33c04816084476d6b3cbf92f3dbd26aed8266cdf6d"
+    },
+    "crypt": {
+      "validation": "PASS",
+      "sha256": "7d575bc76a8810f54c7544e4845fe4f92f3349ab8d9f8f81c3486a8b4ebdc7f3"
+    }
+  },
+  "metadata_retained_reads": 28,
+  "metadata_file_opens": 1,
+  "metadata_surfaces": 4,
+  "ELF64_16KiB_libraries": 20,
+  "library_details": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "5bd2601c07ca43faaa93bf150f547d210a6ec4e3a2393b58fb07bdad62cc9dc6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "b2afd191b4897f262d263227c37aaf0a9a3f37e25a8c4181c109f3976f5d27da",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "56bdd933558196c1878397d50919d3a818ad04d12d86de987a0be05c2baf37f7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "560246afeb7ec100fb35ce1feac0b88103c35a0cedf2e6e1b30d43e390fe074f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "9c656bb8da7cc1048639991d9e8123465b721ebf9388d9e5569267c3d944aed7",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "41a99a321e29581c800057a421de1d48b70a74a71897d80956dd93b909d69ec5",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "981358dd8f7de2920510f7b86ec85e64d194962250bc7cc31577535c1dc8d487",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "efe6aefc69aee43c163c5dc6bdfaf18a7418d6a451e1b1495000c70b598806d0",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "android_exports": {
+    "arm64-v8a": {
+      "libdh2_game_data.so": {
+        "sha256": "56bdd933558196c1878397d50919d3a818ad04d12d86de987a0be05c2baf37f7",
+        "verified_exports": [
+          "dh2_player_profile_v1_index",
+          "PlayerSaveLoadOwnerV1::load(",
+          "player_profile_filename_v1(",
+          "PlayerSavegameV1::load_level_name(",
+          "FreshInventoryOwnedV4::saved_item_effect("
+        ]
+      },
+      "libdh2_level_world.so": {
+        "sha256": "560246afeb7ec100fb35ce1feac0b88103c35a0cedf2e6e1b30d43e390fe074f",
+        "verified_exports": [
+          "player_locality_v1::is_local_player(",
+          "player_locality_v1::cnet_player_is_local(",
+          "player_locality_v1::get_matching(",
+          "player_saved_inventory_v1::Runtime::load("
+        ]
+      },
+      "libdh2_native.so": {
+        "sha256": "9c656bb8da7cc1048639991d9e8123465b721ebf9388d9e5569267c3d944aed7",
+        "verified_exports": [
+          "Java_com_example_dh2_NativeBridge_profileSlot"
+        ]
+      }
+    },
+    "x86_64": {
+      "libdh2_game_data.so": {
+        "sha256": "41a99a321e29581c800057a421de1d48b70a74a71897d80956dd93b909d69ec5",
+        "verified_exports": [
+          "dh2_player_profile_v1_index",
+          "PlayerSaveLoadOwnerV1::load(",
+          "player_profile_filename_v1(",
+          "PlayerSavegameV1::load_level_name(",
+          "FreshInventoryOwnedV4::saved_item_effect("
+        ]
+      },
+      "libdh2_level_world.so": {
+        "sha256": "981358dd8f7de2920510f7b86ec85e64d194962250bc7cc31577535c1dc8d487",
+        "verified_exports": [
+          "player_locality_v1::is_local_player(",
+          "player_locality_v1::cnet_player_is_local(",
+          "player_locality_v1::get_matching(",
+          "player_saved_inventory_v1::Runtime::load("
+        ]
+      },
+      "libdh2_native.so": {
+        "sha256": "efe6aefc69aee43c163c5dc6bdfaf18a7418d6a451e1b1495000c70b598806d0",
+        "verified_exports": [
+          "Java_com_example_dh2_NativeBridge_profileSlot"
+        ]
+      }
+    }
+  },
+  "zipalign_16KiB": "PASS",
+  "apksigner_stdout": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v3.2 scheme (APK Signature Scheme v3.2): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1\n",
+  "test_source_sha256": {
+    "profile_metadata_runtime_smoke.py": "3946368e33743016bb5863ba53e7cccb3a18dcda1533346395e266eb1821fc3e",
+    "player_death_runtime_smoke.py": "0e3a2ddcf690c18546540d8a628e1f652f6c14c0b3e438d89775bb0f9e662d65",
+    "player_skill_runtime_smoke.py": "26abe00f1e0e8528781c4ddc713083855aa819469193d474532982303a62058d",
+    "crypt_script_runtime_smoke.py": "07568b50400e4c6f6b136851f6ab88ee039e9950bd208ed54360c011025041b2"
+  },
+  "provenance_audit_sha256": "01daeee05cc2ea669c8e1e35da88c93fb57c4d7b2caa562c2a9de2d6604fdb54",
+  "artifacts": {
+    "production-build-snapshot.json": {
+      "sha256": "14db7889d3f8fbb095bb3539c9879be9fd76da29eb1ec0ecd9ffad730853083e",
+      "bytes": 223532
+    },
+    "metadata/commands.json": {
+      "sha256": "ac62516d51e23e86b145e4f72cb483dfecebfc020353ccc985f272159c447791",
+      "bytes": 11922
+    },
+    "metadata/corrupt-primary.log": {
+      "sha256": "025f16109e1555d1bb20403a7194dea228125406c738419108c95e53eeeb9218",
+      "bytes": 6935
+    },
+    "metadata/metadata-retained.png": {
+      "sha256": "1b166194501988dbc3d828b0487112c96cf8bf5c4db4fe315495ead48e236215",
+      "bytes": 1378790
+    },
+    "metadata/runtime.log": {
+      "sha256": "b77561b6102e8dad31a91a3e80c5b3657c6dd50be771cdb8f86b94044dd83ecf",
+      "bytes": 214349
+    },
+    "metadata/validation.json": {
+      "sha256": "707c0c0811ffc88e4f8d5aa4dc22ddc8e813b6fee7785aa8f1c23d1de00473de",
+      "bytes": 6847
+    },
+    "death/alive-before-fixture.png": {
+      "sha256": "01fefca225a06381d94395c99aa739cfa4958090bc967cd4c9f923bfef886dab",
+      "bytes": 1601527
+    },
+    "death/commands.json": {
+      "sha256": "5e50b60364a0630a6370fe0ff9e6e7544888ec23d6f6f69b34eeabfe57a56b76",
+      "bytes": 3208548
+    },
+    "death/dead-after-activity-recreation.png": {
+      "sha256": "104df35976e64d42e5eb261352b0b599ba1add4085b56d5b8bdaacb87d8d064e",
+      "bytes": 1365289
+    },
+    "death/dead-after-authored-animation.png": {
+      "sha256": "66e0abcb26771b20105aa6adc41ec283f0718347b1438a2ed201395460b9e56e",
+      "bytes": 1581599
+    },
+    "death/dead-after-reload.png": {
+      "sha256": "1505419b77b31bff2c8b32310ed305dcfeb81b101f98da4963fe145f1be3ba49",
+      "bytes": 1581597
+    },
+    "death/runtime.log": {
+      "sha256": "37a7c463f4d189601dd107762524e31953b872f0ab8f827b92c299ed21886d19",
+      "bytes": 175008
+    },
+    "death/terminal-model-preview.png": {
+      "sha256": "6d3070d6f36ca901bd6f143676ed314c0ba0446e8535158622c78bb301479fc3",
+      "bytes": 172732
+    },
+    "death/validation.json": {
+      "sha256": "ab13adbf359e857a07eabfd4b5f9d9c5fe9456a062db3dfd28e8094fbf8b3751",
+      "bytes": 7290
+    },
+    "skills/adb-transcript.json": {
+      "sha256": "9e01cf4e37868c480cba2f1c97b392ed725830f2fd6c6a45b259c7d92b3a2f97",
+      "bytes": 64565
+    },
+    "skills/player-skills-initial.png": {
+      "sha256": "0ce8d360bd657170ff5fd93528e3888723813d7a44b5fe9865a10466066f7a67",
+      "bytes": 1602646
+    },
+    "skills/player-skills-restored.png": {
+      "sha256": "f5bffd53490415d87564b96261d38f76590fe240c65d99b533d3275d36327050",
+      "bytes": 1376024
+    },
+    "skills/player-skills-smoke.json": {
+      "sha256": "467ae6fc02c21568b8155f33c04816084476d6b3cbf92f3dbd26aed8266cdf6d",
+      "bytes": 20030
+    },
+    "skills/player-skills.log": {
+      "sha256": "4c0036d765bf5193d64ffe86bb8683204810968fcadec8bcee45f40e8f07a022",
+      "bytes": 255313
+    },
+    "crypt/adb-transcript.json": {
+      "sha256": "a27690d98cef01ac548b1554f035766cf11166c7e6bc0cf45c81856d67e4077f",
+      "bytes": 37313
+    },
+    "crypt/authored-ambush-restored.png": {
+      "sha256": "2572ed2ce1d3468f9665d8200e36ddefb3d1d1d74d3684d9a7bee5e428d53c2c",
+      "bytes": 1564097
+    },
+    "crypt/bundled-start.log": {
+      "sha256": "8fd8085452415c3f1f1ed96bd46568ddbb25db1a40bab1aedb227949f22642a3",
+      "bytes": 57546
+    },
+    "crypt/crypt-script-smoke.json": {
+      "sha256": "7d575bc76a8810f54c7544e4845fe4f92f3349ab8d9f8f81c3486a8b4ebdc7f3",
+      "bytes": 14425
+    },
+    "crypt/crypt-script.log": {
+      "sha256": "0e5fdc3be67d01220aff3dae369c4c135f86890f504bfe4b280c75fbf8512f2c",
+      "bytes": 392146
+    },
+    "crypt/outside-authored-trigger.png": {
+      "sha256": "b3b7f6b502de84057f1f48ecd72eb49277fb8aa7ecfb26163a7f2340b8f74832",
+      "bytes": 1721159
+    },
+    "crypt/source-ghost-pair-idle.png": {
+      "sha256": "db60e3a5db158126af7f05797e2b2e7030b885f284cb1421d2fc3853a0d13dc5",
+      "bytes": 1988288
+    }
+  },
+  "full_game_playable": false,
+  "physical_arm64_tested": false,
+  "scope": "Live API37/x86_64/16KiB read-only real campaign metadata import, corruption/slot-change rejection and retained distinct Saves; exact offline locality fallback with null registration. Selected original GEAR/V4 reader is host verified and both Android ABIs compiled/exported, not called by native full SG_Load4/InitPost. Prior Player death/pose/skills/regen and Crypt touch/script/spawn regressions pass on this same APK. No gameplay Save restoration, durable writes/backups or complete combat/game claim.",
+  "known_findings": [
+    "Unregistered Character660 now skips host-level reconciliation with no property reads/member writes; fallback local=true does not establish registration.",
+    "Binary test input transfer uses adb push and exact byte verification; no private campaign payload/name/backup is published.",
+    "Android surface recreation can occur on new-intent delivery; metadata reader count follows actual surface loads while one profile/file lease and one Player AIS initialization persist.",
+    "Powered stack split failure needs caller-owned remainder retirement before native equipment restoration; actual equipped quantities1 avoid that path."
+  ],
+  "next_live_milestone": "Original selected slot/controller/PlayerInfo registration and Spawn/InitAll, gameplay Save SG_Load1/2/4 with actual GEAR, then sole inventory/text/Skin/grants and one integrated skill/enemy encounter.",
+  "staged_source_parity": {
+    "path": "staged-source-parity.json",
+    "sha256": "4ec4337d1e912b34c0025e187fa650a746332b36def03f37806a244dacd35170",
+    "validation": "PASS"
+  }
+}

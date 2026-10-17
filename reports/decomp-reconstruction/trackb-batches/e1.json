@@ -1,0 +1,6512 @@
+[
+{
+"id": "e1-glitch-core-io-glitch_core_CMatrix4_float-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::CMatrix4<float>",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x312bf8",
+"bytes": 32,
+"demangled": "glitch::core::CMatrix4<float>::multiplyWith1x4Matrix(float*) const"
+},
+{
+"address": "0x3232c0",
+"bytes": 76,
+"demangled": "glitch::core::CMatrix4<float>::getInverse(glitch::core::CMatrix4<float>&) const"
+},
+{
+"address": "0x432bbc",
+"bytes": 668,
+"demangled": "glitch::core::CMatrix4<float>::getRotationDegrees() const"
+},
+{
+"address": "0x50fbb0",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x563b54",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x5822f8",
+"bytes": 76,
+"demangled": "glitch::core::CMatrix4<float>::makeInverse()"
+},
+{
+"address": "0x586a14",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x587398",
+"bytes": 48,
+"demangled": "glitch::core::CMatrix4<float>::transformBox(glitch::core::aabbox3d<float>&) const"
+},
+{
+"address": "0x591444",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x597548",
+"bytes": 188,
+"demangled": "glitch::core::CMatrix4<float>::transformBoxEx(glitch::core::aabbox3d<float>&) const"
+},
+{
+"address": "0x597788",
+"bytes": 80,
+"demangled": "glitch::core::CMatrix4<float>::postScale(glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x5aaef8",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x5baa94",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x5caf48",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x5d402c",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x60a2cc",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x60ce24",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x63ccc8",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x663ce8",
+"bytes": 88,
+"demangled": "glitch::core::CMatrix4<float>::getInverse(glitch::core::CMatrix4<float>&) const"
+},
+{
+"address": "0x669d4c",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+}
+],
+"bytes": 1544
+},
+{
+"id": "e1-glitch-core-io-glitch_core_CMatrix4_float-1",
+"category": "glitch-core-io",
+"owner": "glitch::core::CMatrix4<float>",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x66bf24",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x66fb64",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+},
+{
+"address": "0x6f6f68",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float>::CMatrix4(glitch::core::CMatrix4<float> const&, glitch::core::CMatrix4<float>::eConstructor)"
+}
+],
+"bytes": 72
+},
+{
+"id": "e1-glitch-core-io-glitch_core_plane3d_float-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::plane3d<float>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x34033c",
+"bytes": 56,
+"demangled": "glitch::core::plane3d<float>::getIntersectionWithLine(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float>&) const"
+},
+{
+"address": "0x341260",
+"bytes": 36,
+"demangled": "glitch::core::plane3d<float>::getIntersectionWithPlane(glitch::core::plane3d<float> const&, glitch::core::vector3d<float>&, glitch::core::vector3d<float>&) const"
+},
+{
+"address": "0x3415d8",
+"bytes": 100,
+"demangled": "glitch::core::plane3d<float>::getIntersectionWithPlanes(glitch::core::plane3d<float> const&, glitch::core::plane3d<float> const&, glitch::core::vector3d<float>&) const"
+}
+],
+"bytes": 192
+},
+{
+"id": "e1-glitch-core-io-glitch_core_quaternion-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::quaternion",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x35bc90",
+"bytes": 60,
+"demangled": "glitch::core::quaternion::operator*(glitch::core::vector3d<float> const&) const"
+},
+{
+"address": "0x35c8f0",
+"bytes": 28,
+"demangled": "glitch::core::quaternion::normalize()"
+},
+{
+"address": "0x35c9d8",
+"bytes": 564,
+"demangled": "glitch::core::quaternion::set(float, float, float)"
+},
+{
+"address": "0x410e48",
+"bytes": 40,
+"demangled": "glitch::core::quaternion::fromAngleAxis(float, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x432984",
+"bytes": 32,
+"demangled": "glitch::core::quaternion::getMatrix(glitch::core::CMatrix4<float>&) const"
+},
+{
+"address": "0x432e58",
+"bytes": 144,
+"demangled": "glitch::core::quaternion::toEulerDegree(glitch::core::vector3d<float>&) const"
+},
+{
+"address": "0x50eeb4",
+"bytes": 36,
+"demangled": "glitch::core::quaternion::operator=(glitch::core::CMatrix4<float> const&)"
+},
+{
+"address": "0x5602d0",
+"bytes": 32,
+"demangled": "glitch::core::quaternion::getMatrix_transposed(glitch::core::CMatrix4<float>&) const"
+},
+{
+"address": "0x60cdbc",
+"bytes": 24,
+"demangled": "glitch::core::quaternion::fromAngleAxis(float, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x60dd34",
+"bytes": 52,
+"demangled": "glitch::core::quaternion::operator*(glitch::core::quaternion const&) const"
+},
+{
+"address": "0x612d00",
+"bytes": 52,
+"demangled": "glitch::core::quaternion::slerp(glitch::core::quaternion, glitch::core::quaternion, float)"
+},
+{
+"address": "0x6d162c",
+"bytes": 36,
+"demangled": "glitch::core::quaternion::getMatrix() const"
+}
+],
+"bytes": 1100
+},
+{
+"id": "e1-glitch-core-io-glitch_core_vector3d_float-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::vector3d<float>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x35e8e0",
+"bytes": 28,
+"demangled": "glitch::core::vector3d<float>::normalize()"
+},
+{
+"address": "0x59a294",
+"bytes": 28,
+"demangled": "glitch::core::vector3d<float>::operator/(glitch::core::vector3d<float> const&) const"
+},
+{
+"address": "0x5a24b4",
+"bytes": 24,
+"demangled": "glitch::core::vector3d<float>::operator/=(glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x630bfc",
+"bytes": 92,
+"demangled": "glitch::core::vector3d<float>::rotateXYBy(double, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x630cf8",
+"bytes": 92,
+"demangled": "glitch::core::vector3d<float>::rotateYZBy(double, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x630de8",
+"bytes": 92,
+"demangled": "glitch::core::vector3d<float>::rotateXZBy(double, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x6c7b6c",
+"bytes": 84,
+"demangled": "glitch::core::vector3d<float>::getHorizontalAngle() const"
+}
+],
+"bytes": 440
+},
+{
+"id": "e1-glitch-core-io-boost_intrusive_ptr_glitch_video_CVertexStreams_-0",
+"category": "glitch-core-io",
+"owner": "boost::intrusive_ptr<glitch::video::CVertexStreams const>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x35eb90",
+"bytes": 64,
+"demangled": "boost::intrusive_ptr<glitch::video::CVertexStreams const>::~intrusive_ptr()"
+}
+],
+"bytes": 64
+},
+{
+"id": "e1-glitch-core-io-glitch_core-0",
+"category": "glitch-core-io",
+"owner": "glitch::core",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x37c164",
+"bytes": 132,
+"demangled": "glitch::core::hashString(char const*)"
+},
+{
+"address": "0x582c88",
+"bytes": 180,
+"demangled": "glitch::core::CMatrix4<float> glitch::core::buildProjectionMatrixPerspectiveFov<float>(float, float, float, float)"
+},
+{
+"address": "0x582d90",
+"bytes": 212,
+"demangled": "glitch::core::CMatrix4<float> glitch::core::buildProjectionMatrixPerspectiveFovInfinity<float>(float, float, float)"
+},
+{
+"address": "0x582e64",
+"bytes": 36,
+"demangled": "glitch::core::CMatrix4<float> glitch::core::buildCameraLookAtMatrix<float>(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x58359c",
+"bytes": 24,
+"demangled": "glitch::core::CMatrix4<float> glitch::core::buildProjectionMatrixOrtho<float>(float, float, float, float)"
+},
+{
+"address": "0x6651a0",
+"bytes": 84,
+"demangled": "glitch::core::CMatrix4<float> glitch::core::operator*<float, glitch::collada::SMatrix>(glitch::core::CMatrix4<float> const&, glitch::collada::SMatrix const&)"
+}
+],
+"bytes": 668
+},
+{
+"id": "e1-glitch-core-io-glitch_core_detail_CMatrix4Base_float-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::detail::CMatrix4Base<float>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x40ea54",
+"bytes": 28,
+"demangled": "glitch::core::detail::CMatrix4Base<float>::setbyproduct_nocheck(glitch::core::detail::CMatrix4Base<float> const&, glitch::core::detail::CMatrix4Base<float> const&)"
+},
+{
+"address": "0x50f6d8",
+"bytes": 80,
+"demangled": "glitch::core::detail::CMatrix4Base<float>::multEq(glitch::core::detail::CMatrix4Base<float> const&)"
+}
+],
+"bytes": 108
+},
+{
+"id": "e1-glitch-core-io-glitch_core_line2d_float-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::line2d<float>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x525310",
+"bytes": 36,
+"demangled": "glitch::core::line2d<float>::intersectWith(glitch::core::line2d<float> const&, glitch::core::vector2d<float>&) const"
+}
+],
+"bytes": 36
+},
+{
+"id": "e1-glitch-core-io-glitch_io_CMemoryReadFile-0",
+"category": "glitch-core-io",
+"owner": "glitch::io::CMemoryReadFile",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x56eb6c",
+"bytes": 20,
+"demangled": "glitch::io::CMemoryReadFile::getBuffer(long*)"
+},
+{
+"address": "0x56eb80",
+"bytes": 8,
+"demangled": "glitch::io::CMemoryReadFile::isAllInMemory() const"
+},
+{
+"address": "0x56eb8c",
+"bytes": 32,
+"demangled": "glitch::io::CMemoryReadFile::isValid() const"
+},
+{
+"address": "0x56ebac",
+"bytes": 52,
+"demangled": "glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+},
+{
+"address": "0x56ebe0",
+"bytes": 92,
+"demangled": "glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, long, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+},
+{
+"address": "0x56ec3c",
+"bytes": 60,
+"demangled": "glitch::io::CMemoryReadFile::seek(long, bool)"
+},
+{
+"address": "0x56ec78",
+"bytes": 8,
+"demangled": "glitch::io::CMemoryReadFile::getSize() const"
+},
+{
+"address": "0x56ec80",
+"bytes": 8,
+"demangled": "glitch::io::CMemoryReadFile::getPos() const"
+},
+{
+"address": "0x56ec88",
+"bytes": 8,
+"demangled": "glitch::io::CMemoryReadFile::getFileName() const"
+},
+{
+"address": "0x56ec90",
+"bytes": 8,
+"demangled": "glitch::io::CMemoryReadFile::getFullPath() const"
+},
+{
+"address": "0x56ecc4",
+"bytes": 76,
+"demangled": "glitch::io::CMemoryReadFile::read(void*, unsigned int)"
+}
+],
+"bytes": 372
+},
+{
+"id": "e1-glitch-core-io-glitch_core_aabbox3d_float-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::aabbox3d<float>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x585638",
+"bytes": 32,
+"demangled": "glitch::core::aabbox3d<float>::getEdges(glitch::core::vector3d<float>*) const"
+}
+],
+"bytes": 32
+},
+{
+"id": "e1-glitch-core-io-glitch_core_triangle3d_float-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::triangle3d<float>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5857ac",
+"bytes": 452,
+"demangled": "glitch::core::triangle3d<float>::isTotalInsideBox(glitch::core::aabbox3d<float> const&) const"
+},
+{
+"address": "0x585bb8",
+"bytes": 40,
+"demangled": "glitch::core::triangle3d<float>::isOnSameSide(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&) const"
+},
+{
+"address": "0x585de8",
+"bytes": 120,
+"demangled": "glitch::core::triangle3d<float>::isPointInside(glitch::core::vector3d<float> const&) const"
+},
+{
+"address": "0x585e80",
+"bytes": 40,
+"demangled": "glitch::core::triangle3d<float>::getIntersectionOfPlaneWithLine(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float>&) const"
+},
+{
+"address": "0x58615c",
+"bytes": 44,
+"demangled": "glitch::core::triangle3d<float>::getIntersectionWithLine(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float>&) const"
+}
+],
+"bytes": 696
+},
+{
+"id": "e1-glitch-core-io-glitch_os_Timer-0",
+"category": "glitch-core-io",
+"owner": "glitch::os::Timer",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60b0cc",
+"bytes": 64,
+"demangled": "glitch::os::Timer::getRealTime()"
+}
+],
+"bytes": 64
+},
+{
+"id": "e1-glitch-core-io-glitch_io_CLimitReadFile-0",
+"category": "glitch-core-io",
+"owner": "glitch::io::CLimitReadFile",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6b44e8",
+"bytes": 152,
+"demangled": "glitch::io::CLimitReadFile::read(void*, unsigned int)"
+},
+{
+"address": "0x6b4580",
+"bytes": 80,
+"demangled": "glitch::io::CLimitReadFile::readAsync(void*, unsigned int, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+},
+{
+"address": "0x6b45d0",
+"bytes": 116,
+"demangled": "glitch::io::CLimitReadFile::readAsync(void*, unsigned int, long, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+},
+{
+"address": "0x6b4644",
+"bytes": 140,
+"demangled": "glitch::io::CLimitReadFile::seek(long, bool)"
+},
+{
+"address": "0x6b46d0",
+"bytes": 8,
+"demangled": "glitch::io::CLimitReadFile::getSize() const"
+},
+{
+"address": "0x6b46d8",
+"bytes": 16,
+"demangled": "glitch::io::CLimitReadFile::getPos() const"
+},
+{
+"address": "0x6b46e8",
+"bytes": 8,
+"demangled": "glitch::io::CLimitReadFile::getFileName() const"
+},
+{
+"address": "0x6b46f0",
+"bytes": 8,
+"demangled": "glitch::io::CLimitReadFile::getFullPath() const"
+}
+],
+"bytes": 528
+},
+{
+"id": "e1-glitch-video-glitch_video_detail_renderpass_SRenderState-0",
+"category": "glitch-video",
+"owner": "glitch::video::detail::renderpass::SRenderState",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x588ddc",
+"bytes": 84,
+"demangled": "glitch::video::detail::renderpass::SRenderState::SRenderState()"
+}
+],
+"bytes": 84
+},
+{
+"id": "e1-glitch-video-glitch_video_CPrimitiveStream_SMapBuffer_unsigne-0",
+"category": "glitch-video",
+"owner": "glitch::video::CPrimitiveStream::SMapBuffer<unsigned short const>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5911a0",
+"bytes": 152,
+"demangled": "glitch::video::CPrimitiveStream::SMapBuffer<unsigned short const>::reset(glitch::video::CPrimitiveStream const&, glitch::video::E_BUFFER_READ_MAP_ACCESS)"
+}
+],
+"bytes": 152
+},
+{
+"id": "e1-glitch-video-glitch_video_CLight-0",
+"category": "glitch-video",
+"owner": "glitch::video::CLight",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x59fc00",
+"bytes": 52,
+"demangled": "glitch::video::CLight::setAbsoluteTransformation(glitch::core::CMatrix4<float> const&)"
+}
+],
+"bytes": 52
+},
+{
+"id": "e1-glitch-video-glitch_video_CVertexStreams-0",
+"category": "glitch-video",
+"owner": "glitch::video::CVertexStreams",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5a0a1c",
+"bytes": 60,
+"demangled": "glitch::video::CVertexStreams::~CVertexStreams()"
+}
+],
+"bytes": 60
+},
+{
+"id": "e1-glitch-video-glitch_video_IVideoDriver-0",
+"category": "glitch-video",
+"owner": "glitch::video::IVideoDriver",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5aaa40",
+"bytes": 68,
+"demangled": "glitch::video::IVideoDriver::addDynamicLight(boost::intrusive_ptr<glitch::video::CLight> const&)"
+}
+],
+"bytes": 68
+},
+{
+"id": "e1-glitch-video-glitch_video_CCommonGLDriver_glitch_video_CProgr-0",
+"category": "glitch-video",
+"owner": "glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5af3f8",
+"bytes": 264,
+"demangled": "void glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>::applyRenderStateBlend<glitch::video::detail::renderpass::SRenderState>(glitch::video::detail::renderpass::SRenderState const&)"
+},
+{
+"address": "0x5af6fc",
+"bytes": 96,
+"demangled": "void glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>::applyRenderStateDepthTest<glitch::video::detail::renderpass::SRenderState>(glitch::video::detail::renderpass::SRenderState const&)"
+}
+],
+"bytes": 360
+},
+{
+"id": "e1-glitch-video-glitch_video_detail-0",
+"category": "glitch-video",
+"owner": "glitch::video::detail",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5b71d8",
+"bytes": 452,
+"demangled": "void glitch::video::detail::apply<true, glitch::video::detail::renderpass::SRenderState, glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet> >(glitch::video::detail::renderpass::SRenderState const&, glitch::video::CCommonGLDriver<glitch::video::CProgrammableGLDriver<glitch::video::CGLSLShaderHandler>, glitch::video::detail::CProgrammableGLFunctionPointerSet>*)"
+}
+],
+"bytes": 452
+},
+{
+"id": "e1-glitch-video-glitch_video_CMaterial-0",
+"category": "glitch-video",
+"owner": "glitch::video::CMaterial",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5c5d34",
+"bytes": 72,
+"demangled": "glitch::video::CMaterial::getTechnique() const"
+}
+],
+"bytes": 72
+},
+{
+"id": "e1-glitch-video-glitch_video_CMaterialRenderer-0",
+"category": "glitch-video",
+"owner": "glitch::video::CMaterialRenderer",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5d3034",
+"bytes": 48,
+"demangled": "glitch::video::CMaterialRenderer::setRenderState(unsigned char, unsigned char, glitch::video::detail::renderpass::SRenderState const&)"
+},
+{
+"address": "0x5d4714",
+"bytes": 160,
+"demangled": "glitch::video::CMaterialRenderer::getTechniqueID(char const*) const"
+}
+],
+"bytes": 208
+},
+{
+"id": "e1-glitch-video-glitch_video_CMaterialRendererManager_SCreationS-0",
+"category": "glitch-video",
+"owner": "glitch::video::CMaterialRendererManager::SCreationState",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5d93e8",
+"bytes": 592,
+"demangled": "glitch::video::CMaterialRendererManager::SCreationState::addRenderPass(boost::intrusive_ptr<glitch::video::IShader const> const&, glitch::video::detail::renderpass::SRenderState const&, glitch::video::detail::material::SRenderState const&)"
+}
+],
+"bytes": 592
+},
+{
+"id": "e1-glitch-video-glitch_video-0",
+"category": "glitch-video",
+"owner": "glitch::video",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6058a4",
+"bytes": 564,
+"demangled": "glitch::video::(anonymous namespace)::readPVRHeader(glitch::io::IReadFile*, glitch::video::(anonymous namespace)::SPVRHeader&, bool&)"
+}
+],
+"bytes": 564
+},
+{
+"id": "e1-glitch-video-glitch_video_CImageLoaderPVR-0",
+"category": "glitch-video",
+"owner": "glitch::video::CImageLoaderPVR",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x605b10",
+"bytes": 1036,
+"demangled": "glitch::video::CImageLoaderPVR::loadTextureHeader(glitch::io::IReadFile*, glitch::video::STextureDesc&) const"
+}
+],
+"bytes": 1036
+},
+{
+"id": "e1-glitch-video-glitch_res_File-0",
+"category": "glitch-video",
+"owner": "glitch::res::File",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x69a40c",
+"bytes": 1092,
+"demangled": "glitch::res::File::Init()"
+}
+],
+"bytes": 1092
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_ICameraSceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::ICameraSceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x35bec0",
+"bytes": 8,
+"demangled": "glitch::scene::ICameraSceneNode::isOrthogonal() const"
+}
+],
+"bytes": 8
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CDynamicAnimationSet-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CDynamicAnimationSet",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3648c4",
+"bytes": 172,
+"demangled": "glitch::collada::CDynamicAnimationSet::CDynamicAnimationSet()"
+},
+{
+"address": "0x62dbb8",
+"bytes": 84,
+"demangled": "glitch::collada::CDynamicAnimationSet::getDatabaseIndex(glitch::collada::CColladaDatabase&)"
+},
+{
+"address": "0x62e8a8",
+"bytes": 24,
+"demangled": "glitch::collada::CDynamicAnimationSet::addAnimationLibrary(glitch::collada::CColladaDatabase const&)"
+},
+{
+"address": "0x62ee9c",
+"bytes": 560,
+"demangled": "glitch::collada::CDynamicAnimationSet::addAnimationLibraryBindings(glitch::collada::CColladaDatabase const&)"
+},
+{
+"address": "0x62f354",
+"bytes": 492,
+"demangled": "glitch::collada::CDynamicAnimationSet::addAnimation(glitch::collada::SAnimation const*)"
+},
+{
+"address": "0x62f54c",
+"bytes": 208,
+"demangled": "glitch::collada::CDynamicAnimationSet::clearTracks()"
+},
+{
+"address": "0x62f61c",
+"bytes": 884,
+"demangled": "glitch::collada::CDynamicAnimationSet::compile()"
+},
+{
+"address": "0x62fc90",
+"bytes": 104,
+"demangled": "glitch::collada::CDynamicAnimationSet::setDefaultAnimationLibrary(glitch::collada::CColladaDatabase const&)"
+},
+{
+"address": "0x62fcf8",
+"bytes": 204,
+"demangled": "glitch::collada::CDynamicAnimationSet::setDefaultAnimationLibrary(unsigned int)"
+}
+],
+"bytes": 2732
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CSceneNodeAnimatorBlender-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CSceneNodeAnimatorBlender",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x366594",
+"bytes": 52,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::normalizeWeights()"
+},
+{
+"address": "0x366f7c",
+"bytes": 148,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::CSceneNodeAnimatorBlender()"
+},
+{
+"address": "0x65e204",
+"bytes": 32,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::getAnimationTrack(int)"
+},
+{
+"address": "0x65e224",
+"bytes": 32,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::getAnimationTrackEx(int)"
+},
+{
+"address": "0x65e244",
+"bytes": 104,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::setTarget(int, void*, glitch::collada::animation_track::CApplicatorInfo const*)"
+},
+{
+"address": "0x65e34c",
+"bytes": 4,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::getAnimationValue(int, int, void*)"
+},
+{
+"address": "0x65e350",
+"bytes": 316,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::applyAnimationValues(unsigned int)"
+},
+{
+"address": "0x65e48c",
+"bytes": 316,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::computeAnimationValues(unsigned int)"
+},
+{
+"address": "0x65ed98",
+"bytes": 588,
+"demangled": "glitch::collada::CSceneNodeAnimatorBlender::compile(std::vector<unsigned char, glitch::core::SAllocator<unsigned char, (glitch::memory::E_MEMORY_HINT)0> >*)"
+}
+],
+"bytes": 1592
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_gui_CGUIEnvironment-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::gui::CGUIEnvironment",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x535710",
+"bytes": 88,
+"demangled": "glitch::gui::CGUIEnvironment::onEvent(glitch::SEvent const&)"
+}
+],
+"bytes": 88
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CCameraSceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CCameraSceneNode",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x581f50",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getProjectionMatrix() const"
+},
+{
+"address": "0x581f58",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getViewMatrix() const"
+},
+{
+"address": "0x581fe4",
+"bytes": 28,
+"demangled": "glitch::scene::CCameraSceneNode::setTarget(glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x582000",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getTarget() const"
+},
+{
+"address": "0x582008",
+"bytes": 28,
+"demangled": "glitch::scene::CCameraSceneNode::setUpVector(glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x582024",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getUpVector() const"
+},
+{
+"address": "0x58202c",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getNearValue() const"
+},
+{
+"address": "0x582034",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getFarValue() const"
+},
+{
+"address": "0x58203c",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getAspectRatio() const"
+},
+{
+"address": "0x582044",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getFOV() const"
+},
+{
+"address": "0x58204c",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getFarToInifinity()"
+},
+{
+"address": "0x582054",
+"bytes": 24,
+"demangled": "glitch::scene::CCameraSceneNode::setNearValue(float)"
+},
+{
+"address": "0x58206c",
+"bytes": 24,
+"demangled": "glitch::scene::CCameraSceneNode::setFarValue(float)"
+},
+{
+"address": "0x582084",
+"bytes": 24,
+"demangled": "glitch::scene::CCameraSceneNode::setAspectRatio(float)"
+},
+{
+"address": "0x58209c",
+"bytes": 24,
+"demangled": "glitch::scene::CCameraSceneNode::setFOV(float)"
+},
+{
+"address": "0x5820b4",
+"bytes": 24,
+"demangled": "glitch::scene::CCameraSceneNode::setMAG(float)"
+},
+{
+"address": "0x5820cc",
+"bytes": 24,
+"demangled": "glitch::scene::CCameraSceneNode::setFarToInifinity(bool)"
+},
+{
+"address": "0x5820e4",
+"bytes": 76,
+"demangled": "glitch::scene::CCameraSceneNode::render(void*)"
+},
+{
+"address": "0x582138",
+"bytes": 8,
+"demangled": "glitch::scene::CCameraSceneNode::getViewFrustum() const"
+},
+{
+"address": "0x5823ac",
+"bytes": 24,
+"demangled": "glitch::scene::CCameraSceneNode::setProjectionMatrix(glitch::core::CMatrix4<float> const&, bool)"
+}
+],
+"bytes": 380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CCameraSceneNode-1",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CCameraSceneNode",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x582904",
+"bytes": 68,
+"demangled": "glitch::scene::CCameraSceneNode::recalculateViewArea()"
+},
+{
+"address": "0x583280",
+"bytes": 40,
+"demangled": "glitch::scene::CCameraSceneNode::recalculateMatrices()"
+},
+{
+"address": "0x583534",
+"bytes": 104,
+"demangled": "glitch::scene::CCameraSceneNode::onRegisterSceneNode()"
+},
+{
+"address": "0x58364c",
+"bytes": 148,
+"demangled": "glitch::scene::CCameraSceneNode::recalculateProjectionMatrix()"
+},
+{
+"address": "0x583734",
+"bytes": 308,
+"demangled": "glitch::scene::CCameraSceneNode::CCameraSceneNode(int, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, bool)"
+}
+],
+"bytes": 668
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_SViewFrustum-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::SViewFrustum",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x582348",
+"bytes": 88,
+"demangled": "glitch::scene::SViewFrustum::setTransformState(glitch::video::E_TRANSFORMATION_STATE)"
+},
+{
+"address": "0x5823d4",
+"bytes": 116,
+"demangled": "glitch::scene::SViewFrustum::recalculateBoundingBox()"
+},
+{
+"address": "0x5826c0",
+"bytes": 24,
+"demangled": "glitch::scene::SViewFrustum::setFrom(glitch::core::CMatrix4<float> const&)"
+}
+],
+"bytes": 228
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CEmptySceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CEmptySceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5839b0",
+"bytes": 8,
+"demangled": "glitch::scene::CEmptySceneNode::getBoundingBox() const"
+}
+],
+"bytes": 8
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CLightSceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CLightSceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x583c18",
+"bytes": 152,
+"demangled": "glitch::scene::CLightSceneNode::doLightRecalc()"
+},
+{
+"address": "0x583cf0",
+"bytes": 40,
+"demangled": "glitch::scene::CLightSceneNode::getBoundingBox() const"
+},
+{
+"address": "0x583d18",
+"bytes": 28,
+"demangled": "glitch::scene::CLightSceneNode::render(void*)"
+},
+{
+"address": "0x583d34",
+"bytes": 84,
+"demangled": "glitch::scene::CLightSceneNode::onRegisterSceneNode()"
+}
+],
+"bytes": 304
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CMeshSceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CMeshSceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x585118",
+"bytes": 244,
+"demangled": "glitch::scene::CMeshSceneNode::CMeshSceneNode(boost::intrusive_ptr<glitch::scene::IMesh> const&, int, glitch::core::vector3d<float> const&, glitch::core::quaternion const&, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x585370",
+"bytes": 592,
+"demangled": "glitch::scene::CMeshSceneNode::render(void*)"
+}
+],
+"bytes": 836
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CTriangleSelector-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CTriangleSelector",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x586a34",
+"bytes": 152,
+"demangled": "glitch::scene::CTriangleSelector::Setup(glitch::core::CMatrix4<float> const*) const"
+},
+{
+"address": "0x586acc",
+"bytes": 188,
+"demangled": "glitch::scene::CTriangleSelector::AddResult(glitch::core::triangle3d<float> const&) const"
+},
+{
+"address": "0x586ec8",
+"bytes": 160,
+"demangled": "glitch::scene::CTriangleSelector::TestWithBox(std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&) const"
+},
+{
+"address": "0x587604",
+"bytes": 144,
+"demangled": "glitch::scene::CTriangleSelector::Setup(glitch::core::aabbox3d<float> const&) const"
+},
+{
+"address": "0x590f20",
+"bytes": 48,
+"demangled": "glitch::scene::CTriangleSelector::getTriangleCount() const"
+},
+{
+"address": "0x591464",
+"bytes": 528,
+"demangled": "glitch::scene::CTriangleSelector::getTriangles(glitch::core::triangle3d<float>*, int, int&, glitch::core::CMatrix4<float> const*) const"
+},
+{
+"address": "0x596598",
+"bytes": 908,
+"demangled": "glitch::scene::CTriangleSelector::CTriangleSelector(boost::intrusive_ptr<glitch::scene::IMesh const> const&, glitch::scene::ISceneNode const*, bool)"
+}
+],
+"bytes": 2128
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_COctTreeTriangleSelector-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::COctTreeTriangleSelector",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5870fc",
+"bytes": 204,
+"demangled": "glitch::scene::COctTreeTriangleSelector::getTrianglesFromOctTreeBox(glitch::scene::COctTreeTriangleSelector::SOctTreeNode*) const"
+},
+{
+"address": "0x587694",
+"bytes": 80,
+"demangled": "glitch::scene::COctTreeTriangleSelector::getTriangles(glitch::core::triangle3d<float>*, int, int&, glitch::core::aabbox3d<float> const&, glitch::core::CMatrix4<float> const*) const"
+},
+{
+"address": "0x587e60",
+"bytes": 168,
+"demangled": "glitch::scene::COctTreeTriangleSelector::constructOctTree(glitch::scene::COctTreeTriangleSelector::SOctTreeNode*)"
+}
+],
+"bytes": 452
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CSceneManager-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CSceneManager",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x58ab28",
+"bytes": 388,
+"demangled": "glitch::scene::CSceneManager::isCulled(glitch::scene::ISceneNode const*) const"
+},
+{
+"address": "0x58b728",
+"bytes": 132,
+"demangled": "glitch::scene::CSceneManager::drawAll(std::vector<glitch::scene::ISceneNode*, glitch::core::SAllocator<glitch::scene::ISceneNode*, (glitch::memory::E_MEMORY_HINT)0> > const&)"
+},
+{
+"address": "0x58b7f4",
+"bytes": 152,
+"demangled": "glitch::scene::CSceneManager::drawAll(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x58f348",
+"bytes": 1596,
+"demangled": "glitch::scene::CSceneManager::registerNodeForRendering(glitch::scene::ISceneNode*, boost::intrusive_ptr<glitch::video::CMaterial> const&, void*, glitch::scene::E_SCENE_NODE_RENDER_PASS, glitch::core::vector3d<float> const*, int)"
+}
+],
+"bytes": 2268
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x591d38",
+"bytes": 1904,
+"demangled": "void glitch::scene::(anonymous namespace)::createTriangles<float, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> > >(unsigned short const*, unsigned int, glitch::video::SVertexStream const&, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x5924a8",
+"bytes": 2480,
+"demangled": "void glitch::scene::(anonymous namespace)::createTriangles<unsigned int, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> > >(unsigned short const*, unsigned int, glitch::video::SVertexStream const&, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x592e58",
+"bytes": 2480,
+"demangled": "void glitch::scene::(anonymous namespace)::createTriangles<signed char, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> > >(unsigned short const*, unsigned int, glitch::video::SVertexStream const&, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x593808",
+"bytes": 2480,
+"demangled": "void glitch::scene::(anonymous namespace)::createTriangles<unsigned char, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> > >(unsigned short const*, unsigned int, glitch::video::SVertexStream const&, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x5941b8",
+"bytes": 2480,
+"demangled": "void glitch::scene::(anonymous namespace)::createTriangles<short, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> > >(unsigned short const*, unsigned int, glitch::video::SVertexStream const&, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x594b68",
+"bytes": 2480,
+"demangled": "void glitch::scene::(anonymous namespace)::createTriangles<unsigned short, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> > >(unsigned short const*, unsigned int, glitch::video::SVertexStream const&, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x595518",
+"bytes": 2480,
+"demangled": "void glitch::scene::(anonymous namespace)::createTriangles<int, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> > >(unsigned short const*, unsigned int, glitch::video::SVertexStream const&, std::vector<glitch::core::triangle3d<float>, glitch::core::SAllocator<glitch::core::triangle3d<float>, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x6bccf0",
+"bytes": 648,
+"demangled": "glitch::scene::(anonymous namespace)::addStream(glitch::video::IVideoDriver*, glitch::collada::SMesh&, glitch::collada::SMeshBuffer&, char, glitch::video::SVertexStreamData*, unsigned char, glitch::collada::SBufferConfig const&)"
+}
+],
+"bytes": 17432
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_ISceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::ISceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x596d08",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNode::onRegisterSceneNode()"
+},
+{
+"address": "0x596d6c",
+"bytes": 184,
+"demangled": "glitch::scene::ISceneNode::onAnimate(unsigned int)"
+},
+{
+"address": "0x596e2c",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNode::getName() const"
+},
+{
+"address": "0x597004",
+"bytes": 104,
+"demangled": "glitch::scene::ISceneNode::removeChild(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x5970bc",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNode::getScale() const"
+},
+{
+"address": "0x5970c4",
+"bytes": 40,
+"demangled": "glitch::scene::ISceneNode::setScale(glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x5970ec",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNode::getRotation() const"
+},
+{
+"address": "0x5970f4",
+"bytes": 48,
+"demangled": "glitch::scene::ISceneNode::setRotation(glitch::core::quaternion const&)"
+},
+{
+"address": "0x597124",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNode::getPosition() const"
+},
+{
+"address": "0x59712c",
+"bytes": 40,
+"demangled": "glitch::scene::ISceneNode::setPosition(glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x597154",
+"bytes": 44,
+"demangled": "glitch::scene::ISceneNode::setPosition(float, float, float)"
+},
+{
+"address": "0x597180",
+"bytes": 28,
+"demangled": "glitch::scene::ISceneNode::getAbsolutePosition() const"
+},
+{
+"address": "0x597290",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNode::getParent() const"
+},
+{
+"address": "0x59770c",
+"bytes": 124,
+"demangled": "glitch::scene::ISceneNode::getTransformedBoundingBox() const"
+},
+{
+"address": "0x597c60",
+"bytes": 228,
+"demangled": "glitch::scene::ISceneNode::updateAbsolutePosition(bool)"
+},
+{
+"address": "0x598864",
+"bytes": 164,
+"demangled": "glitch::scene::ISceneNode::addChild(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x598908",
+"bytes": 136,
+"demangled": "glitch::scene::ISceneNode::getRelativeTransformation() const"
+}
+],
+"bytes": 1188
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_ISceneNodeAnimator-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::ISceneNodeAnimator",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x599868",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNodeAnimator::getTimelineCtrl() const"
+},
+{
+"address": "0x599870",
+"bytes": 8,
+"demangled": "glitch::scene::ISceneNodeAnimator::getTimelineCtrl()"
+}
+],
+"bytes": 16
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_SAnimationSegment-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::SAnimationSegment",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60bee4",
+"bytes": 376,
+"demangled": "glitch::collada::SAnimationSegment::getData(glitch::res::onDemandReader&)"
+}
+],
+"bytes": 376
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CEventsManager-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CEventsManager",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60e02c",
+"bytes": 172,
+"demangled": "glitch::collada::CEventsManager::findEntry(int)"
+},
+{
+"address": "0x60e934",
+"bytes": 144,
+"demangled": "void glitch::collada::CEventsManager::dispatchEventsEx<int, 1000>(int, int, int)"
+},
+{
+"address": "0x60ea08",
+"bytes": 140,
+"demangled": "void glitch::collada::CEventsManager::dispatchEventsEx<unsigned short, 30>(int, int, int)"
+},
+{
+"address": "0x60eae4",
+"bytes": 128,
+"demangled": "void glitch::collada::CEventsManager::dispatchEventsEx<unsigned char, 30>(int, int, int)"
+},
+{
+"address": "0x60ebb4",
+"bytes": 44,
+"demangled": "glitch::collada::CEventsManager::dispatchEvents(int, int, int)"
+},
+{
+"address": "0x60ebe0",
+"bytes": 212,
+"demangled": "glitch::collada::CEventsManager::onUpdate(int, int, int, int)"
+},
+{
+"address": "0x60ecb4",
+"bytes": 92,
+"demangled": "glitch::collada::CEventsManager::onUpdate(int, int)"
+},
+{
+"address": "0x60fcf8",
+"bytes": 164,
+"demangled": "int glitch::collada::CEventsManager::getEventTimeFromEventNameEx<int, 1000>(char const*)"
+},
+{
+"address": "0x60fd9c",
+"bytes": 164,
+"demangled": "int glitch::collada::CEventsManager::getEventTimeFromEventNameEx<unsigned short, 30>(char const*)"
+},
+{
+"address": "0x60fe48",
+"bytes": 156,
+"demangled": "int glitch::collada::CEventsManager::getEventTimeFromEventNameEx<unsigned char, 30>(char const*)"
+},
+{
+"address": "0x60feec",
+"bytes": 52,
+"demangled": "glitch::collada::CEventsManager::getEventTimeFromEventName(char const*)"
+}
+],
+"bytes": 1468
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CImage-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CImage",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60e1d4",
+"bytes": 172,
+"demangled": "glitch::collada::CImage::CImage(glitch::collada::CColladaDatabase const&, glitch::collada::SImage&)"
+}
+],
+"bytes": 172
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CColladaDatabase-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CColladaDatabase",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x60e2a8",
+"bytes": 20,
+"demangled": "glitch::collada::CColladaDatabase::getVersion() const"
+},
+{
+"address": "0x60e334",
+"bytes": 20,
+"demangled": "glitch::collada::CColladaDatabase::getAnimationClipLibrary() const"
+},
+{
+"address": "0x60e348",
+"bytes": 20,
+"demangled": "glitch::collada::CColladaDatabase::getScene() const"
+},
+{
+"address": "0x60e35c",
+"bytes": 24,
+"demangled": "glitch::collada::CColladaDatabase::getAnimation(int) const"
+},
+{
+"address": "0x60e374",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getAnimationClip(int) const"
+},
+{
+"address": "0x60e390",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getCamera(int) const"
+},
+{
+"address": "0x60e3ac",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getLight(int) const"
+},
+{
+"address": "0x60e3c8",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getImage(int) const"
+},
+{
+"address": "0x60e3e4",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getEffect(int) const"
+},
+{
+"address": "0x60e400",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getMaterial(int) const"
+},
+{
+"address": "0x60e41c",
+"bytes": 24,
+"demangled": "glitch::collada::CColladaDatabase::getGeometry(int) const"
+},
+{
+"address": "0x60e434",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getController(int) const"
+},
+{
+"address": "0x60e450",
+"bytes": 24,
+"demangled": "glitch::collada::CColladaDatabase::getForce(int) const"
+},
+{
+"address": "0x60e468",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getEmitter(int) const"
+},
+{
+"address": "0x60e484",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getGNPSEmitter(int) const"
+},
+{
+"address": "0x60e4a0",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getCoronas(int) const"
+},
+{
+"address": "0x60e54c",
+"bytes": 36,
+"demangled": "glitch::collada::CColladaDatabase::getVisualScene(int) const"
+},
+{
+"address": "0x60fa24",
+"bytes": 76,
+"demangled": "glitch::collada::CColladaDatabase::constructController(glitch::video::IVideoDriver*, glitch::collada::SController*, glitch::collada::CRootSceneNode*) const"
+},
+{
+"address": "0x60fb54",
+"bytes": 284,
+"demangled": "glitch::collada::CColladaDatabase::constructAnimator() const"
+},
+{
+"address": "0x611ae0",
+"bytes": 1572,
+"demangled": "glitch::collada::CColladaDatabase::getAnimationTrackEx(glitch::collada::SAnimation const*)"
+}
+],
+"bytes": 2380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CColladaDatabase-1",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CColladaDatabase",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x61ace8",
+"bytes": 464,
+"demangled": "glitch::collada::CColladaDatabase::constructController(glitch::video::IVideoDriver*, glitch::collada::SInstanceController*, glitch::collada::CRootSceneNode*, bool) const"
+},
+{
+"address": "0x61aeb8",
+"bytes": 500,
+"demangled": "glitch::collada::CColladaDatabase::constructGeometry(glitch::video::IVideoDriver*, glitch::collada::SInstanceGeometry*, glitch::collada::CRootSceneNode*) const"
+},
+{
+"address": "0x61b2f4",
+"bytes": 1480,
+"demangled": "glitch::collada::CColladaDatabase::constructNode(glitch::video::IVideoDriver*, glitch::collada::SNode*, glitch::collada::CRootSceneNode*) const"
+},
+{
+"address": "0x61b9e8",
+"bytes": 212,
+"demangled": "glitch::collada::CColladaDatabase::constructScene(glitch::video::IVideoDriver*) const"
+},
+{
+"address": "0x61c0c8",
+"bytes": 280,
+"demangled": "glitch::collada::CColladaDatabase::getAnimation(char const*, glitch::collada::SChannel::Type, unsigned char) const"
+},
+{
+"address": "0x61c1e0",
+"bytes": 28,
+"demangled": "glitch::collada::CColladaDatabase::getBlendableAnimation(glitch::collada::SChannel const*) const"
+},
+{
+"address": "0x61c214",
+"bytes": 124,
+"demangled": "glitch::collada::CColladaDatabase::getNode(char const*, glitch::collada::SNode&) const"
+},
+{
+"address": "0x61c290",
+"bytes": 104,
+"demangled": "glitch::collada::CColladaDatabase::getNode(char const*) const"
+},
+{
+"address": "0x61c2f8",
+"bytes": 944,
+"demangled": "glitch::collada::CColladaDatabase::getDefaultValue(char const*, glitch::collada::SChannel::Type, void**, void*) const"
+},
+{
+"address": "0x61c6bc",
+"bytes": 48,
+"demangled": "glitch::collada::CColladaDatabase::getDefaultValue(glitch::collada::SChannel const*, void**) const"
+}
+],
+"bytes": 4184
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<float, glitch::collada::animation_track::CMixin<float, 1, glitch::collada::animation_track::SMaterialSetParam<glitch::collada::animation_track::SAnimationTypes<float, float> >, -1, float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60ee94",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<float, glitch::collada::animation_track::CMixin<float, 1, glitch::collada::animation_track::SMaterialSetParam<glitch::collada::animation_track::SAnimationTypes<float, float> >, -1, float> > >::getValueSize() const"
+},
+{
+"address": "0x618fe4",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<float, glitch::collada::animation_track::CMixin<float, 1, glitch::collada::animation_track::SMaterialSetParam<glitch::collada::animation_track::SAnimationTypes<float, float> >, -1, float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x620118",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<float, glitch::collada::animation_track::CMixin<float, 1, glitch::collada::animation_track::SMaterialSetParam<glitch::collada::animation_track::SAnimationTypes<float, float> >, -1, float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x620134",
+"bytes": 80,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<float, glitch::collada::animation_track::CMixin<float, 1, glitch::collada::animation_track::SMaterialSetParam<glitch::collada::animation_track::SAnimationTypes<float, float> >, -1, float> > >::getBlendedValue(void*, float*, int, void*) const"
+}
+],
+"bytes": 140
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60ef1c",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> > >::getValueSize() const"
+},
+{
+"address": "0x610ebc",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> > >::getInstance()"
+},
+{
+"address": "0x620600",
+"bytes": 52,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> > >::retrieveValue(void*, void*) const"
+},
+{
+"address": "0x622bf8",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x62a2e0",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x62c3c4",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60ef34",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> > >::getValueSize() const"
+},
+{
+"address": "0x610d00",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> > >::getInstance()"
+},
+{
+"address": "0x62069c",
+"bytes": 52,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> > >::retrieveValue(void*, void*) const"
+},
+{
+"address": "0x622c40",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x62a034",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x62ca3c",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60ef4c",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> > >::getValueSize() const"
+},
+{
+"address": "0x610b44",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> > >::getInstance()"
+},
+{
+"address": "0x620738",
+"bytes": 52,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> > >::retrieveValue(void*, void*) const"
+},
+{
+"address": "0x6238f4",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x6278a8",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x62d0b4",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60ef64",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> > >::getValueSize() const"
+},
+{
+"address": "0x610988",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> > >::getInstance()"
+},
+{
+"address": "0x62393c",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x6275fc",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x62d72c",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 328
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60efb0",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> > >::getValueSize() const"
+},
+{
+"address": "0x6107cc",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> > >::getInstance()"
+},
+{
+"address": "0x6203c4",
+"bytes": 52,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> > >::retrieveValue(void*, void*) const"
+},
+{
+"address": "0x622cb8",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x627350",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x628e24",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60efc8",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> > >::getValueSize() const"
+},
+{
+"address": "0x610610",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> > >::getInstance()"
+},
+{
+"address": "0x620460",
+"bytes": 52,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> > >::retrieveValue(void*, void*) const"
+},
+{
+"address": "0x623d48",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x6270a4",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x62949c",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60efe0",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> > >::getValueSize() const"
+},
+{
+"address": "0x610454",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> > >::getInstance()"
+},
+{
+"address": "0x6204fc",
+"bytes": 52,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> > >::retrieveValue(void*, void*) const"
+},
+{
+"address": "0x623d90",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x626df8",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x629b14",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 380
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60eff8",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> > >::getValueSize() const"
+},
+{
+"address": "0x623dd8",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x626b4c",
+"bytes": 144,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x62859c",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x628834",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> > >::getKeyBasedValue(glitch::collada::SAnimationAccessor const&, int, int, float, void*) const"
+}
+],
+"bytes": 232
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60f0e8",
+"bytes": 8,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> > >::getValueSize() const"
+},
+{
+"address": "0x60ff20",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> > >::getInstance()"
+},
+{
+"address": "0x613300",
+"bytes": 20,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> > >::getBlendedValue(void*, float*, int, void*) const"
+},
+{
+"address": "0x62084c",
+"bytes": 24,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> > >::applyValue(void*, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+},
+{
+"address": "0x6209b4",
+"bytes": 28,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> > >::applyBlendedValue(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*) const"
+}
+],
+"bytes": 204
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_ISceneNodeAnimator-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::ISceneNodeAnimator",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x60fab8",
+"bytes": 144,
+"demangled": "glitch::collada::ISceneNodeAnimator::setEventsTrack(glitch::collada::SEventsTrack const*)"
+},
+{
+"address": "0x667c48",
+"bytes": 108,
+"demangled": "glitch::collada::ISceneNodeAnimator::updateTime(unsigned int)"
+},
+{
+"address": "0x667cb4",
+"bytes": 4,
+"demangled": "glitch::collada::ISceneNodeAnimator::serializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*) const"
+},
+{
+"address": "0x667cb8",
+"bytes": 4,
+"demangled": "glitch::collada::ISceneNodeAnimator::deserializeAttributes(glitch::io::IAttributes*, glitch::io::SAttributeReadWriteOptions*)"
+},
+{
+"address": "0x667dc4",
+"bytes": 124,
+"demangled": "glitch::collada::ISceneNodeAnimator::setTarget(char const*, void*)"
+},
+{
+"address": "0x667f18",
+"bytes": 5480,
+"demangled": "glitch::collada::ISceneNodeAnimator::forceBind()"
+},
+{
+"address": "0x669574",
+"bytes": 432,
+"demangled": "glitch::collada::ISceneNodeAnimator::setCompatibleTarget(glitch::collada::SChannel const&, void*)"
+},
+{
+"address": "0x669828",
+"bytes": 188,
+"demangled": "glitch::collada::ISceneNodeAnimator::ISceneNodeAnimator()"
+},
+{
+"address": "0x6698fc",
+"bytes": 180,
+"demangled": "glitch::collada::ISceneNodeAnimator::ISceneNodeAnimator()"
+}
+],
+"bytes": 6664
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVirtualEx_glitch-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float> > >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6100dc",
+"bytes": 124,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float> > >::getInstance()"
+},
+{
+"address": "0x61cbf4",
+"bytes": 60,
+"demangled": "glitch::collada::animation_track::CVirtualEx<glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float> > >::retrieveValue(void*, void*) const"
+}
+],
+"bytes": 184
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CBlender_glitch_c-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CBlender<glitch::core::quaternion, 1, glitch::core::quaternion>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6130d4",
+"bytes": 380,
+"demangled": "glitch::collada::animation_track::CBlender<glitch::core::quaternion, 1, glitch::core::quaternion>::getBlendedValueEx(void*, float*, int, void*)"
+},
+{
+"address": "0x613378",
+"bytes": 188,
+"demangled": "glitch::collada::animation_track::CBlender<glitch::core::quaternion, 1, glitch::core::quaternion>::getAddedValueEx(void*, float*, int, void*)"
+}
+],
+"bytes": 568
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeQuaternionMixin<float>, float, 4, glitch::collada::animation_track::SUseDefaultLerp<float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x613294",
+"bytes": 40,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeQuaternionMixin<float>, float, 4, glitch::collada::animation_track::SUseDefaultLerp<float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+}
+],
+"bytes": 40
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x615e6c",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, void*)"
+},
+{
+"address": "0x61db54",
+"bytes": 56,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)"
+},
+{
+"address": "0x61ff3c",
+"bytes": 112,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61ffbc",
+"bytes": 116,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+}
+],
+"bytes": 328
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x61dc4c",
+"bytes": 112,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61dccc",
+"bytes": 88,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+},
+{
+"address": "0x61dda0",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, void*)"
+},
+{
+"address": "0x61de20",
+"bytes": 56,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)"
+}
+],
+"bytes": 300
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x61df18",
+"bytes": 112,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61df98",
+"bytes": 104,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+},
+{
+"address": "0x61e06c",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, void*)"
+},
+{
+"address": "0x61e0ec",
+"bytes": 56,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)"
+}
+],
+"bytes": 316
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x61e1e4",
+"bytes": 112,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61e264",
+"bytes": 116,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+},
+{
+"address": "0x61e334",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, void*)"
+},
+{
+"address": "0x61e3b4",
+"bytes": 56,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<2, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)"
+}
+],
+"bytes": 328
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float, 4, glitch::collada::animation_track::SUseDefaultValues<3, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x61f51c",
+"bytes": 120,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float, 4, glitch::collada::animation_track::SUseDefaultValues<3, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61f898",
+"bytes": 116,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float, 4, glitch::collada::animation_track::SUseDefaultValues<3, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+}
+],
+"bytes": 236
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreterQuate-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreterQuaternionAngle<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x61f594",
+"bytes": 64,
+"demangled": "glitch::collada::animation_track::CInterpreterQuaternionAngle<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float>::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61f5e4",
+"bytes": 252,
+"demangled": "glitch::collada::animation_track::CInterpreterQuaternionAngle<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float>::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, void*)"
+},
+{
+"address": "0x61f6f4",
+"bytes": 384,
+"demangled": "glitch::collada::animation_track::CInterpreterQuaternionAngle<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float>::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)"
+},
+{
+"address": "0x61f94c",
+"bytes": 60,
+"demangled": "glitch::collada::animation_track::CInterpreterQuaternionAngle<glitch::collada::animation_track::CSceneNodeQuaternionAngleMixin<float>, float>::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+}
+],
+"bytes": 760
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x61f9a4",
+"bytes": 112,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61fa24",
+"bytes": 88,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+},
+{
+"address": "0x61faf8",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, void*)"
+},
+{
+"address": "0x61fb78",
+"bytes": 56,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionXEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<0, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)"
+}
+],
+"bytes": 300
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x61fc70",
+"bytes": 112,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, void*)"
+},
+{
+"address": "0x61fcf0",
+"bytes": 104,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+},
+{
+"address": "0x61fdc4",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, void*)"
+},
+{
+"address": "0x61fe44",
+"bytes": 56,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodePositionYEx<float>, float, 3, glitch::collada::animation_track::SUseDefaultValues<1, float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, int, float, void*)"
+}
+],
+"bytes": 316
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_flo-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<float, glitch::collada::animation_track::CMixin<float, 1, glitch::collada::animation_track::SMaterialSetParam<glitch::collada::animation_track::SAnimationTypes<float, float> >, -1, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x62008c",
+"bytes": 112,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<float, glitch::collada::animation_track::CMixin<float, 1, glitch::collada::animation_track::SMaterialSetParam<glitch::collada::animation_track::SAnimationTypes<float, float> >, -1, float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 112
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x620968",
+"bytes": 76,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::quaternion, glitch::collada::animation_track::CSceneNodeQuaternionMixin<float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 76
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6284a4",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionMixin<float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CMixin<float, 3, glitch::collada::animation_track::SSceneNodePosition, -1, float>, float, 3, glitch::collada::animation_track::SUseDefaultLerp<float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6286cc",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CMixin<float, 3, glitch::collada::animation_track::SSceneNodePosition, -1, float>, float, 3, glitch::collada::animation_track::SUseDefaultLerp<float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+}
+],
+"bytes": 44
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CInterpreter_glit-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleMixin<float>, float, 3, glitch::collada::animation_track::SUseDefaultLerp<float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x628850",
+"bytes": 44,
+"demangled": "glitch::collada::animation_track::CInterpreter<glitch::collada::animation_track::CSceneNodeScaleMixin<float>, float, 3, glitch::collada::animation_track::SUseDefaultLerp<float> >::getKeyBasedValueEx(glitch::collada::SAnimationAccessor const&, int, int, float, void*)"
+}
+],
+"bytes": 44
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x628d2c",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionZEx<float>, 2, float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6293a4",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionYEx<float>, 1, float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x629a1c",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodePositionComponentMixin<glitch::collada::animation_track::CSceneNodePositionXEx<float>, 0, float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x62c2cc",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleZEx<float>, 2, float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x62c944",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleYEx<float>, 1, float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x62cfbc",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleComponentMixin<glitch::collada::animation_track::CSceneNodeScaleXEx<float>, 0, float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CApplyValueEx_gli-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> >",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x62d634",
+"bytes": 164,
+"demangled": "glitch::collada::animation_track::CApplyValueEx<glitch::core::vector3d<float>, glitch::collada::animation_track::CSceneNodeScaleMixin<float> >::applyBlendedValueEx(void*, float*, int, void*, glitch::collada::animation_track::CApplicatorInfo*)"
+}
+],
+"bytes": 164
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CAnimationSet-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CAnimationSet",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x62db98",
+"bytes": 8,
+"demangled": "glitch::collada::CAnimationSet::setMismatchBehavior(glitch::collada::CAnimationSet::E_MISMATCH_BEHAVIOR)"
+},
+{
+"address": "0x65f044",
+"bytes": 20,
+"demangled": "glitch::collada::CAnimationSet::getAnimationCount() const"
+},
+{
+"address": "0x6600fc",
+"bytes": 200,
+"demangled": "glitch::collada::CAnimationSet::addAnimationLibrary(char const*)"
+},
+{
+"address": "0x6601d4",
+"bytes": 40,
+"demangled": "glitch::collada::CAnimationSet::addAnimationLibrary(glitch::collada::CColladaDatabase const&)"
+},
+{
+"address": "0x6601fc",
+"bytes": 632,
+"demangled": "glitch::collada::CAnimationSet::addAnimation(glitch::collada::SAnimation const*)"
+},
+{
+"address": "0x6605ac",
+"bytes": 356,
+"demangled": "glitch::collada::CAnimationSet::CompileInternal()"
+},
+{
+"address": "0x660710",
+"bytes": 988,
+"demangled": "glitch::collada::CAnimationSet::compile()"
+}
+],
+"bytes": 2244
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CColladaFactory-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CColladaFactory",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x631800",
+"bytes": 48,
+"demangled": "glitch::collada::CColladaFactory::createNode(glitch::collada::CColladaDatabase const&, glitch::collada::SNode*)"
+},
+{
+"address": "0x6323d0",
+"bytes": 244,
+"demangled": "glitch::collada::CColladaFactory::createMaterial(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, glitch::collada::SMaterial*, glitch::collada::CRootSceneNode*)"
+},
+{
+"address": "0x634520",
+"bytes": 1152,
+"demangled": "glitch::collada::CColladaFactory::createMaterialVertexAttributeMap(glitch::collada::CColladaDatabase const&, glitch::collada::SInstanceMaterial*, boost::intrusive_ptr<glitch::collada::IMesh> const&, boost::intrusive_ptr<glitch::video::CMaterial> const&, unsigned int, bool)"
+}
+],
+"bytes": 1444
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x631ce8",
+"bytes": 1684,
+"demangled": "glitch::collada::createMaterial(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, boost::intrusive_ptr<glitch::video::CMaterialRenderer> const&, glitch::collada::SMaterial&, glitch::collada::CRootSceneNode*)"
+},
+{
+"address": "0x6357a0",
+"bytes": 2596,
+"demangled": "boost::intrusive_ptr<glitch::video::CMaterialRenderer> glitch::collada::createMaterialRendererForProfile<glitch::collada::SProfileNullTraits>(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, char const*, glitch::collada::SEffectList const&, glitch::collada::CRootSceneNode*)"
+},
+{
+"address": "0x6361e8",
+"bytes": 2416,
+"demangled": "boost::intrusive_ptr<glitch::video::CMaterialRenderer> glitch::collada::createMaterialRendererForProfile<glitch::collada::SProfileGLES2Traits>(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, char const*, glitch::collada::SEffectList const&, glitch::collada::CRootSceneNode*)"
+},
+{
+"address": "0x667c38",
+"bytes": 12,
+"demangled": "glitch::collada::getStringsInternal(glitch::collada::ISceneNodeAnimator::E_INTERPOLATION_MODE*)"
+}
+],
+"bytes": 6708
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CMesh-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CMesh",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x644a44",
+"bytes": 40,
+"demangled": "glitch::collada::CMesh::getMeshBufferCount() const"
+},
+{
+"address": "0x644a6c",
+"bytes": 92,
+"demangled": "glitch::collada::CMesh::getMeshBuffer(unsigned int) const"
+},
+{
+"address": "0x644ac8",
+"bytes": 92,
+"demangled": "glitch::collada::CMesh::getMaterial(unsigned int) const"
+},
+{
+"address": "0x644b24",
+"bytes": 92,
+"demangled": "glitch::collada::CMesh::getMaterialVertexAttributeMap(unsigned int) const"
+},
+{
+"address": "0x644bdc",
+"bytes": 172,
+"demangled": "glitch::collada::CMesh::setMaterial(unsigned int, boost::intrusive_ptr<glitch::video::CMaterial> const&, boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap> const&)"
+},
+{
+"address": "0x644cfc",
+"bytes": 68,
+"demangled": "glitch::collada::CMesh::~CMesh()"
+},
+{
+"address": "0x645588",
+"bytes": 1480,
+"demangled": "glitch::collada::CMesh::CMesh(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, glitch::collada::SGeometry const&, glitch::collada::SBufferConfig const&, glitch::collada::SBufferConfig const&, bool)"
+}
+],
+"bytes": 2036
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CMesh_SBuffer-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CMesh::SBuffer",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x644c88",
+"bytes": 48,
+"demangled": "glitch::collada::CMesh::SBuffer::~SBuffer()"
+}
+],
+"bytes": 48
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CMeshSceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CMeshSceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x646730",
+"bytes": 504,
+"demangled": "glitch::collada::CMeshSceneNode::render(void*)"
+}
+],
+"bytes": 504
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CModularSkinnedMesh-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CModularSkinnedMesh",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x646c1c",
+"bytes": 192,
+"demangled": "glitch::collada::CModularSkinnedMesh::computeBoundingBox()"
+}
+],
+"bytes": 192
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CResFileManager-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CResFileManager",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x658c90",
+"bytes": 2024,
+"demangled": "glitch::collada::CResFileManager::postLoadProcess(glitch::collada::CResFile*, glitch::io::IReadFile*)"
+}
+],
+"bytes": 2024
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CRootSceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CRootSceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x65b3dc",
+"bytes": 88,
+"demangled": "glitch::collada::CRootSceneNode::onPostLoad()"
+}
+],
+"bytes": 88
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CSceneNode-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CSceneNode",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x65cd80",
+"bytes": 40,
+"demangled": "glitch::collada::CSceneNode::getUserPropertyStr() const"
+},
+{
+"address": "0x65cda8",
+"bytes": 452,
+"demangled": "glitch::collada::CSceneNode::computeBoundingBox()"
+},
+{
+"address": "0x65cf8c",
+"bytes": 452,
+"demangled": "glitch::collada::CSceneNode::computeBoundingBox(glitch::core::aabbox3d<float>&) const"
+}
+],
+"bytes": 944
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CSceneNodeAnimator-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CSceneNodeAnimator",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x65d408",
+"bytes": 120,
+"demangled": "glitch::collada::CSceneNodeAnimator::setTarget(int, void*, glitch::collada::animation_track::CApplicatorInfo const*)"
+},
+{
+"address": "0x65d80c",
+"bytes": 272,
+"demangled": "glitch::collada::CSceneNodeAnimator::computeAnimationValues(unsigned int)"
+},
+{
+"address": "0x65d91c",
+"bytes": 284,
+"demangled": "glitch::collada::CSceneNodeAnimator::applyAnimationValues(unsigned int)"
+}
+],
+"bytes": 676
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CSceneNodeAnimatorSet-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CSceneNodeAnimatorSet",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x65f114",
+"bytes": 8,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::getCurrentAnimation() const"
+},
+{
+"address": "0x65f188",
+"bytes": 36,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::getTargetSize(int)"
+},
+{
+"address": "0x65f1ac",
+"bytes": 92,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::getTargetsSize()"
+},
+{
+"address": "0x65f208",
+"bytes": 104,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::setTarget(int, void*, glitch::collada::animation_track::CApplicatorInfo const*)"
+},
+{
+"address": "0x65f270",
+"bytes": 24,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::animateNode(glitch::scene::ISceneNode*, unsigned int)"
+},
+{
+"address": "0x65f418",
+"bytes": 452,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::applyAnimationValues(unsigned int)"
+},
+{
+"address": "0x65f5dc",
+"bytes": 472,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::computeAnimationValues(unsigned int)"
+},
+{
+"address": "0x65f7b4",
+"bytes": 248,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::getAnimationValue(int, int, void*)"
+},
+{
+"address": "0x65f8c8",
+"bytes": 312,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::setCurrentAnimation(int)"
+},
+{
+"address": "0x660af4",
+"bytes": 300,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::init(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&)"
+},
+{
+"address": "0x660c20",
+"bytes": 180,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::CSceneNodeAnimatorSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&)"
+},
+{
+"address": "0x660ce4",
+"bytes": 160,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::CSceneNodeAnimatorSet(boost::intrusive_ptr<glitch::collada::CAnimationSet> const&)"
+},
+{
+"address": "0x662c90",
+"bytes": 120,
+"demangled": "glitch::collada::CSceneNodeAnimatorSet::CSceneNodeAnimatorSet()"
+}
+],
+"bytes": 2508
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CSkinnedMesh-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CSkinnedMesh",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x663648",
+"bytes": 92,
+"demangled": "glitch::collada::CSkinnedMesh::computeBoundingBox()"
+},
+{
+"address": "0x664af8",
+"bytes": 396,
+"demangled": "glitch::collada::CSkinnedMesh::instanciateMesh(glitch::video::IVideoDriver*, glitch::collada::CRootSceneNode*)"
+},
+{
+"address": "0x664ee0",
+"bytes": 292,
+"demangled": "glitch::collada::CSkinnedMesh::skin(unsigned int)"
+},
+{
+"address": "0x6664f0",
+"bytes": 1264,
+"demangled": "glitch::collada::CSkinnedMesh::CSkinnedMesh(glitch::collada::CColladaDatabase const&, glitch::video::IVideoDriver*, glitch::collada::SController&, glitch::collada::CRootSceneNode*)"
+}
+],
+"bytes": 2044
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CTimelineController-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CTimelineController",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x666c20",
+"bytes": 8,
+"demangled": "glitch::collada::CTimelineController::setScale(float)"
+},
+{
+"address": "0x666c28",
+"bytes": 8,
+"demangled": "glitch::collada::CTimelineController::setLoop(bool)"
+},
+{
+"address": "0x666c30",
+"bytes": 8,
+"demangled": "glitch::collada::CTimelineController::getLoop() const"
+},
+{
+"address": "0x666c38",
+"bytes": 100,
+"demangled": "glitch::collada::CTimelineController::setRange(int, int, bool)"
+},
+{
+"address": "0x666d3c",
+"bytes": 24,
+"demangled": "glitch::collada::CTimelineController::getCurrentClipStart() const"
+},
+{
+"address": "0x666d54",
+"bytes": 24,
+"demangled": "glitch::collada::CTimelineController::getCurrentClipEnd() const"
+},
+{
+"address": "0x666d9c",
+"bytes": 8,
+"demangled": "glitch::collada::CTimelineController::getCurrentClipIndex() const"
+},
+{
+"address": "0x666db8",
+"bytes": 136,
+"demangled": "glitch::collada::CTimelineController::CTimelineController()"
+},
+{
+"address": "0x666e40",
+"bytes": 172,
+"demangled": "glitch::collada::CTimelineController::CTimelineController()"
+},
+{
+"address": "0x666f04",
+"bytes": 12,
+"demangled": "glitch::collada::CTimelineController::init(int, int)"
+},
+{
+"address": "0x666f10",
+"bytes": 32,
+"demangled": "glitch::collada::CTimelineController::jumpTo(int)"
+},
+{
+"address": "0x666f7c",
+"bytes": 84,
+"demangled": "glitch::collada::CTimelineController::setClip(int)"
+},
+{
+"address": "0x667104",
+"bytes": 28,
+"demangled": "glitch::collada::CTimelineController::update(int)"
+}
+],
+"bytes": 644
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_IAnimationSetTemplate-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::IAnimationSetTemplate",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x667320",
+"bytes": 68,
+"demangled": "glitch::collada::IAnimationSetTemplate::setUnAdded()"
+},
+{
+"address": "0x667384",
+"bytes": 516,
+"demangled": "glitch::collada::IAnimationSetTemplate::addChannels(std::vector<glitch::collada::SChannel const*, glitch::core::SAllocator<glitch::collada::SChannel const*, (glitch::memory::E_MEMORY_HINT)0> >*, std::vector<glitch::collada::CAnimationTrackEx const*, glitch::core::SAllocator<glitch::collada::CAnimationTrackEx const*, (glitch::memory::E_MEMORY_HINT)0> >*)"
+}
+],
+"bytes": 584
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_SAnimationAccessor-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::SAnimationAccessor",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x669e00",
+"bytes": 16,
+"demangled": "glitch::collada::SAnimationAccessor::getTarget() const"
+},
+{
+"address": "0x669e10",
+"bytes": 20,
+"demangled": "glitch::collada::SAnimationAccessor::getType(int) const"
+},
+{
+"address": "0x669e24",
+"bytes": 32,
+"demangled": "glitch::collada::SAnimationAccessor::getOutput(int) const"
+},
+{
+"address": "0x669e44",
+"bytes": 16,
+"demangled": "glitch::collada::SAnimationAccessor::getChannel(int) const"
+},
+{
+"address": "0x669e54",
+"bytes": 20,
+"demangled": "glitch::collada::SAnimationAccessor::hasDefaultValue() const"
+},
+{
+"address": "0x669e68",
+"bytes": 16,
+"demangled": "glitch::collada::SAnimationAccessor::getDefaultValue() const"
+},
+{
+"address": "0x669e78",
+"bytes": 12,
+"demangled": "glitch::collada::SAnimationAccessor::getChannelsCount() const"
+},
+{
+"address": "0x669e84",
+"bytes": 24,
+"demangled": "glitch::collada::SAnimationAccessor::getTimeInternalType(int) const"
+},
+{
+"address": "0x669e9c",
+"bytes": 24,
+"demangled": "glitch::collada::SAnimationAccessor::getInterpolationType(int) const"
+},
+{
+"address": "0x669eb4",
+"bytes": 16,
+"demangled": "glitch::collada::SAnimationAccessor::getOffsets() const"
+},
+{
+"address": "0x669ec4",
+"bytes": 16,
+"demangled": "glitch::collada::SAnimationAccessor::getScales() const"
+},
+{
+"address": "0x669ed4",
+"bytes": 24,
+"demangled": "glitch::collada::SAnimationAccessor::getOffsetScaleType() const"
+},
+{
+"address": "0x669eec",
+"bytes": 32,
+"demangled": "glitch::collada::SAnimationAccessor::getKeyTime(int) const"
+},
+{
+"address": "0x669f0c",
+"bytes": 160,
+"demangled": "glitch::collada::SAnimationAccessor::getKeyTime(int, int) const"
+},
+{
+"address": "0x669fac",
+"bytes": 8,
+"demangled": "glitch::collada::SAnimationAccessor::getStart(int) const"
+},
+{
+"address": "0x669fb4",
+"bytes": 40,
+"demangled": "glitch::collada::SAnimationAccessor::getEnd(int) const"
+},
+{
+"address": "0x669fdc",
+"bytes": 40,
+"demangled": "glitch::collada::SAnimationAccessor::getLength(int) const"
+},
+{
+"address": "0x66a004",
+"bytes": 12,
+"demangled": "glitch::collada::SAnimationAccessor::getAnimator() const"
+},
+{
+"address": "0x66a1a8",
+"bytes": 72,
+"demangled": "glitch::collada::SAnimationAccessor::getValue(int, void*, int&, bool) const"
+},
+{
+"address": "0x66a1f0",
+"bytes": 168,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<int, 1000>(int, glitch::res::vector<int> const&, int, int&) const"
+}
+],
+"bytes": 768
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_SAnimationAccessor-1",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::SAnimationAccessor",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x66a2ac",
+"bytes": 132,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<int, 1000>(int, glitch::res::vector<int> const&, int, int&, float&) const"
+},
+{
+"address": "0x66a368",
+"bytes": 72,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNo<int, 1000>(glitch::res::vector<int> const&, int, int&, int) const"
+},
+{
+"address": "0x66a5e0",
+"bytes": 184,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<int, 1000>(int, glitch::res::vector<int> const&, int, int&, float&, int) const"
+},
+{
+"address": "0x66a6d0",
+"bytes": 36,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNo<unsigned char, 30>(glitch::res::vector<int> const&, int, int&) const"
+},
+{
+"address": "0x66a788",
+"bytes": 60,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned char, 30>(int, glitch::res::vector<int> const&, int, int&) const"
+},
+{
+"address": "0x66a7c4",
+"bytes": 88,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned char, 30>(int, glitch::res::vector<int> const&, int, int&, float&) const"
+},
+{
+"address": "0x66a894",
+"bytes": 48,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNo<unsigned char, 30>(glitch::res::vector<int> const&, int, int&, int) const"
+},
+{
+"address": "0x66aab4",
+"bytes": 140,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned char, 30>(int, glitch::res::vector<int> const&, int, int&, float&, int) const"
+},
+{
+"address": "0x66abb8",
+"bytes": 36,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNo<unsigned short, 30>(glitch::res::vector<int> const&, int, int&) const"
+},
+{
+"address": "0x66ac78",
+"bytes": 60,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned short, 30>(int, glitch::res::vector<int> const&, int, int&) const"
+},
+{
+"address": "0x66acb4",
+"bytes": 88,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned short, 30>(int, glitch::res::vector<int> const&, int, int&, float&) const"
+},
+{
+"address": "0x66b130",
+"bytes": 48,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNo<unsigned short, 30>(glitch::res::vector<int> const&, int, int&, int) const"
+},
+{
+"address": "0x66b550",
+"bytes": 140,
+"demangled": "bool glitch::collada::SAnimationAccessor::findKeyFrameNoEx<unsigned short, 30>(int, glitch::res::vector<int> const&, int, int&, float&, int) const"
+},
+{
+"address": "0x66b65c",
+"bytes": 440,
+"demangled": "glitch::collada::SAnimationAccessor::findKeyFrameNo(int, glitch::res::vector<int> const&, int, int&, float&, int) const"
+},
+{
+"address": "0x66b814",
+"bytes": 76,
+"demangled": "glitch::collada::SAnimationAccessor::findKeyFrameNo(int, int, int&, float&, int) const"
+}
+],
+"bytes": 1648
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_detail_CColladaHardwareMatrixSkin-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::detail::CColladaHardwareMatrixSkinTechnique",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x66c5f4",
+"bytes": 300,
+"demangled": "glitch::collada::detail::CColladaHardwareMatrixSkinTechnique::computeBoundingBox()"
+}
+],
+"bytes": 300
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_detail_CColladaHardwareQuatSkinTe-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::detail::CColladaHardwareQuatSkinTechnique",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x66e384",
+"bytes": 300,
+"demangled": "glitch::collada::detail::CColladaHardwareQuatSkinTechnique::computeBoundingBox()"
+}
+],
+"bytes": 300
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_detail_CColladaHardwareTextureSki-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::detail::CColladaHardwareTextureSkinTechnique",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x66ef44",
+"bytes": 300,
+"demangled": "glitch::collada::detail::CColladaHardwareTextureSkinTechnique::computeBoundingBox()"
+}
+],
+"bytes": 300
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_detail_CColladaSoftwareSkinTechni-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::detail::CColladaSoftwareSkinTechnique",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x66f8ec",
+"bytes": 456,
+"demangled": "glitch::collada::detail::CColladaSoftwareSkinTechnique::init(glitch::collada::SSkinBuffer&, glitch::scene::CMeshBuffer*, glitch::video::IVideoDriver*, bool)"
+},
+{
+"address": "0x66fab4",
+"bytes": 176,
+"demangled": "glitch::collada::detail::CColladaSoftwareSkinTechnique::preparePtrCache()"
+},
+{
+"address": "0x66fb84",
+"bytes": 300,
+"demangled": "glitch::collada::detail::CColladaSoftwareSkinTechnique::computeBoundingBox()"
+},
+{
+"address": "0x66fe34",
+"bytes": 252,
+"demangled": "glitch::collada::detail::CColladaSoftwareSkinTechnique::prepareCache()"
+},
+{
+"address": "0x66ff48",
+"bytes": 1752,
+"demangled": "glitch::collada::detail::CColladaSoftwareSkinTechnique::skin(glitch::collada::SSkinBuffer&, glitch::scene::CMeshBuffer*)"
+}
+],
+"bytes": 2936
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_detail-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::detail",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x670a60",
+"bytes": 660,
+"demangled": "glitch::collada::detail::constructCompatibilityTable()"
+}
+],
+"bytes": 660
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_detail_IColladaSkinTechnique-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::detail::IColladaSkinTechnique",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x670ec8",
+"bytes": 1368,
+"demangled": "glitch::collada::detail::IColladaSkinTechnique::initProxyBuffer(glitch::scene::CMeshBuffer*, glitch::collada::SSkinBuffer&, glitch::collada::SSkin&, glitch::video::IVideoDriver*)"
+}
+],
+"bytes": 1368
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_CAndroidOSDevice-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::CAndroidOSDevice",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6a0454",
+"bytes": 140,
+"demangled": "glitch::CAndroidOSDevice::createDriver()"
+}
+],
+"bytes": 140
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_gui_CGUIButton-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::gui::CGUIButton",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6a6eac",
+"bytes": 888,
+"demangled": "glitch::gui::CGUIButton::onEvent(glitch::SEvent const&)"
+}
+],
+"bytes": 888
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_gui_CGUICheckBox-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::gui::CGUICheckBox",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6a7ed8",
+"bytes": 552,
+"demangled": "glitch::gui::CGUICheckBox::onEvent(glitch::SEvent const&)"
+}
+],
+"bytes": 552
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CMesh-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CMesh",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6bbb38",
+"bytes": 40,
+"demangled": "glitch::scene::CMesh::getMeshBufferCount() const"
+},
+{
+"address": "0x6bbb60",
+"bytes": 88,
+"demangled": "glitch::scene::CMesh::getMeshBuffer(unsigned int) const"
+},
+{
+"address": "0x6bbbb8",
+"bytes": 88,
+"demangled": "glitch::scene::CMesh::getMaterial(unsigned int) const"
+},
+{
+"address": "0x6bbc10",
+"bytes": 88,
+"demangled": "glitch::scene::CMesh::getMaterialVertexAttributeMap(unsigned int) const"
+},
+{
+"address": "0x6bbd6c",
+"bytes": 172,
+"demangled": "glitch::scene::CMesh::setMaterial(unsigned int, boost::intrusive_ptr<glitch::video::CMaterial> const&, boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap> const&)"
+},
+{
+"address": "0x6bc248",
+"bytes": 44,
+"demangled": "glitch::scene::CMesh::~CMesh()"
+},
+{
+"address": "0x6bc664",
+"bytes": 116,
+"demangled": "glitch::scene::CMesh::addMeshBuffer(boost::intrusive_ptr<glitch::scene::CMeshBuffer> const&, boost::intrusive_ptr<glitch::video::CMaterial> const&, boost::intrusive_ptr<glitch::video::CMaterialVertexAttributeMap> const&)"
+}
+],
+"bytes": 636
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CMesh_SBuffer-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CMesh::SBuffer",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6bbe18",
+"bytes": 48,
+"demangled": "glitch::scene::CMesh::SBuffer::~SBuffer()"
+}
+],
+"bytes": 48
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CMeshBuffer-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CMeshBuffer",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6bc8c4",
+"bytes": 332,
+"demangled": "glitch::scene::CMeshBuffer::~CMeshBuffer()"
+},
+{
+"address": "0x6bcf80",
+"bytes": 2660,
+"demangled": "glitch::scene::CMeshBuffer::CMeshBuffer(glitch::video::IVideoDriver*, glitch::collada::SMesh&, unsigned int, glitch::collada::SBufferConfig const&, glitch::collada::SBufferConfig const&, bool)"
+},
+{
+"address": "0x6bd9f8",
+"bytes": 2660,
+"demangled": "glitch::scene::CMeshBuffer::CMeshBuffer(glitch::video::IVideoDriver*, glitch::collada::SMesh&, unsigned int, glitch::collada::SBufferConfig const&, glitch::collada::SBufferConfig const&, bool)"
+}
+],
+"bytes": 5652
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_scene_CSceneCollisionManager-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::scene::CSceneCollisionManager",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6c62e8",
+"bytes": 256,
+"demangled": "glitch::scene::CSceneCollisionManager::getCollisionPoint(glitch::core::line3d<float> const&, glitch::scene::ITriangleSelector*, glitch::core::vector3d<float>&, glitch::core::triangle3d<float>&)"
+}
+],
+"bytes": 256
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CAnimationSetTransformationTempla-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CAnimationSetTransformationTemplate",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6e22cc",
+"bytes": 260,
+"demangled": "glitch::collada::CAnimationSetTransformationTemplate::isAnimationExist(glitch::collada::SChannel const*)"
+},
+{
+"address": "0x6e23d0",
+"bytes": 100,
+"demangled": "glitch::collada::CAnimationSetTransformationTemplate::getDefaultValue(glitch::collada::SChannel const*, void**) const"
+},
+{
+"address": "0x6e24e8",
+"bytes": 356,
+"demangled": "glitch::collada::CAnimationSetTransformationTemplate::addTransformationTargets(glitch::collada::CSceneNode*)"
+},
+{
+"address": "0x6e26d4",
+"bytes": 348,
+"demangled": "glitch::collada::CAnimationSetTransformationTemplate::addTransformationTargets(glitch::collada::SNode&)"
+}
+],
+"bytes": 1064
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_CAnimationTrackEx-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::CAnimationTrackEx",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6e2c40",
+"bytes": 168,
+"demangled": "glitch::collada::CAnimationTrackEx::getValue(glitch::collada::SAnimationAccessor const&, int, void*, int&, bool) const"
+}
+],
+"bytes": 168
+},
+{
+"id": "e1-glitch-scene-collada-gui-glitch_collada_animation_track_CVector3dEx-0",
+"category": "glitch-scene-collada-gui",
+"owner": "glitch::collada::animation_track::CVector3dEx",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6e3fb0",
+"bytes": 184,
+"demangled": "glitch::collada::animation_track::CVector3dEx::getBlendedValueEx(void*, float*, int, void*)"
+},
+{
+"address": "0x6e41ec",
+"bytes": 52,
+"demangled": "glitch::collada::animation_track::CVector3dEx::getBlendedValueEx(void*, float*, int, void*, float)"
+}
+],
+"bytes": 236
+},
+{
+"id": "e1-net-transport-CBluetoothNetRoomInfo-0",
+"category": "net-transport",
+"owner": "CBluetoothNetRoomInfo",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x800d7c",
+"bytes": 320,
+"demangled": "CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()"
+},
+{
+"address": "0x801a0c",
+"bytes": 196,
+"demangled": "CBluetoothNetRoomInfo::~CBluetoothNetRoomInfo()"
+}
+],
+"bytes": 516
+},
+{
+"id": "e1-net-transport-CConnectionManager-0",
+"category": "net-transport",
+"owner": "CConnectionManager",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7fcf94",
+"bytes": 536,
+"demangled": "CConnectionManager::GetServerPing()"
+}
+],
+"bytes": 536
+},
+{
+"id": "e1-net-transport-CNetPlayerInfo-0",
+"category": "net-transport",
+"owner": "CNetPlayerInfo",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x36d208",
+"bytes": 72,
+"demangled": "CNetPlayerInfo::IsActivating()"
+},
+{
+"address": "0x36f40c",
+"bytes": 156,
+"demangled": "CNetPlayerInfo::SetState(char)"
+},
+{
+"address": "0x377448",
+"bytes": 52,
+"demangled": "CNetPlayerInfo::CNetPlayerInfo(CNetPlayerInfo const&)"
+},
+{
+"address": "0x378708",
+"bytes": 28,
+"demangled": "CNetPlayerInfo::operator=(CNetPlayerInfo const&)"
+},
+{
+"address": "0x4417d8",
+"bytes": 52,
+"demangled": "CNetPlayerInfo::CNetPlayerInfo(CNetPlayerInfo const&)"
+},
+{
+"address": "0x80f124",
+"bytes": 64,
+"demangled": "CNetPlayerInfo::IsActive()"
+},
+{
+"address": "0x80f164",
+"bytes": 28,
+"demangled": "CNetPlayerInfo::IsRemote()"
+},
+{
+"address": "0x80f180",
+"bytes": 32,
+"demangled": "CNetPlayerInfo::IsInRoom()"
+},
+{
+"address": "0x80f1a0",
+"bytes": 76,
+"demangled": "CNetPlayerInfo::IsLocalTo(int)"
+},
+{
+"address": "0x80f1ec",
+"bytes": 80,
+"demangled": "CNetPlayerInfo::IsLocal()"
+},
+{
+"address": "0x80f23c",
+"bytes": 36,
+"demangled": "CNetPlayerInfo::IsHost()"
+},
+{
+"address": "0x80f260",
+"bytes": 28,
+"demangled": "CNetPlayerInfo::Add()"
+},
+{
+"address": "0x80f27c",
+"bytes": 100,
+"demangled": "CNetPlayerInfo::Reset()"
+},
+{
+"address": "0x80f2e0",
+"bytes": 148,
+"demangled": "CNetPlayerInfo::Remove()"
+},
+{
+"address": "0x80f374",
+"bytes": 92,
+"demangled": "CNetPlayerInfo::Disconnect()"
+},
+{
+"address": "0x80f3d0",
+"bytes": 584,
+"demangled": "CNetPlayerInfo::Update()"
+},
+{
+"address": "0x80f618",
+"bytes": 172,
+"demangled": "CNetPlayerInfo::~CNetPlayerInfo()"
+},
+{
+"address": "0x80f6d8",
+"bytes": 20,
+"demangled": "CNetPlayerInfo::~CNetPlayerInfo()"
+},
+{
+"address": "0x80f6f4",
+"bytes": 172,
+"demangled": "CNetPlayerInfo::~CNetPlayerInfo()"
+},
+{
+"address": "0x80f7b4",
+"bytes": 1096,
+"demangled": "CNetPlayerInfo::CNetPlayerInfo()"
+}
+],
+"bytes": 3088
+},
+{
+"id": "e1-net-transport-CNetPlayerInfo-1",
+"category": "net-transport",
+"owner": "CNetPlayerInfo",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x80fc28",
+"bytes": 1096,
+"demangled": "CNetPlayerInfo::CNetPlayerInfo()"
+},
+{
+"address": "0x81009c",
+"bytes": 28,
+"demangled": "CNetPlayerInfo::Delete(CNetPlayerInfo*)"
+},
+{
+"address": "0x8103d4",
+"bytes": 32,
+"demangled": "CNetPlayerInfo::Create()"
+}
+],
+"bytes": 1156
+},
+{
+"id": "e1-net-transport-CNetPlayerManager-0",
+"category": "net-transport",
+"owner": "CNetPlayerManager",
+"part": 0,
+"parts": 3,
+"functions": [
+{
+"address": "0x8100bc",
+"bytes": 24,
+"demangled": "CNetPlayerManager::GetInstance()"
+},
+{
+"address": "0x8100e0",
+"bytes": 32,
+"demangled": "CNetPlayerManager::IsInitialized()"
+},
+{
+"address": "0x810108",
+"bytes": 60,
+"demangled": "CNetPlayerManager::Terminate()"
+},
+{
+"address": "0x81014c",
+"bytes": 52,
+"demangled": "CNetPlayerManager::GetPlayerInternal(int)"
+},
+{
+"address": "0x810180",
+"bytes": 96,
+"demangled": "CNetPlayerManager::GetPlayerInternal(int, int)"
+},
+{
+"address": "0x8101e0",
+"bytes": 72,
+"demangled": "CNetPlayerManager::GetPlayer(int, bool)"
+},
+{
+"address": "0x810228",
+"bytes": 72,
+"demangled": "CNetPlayerManager::GetPlayerByMemberId(int, int, bool)"
+},
+{
+"address": "0x810270",
+"bytes": 80,
+"demangled": "CNetPlayerManager::GetFreePlayerId()"
+},
+{
+"address": "0x8102c0",
+"bytes": 36,
+"demangled": "CNetPlayerManager::RegisterPlayerInfoFunctions(CNetPlayerInfo* (*)(), void (*)(CNetPlayerInfo*))"
+},
+{
+"address": "0x8102f0",
+"bytes": 52,
+"demangled": "CNetPlayerManager::UnregisterPlayerInfoFunctions()"
+},
+{
+"address": "0x810338",
+"bytes": 128,
+"demangled": "CNetPlayerManager::AreAllPlayersAcknowledged()"
+},
+{
+"address": "0x8103f4",
+"bytes": 8,
+"demangled": "CNetPlayerManager::ResendManagerInfo()"
+},
+{
+"address": "0x8103fc",
+"bytes": 196,
+"demangled": "CNetPlayerManager::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x8104c0",
+"bytes": 36,
+"demangled": "CNetPlayerManager::sProcessLostPacket(int, int)"
+},
+{
+"address": "0x8104ec",
+"bytes": 196,
+"demangled": "CNetPlayerManager::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x8105b0",
+"bytes": 36,
+"demangled": "CNetPlayerManager::sProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x8105dc",
+"bytes": 52,
+"demangled": "CNetPlayerManager::GetLocalPlayer(int)"
+},
+{
+"address": "0x810610",
+"bytes": 604,
+"demangled": "CNetPlayerManager::WritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x81086c",
+"bytes": 52,
+"demangled": "CNetPlayerManager::sWritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x8108a8",
+"bytes": 24,
+"demangled": "CNetPlayerManager::RemovePlayer(int)"
+}
+],
+"bytes": 1908
+},
+{
+"id": "e1-net-transport-CNetPlayerManager-1",
+"category": "net-transport",
+"owner": "CNetPlayerManager",
+"part": 1,
+"parts": 3,
+"functions": [
+{
+"address": "0x8108c0",
+"bytes": 24,
+"demangled": "CNetPlayerManager::DisconnectPlayer(int)"
+},
+{
+"address": "0x8109a0",
+"bytes": 468,
+"demangled": "CNetPlayerManager::ProcessEvents()"
+},
+{
+"address": "0x810b7c",
+"bytes": 88,
+"demangled": "CNetPlayerManager::SetPlayerGamepadId(int, int)"
+},
+{
+"address": "0x810bd4",
+"bytes": 180,
+"demangled": "CNetPlayerManager::ReassignPlayer(int, int, int)"
+},
+{
+"address": "0x810c88",
+"bytes": 256,
+"demangled": "CNetPlayerManager::ClearPlayers()"
+},
+{
+"address": "0x810d90",
+"bytes": 296,
+"demangled": "CNetPlayerManager::NetStructPlayerManager::NetStructPlayerManager()"
+},
+{
+"address": "0x810ec8",
+"bytes": 104,
+"demangled": "CNetPlayerManager::NetStructPlayerManager::~NetStructPlayerManager()"
+},
+{
+"address": "0x810f3c",
+"bytes": 104,
+"demangled": "CNetPlayerManager::NetStructPlayerManager::~NetStructPlayerManager()"
+},
+{
+"address": "0x8111ec",
+"bytes": 276,
+"demangled": "CNetPlayerManager::InitPlayers()"
+},
+{
+"address": "0x811308",
+"bytes": 48,
+"demangled": "CNetPlayerManager::ResetPlayers()"
+},
+{
+"address": "0x8113fc",
+"bytes": 240,
+"demangled": "CNetPlayerManager::GetPlayerIdList()"
+},
+{
+"address": "0x8114ec",
+"bytes": 28,
+"demangled": "CNetPlayerManager::GetPlayerCount()"
+},
+{
+"address": "0x811588",
+"bytes": 508,
+"demangled": "CNetPlayerManager::GetPlayerName(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, int)"
+},
+{
+"address": "0x81181c",
+"bytes": 176,
+"demangled": "CNetPlayerManager::GetPlayerName(int)"
+},
+{
+"address": "0x8118d8",
+"bytes": 684,
+"demangled": "CNetPlayerManager::AddPlayer(int, int)"
+},
+{
+"address": "0x811be8",
+"bytes": 376,
+"demangled": "CNetPlayerManager::AddPlayer(NetBitStream&, int, int)"
+},
+{
+"address": "0x811d74",
+"bytes": 288,
+"demangled": "CNetPlayerManager::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x811e94",
+"bytes": 52,
+"demangled": "CNetPlayerManager::sReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x812608",
+"bytes": 140,
+"demangled": "CNetPlayerManager::ClearPlayerListCaches(int)"
+},
+{
+"address": "0x812694",
+"bytes": 416,
+"demangled": "CNetPlayerManager::~CNetPlayerManager()"
+}
+],
+"bytes": 4752
+},
+{
+"id": "e1-net-transport-CNetPlayerManager-2",
+"category": "net-transport",
+"owner": "CNetPlayerManager",
+"part": 2,
+"parts": 3,
+"functions": [
+{
+"address": "0x812854",
+"bytes": 20,
+"demangled": "CNetPlayerManager::~CNetPlayerManager()"
+},
+{
+"address": "0x812870",
+"bytes": 416,
+"demangled": "CNetPlayerManager::~CNetPlayerManager()"
+},
+{
+"address": "0x812a30",
+"bytes": 316,
+"demangled": "CNetPlayerManager::CNetPlayerManager(int)"
+},
+{
+"address": "0x812b90",
+"bytes": 88,
+"demangled": "CNetPlayerManager::Initialize(int)"
+},
+{
+"address": "0x812bf0",
+"bytes": 316,
+"demangled": "CNetPlayerManager::CNetPlayerManager(int)"
+},
+{
+"address": "0x812d50",
+"bytes": 292,
+"demangled": "CNetPlayerManager::GetPlayerIdListByMemberId(int)"
+},
+{
+"address": "0x812e74",
+"bytes": 28,
+"demangled": "CNetPlayerManager::GetMemberPlayerCount(int)"
+},
+{
+"address": "0x812e90",
+"bytes": 24,
+"demangled": "CNetPlayerManager::MemberHasActivePlayers(int)"
+},
+{
+"address": "0x812ea8",
+"bytes": 40,
+"demangled": "CNetPlayerManager::GetLocalPlayerIdList()"
+},
+{
+"address": "0x812ed0",
+"bytes": 28,
+"demangled": "CNetPlayerManager::GetLocalPlayerCount()"
+},
+{
+"address": "0x812eec",
+"bytes": 840,
+"demangled": "CNetPlayerManager::Update(int)"
+}
+],
+"bytes": 2408
+},
+{
+"id": "e1-net-transport-CPacketManager-0",
+"category": "net-transport",
+"owner": "CPacketManager",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x815504",
+"bytes": 172,
+"demangled": "CPacketManager::ProcessAcknowledgedPackets()"
+},
+{
+"address": "0x815cac",
+"bytes": 212,
+"demangled": "CPacketManager::AcknowledgePacket(CPacketManager::tPacketMgrHeader&)"
+},
+{
+"address": "0x815d80",
+"bytes": 144,
+"demangled": "CPacketManager::IsPacketValid(CPacketManager::tPacketMgrHeader&)"
+},
+{
+"address": "0x815e10",
+"bytes": 176,
+"demangled": "CPacketManager::PreparePacketHeader(int, NetBitStream&)"
+},
+{
+"address": "0x815ec8",
+"bytes": 380,
+"demangled": "CPacketManager::PreparePacketData(int, unsigned int, NetBitStream&)"
+},
+{
+"address": "0x81684c",
+"bytes": 116,
+"demangled": "CPacketManager::SendWaitingPackets()"
+},
+{
+"address": "0x8168fc",
+"bytes": 436,
+"demangled": "CPacketManager::ProcessLostPackets()"
+},
+{
+"address": "0x816ca8",
+"bytes": 496,
+"demangled": "CPacketManager::ProcessPacketAcknowledgements(CPacketManager::tPacketMgrHeader&)"
+},
+{
+"address": "0x816eac",
+"bytes": 28,
+"demangled": "CPacketManager::ReceivePackets()"
+},
+{
+"address": "0x817814",
+"bytes": 444,
+"demangled": "CPacketManager::SendPacket(int)"
+},
+{
+"address": "0x8179d0",
+"bytes": 600,
+"demangled": "CPacketManager::SendPackets()"
+},
+{
+"address": "0x817d1c",
+"bytes": 80,
+"demangled": "CPacketManager::sPacketReceiverCallback(int, char*, int)"
+}
+],
+"bytes": 3284
+},
+{
+"id": "e1-net-transport-NetStruct-0",
+"category": "net-transport",
+"owner": "NetStruct",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x81324c",
+"bytes": 24,
+"demangled": "NetStruct::DeclareMember(NetStructMember*)"
+},
+{
+"address": "0x813264",
+"bytes": 56,
+"demangled": "NetStruct::ConditionalLoad(bool, NetBitStream&, int, unsigned int)"
+},
+{
+"address": "0x81329c",
+"bytes": 84,
+"demangled": "NetStruct::GetSizeBits()"
+},
+{
+"address": "0x8132f0",
+"bytes": 32,
+"demangled": "NetStruct::GetSizeBytes()"
+},
+{
+"address": "0x81334c",
+"bytes": 116,
+"demangled": "NetStruct::AreChangesAcknowledgedBy(int)"
+},
+{
+"address": "0x8133c0",
+"bytes": 132,
+"demangled": "NetStruct::ResendInternal(unsigned int)"
+},
+{
+"address": "0x81344c",
+"bytes": 48,
+"demangled": "NetStruct::Resend(int)"
+},
+{
+"address": "0x81347c",
+"bytes": 32,
+"demangled": "NetStruct::Resend()"
+},
+{
+"address": "0x81349c",
+"bytes": 88,
+"demangled": "NetStruct::SetAckedBy(int)"
+},
+{
+"address": "0x8134f4",
+"bytes": 240,
+"demangled": "NetStruct::LoadInternal(bool, NetBitStream&, int)"
+},
+{
+"address": "0x8135e4",
+"bytes": 16,
+"demangled": "NetStruct::Erase(NetBitStream&)"
+},
+{
+"address": "0x8135f4",
+"bytes": 120,
+"demangled": "NetStruct::Load(NetBitStream&, int, unsigned int)"
+},
+{
+"address": "0x81366c",
+"bytes": 152,
+"demangled": "NetStruct::SetEnabled(bool)"
+},
+{
+"address": "0x813704",
+"bytes": 88,
+"demangled": "NetStruct::AreChangesAcknowledged()"
+},
+{
+"address": "0x81375c",
+"bytes": 144,
+"demangled": "NetStruct::HasDataToSend(int)"
+},
+{
+"address": "0x8137ec",
+"bytes": 80,
+"demangled": "NetStruct::GetChangedBitMap()"
+},
+{
+"address": "0x81383c",
+"bytes": 80,
+"demangled": "NetStruct::IsChanged()"
+},
+{
+"address": "0x81388c",
+"bytes": 96,
+"demangled": "NetStruct::NetStruct()"
+},
+{
+"address": "0x8138f4",
+"bytes": 96,
+"demangled": "NetStruct::NetStruct()"
+},
+{
+"address": "0x81395c",
+"bytes": 88,
+"demangled": "NetStruct::~NetStruct()"
+}
+],
+"bytes": 1812
+},
+{
+"id": "e1-net-transport-NetStruct-1",
+"category": "net-transport",
+"owner": "NetStruct",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x8139bc",
+"bytes": 88,
+"demangled": "NetStruct::~NetStruct()"
+},
+{
+"address": "0x814774",
+"bytes": 608,
+"demangled": "NetStruct::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x8149d4",
+"bytes": 304,
+"demangled": "NetStruct::AddPacketHistory(int, int, unsigned long long)"
+},
+{
+"address": "0x814b0c",
+"bytes": 456,
+"demangled": "NetStruct::SerializeInternal(bool, NetBitStream&, int, int)"
+},
+{
+"address": "0x814cd4",
+"bytes": 4,
+"demangled": "NetStruct::ConditionalSerialize(bool, NetBitStream&, int, int)"
+},
+{
+"address": "0x814cd8",
+"bytes": 40,
+"demangled": "NetStruct::SerializeDisabled(NetBitStream&)"
+},
+{
+"address": "0x814d00",
+"bytes": 40,
+"demangled": "NetStruct::Serialize(NetBitStream&, int, int)"
+},
+{
+"address": "0x814d28",
+"bytes": 584,
+"demangled": "NetStruct::ProcessAcknowledgedPacket(int, int)"
+}
+],
+"bytes": 2124
+},
+{
+"id": "e1-net-transport-NetStructByteArray-0",
+"category": "net-transport",
+"owner": "NetStructByteArray",
+"part": 0,
+"parts": 3,
+"functions": [
+{
+"address": "0x36d398",
+"bytes": 8,
+"demangled": "NetStructByteArray<30u>::GetBufferPtr()"
+},
+{
+"address": "0x36d3a0",
+"bytes": 8,
+"demangled": "NetStructByteArray<30u>::GetBufferSize()"
+},
+{
+"address": "0x36d3a8",
+"bytes": 8,
+"demangled": "NetStructByteArray<30u>::GetMaxBufferSize()"
+},
+{
+"address": "0x36d3b0",
+"bytes": 8,
+"demangled": "NetStructByteArray<3u>::GetBufferPtr()"
+},
+{
+"address": "0x36d3b8",
+"bytes": 8,
+"demangled": "NetStructByteArray<3u>::GetBufferSize()"
+},
+{
+"address": "0x36d3c0",
+"bytes": 8,
+"demangled": "NetStructByteArray<3u>::GetMaxBufferSize()"
+},
+{
+"address": "0x36d3c8",
+"bytes": 8,
+"demangled": "NetStructByteArray<36u>::GetBufferPtr()"
+},
+{
+"address": "0x36d3d0",
+"bytes": 8,
+"demangled": "NetStructByteArray<36u>::GetBufferSize()"
+},
+{
+"address": "0x36d3d8",
+"bytes": 8,
+"demangled": "NetStructByteArray<36u>::GetMaxBufferSize()"
+},
+{
+"address": "0x36d6f4",
+"bytes": 52,
+"demangled": "NetStructByteArray<36u>::GetBuffer(void*, int)"
+},
+{
+"address": "0x36d730",
+"bytes": 52,
+"demangled": "NetStructByteArray<3u>::GetBuffer(void*, int)"
+},
+{
+"address": "0x36d76c",
+"bytes": 52,
+"demangled": "NetStructByteArray<30u>::GetBuffer(void*, int)"
+},
+{
+"address": "0x36dc04",
+"bytes": 48,
+"demangled": "NetStructByteArray<36u>::Write(NetBitStream&)"
+},
+{
+"address": "0x36dc34",
+"bytes": 48,
+"demangled": "NetStructByteArray<3u>::Write(NetBitStream&)"
+},
+{
+"address": "0x36dc64",
+"bytes": 48,
+"demangled": "NetStructByteArray<30u>::Write(NetBitStream&)"
+},
+{
+"address": "0x36feb0",
+"bytes": 56,
+"demangled": "NetStructByteArray<36u>::~NetStructByteArray()"
+},
+{
+"address": "0x36fef8",
+"bytes": 56,
+"demangled": "NetStructByteArray<3u>::~NetStructByteArray()"
+},
+{
+"address": "0x36ff40",
+"bytes": 56,
+"demangled": "NetStructByteArray<30u>::~NetStructByteArray()"
+},
+{
+"address": "0x36ffd0",
+"bytes": 80,
+"demangled": "NetStructByteArray<36u>::SetBuffer(void const*, int)"
+},
+{
+"address": "0x370258",
+"bytes": 80,
+"demangled": "NetStructByteArray<3u>::SetBuffer(void const*, int)"
+}
+],
+"bytes": 700
+},
+{
+"id": "e1-net-transport-NetStructByteArray-1",
+"category": "net-transport",
+"owner": "NetStructByteArray",
+"part": 1,
+"parts": 3,
+"functions": [
+{
+"address": "0x3702a8",
+"bytes": 80,
+"demangled": "NetStructByteArray<30u>::SetBuffer(void const*, int)"
+},
+{
+"address": "0x3702f8",
+"bytes": 176,
+"demangled": "NetStructByteArray<36u>::Read(NetBitStream&)"
+},
+{
+"address": "0x3703b0",
+"bytes": 128,
+"demangled": "NetStructByteArray<3u>::Read(NetBitStream&)"
+},
+{
+"address": "0x370430",
+"bytes": 176,
+"demangled": "NetStructByteArray<30u>::Read(NetBitStream&)"
+},
+{
+"address": "0x370550",
+"bytes": 172,
+"demangled": "NetStructByteArray<36u>::NetStructByteArray(ByteArray)"
+},
+{
+"address": "0x370608",
+"bytes": 172,
+"demangled": "NetStructByteArray<3u>::NetStructByteArray(ByteArray)"
+},
+{
+"address": "0x3706c0",
+"bytes": 172,
+"demangled": "NetStructByteArray<30u>::NetStructByteArray(ByteArray)"
+},
+{
+"address": "0x3707dc",
+"bytes": 72,
+"demangled": "NetStructByteArray<36u>::~NetStructByteArray()"
+},
+{
+"address": "0x370840",
+"bytes": 72,
+"demangled": "NetStructByteArray<30u>::~NetStructByteArray()"
+},
+{
+"address": "0x3708a4",
+"bytes": 72,
+"demangled": "NetStructByteArray<3u>::~NetStructByteArray()"
+},
+{
+"address": "0x7fe874",
+"bytes": 8,
+"demangled": "NetStructByteArray<64u>::GetBufferPtr()"
+},
+{
+"address": "0x7fe87c",
+"bytes": 8,
+"demangled": "NetStructByteArray<64u>::GetBufferSize()"
+},
+{
+"address": "0x7fe884",
+"bytes": 8,
+"demangled": "NetStructByteArray<64u>::GetMaxBufferSize()"
+},
+{
+"address": "0x7feb04",
+"bytes": 52,
+"demangled": "NetStructByteArray<64u>::GetBuffer(void*, int)"
+},
+{
+"address": "0x7febfc",
+"bytes": 48,
+"demangled": "NetStructByteArray<64u>::Write(NetBitStream&)"
+},
+{
+"address": "0x7fee00",
+"bytes": 176,
+"demangled": "NetStructByteArray<64u>::Read(NetBitStream&)"
+},
+{
+"address": "0x7feeb8",
+"bytes": 172,
+"demangled": "NetStructByteArray<64u>::NetStructByteArray(ByteArray)"
+},
+{
+"address": "0x7fef70",
+"bytes": 56,
+"demangled": "NetStructByteArray<64u>::~NetStructByteArray()"
+},
+{
+"address": "0x7fefb8",
+"bytes": 80,
+"demangled": "NetStructByteArray<64u>::SetBuffer(void const*, int)"
+},
+{
+"address": "0x7ff0bc",
+"bytes": 72,
+"demangled": "NetStructByteArray<64u>::~NetStructByteArray()"
+}
+],
+"bytes": 1972
+},
+{
+"id": "e1-net-transport-NetStructByteArray-2",
+"category": "net-transport",
+"owner": "NetStructByteArray",
+"part": 2,
+"parts": 3,
+"functions": [
+{
+"address": "0x817e20",
+"bytes": 8,
+"demangled": "NetStructByteArray<256u>::GetBufferSize()"
+},
+{
+"address": "0x817e3c",
+"bytes": 8,
+"demangled": "NetStructByteArray<256u>::GetBufferPtr()"
+},
+{
+"address": "0x817e44",
+"bytes": 8,
+"demangled": "NetStructByteArray<256u>::GetMaxBufferSize()"
+},
+{
+"address": "0x817f80",
+"bytes": 52,
+"demangled": "NetStructByteArray<256u>::GetBuffer(void*, int)"
+},
+{
+"address": "0x817fbc",
+"bytes": 48,
+"demangled": "NetStructByteArray<256u>::Write(NetBitStream&)"
+},
+{
+"address": "0x818090",
+"bytes": 72,
+"demangled": "NetStructByteArray<256u>::~NetStructByteArray()"
+},
+{
+"address": "0x8181d8",
+"bytes": 172,
+"demangled": "NetStructByteArray<256u>::NetStructByteArray(ByteArray)"
+},
+{
+"address": "0x818290",
+"bytes": 80,
+"demangled": "NetStructByteArray<256u>::SetBuffer(void const*, int)"
+},
+{
+"address": "0x8182e0",
+"bytes": 176,
+"demangled": "NetStructByteArray<256u>::Read(NetBitStream&)"
+},
+{
+"address": "0x818398",
+"bytes": 56,
+"demangled": "NetStructByteArray<256u>::~NetStructByteArray()"
+}
+],
+"bytes": 680
+},
+{
+"id": "e1-net-transport-NetStructInt-0",
+"category": "net-transport",
+"owner": "NetStructInt",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x36d254",
+"bytes": 4,
+"demangled": "NetStructInt<32u>::~NetStructInt()"
+},
+{
+"address": "0x36d274",
+"bytes": 4,
+"demangled": "NetStructInt<8u>::~NetStructInt()"
+},
+{
+"address": "0x36d278",
+"bytes": 4,
+"demangled": "NetStructInt<16u>::~NetStructInt()"
+},
+{
+"address": "0x36d310",
+"bytes": 4,
+"demangled": "NetStructInt<17u>::~NetStructInt()"
+},
+{
+"address": "0x36d3e0",
+"bytes": 8,
+"demangled": "NetStructInt<32u>::TestValue(int const&)"
+},
+{
+"address": "0x36d418",
+"bytes": 28,
+"demangled": "NetStructInt<16u>::TestValue(int const&)"
+},
+{
+"address": "0x36d434",
+"bytes": 28,
+"demangled": "NetStructInt<8u>::TestValue(int const&)"
+},
+{
+"address": "0x36d450",
+"bytes": 28,
+"demangled": "NetStructInt<17u>::TestValue(int const&)"
+},
+{
+"address": "0x36d554",
+"bytes": 36,
+"demangled": "NetStructInt<32u>::~NetStructInt()"
+},
+{
+"address": "0x36d658",
+"bytes": 36,
+"demangled": "NetStructInt<16u>::~NetStructInt()"
+},
+{
+"address": "0x36d68c",
+"bytes": 36,
+"demangled": "NetStructInt<17u>::~NetStructInt()"
+},
+{
+"address": "0x36d6c0",
+"bytes": 36,
+"demangled": "NetStructInt<8u>::~NetStructInt()"
+},
+{
+"address": "0x36da70",
+"bytes": 96,
+"demangled": "NetStructInt<32u>::Read(NetBitStream&)"
+},
+{
+"address": "0x36dad0",
+"bytes": 96,
+"demangled": "NetStructInt<16u>::Read(NetBitStream&)"
+},
+{
+"address": "0x36db30",
+"bytes": 96,
+"demangled": "NetStructInt<17u>::Read(NetBitStream&)"
+},
+{
+"address": "0x36db90",
+"bytes": 96,
+"demangled": "NetStructInt<8u>::Read(NetBitStream&)"
+},
+{
+"address": "0x36dc94",
+"bytes": 52,
+"demangled": "NetStructInt<32u>::Write(NetBitStream&)"
+},
+{
+"address": "0x36dcc8",
+"bytes": 52,
+"demangled": "NetStructInt<16u>::Write(NetBitStream&)"
+},
+{
+"address": "0x36dcfc",
+"bytes": 52,
+"demangled": "NetStructInt<17u>::Write(NetBitStream&)"
+},
+{
+"address": "0x36dd30",
+"bytes": 52,
+"demangled": "NetStructInt<8u>::Write(NetBitStream&)"
+}
+],
+"bytes": 844
+},
+{
+"id": "e1-net-transport-NetStructInt-1",
+"category": "net-transport",
+"owner": "NetStructInt",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x8100b8",
+"bytes": 4,
+"demangled": "NetStructInt<6u>::~NetStructInt()"
+},
+{
+"address": "0x8103b8",
+"bytes": 28,
+"demangled": "NetStructInt<6u>::TestValue(int const&)"
+},
+{
+"address": "0x8108d8",
+"bytes": 36,
+"demangled": "NetStructInt<6u>::~NetStructInt()"
+},
+{
+"address": "0x81090c",
+"bytes": 96,
+"demangled": "NetStructInt<6u>::Read(NetBitStream&)"
+},
+{
+"address": "0x81096c",
+"bytes": 52,
+"demangled": "NetStructInt<6u>::Write(NetBitStream&)"
+}
+],
+"bytes": 216
+},
+{
+"id": "e1-net-transport-NetStructMember-0",
+"category": "net-transport",
+"owner": "NetStructMember",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x36d1f8",
+"bytes": 4,
+"demangled": "NetStructMember::PostLoad(unsigned int)"
+},
+{
+"address": "0x36d1fc",
+"bytes": 8,
+"demangled": "NetStructMember::GetSizeBits()"
+},
+{
+"address": "0x36d204",
+"bytes": 4,
+"demangled": "NetStructMember::~NetStructMember()"
+},
+{
+"address": "0x36d520",
+"bytes": 36,
+"demangled": "NetStructMember::~NetStructMember()"
+},
+{
+"address": "0x814f70",
+"bytes": 20,
+"demangled": "NetStructMember::IsChanged()"
+},
+{
+"address": "0x814f84",
+"bytes": 76,
+"demangled": "NetStructMember::SetChanged()"
+},
+{
+"address": "0x814fd8",
+"bytes": 16,
+"demangled": "NetStructMember::SetAcked()"
+},
+{
+"address": "0x814fe8",
+"bytes": 28,
+"demangled": "NetStructMember::SetAcked(unsigned int)"
+},
+{
+"address": "0x815004",
+"bytes": 36,
+"demangled": "NetStructMember::AcknowledgeChange(unsigned int, unsigned long long)"
+},
+{
+"address": "0x815028",
+"bytes": 20,
+"demangled": "NetStructMember::AreChangesAcknowledgedBy(unsigned int)"
+},
+{
+"address": "0x81503c",
+"bytes": 60,
+"demangled": "NetStructMember::SetSentFlag(unsigned int, bool, unsigned long long)"
+},
+{
+"address": "0x815078",
+"bytes": 40,
+"demangled": "NetStructMember::HasDataToSend(unsigned int, unsigned int)"
+},
+{
+"address": "0x8150a0",
+"bytes": 16,
+"demangled": "NetStructMember::GetFrameTime()"
+},
+{
+"address": "0x8150b0",
+"bytes": 92,
+"demangled": "NetStructMember::AreChangesAcknowledged()"
+},
+{
+"address": "0x81510c",
+"bytes": 92,
+"demangled": "NetStructMember::Load(NetBitStream&)"
+},
+{
+"address": "0x815168",
+"bytes": 96,
+"demangled": "NetStructMember::Serialize(NetBitStream&, unsigned int)"
+}
+],
+"bytes": 644
+},
+{
+"id": "e1-net-transport-NetStructMemberType-0",
+"category": "net-transport",
+"owner": "NetStructMemberType",
+"part": 0,
+"parts": 3,
+"functions": [
+{
+"address": "0x36d2e4",
+"bytes": 4,
+"demangled": "NetStructMemberType<bool>::~NetStructMemberType()"
+},
+{
+"address": "0x36d2e8",
+"bytes": 8,
+"demangled": "NetStructMemberType<unsigned int>::GetValue()"
+},
+{
+"address": "0x36d2f0",
+"bytes": 8,
+"demangled": "NetStructMemberType<int>::GetValue()"
+},
+{
+"address": "0x36d2f8",
+"bytes": 8,
+"demangled": "NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::GetValue()"
+},
+{
+"address": "0x36d300",
+"bytes": 4,
+"demangled": "NetStructMemberType<unsigned int>::~NetStructMemberType()"
+},
+{
+"address": "0x36d304",
+"bytes": 4,
+"demangled": "NetStructMemberType<int>::~NetStructMemberType()"
+},
+{
+"address": "0x36d308",
+"bytes": 8,
+"demangled": "NetStructMemberType<bool>::GetValue()"
+},
+{
+"address": "0x36d388",
+"bytes": 8,
+"demangled": "NetStructMemberType<ByteArray>::TestValue(ByteArray const&)"
+},
+{
+"address": "0x36d390",
+"bytes": 8,
+"demangled": "NetStructMemberType<ByteArray>::GetValue()"
+},
+{
+"address": "0x36d46c",
+"bytes": 8,
+"demangled": "NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x36d474",
+"bytes": 8,
+"demangled": "NetStructMemberType<int>::TestValue(int const&)"
+},
+{
+"address": "0x36d47c",
+"bytes": 8,
+"demangled": "NetStructMemberType<unsigned int>::TestValue(unsigned int const&)"
+},
+{
+"address": "0x36d484",
+"bytes": 8,
+"demangled": "NetStructMemberType<bool>::TestValue(bool const&)"
+},
+{
+"address": "0x36d4ec",
+"bytes": 36,
+"demangled": "NetStructMemberType<int>::~NetStructMemberType()"
+},
+{
+"address": "0x36d588",
+"bytes": 36,
+"demangled": "NetStructMemberType<unsigned int>::~NetStructMemberType()"
+},
+{
+"address": "0x36d5f0",
+"bytes": 36,
+"demangled": "NetStructMemberType<bool>::~NetStructMemberType()"
+},
+{
+"address": "0x36d9f0",
+"bytes": 24,
+"demangled": "NetStructMemberType<int>::SetValue(int const&)"
+},
+{
+"address": "0x36da08",
+"bytes": 24,
+"demangled": "NetStructMemberType<unsigned int>::SetValue(unsigned int const&)"
+},
+{
+"address": "0x36da20",
+"bytes": 24,
+"demangled": "NetStructMemberType<bool>::SetValue(bool const&)"
+},
+{
+"address": "0x36dd64",
+"bytes": 24,
+"demangled": "NetStructMemberType<int>::Erase(NetBitStream&)"
+}
+],
+"bytes": 296
+},
+{
+"id": "e1-net-transport-NetStructMemberType-1",
+"category": "net-transport",
+"owner": "NetStructMemberType",
+"part": 1,
+"parts": 3,
+"functions": [
+{
+"address": "0x36dd7c",
+"bytes": 24,
+"demangled": "NetStructMemberType<unsigned int>::Erase(NetBitStream&)"
+},
+{
+"address": "0x36dd94",
+"bytes": 24,
+"demangled": "NetStructMemberType<bool>::Erase(NetBitStream&)"
+},
+{
+"address": "0x36f264",
+"bytes": 76,
+"demangled": "NetStructMemberType<ByteArray>::SetValue(ByteArray const&)"
+},
+{
+"address": "0x36fc4c",
+"bytes": 88,
+"demangled": "NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::SetValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x36ff88",
+"bytes": 56,
+"demangled": "NetStructMemberType<ByteArray>::~NetStructMemberType()"
+},
+{
+"address": "0x3704e8",
+"bytes": 104,
+"demangled": "NetStructMemberType<ByteArray>::Erase(NetBitStream&)"
+},
+{
+"address": "0x370778",
+"bytes": 72,
+"demangled": "NetStructMemberType<ByteArray>::~NetStructMemberType()"
+},
+{
+"address": "0x37111c",
+"bytes": 44,
+"demangled": "NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~NetStructMemberType()"
+},
+{
+"address": "0x3711f4",
+"bytes": 60,
+"demangled": "NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::~NetStructMemberType()"
+},
+{
+"address": "0x371ae8",
+"bytes": 136,
+"demangled": "NetStructMemberType<std::basic_string<char, std::char_traits<char>, std::allocator<char> > >::Erase(NetBitStream&)"
+},
+{
+"address": "0x3a3574",
+"bytes": 4,
+"demangled": "NetStructMemberType<float>::~NetStructMemberType()"
+},
+{
+"address": "0x3a364c",
+"bytes": 8,
+"demangled": "NetStructMemberType<float>::GetValue()"
+},
+{
+"address": "0x3a36dc",
+"bytes": 8,
+"demangled": "NetStructMemberType<float>::TestValue(float const&)"
+},
+{
+"address": "0x3a3798",
+"bytes": 36,
+"demangled": "NetStructMemberType<float>::~NetStructMemberType()"
+},
+{
+"address": "0x3a3c30",
+"bytes": 52,
+"demangled": "NetStructMemberType<float>::SetValue(float const&)"
+},
+{
+"address": "0x3a3e4c",
+"bytes": 24,
+"demangled": "NetStructMemberType<float>::Erase(NetBitStream&)"
+},
+{
+"address": "0x801b80",
+"bytes": 4,
+"demangled": "NetStructMemberType<CNetworkId>::~NetStructMemberType()"
+},
+{
+"address": "0x801b84",
+"bytes": 8,
+"demangled": "NetStructMemberType<CNetworkId>::GetValue()"
+},
+{
+"address": "0x801b8c",
+"bytes": 8,
+"demangled": "NetStructMemberType<CNetworkId>::TestValue(CNetworkId const&)"
+},
+{
+"address": "0x801b94",
+"bytes": 36,
+"demangled": "NetStructMemberType<CNetworkId>::~NetStructMemberType()"
+}
+],
+"bytes": 872
+},
+{
+"id": "e1-net-transport-NetStructMemberType-2",
+"category": "net-transport",
+"owner": "NetStructMemberType",
+"part": 2,
+"parts": 3,
+"functions": [
+{
+"address": "0x801bfc",
+"bytes": 92,
+"demangled": "NetStructMemberType<CNetworkId>::Erase(NetBitStream&)"
+},
+{
+"address": "0x8020b8",
+"bytes": 528,
+"demangled": "NetStructMemberType<CNetworkId>::SetValue(CNetworkId const&)"
+},
+{
+"address": "0x8060d0",
+"bytes": 104,
+"demangled": "NetStructMemberType<CNetworkId>::NetStructMemberType(CNetworkId, unsigned int)"
+}
+],
+"bytes": 724
+},
+{
+"id": "e1-net-transport-NetStructString-0",
+"category": "net-transport",
+"owner": "NetStructString",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x36d3e8",
+"bytes": 28,
+"demangled": "NetStructString<32u>::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x371150",
+"bytes": 44,
+"demangled": "NetStructString<32u>::~NetStructString()"
+},
+{
+"address": "0x371184",
+"bytes": 104,
+"demangled": "NetStructString<32u>::Read(NetBitStream&)"
+},
+{
+"address": "0x371244",
+"bytes": 60,
+"demangled": "NetStructString<32u>::~NetStructString()"
+},
+{
+"address": "0x371b78",
+"bytes": 108,
+"demangled": "NetStructString<32u>::Write(NetBitStream&)"
+},
+{
+"address": "0x371bec",
+"bytes": 132,
+"demangled": "NetStructString<32u>::NetStructString(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x7fe858",
+"bytes": 28,
+"demangled": "NetStructString<256u>::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x800980",
+"bytes": 104,
+"demangled": "NetStructString<256u>::~NetStructString()"
+},
+{
+"address": "0x800a00",
+"bytes": 88,
+"demangled": "NetStructString<256u>::~NetStructString()"
+},
+{
+"address": "0x800bb4",
+"bytes": 160,
+"demangled": "NetStructString<256u>::Write(NetBitStream&)"
+},
+{
+"address": "0x800c60",
+"bytes": 148,
+"demangled": "NetStructString<256u>::NetStructString(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x801970",
+"bytes": 144,
+"demangled": "NetStructString<256u>::Read(NetBitStream&)"
+},
+{
+"address": "0x81bcb4",
+"bytes": 28,
+"demangled": "NetStructString<16u>::TestValue(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x81d078",
+"bytes": 44,
+"demangled": "NetStructString<16u>::~NetStructString()"
+},
+{
+"address": "0x81d134",
+"bytes": 104,
+"demangled": "NetStructString<16u>::Read(NetBitStream&)"
+},
+{
+"address": "0x81d1a4",
+"bytes": 60,
+"demangled": "NetStructString<16u>::~NetStructString()"
+},
+{
+"address": "0x81e1e8",
+"bytes": 108,
+"demangled": "NetStructString<16u>::Write(NetBitStream&)"
+},
+{
+"address": "0x81e5a0",
+"bytes": 132,
+"demangled": "NetStructString<16u>::NetStructString(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+}
+],
+"bytes": 1624
+},
+{
+"id": "e1-net-session-online-CMessaging-0",
+"category": "net-session-online",
+"owner": "CMessaging",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x80a784",
+"bytes": 48,
+"demangled": "CMessaging::PrintRecvQueue()"
+},
+{
+"address": "0x80a82c",
+"bytes": 48,
+"demangled": "CMessaging::PrintSendQueue()"
+},
+{
+"address": "0x80d058",
+"bytes": 28,
+"demangled": "CMessaging::ProcessMissingMessages(CMessage*)"
+},
+{
+"address": "0x80d67c",
+"bytes": 28,
+"demangled": "CMessaging::HasMessageBeenQueued(CMessage*)"
+},
+{
+"address": "0x80d8a0",
+"bytes": 40,
+"demangled": "CMessaging::ProcessSendQueue()"
+},
+{
+"address": "0x80d9c0",
+"bytes": 184,
+"demangled": "CMessaging::ReceiveMessage(CMessage*)"
+},
+{
+"address": "0x80da78",
+"bytes": 60,
+"demangled": "CMessaging::UnpackMessages(NetBitStream&)"
+},
+{
+"address": "0x80dab4",
+"bytes": 52,
+"demangled": "CMessaging::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x80dae8",
+"bytes": 52,
+"demangled": "CMessaging::sReadPacketData(int, int, NetBitStream&)"
+}
+],
+"bytes": 540
+},
+{
+"id": "e1-net-session-online-GameCenter-0",
+"category": "net-session-online",
+"owner": "GameCenter",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x499694",
+"bytes": 548,
+"demangled": "GameCenter::GetGCPlayerGroup()"
+}
+],
+"bytes": 548
+},
+{
+"id": "e1-net-session-online-OnlineSingleton_OnlineGameState-0",
+"category": "net-session-online",
+"owner": "OnlineSingleton<OnlineGameState>",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x320e98",
+"bytes": 168,
+"demangled": "OnlineSingleton<OnlineGameState>::GetInstance()"
+}
+],
+"bytes": 168
+},
+{
+"id": "e1-net-session-online-OnlineGameState-0",
+"category": "net-session-online",
+"owner": "OnlineGameState",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x49db80",
+"bytes": 6652,
+"demangled": "OnlineGameState::processEvents()"
+},
+{
+"address": "0x49fb0c",
+"bytes": 1188,
+"demangled": "OnlineGameState::processMessages()"
+},
+{
+"address": "0x4a04c0",
+"bytes": 4768,
+"demangled": "OnlineGameState::Init(int)"
+}
+],
+"bytes": 12608
+},
+{
+"id": "e1-net-session-online-CXPlayerManager-0",
+"category": "net-session-online",
+"owner": "CXPlayerManager",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x52e784",
+"bytes": 736,
+"demangled": "CXPlayerManager::Update()"
+}
+],
+"bytes": 736
+},
+{
+"id": "e1-net-session-online-COnline-0",
+"category": "net-session-online",
+"owner": "COnline",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7fd51c",
+"bytes": 76,
+"demangled": "COnline::ReportDisconnect(COnline::tDisconnectCause, int)"
+},
+{
+"address": "0x7fd568",
+"bytes": 32,
+"demangled": "COnline::GetPing()"
+},
+{
+"address": "0x7fd634",
+"bytes": 56,
+"demangled": "COnline::SendPackets()"
+},
+{
+"address": "0x7fd66c",
+"bytes": 88,
+"demangled": "COnline::Destroy()"
+},
+{
+"address": "0x7fd6d0",
+"bytes": 36,
+"demangled": "COnline::Terminate()"
+},
+{
+"address": "0x7fd6f4",
+"bytes": 72,
+"demangled": "COnline::Initialize()"
+},
+{
+"address": "0x7fd744",
+"bytes": 72,
+"demangled": "COnline::GetInstance()"
+},
+{
+"address": "0x7fd914",
+"bytes": 96,
+"demangled": "COnline::ReceivePackets()"
+},
+{
+"address": "0x7fd974",
+"bytes": 120,
+"demangled": "COnline::SendSyncTime()"
+},
+{
+"address": "0x7fd9ec",
+"bytes": 44,
+"demangled": "COnline::SyncTime()"
+},
+{
+"address": "0x7fdb58",
+"bytes": 140,
+"demangled": "COnline::Update(float)"
+},
+{
+"address": "0x7fdbe4",
+"bytes": 124,
+"demangled": "COnline::PacketReceiverCallback(int, char*, int)"
+},
+{
+"address": "0x7fdde8",
+"bytes": 40,
+"demangled": "COnline::sPacketReceiverCallback(int, char*, int)"
+}
+],
+"bytes": 996
+},
+{
+"id": "e1-net-session-online-CMatching-0",
+"category": "net-session-online",
+"owner": "CMatching",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x7fe4e0",
+"bytes": 100,
+"demangled": "CMatching::IsServer()"
+},
+{
+"address": "0x7fe574",
+"bytes": 40,
+"demangled": "CMatching::LockRoom(bool)"
+},
+{
+"address": "0x7fe5e0",
+"bytes": 56,
+"demangled": "CMatching::GetTeamId(int)"
+},
+{
+"address": "0x7fe618",
+"bytes": 16,
+"demangled": "CMatching::GetMemberIdByIndex(unsigned int)"
+},
+{
+"address": "0x7fea14",
+"bytes": 68,
+"demangled": "CMatching::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x7feac4",
+"bytes": 64,
+"demangled": "CMatching::ResendMemberData()"
+},
+{
+"address": "0x7feb40",
+"bytes": 76,
+"demangled": "CMatching::SearchRoom(CRoomSearchFilter, bool, unsigned char)"
+},
+{
+"address": "0x7feb8c",
+"bytes": 104,
+"demangled": "CMatching::Destroy()"
+},
+{
+"address": "0x7fed08",
+"bytes": 124,
+"demangled": "CMatching::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x7ff120",
+"bytes": 536,
+"demangled": "CMatching::JoinRoom(unsigned long long)"
+},
+{
+"address": "0x7ff350",
+"bytes": 568,
+"demangled": "CMatching::CreateJoinRoom(bool, CRoomAttributes)"
+},
+{
+"address": "0x7ff5a0",
+"bytes": 668,
+"demangled": "CMatching::Terminate()"
+},
+{
+"address": "0x7ff85c",
+"bytes": 668,
+"demangled": "CMatching::Initialize(int)"
+},
+{
+"address": "0x7fff9c",
+"bytes": 148,
+"demangled": "CMatching::CMatching()"
+},
+{
+"address": "0x80003c",
+"bytes": 148,
+"demangled": "CMatching::CMatching()"
+},
+{
+"address": "0x800a68",
+"bytes": 136,
+"demangled": "CMatching::~CMatching()"
+},
+{
+"address": "0x800b00",
+"bytes": 136,
+"demangled": "CMatching::~CMatching()"
+},
+{
+"address": "0x800b98",
+"bytes": 20,
+"demangled": "CMatching::~CMatching()"
+},
+{
+"address": "0x800f8c",
+"bytes": 268,
+"demangled": "CMatching::Get()"
+},
+{
+"address": "0x8010a4",
+"bytes": 124,
+"demangled": "CMatching::WritePacketData(int, int, NetBitStream&)"
+}
+],
+"bytes": 4068
+},
+{
+"id": "e1-net-session-online-CMatching-1",
+"category": "net-session-online",
+"owner": "CMatching",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x801120",
+"bytes": 2000,
+"demangled": "CMatching::ProcessEvents()"
+},
+{
+"address": "0x8018fc",
+"bytes": 116,
+"demangled": "CMatching::Update()"
+}
+],
+"bytes": 2116
+},
+{
+"id": "e1-net-session-online-CMatching_MemberInfoNetStruct-0",
+"category": "net-session-online",
+"owner": "CMatching::MemberInfoNetStruct",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7ffc28",
+"bytes": 164,
+"demangled": "CMatching::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x7ffce8",
+"bytes": 20,
+"demangled": "CMatching::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x7ffd04",
+"bytes": 632,
+"demangled": "CMatching::MemberInfoNetStruct::MemberInfoNetStruct()"
+}
+],
+"bytes": 816
+},
+{
+"id": "e1-net-session-online-CMatchingBluetooth-0",
+"category": "net-session-online",
+"owner": "CMatchingBluetooth",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x800ed8",
+"bytes": 112,
+"demangled": "CMatchingBluetooth::CMatchingBluetooth()"
+},
+{
+"address": "0x801c58",
+"bytes": 60,
+"demangled": "CMatchingBluetooth::SetServerBroadcast()"
+},
+{
+"address": "0x801c94",
+"bytes": 92,
+"demangled": "CMatchingBluetooth::LeaveRoom()"
+},
+{
+"address": "0x802020",
+"bytes": 136,
+"demangled": "CMatchingBluetooth::Initialize(int)"
+},
+{
+"address": "0x80236c",
+"bytes": 128,
+"demangled": "CMatchingBluetooth::Terminate()"
+},
+{
+"address": "0x80246c",
+"bytes": 140,
+"demangled": "CMatchingBluetooth::~CMatchingBluetooth()"
+},
+{
+"address": "0x802500",
+"bytes": 20,
+"demangled": "CMatchingBluetooth::~CMatchingBluetooth()"
+},
+{
+"address": "0x803274",
+"bytes": 36,
+"demangled": "CMatchingBluetooth::JoinRoomInternal(unsigned long long)"
+},
+{
+"address": "0x803448",
+"bytes": 60,
+"demangled": "CMatchingBluetooth::AddBluetoothServer(int, int, tMatchingPeer)"
+},
+{
+"address": "0x803718",
+"bytes": 148,
+"demangled": "CMatchingBluetooth::Initialize(int, std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x8037b4",
+"bytes": 344,
+"demangled": "CMatchingBluetooth::SearchRoomInternal(CRoomSearchFilter&, bool, unsigned char)"
+},
+{
+"address": "0x803920",
+"bytes": 456,
+"demangled": "CMatchingBluetooth::ParseBluetoothDeviceName(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x803cbc",
+"bytes": 60,
+"demangled": "CMatchingBluetooth::GenerateBluetoothDeviceName(tMatchingPeer)"
+},
+{
+"address": "0x803ed0",
+"bytes": 836,
+"demangled": "CMatchingBluetooth::CreateJoinRoomInternal(bool, CRoomAttributes&)"
+},
+{
+"address": "0x804234",
+"bytes": 2444,
+"demangled": "CMatchingBluetooth::ProcessEvents()"
+},
+{
+"address": "0x804cf8",
+"bytes": 2360,
+"demangled": "CMatchingBluetooth::Update()"
+}
+],
+"bytes": 7432
+},
+{
+"id": "e1-net-session-online-CMatchingLocal-0",
+"category": "net-session-online",
+"owner": "CMatchingLocal",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x801b30",
+"bytes": 12,
+"demangled": "CMatchingLocal::GetMemberId() const"
+},
+{
+"address": "0x801b48",
+"bytes": 12,
+"demangled": "CMatchingLocal::GetServerMemberId() const"
+},
+{
+"address": "0x805680",
+"bytes": 20,
+"demangled": "CMatchingLocal::GetFriendsList(bool)"
+},
+{
+"address": "0x8057f0",
+"bytes": 108,
+"demangled": "CMatchingLocal::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x80585c",
+"bytes": 108,
+"demangled": "CMatchingLocal::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x805b14",
+"bytes": 240,
+"demangled": "CMatchingLocal::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x805cc8",
+"bytes": 112,
+"demangled": "CMatchingLocal::IsInRoom()"
+},
+{
+"address": "0x8063c4",
+"bytes": 900,
+"demangled": "CMatchingLocal::WritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x8074a4",
+"bytes": 768,
+"demangled": "CMatchingLocal::Reset()"
+},
+{
+"address": "0x807d08",
+"bytes": 304,
+"demangled": "CMatchingLocal::CMatchingLocal()"
+},
+{
+"address": "0x80838c",
+"bytes": 80,
+"demangled": "CMatchingLocal::GetRoomList()"
+}
+],
+"bytes": 2664
+},
+{
+"id": "e1-net-session-online-CMatchingLocal_ServerBackupNetStruct-0",
+"category": "net-session-online",
+"owner": "CMatchingLocal::ServerBackupNetStruct",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x806140",
+"bytes": 104,
+"demangled": "CMatchingLocal::ServerBackupNetStruct::~ServerBackupNetStruct()"
+},
+{
+"address": "0x8062d0",
+"bytes": 104,
+"demangled": "CMatchingLocal::ServerBackupNetStruct::~ServerBackupNetStruct()"
+},
+{
+"address": "0x806cac",
+"bytes": 168,
+"demangled": "CMatchingLocal::ServerBackupNetStruct::ServerBackupNetStruct()"
+}
+],
+"bytes": 376
+},
+{
+"id": "e1-net-session-online-CMatchingLocal_RoomInfoNetStruct-0",
+"category": "net-session-online",
+"owner": "CMatchingLocal::RoomInfoNetStruct",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8061bc",
+"bytes": 116,
+"demangled": "CMatchingLocal::RoomInfoNetStruct::~RoomInfoNetStruct()"
+},
+{
+"address": "0x80623c",
+"bytes": 20,
+"demangled": "CMatchingLocal::RoomInfoNetStruct::~RoomInfoNetStruct()"
+},
+{
+"address": "0x806964",
+"bytes": 540,
+"demangled": "CMatchingLocal::RoomInfoNetStruct::RoomInfoNetStruct()"
+}
+],
+"bytes": 676
+},
+{
+"id": "e1-net-session-online-CMatchingLocal_MemberInfoNetStruct-0",
+"category": "net-session-online",
+"owner": "CMatchingLocal::MemberInfoNetStruct",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x806258",
+"bytes": 108,
+"demangled": "CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x806344",
+"bytes": 108,
+"demangled": "CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x806b98",
+"bytes": 256,
+"demangled": "CMatchingLocal::MemberInfoNetStruct::MemberInfoNetStruct()"
+}
+],
+"bytes": 472
+},
+{
+"id": "e1-net-session-online-CMatchingGLLive-0",
+"category": "net-session-online",
+"owner": "CMatchingGLLive",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x81bfe4",
+"bytes": 80,
+"demangled": "CMatchingGLLive::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x81c034",
+"bytes": 80,
+"demangled": "CMatchingGLLive::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x81c200",
+"bytes": 188,
+"demangled": "CMatchingGLLive::ProcessMemberJoinMessage(int, NetBitStream&)"
+},
+{
+"address": "0x81c2c4",
+"bytes": 104,
+"demangled": "CMatchingGLLive::SendClientRequest()"
+},
+{
+"address": "0x81c460",
+"bytes": 52,
+"demangled": "CMatchingGLLive::GetRoomId()"
+},
+{
+"address": "0x81c494",
+"bytes": 24,
+"demangled": "CMatchingGLLive::GetMemberByMemberId(int)"
+},
+{
+"address": "0x81c4ac",
+"bytes": 112,
+"demangled": "CMatchingGLLive::IsInRoom()"
+},
+{
+"address": "0x81c524",
+"bytes": 108,
+"demangled": "CMatchingGLLive::GetMemberCount() const"
+},
+{
+"address": "0x81c6cc",
+"bytes": 124,
+"demangled": "CMatchingGLLive::IsMyFriend(char*)"
+},
+{
+"address": "0x81c9e8",
+"bytes": 52,
+"demangled": "CMatchingGLLive::sPacketReceiverCallback(int, char*, int)"
+},
+{
+"address": "0x81cec0",
+"bytes": 112,
+"demangled": "CMatchingGLLive::IsFriendWith(char const*, bool)"
+},
+{
+"address": "0x81cf30",
+"bytes": 196,
+"demangled": "CMatchingGLLive::SendInvitation(char const*, char const*, bool)"
+},
+{
+"address": "0x81dba0",
+"bytes": 324,
+"demangled": "CMatchingGLLive::GetGLLiveMemberIdList()"
+},
+{
+"address": "0x81ded4",
+"bytes": 180,
+"demangled": "CMatchingGLLive::IsInRoom(int)"
+},
+{
+"address": "0x81df90",
+"bytes": 136,
+"demangled": "CMatchingGLLive::GetMemberName(int)"
+},
+{
+"address": "0x81e25c",
+"bytes": 608,
+"demangled": "CMatchingGLLive::SyncMemberId()"
+},
+{
+"address": "0x81e4d0",
+"bytes": 208,
+"demangled": "CMatchingGLLive::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x81ec5c",
+"bytes": 328,
+"demangled": "CMatchingGLLive::GetFriendsList(bool)"
+},
+{
+"address": "0x81ee10",
+"bytes": 92,
+"demangled": "CMatchingGLLive::AddFriendInGameList(GLFriendInfo)"
+},
+{
+"address": "0x81ee6c",
+"bytes": 112,
+"demangled": "CMatchingGLLive::GetGLFriendsList()"
+}
+],
+"bytes": 3220
+},
+{
+"id": "e1-net-session-online-CMatchingGLLive-1",
+"category": "net-session-online",
+"owner": "CMatchingGLLive",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x81f264",
+"bytes": 196,
+"demangled": "CMatchingGLLive::Initialize(int)"
+},
+{
+"address": "0x81f488",
+"bytes": 68,
+"demangled": "CMatchingGLLive::JoinRoomInternal(unsigned long long)"
+},
+{
+"address": "0x81f53c",
+"bytes": 268,
+"demangled": "CMatchingGLLive::WritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x81f648",
+"bytes": 168,
+"demangled": "CMatchingGLLive::SendGameParameters()"
+},
+{
+"address": "0x81f6f8",
+"bytes": 340,
+"demangled": "CMatchingGLLive::KickMember(int)"
+},
+{
+"address": "0x81f948",
+"bytes": 392,
+"demangled": "CMatchingGLLive::CreateJoinRoomInternal(bool, CRoomAttributes&)"
+},
+{
+"address": "0x82051c",
+"bytes": 612,
+"demangled": "CMatchingGLLive::GetRoomList()"
+},
+{
+"address": "0x82078c",
+"bytes": 720,
+"demangled": "CMatchingGLLive::UpdateRoom()"
+},
+{
+"address": "0x820a6c",
+"bytes": 1016,
+"demangled": "CMatchingGLLive::Update()"
+},
+{
+"address": "0x820e7c",
+"bytes": 72,
+"demangled": "CMatchingGLLive::AddServer(int, CNetworkId&, int, CRoomAttributes&)"
+},
+{
+"address": "0x821110",
+"bytes": 120,
+"demangled": "CMatchingGLLive::ProcessServerMessage(CNetworkId&, NetBitStream&)"
+},
+{
+"address": "0x821218",
+"bytes": 52,
+"demangled": "CMatchingGLLive::sBroadcastPacketReceiverCallback(CNetworkId&, char*, int)"
+}
+],
+"bytes": 4024
+},
+{
+"id": "e1-net-session-online-CMatchingGLLive_MemberInfoNetStruct-0",
+"category": "net-session-online",
+"owner": "CMatchingGLLive::MemberInfoNetStruct",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x81d1f4",
+"bytes": 144,
+"demangled": "CMatchingGLLive::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x81e680",
+"bytes": 148,
+"demangled": "CMatchingGLLive::MemberInfoNetStruct::MemberInfoNetStruct()"
+}
+],
+"bytes": 292
+},
+{
+"id": "e1-net-session-online-CMatchingGLLiveLobbyObserver-0",
+"category": "net-session-online",
+"owner": "CMatchingGLLiveLobbyObserver",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8213ec",
+"bytes": 88,
+"demangled": "CMatchingGLLiveLobbyObserver::ClearRoomList()"
+},
+{
+"address": "0x821474",
+"bytes": 88,
+"demangled": "CMatchingGLLiveLobbyObserver::GetRoomIndexByName(char const*)"
+},
+{
+"address": "0x8214cc",
+"bytes": 112,
+"demangled": "CMatchingGLLiveLobbyObserver::GetMemberIndexByName(char const*)"
+},
+{
+"address": "0x8216a8",
+"bytes": 176,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushGameserverAddr(DataPacket*)"
+},
+{
+"address": "0x8217a8",
+"bytes": 996,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPListSessionSuccess(DataPacket*)"
+},
+{
+"address": "0x821bac",
+"bytes": 300,
+"demangled": "CMatchingGLLiveLobbyObserver::GetMemberIdVector()"
+},
+{
+"address": "0x822324",
+"bytes": 192,
+"demangled": "CMatchingGLLiveLobbyObserver::GetMemberByMemberId(int)"
+},
+{
+"address": "0x822638",
+"bytes": 80,
+"demangled": "CMatchingGLLiveLobbyObserver::SetPlayerParam(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x822950",
+"bytes": 188,
+"demangled": "CMatchingGLLiveLobbyObserver::CollapseMemberList()"
+},
+{
+"address": "0x822b78",
+"bytes": 76,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPLeaveSessionSuccess()"
+},
+{
+"address": "0x822c58",
+"bytes": 332,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushKickOutPlayer(DataPacket*)"
+},
+{
+"address": "0x822db4",
+"bytes": 140,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyLaunched(DataPacket*)"
+},
+{
+"address": "0x822fa4",
+"bytes": 144,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPCreateSessionSuccess(DataPacket*)"
+},
+{
+"address": "0x8231e0",
+"bytes": 328,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPJoinSessionSuccess(DataPacket*)"
+},
+{
+"address": "0x823510",
+"bytes": 212,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushSetUserParameter(DataPacket*)"
+},
+{
+"address": "0x8235f8",
+"bytes": 140,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyUnlaunched(DataPacket*)"
+},
+{
+"address": "0x823808",
+"bytes": 300,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushRejoinGame(DataPacket*)"
+},
+{
+"address": "0x823ac4",
+"bytes": 1256,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushLeaveLobby(DataPacket*)"
+},
+{
+"address": "0x823fd8",
+"bytes": 508,
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushMessages(DataPacket*, int)"
+}
+],
+"bytes": 5656
+},
+{
+"id": "e1-net-session-online-COnlineImpl-0",
+"category": "net-session-online",
+"owner": "COnlineImpl",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x824f40",
+"bytes": 60,
+"demangled": "COnlineImpl::Initialize()"
+}
+],
+"bytes": 60
+},
+{
+"id": "e1-net-session-online-lib_online_glx-0",
+"category": "net-session-online",
+"owner": "lib-online-glx",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x82b138",
+"bytes": 64,
+"demangled": "XP_API_GET_TIME"
+},
+{
+"address": "0x8b1704",
+"bytes": 120,
+"demangled": "FUN_008b1704"
+}
+],
+"bytes": 184
+},
+{
+"id": "e1-net-session-online-GLXPlayerSereverConfig-0",
+"category": "net-session-online",
+"owner": "GLXPlayerSereverConfig",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x82eaac",
+"bytes": 148,
+"demangled": "GLXPlayerSereverConfig::SendGetServerConfig(int&)"
+},
+{
+"address": "0x82faac",
+"bytes": 276,
+"demangled": "GLXPlayerSereverConfig::loadConfigFromLocal()"
+},
+{
+"address": "0x82fec8",
+"bytes": 368,
+"demangled": "GLXPlayerSereverConfig::Update()"
+}
+],
+"bytes": 792
+},
+{
+"id": "e1-net-session-online-GLXPlayerMPLobby-0",
+"category": "net-session-online",
+"owner": "GLXPlayerMPLobby",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x838a34",
+"bytes": 440,
+"demangled": "GLXPlayerMPLobby::Update()"
+},
+{
+"address": "0x838c6c",
+"bytes": 4492,
+"demangled": "GLXPlayerMPLobby::mpProcessIncomingMessages()"
+}
+],
+"bytes": 4932
+},
+{
+"id": "e1-net-session-online-GLXPlayerPing-0",
+"category": "net-session-online",
+"owner": "GLXPlayerPing",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8402f8",
+"bytes": 328,
+"demangled": "GLXPlayerPing::RecvEchoReply()"
+},
+{
+"address": "0x84069c",
+"bytes": 436,
+"demangled": "GLXPlayerPing::Kernel()"
+}
+],
+"bytes": 764
+},
+{
+"id": "e1-net-session-online-GLXPlayerMPBase-0",
+"category": "net-session-online",
+"owner": "GLXPlayerMPBase",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x84abd8",
+"bytes": 140,
+"demangled": "GLXPlayerMPBase::setErrMsg()"
+},
+{
+"address": "0x84ac64",
+"bytes": 256,
+"demangled": "GLXPlayerMPBase::mpSendLogin(char*)"
+},
+{
+"address": "0x84ad78",
+"bytes": 128,
+"demangled": "GLXPlayerMPBase::mpSendEstablishConnection()"
+}
+],
+"bytes": 524
+},
+{
+"id": "e1-pydata-accessors-Arrays-0",
+"category": "pydata-accessors",
+"owner": "Arrays",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x3a3f70",
+"bytes": 104,
+"demangled": "int Arrays::GetMemberIDByString<Arrays::TrophyTable>(char const*)"
+},
+{
+"address": "0x3fa188",
+"bytes": 104,
+"demangled": "int Arrays::GetMemberIDByString<Arrays::CharacterTable>(char const*)"
+},
+{
+"address": "0x4a5ee4",
+"bytes": 136,
+"demangled": "Arrays::ItemTable::finalizeNames()"
+},
+{
+"address": "0x4a5f80",
+"bytes": 216,
+"demangled": "Arrays::ItemTable::finalize()"
+},
+{
+"address": "0x4ad5f8",
+"bytes": 104,
+"demangled": "int Arrays::GetMemberIDByString<Arrays::ItemTable>(char const*)"
+},
+{
+"address": "0x4afdf4",
+"bytes": 396,
+"demangled": "Arrays::LootTable::readNames(IStreamBase*)"
+},
+{
+"address": "0x4b1928",
+"bytes": 396,
+"demangled": "Arrays::v2Quests::readNames(IStreamBase*)"
+},
+{
+"address": "0x4b1ac0",
+"bytes": 396,
+"demangled": "Arrays::ModelDict::readNames(IStreamBase*)"
+},
+{
+"address": "0x4b37a4",
+"bytes": 316,
+"demangled": "Arrays::CamAnimSetTable::read(IStreamBase*)"
+},
+{
+"address": "0x4b38f0",
+"bytes": 312,
+"demangled": "Arrays::AnimTable::read(IStreamBase*)"
+},
+{
+"address": "0x4b3f5c",
+"bytes": 316,
+"demangled": "Arrays::Charater_Templates::read(IStreamBase*)"
+},
+{
+"address": "0x4b4340",
+"bytes": 308,
+"demangled": "Arrays::CharacterTable::read(IStreamBase*)"
+},
+{
+"address": "0x4b4484",
+"bytes": 316,
+"demangled": "Arrays::ClassTable::read(IStreamBase*)"
+},
+{
+"address": "0x4b45d0",
+"bytes": 324,
+"demangled": "Arrays::CharAnimTable::read(IStreamBase*)"
+},
+{
+"address": "0x4b4724",
+"bytes": 396,
+"demangled": "Arrays::ItemTable::readNames(IStreamBase*)"
+},
+{
+"address": "0x4b4a54",
+"bytes": 4,
+"demangled": "Arrays::ItemList::skipNames(IStreamBase*)"
+},
+{
+"address": "0x4b5258",
+"bytes": 4,
+"demangled": "Arrays::InventoryTable::skipNames(IStreamBase*)"
+},
+{
+"address": "0x4b53f4",
+"bytes": 4,
+"demangled": "Arrays::DropTilePriorityTable::skipNames(IStreamBase*)"
+},
+{
+"address": "0x4b86f0",
+"bytes": 316,
+"demangled": "Arrays::ModelDict::read(IStreamBase*)"
+},
+{
+"address": "0x4b8acc",
+"bytes": 440,
+"demangled": "Arrays::v2Quests::read(IStreamBase*)"
+}
+],
+"bytes": 4908
+},
+{
+"id": "e1-pydata-accessors-Arrays-1",
+"category": "pydata-accessors",
+"owner": "Arrays",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x4b9810",
+"bytes": 324,
+"demangled": "Arrays::SkillTable::read(IStreamBase*)"
+},
+{
+"address": "0x4b9964",
+"bytes": 316,
+"demangled": "Arrays::SkillListTable::read(IStreamBase*)"
+},
+{
+"address": "0x4b9bf4",
+"bytes": 316,
+"demangled": "Arrays::NumProbArray::read(IStreamBase*)"
+},
+{
+"address": "0x4b9e8c",
+"bytes": 324,
+"demangled": "Arrays::LootTable::read(IStreamBase*)"
+},
+{
+"address": "0x4ba12c",
+"bytes": 320,
+"demangled": "Arrays::ItemTable::read(IStreamBase*)"
+},
+{
+"address": "0x4ba27c",
+"bytes": 316,
+"demangled": "Arrays::ItemList::read(IStreamBase*)"
+},
+{
+"address": "0x4ba3c8",
+"bytes": 292,
+"demangled": "Arrays::InventoryTable::read(IStreamBase*)"
+},
+{
+"address": "0x4ba4fc",
+"bytes": 316,
+"demangled": "Arrays::DropTilePriorityTable::read(IStreamBase*)"
+},
+{
+"address": "0x4baa30",
+"bytes": 316,
+"demangled": "Arrays::ItemBonusAttrMonopoly::read(IStreamBase*)"
+},
+{
+"address": "0x4bacc8",
+"bytes": 316,
+"demangled": "Arrays::ItemPowerList::read(IStreamBase*)"
+},
+{
+"address": "0x4bbfe0",
+"bytes": 316,
+"demangled": "Arrays::FaeryTable::read(IStreamBase*)"
+},
+{
+"address": "0x4bc12c",
+"bytes": 316,
+"demangled": "Arrays::FaeryListTable::read(IStreamBase*)"
+}
+],
+"bytes": 3788
+},
+{
+"id": "e1-pydata-accessors-PyDataArrays-0",
+"category": "pydata-accessors",
+"owner": "PyDataArrays",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x4bd478",
+"bytes": 88,
+"demangled": "PyDataArrays::reloadData(IStreamBase*, char const*)"
+},
+{
+"address": "0x4bd640",
+"bytes": 72,
+"demangled": "PyDataArrays::GetOID(char const*, char const*)"
+},
+{
+"address": "0x4be3e0",
+"bytes": 364,
+"demangled": "PyDataArrays::addFuncsForFile(char const*, void (*)(IStreamBase*), void (*)())"
+},
+{
+"address": "0x4be550",
+"bytes": 7852,
+"demangled": "PyDataArrays::PyDataArrays(DataReloaderManager*)"
+}
+],
+"bytes": 8376
+},
+{
+"id": "e1-pydata-accessors-PyDataConstants-0",
+"category": "pydata-accessors",
+"owner": "PyDataConstants",
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x4c36b8",
+"bytes": 72,
+"demangled": "PyDataConstants::PyDataConstants(DataReloaderManager*)"
+},
+{
+"address": "0x4c3708",
+"bytes": 2276,
+"demangled": "PyDataConstants::Load()"
+},
+{
+"address": "0x4c4bdc",
+"bytes": 84,
+"demangled": "PyDataConstants::getConstant(char const*, char const*) const"
+}
+],
+"bytes": 2432
+},
+{
+"id": "e1-pydata-accessors-Structs-0",
+"category": "pydata-accessors",
+"owner": "Structs",
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x4dbb5c",
+"bytes": 112,
+"demangled": "Structs::Inventory::read(IStreamBase*)"
+},
+{
+"address": "0x4dc790",
+"bytes": 356,
+"demangled": "Structs::ItemListEntryList::read(IStreamBase*)"
+},
+{
+"address": "0x4dcd38",
+"bytes": 336,
+"demangled": "Structs::CharTemplate::read(IStreamBase*)"
+},
+{
+"address": "0x4dcfec",
+"bytes": 356,
+"demangled": "Structs::ClassFuncList::read(IStreamBase*)"
+},
+{
+"address": "0x4dd5a8",
+"bytes": 2320,
+"demangled": "Structs::v2QuestScripts::read(IStreamBase*)"
+},
+{
+"address": "0x4ea830",
+"bytes": 292,
+"demangled": "Structs::SkillList::read(IStreamBase*)"
+},
+{
+"address": "0x4eab9c",
+"bytes": 292,
+"demangled": "Structs::FaeryList::read(IStreamBase*)"
+},
+{
+"address": "0x4eb4d8",
+"bytes": 208,
+"demangled": "Structs::WorldMapLocker::read(IStreamBase*)"
+},
+{
+"address": "0x4eb5a8",
+"bytes": 476,
+"demangled": "Structs::WldMapLocation::read(IStreamBase*)"
+},
+{
+"address": "0x4ebeb0",
+"bytes": 1484,
+"demangled": "Structs::Skill::read(IStreamBase*)"
+},
+{
+"address": "0x4ec47c",
+"bytes": 1396,
+"demangled": "Structs::ItemBase::read(IStreamBase*)"
+},
+{
+"address": "0x4ec9f0",
+"bytes": 984,
+"demangled": "Structs::AnimStep::read(IStreamBase*)"
+},
+{
+"address": "0x4ed280",
+"bytes": 220,
+"demangled": "Structs::ItemListEntry::read(IStreamBase*)"
+},
+{
+"address": "0x4ef05c",
+"bytes": 660,
+"demangled": "Structs::CamAnimSet::read(IStreamBase*)"
+},
+{
+"address": "0x4ef2f0",
+"bytes": 552,
+"demangled": "Structs::AnimTpl::read(IStreamBase*)"
+},
+{
+"address": "0x4ef64c",
+"bytes": 3780,
+"demangled": "Structs::CharAnim::read(IStreamBase*)"
+},
+{
+"address": "0x4f19dc",
+"bytes": 484,
+"demangled": "Structs::ClassFunc::read(IStreamBase*)"
+},
+{
+"address": "0x4f1c90",
+"bytes": 112,
+"demangled": "Structs::CharInfoName::read(IStreamBase*)"
+},
+{
+"address": "0x4fc068",
+"bytes": 2216,
+"demangled": "Structs::Item::read(IStreamBase*)"
+},
+{
+"address": "0x4fca84",
+"bytes": 1388,
+"demangled": "Structs::LevelDeclaration::read(IStreamBase*)"
+}
+],
+"bytes": 18024
+},
+{
+"id": "e1-pydata-accessors-Structs-1",
+"category": "pydata-accessors",
+"owner": "Structs",
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x4fcff0",
+"bytes": 556,
+"demangled": "Structs::FastTravelDestination::read(IStreamBase*)"
+},
+{
+"address": "0x4fe794",
+"bytes": 1132,
+"demangled": "Structs::Loot::read(IStreamBase*)"
+},
+{
+"address": "0x4fec08",
+"bytes": 760,
+"demangled": "Structs::LootEntry::read(IStreamBase*)"
+},
+{
+"address": "0x50358c",
+"bytes": 300,
+"demangled": "Structs::v2QuestObjective::read(IStreamBase*)"
+},
+{
+"address": "0x504818",
+"bytes": 632,
+"demangled": "Structs::v2QuestObjectiveStub::read(IStreamBase*)"
+},
+{
+"address": "0x504a94",
+"bytes": 2392,
+"demangled": "Structs::v2Quest::read(IStreamBase*)"
+},
+{
+"address": "0x5053fc",
+"bytes": 112,
+"demangled": "Structs::v2QuestReward::read(IStreamBase*)"
+},
+{
+"address": "0x50589c",
+"bytes": 212,
+"demangled": "Structs::v2QuestRewardStub::read(IStreamBase*)"
+},
+{
+"address": "0x505b28",
+"bytes": 112,
+"demangled": "Structs::v2Condition::read(IStreamBase*)"
+},
+{
+"address": "0x50600c",
+"bytes": 212,
+"demangled": "Structs::v2ConditionStub::read(IStreamBase*)"
+},
+{
+"address": "0x50637c",
+"bytes": 740,
+"demangled": "Structs::Faery::read(IStreamBase*)"
+},
+{
+"address": "0x506f3c",
+"bytes": 1396,
+"demangled": "Structs::AIProps::read(IStreamBase*)"
+}
+],
+"bytes": 8556
+}
+]

@@ -1,0 +1,92 @@
+{
+  "component": "port-owned actor registry",
+  "actor_count": 26,
+  "translation_checks": 26,
+  "ambush_actors": [
+    {
+      "name": "_prim_tmp_infected05",
+      "source_record": 6,
+      "template": "InfectedVillage_CommonType1",
+      "world_position": [
+        2171.3701,
+        1283.11,
+        1325.4301
+      ],
+      "rotation_z": 78.9326,
+      "ai_state": "Limbus",
+      "auto_spawn": false,
+      "spawn_result": "requested"
+    },
+    {
+      "name": "_prim_tmp_infected07",
+      "source_record": 8,
+      "template": "InfectedVillage_CommonType1",
+      "world_position": [
+        2153.8501,
+        991.88,
+        1325.4301
+      ],
+      "rotation_z": 96.4741,
+      "ai_state": "Limbus",
+      "auto_spawn": false,
+      "spawn_result": "requested"
+    },
+    {
+      "name": "_prim_tmp_infected06",
+      "source_record": 7,
+      "template": "InfectedVillage_CommonType1",
+      "world_position": [
+        2871.5898,
+        983.05,
+        1325.4301
+      ],
+      "rotation_z": -101.756,
+      "ai_state": "Limbus",
+      "auto_spawn": false,
+      "spawn_result": "requested"
+    },
+    {
+      "name": "_prim_tmp_infected16",
+      "source_record": 19,
+      "template": "InfectedVillage_CommonType1",
+      "world_position": [
+        2562.4199,
+        651.98,
+        1325.4301
+      ],
+      "rotation_z": 174.741,
+      "ai_state": "Limbus",
+      "auto_spawn": false,
+      "spawn_result": "requested"
+    }
+  ],
+  "missing_actor": {
+    "name": "_prim_tmp_infected17",
+    "result": "lookup_miss",
+    "lookup_miss_count": 1,
+    "last_lookup_miss": "_prim_tmp_infected17"
+  },
+  "checks": {
+    "transactional_replacement": true,
+    "duplicate_names": true,
+    "capacity": true,
+    "invalid_data": true,
+    "spawn_idempotence": true,
+    "cache_transforms": true
+  },
+  "input_files": {
+    "data/scene/005_infectedvillage.mlx": {
+      "bytes": 2079,
+      "sha256": "4cd2007c7de65d38065f8a5f57faaa57dc56cc332db35cdb50d7d42d5af73ed8"
+    },
+    "data/3d/modules/infectedvillage/mgp/infected01.mgp": {
+      "bytes": 17862,
+      "sha256": "c3fbe80d3228592cd117012baf2f2151e4ab46c452213911ca5c4d3195e4bbc3"
+    },
+    "data/3d/modules/infectedvillage/mgp/infected02.mgp": {
+      "bytes": 991,
+      "sha256": "a128c22031b9ba64fde81c7951e215cc2999e8ffb95a3a5cf30560cc712e8c5b"
+    }
+  },
+  "scope": "Port-owned record registry and idempotent spawn-request projection; not the native object ABI, renderer, AI, or a complete spawn state machine."
+}

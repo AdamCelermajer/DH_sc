@@ -74,6 +74,18 @@ void cursor(Run&r,const SwfCursor16&next,std::uint32_t i){auto&slot=r.s.slots[i]
  float mouse[6]{static_cast<float>(trunc32(point[0])),static_cast<float>(trunc32(point[1]))};r.call(SwfInputOperation::notify_mouse_state,r.s.root,nullptr,nullptr,mouse,0,i);
  const bool down=next.buttons!=0;const bool down_edge=down&&old.buttons==0,up_edge=!down&&old.buttons!=0,moved=down&&!(next.x==old.x&&next.y==old.y);
  auto hit_root=(r.s.flags&4)?r.call(SwfInputOperation::root_movie,r.s.root).identity:r.s.context;
+ const auto& context_view=r.s.context?r.view(r.s.context):SwfInputCharacter32{};
+ const bool gameplay_hud=context_view.name&&!std::strcmp(context_view.name,"menu_HUD_0");
+ const bool gameplay_pause=context_view.name&&!std::strcmp(context_view.name,"menu_Ingame");
+ const bool death_fade=context_view.name&&!std::strcmp(context_view.name,"menu_FadeToBlackScreen");
+ // RenderFX hits the retained movie root. CharacterMenu, InventorySheet and
+ // FaerySheet are sibling clips there; the source depth order selects the
+ // active screen's actual child button while preserving CharacterMenu tabs.
+ // The gameplay HUD and pause modal use their local clips. In particular,
+ // menu_Ingame's Continue button is covered in the retained root hit list by
+ // the unrelated menu_hud_confirm.btnBlocker sibling; the death fade's
+ // full-screen btn_Continue is likewise covered by other HUD-root siblings.
+ if(gameplay_hud||gameplay_pause||death_fade)hit_root=r.s.context;
  Strong root(r,hit_root);float hit_point[6]{mul(point[0],20.f),mul(point[1],20.f)};
  Strong hit(r,hit_root?r.call(SwfInputOperation::topmost,hit_root,nullptr,nullptr,hit_point).identity:0);
  Strong old_focus(r,slot.focus);

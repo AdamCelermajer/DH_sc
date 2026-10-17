@@ -1,0 +1,736 @@
+{
+  "summary": "Track B wave L0: recover canonical headers for the foundation game classes",
+  "agentCount": 6,
+  "logs": [],
+  "result": [
+    {
+      "group": "objectbase",
+      "result": {
+        "headers": [
+          "port/decomp-reconstruction/game/include/dh2/sfc/script/lua/UserData.hpp",
+          "port/decomp-reconstruction/game/include/dh2/ConditionData.hpp",
+          "port/decomp-reconstruction/game/include/dh2/ObjectHandle.hpp",
+          "port/decomp-reconstruction/game/include/dh2/PFObject.hpp",
+          "port/decomp-reconstruction/game/include/dh2/ObjectBase.hpp",
+          "port/decomp-reconstruction/game/include/dh2/GameObject.hpp"
+        ],
+        "classes": [
+          {
+            "name": "sfc::script::lua::UserData",
+            "header": "dh2/sfc/script/lua/UserData.hpp",
+            "compiles": true,
+            "bases": [],
+            "original_size_hex": "0x4",
+            "named_members": 0,
+            "unknown_members": 0
+          },
+          {
+            "name": "ConditionData",
+            "header": "dh2/ConditionData.hpp",
+            "compiles": true,
+            "bases": [],
+            "original_size_hex": "0x24",
+            "named_members": 3,
+            "unknown_members": 0
+          },
+          {
+            "name": "ObjectHandle",
+            "header": "dh2/ObjectHandle.hpp",
+            "compiles": true,
+            "bases": [],
+            "original_size_hex": "0xc",
+            "named_members": 3,
+            "unknown_members": 0
+          },
+          {
+            "name": "PFObject",
+            "header": "dh2/PFObject.hpp",
+            "compiles": true,
+            "bases": [],
+            "original_size_hex": "0xa4",
+            "named_members": 14,
+            "unknown_members": 9
+          },
+          {
+            "name": "ObjectBase",
+            "header": "dh2/ObjectBase.hpp",
+            "compiles": false,
+            "bases": [
+              "sfc::script::lua::UserData (+0)",
+              "PropertyMap (+4)",
+              "ISerializable (+0x24)"
+            ],
+            "original_size_hex": "0x120",
+            "named_members": 28,
+            "unknown_members": 14
+          },
+          {
+            "name": "GameObject",
+            "header": "dh2/GameObject.hpp",
+            "compiles": false,
+            "bases": [
+              "ObjectBase"
+            ],
+            "original_size_hex": "0x374",
+            "named_members": 53,
+            "unknown_members": 6
+          }
+        ],
+        "open_questions": [
+          "ObjectBase.hpp and GameObject.hpp compile only against scratch stubs. dh2/PropertyMap.hpp and dh2/ObjectSearcher.hpp did not exist when I finished, so check_tu.sh on the real tree fails until the game-items-save and game-world workers write them. ObjectBase needs PropertyMap to have a pure virtual DeclareProperties. GameObject needs ObjectSearcher::TargetList to be a complete type, about 0x54 bytes in the original.",
+          "PropertyMap layout, from ObjectBase+4: vptr, a std::string (the template name) at +4, and m_className at +0x1c. It is 0x20 bytes and has no virtual destructor. The PropertyMap owner should match this.",
+          "UserData has no queue.csv rows, so the non-pure getUDTypeName and createBindings, and a virtual destructor, are inferred from the vtable symbols. I did not check where UserData's implementations live.",
+          "ObjectBase fields I could only name unk_: +0x28 (cleared by GameObject::InitPost when skip_checkpoint is set), +0x85, +0x88, +0x89, +0xf8, +0xfc, +0x104, +0x108, +0x10c, +0x114 (a float timer compared with 50.0 in ObjectManager), +0x118, +0x11c. +0x110 is named m_netOwnerId and +0x119 m_netUpdateRequested, both from ObjectManager use only.",
+          "ObjectBase::GO_IDS has no known enumerators; callers pass 0. I declared it as an empty enum with underlying type int32.",
+          "PFObject +0x4c is the vptr of an embedded sfc::math::graph::Edge<PFGInnerNode,float>, seen in IDA at off_96C810 and reset to off_96C6F0 by the destructor. It spans +0x4c to +0x6c and is declared as unk_4c plus uint8_t unk_50[28], because no type for it exists. PFObject +0x24 is named m_floorNormal on the basis that PFWorld::GetFloorHeightAt fills it.",
+          "PFObject +0x38 is declared as std::list<const PFGInnerEdge*> because PFWorld::DropPath calls std::list<PFGInnerEdge const*>::resize on it. The node payload is also used as an object with virtual calls at +0x20/+0x24/+0x28, so the element type could be wrong.",
+          "GameObject +0x2e4 is m_pendingInteractor, confirmed in assembly: Update() loads it into r1 and calls vtable +0x98 (Interact). Other GameObject fields I could only name unk_: +0x2ef, +0x2f8, +0x2fa, +0x2fb (initialised to 1), +0x2fc. m_turnPositive (+0x17c) is never set by the constructor.",
+          "ObjectBase declares Serialize, Deserialize and DeclareProperties as overrides of the PropertyMap and ISerializable slots. The vtable also puts them in the primary vtable at +0x10, +0x14 and +0x18, which normal GCC layout would not do for plain overrides. Slot order in the header follows the primary vtable, but the compiler may emit a different layout.",
+          "I used Point3D<float> from core-platform/deps/game_types.hpp (an existing stand-in). AABBs are stored as float[6] because there is no aabb<float> type in the tree; the aabb<float> parameter is only forward-declared. GameObject forward-declares glitch::scene::ISceneNode, VisualObject, PhysicalObject, AnchorBase, RoomZone and LuaScript as class. The VisualObject.hpp another worker wrote declares ISceneNode at global scope, so check for a clash when the headers are combined.",
+          "The pointer-width problem is not visible in the headers: members are host-width, so the 64-bit build is larger than the original sizes recorded in the comments."
+        ]
+      }
+    },
+    {
+      "group": "zones",
+      "result": {
+        "headers": [
+          "port/decomp-reconstruction/game/include/dh2/VisualObject.hpp",
+          "port/decomp-reconstruction/game/include/dh2/PhysicalObject.hpp",
+          "port/decomp-reconstruction/game/include/dh2/Zone.hpp",
+          "port/decomp-reconstruction/game/include/dh2/ZoneEx.hpp",
+          "port/decomp-reconstruction/game/include/dh2/Trigger.hpp",
+          "port/decomp-reconstruction/game/include/dh2/Container.hpp",
+          "port/decomp-reconstruction/game/include/dh2/Door.hpp"
+        ],
+        "classes": [
+          {
+            "name": "VisualObject",
+            "header": "dh2/VisualObject.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0xac",
+            "named_members": 18,
+            "unknown_members": 11
+          },
+          {
+            "name": "PhysicalObject",
+            "header": "dh2/PhysicalObject.hpp",
+            "bases": [
+              "PhysicalBaseObject"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x28",
+            "named_members": 10,
+            "unknown_members": 0
+          },
+          {
+            "name": "Zone",
+            "header": "dh2/Zone.hpp",
+            "bases": [
+              "GameObject"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x388",
+            "named_members": 4,
+            "unknown_members": 0
+          },
+          {
+            "name": "ZoneEx",
+            "header": "dh2/ZoneEx.hpp",
+            "bases": [
+              "Zone"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x3a8",
+            "named_members": 3,
+            "unknown_members": 0
+          },
+          {
+            "name": "Trigger",
+            "header": "dh2/Trigger.hpp",
+            "bases": [
+              "ZoneEx"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x718",
+            "named_members": 8,
+            "unknown_members": 2
+          },
+          {
+            "name": "Container",
+            "header": "dh2/Container.hpp",
+            "bases": [
+              "GameObject"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x6f0",
+            "named_members": 7,
+            "unknown_members": 0
+          },
+          {
+            "name": "Door",
+            "header": "dh2/Door.hpp",
+            "bases": [
+              "Zone"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x6d0",
+            "named_members": 8,
+            "unknown_members": 0
+          }
+        ],
+        "open_questions": [
+          "COMPILE CAVEAT: all 7 headers pass check_tu.sh only with scratch stubs (via CXX wrapper) for 4 headers not on disk yet: dh2/PropertyMap.hpp and dh2/ObjectSearcher.hpp (needed by the existing ObjectBase/GameObject headers, not mine), dh2/PhysicalBaseObject.hpp (needed by PhysicalObject), and class NetStruct. Re-run check_tu.sh on all 7 once those land. Only VisualObject compiles without any stub.",
+          "NetStruct (base of the nested NetStructTrigger/Container/Door) is declared nowhere: net-transport/net_struct.hpp has NetStructMember, NetStructUInt, NetStructBool but no NetStruct class and no NetStructInt<N>. My nested classes derive from NetStruct and include net-transport/net_struct.hpp, like Character's. Integrator must add class NetStruct (original size 0x130, vtable 80 bytes) and NetStructInt<N> there. I used NetStructUInt<N> in place of NetStructInt<N> (Trigger: three Int<32>; Container member 2 Int<16>), noted in comments, as Character does.",
+          "PhysicalObject derives from PhysicalBaseObject (assumed from the vtable: dtors plus six pure slots, matching PhysicalObject's first 8 slots; typeinfo is stripped). PhysicalBaseObject has no ctor in the binary, and PhysicalObject's ctor writes +4 (PhysicalWorld*) and +8 (GameObject* owner) itself, so I declared those in PhysicalObject. But onCollisionTest reads owner at +8 through a PhysicalBaseObject* argument, so the base may own +4/+8. The owner of PhysicalBaseObject.hpp needs to decide; if it declares them, remove them from PhysicalObject.",
+          "PhysicalObject ctor argument roles are inferred: a4=isStatic (zero density), a5=isCircle, a6=isSensor (picks m_sensorShape), a7=isBullet; the trailing int is unused. Filter order is (group, category, mask), stored at +0x24, +0x20, +0x22.",
+          "VisualObject unknown fields: +0x3c byte; +0x40..+0x57 (a 6-word block: a heap block at +0x44 whose end pointer is +0x54, freed in the dtor, likely a container but its type is unclear); +0x6c byte; +0x70 and +0x78 are not set by the ctor; +0x74 float is -1.0 (not -0.5); +0x7c and +0x7d bytes. +0x7e (rim light) and +0x7f (has modular node) and +0xa9 (x-ray mask) are named from their uses. The two weapon nodes at +0x30/+0x34 are named from SetWeaponSkin. Scene node pointers are raw (original used manual drop() with a virtual-base offset); an intrusive_ptr form is open for the implementation wave.",
+          "VisualObject::FlushMeshes returns std::string (sret in the original); SetWeaponSkin returns ISceneNode*. Const-ness follows the demangled symbols only.",
+          "Zone ctor flag names are inferred: +0x380 m_hasPhysics (builds a sensor PhysicalObject in InitPost), +0x381 m_playerOnly (filter mask 4, otherwise 1310). Zone uses glitch::core::vector3d<float> for m_dimensions, though the original type is Point3D<float> (same layout).",
+          "ZoneEx::m_objectsInside is std::set<GameObject*>; the original is a 24-byte STLport _Rb_tree (header at +0x388, node count at +0x398, then an empty comparator padded to 4). Host size differs, offsets are comments only.",
+          "Trigger: unk_3bc (byte, true makes IsRemotelyUpdated return false) and unk_3c0 (int, the third replicated NetStructTrigger value) are unnamed. NetStructTrigger members are named m_timer (+0x130, from m_timer at 0x3b8), m_numActivations (+0x158), unk_180 (+0x180).",
+          "Container: the NetStructContainer third member (+0x180, NetStructUInt<32>) mirrors GameObject +0xfc (ObjectBase::unk_fc) and is only sent when PopulateOutgoingNetStruct is forced; the name is unresolved. State names STATE_* are inferred from the animation names. m_opener at +0x398 is stored as a raw GameObject* and also passed to Lua as UserData. GetLoot/GetSound/GetVisual are declared int (ids). Hex-Rays shows pointer casts, but they are ids.",
+          "Door: NetStructDoor members +0x150 and +0x170 are constructed but never read or written elsewhere (unk_150, unk_170). m_moving at +0x3ac is set by Open/Close and cleared elsewhere (probably __Callback at 0x3e8568, not read). m_doorIndex at +0x3a0 is not initialised by the ctor. Door::_Open, _Close, __Callback and __EventCallback are declared from symbols only; I did not read them, and their signatures come from the demangled names.",
+          "Container::__Callback (0x39f44c) and __EventCallback (0x3a0c64) are declared static from symbols only. Reserved-identifier names (__Callback) are kept as in the binary."
+        ]
+      }
+    },
+    {
+      "group": "character",
+      "result": {
+        "headers": [
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/Character.hpp",
+          "C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/v2Controllable.hpp"
+        ],
+        "classes": [
+          {
+            "name": "Character",
+            "header": "port/decomp-reconstruction/game/include/dh2/Character.hpp",
+            "bases": [
+              "GameObject",
+              "v2Controllable",
+              "ItemInventory",
+              "CharTimers",
+              "CharAI",
+              "CharAnimator",
+              "CharStateMachine",
+              "CharProperties"
+            ],
+            "compiles": false,
+            "original_size_hex": "0x1f90",
+            "named_members": 62,
+            "unknown_members": 13
+          },
+          {
+            "name": "Character::NetStructCharacter",
+            "header": "port/decomp-reconstruction/game/include/dh2/Character.hpp",
+            "bases": [
+              "NetStruct"
+            ],
+            "compiles": false,
+            "original_size_hex": "0x540",
+            "named_members": 8,
+            "unknown_members": 0
+          },
+          {
+            "name": "Character::AttackResult",
+            "header": "port/decomp-reconstruction/game/include/dh2/Character.hpp",
+            "bases": [],
+            "compiles": false,
+            "original_size_hex": "0x28",
+            "named_members": 3,
+            "unknown_members": 7
+          },
+          {
+            "name": "v2Controllable",
+            "header": "port/decomp-reconstruction/game/include/dh2/v2Controllable.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x8",
+            "named_members": 1,
+            "unknown_members": 0
+          }
+        ],
+        "open_questions": [
+          "Compile status: check_tu.sh on Character.hpp stops at dh2/PropertyMap.hpp (included by ObjectBase.hpp, not yet written). With throwaway PropertyMap and ObjectSearcher stubs kept outside the tree, g++ -std=c++17 -Wall accepts Character.hpp. Only -Woverloaded-virtual warnings remain, for EquipSlotAuto and UnEquipItemFromSlot. Re-run check_tu once PropertyMap.hpp and ObjectSearcher.hpp exist.",
+          "The task says the six sub-objects are embedded members. The evidence says they are base classes. _ZTV9Character (812 bytes) contains a vtable group for each, with 'non-virtual thunk to Character::~Character / Ctrl_Click / EquipItemAuto' entries. The ctor sets each sub-object's vptr to a Character vtable address (off_966124 and so on, inside _ZTV9Character) and the dtor resets them. Character.hpp therefore uses multiple inheritance: GameObject, v2Controllable, ItemInventory, CharTimers, CharAI, CharAnimator, CharStateMachine, CharProperties. The headers for CharTimers, CharStateMachine and CharProperties say 'embedded by value'. Their comments should be corrected, and the base classes must keep virtual destructors.",
+          "Ambiguous names across bases will force qualified calls: SetCharacter exists in CharTimers, CharAI, CharAnimator, CharStateMachine and CharProperties. Character defines GetHP, GetMP, Update and similar methods that hide base ones.",
+          "Character::EquipSlotAuto(unsigned) and UnEquipItemFromSlot(unsigned) hide ItemInventory's (unsigned, Character*) and (unsigned, int) versions. This matches the original vtable. The return types of those two, of EquipAllSlotsAuto, AddItemInstance and the INV_* methods, and of many other methods are guesses; see the next question for the method-level guesses.",
+          "Method declarations are mostly inferred from Hex-Rays. Return types are guessed for the SG_* methods, the INV_* methods, ValidateHPMP, the Is* queries and Kill. Table-row getters return const void* (AITable stride 68, CharAnimTable stride 160, CharacterTable stride 900). The Lua _X bindings are declared as static void (Arguments const&, ReturnValues&, void* userData), and userData is the Character.",
+          "Character's own members run from +0x1394 to +0x1507, with two NetStructCharacter at +0x1508 and +0x1a48 (0x1f88 end; the object is 0x1f90). Several names are inferred: m_dead (+0x1449, serialized as 'dead'), m_killer, m_initialPosition (+0x1450), m_initialRotation (+0x145c), m_revivePosition (+0x1474, used by Revive), m_isDummy (+0x1480), m_isSpawned (+0x1481), m_lowHpSoundArmed (+0x1448), m_objectOfInterest and the ooi* group (+0x14a4..), the spot-target group (+0x14b0..+0x14cc), m_savegame (+0x14e8), m_freeMana (+0x14f0), m_pendingGoldText and m_pendingXPText (+0x1500/+0x1504). Track A's notes agree on +0x1449, +0x1468 (serialized Point3D, role unknown), +0x1474 (revive position), +0x14e8 and +0x14f0.",
+          "Unknown: +0x1397, +0x1438, +0x1440 and +0x1444 (float from CharProperties 210/211), +0x14d0..+0x14dc, +0x14ec (an object released through vtable slot +0x1c), +0x14f4 and +0x14f8 (both -1). The types of spawn_delay (+0x1434) and spawn_view_radius (+0x143c) are unconfirmed. spawn_delay is declared int32 and spawn_view_radius float, but the property type vtables off_965EB0 and off_964898 were not identified. +0x1438 sits between them.",
+          "Conflict at +0x14e0..: Update calls TimerUtil::Update on the pointer at this+0x14e0. Character::GetImmunityTimer(damageType) indexes this[1336 + damageType], lazily allocating TimerUtil at 0x14e4 and up, with an assert that damageType > 0. The same bytes +0x14e4/+0x14e5 are also used as bool flags by Kill, Update and InterpretIncomingNetStruct, and the ctor writes them as bytes. The header follows the ctor (m_timerUtil at +0x14e0, bool flags at +0x14e4/+0x14e5). The real layout may be an immunity-timer pointer array with overlapping fields. Worth a look at DamageType::count and xrefs to +0x14e4.",
+          "Character::s_concurrentAI (std::map<int,Character*>) and s_cachedCharOIDs are static members. The map value types are guessed from Hex-Rays. UnLoadScriptProcess is declared taking a map iterator const&.",
+          "NetStructCharacter derives from NetStruct (0x130 bytes). Its three position members (NetStructInterpolatedRangedFloat, 0xf8 each) are opaque byte arrays, because that engine class is abstract in net-transport (TestValue not overridden). They need to become typed members once the engine header is completed. NetStructUInt<32>/<16> stand in for the original NetStructInt<32>/<16>, which does not exist in net-transport headers. The <16,-1,1> range of m_dirX/m_dirY is inferred from the 16-bit float members of the same shape.",
+          "Include conflict: net-transport/deps/byte_array.hpp and pydata-accessors/deps/stream_reader.hpp both define inline CustomFree (and likely MemoryHintState). Character.hpp includes both chains (net_struct.hpp plus CharProperties' pydata include), so it #defines CustomFree and MemoryHintState to renamed symbols around the net_struct.hpp include. This should be removed when the engine stand-ins are unified. net_struct_interpolation.hpp is no longer included.",
+          "v2Controllable.hpp is a minimal header I wrote because none existed: the vptr, m_controller at +0x04 and the 25 virtuals in slot order. The game-anim owner should replace or extend it, keeping the same virtual order and signatures, because Character overrides them.",
+          "Not in the header: function-local statics (Character::Update::potionTimer, equipTimer, CreateNPC::counter) and globals (m_fairyPos_new and similar). CharProperties internals reached through Character offsets (for example +0x7e4 (Structs::CharacterProperties at +0x8e4/+0xff4)) belong to the CharProperties owner, not to Character."
+        ]
+      }
+    },
+    {
+      "group": "charparts",
+      "result": {
+        "headers": [
+          "port/decomp-reconstruction/game/include/dh2/ItemInventory.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CharTimers.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CharAI.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CharAnimator.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CharStateMachine.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CharProperties.hpp"
+        ],
+        "classes": [
+          {
+            "name": "ItemInventory",
+            "header": "port/decomp-reconstruction/game/include/dh2/ItemInventory.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x38",
+            "named_members": 10,
+            "unknown_members": 0
+          },
+          {
+            "name": "CharTimers",
+            "header": "port/decomp-reconstruction/game/include/dh2/CharTimers.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x14",
+            "named_members": 2,
+            "unknown_members": 0
+          },
+          {
+            "name": "CharAI",
+            "header": "port/decomp-reconstruction/game/include/dh2/CharAI.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0xd4",
+            "named_members": 32,
+            "unknown_members": 5
+          },
+          {
+            "name": "CharAnimator",
+            "header": "port/decomp-reconstruction/game/include/dh2/CharAnimator.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x60",
+            "named_members": 14,
+            "unknown_members": 0
+          },
+          {
+            "name": "CharStateMachine",
+            "header": "port/decomp-reconstruction/game/include/dh2/CharStateMachine.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x64",
+            "named_members": 14,
+            "unknown_members": 3
+          },
+          {
+            "name": "CharProperties",
+            "header": "port/decomp-reconstruction/game/include/dh2/CharProperties.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0xe34",
+            "named_members": 6,
+            "unknown_members": 1
+          }
+        ],
+        "open_questions": [
+          "Embedding offsets inside Character (32-bit) are consistent with the recovered sizes: ItemInventory +0x37c (0x38), CharTimers +0x3b4 (0x14), CharAI +0x3c8 (0xd4), CharAnimator +0x49c (0x60), CharStateMachine +0x4fc (0x64), CharProperties +0x560 (0xe34). No gaps between the first five.",
+          "CharTimers::Timer is the public interface (virtual GetID slot 0, GetRef slot 1) and _Timer derives from it; both are declared in CharTimers.hpp. BuffExpired takes CharTimers::Timer*. Timer vtable layout inferred from the 16-byte _Timer vtable only.",
+          "CharTimers::_Timer 32-bit layout: vptr, id +4, repeat +8, interval +0xc, elapsed +0x10, active +0x14, paused +0x15, eventId +0x18 (-1 raises event 41), userData +0x1c. The semantics of repeat (<0 forever) come from Update only.",
+          "CharStateMachine: STLport map header places the node count at +0x18, leaving +0x1c untouched (pad_1c). Unnamed fields unk_30, unk_40, unk_5c have no accessor evidence. Event node value is {pointer-to-member (8 bytes in 32-bit), next state int}. State objects are the CharState class (slots +8 init, +12 enter, +16 exit, +20 update, +24 event); only forward-declared here.",
+          "CharStateMachine fields +0x24 and +0x2c are named by bit usage (stateFlags bit10 scare/bit11 stun; statusFlags bit1 stunned/bit2 scared). Bit meanings of other bits unknown.",
+          "CharAnimator +0x4c (m_currentAnim) and +0x5c (m_usersAdded) names are inferred from _SetAnim and Update; +0x58 m_lastEventData is the event payload written by __CallbackEvent. Return types of ANIM_* declared void (Hex-Rays returns 'this' artifacts).",
+          "CharProperties sheet naming: +8 base, +0x38c saved (types with bit 0x20 are written here by PROPS_Add/Set), +0x710 gear, +0xa94 final (PROPS_Get). ResetBase/Saved/Gears/All all collapse to the same call in Hex-Rays so the +0x38c/+0x710 assignment rests on call order in ResetAllProperties and on PROPS_Add/RecalcProperty usage. +0xe30 (unk_e30) only zeroed in the ctor. BuffInst is a Structs::CharacterProperties plus 16 bytes (level +900, timerId +904, owner +908, decl +912), allocated as 916 bytes.",
+          "CharProperties::LoadPropNames/UnLoadPropNames/GetNameFromPropID/GetPropIDFromName declared static (they only touch s_propNames); Hex-Rays shows a bogus this for LoadPropNames. s_temp declared as static Structs::CharacterProperties. Structs::CharacterProperties is taken from pydata-accessors/structs_records.hpp (its host sizeof differs from the 900-byte original).",
+          "ItemInventory: ItemSlot (8 bytes: item +0, equipSlot[2] +4), Item (12 bytes) and LootInfo (16 bytes) layouts are recovered from push sites. Vtable is 44 bytes: 9 slots (2 dtors + 7 virtuals); the other 2 words are RTTI-like. IsItemEquipped/HasX return pointer-typed values in Hex-Rays; declared bool. AddLoot(int,int,int,int,bool) kept as the demangled signature though Hex-Rays shows pointer args. _GetProbQuantity/CalcLootItemValue static-ness is ambiguous; _DoPctRolls x2, _AddLootItems, _AddLootTable declared static (arg counts match explicit params). m_maxPotions at +0x2c is a signed byte (-1 default, 0 rejects potions).",
+          "CharAI +0xac is an STLport list with 16-byte node payload (std::list<std::array<uint32_t,4>> placeholder); content and users unknown. +0x5c map<unsigned int, Character*> (unk_5c) has pointers cleared by _UpdatePointers; users outside CharAI not found. unk_58 (object pointer cleared by _UpdatePointers), unk_70, unk_4d are unnamed for lack of evidence.",
+          "CharAI::AddToGroup(Character*) uses its Hex-Rays `this` as a Character (offsets +0x4f8/+0x1020...), so it is declared static taking a Character*. RemoveFromGroup is a real member (uses CharAI +0x34/+0x38) yet std::find compares group vector entries (Character*) with `this` (CharAI*), which would not compile: the original has an unresolved type mismatch or the vectors hold CharAI*. GroupInfo vectors declared as Character* following the insert_overflow symbols and GroupInfo::OnDied/OnEnemySpotted usage (+888 v2Controller, +1276 CharStateMachine).",
+          "CharAI::IsMyTurn(CharAI const*) is non-static with an unused argument. AI_* return types for the hook virtuals are guessed (void) except OnPreInteract (bool, used as a condition in AI_InteractWith). The 51-slot vtable lists On* hooks only; default bodies forward to m_script's matching slot (script offsets +8..+204).",
+          "CharAI::m_script (+0x1c) vs m_scriptLoading (+0x20): SetScript<T> and the load steps write +0x20; +0x1c is assigned from +0x20 at load step 6 and used by every On* hook. This reading is consistent across SetSkillsAndSpells, AIUnLoadScriptProcess and LoadScriptProcess but the true intended difference (alias vs owner) is inferred."
+        ]
+      }
+    },
+    {
+      "group": "menus",
+      "result": {
+        "headers": [
+          "port/decomp-reconstruction/game/include/dh2/MenuFX.hpp",
+          "port/decomp-reconstruction/game/include/dh2/MenuBase.hpp",
+          "port/decomp-reconstruction/game/include/dh2/MenuConfirmBase.hpp",
+          "port/decomp-reconstruction/game/include/dh2/AnchorBase.hpp",
+          "port/decomp-reconstruction/game/include/dh2/MenuManager.hpp",
+          "port/decomp-reconstruction/game/include/dh2/RenderFX.hpp"
+        ],
+        "classes": [
+          {
+            "name": "MenuFX",
+            "header": "port/decomp-reconstruction/game/include/dh2/MenuFX.hpp",
+            "bases": [
+              "RenderFX",
+              "RenderFX::EventListener"
+            ],
+            "compiles": true,
+            "named_members": 2,
+            "unknown_members": 0,
+            "original_size_hex": "0x124"
+          },
+          {
+            "name": "MenuFX::State",
+            "header": "port/decomp-reconstruction/game/include/dh2/MenuFX.hpp",
+            "bases": [],
+            "compiles": true,
+            "named_members": 7,
+            "unknown_members": 0,
+            "original_size_hex": "0x5c"
+          },
+          {
+            "name": "MenuBase",
+            "header": "port/decomp-reconstruction/game/include/dh2/MenuBase.hpp",
+            "bases": [
+              "MenuFX::State"
+            ],
+            "compiles": true,
+            "named_members": 9,
+            "unknown_members": 3,
+            "original_size_hex": "0xc4"
+          },
+          {
+            "name": "MenuConfirmBase",
+            "header": "port/decomp-reconstruction/game/include/dh2/MenuConfirmBase.hpp",
+            "bases": [
+              "MenuBase"
+            ],
+            "compiles": true,
+            "named_members": 1,
+            "unknown_members": 0,
+            "original_size_hex": "0xc8"
+          },
+          {
+            "name": "AnchorBase",
+            "header": "port/decomp-reconstruction/game/include/dh2/AnchorBase.hpp",
+            "bases": [],
+            "compiles": true,
+            "named_members": 4,
+            "unknown_members": 0,
+            "original_size_hex": "0x1c"
+          },
+          {
+            "name": "MenuManager",
+            "header": "port/decomp-reconstruction/game/include/dh2/MenuManager.hpp",
+            "bases": [
+              "IEventReceiver",
+              "RenderFX::EventListener"
+            ],
+            "compiles": false,
+            "named_members": 9,
+            "unknown_members": 24,
+            "original_size_hex": "0x114"
+          }
+        ],
+        "open_questions": [
+          "MenuManager.hpp fails check_tu.sh only because dh2/DebugCachedCharacter.hpp and dh2/IEventReceiver.hpp do not exist yet (owned by other waves: DebugCachedCharacter is game-app, IEventReceiver is net-session-online). With scratch stubs for both, MenuManager.hpp, MenuConfirmBase.hpp and AnchorBase.hpp compile with g++ -std=c++17. Re-run check_tu.sh once those two headers land. The DebugCachedCharacter member is embedded at +0x20 and assumed to be 0x30 bytes, from the gap to +0x50.",
+          "I wrote dh2/RenderFX.hpp as a placeholder because nothing in the tree defined RenderFX or RenderFX::EventListener. It is not one of my six classes. It declares only the base size (0x100), the 6 primary vtable slots and the 3-slot EventListener (OnEvent, OnFSCommand, CanHandleEvent). The return types of Load, Update, OnEvent and OnFSCommand are guesses. The integrator or engine wave should replace it with the real layout. Offsets MenuFX uses inside RenderFX: +0x3c root, +0x40 context character, +0x58/+0x80/+0xa8/+0xd0 Controllers, +0x68 focus, +0xf8 flags.",
+          "MenuFX::State weak_ptr<gameswf::character> members are two plain fields each (proxy void*, character*) at +0x48 and +0x50, because no gameswf header exists. The +0x50 pair (m_savedFocus) is the focus saved in MenuFX::SetMenu. m_status values (1 to 4) are inferred from SetMenu, PopMenu and PopAll.",
+          "MenuFX arrays at +0x104 and +0x114 are gameswf::array<State*> (data, size, capacity, static-buffer bool; 16 bytes each). The ctor byte writes at +0x110 and +0x120 are the bool of each array. The names m_states and m_stack come from RegisterState (appends to the first) and GetCurrentState/PopMenu (the second is the stack).",
+          "MenuBase +0x80 and +0x9c are std::string members (24 bytes each in STLport) that the ctor constructs empty. No MenuBase method reads them, so the names are unk_80 and unk_9c. Derived menus may name them. +0x98 is a gap dword (unk_98). The pointer width and string layout differ on the host, so these are offset comments only.",
+          "MenuBase +0x6c is an STLport std::list whose node is 0x14 bytes (12-byte payload). Only the ctor and dtor touch it. I invented the nested struct ListEntry_6c with three unk dwords. A derived menu class may use it, so check the 17 menu classes before the integrator finalises.",
+          "MenuBase +0x7c (m_registered, set by MenuManager::RegisterMenu and RegisterDummyMenu) and +0x7d (m_deleteOnUnload, deletes the menu in UnloadMenu and the MenuManager dtor) are named from MenuManager usage. The role of +0x7d is a guess.",
+          "MenuBase::RegisterFSCommand, the FS_* handlers and the statics m_isRolloverEventEnabled, s_igmOpened and m_FSCommandMap are declared per the ctor and MyFSCommand. FS_* return type is bool. Other IEventReceiver, OnEvent and CanHandleEvent return types (void/bool) are from call sites only.",
+          "MenuManager +0x08..+0x1c are six words that Draw fills from the video-state object (*(g_video+16)) words 31, 32, 30, before and after drawing. They are named unk_08..unk_1c. The unknown ctor-zeroed dwords at +0x50..+0x60, +0xb0, +0xc0, +0xf8..+0x104 and +0x10c are unk_. Only +0x60 has a use (MenuBase::Hide clears it). The fields at +0x8c..+0xab (m_swfFiles[4], m_cameras[4]) are the legacy MenuManager::LoadSWFFile and UnloadSWFFile slots. They are not zeroed in the ctor. The live menus are in MultiMenuManager, which owns MenuFX at +0x134 and cameras at +0x144.",
+          "MenuManager::Init is a stepwise state machine on m_initStep (+0xbc) that returns true at step 26. I declared it bool Init(). The IEventReceiver::onEvent signature (bool, const IEvent*, const EventManager*) is assumed from the pure slot and Console. MenuManager::GetRoot and GetHUDRoot read MultiMenuManager +0x13c and +0x140 (menu index 2 and 3).",
+          "MenuBase.hpp adds 'using MenuFX::State::Update' and 'using MenuFX::State::UpdateBackground' so the overloads inherited from State are not hidden by MenuBase::Update().",
+          "AnchorBase::AnchorType enumerators are unknown (opaque enum declaration with 32-bit underlying type). m_enabled (+0x18) is set true in the ctor and never read in AnchorBase, so its role is unconfirmed. Position at +0x0c is copied from GameObject +0x160..+0x168."
+        ]
+      }
+    },
+    {
+      "group": "app",
+      "result": {
+        "headers": [
+          "port/decomp-reconstruction/game/include/dh2/Application.hpp",
+          "port/decomp-reconstruction/game/include/dh2/StateMachine.hpp",
+          "port/decomp-reconstruction/game/include/dh2/EventManager.hpp",
+          "port/decomp-reconstruction/game/include/dh2/Level.hpp",
+          "port/decomp-reconstruction/game/include/dh2/LuaScript.hpp",
+          "port/decomp-reconstruction/game/include/dh2/InputDevice.hpp",
+          "port/decomp-reconstruction/game/include/dh2/InputManager.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CameraBase.hpp",
+          "port/decomp-reconstruction/game/include/dh2/CameraTarget.hpp",
+          "port/decomp-reconstruction/game/include/dh2/LightBase.hpp",
+          "port/decomp-reconstruction/game/include/dh2/AnimController.hpp",
+          "port/decomp-reconstruction/game/include/dh2/Projectile.hpp"
+        ],
+        "classes": [
+          {
+            "name": "Application",
+            "header": "dh2/Application.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "unknown (static singleton; highest offset touched +0x10f)",
+            "named_members": 38,
+            "unknown_members": 8
+          },
+          {
+            "name": "StateMachine",
+            "header": "dh2/StateMachine.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x20",
+            "named_members": 5,
+            "unknown_members": 0
+          },
+          {
+            "name": "EventManager",
+            "header": "dh2/EventManager.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x30",
+            "named_members": 3,
+            "unknown_members": 0
+          },
+          {
+            "name": "Level",
+            "header": "dh2/Level.hpp",
+            "bases": [
+              "EventManager"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x1ac",
+            "named_members": 42,
+            "unknown_members": 4
+          },
+          {
+            "name": "LuaScript",
+            "header": "dh2/LuaScript.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x98",
+            "named_members": 7,
+            "unknown_members": 1
+          },
+          {
+            "name": "InputDevice",
+            "header": "dh2/InputDevice.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0xc",
+            "named_members": 1,
+            "unknown_members": 1
+          },
+          {
+            "name": "InputManager",
+            "header": "dh2/InputManager.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x14",
+            "named_members": 3,
+            "unknown_members": 1
+          },
+          {
+            "name": "CameraBase",
+            "header": "dh2/CameraBase.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0xc",
+            "named_members": 2,
+            "unknown_members": 0
+          },
+          {
+            "name": "CameraTarget",
+            "header": "dh2/CameraTarget.hpp",
+            "bases": [
+              "CameraBase"
+            ],
+            "compiles": true,
+            "original_size_hex": "0x44",
+            "named_members": 9,
+            "unknown_members": 0
+          },
+          {
+            "name": "LightBase",
+            "header": "dh2/LightBase.hpp",
+            "bases": [
+              "ObjectBase"
+            ],
+            "compiles": false,
+            "original_size_hex": "0x180",
+            "named_members": 9,
+            "unknown_members": 0
+          },
+          {
+            "name": "AnimController",
+            "header": "dh2/AnimController.hpp",
+            "bases": [],
+            "compiles": true,
+            "original_size_hex": "0x8",
+            "named_members": 1,
+            "unknown_members": 0
+          },
+          {
+            "name": "Projectile",
+            "header": "dh2/Projectile.hpp",
+            "bases": [
+              "GameObject"
+            ],
+            "compiles": false,
+            "original_size_hex": "unknown (members end at +0x3d2; GameObject is 0x374)",
+            "named_members": 17,
+            "unknown_members": 1
+          }
+        ],
+        "open_questions": [
+          "LightBase.hpp and Projectile.hpp do not pass check_tu.sh yet. ObjectBase.hpp includes dh2/PropertyMap.hpp and GameObject.hpp includes dh2/ObjectSearcher.hpp, and neither exists in the tree. I waited about 10 minutes and they did not appear. Both headers compile cleanly (g++ -std=c++17 -Wall) against throwaway stubs of those two files kept outside the tree. Re-run check_tu.sh on them once the siblings land.",
+          "Application is a glitch::IEventReceiver (its vtable is dtor, dtor, onEvent at +0x08), but the header declares no base. The IEventReceiver definitions in the tree are conflicting stand-ins (glitch-core-io, glitch-scene-collada-gui, core-platform, net-session-online). The integrator should add the base once one shared glitch::IEventReceiver exists. Application::InitWin32 passes this as the device's event receiver, so that conversion is needed then.",
+          "LuaScript holds sfc::script::lua::Instance (+0x04, 12 bytes) and Binder (+0x10, 12 bytes: vptr, Instance*, 0) as opaque uint8_t[12] storage. These vendored script classes have no header in the tree. Replace them with real members when their headers exist.",
+          "The layouts of Application, Level, LuaScript and CameraTarget come from constructors and Hex-Rays accesses. Some member names are inferred from usage and not from strings or property names. Examples: Level::m_loadWorkDone, m_loadWorkTotal and m_loadFileCount at +0x134..+0x13c, m_cameFromOtherLevel at +0xf3, Application::m_sceneUpdated at +0xa9, m_pauseMenuPushed at +0xa5. Names with real evidence include m_levelConfig, m_loadStep (debug string), m_stateMachine (assert), m_irrLight (assert), the LightBase property names and Projectile's table columns.",
+          "Level.unk_120 (+0x120) is a sound id resolved from the LevelConfig strings at +0x194/+0x195 but never read in the functions provided. Level.unk_1a8 (+0x1a8) is only read by Application::_Update, which skips the scene update while it is set. Application.unk_1c (+0x1c) is an owned pointer deleted in Quit, but no code that creates it was found.",
+          "Application members at +0x24 (AccelerometerBase*), +0x28 (DataReloaderManager*) and +0x1c are never assigned by any decompiled Application function. The creation site is probably in the Android or iPhone init path outside this class. Their types come from how they are used.",
+          "CameraBase::SetData parameter names (fov, aspect, near, far) are inferred from the setter slot order +0x130..+0x13c on the camera node. The fifth bool is unused. Hex-Rays shows the 4-slot offsets at 304..316, which do not match the CCameraSceneNode vtable offsets directly, probably because of a virtual-base adjusted pointer.",
+          "The InputManager getters are pure virtual. GetMouse and GetKeyboard return InputDevice* because the Mouse and Keyboard classes were not checked. GetGamepad returns Gamepad* (its +0x758 byte is the connected flag). InputDevice::Type values MOUSE=0 and KEYBOARD=1 are inferred. GAMEPAD=2 is confirmed by the Gamepad constructor.",
+          "Projectile::SetInfo(.., float) and SetInfo(.., bool) are declared void and OnCollision bool. Hex-Rays shows int and VisualObject* results, which look like leftover registers. The ImpactType enumerator names are inferred from which ProjectileTable columns each case reads (+0x08/+0x0c, +0x14/+0x18, +0x2c/+0x30). Projectile::OnExpire is called once with no argument in Update (Hex-Rays dropped it), so its default value is unknown.",
+          "Level::LoadFile and GenerateRandomLevel return int. LoadFile's 0/1 semantics are unclear, and loops of the form do { LoadFile } while(!r) appear in _LoadProcess. Level methods whose bodies were not read (_LoadBatching, _LoadBatchList, _LoadScripts, _LoadLightSet, _FlushMeshes, _LoadFinalInit, UpdateFog, ...) are declared void with no arguments from the symbol names. Their return types come from Hex-Rays only for those I checked.",
+          "The Application::LoadLevel parameter order follows the mangled symbol (char const*, int, uint, bool, bool, int, bool, uint, uint). Hex-Rays types some of them differently, but the temp_* globals it stores confirm the roles: entryPointId, savegameSlot, resume, useSpawnPoint, difficulty, isRemotelyTriggered, seed, syncedSeed. GoToMainMenuEvent is only forward-declared as 'enum GoToMainMenuEvent : int;' because its values were not recovered. If another header defines it without a fixed underlying type, the two will conflict.",
+          "The headers use core-platform/deps/game_types.hpp for Point2D/Point3D, matching the GameObject.hpp convention. glitch-core-io/boost/intrusive_ptr.hpp (AnimController::GetAnimationSet return type) pulls in the glitch-core-io stand-in IReferenceCounted, which clashes with glitch-shared/reference_counted.hpp if both are included in one TU. Level.hpp embeds StreamBuffer from net-transport/stream_buffer.hpp for LoadFileData."
+        ]
+      }
+    }
+  ],
+  "workflowProgress": [
+    {
+      "type": "workflow_phase",
+      "index": 1,
+      "title": "Layouts"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 1,
+      "label": "L0:objectbase",
+      "phaseIndex": 1,
+      "phaseTitle": "Layouts",
+      "agentId": "af595d7d4a3542672",
+      "model": "claude-sonnet-5-5",
+      "state": "done",
+      "startedAt": 1791837710210,
+      "queuedAt": 1791837710100,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "You are recovering canonical C++ class layouts for the Dungeon Hunter 2 whole-game source reconstruction (Track B).\nWorking tree (cwd for all commands): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRead first: port/decomp-reconstruction/TRACK-B.md (sections \"One tree, one definition\", \"Layout rules\") and port/decomp-reconstruction/README.md (\"Rules fo…",
+      "promptFramed": true,
+      "lastProgressAt": 1791839284889,
+      "tokens": 222809,
+      "toolCalls": 46,
+      "durationMs": 1574674,
+      "resultPreview": "{\"headers\":[\"port/decomp-reconstruction/game/include/dh2/sfc/script/lua/UserData.hpp\",\"port/decomp-reconstruction/game/include/dh2/ConditionData.hpp\",\"port/decomp-reconstruction/game/include/dh2/ObjectHandle.hpp\",\"port/decomp-reconstruction/game/include/dh2/PFObject.hpp\",\"port/decomp-reconstruction/game/include/dh2/ObjectBase.hpp\",\"port/decomp-reconstruction/game/include/dh2/GameObject.hpp\"],\"clas…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 2,
+      "label": "L0:zones",
+      "phaseIndex": 1,
+      "phaseTitle": "Layouts",
+      "agentId": "a216bb28d7c78498f",
+      "model": "claude-sonnet-5-5",
+      "state": "done",
+      "startedAt": 1791837710214,
+      "queuedAt": 1791837710100,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "You are recovering canonical C++ class layouts for the Dungeon Hunter 2 whole-game source reconstruction (Track B).\nWorking tree (cwd for all commands): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRead first: port/decomp-reconstruction/TRACK-B.md (sections \"One tree, one definition\", \"Layout rules\") and port/decomp-reconstruction/README.md (\"Rules fo…",
+      "promptFramed": true,
+      "lastProgressAt": 1791839774828,
+      "tokens": 264939,
+      "toolCalls": 58,
+      "durationMs": 2061933,
+      "resultPreview": "{\"headers\":[\"port/decomp-reconstruction/game/include/dh2/VisualObject.hpp\",\"port/decomp-reconstruction/game/include/dh2/PhysicalObject.hpp\",\"port/decomp-reconstruction/game/include/dh2/Zone.hpp\",\"port/decomp-reconstruction/game/include/dh2/ZoneEx.hpp\",\"port/decomp-reconstruction/game/include/dh2/Trigger.hpp\",\"port/decomp-reconstruction/game/include/dh2/Container.hpp\",\"port/decomp-reconstruction/ga…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 3,
+      "label": "L0:character",
+      "phaseIndex": 1,
+      "phaseTitle": "Layouts",
+      "agentId": "a93a98915db24e980",
+      "model": "claude-sonnet-5-5",
+      "state": "done",
+      "startedAt": 1791837710214,
+      "queuedAt": 1791837710100,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "You are recovering canonical C++ class layouts for the Dungeon Hunter 2 whole-game source reconstruction (Track B).\nWorking tree (cwd for all commands): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRead first: port/decomp-reconstruction/TRACK-B.md (sections \"One tree, one definition\", \"Layout rules\") and port/decomp-reconstruction/README.md (\"Rules fo…",
+      "promptFramed": true,
+      "lastProgressAt": 1791841143526,
+      "tokens": 295591,
+      "toolCalls": 79,
+      "durationMs": 3430621,
+      "resultPreview": "{\"headers\":[\"C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/Character.hpp\",\"C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b/port/decomp-reconstruction/game/include/dh2/v2Controllable.hpp\"],\"classes\":[{\"name\":\"Character\",\"header\":\"port/decomp-reconstruction/game/inclu…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 4,
+      "label": "L0:charparts",
+      "phaseIndex": 1,
+      "phaseTitle": "Layouts",
+      "agentId": "a845b6908d31fa90b",
+      "model": "claude-sonnet-5-5",
+      "state": "done",
+      "startedAt": 1791837710214,
+      "queuedAt": 1791837710101,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "You are recovering canonical C++ class layouts for the Dungeon Hunter 2 whole-game source reconstruction (Track B).\nWorking tree (cwd for all commands): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRead first: port/decomp-reconstruction/TRACK-B.md (sections \"One tree, one definition\", \"Layout rules\") and port/decomp-reconstruction/README.md (\"Rules fo…",
+      "promptFramed": true,
+      "lastProgressAt": 1791839657522,
+      "tokens": 323388,
+      "toolCalls": 60,
+      "durationMs": 1944616,
+      "resultPreview": "{\"headers\":[\"port/decomp-reconstruction/game/include/dh2/ItemInventory.hpp\",\"port/decomp-reconstruction/game/include/dh2/CharTimers.hpp\",\"port/decomp-reconstruction/game/include/dh2/CharAI.hpp\",\"port/decomp-reconstruction/game/include/dh2/CharAnimator.hpp\",\"port/decomp-reconstruction/game/include/dh2/CharStateMachine.hpp\",\"port/decomp-reconstruction/game/include/dh2/CharProperties.hpp\"],\"classes\":…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 5,
+      "label": "L0:menus",
+      "phaseIndex": 1,
+      "phaseTitle": "Layouts",
+      "agentId": "a6f06776a7f604365",
+      "model": "claude-sonnet-5-5",
+      "state": "done",
+      "startedAt": 1791837710214,
+      "queuedAt": 1791837710101,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "You are recovering canonical C++ class layouts for the Dungeon Hunter 2 whole-game source reconstruction (Track B).\nWorking tree (cwd for all commands): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRead first: port/decomp-reconstruction/TRACK-B.md (sections \"One tree, one definition\", \"Layout rules\") and port/decomp-reconstruction/README.md (\"Rules fo…",
+      "promptFramed": true,
+      "lastProgressAt": 1791839084324,
+      "tokens": 209664,
+      "toolCalls": 36,
+      "durationMs": 1371418,
+      "resultPreview": "{\"headers\":[\"port/decomp-reconstruction/game/include/dh2/MenuFX.hpp\",\"port/decomp-reconstruction/game/include/dh2/MenuBase.hpp\",\"port/decomp-reconstruction/game/include/dh2/MenuConfirmBase.hpp\",\"port/decomp-reconstruction/game/include/dh2/AnchorBase.hpp\",\"port/decomp-reconstruction/game/include/dh2/MenuManager.hpp\",\"port/decomp-reconstruction/game/include/dh2/RenderFX.hpp\"],\"classes\":[{\"name\":\"Men…"
+    },
+    {
+      "type": "workflow_agent",
+      "index": 6,
+      "label": "L0:app",
+      "phaseIndex": 1,
+      "phaseTitle": "Layouts",
+      "agentId": "a9045cfb782006082",
+      "model": "claude-sonnet-5-5",
+      "state": "done",
+      "startedAt": 1791837710214,
+      "queuedAt": 1791837710101,
+      "attempt": 1,
+      "lastToolName": "StructuredOutput",
+      "promptPreview": "You are recovering canonical C++ class layouts for the Dungeon Hunter 2 whole-game source reconstruction (Track B).\nWorking tree (cwd for all commands): C:/Users/nacworkstation/Documents/Projects/Dungeon Hunter 2 Recomp/DH_sc/.worktrees/track-b\nRead first: port/decomp-reconstruction/TRACK-B.md (sections \"One tree, one definition\", \"Layout rules\") and port/decomp-reconstruction/README.md (\"Rules fo…",
+      "promptFramed": true,
+      "lastProgressAt": 1791840366834,
+      "tokens": 397156,
+      "toolCalls": 88,
+      "durationMs": 2653928,
+      "resultPreview": "{\"headers\":[\"port/decomp-reconstruction/game/include/dh2/Application.hpp\",\"port/decomp-reconstruction/game/include/dh2/StateMachine.hpp\",\"port/decomp-reconstruction/game/include/dh2/EventManager.hpp\",\"port/decomp-reconstruction/game/include/dh2/Level.hpp\",\"port/decomp-reconstruction/game/include/dh2/LuaScript.hpp\",\"port/decomp-reconstruction/game/include/dh2/InputDevice.hpp\",\"port/decomp-reconstru…"
+    }
+  ],
+  "totalTokens": 1713547,
+  "totalToolCalls": 367
+}

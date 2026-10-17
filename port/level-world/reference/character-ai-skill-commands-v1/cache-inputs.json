@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "scope": "Exact private inputs read by Catalogue, KnightPlayerBase preparation and passive slot 7 Active/Usable checks in character_ai_skill_commands_v1 host fixture. Hashes only; original cache bytes remain private.",
+  "script_paths": [
+    "data/scripts/ai/_commons.luac",
+    "data/scripts/skills/_commons.luac",
+    "data/scripts/skills/faerie_celest.luac",
+    "data/scripts/skills/faerie_hotty.luac",
+    "data/scripts/skills/faerie_rocky.luac",
+    "data/scripts/skills/faerie_wetty.luac",
+    "data/scripts/skills/faerie_windy.luac",
+    "data/scripts/skills/prince_warrior_bashdown.luac",
+    "data/scripts/skills/prince_warrior_charge.luac",
+    "data/scripts/skills/prince_warrior_combat_master.luac",
+    "data/scripts/skills/prince_warrior_fast_metabolism.luac",
+    "data/scripts/skills/prince_warrior_ground_slam.luac",
+    "data/scripts/skills/prince_warrior_hardiness.luac",
+    "data/scripts/skills/prince_warrior_leadership.luac",
+    "data/scripts/skills/prince_warrior_potion_addict.luac"
+  ],
+  "inputs": [
+    {
+      "path": "DebugSwitches.savegame",
+      "size": 665,
+      "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b"
+    },
+    {
+      "path": "data/pydata/ai_pycst.bin",
+      "size": 1042,
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e"
+    },
+    {
+      "path": "data/pydata/character_classes_pyarray.bin",
+      "size": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    {
+      "path": "data/pydata/character_classes_pyarraynames.bin",
+      "size": 6607,
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    {
+      "path": "data/pydata/character_classes_pystructnames.bin",
+      "size": 750,
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    {
+      "path": "data/pydata/character_properties_pyarray.bin",
+      "size": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    {
+      "path": "data/pydata/character_properties_pyarraynames.bin",
+      "size": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    {
+      "path": "data/pydata/character_properties_pystructnames.bin",
+      "size": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    {
+      "path": "data/pydata/design_pycst.bin",
+      "size": 3999,
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931"
+    },
+    {
+      "path": "data/pydata/effects_pyarraynames.bin",
+      "size": 8906,
+      "sha256": "f91b3ef914e6840c4339c1af32446c5f3d24605aaa4a9403a797cc941edbc043"
+    },
+    {
+      "path": "data/pydata/faeries_pyarray.bin",
+      "size": 699,
+      "sha256": "52fc30b0070f7ef2ed559bcf610997ac219342c2f6aabd461566c034d75aab9a"
+    },
+    {
+      "path": "data/pydata/faeries_pyarraynames.bin",
+      "size": 253,
+      "sha256": "ef422b17f75405685d3447b5717610a070380aecf744a3f861edb8c3948fdcff"
+    },
+    {
+      "path": "data/pydata/faeries_pycst.bin",
+      "size": 165,
+      "sha256": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5"
+    },
+    {
+      "path": "data/pydata/faeries_pystructnames.bin",
+      "size": 113,
+      "sha256": "f2f2c5dd7fb58074ddf4733a82bc02eb789463399072beb9c8877483b4828b7b"
+    },
+    {
+      "path": "data/pydata/projectiles_pyarraynames.bin",
+      "size": 717,
+      "sha256": "404d33210db30cc646e594b31b06850736db74ac0f07ea176f79b48630c96950"
+    },
+    {
+      "path": "data/pydata/skills_pyarray.bin",
+      "size": 11862,
+      "sha256": "e336986d5aee78fd1aed7fe7ec43cc8d58fa03d4fd27216779c0e96e47acc2d6"
+    },
+    {
+      "path": "data/pydata/skills_pyarraynames.bin",
+      "size": 2757,
+      "sha256": "31642dc0d8bf11f1ebd13698bbefda4fda0aefa2c727fb4ae9449f2df073fb9f"
+    },
+    {
+      "path": "data/pydata/skills_pystructnames.bin",
+      "size": 233,
+      "sha256": "fd882501b0b7af0191272e6802558d1e1ac4031f6237cf5e2c767ebae946f4b9"
+    },
+    {
+      "path": "data/scripts/ai/_commons.luac",
+      "size": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
+    },
+    {
+      "path": "data/scripts/skills/_commons.luac",
+      "size": 11291,
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d"
+    },
+    {
+      "path": "data/scripts/skills/faerie_celest.luac",
+      "size": 11449,
+      "sha256": "4ba609b50179669e73ab2c256fd2aa27d3740d05f85835464906353e2e0bdd7d"
+    },
+    {
+      "path": "data/scripts/skills/faerie_hotty.luac",
+      "size": 4286,
+      "sha256": "74203596081458abf514627c81f8c914990026b6cd35e1ea5f7bc8532e0e2cb5"
+    },
+    {
+      "path": "data/scripts/skills/faerie_rocky.luac",
+      "size": 4090,
+      "sha256": "c406df3e43dc36b010ad27d35f4fb3024aba94bf988acf4d6aae77bd23794099"
+    },
+    {
+      "path": "data/scripts/skills/faerie_wetty.luac",
+      "size": 4187,
+      "sha256": "ecf30512862a1de28af4bea0e309a8c8beec3e93fe2a12b21e90aff5f7ee23d2"
+    },
+    {
+      "path": "data/scripts/skills/faerie_windy.luac",
+      "size": 3987,
+      "sha256": "da0cf493790834d073fe401456c5f0eb1984789cb71f965a9b4667bb2fe78aec"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_bashdown.luac",
+      "size": 3278,
+      "sha256": "d9f41ce04e8e9c632df2377571ff85f76aacad168bb0bebdb111ccb6f8f4dde3"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_charge.luac",
+      "size": 4272,
+      "sha256": "62345c14aef6ea218c2a9725b1c312acf37f4214f9bc712521b6a3edacbf8fe1"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_combat_master.luac",
+      "size": 1514,
+      "sha256": "3dc445fd5c3d52bd26f2079d3b5b797e712675373e81b84e98c4d7bb95eff697"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_fast_metabolism.luac",
+      "size": 1474,
+      "sha256": "c65e154d082fc6d2414e91c7007f8442df30037f43ed706fa45a204472704c64"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_ground_slam.luac",
+      "size": 3651,
+      "sha256": "ed21121df8541350451072aff53a44abd03274ba0a0c0a7ceb0784f748463780"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_hardiness.luac",
+      "size": 2133,
+      "sha256": "4a94206eedf3acd35651a0bb83bbf16fe4be81fc87ec7b5802f3c3c956b75352"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_leadership.luac",
+      "size": 2572,
+      "sha256": "6c7ec5c934e095b21237e995fb43975f05becb64d97e877d59f7ea49a87563d0"
+    },
+    {
+      "path": "data/scripts/skills/prince_warrior_potion_addict.luac",
+      "size": 1456,
+      "sha256": "81df7fda3d598d90a28def7884f07b1b4720adca8eb61d26671f997ed418899d"
+    }
+  ]
+}

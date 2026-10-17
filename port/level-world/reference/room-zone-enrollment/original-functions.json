@@ -1,0 +1,42 @@
+{
+  "original_elf": {
+    "filename": "libDungeonHunter2.so",
+    "sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+  },
+  "functions": [
+    {
+      "symbol": "_ZN8RoomZone16AddInitialObjectEP10GameObject",
+      "address": "0x396a90",
+      "size": 436,
+      "sha256": "0a6feb395a7f8567ec3ee9cd3eb99d8dcf9fad714598e0d616c650f49b05b27b"
+    },
+    {
+      "symbol": "_ZN10GameObject11ZoneEnteredEv",
+      "address": "0x38c710",
+      "size": 128,
+      "sha256": "f03d1a29fc92f14804746fdc58bc20b24cba4394b9f35ddf3095fa0bf06e58e7"
+    },
+    {
+      "symbol": "_ZN10GameObject10ZoneExitedEv",
+      "address": "0x38c69c",
+      "size": 116,
+      "sha256": "829d2970dcaae93f02f309b2b65d7f4de3b6f51a4ada06f46b9769ccad0f4c8d"
+    },
+    {
+      "symbol": "_ZN8RoomZone12RemoveObjectEP10GameObject",
+      "address": "0x3968cc",
+      "size": 76,
+      "sha256": "9ace7a169aa70411024bf7d0e9b4e609a1e9fe1da4922f12ac460881f5dfd874"
+    },
+    {
+      "symbol": "_ZN8RoomZone9AddObjectEP10GameObject",
+      "address": "0x39672c",
+      "size": 116,
+      "sha256": "b8e9f89a3c394b3b8bcfe6092fde1987ae09cc5586adae9f35f58f88b56fe1d2"
+    }
+  ],
+  "imported_helper": {
+    "symbol": "__aeabi_fcmple",
+    "verification": "runner requires this exact dynamic-import identity before substituting the helper result in its ARM executor"
+  }
+}

@@ -1,0 +1,132 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 2,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_ai_ranged_range.hpp",
+      "port/level-world/character_ai_ranged_range.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_ai_ranged_range.cpp",
+      "port/level-world/tests/run_character_ai_ranged_range_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK10ObjectBase9GetHandleEv",
+      "elf_address": "0x33dd70",
+      "size": 68,
+      "sha256": "7de6502f60d2e644ee0d7efb50026ebfd509ff7f16a7a187fffe7bcb04d8236d",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK12ObjectHandle9GetObjectEb",
+      "elf_address": "0x33ff8c",
+      "size": 4,
+      "sha256": "bbe541507356f02d76d32afb005cbfd21cac1ec8ea70548cacca670dd2c8cdbb",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK9Character14CanRangeAttackERiS0_S0_",
+      "elf_address": "0x3a4cd0",
+      "size": 100,
+      "sha256": "f8c60f21f6594d07424c35db95caa12e6268791cd183556949d89a03d65adfa7",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI23AI_IsInInteractionRangeEPK10GameObject",
+      "elf_address": "0x3d4f98",
+      "size": 388,
+      "sha256": "01abb46509a0339bdf919adc5fc263f6cfecc2c602354717a631190dfba59884",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI17AI_IsInCloseRangeEPK10GameObject",
+      "elf_address": "0x3d63d8",
+      "size": 556,
+      "sha256": "d0b1a5d5f0ec99b6007ca622a8e03a7110c4afbe83da5afbc3d858cfdce542ce",
+      "scope": "New complete original caller orchestration"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsInRangeEPK10GameObject",
+      "elf_address": "0x3d6604",
+      "size": 496,
+      "sha256": "4a6ba18738818814cbc83a009688bbeda2a59c02e440fd8a6b65d47ff4e32372",
+      "scope": "New complete original caller orchestration"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanRangeAttackERiS0_S0_",
+      "elf_address": "0x3ffebc",
+      "size": 116,
+      "sha256": "f36cb850b23997e7e7506a857657e7ea742304da4ac82b5f0ea39c223e351b04",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance7GetItemEv",
+      "elf_address": "0x3f9e08",
+      "size": 44,
+      "sha256": "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2",
+      "scope": "Supporting dependency; no new full-body implementation claim"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 308,
+      "sha256": "4e4b95a0725eadaa9988eb9c880fb959840fc88a9201de896f797f1d638162d5",
+      "address_point": "0x965f38",
+      "slots": [
+        {
+          "byte_offset": "0x128",
+          "target": "0x3a4cd0",
+          "symbol": "_ZNK9Character14CanRangeAttackERiS0_S0_"
+        }
+      ]
+    }
+  ],
+  "modeled_imports": [
+    {"plt_address": "0x30e3ac", "imported_symbol": "__aeabi_fsub"},
+    {"plt_address": "0x30ed6c", "imported_symbol": "__aeabi_fmul"},
+    {"plt_address": "0x30eba4", "imported_symbol": "__aeabi_fadd"},
+    {"plt_address": "0x30e964", "imported_symbol": "__aeabi_i2f"},
+    {"plt_address": "0x30e2f8", "imported_symbol": "__aeabi_fcmpgt"},
+    {"plt_address": "0x30e9ac", "imported_symbol": "__aeabi_fcmple"},
+    {"plt_address": "0x30e4b4", "imported_symbol": "__aeabi_fcmpge"}
+  ],
+  "diagnostic_keys": {
+    "1": "IsTracingCharAITarget",
+    "2": "isTracingCharAITarget"
+  }
+}

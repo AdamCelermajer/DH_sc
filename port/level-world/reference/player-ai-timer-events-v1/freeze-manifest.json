@@ -1,0 +1,83 @@
+{
+  "validation": "PASS",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "port/level-world/character_coordinator.hpp": "e5b902e1981cac0c1a2df4d8fb469ca32865fdbd5ab9fbed0cc8023cedbf7ae4",
+    "port/level-world/character_coordinator.cpp": "b5f57fbf0006c623812457f95725888f128ae6139c50e365b81752961dd3b3a5",
+    "port/level-world/character_regen_tick_v1.hpp": "c1e32a2f11e99657cc3933efb933e050533f3d1c423a661cc44b055e96a5c74d",
+    "port/level-world/character_regen_tick_v1.cpp": "8c57d5fcf6fdd93ae169fe46a180ed34bb5ebf81ec202dbd3b43cdd81d54d2d2",
+    "port/level-world/player_ai_timer_events_v1.hpp": "4368f5e0fab4989297a25ea6297cfe1d84fdc7980f830e3de0ec5cd97e688a5e",
+    "port/level-world/player_ai_timer_events_v1.cpp": "b7ff135faad53be2ce6c8733c695bd655cdba4a42a487a843316bf5e5736bd9b",
+    "port/level-world/tests/player_ai_timer_events_v1.cpp": "236d147176e7f4b6c9cf62ac37119d0728409d774be62d2e12ed4fa6cffeb255",
+    "port/level-world/tests/player_ai_timer_events_v1_original.py": "be51b7b3ef538280ed414a208572003d76e063a7c9475eb165aa41535f7441c8",
+    "port/level-world/tests/run_player_ai_timer_events_v1_host.py": "3548cc71c87eef7d8ef8e3446004d6654d31ce01c2dd77a2b0ac37095f05875f",
+    "port/level-world/reference/player-ai-timer-events-v1/NOTES.md": "86254cb49cbbdc68c577cbbc18efd25255a3de5767efab3d1b7e95e5280f2fa6",
+    "port/level-world/reference/player-ai-timer-events-v1/original-functions.json": "edc924f821d506d451c83bb747dc81dd418b51d2fda358955448e33b5dfcd8b3",
+    "port/level-world/reference/player-ai-timer-events-v1/original-capture.json": "f17d4609ba6c57d162628e0f4da4a45bcaadba4688ede6f82c5a69d6f8c03975",
+    "port/level-world/reference/player-ai-timer-events-v1/original-cases.bin": "ce9a075beeea91f8804f99c15360126223bcf3e4c3aff3bf9ab0e9b5c5b3fdc5",
+    "port/level-world/reference/player-ai-timer-events-v1/death-cleanup-dependency.json": "1e73df01e3ef0b0190b101bfdcc154723eb562c1beb4f57cbd58b6729656c84b",
+    "port/level-world/reports/player-ai-timer-events-v1-selected-host.json": "49a4b3095fe667258d0d18e93e2bb40756bb5de296070e9393bbf2eac3602896"
+  },
+  "whitelist": [
+    "port/level-world/character_coordinator.hpp",
+    "port/level-world/character_coordinator.cpp",
+    "port/level-world/character_regen_tick_v1.hpp",
+    "port/level-world/character_regen_tick_v1.cpp",
+    "port/level-world/player_ai_timer_events_v1.hpp",
+    "port/level-world/player_ai_timer_events_v1.cpp",
+    "port/level-world/tests/player_ai_timer_events_v1.cpp",
+    "port/level-world/tests/player_ai_timer_events_v1_original.py",
+    "port/level-world/tests/run_player_ai_timer_events_v1_host.py",
+    "port/level-world/reference/player-ai-timer-events-v1/NOTES.md",
+    "port/level-world/reference/player-ai-timer-events-v1/original-functions.json",
+    "port/level-world/reference/player-ai-timer-events-v1/original-capture.json",
+    "port/level-world/reference/player-ai-timer-events-v1/original-cases.bin",
+    "port/level-world/reference/player-ai-timer-events-v1/death-cleanup-dependency.json",
+    "port/level-world/reports/player-ai-timer-events-v1-selected-host.json",
+    "port/level-world/reference/player-ai-timer-events-v1/freeze-manifest.json"
+  ],
+  "host_report": {
+    "validation": "PASS",
+    "original_regen_traces": 11,
+    "native_cases": 33,
+    "failure_prefixes": 93,
+    "guards": 5,
+    "single_vm_unchanged": true,
+    "no_added_fsm_for_delivered": true,
+    "selected_native_build": false,
+    "live_gameplay": false
+  },
+  "existing_coordinator_report": {
+    "source_state_move_idle": true,
+    "synchronous_reentry": true,
+    "facts_refresh": true,
+    "captured_expiry_event": true,
+    "expiry_hook_before_state": true,
+    "script_blocking_and_pause": true,
+    "spawn_timer_and_named_event": true,
+    "safe_growth": true,
+    "exception_borrow_cleanup": true
+  },
+  "selected_world_modules": [
+    "character_regen_tick_v1",
+    "player_ai_timer_events_v1"
+  ],
+  "selected_cmake_sha256": "0f1aedf89f073817faa11abdb6dbdc89f0b48e83aaaf12dae77301c48bc62724",
+  "separate_direct_module_object": false,
+  "original_cases": 25,
+  "distinct_pinned_instruction_words": 220,
+  "api": {
+    "regeneration": "character_regen_tick_v1::tick(State*,Globals*,combat,Services*,Result*)",
+    "timer": "player_ai_timer_events_v1::Runtime(Bindings)::deliver(event33/34, same Coordinator timer, Result*, error)",
+    "routing": "CoordinatorBindings::route_timer_event appended default optional; TimerRouting machine/delivered/failed"
+  },
+  "native_dependencies": [
+    "Positive living DoT requires genuine source F_DotAttack Runtime/Storage and full Player F_ApplyResult provider; absent reached calls fail",
+    "Full death delivery needs actual CharAI::OnDied/AI_SetDead owning timer cleanup; no dead regen skip/pause added",
+    "Frame AISDefault/External updates remain external to these timer routes"
+  ],
+  "attribution": "Reuse maintained source kernels; audited Adam c3/791 Player V3/V6; no private VM/timer/property/inventory/Save authority imported",
+  "production_frozen": true,
+  "selected_native_build": false,
+  "live_gameplay": false
+}

@@ -1,0 +1,169 @@
+{
+  "complete_game": false,
+  "gameplay_object_callbacks_installed": false,
+  "class_binding_tested": true,
+  "original_lua_gameplay_equivalence_tested": false,
+  "classes": 260,
+  "application_cases": 520,
+  "final_field_queries": 116480,
+  "assertion_files": 26,
+  "reference_sha256": "a2f10c30f09170d24e79ed002ae0f6f1b144a09ee3208d1aec08d954aedbf5ac",
+  "standalone_original_comparison_sha256": "d338d2083351ab27a09998a63fe2f171b67d225456c3701f5c58fd2edeb6d724",
+  "class_trace_sha256": "83007e4d2ae222e538e79ffb1bad384866591ea17b9535b2f745540999be2308",
+  "property_cache_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+  "class_cache_sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55",
+  "runner_sha256": "ab9bb3fdbe4bc5e70868e7df73ff99388d9563e00904625478e29b523b282cb5",
+  "test_sha256": "06c235265b04c11fa31e1ee59466703a15fe23be6b21a0de2b64ee63ff68446a",
+  "listing_sha256": "e2ba052d45e1e7955b143be2dc2c74e87d99bc86eda311975c6180a547f29a09",
+  "assertions": [
+    {
+      "name": "000.lua",
+      "bytes": 117118,
+      "sha256": "6b65d5b8071d4deeb067dfe2abb9b6dd4f597a009c4c54f2c8d0bbefcba390c1"
+    },
+    {
+      "name": "001.lua",
+      "bytes": 117958,
+      "sha256": "e2828d6cdcfd71c14637042a47a5b8465b695a517b39b994e927735ce9796830"
+    },
+    {
+      "name": "002.lua",
+      "bytes": 118468,
+      "sha256": "a46620b84cf37c36ac2695914a4b6edc3e791b37e069aa86eeb518f6895a38d6"
+    },
+    {
+      "name": "003.lua",
+      "bytes": 118294,
+      "sha256": "975ba662e67ea2b27a4d2e4dad80cca3e1b40706b48a91f408b61e08ea36c4de"
+    },
+    {
+      "name": "004.lua",
+      "bytes": 117670,
+      "sha256": "8f2f2c78e002a6515b0337a537dc47c568714220db3ad4c5bd4867c7b6e3bd82"
+    },
+    {
+      "name": "005.lua",
+      "bytes": 118050,
+      "sha256": "8bf7d7fbab153578deb23e1ba9d096656ff56a3163e90892ccef7a7f831a6b44"
+    },
+    {
+      "name": "006.lua",
+      "bytes": 117596,
+      "sha256": "4ec1cf418e19a3595a63de07fc742a4309de12270dd6988e31897222fc8b102b"
+    },
+    {
+      "name": "007.lua",
+      "bytes": 117949,
+      "sha256": "33f126514a134e0531cb637072dab20076375d123653102c41232223d2f5bd99"
+    },
+    {
+      "name": "008.lua",
+      "bytes": 117782,
+      "sha256": "7680114c9a49072e817fb07f5287aba4dd8aeedbfb03108f64575bf2d5373266"
+    },
+    {
+      "name": "009.lua",
+      "bytes": 117370,
+      "sha256": "d3fe65639c5f6dca09b6159e138c7b42890259fe82840ade5183255643d532ec"
+    },
+    {
+      "name": "010.lua",
+      "bytes": 117170,
+      "sha256": "fc519a9989098bb9e59d073c18b6d2a36184f543da286a164213f1784499b2c5"
+    },
+    {
+      "name": "011.lua",
+      "bytes": 117308,
+      "sha256": "d4ab00c62b08527cae6959febe06d0f6694c421283f98c0d9f9f4ff0e92fc6f5"
+    },
+    {
+      "name": "012.lua",
+      "bytes": 118002,
+      "sha256": "7b32fbaee83ee82b2bbaababa41da7e3a2183ae85536dc13db46eeda582b5e9e"
+    },
+    {
+      "name": "013.lua",
+      "bytes": 117224,
+      "sha256": "89f21435f9be85e4a892ab470abfedd4b41e748ca2a36bc7b35447afb043f0b0"
+    },
+    {
+      "name": "014.lua",
+      "bytes": 117104,
+      "sha256": "1fb3621847995f69921184aab7ee812377fef1e6ec86036cbbabd9dcd00ee771"
+    },
+    {
+      "name": "015.lua",
+      "bytes": 117092,
+      "sha256": "b0e95bbf6468a47b961f09e11d6a3efbffde2ae392d2f547d5fa6ace5569f69d"
+    },
+    {
+      "name": "016.lua",
+      "bytes": 117206,
+      "sha256": "29e1e9e278a78152f526635728ccdb02b41d54f60065b7832718cc45baf8bd2e"
+    },
+    {
+      "name": "017.lua",
+      "bytes": 117138,
+      "sha256": "bc9ece6545ec613fde2748b7b796e39629f80e1dff88f6f0e7275acb46fc836c"
+    },
+    {
+      "name": "018.lua",
+      "bytes": 117166,
+      "sha256": "89b5baa676f61235f5b98eab979018ecb1263d1af61d7c87218f82c3e5a343f5"
+    },
+    {
+      "name": "019.lua",
+      "bytes": 117118,
+      "sha256": "69717d33f156e23ed1884878ea64eefd77a59dc88b2952d49d428e5949cf0669"
+    },
+    {
+      "name": "020.lua",
+      "bytes": 117156,
+      "sha256": "08af081354378a8e2a52ea26138fadc35038efb67df32d39d0a0e3df34a4454c"
+    },
+    {
+      "name": "021.lua",
+      "bytes": 117140,
+      "sha256": "ed4c94a0d0ec5a020fa94cb7a7c922425ce20207055ba68a54934fb5e2582659"
+    },
+    {
+      "name": "022.lua",
+      "bytes": 117116,
+      "sha256": "b4215709b582132dd79cc8f0c184a3c8bb6ac8bc792e8428201e8e7da4545f06"
+    },
+    {
+      "name": "023.lua",
+      "bytes": 117242,
+      "sha256": "02e1324ef878f0320c080640211e9d176c559d57074b91f5135632242ae661a7"
+    },
+    {
+      "name": "024.lua",
+      "bytes": 117610,
+      "sha256": "c504a91689040fc67f824ed06d25c17fe2379b3ac58932d72201b8ac17f54844"
+    },
+    {
+      "name": "025.lua",
+      "bytes": 117272,
+      "sha256": "8a24e0133567acd16d3f654300bb1e6e90a43b193e5e6fa71b6c1e551a7c2979"
+    }
+  ],
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nCLASS CORPUS PASS 26",
+  "source_sha256": {
+    "runtime.c": "b5f5377e72af46e72fb6ae861de77b2d63988703f1129712a9b4aca6d0ba144b",
+    "runtime.h": "6973b1bef567fb6ad717e978d3b7df52326819fe871723cd9ccd1e656b0e30d3",
+    "tests/runner.c": "6cb6b35aa27e2d3051b9f299689637836b8383ad5a495f26c21f33067ba313ba",
+    "tests/classes.c": "223ebc7346c8f98bcd1258f0b4781f22db70b0054bb5794420ece16932db90a7",
+    "../lua-character/bridge.c": "8e12c121e8d8e4048c73dc484bf63b76ffa502722a4043640581ff994997921f",
+    "../character-classes/classes.c": "f67ecaab58c5b25813d7c3e474e3d386db96b1bc42518ef9f357d9d8f255ef9c"
+  },
+  "scope": "Authored ApplyClass on owned diagnostic property userdata uses retained class/property generations, applies to base and recomposes all final fields with empty buffs. Every real class and both final-source flags are checked against the standalone C implementation separately matched to actual original ARM bodies. Selftests cover caller release, generations, malformed/OOM import retention and cyclic-application atomic rejection. No original Character lifecycle, combat or gameplay.",
+  "device": {
+    "serial": "emulator-5558",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64",
+    "fingerprint": "google/sdk_gphone16k_x86_64/emu64xa16k:17/CP41.260828.004.A7/16296984:userdebug/dev-keys"
+  },
+  "pushed_input_hashes_verified": 30
+}

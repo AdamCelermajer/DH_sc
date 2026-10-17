@@ -4,3 +4,4 @@
 **/build/
 local.properties
 **/__pycache__/
+tmp/gradle-home/

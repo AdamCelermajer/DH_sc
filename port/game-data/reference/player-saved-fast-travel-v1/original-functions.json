@@ -1,0 +1,24 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN14PlayerSavegame20__LoadFastTravelListEP11IStreamBasePv",
+      "elf_address": "0x469b18",
+      "size": 452,
+      "sha256": "122b93144db055a9a7585dec6240d6fb06d04c308baab920cf138d6bf6dc1d6e"
+    }
+  ],
+  "constructor_zero_spans": [
+    {
+      "elf_address": "0x465b78",
+      "size": 32,
+      "sha256": "9238a5deae84db83a7f91d2596b11b9f13dd290cb2eb272230c57f0e3a7b0e8e"
+    },
+    {
+      "elf_address": "0x465640",
+      "size": 32,
+      "sha256": "7b2fe8b44fc7c83a43cfe837bdcb32ca699ff15b9ee676fee3a64b8a3c36ed7f"
+    }
+  ],
+  "scope": "Whole FTVL452B versus original ARM, borrowing six canonical Save words.\nOriginal reverse-bit parsing, low/high publication, invalid-bit throw prefixes\nand whole-reader early exit for oversized strings execute. The string primitive\nand temporary storage lifetime are explicit observing providers. Bad stream\nlengths/terminators, truncation, span limits, allocations and alias guards are\nseparate native policies. C1 six-word zero-store spans are pinned separately;\nthe complete constructor, native SG_Load4 and live gameplay are not claimed.\n"
+}

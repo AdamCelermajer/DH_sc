@@ -1,0 +1,199 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_Z24GetConditionImplInstanceI24Condition_IsQuestInStateEP9Conditionv",
+      "elf_address": "0x478b5c",
+      "size": 72,
+      "sha256": "ccfbea34d7a6c8c5f1e58ee4c02f10a0e3c79abb4de64e4769555ef0071d1fd3"
+    },
+    {
+      "original_symbol": "_Z24GetConditionImplInstanceI27Condition_IsQuestStateLowerEP9Conditionv",
+      "elf_address": "0x478b14",
+      "size": 72,
+      "sha256": "e941c43629e7794bf788b05123e18cf5f816e9e93e5fb42bec9cbe00ea60f9ef"
+    },
+    {
+      "original_symbol": "_Z24GetConditionImplInstanceI28Condition_IsQuestStateHigherEP9Conditionv",
+      "elf_address": "0x478acc",
+      "size": 72,
+      "sha256": "d5ee292e07ef93bbe3b8ab505835bd3022fbbd47000c52695a95a8a34b488fa0"
+    },
+    {
+      "original_symbol": "_Z24GetConditionImplInstanceI25Condition_IsPlayerInLevelEP9Conditionv",
+      "elf_address": "0x478a80",
+      "size": 76,
+      "sha256": "4418f2c7ca47bb6c8c02fc83cd461d7bf62e04c04f41c113925007c24be66e82"
+    },
+    {
+      "original_symbol": "_Z24GetConditionImplInstanceI24Condition_IsLevelInStateEP9Conditionv",
+      "elf_address": "0x478a34",
+      "size": 76,
+      "sha256": "4d9a68c3ede7e9537cb3d5053a1277772a1d13397a5b2649980ff67e5de4f386"
+    },
+    {
+      "original_symbol": "_Z24GetConditionImplInstanceI25Condition_IsPlayerAtLevelEP9Conditionv",
+      "elf_address": "0x4789e8",
+      "size": 76,
+      "sha256": "8ab983d346d4b1201e483d71e59fd547bad05e913201220578b74c4e8f134317"
+    },
+    {
+      "original_symbol": "_Z24GetConditionImplInstanceI24Condition_IsEventInStateEP9Conditionv",
+      "elf_address": "0x47899c",
+      "size": 76,
+      "sha256": "a7370f7aad7b2b3bbaf59518c9bcf2e1d3bf5e02d29168dbcb8963022a59b695"
+    },
+    {
+      "original_symbol": "_ZN9ConditionC1Ev",
+      "elf_address": "0x478674",
+      "size": 44,
+      "sha256": "0ecf2595e87c8a120190dbc58b851fb097360bf656a4055a2348548775137f23"
+    },
+    {
+      "original_symbol": "_ZN9ConditionC2Ev",
+      "elf_address": "0x478648",
+      "size": 44,
+      "sha256": "7cb8fbd7997bbcc219da81fe1df9c94fd1a9aebc42e56549d923b36ca5b563db"
+    },
+    {
+      "original_symbol": "_ZN9ConditionD1Ev",
+      "elf_address": "0x4786d8",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9ConditionD2Ev",
+      "elf_address": "0x4786a0",
+      "size": 4,
+      "sha256": "379bec29dccd0a93c94826144d7ef6e42fab64ef195a3b8313a16926f66f388f"
+    },
+    {
+      "original_symbol": "_ZN9ConditionD0Ev",
+      "elf_address": "0x478e90",
+      "size": 28,
+      "sha256": "af3e5214c8f17ca967caa7bd2c0bc3cf7d186014864a9e6da6f2b40c707eaa2a"
+    },
+    {
+      "original_symbol": "_ZN24Condition_IsQuestInStateD1Ev",
+      "elf_address": "0x4788e0",
+      "size": 52,
+      "sha256": "db30691edcc9598c66b070f984dd0694f96519226e269aa092f64f2822e15fe2"
+    },
+    {
+      "original_symbol": "_ZN24Condition_IsQuestInStateD0Ev",
+      "elf_address": "0x479320",
+      "size": 60,
+      "sha256": "6be16817cb403d3c5238298eae2cea774985ddbc3b40ae5bad0b54ce236230dd"
+    },
+    {
+      "original_symbol": "_ZN27Condition_IsQuestStateLowerD1Ev",
+      "elf_address": "0x4788ac",
+      "size": 52,
+      "sha256": "24f48eb3e76f6bcc1dc49c7ece63f2d1dd545876df97b1ad6c41c3521d2ef388"
+    },
+    {
+      "original_symbol": "_ZN27Condition_IsQuestStateLowerD0Ev",
+      "elf_address": "0x4792e4",
+      "size": 60,
+      "sha256": "276ba7b1fb5c16e878c59bd3909d78f16385913c5960c95f8d7cc6f34efa6633"
+    },
+    {
+      "original_symbol": "_ZN28Condition_IsQuestStateHigherD1Ev",
+      "elf_address": "0x478878",
+      "size": 52,
+      "sha256": "01ee4060082eb75e9ece27aee9ce45c5df7a48dcd718f8a20ec0fc230c562f5b"
+    },
+    {
+      "original_symbol": "_ZN28Condition_IsQuestStateHigherD0Ev",
+      "elf_address": "0x4792a8",
+      "size": 60,
+      "sha256": "ffd910df4e8814441eaabbc301a2c83c00713f93b49d1168a1d8462e60cd4f07"
+    },
+    {
+      "original_symbol": "_ZN25Condition_IsPlayerInLevelD1Ev",
+      "elf_address": "0x4787dc",
+      "size": 52,
+      "sha256": "c574dacfbd3c00987b9aed141d6a0268a3bbd8f399ed3932ee25100193ef7f62"
+    },
+    {
+      "original_symbol": "_ZN25Condition_IsPlayerInLevelD0Ev",
+      "elf_address": "0x479230",
+      "size": 60,
+      "sha256": "7820b6511839cadedc560663668aef6218d54275d923c77f22556c9fa21e099b"
+    },
+    {
+      "original_symbol": "_ZN24Condition_IsLevelInStateD1Ev",
+      "elf_address": "0x478844",
+      "size": 52,
+      "sha256": "f949fc3e49915912e585928cc7d022a8ed4c937e723bbe9a386e8052feef30da"
+    },
+    {
+      "original_symbol": "_ZN24Condition_IsLevelInStateD0Ev",
+      "elf_address": "0x47917c",
+      "size": 60,
+      "sha256": "26334dc47447fe9e2a7f37a6301dd49df598c1826129cdd4573a01f0c9ad4617"
+    },
+    {
+      "original_symbol": "_ZN25Condition_IsPlayerAtLevelD1Ev",
+      "elf_address": "0x478810",
+      "size": 52,
+      "sha256": "adc65e3d895a48053fb668f8688055d6d118f951db7d90c1f7842e9ec5baff59"
+    },
+    {
+      "original_symbol": "_ZN25Condition_IsPlayerAtLevelD0Ev",
+      "elf_address": "0x47926c",
+      "size": 60,
+      "sha256": "74475ad4807b567e83727f41cea612c080ef1dbf1aca45f0f645582e01060a9a"
+    },
+    {
+      "original_symbol": "_ZN24Condition_IsEventInStateD1Ev",
+      "elf_address": "0x4787a8",
+      "size": 52,
+      "sha256": "93b290edacd794b35dfc44b58aa36e216bd0801db3801a2537014ef7ab59d9ae"
+    },
+    {
+      "original_symbol": "_ZN24Condition_IsEventInStateD0Ev",
+      "elf_address": "0x4791f4",
+      "size": 60,
+      "sha256": "8da8f8dee70628b03c9412714e96725b384a2e2f918f78d001cd6f074a428b9c"
+    },
+    {
+      "original_symbol": "_ZN31Condition_IsQuestInStateGenericD1Ev",
+      "elf_address": "0x4786a4",
+      "size": 52,
+      "sha256": "24ea586336adc93fdc8e6203809cb03a2f12f24d0baf58ff34cbdc20fcd16250"
+    },
+    {
+      "original_symbol": "_ZN31Condition_IsQuestInStateGenericD0Ev",
+      "elf_address": "0x4791b8",
+      "size": 60,
+      "sha256": "fc9334b4f3a7adbabc2585cd0d970bf1e10aad7f2ee858f97df2bed1cac7e292"
+    }
+  ],
+  "source_vtables": {
+    "_ZTV9Condition": "0x969280",
+    "_ZTV31Condition_IsQuestInStateGeneric": "0x969200",
+    "_ZTV24Condition_IsQuestInState": "0x969240",
+    "_ZTV27Condition_IsQuestStateLower": "0x969220",
+    "_ZTV28Condition_IsQuestStateHigher": "0x9691e0",
+    "_ZTV25Condition_IsPlayerInLevel": "0x9691c0",
+    "_ZTV24Condition_IsLevelInState": "0x9691a0",
+    "_ZTV25Condition_IsPlayerAtLevel": "0x969180",
+    "_ZTV24Condition_IsEventInState": "0x969160"
+  },
+  "shipped_conditions": {
+    "0": 44,
+    "1": 3,
+    "2": 1,
+    "3": 32
+  },
+  "scope": "Full7 type factory templates, base C1/C2/D1/D2/D0 and all7 derived plus generic D1/D0 leaves, including full original ConditionList composition over shipped64 rows. Actual pointer/Record allocation and deallocation are declared platform leaves. No Compile/Eval body, Android compilation or live gameplay is inferred.",
+  "source_policies": [
+    "ConditionFields definition borrow is the sole +4 store; all records reuse ConditionList projections.",
+    "Source allocation is12/tag0 for quest state types0..2 and8/tag0 for types3..6; native Record storage may be larger.",
+    "Source C2 clears definition+4 and stores base dispatch; three quest comparators then store0/1/2+8.",
+    "Quest-state derived D1/D0 publish Generic dispatch, not their previous derived dispatch or base dispatch; other derived destructors retain their class dispatch.",
+    "Deleting destructors publish dispatch before reaching actual deallocation; failed free retains that reached source prefix.",
+    "No extra quest/condition dataset, VM, properties or timer owner is introduced."
+  ]
+}

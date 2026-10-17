@@ -1,0 +1,94 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "source": [
+      "port/level-world/character_ai_sight.hpp",
+      "port/level-world/character_ai_sight.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_ai_sight.cpp",
+      "port/level-world/tests/run_character_ai_sight_host.py"
+    ],
+    "new_bounded_query_orchestrations": 2,
+    "new_full_native_body_claims": 0,
+    "native_wired": false,
+    "existing_snapshot_api_unchanged": "port/game-data/ai.cpp::dh2_ai_range"
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsInSightEf",
+      "elf_address": "0x3d4ea0",
+      "size": 56,
+      "sha256": "6386d2565e46ebf8d58df186855349428c80bc3675392e4a3020e6274a6fcbda",
+      "scope": "new bounded caller orchestration; owning dependencies external"
+    },
+    {
+      "original_symbol": "_ZNK6CharAI12AI_IsInSightEPK10GameObject",
+      "elf_address": "0x3d4ed8",
+      "size": 192,
+      "sha256": "0c2044d083ae7973c74d3b18a8c13279cffa62ef96c03289cce95b8d2571d667",
+      "scope": "new bounded caller orchestration; owning dependencies external"
+    },
+    {
+      "original_symbol": "_ZNK10GameObject17GetTargetPositionEv",
+      "elf_address": "0x3935dc",
+      "size": 36,
+      "sha256": "23b9afb6e9da429cee1083622c12e650a4ffd51918974d9636817a74943dee7f",
+      "scope": "supporting byte evidence/oracle execution; owning provider not newly implemented"
+    },
+    {
+      "original_symbol": "_ZNK9Character9GetCharAIEv",
+      "elf_address": "0x3a3024",
+      "size": 48,
+      "sha256": "11131ec819b3f9f48184bf209234614f953af1a625f6cf1973fdb63d7c11b7f9",
+      "scope": "supporting byte evidence/oracle execution; owning provider not newly implemented"
+    },
+    {
+      "original_symbol": "_ZNK9Character11GetCharAIIdEv",
+      "elf_address": "0x3a2fec",
+      "size": 56,
+      "sha256": "829f264cb26c92a36252e92d6afec31d3e74708a20db10ee16495384955afaad",
+      "scope": "supporting byte evidence/oracle execution; owning provider not newly implemented"
+    }
+  ],
+  "external_soft_float": [
+    {
+      "target": "0x30e3ac",
+      "operation": "fsub",
+      "scope": "PLT/library dependency modeled with IEEE binary32 rounding; not an implemented/verified original library body"
+    },
+    {
+      "target": "0x30ed6c",
+      "operation": "fmul",
+      "scope": "PLT/library dependency modeled with IEEE binary32 rounding; not an implemented/verified original library body"
+    },
+    {
+      "target": "0x30eba4",
+      "operation": "fadd",
+      "scope": "PLT/library dependency modeled with IEEE binary32 rounding; not an implemented/verified original library body"
+    },
+    {
+      "target": "0x30e2f8",
+      "operation": "fcmpgt",
+      "scope": "PLT/library dependency modeled with IEEE binary32 rounding; not an implemented/verified original library body"
+    }
+  ],
+  "source_facts": {
+    "scalar": "fresh owner GetCharAI, live row+0x3c read, binary32 square and strict > supplied squared distance",
+    "object": "null uses fresh AI+0x40; fixed candidate; owner GetTargetPosition then target GetTargetPosition; borrowed coordinates read only after target callback",
+    "distance_order": [
+      "dx",
+      "dy",
+      "dz",
+      "xx",
+      "yy",
+      "xy",
+      "zz",
+      "xy+zz"
+    ],
+    "tail": "object distance tail calls scalar and reloads owner",
+    "target_position_dependency": "word+0x180 and byte+0x80 select point+0x184; otherwise point+0x160",
+    "get_char_ai_dependency": "captures current global table before GetCharAIId; getter fallback8; row stride0x44"
+  }
+}

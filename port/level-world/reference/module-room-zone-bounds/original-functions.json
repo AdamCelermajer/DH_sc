@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "original_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": {
+    "Module::InitPost": {
+      "symbol": "_ZN6Module8InitPostEv",
+      "address": "0x388b20",
+      "size": 312,
+      "sha256": "d438871fa9b54d30df1000f53681149d23a0c72cf502f248008c584285d0a281"
+    },
+    "RoomZone::RoomZone": {
+      "symbol": "_ZN8RoomZoneC1EN10ObjectBase6GO_IDSE",
+      "address": "0x396558",
+      "size": 108,
+      "sha256": "9bbd25d193786a5755621c726deb342582cf72b15d54c59440b0d3e0b49d2733"
+    },
+    "Zone::InitWithBoundingBox": {
+      "symbol": "_ZN4Zone19InitWithBoundingBoxERKN6glitch4core8aabbox3dIfEE",
+      "address": "0x397594",
+      "size": 392,
+      "sha256": "1c3b3d096ee00a944f5c79cae0460656c565763e895b4ebf6cddb174a2c32274"
+    },
+    "Zone::Zone": {
+      "symbol": "_ZN4ZoneC2EN10ObjectBase6GO_IDSEbb",
+      "address": "0x397ca0",
+      "size": 116,
+      "sha256": "008890a76addfa7bbbbbcf7c8e1b3839027ad708e90142f98aa88acefcfd749c"
+    },
+    "GameObject::SetPosition": {
+      "symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "address": "0x393db4",
+      "size": 220,
+      "sha256": "b2e7a850ec235757fe9b1406e0491006cc8ef1dda76927eb2e336374d93e26e7"
+    },
+    "RootSceneNode::RootSceneNode": {
+      "symbol": "_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE",
+      "address": "0x35d824",
+      "size": 236,
+      "sha256": "f32bc6225098758a56760923eada3eb07ab19ad7269c635e82d887455244c29a"
+    },
+    "RootSceneNode::RefreshBoundingBox": {
+      "symbol": "_ZN13RootSceneNode18RefreshBoundingBoxEv",
+      "address": "0x35c854",
+      "size": 156,
+      "sha256": "afe4b5e093ece2de3a96cb51a4a0868839e74f86067890b24a17ba43bb4413ff"
+    },
+    "ISceneNode::getTransformedBoundingBox": {
+      "symbol": "_ZNK6glitch5scene10ISceneNode25getTransformedBoundingBoxEv",
+      "address": "0x59770c",
+      "size": 124,
+      "sha256": "3ac37225aa9d7b429a9f40792c29254043fb1aa970ece65873bd6f22b357296d"
+    },
+    "CEmptySceneNode::getBoundingBox": {
+      "symbol": "_ZNK6glitch5scene15CEmptySceneNode14getBoundingBoxEv",
+      "address": "0x5839b0",
+      "size": 8,
+      "sha256": "e71667d8a8daeadd8dc78417f1d900abf298c975c0988faebec1fd089b12dfd4"
+    },
+    "ISceneNode::getPosition": {
+      "symbol": "_ZNK6glitch5scene10ISceneNode11getPositionEv",
+      "address": "0x597124",
+      "size": 8,
+      "sha256": "e7c5f4d5032caa61ba641b7edd3239a66346a177b7adf75338e1aafe8aa8dc70"
+    }
+  },
+  "root_vptr": {
+    "vtable_symbol": "_ZTV13RootSceneNode",
+    "vtable_address": "0x95fdd8",
+    "constructor_got_slot": "0x9983a0",
+    "constructor_got_relocation": "R_ARM_RELATIVE",
+    "constructor_stores_address_point_offset": "0x1c",
+    "address_point": "0x95fdf4",
+    "slots": {
+      "0x30": {"target": "0x5839b0", "meaning": "local getBoundingBox"},
+      "0x34": {"target": "0x59770c", "meaning": "getTransformedBoundingBox"},
+      "0xa0": {"target": "0x597124", "meaning": "getPosition"}
+    }
+  },
+  "module_callsite": {
+    "root_visual_pointer": "Module+0x2d8 -> VisualObject+8",
+    "bounds_vcall_slot": "0x34",
+    "resolved_bounds_function": "ISceneNode::getTransformedBoundingBox",
+    "room_zone_kind_test": "spawned object +0xf4 == 0xb",
+    "zone_initializer": "Zone::InitWithBoundingBox",
+    "parent_link": "RoomZone+0x38c = Module*"
+  },
+  "room_zone_optional_visual_flag": {
+    "room_zone_constructor_arguments": [0, 1],
+    "Zone::Zone stores first argument at +0x380": true,
+    "value_for_room_zone": 0,
+    "optional_visual_branch": "disabled"
+  },
+  "swamp_module_zero_cache_inputs": [
+    {
+      "path": "data/scene/001_swamp.mlx",
+      "module": "obj_4of4_brdwalk_sw_00_0",
+      "authored_position": [0.0, 0.0, 0.0],
+      "sha256": "e3694600f07184567efcdecb79826da8bfe7aa09b7f1505b1bc13eb1eb68a041"
+    },
+    {
+      "path": "data/3d/modules/swamp/mgp/obj_4of4_brdwalk_sw_00.mgp",
+      "sha256": "651eac91518c0a22362c22cb3ffe15972649e259a6af59d04ba028a90a7baf31"
+    },
+    {
+      "path": "data/3d/modules/swamp/mvp/obj_4of4_brdwalk_sw_00.mvp",
+      "sha256": "09d6d38f0a79f7c2655141cf965008a9330ec9b444d78542adb3d0b3d681baa9"
+    }
+  ],
+  "limits": [
+    "No serialized six-float AABB or explicit RoomZone record exists in the listed MLX/MGP/MVP inputs; the source creates it at Module::InitPost.",
+    "Whether the RootSceneNode absolute transform includes top-level MLX module placement is unresolved.",
+    "Module ObjectHandle +0x400 resolution and RoomZone-to-native-runtime-room identity are outside the producer kernel.",
+    "GameObject::SetPosition is captured at its original symbol boundary; its absolute-AABB, physical-object, and visual-object effects are not executed by this host proof.",
+    "Generic Zone::InitPost scaled-dimensions behavior is separate and not covered."
+  ]
+}

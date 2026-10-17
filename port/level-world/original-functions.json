@@ -2,6 +2,30 @@
   "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
   "functions": [
     {
+      "original_symbol": "_ZN11CameraLevel6UpdateEv",
+      "elf_address": "0x410390",
+      "size": 764,
+      "sha256": "38a7b3033b57d714fc89d96f98693fe6b3e038ae509630a2ab4d3976a4e46311"
+    },
+    {
+      "original_symbol": "_ZN11CameraLevel10HandleZoomEv",
+      "elf_address": "0x410218",
+      "size": 376,
+      "sha256": "062a26eb8dd08906741b9be0937a67901919198551b0cd0d2c53fc06194650e6"
+    },
+    {
+      "original_symbol": "_ZN11ZoomHandler9setCameraEP11CameraLevel",
+      "elf_address": "0x381fb0",
+      "size": 108,
+      "sha256": "9e0598d02bddc7eaa07961ec901f3477fc895e292baeeece36a631fc2030214c"
+    },
+    {
+      "original_symbol": "_ZN11ZoomHandler7onEventEPK6IEventPK12EventManager",
+      "elf_address": "0x382bdc",
+      "size": 1192,
+      "sha256": "be2b6a42883d81b7202ced42977ffe04b61db34c758341f26a28b8bf52d629d9"
+    },
+    {
       "original_symbol": "_ZN7PFFloor12_LoadNavMeshEPN6glitch5scene14IMeshSceneNodeE",
       "elf_address": "0x520b40",
       "size": 1112,

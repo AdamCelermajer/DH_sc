@@ -1,0 +1,297 @@
+{
+  "schema": "dh2-selective-engine-evidence-import/v1",
+  "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+  "baseline_commit": "bbc1e78e15dfcecfa3d1ddea90459a248fc30d26",
+  "files": [
+    {
+      "source_path": "port/engine-resources/EXTERNAL-SPLIT-ANALYSIS.md",
+      "imported_path": "port/engine-resources/EXTERNAL-SPLIT-ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "0cf9cf15aa121d04262f6d9dce631131e3dd79ff",
+      "upstream_sha256": "a99a4d47db450c0c876c82ab5e77e27c4cd2f522b1e97554805c0d96c2d95c17",
+      "imported_sha256": "90472266104b8daa356a44a2df3e88781827589ab3ea0a72cc98896a2f84bd06",
+      "bytes": 7735,
+      "adaptations": [
+        "retarget shared assembly to preserved engine-branch listing",
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/READER-CONTEXT-RECONSTRUCTION.md",
+      "imported_path": "port/engine-resources/READER-CONTEXT-RECONSTRUCTION.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "4bab637a8604183e87d05b69622de54a3bf82ee6",
+      "upstream_sha256": "740336aec926dc87a050e5680682eb63a943902ce94cbd7cdc929ccd9a2433bd",
+      "imported_sha256": "e08c5f86d0d0bc138fa5ffb46fec3ace9ddde4b3f94ec4f9fe5a87d3fa5ff538",
+      "bytes": 11705,
+      "adaptations": [
+        "retarget shared assembly to preserved engine-branch listing",
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/REFERENCE-SELECTOR-ANALYSIS.md",
+      "imported_path": "port/engine-resources/REFERENCE-SELECTOR-ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "b72e9ea533fbdfaf11d840f556807a7e44857ab7",
+      "upstream_sha256": "2f74f03389b681d1fa001a2b2534c83a70a50253720eb17543a38949dd69482c",
+      "imported_sha256": "d11d18097c69098d6f683eb0258a8e7b2da108fc71387da4cc66a12bc7290d9c",
+      "bytes": 6576,
+      "adaptations": [
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/external-split-functions.json",
+      "imported_path": "port/engine-resources/external-split-functions.json",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "dc780b4f3cf38f68f7f186bee2ce0335523dbae2",
+      "upstream_sha256": "3d779c5ea6960df48784649044ae96bf4454c402021d3ee7e537cec1b72e17fc",
+      "imported_sha256": "6c248869a34f984270ff661197b93cd0525428acc00289d473a2f7ebef93d75d",
+      "bytes": 3492,
+      "adaptations": [
+        "retarget shared assembly to preserved engine-branch listing"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/block-allocation-selector/ANALYSIS.md",
+      "imported_path": "port/engine-resources/block-allocation-selector/ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "329ac86837d6bbaae47b670e8c9e1c9fa8dcf01b",
+      "upstream_sha256": "9f6e3e9b86934312f604086845f3b0d8aec79cbba9782641ee9daa1ff7dda08b",
+      "imported_sha256": "4cdb1255c8ea4230f786de7b34599130d0858b55b8738d1b28acc46bff357400",
+      "bytes": 6285,
+      "adaptations": [
+        "retarget shared assembly to preserved engine-branch listing",
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/block-table-audit/ANALYSIS.md",
+      "imported_path": "port/engine-resources/block-table-audit/ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "b45bac079556cef058bcca782497e08980bbb37b",
+      "upstream_sha256": "9f32fd08564fc09a1eb1bc90e95d45114e417374ddf80efa2398b4b910cf0ff5",
+      "imported_sha256": "5df71b3bcf600e765749b72a6b842db26479eed5677952405c4ac5068fd2a22f",
+      "bytes": 7168,
+      "adaptations": [
+        "retarget shared assembly to preserved engine-branch listing",
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/block-table-audit/census.json",
+      "imported_path": "port/engine-resources/block-table-audit/census.json",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "16597fdb624ebaac0ec604c1646e014e04eaf811",
+      "upstream_sha256": "e7ab02ba0e728a0e105e5cc392b8f41e295aab63335a7a057d4b10d03092abe1",
+      "imported_sha256": "e7ab02ba0e728a0e105e5cc392b8f41e295aab63335a7a057d4b10d03092abe1",
+      "bytes": 4462593,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/block-table-audit/fixup-target-audit/ANALYSIS.md",
+      "imported_path": "port/engine-resources/block-table-audit/fixup-target-audit/ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "ca82609b9a8c023265256e0c8474d8c0ab97db7d",
+      "upstream_sha256": "b535a9fefadc8f31d5ed5ce09e995fadce9aec631bdde7d24aa99109cebf4375",
+      "imported_sha256": "ec24dc9209e0362f181e4f2035de0842d2dfa2263fbafa0944efb1608d91c1b6",
+      "bytes": 9535,
+      "adaptations": [
+        "retarget shared assembly to preserved engine-branch listing",
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/block-table-audit/fixup-target-audit/census.json",
+      "imported_path": "port/engine-resources/block-table-audit/fixup-target-audit/census.json",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "2a18662f164ccc29d99ef3e53c5a9ceba1cf3f6f",
+      "upstream_sha256": "6ad3497110321c269c0a2068026f74bcb88301d9cd76212ac25f77f573a4a284",
+      "imported_sha256": "6ad3497110321c269c0a2068026f74bcb88301d9cd76212ac25f77f573a4a284",
+      "bytes": 5169890,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/block-table-audit/fixup-target-audit/scan_fixup_targets.py",
+      "imported_path": "port/engine-resources/block-table-audit/fixup-target-audit/scan_fixup_targets.py",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "0785236c2135fe6e98a178fa4794777e044499a4",
+      "upstream_sha256": "6fac73c0d5f0cfb05e88f8586f37f0c6916ec966fc75001525ba3e3fe0abe864",
+      "imported_sha256": "6fac73c0d5f0cfb05e88f8586f37f0c6916ec966fc75001525ba3e3fe0abe864",
+      "bytes": 17159,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/tools/census_bres_block_tables.py",
+      "imported_path": "port/engine-resources/tools/census_bres_block_tables.py",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "09403bc8901305d6191354c5db83bcc129b1ca3d",
+      "upstream_sha256": "166eddd9cb9eca3821b19f050b6246c9d599a86c610f638ba448acff340ce1b2",
+      "imported_sha256": "166eddd9cb9eca3821b19f050b6246c9d599a86c610f638ba448acff340ce1b2",
+      "bytes": 8257,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-camera/README.md",
+      "imported_path": "port/engine-camera/README.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "73950524e6569bf8996107c168eb1a5ec8cb04f5",
+      "upstream_sha256": "d5f2a6dae0d79be96a6c774a449c3dc76df832bd51d3e84878348f941648445b",
+      "imported_sha256": "8faa605a68993d7f4483de4a23d25a730767c5975ab3f0cfd17412c3cf73f943",
+      "bytes": 1135,
+      "adaptations": [
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-camera/ANALYSIS.md",
+      "imported_path": "port/engine-camera/ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "23b1d27677c777e0956f8adf410464b1588a6e2f",
+      "upstream_sha256": "fb2c518085c0f98649bc429b16250cf532835e7b7adacbf4663d02f98fe13749",
+      "imported_sha256": "642cbf7928773fb09fa37f728079941eb71f63040a9d9f7c2dc0e977a9cc1e06",
+      "bytes": 7869,
+      "adaptations": [
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-camera/original-functions.json",
+      "imported_path": "port/engine-camera/original-functions.json",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "c0fa79e000081011ff9f62ba6128752fb36e8983",
+      "upstream_sha256": "40c54a81a8c6d7646ca054d6c47d2147a02049e9bd871606cdc113c064c9bdf8",
+      "imported_sha256": "40c54a81a8c6d7646ca054d6c47d2147a02049e9bd871606cdc113c064c9bdf8",
+      "bytes": 31511,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-camera/reference/original-functions.asm",
+      "imported_path": "port/engine-camera/reference/original-functions.asm",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "0bfc902760998f4a4f7d149f4671853ec472a961",
+      "upstream_sha256": "a73f16391432d0afd0ce6dfe964cd9e64b397d6f9f1a250769c5bd0e7acb59bb",
+      "imported_sha256": "a73f16391432d0afd0ce6dfe964cd9e64b397d6f9f1a250769c5bd0e7acb59bb",
+      "bytes": 105920,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-rendering/pass-state/ANALYSIS.md",
+      "imported_path": "port/engine-rendering/pass-state/ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "a55904da87a28b2429d2b7106d321d5380d8ec1f",
+      "upstream_sha256": "993fac98f2efa27d9c7fa3d531b0a028f2e7c32f1cef46722c3e84d0d99866df",
+      "imported_sha256": "5783eb2817d0dcb413e04ae16a08891656f96ba1232000d3d801a25355b95845",
+      "bytes": 12443,
+      "adaptations": [
+        "link unimported evidence to pinned upstream snapshot: port/engine-materials/pass-record-route/ANALYSIS.md",
+        "link unimported evidence to pinned upstream snapshot: port/engine-rendering/reference/gl-imports.json",
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-rendering/pass-state/ranges.json",
+      "imported_path": "port/engine-rendering/pass-state/ranges.json",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "48a25ca7635a30dfd22dd10e7968183ab6782b1a",
+      "upstream_sha256": "f598c4dbe7798ca90f9527eadc258d8247b208a19617145c09208cd039e309ed",
+      "imported_sha256": "f598c4dbe7798ca90f9527eadc258d8247b208a19617145c09208cd039e309ed",
+      "bytes": 11554,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-rendering/pass-state/reference/pass-state-functions.asm",
+      "imported_path": "port/engine-rendering/pass-state/reference/pass-state-functions.asm",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "672f6b959c1b8a81d278db000537779ec7484757",
+      "upstream_sha256": "b5699c7e10e8ed620baac979a5ce69ca7a3ef925278db0e6a0e7395ba2d0ad88",
+      "imported_sha256": "b5699c7e10e8ed620baac979a5ce69ca7a3ef925278db0e6a0e7395ba2d0ad88",
+      "bytes": 60235,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-rendering/pass-state/reference/pass-state-lifecycle-functions.asm",
+      "imported_path": "port/engine-rendering/pass-state/reference/pass-state-lifecycle-functions.asm",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "2e2730f5a51b0e38ceab26cc4da17cce849de6e8",
+      "upstream_sha256": "e7de8f8ec762cb83675c5cca8a64b61dc2aa8c6ee2c6e9b6a4fdcbcceb7f4e07",
+      "imported_sha256": "e7de8f8ec762cb83675c5cca8a64b61dc2aa8c6ee2c6e9b6a4fdcbcceb7f4e07",
+      "bytes": 48719,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-rendering/mesh-ownership/ANALYSIS.md",
+      "imported_path": "port/engine-rendering/mesh-ownership/ANALYSIS.md",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "0a0bf26db1cbedfec957396605d2922a22eb98f2",
+      "upstream_sha256": "049dc02e106425017141e8149660ae6cd2dc8bdbd3e7174bed2d1a0df794f862",
+      "imported_sha256": "f537bdc132f0d82bdac96da7c1325e30fa449b8a3e30c5dc5cf54cbceb6acccd",
+      "bytes": 8798,
+      "adaptations": [
+        "link unimported evidence to pinned upstream snapshot: port/engine-rendering/buffers/ANALYSIS.md",
+        "link unimported evidence to pinned upstream snapshot: port/asset-geometry-type1/untyped-indirect-sweep/ANALYSIS.md",
+        "link unimported evidence to pinned upstream snapshot: port/engine-rendering/buffers/ANALYSIS.md",
+        "add current scope/provenance notice"
+      ],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-rendering/mesh-ownership/original-functions.json",
+      "imported_path": "port/engine-rendering/mesh-ownership/original-functions.json",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "59f63f85c9d07511a6a7265dc07246e566fc6557",
+      "upstream_sha256": "14f3404a9a05605680280b40ebd3290e509711c49081c4c2c2128127f5ec21ca",
+      "imported_sha256": "14f3404a9a05605680280b40ebd3290e509711c49081c4c2c2128127f5ec21ca",
+      "bytes": 23524,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-rendering/mesh-ownership/reference/original-functions.asm",
+      "imported_path": "port/engine-rendering/mesh-ownership/reference/original-functions.asm",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "6e11dd66d6ac0a9ba2bd71421ba08c474252b803",
+      "upstream_sha256": "e8b3da69f260557a9ea1581c06fdcaed7a09773b4286902e235ef70384ea2b4f",
+      "imported_sha256": "e8b3da69f260557a9ea1581c06fdcaed7a09773b4286902e235ef70384ea2b4f",
+      "bytes": 121009,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    },
+    {
+      "source_path": "port/engine-resources/reference/original-functions.asm",
+      "imported_path": "port/engine-resources/reference/engine-branch-original-functions.asm",
+      "source_commit": "e6da25b83086ea01fb1d4cd46ae12da3bbac645f",
+      "upstream_blob": "a3cb4c6e4ebee23de388600a209fb8fcfc172f6b",
+      "upstream_sha256": "e0371fdbd560a87c49878f0b12bf81513ec0c40800b5de8d9af949cebaf0bd58",
+      "imported_sha256": "e0371fdbd560a87c49878f0b12bf81513ec0c40800b5de8d9af949cebaf0bd58",
+      "bytes": 74631,
+      "adaptations": [],
+      "scope": "Static reference evidence or read-only census tool; no compiled runtime change."
+    }
+  ],
+  "imported_files": 23,
+  "imported_bytes": 10217743,
+  "cpp_or_hpp_imported": false,
+  "runtime_changed": false,
+  "private_inputs_included": false
+}

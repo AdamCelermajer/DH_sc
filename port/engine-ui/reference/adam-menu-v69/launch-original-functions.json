@@ -1,0 +1,60 @@
+{
+  "source_elf_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "scope": "Static original ARM32 caller/order pins only. Host frontend gate executes actual imported GameSWF objects and declared borrowed services, not ARM replay. NativeStartGame is an explicit partial AS gateway to a development Crypt startup continuation; its full original Level/temporary-Save/SG_Save/LoadLevel body remains open.",
+  "functions": [
+    {
+      "symbol": "_Z28NativeAssignSaveSlotToPlayerRKN7gameswf7fn_callE",
+      "address": "0x43cf50",
+      "bytes": 100,
+      "sha256": "21bd54c2c8f4d842b5a9cef11488836e18765f38cfc27f8428b55591639c0308"
+    },
+    {
+      "symbol": "_Z21NativeGetParsedStringRKN7gameswf7fn_callE",
+      "address": "0x44de4c",
+      "bytes": 1060,
+      "sha256": "79c2a32d4fe7509f09653db779c4b6cf9e62cb798cd1895ba7fd1b4c80fab3f8"
+    },
+    {
+      "symbol": "_Z20NativeCreateSaveSlotRKN7gameswf7fn_callE",
+      "address": "0x43f630",
+      "bytes": 504,
+      "sha256": "c20967da466b9064099da3669667dd0d49f6ef007d0d570315610e403f5d7174"
+    },
+    {
+      "symbol": "_ZNK13StringManager19getStringFromSymbolEPKc",
+      "address": "0x508c74",
+      "bytes": 424,
+      "sha256": "769e809ad583c72997c4d9954d29e205a2bc8c7f28b8cdabf24ea329929c35c7"
+    },
+    {
+      "symbol": "_Z29NativeSetSaveSlotIDToMainMenuRKN7gameswf7fn_callE",
+      "address": "0x43d220",
+      "bytes": 104,
+      "sha256": "23eba9e573ea7ceeb7b256f0f6977944f0aca69756f5b2a5db650b10ea281057"
+    },
+    {
+      "symbol": "_ZN12MenuMainMenu24ChangeCharacterToDisplayEib",
+      "address": "0x42c0d0",
+      "bytes": 88,
+      "sha256": "fe2e695718d1f999935e662ac434bb4d33ce38b4d13ab5bf2eca9a3c6bc32226"
+    },
+    {
+      "symbol": "_Z15NativeStartGameRKN7gameswf7fn_callE",
+      "address": "0x43e0d0",
+      "bytes": 568,
+      "sha256": "d6a40b775ef2074fe99a8b494f86b60d5de375c8cd7675a7d127738630a211de"
+    }
+  ],
+  "authored_start": {
+    "sprite": 471,
+    "native_calls": [
+      "NativePlaySoundFX",
+      "NativeAssignSaveSlotToPlayer",
+      "NativeStartGame"
+    ],
+    "main_body_sha256": "0655802cc845bd12a4d8e1e0a24c68053515b7ec967d93e0dad4c3be5b7e28ab",
+    "start_body_sha256": "0e8455e19c5286d960b9289e57841abe14f7417df807adfe143cedb054000a2d",
+    "source_audit": "main-menu-save-slot-original-audit.json",
+    "bytes_published": false
+  }
+}

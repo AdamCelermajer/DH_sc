@@ -1,0 +1,191 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager13_AddCharacterEi",
+      "elf_address": "0x372220",
+      "size": 1180,
+      "sha256": "65ea83bee92dba22f0ef9af011ace77538e81e2a81fee1fe0244d1e7571a8702"
+    }
+  ],
+  "declared_callee_dependencies": [
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090"
+    },
+    {
+      "original_symbol": "_ZN13ObjectManager5SpawnEPKcS1_bb",
+      "elf_address": "0x34b724",
+      "size": 324,
+      "sha256": "6beb9d831117e3220f0dbf904de3447d94a2e130f5b639692496f7f32daf36b6"
+    },
+    {
+      "original_symbol": "_ZN12ObjectHandlecvP9CharacterEv",
+      "elf_address": "0x33ff54",
+      "size": 56,
+      "sha256": "f71383751930720e0ba25bd80d40eb0d301b73ecbbd33969d672b0ccf09675ea"
+    },
+    {
+      "original_symbol": "_ZN9Character24InitializePlayerSavegameEv",
+      "elf_address": "0x3b36b0",
+      "size": 52,
+      "sha256": "30123d9f8a72d9e531e14bc9cff5d363580d7c3069730d1713bbcfa08bf6c821"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo7IsLocalEv",
+      "elf_address": "0x80f1ec",
+      "size": 80,
+      "sha256": "803c5c96831e9c31302e8c30e8afce0403e69dcbe5340e668c880db532914fe6"
+    },
+    {
+      "original_symbol": "_ZN9Character10SG_SetSlotEj",
+      "elf_address": "0x3bb740",
+      "size": 20,
+      "sha256": "b0d1eee50d67c19dba6eac998176c3f494f203c9c18d3093c94eba205ead90f4"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_SetPlayerClassEi",
+      "elf_address": "0x3bb814",
+      "size": 20,
+      "sha256": "500a94c81b0967927454deaee2244d90e7d9dae2e07bfb04dcb3d88a95b7e54b"
+    },
+    {
+      "original_symbol": "_ZN9Character7InitAllEv",
+      "elf_address": "0x3b35f0",
+      "size": 40,
+      "sha256": "a0cb579c5d560843ef584d20f1564de1e6e507f661201dfef7b63b6d0b6a2d9b"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo8IsActiveEv",
+      "elf_address": "0x36d48c",
+      "size": 96,
+      "sha256": "97610b632e3326da91be3d822ddea1296517af5a7fd4356bd6653b6df0fda0b9"
+    },
+    {
+      "original_symbol": "_ZN9Character7InitCamEv",
+      "elf_address": "0x3b4bc4",
+      "size": 412,
+      "sha256": "6abff8256c1790de728863acb946be8eafbd8191fe9098eb3d293841b7fe6106"
+    },
+    {
+      "original_symbol": "_ZN16CharStateMachine15SM_SetIdleStateEb",
+      "elf_address": "0x3c1a00",
+      "size": 20,
+      "sha256": "2f34c20abaa650c14e84f08555b56141402f1b71e7be7db45e2b6c94c32fc091"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj3EE9GetBufferEPvi",
+      "elf_address": "0x36d730",
+      "size": 60,
+      "sha256": "6c694e267762b1f83065f4e87a099fa18dd83826a509bab80872fe45627e81e3"
+    },
+    {
+      "original_symbol": "_ZN18NetStructByteArrayILj30EE9GetBufferEPvi",
+      "elf_address": "0x36d76c",
+      "size": 60,
+      "sha256": "a49dea2b908734eb3505a37a06fc12ebce5416b6cf56b9d3c0abda2d2b343d4f"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_SetSkillInSlotEij",
+      "elf_address": "0x3bbe54",
+      "size": 20,
+      "sha256": "ba1f6a2681aa1122028171a6635136ef1e0aa10628e4693a0d93230aedc91b23"
+    },
+    {
+      "original_symbol": "_ZN9Character16SG_SetSkillLevelEji",
+      "elf_address": "0x3bbebc",
+      "size": 20,
+      "sha256": "484d2a9c000227ec8ef23788f0c7ad74e3c0d756af974bba34fe0be216f8901d"
+    },
+    {
+      "original_symbol": "_ZNK11Application15GetCurrentLevelEv",
+      "elf_address": "0x31f594",
+      "size": 32,
+      "sha256": "f3e5c31f7fb016c77dceb919b0c36b176f1599a562552770adbd2506651391c1"
+    },
+    {
+      "original_symbol": "_ZN5Level9QuickSaveEb",
+      "elf_address": "0x3f059c",
+      "size": 244,
+      "sha256": "28f12f96bb08a69ca1aa7fa868a8e8e1225580ffadc4502c93368b36ce589c64"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager34_AttachControllerToPlayerCharacterEi",
+      "elf_address": "0x36f0dc",
+      "size": 392,
+      "sha256": "d224ee007d8aff322f9e426cb6c6a4c85ffd15d31bba41e43c0f3c9e9016f62f"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager29_AttachLightToPlayerCharacterEi",
+      "elf_address": "0x371050",
+      "size": 144,
+      "sha256": "957bf381d0e8ba78e08b7269bfa9f89fed5388a6156477a59a2e04cac2e9b617"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo6IsHostEv",
+      "elf_address": "0x80f23c",
+      "size": 36,
+      "sha256": "1a8814829b7bbc217c1b6217516cb850a046c643202deeee6d43074a9b839448"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager16GetHostingPlayerEv",
+      "elf_address": "0x36e09c",
+      "size": 112,
+      "sha256": "e00e77f9a58281185b7840208afbc95fb217efbdd0201f57ab830829b2da9be1"
+    },
+    {
+      "original_symbol": "_ZN10GameObject11SetPositionERK7Point3DIfEb",
+      "elf_address": "0x393db4",
+      "size": 220,
+      "sha256": "b2e7a850ec235757fe9b1406e0491006cc8ef1dda76927eb2e336374d93e26e7"
+    },
+    {
+      "original_symbol": "_ZN10GameObject11SetRotationERK7Point3DIfE",
+      "elf_address": "0x3938a0",
+      "size": 88,
+      "sha256": "ceb17b0b1e165274459fed8dfb2a2032d0ceb9b5a3464658f454fd7446a3dbba"
+    },
+    {
+      "original_symbol": "_ZN9Character18SetInitialPositionERK7Point3DIfE",
+      "elf_address": "0x3a58f4",
+      "size": 128,
+      "sha256": "6b51f4ed914771f9964fdae11ac10f8e9700fc13a9673272444527c8c28bd33d"
+    },
+    {
+      "original_symbol": "_ZN8RoomZone16AddInitialObjectEP10GameObject",
+      "elf_address": "0x396a90",
+      "size": 436,
+      "sha256": "0a6feb395a7f8567ec3ee9cd3eb99d8dcf9fad714598e0d616c650f49b05b27b"
+    },
+    {
+      "original_symbol": "_ZN13ObjectManager15AddNoRoomObjectEP10GameObject",
+      "elf_address": "0x344184",
+      "size": 84,
+      "sha256": "30f5141986d53112043ae0ceb3264166f513a9608ac5e5575f61e715468636f2"
+    },
+    {
+      "original_symbol": "_ZN10GameObject11ZoneEnteredEv",
+      "elf_address": "0x38c710",
+      "size": 128,
+      "sha256": "f03d1a29fc92f14804746fdc58bc20b24cba4394b9f35ddf3095fa0bf06e58e7"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager15RemoveCharacterEP9Character",
+      "elf_address": "0x371d80",
+      "size": 1080,
+      "sha256": "bb1fe47c41a05f05eaec0aca186c9ed9eebabcd1f12b9e310dcc54168e431c77"
+    }
+  ],
+  "scope": "Caller and GetBuffer ARM execution; Spawn/Save/Character/platform services are declared fixtures, not native gameplay validation.",
+  "source_literals": {
+    "name_format": "PlayerCharacter_%d",
+    "spawn_type": "Character"
+  },
+  "native_policies": [
+    "Captured or defined stack residues for short/missing GetBuffer payloads",
+    "Source assertion mode2 and post-assert null Character dereference reported as source_fault before native UB",
+    "Oversized GetBuffer payload rejected before native stack overflow"
+  ]
+}

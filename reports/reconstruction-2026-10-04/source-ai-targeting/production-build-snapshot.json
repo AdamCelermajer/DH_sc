@@ -1,0 +1,28 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "aecba18e8d2f2571f477f6420d9cc9053cb48f6482f573dabac49a47e2638054",
+  "source_sha256_before_and_after_build": {
+    "port/level-world/CMakeLists.txt": "a552c09041b926a139c7dcbfa84e659ab28f21959dd26b590717c79df821a8c2",
+    "port/level-world/character_aggro_delay.hpp": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+    "port/level-world/character_aggro_delay.cpp": "041e7e2eea050be466169ecddddd604f912a173233733c761a6010330b870a9e",
+    "port/level-world/character_ai_turn.hpp": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+    "port/level-world/character_ai_turn.cpp": "e0eb5bf3bb58dd59798116d4c54e953321de4bfb0dca13bb7ccacaa7746d4cf7",
+    "port/level-world/character_aggro_target_search.hpp": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+    "port/level-world/character_aggro_target_search.cpp": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+    "port/level-world/character_aggro_candidate_events.hpp": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+    "port/level-world/character_aggro_candidate_events.cpp": "dedf5be12e89fcd4b0d5b57652144505b8b2f277bf3fcf3844513664a91f8e5d",
+    "port/level-world/character_enemy_spotted.hpp": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+    "port/level-world/character_enemy_spotted.cpp": "e9e5cb5d17f3621f69f3ffab31106f61cbedb3b3736044d9ce4c1ca9ee877c6b",
+    "port/level-world/monster_external_script_session.hpp": "1d8f9cc2f7f812614e409fb8a26ed3e1eed90c0b98accbe7156835fa858b8515",
+    "port/level-world/monster_external_script_session.cpp": "bc7aa3602d752a99f67e0a90cad0098913b08d0e5f48e0d2c2d4cd11a4fb1454",
+    "port/level-world/character_ai_set_target.hpp": "13e569adc9eec552333c6a265eb35bf4ff22175145691a011f0a0ecf6e56e184",
+    "port/level-world/character_ai_set_target.cpp": "27185727ef99d803d451b9168e90a32aa665202721d942b5056d048ea5e0487d",
+    "port/level-world/character_ai_relations.hpp": "d2555cde0441bdcccc2a9a2df69099b899c5121171b67a18ef7506cf4be62ebf",
+    "port/level-world/character_ai_relations.cpp": "b88021247e65d54a407e3f1e350e683ba6e4a6dbf1827b8e62c16f94977f5f42",
+    "port/level-world/character_ai_in_combat.hpp": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+    "port/level-world/character_ai_in_combat.cpp": "b762ddde559413c8bc63b9081581b44bac2a447bf8d9e1f20633eeca148bcf58"
+  },
+  "unchanged_source_paths": 19,
+  "build_log_sha256": "ba2feb38ab74c7e1ee5d855ed66484b8acb2e86f54b536c1c5a4a478d46a7605",
+  "scope": "CMake and nine production units captured before Gradle build, unchanged after build, and equal to the artifact source manifest. Export/runtime reports separately bind the built APK. Test scripts and reference notes are not compiled production."
+}

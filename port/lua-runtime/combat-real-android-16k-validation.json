@@ -1,0 +1,749 @@
+{
+  "complete_game": false,
+  "original_interpreter_or_gameplay_equivalence_tested": false,
+  "mode": "real",
+  "combat_cases": 3568,
+  "asserted_values_and_counts": 26760,
+  "constant_files": 26,
+  "original_script_sha256": "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f",
+  "runner_sha256": "aac413341598958201eda14ac42fdb307cf85888d0beac8e68595a08bb150609",
+  "test_sha256": "2b0e67481e487990ad97ff0a8ad1bb0f584dec633e57740ac55c5b6db51af61f",
+  "files": [
+    {
+      "name": "ai_pycst.bin",
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+      "bytes": 1042
+    },
+    {
+      "name": "animations_pycst.bin",
+      "sha256": "dfac957b74e79c293f99651d2089489f855397f1de7256a9e555af681c1b990f",
+      "bytes": 1089
+    },
+    {
+      "name": "character_classes_pycst.bin",
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84",
+      "bytes": 251
+    },
+    {
+      "name": "character_properties_pycst.bin",
+      "sha256": "48024ac14ed9994cfb899cb83d161b461bf78f0b7c10ff6efee0860277f14f52",
+      "bytes": 762
+    },
+    {
+      "name": "common_text_pycst.bin",
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+      "bytes": 155738
+    },
+    {
+      "name": "design_pycst.bin",
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "bytes": 3999
+    },
+    {
+      "name": "dialogs_pycst.bin",
+      "sha256": "9625936dfb9f0fc86da76f36ae66c435e5b56f89c896918bd752243b1387ea06",
+      "bytes": 492
+    },
+    {
+      "name": "effects_pycst.bin",
+      "sha256": "f821c078e34e22df340cac5d6b4e88ae02a0698ad9d9df7e4cbc6bede6a7a625",
+      "bytes": 124
+    },
+    {
+      "name": "engine_core_pycst.bin",
+      "sha256": "2b61a269d8feefbcf1419e213c887d00fe9bcc8febf63b43340d37391e27376c",
+      "bytes": 1217
+    },
+    {
+      "name": "faeries_pycst.bin",
+      "sha256": "559a9e44bfa3d1c6cbb9b234523a893d241f6021f464e86b6589da7c0d4930d5",
+      "bytes": 165
+    },
+    {
+      "name": "fonts_pycst.bin",
+      "sha256": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa",
+      "bytes": 163
+    },
+    {
+      "name": "game_objects_pycst.bin",
+      "sha256": "055dadeb6982ebfa47220574b10999a4f9eb78375dfd3f33f69a475313ee4597",
+      "bytes": 1570
+    },
+    {
+      "name": "item_powers_pycst.bin",
+      "sha256": "0bc21dbcee7dfe61394968f758d2eca5c08bd68af04b8ed1d251878b38c4c981",
+      "bytes": 1414
+    },
+    {
+      "name": "levels_pycst.bin",
+      "sha256": "a620d7813bdd92b63b0863cf95f840389d9f358b56d823d8e31313f80ff87c10",
+      "bytes": 308
+    },
+    {
+      "name": "loot_audiovisual_pycst.bin",
+      "sha256": "ff1b4a1a5faee0ee2d8cac9bf5113db0eff1a991632b120c4335e8b1b7dc1b34",
+      "bytes": 85
+    },
+    {
+      "name": "loot_table_pycst.bin",
+      "sha256": "bf60c406ba80b49d337bc82dda35f2f6bc2848d1d6983a37cfb0f881d24cb6fe",
+      "bytes": 1680
+    },
+    {
+      "name": "multiplayer_pycst.bin",
+      "sha256": "5026e0c6aedf643403685deee33defdf2a3f3b56be4a3b6cd1d443e9fe4a5466",
+      "bytes": 97
+    },
+    {
+      "name": "projectiles_pycst.bin",
+      "sha256": "6be57b10285fdf43c112e00130b00654054597b28b38d34de7ca7cc0142f8595",
+      "bytes": 47
+    },
+    {
+      "name": "scripts_pycst.bin",
+      "sha256": "8a48588048c3eb7dbe559aae89804a947b391eab67894aaa73f588437a497fd1",
+      "bytes": 1731
+    },
+    {
+      "name": "skills_pycst.bin",
+      "sha256": "302879d1b1bb035380f7be9e87c385ceadbc2e58a94e8f1b9285747a307801f1",
+      "bytes": 83
+    },
+    {
+      "name": "specs_pycst.bin",
+      "sha256": "a1a29eb6918860afc8d9c264c4d1856da9a3dae157536de40b3e2c3e9d5930f5",
+      "bytes": 73
+    },
+    {
+      "name": "trophies_pycst.bin",
+      "sha256": "30813ee63573f83bf39e5766eb024e086c702c3ef7fec42f49f4488c6c32fd14",
+      "bytes": 2928
+    },
+    {
+      "name": "v2conditions_pycst.bin",
+      "sha256": "6a5bef06a0eff222c6cae50312bf5c42dfef421f3fed85e3d3122ede2d6550e7",
+      "bytes": 230
+    },
+    {
+      "name": "v2eventmanager_pycst.bin",
+      "sha256": "13e1ace862c6a8c0857a42fd0476e2ddf7a002389e004a055fb3363ace60e8c8",
+      "bytes": 84
+    },
+    {
+      "name": "v2quests_pycst.bin",
+      "sha256": "35feff579bdb6b36fef849afea06044830af9dd6180953727179ecc12926ac6a",
+      "bytes": 805
+    },
+    {
+      "name": "worldmap_pycst.bin",
+      "sha256": "0d4151ee2f104b13e0f1607d7927d238121041e9fbb37084ddfe1ecc17a0c0e6",
+      "bytes": 163
+    },
+    {
+      "name": "properties.bin",
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "bytes": 401608
+    },
+    {
+      "name": "loot.bin",
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "bytes": 284104
+    },
+    {
+      "name": "combat_formulas.luac",
+      "sha256": "f83639a12c5c1910f9a23fff494f4013330943ad4ef8f4d91c33fe1eb975565f",
+      "bytes": 36004
+    },
+    {
+      "name": "assertions-000.lua",
+      "sha256": "1f5ef4eacf0ddf58333b4d680b6da1744d0f60818379baa7c15b21455999f705",
+      "bytes": 20736
+    },
+    {
+      "name": "assertions-001.lua",
+      "sha256": "f684d76ac2436603a7d2af03a423fca3e9bf3cfdc17a4423523e326b2e0bac40",
+      "bytes": 20736
+    },
+    {
+      "name": "assertions-002.lua",
+      "sha256": "08aa418281e04b81fff2baa912884ffc3df3914efdc539810ecf0bf2b1a356e0",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-003.lua",
+      "sha256": "a51af914454a194591b1940479ca4a93aa9f6630c3164badc08759670e6f1e78",
+      "bytes": 21004
+    },
+    {
+      "name": "assertions-004.lua",
+      "sha256": "f7aedb1a2a0df317de6c499c237f890d7d5522597b6979a521e18a925922d371",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-005.lua",
+      "sha256": "b2f0c0ad96d580fa234e3ad00dc969b395a7092db1d7bc859dfd91e0da8a3254",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-006.lua",
+      "sha256": "30c06b9911a601d922ea022170de9ea704f65ccdc4c14e6c3c23d943d22fa3d4",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-007.lua",
+      "sha256": "3618065edf5dec0dfce0b327b76ec5c60636bb7585485862f129ddc31697f447",
+      "bytes": 21006
+    },
+    {
+      "name": "assertions-008.lua",
+      "sha256": "a224f74fe405c5741cc50ca069e0022309197d6129234038bacb4b215a05928f",
+      "bytes": 21006
+    },
+    {
+      "name": "assertions-009.lua",
+      "sha256": "c55d5a0bfc516b132fa01c4125bb92f372ad5021e0c89ea72cc9ea7394e0f415",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-010.lua",
+      "sha256": "47db150a0b20a7fb8811dff482cef8603a1dd4299757ed84fc1b7b54946f8caa",
+      "bytes": 21004
+    },
+    {
+      "name": "assertions-011.lua",
+      "sha256": "497ac9fcbcd785c4112779bb36e7670a9fcdc4b0d85c98a478a90965672c3427",
+      "bytes": 21004
+    },
+    {
+      "name": "assertions-012.lua",
+      "sha256": "d8fbb3a34bb24c6c2ea2a4e5d565f2a031e0730a0a17f9d0076836ec7dd8a74b",
+      "bytes": 21002
+    },
+    {
+      "name": "assertions-013.lua",
+      "sha256": "45d5a96707f47225a5d44afd8266d326936ac5b6af7390356c0c55b534714551",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-014.lua",
+      "sha256": "f5fbccc076f104391017852448b0de5dd65873705a2c1e59c4fe422e9d256195",
+      "bytes": 21006
+    },
+    {
+      "name": "assertions-015.lua",
+      "sha256": "e857f138b22a509c0c35596bf355b64bdd43e74318f8175122382cfa601e9f09",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-016.lua",
+      "sha256": "4a9b4f260fb3f652dad5f108289af33067024daf0a14143946cfcd6ffd4d7f4f",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-017.lua",
+      "sha256": "2fc35806efc2037a5f5a0f3067ef51d94f7f3eadcdf8df454de6da54699c92a2",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-018.lua",
+      "sha256": "aa3969e6374a4c5c6151b72c42d939db97f653e14633591990afde933c9ccd95",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-019.lua",
+      "sha256": "3f0b126241e2f323fc8552633b662b40d9404200a4466c4addc9df656e593b9b",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-020.lua",
+      "sha256": "376a3dbbf79b18d194c0d22e62d6541cb1a10c7a236192a59af6a9df106502ee",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-021.lua",
+      "sha256": "1fe7f656c0e21775b9c23b748f2dea2508d0374b024fbfae07b7a37f23822059",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-022.lua",
+      "sha256": "53773078d8343ddd8e6c6b97e470f2c25b279a2f55089c76f87eefd405bc7729",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-023.lua",
+      "sha256": "ecb4164ff6d55418ff6cd272bac115e8bf569fa13c4e1980d0e34bffeb84af90",
+      "bytes": 21008
+    },
+    {
+      "name": "assertions-024.lua",
+      "sha256": "d67fad6f517c88f0f8ea05c2c4847f1a41dcf987510cc6427205115692699487",
+      "bytes": 21144
+    },
+    {
+      "name": "assertions-025.lua",
+      "sha256": "a5134c7faa3c20f5f26788589f824ddced0d7b2cb6b52a38a37adb8cc18ff0d1",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-026.lua",
+      "sha256": "46279376343dcae073ee099f3037d186bb562b013f2ee7ac2d539bbce036607c",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-027.lua",
+      "sha256": "f9db31ccf37cb1b2fd5789c1c574cb357aa1d71f7273c9510fb03b75bbf3cfe7",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-028.lua",
+      "sha256": "34833d74ceae3381e6fef271d1c5db524533d82d08c8dc35a9cd0fe5a24482d4",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-029.lua",
+      "sha256": "a8ef808fec105fc4e9b2566ba8f6769556ac0e539622ab69c0c49d3545935e43",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-030.lua",
+      "sha256": "b682b5952098bbe4ee70949e072282f53a6a43df1d480140788dfe807bc606d4",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-031.lua",
+      "sha256": "5c5f137e43e06fd9a601751d8709465ae94bd533fb97b9460fbec792e32e6a24",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-032.lua",
+      "sha256": "822d9288ab665001452284051a7e925dfebcd84c9d80d1f19318496d962f63b3",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-033.lua",
+      "sha256": "d602b46e3a79e9c6e77ca2ffbe287fe3766212a232eb538d5e2218ae4633f63e",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-034.lua",
+      "sha256": "f447563e470b1f61a8865edb55394e350d8c26b6546a348729b08c9f8f333dba",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-035.lua",
+      "sha256": "6662fa2b7996b78b3036199d899ba30e53c3406366f5b1164c21e3b85c0be761",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-036.lua",
+      "sha256": "1aaa5e1651360e6e37464042032a9a1b38c5da0165f2b58d486fed377be0f4bb",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-037.lua",
+      "sha256": "011bab04df4af4f7a2a54e25e047cf92ab5865f42cd540df652a03c0e53caa04",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-038.lua",
+      "sha256": "f172c6ff48825104805f664b94d90d505f72b7bd2ada610c5dbd925b36a4a92e",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-039.lua",
+      "sha256": "9645fe21e20b360ea0f3f2074db8dcf58a552cee17132d9abaf63582c88aa9a8",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-040.lua",
+      "sha256": "d11c406fb6f23d5f6fd9024f2c9ca6f29a6f17189f9c29c6183c62c0edf02971",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-041.lua",
+      "sha256": "de64b2f14e7f98796de01991bde86609021b2444d497978c59b2baa5bd0641cf",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-042.lua",
+      "sha256": "6c7efd1eaba9aecd55d5e85c9895090035cf344ce884433588798879421fbcd8",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-043.lua",
+      "sha256": "ad8d0db33a1c360002bcbbe1dae7573fc9e384894ba050d6699f23f77eb1bc38",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-044.lua",
+      "sha256": "600a771cb429d629e83665fca28f1325d0fb99c02f6c86139aa0fbc8ab5f0159",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-045.lua",
+      "sha256": "6a3eb94a6b92fbb115f0027d9b0453fd72e5088af86de965d37fb3b012e1d60d",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-046.lua",
+      "sha256": "0549be1f0bbc2dc36a5d8f34c6f276de20a375ef41187e64c608a35e9c32c5b5",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-047.lua",
+      "sha256": "cffa4677c2f389155859f494f5be077b653785c71b18bf8acb78151f22678850",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-048.lua",
+      "sha256": "50d4edfa86ebc1f97849d8db90287e593259301d7e9413e7dedaff5d291cdd98",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-049.lua",
+      "sha256": "115350403dfb29378e1a77e62645f2500707800ea4753b010f1e0218e265f93d",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-050.lua",
+      "sha256": "3a77791c34c453fd6bd5df3bce4d2aea52272ab6a3adb24ab8a95acbcb0b6f9b",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-051.lua",
+      "sha256": "09e2748432d1a8d56fbe90563069f9f658b7fb1c755636773fe9bf65701379e0",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-052.lua",
+      "sha256": "7e4065007000ab219cf85534b5b8909635e03f4d9e88fc88fb5fb55aff1a109f",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-053.lua",
+      "sha256": "1893e3ba2c0b58d3cf7c7cd8619968c7c8f9ddef087ed4661e5a99f7f818704d",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-054.lua",
+      "sha256": "9e9db979006c52ea94ede6c280fea97ee9b017bc26dc312828bcbe920bafeee1",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-055.lua",
+      "sha256": "8f5a5c392cbbbb6627f4a7f27be27d1557edc8c34273efc7b3cdd13929aba9e8",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-056.lua",
+      "sha256": "fb2b29e7cf167fc3ff1382bc72ec03fa43a7a7fc31528da65e18073b1247e011",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-057.lua",
+      "sha256": "8917ed650b5375ea36a15f5b479cca6f40841bc88c63e9dac555f4a5caca50cf",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-058.lua",
+      "sha256": "8a955dcfc015914135007b50b704a0edf0d95ab8f70b0293f7a68051f0040515",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-059.lua",
+      "sha256": "bbbf8069370232ada86a0d11620bf63e57fdf7fc8247373cb24c1dadf2daecee",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-060.lua",
+      "sha256": "65ed4e81490970df2c519e9d3b77dd8fe51b39e55a66d9dbe509e92538ce855a",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-061.lua",
+      "sha256": "709d7cd16b05442c7931cc4e0e50cc280ecff45cdb7897cd65fcdd8bdf3401a9",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-062.lua",
+      "sha256": "05e17bd9f204df2bbb51cc5305788460c40a023e409da8e01ba40b1c4e5874be",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-063.lua",
+      "sha256": "f1bee3a88929023cb345525bfc92975c682d862ddfff38395e6ec9005674bf41",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-064.lua",
+      "sha256": "47abb40fe29464e7069dab14eebfb0b6e9b4fe42c5a5aaef97a75fc04386ad23",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-065.lua",
+      "sha256": "2ff4c21ed3670d3193dd981d5743090ad5cac3eb74702c190ff321c4e54dfe34",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-066.lua",
+      "sha256": "ce51a33d6b20d5b63a6bacff51f8139491c5742acf3b0c7b443e371dbdf0eef5",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-067.lua",
+      "sha256": "ad5685c6ce582afb668298f069c65128809e5c2037a87cc96871f45b6d68eabd",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-068.lua",
+      "sha256": "313906cf15a67e13ae0df8aac7bb40f78a761de708515f9ea5823abfccfe551a",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-069.lua",
+      "sha256": "4b0e2f1b439ec4042f4aebea9c1a409d3a9fded442d271c40bb0fddc36edc4a3",
+      "bytes": 21284
+    },
+    {
+      "name": "assertions-070.lua",
+      "sha256": "5edc945db85822fc397d2a213028e5bd81640dd30ebbd193cb37ccef2ddc1048",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-071.lua",
+      "sha256": "5cce047b378db1bb557a68b640b1fadc8355492df84bc14e9961e91b43a4166c",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-072.lua",
+      "sha256": "f126c36e6fc6fd9059d06e83a69903a8a957425b8b3f5227a882c8e02ce145c5",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-073.lua",
+      "sha256": "56bd5e4ac741f8fe3133825fa0dd6022117a51613c389caae3bc7b1a3e50caa9",
+      "bytes": 21284
+    },
+    {
+      "name": "assertions-074.lua",
+      "sha256": "bfa9c75a878b64634cdde5c22387840ff9d21bf5e05f6bce95596693213a0e9a",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-075.lua",
+      "sha256": "f4930f8451bef79d437259b1b1e773649caadf9780ab68f46e1db5c72cdb2a72",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-076.lua",
+      "sha256": "0a119ac922ce7d3da607cae886f9f3f530fbbc6f5a3678b583bb4d6e2da17e7f",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-077.lua",
+      "sha256": "4686821f7e149eb181d1c495877b0fcc51878a577ca2d8968f04ae7f2500ec42",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-078.lua",
+      "sha256": "e68a47c84ec9e617a8bef1d26d6559d6256e15af6faf58e50b2c1a348280354c",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-079.lua",
+      "sha256": "ae34cd1d835705e59d997b66fdb7cfce9b1643d4b1639434a683d4a667f9a96a",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-080.lua",
+      "sha256": "e565ce2dfb57b211d2abb1941a747916d8fd6d9561cbf0b766c1828d876f93a9",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-081.lua",
+      "sha256": "0e6228436420cff95a3c15383e74c690fa92ea21430029a753dd21de26d2ed43",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-082.lua",
+      "sha256": "25490d6931b53fa15ba8caf0ac7430df4e78b4339dcc9acd6c4f8ef4a17b8d5d",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-083.lua",
+      "sha256": "63d61a9e5f5ddada96089afd99f115921828cf8366f41c613bb80f71c0118803",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-084.lua",
+      "sha256": "c47b0b4a415798bd0274d0daa7386c2c57efbce13126cea2eb0f342030d18871",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-085.lua",
+      "sha256": "2f590753c775578752b1d785eaccffe6cf207a4e0cd6580b6ec46ff17bd680be",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-086.lua",
+      "sha256": "c58de2df6d012cb265fcb846e9f823204a6d8321b6b676af57ac5b76e8f9517a",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-087.lua",
+      "sha256": "01933f330cf28e1007f92bc8e946c416161a8b4fecec064938b0ce6a54049613",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-088.lua",
+      "sha256": "f45f8ae15ba386f11d259254e09c91f6cf862ce7226ddabe0a89682f29cb5e9c",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-089.lua",
+      "sha256": "96a7a053212ef9afc950f3125560eacde4f494126789c7e768ca60062df51e75",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-090.lua",
+      "sha256": "0234252a8a84509f0e47e60b302f02059d60c8b4ce627679c67a55eecd45eb57",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-091.lua",
+      "sha256": "c310d50eeacc2d098b48cc95be418a51bdb3b5ea782e5beee779784c9a1077da",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-092.lua",
+      "sha256": "7806bbe2d6cdca6c1c4dd3e5fc51e7a3b73f2115f739001020a10eaf1bd5e8de",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-093.lua",
+      "sha256": "5bb5f7a563707710ddd311339ebd054620f223a309a76f77808dd0f9b2039f5f",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-094.lua",
+      "sha256": "4ea04d0f87849ff13ff0cff160d4f209f2ed192da48300c7b301386afe110853",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-095.lua",
+      "sha256": "6c5609cab96228d6fcd3bec06b79a65d7cc75ed4d5be6835812baf790aae0a89",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-096.lua",
+      "sha256": "65fb2ef549caaf260c04043d2f7f6570a099b1de8c6d6216d9dda4f56f148fcd",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-097.lua",
+      "sha256": "5e9af768312a46bf2a337d5afa32390a4cc4b52c385cf305e77a48532d1a7407",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-098.lua",
+      "sha256": "39a0660466e26661a0ff3bc87d42ed299e5b8af14bf7242bb7b29ee1b35cae3b",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-099.lua",
+      "sha256": "ba0aa23e0d8a525b1186c58a534d78f2b7873ad9831f7c1a74ddf228d3d38207",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-100.lua",
+      "sha256": "538458f4842d279c0242b0c693e235a9b290872472bb9f0a506ed527ab8f02bd",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-101.lua",
+      "sha256": "3a0f7e9d33b92d02c31903dd3433c4b074684d1ce3ad4258d7f03478696574cd",
+      "bytes": 21278
+    },
+    {
+      "name": "assertions-102.lua",
+      "sha256": "83fc1bb00fca1af8a5e878dfb5b3fd7ae4310e6407575c1849e8e11038ecb46c",
+      "bytes": 21276
+    },
+    {
+      "name": "assertions-103.lua",
+      "sha256": "0ac95e06d96bbdedb323aed5ff7113af909f05d4760b7a8e2498ea45aecaf248",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-104.lua",
+      "sha256": "a2e3910f027891235cb053bc611e29130e6fe5257d73ebf818e3efb5999c641a",
+      "bytes": 21288
+    },
+    {
+      "name": "assertions-105.lua",
+      "sha256": "42aeec76db2bdaf11fc8ee7da4fc9c586018159271205a74e58bfcf1a2470380",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-106.lua",
+      "sha256": "41994b6192b2355385b4eb1166b0e4662499a4766812ea4759002e126566edd9",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-107.lua",
+      "sha256": "a86f2fbed679667fc9238198b93273d4512948d7c77eb33fc65a9f93738b765e",
+      "bytes": 21272
+    },
+    {
+      "name": "assertions-108.lua",
+      "sha256": "ab20b826471fa1f3ab83f3ab21d5cb0184039d87514b19666f86647b221cf32a",
+      "bytes": 21274
+    },
+    {
+      "name": "assertions-109.lua",
+      "sha256": "76656744d5f4e3ae71bec59c05e780d802e73b7c5d6028e0207527c1c1a4099d",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-110.lua",
+      "sha256": "9a5fb1ceb04a07ee2fbccc5043ea8d7b8960eece151f67b81bfb6ca85b801b58",
+      "bytes": 21280
+    },
+    {
+      "name": "assertions-111.lua",
+      "sha256": "fa37cc2390aa266aaf372a1cd0df6ec13d9d7e9e64ba77ae5677594c7d494488",
+      "bytes": 10640
+    },
+    {
+      "name": "constants.txt",
+      "sha256": "d3ff34b13776d8d48917377953861bf6609c1ec1d02759408cc7cb1834570705",
+      "bytes": 1366
+    },
+    {
+      "name": "scripts.txt",
+      "sha256": "46225a9976f699b493f9b7b44c8827404c16f1325ab8b6d2dcf0cdd9565adb16",
+      "bytes": 5765
+    }
+  ],
+  "stdout": "SELFTEST PASS\nNUMERIC PASS 504\nCOMBAT CORPUS PASS 26 113",
+  "source_sha256": {
+    "runtime.c": "c7164f8d1c0a6c98b268274a1adbcc25a15a0d0119914d17a6206ba4f216c503",
+    "runtime.h": "6973b1bef567fb6ad717e978d3b7df52326819fe871723cd9ccd1e656b0e30d3",
+    "build.py": "afe0e828c173a9e213392c4b0de1cd8b59e2b1be9f39988e8f77ef6b573fb3a1",
+    "tests/runner.c": "ab2abf4cf7a3da900de260ccc84465e3faa88d7b76361c77d90fbfe797ce230b",
+    "tests/combat.c": "4e538ccc3fe43c58fa3a79451bcfb9f38ebf044e048e17577414c25dff69fcdb",
+    "../lua-character/bridge.c": "95b99141be98e34bf92a7966dd5b3e938d24eee8e2e32c4453016ed65697801d",
+    "../random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "../random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+    "../random/lua-bridge.c": "301f239854a8c2804c826ae1671bd87da9c253b8d09f6feb27b6bbbb296e38cf"
+  },
+  "scope": "Unchanged recovered combat formula executes with owned property actors and 26 exact constant files. Damage, leech, elements, DoT, block/critical flags, state/sneak/combo bonuses, minimum damage and chance thresholds compare an independent authored Python float32/integer reference. Controlled fixtures use type-8 property writes; real mode uses all 446 actual gameplay rows, both hands, melee/range/magic/DoT. No original Lua VM, original combat dispatcher, Character/buff/state machine, HP application, damage events, AI, level or game loop executes. The unchanged CF_CalcDodge live path calls an absent CF__CalcDodge and is explicitly checked to error; no formula repair is silently applied.",
+  "device": {
+    "serial": "emulator-5558",
+    "release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "pushed_hashes_verified": 144
+}

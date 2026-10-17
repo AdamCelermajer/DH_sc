@@ -1,0 +1,59 @@
+{
+  "status": "passed",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_output": "flat CharacterList aggro host checks passed: 3 suites; live one-list traversal",
+  "arm32_character_list_virtual_sequence": [
+    "Reset",
+    "AtEnd",
+    "Get",
+    "GetChar",
+    "Next"
+  ],
+  "arm32_character_list_values": [
+    "0x2007000",
+    "0x2007100"
+  ],
+  "arm32_search_call_boundary": {
+    "this": "0x2008000",
+    "center": "0x2009160",
+    "radius": "0x42f70000",
+    "forward": "0x400dfdc",
+    "cone": "0x40c90fdb",
+    "list": "0x2001000",
+    "center_xyz": [
+      3.0,
+      4.0,
+      5.0
+    ],
+    "forward_xyz": [
+      0.0,
+      1.0,
+      0.0
+    ]
+  },
+  "full_search_body_executed": false,
+  "scope": "The exact source Search(float,float,IObjectList&) body was executed through its point-query call; the actual source CharacterList virtual methods were executed over two linked entries. The downstream point-query candidate body was byte-pinned but not run in this oracle because it depends on game-global diagnostics/runtime initialization. Host tests execute the new flat-list candidate kernel and compare it with the historical one-room kernel.",
+  "compile_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin\\g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_target_search.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_character_list.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_aggro_character_list.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-query-init-list\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_aggro_target_search.hpp": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+    "port/level-world/character_aggro_target_search.cpp": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+    "port/level-world/character_aggro_character_list.hpp": "df7abcbd4caba67d16f563285d419876e9b660a378b1aec9e3df1000cb48ca40",
+    "port/level-world/character_aggro_character_list.cpp": "fe15f152e10f23175c53fb0af8eee36ddcf94f65bd643e6ba4447820916fe1d2",
+    "port/level-world/tests/character_aggro_character_list.cpp": "45f8aab199bd035b3aa0de334c59f4d8dbbc6f2b9a8ea0dcaeae0727dc4ee60e",
+    "port/level-world/tests/run_character_aggro_character_list_host.py": "5ea900d7823a8b75f71597b150bbcd8fedabe238d032da90c3155b415e445037",
+    "port/level-world/reference/character-aggro-character-list/original-functions.json": "a024c49dd13c6909e0bd1ed9b14a81191b5e54f915020377a6f54349c69331eb",
+    "port/level-world/reference/character-aggro-character-list/NOTES.md": "0a4b0db30b15c130f580bcddd5ff58c59caf7ea8ba94e56ed9d310a1260c5780"
+  }
+}

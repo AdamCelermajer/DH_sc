@@ -1,0 +1,105 @@
+{
+  "schema": "dh2-native-ghost-terminal-discard-smoke-v1",
+  "status": "PASS_WITH_MANUAL_UI_REENTRY",
+  "automated_runner_completed": false,
+  "test": "Texture selection terminal teardown and same-process Crypt re-entry",
+  "apk_sha256": "0dbb44c703d1768a36f2186b05c2f8ca9d9c787f5ddf3426e3c842edcd4d04ff",
+  "installed_base_apk_sha256": "0dbb44c703d1768a36f2186b05c2f8ca9d9c787f5ddf3426e3c842edcd4d04ff",
+  "device": {
+    "serial": "emulator-5558",
+    "api_level": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "process": {
+    "package": "com.example.dh2",
+    "pid_before": "6711",
+    "pid_after": "6711",
+    "restarted": false,
+    "force_stopped": false
+  },
+  "precondition": {
+    "world": "worlds/crypt01.dwld",
+    "ghost": "_prim_Monster_SURPRISE_01",
+    "hp_raw": 25344,
+    "max_hp_raw": 25600,
+    "retained": 1,
+    "evidence": "setup-damaged-retained.log"
+  },
+  "texture_selection": {
+    "status": "PASS",
+    "asset": "textures/atlas_dh2_game_objects_001.tga",
+    "method": "Automated touchscreen selection in the Android Spinner",
+    "evidence": "terminal-discard.log"
+  },
+  "terminal_discard": {
+    "status": "PASS",
+    "ghost_references": 2,
+    "remaining": 0,
+    "groups": 0,
+    "saved_actors": 0,
+    "catalogue": 0,
+    "exact_log": "Native terminal world discard | Ghost references 2 | remaining 0 | groups 0 | saved actors 0 | catalogue 0",
+    "evidence": "terminal-discard.log"
+  },
+  "crypt_reentry": {
+    "status": "PASS",
+    "world": "worlds/crypt01.dwld",
+    "same_process": true,
+    "method": "Manual touchscreen tap of visible Crypt Spinner row after the automation popup wait timed out",
+    "evidence": "crypt-reentry-after-manual.log"
+  },
+  "fresh_ghosts": [
+    {
+      "name": "_prim_Monster_SURPRISE_01",
+      "initial_hp_raw": 25600,
+      "max_hp_raw": 25600,
+      "retained": 0,
+      "skill_phases": "12345",
+      "initialization_count": 1
+    },
+    {
+      "name": "_prim_Monster_SURPRISE_02",
+      "initial_hp_raw": 25600,
+      "max_hp_raw": 25600,
+      "retained": 0,
+      "skill_phases": "12345",
+      "initialization_count": 1
+    }
+  ],
+  "fresh_ghost_evidence": "crypt-reentry-after-manual.log",
+  "fatal_or_gl_error_markers": "None found in the scoped terminal and re-entry logs",
+  "automation": {
+    "texture_selection_automated": true,
+    "crypt_reentry_automated": false,
+    "failed_automation_report": "terminal-discard-smoke.json",
+    "additional_emulator_cycles": 0
+  },
+  "artifacts": [
+    {
+      "path": "crypt-before-discard.png",
+      "sha256": "3df567c90116f44b1376e7fc98a520d1b77ab22e8b0ae8c5715756c0c304f4a7"
+    },
+    {
+      "path": "texture-after-discard.png",
+      "sha256": "22aee12393250d6c9866145aa97c82c8e436a729967f796c5c3e28adfed65a70"
+    },
+    {
+      "path": "crypt-after-manual-reentry.png",
+      "sha256": "8b25edb89524fedc9dbc51dca247c4bf332f390fa501a5a1e67d8b724b1abdc7"
+    },
+    {
+      "path": "terminal-discard.log",
+      "sha256": "cf7a4705107201f922749edfd6c5289a3ebb7526e802c58318cc4267cd2ea4c5"
+    },
+    {
+      "path": "crypt-reentry-after-manual.log",
+      "sha256": "09301dfd8ef3af987f0ed9dff8f48df2131eb44199105fe7ec5922ec52ac2887"
+    },
+    {
+      "path": "setup-damaged-retained.log",
+      "sha256": "06c8165e64d0698f9849fced92171bd3471c2e3b3637f4e65a4d77ac0b6d5b1d"
+    }
+  ],
+  "scope_limit": "This verifies source Ghost initialization/discard and UI same-process world re-entry only. It does not claim full source AI/runtime parity or process-death persistence."
+}

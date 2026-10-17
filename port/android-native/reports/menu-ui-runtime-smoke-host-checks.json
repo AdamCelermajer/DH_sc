@@ -1,0 +1,27 @@
+{
+  "validation": "PASS",
+  "scope": "Host parser/mapping/privacy allowlist and actual bash private preservation/partial-prefix restoration fixtures. No ADB/live menu execution by this agent.",
+  "checks": 58,
+  "private_restore_fixtures": [
+    {
+      "partial_preserve_failure": false,
+      "original_fixture_files": 3,
+      "archived_synthetic_profiles": 3,
+      "source_prefix_restored": true
+    },
+    {
+      "partial_preserve_failure": true,
+      "original_fixture_files": 3,
+      "archived_synthetic_profiles": 0,
+      "source_prefix_restored": true
+    }
+  ],
+  "tool_sha256": "36e965990ec92a5404bb0640b874ed30e03a26d0f7c7a19b1ada715788c380a9",
+  "focus_parser_cases": 6,
+  "display_id": 0,
+  "input_dispatcher_focus_parser_cases": 8,
+  "operation_error_context_cases": 5,
+  "crypt_attack_ROI_cases": 2,
+  "full_dumpsys_window": true,
+  "viewport_bounds_cache_key": "actual pid and source surface width/height; first UI hierarchy acquisition retained"
+}

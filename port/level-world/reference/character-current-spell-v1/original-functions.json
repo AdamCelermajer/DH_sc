@@ -1,0 +1,108 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character20_GetCurrentSpellInfoERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b6e30",
+      "size": 80,
+      "sha256": "3af5cc347381aeaad11bfb2478bd95e7c8cff07683b20af56ffafcbd83f4ed9f",
+      "scope": "complete callback control; dependency bodies external"
+    },
+    {
+      "original_symbol": "_ZNK9Character21SG_GetCurrentFaerieIdEi",
+      "elf_address": "0x3bb98c",
+      "size": 76,
+      "sha256": "d229aba4d734ad8f8f8432b087de47591bd30b6fb92fb7681197040450fe481b",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZN9Character17SG_GetFaerieLevelEji",
+      "elf_address": "0x3bbc18",
+      "size": 64,
+      "sha256": "0ff287e841e223bb44b130794581c6c6b6c45560d5332e360b0c6fd9128d2b7f",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharFaeryEi",
+      "elf_address": "0x3aeac0",
+      "size": 540,
+      "sha256": "fe4e97ed7031dab0c7a88aee5cfb1057f3585d3cb28ee4fcbf874484bc8bfd6f",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharFaeryListIdEv",
+      "elf_address": "0x3ae5a0",
+      "size": 60,
+      "sha256": "c37053de3efe1748d58adb715bef2f581d9ca2b157b24fcbab4ab5ce47f6daca",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK14PlayerSavegame17SG_GetFaerieLevelEji",
+      "elf_address": "0x466700",
+      "size": 196,
+      "sha256": "57e55a7d00bc69847dce284e28c4657b25dcbd59e0f7a7e495ca0ee6f7a550b4",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame12_InitFaeriesEv",
+      "elf_address": "0x4694c8",
+      "size": 132,
+      "sha256": "ddaa7fc26df4f9fc6aa0d8046dbbbc66c1a9625cac41b98768a8651b5efa58e0",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegameC1Ev",
+      "elf_address": "0x465ae0",
+      "size": 352,
+      "sha256": "1d367427c0c4d624133c178718997d21444589abbd20f1d1dbb5b94399fda92e",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZN14PlayerSavegame5_LoadEi",
+      "elf_address": "0x464f4c",
+      "size": 1252,
+      "sha256": "1bfef539dee0894ff774c62cb342cc9af7366684c5bb21de2181c8a9e4b50261",
+      "scope": "reused or named external dependency; no new body credit"
+    },
+    {
+      "original_symbol": "_ZNK15PyDataConstants11getConstantEPKcS1_",
+      "elf_address": "0x4c4bdc",
+      "size": 84,
+      "sha256": "68b44ec75248778bf67c0d53653dc4956669795e073aef0b0b688e2e557ed794",
+      "scope": "reused or named external dependency; no new body credit"
+    }
+  ],
+  "source_fields": {
+    "save_owner": "Character+0x14e8",
+    "faery_list": "Character+0x106c",
+    "current_faery_ids": "PlayerSavegame+0xac/+0xb0/+0xb4",
+    "faery_row_pointers": "PlayerSavegame+0x94/+0x98/+0x9c",
+    "faery_row_counts": "PlayerSavegame+0xa0/+0xa4/+0xa8",
+    "difficulty_global": {
+      "symbol": "_ZN14PlayerSavegame17m_difficultyLevelE",
+      "elf_address": "0x9a6060",
+      "got_slot": "0x996534",
+      "initial_word": 0,
+      "initializer": "ELF zero-initialized storage"
+    },
+    "InitFaeries_load_call": "0x4652d8"
+  },
+  "attribution": {
+    "repository": "AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "files": {
+      "port/level-world/character_current_spell_v1.hpp": {
+        "sha256": "318c97b109b0b09706acdbfa620fabfdc22021c4108b42d35f4124d4da6cfe37",
+        "bytes": 1540
+      },
+      "port/level-world/character_current_spell_v1.cpp": {
+        "sha256": "e7856d94ac1c325a2390ef160aa8c4421828e4e2f20397b37d4f9ed275f1db9b",
+        "bytes": 1933
+      }
+    },
+    "reused": "four-call CurrentSpell algorithm and callback Arguments-ignore/integer-return behavior",
+    "adaptations": "selected C VM ABI; captured service/Character; live borrowed one-save/difficulty/faery selector adapter; no new store; mandatory failures and alignment/alias guards"
+  },
+  "native_wired": false,
+  "dependency_body_credit": 0
+}

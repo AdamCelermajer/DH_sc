@@ -1,0 +1,604 @@
+{
+  "format": "dh2.actor-ai-runtime.v1",
+  "scope": "Explicit Infected Village Ambush SpawnCharacter state requests only; no AI simulation or animation playback.",
+  "complete_game": false,
+  "scripts_executed": false,
+  "trigger_conditions_evaluated": false,
+  "cache_payloads_embedded": false,
+  "state_constant_reader": "port/pydata-constants/constants.c",
+  "script_and_level_reader": "port/level-runtime/tests/audit_infected_village_gameplay.py + port/pydata-scripts/pydata_scripts.py",
+  "state_constants": {
+    "Limbus": 0,
+    "Spawn": 1,
+    "Idle": 3,
+    "Move": 4,
+    "Attack": 5,
+    "Stunned": 9,
+    "COUNT": 20
+  },
+  "native_evidence": {
+    "spawn_script_function": {
+      "symbol": "_ZN21Script_SpawnCharacter7ExecuteEbi",
+      "elf_address": "45f400"
+    },
+    "spawn_state_function": {
+      "symbol": "_ZN16CharStateMachine16SM_SetSpawnStateEbb",
+      "elf_address": "3c2734"
+    },
+    "limbus_init_function": {
+      "symbol": "_ZN8CSLimbus6OnInitEiP9CharacterP16CharStateMachine",
+      "elf_address": "3c7cc0",
+      "registered_event": 47,
+      "callback": "Character::CSM_Spawn"
+    },
+    "spawn_focus_function": {
+      "symbol": "_ZN7CSSpawn7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "3c35ec",
+      "char_anim_table_record_offset": 128
+    },
+    "limbus_on_update_and_event_noop": true,
+    "limbus_assembly_sha256": "10b861c36c94d6eb32a50999aa49c1cb6396c08066a5dfade335126501fac196",
+    "function_index_sha256": "0fc0587ac5cb550472b02bf424b8da1254ad3075163fcaede86a458352abf1f0"
+  },
+  "source_manifest": "port/level-runtime/infected-village-actor-assets.json",
+  "source_manifest_sha256": "d322afdd1f052e771b3fcf697cc5fa4bbd9d930ebc0e8084a82ebc9899136a19",
+  "source_manifest_cache_verification": {
+    "status": "verified",
+    "source_mgp_records_checked": 4,
+    "asset_paths_checked": 30,
+    "data_link_checks": {
+      "mgp_records_match_cache": true,
+      "four_records_share_template": true,
+      "six_character_model_choices_link_to_model_files": true,
+      "positive_charanim_states_link_to_animtpls": true,
+      "animtpls_link_to_animation_files": true,
+      "four_textures_link_to_closure": true,
+      "pydata_mapping_scope": "cross-reference consistency in manifest; no PyData bytes are embedded or decoded by this verifier"
+    }
+  },
+  "skeleton_compatibility_report": "port/infected-actor-compatibility/validation.json",
+  "skeleton_compatibility_report_sha256": "f87698aa63d2fd481b3cd20009a2f55291ea4c48cc218cd1c917270d7ebd52d7",
+  "initial_records": {
+    "source_character_record_count": 4,
+    "records": [
+      {
+        "source_record": 6,
+        "name": "_prim_tmp_infected05",
+        "template_name": "InfectedVillage_CommonType1",
+        "initial_state": "Limbus",
+        "initial_state_id": 0,
+        "auto_spawn": "0"
+      },
+      {
+        "source_record": 7,
+        "name": "_prim_tmp_infected06",
+        "template_name": "InfectedVillage_CommonType1",
+        "initial_state": "Limbus",
+        "initial_state_id": 0,
+        "auto_spawn": "0"
+      },
+      {
+        "source_record": 8,
+        "name": "_prim_tmp_infected07",
+        "template_name": "InfectedVillage_CommonType1",
+        "initial_state": "Limbus",
+        "initial_state_id": 0,
+        "auto_spawn": "0"
+      },
+      {
+        "source_record": 19,
+        "name": "_prim_tmp_infected16",
+        "template_name": "InfectedVillage_CommonType1",
+        "initial_state": "Limbus",
+        "initial_state_id": 0,
+        "auto_spawn": "0"
+      }
+    ]
+  },
+  "model_variants": [
+    {
+      "character_table_id": 258,
+      "character_name": "InfectedVillager",
+      "model_key": "infected",
+      "model_status": "ok",
+      "idle_walk_skeleton_check": {
+        "idle_clip_segments_compatible": 4,
+        "idle_clip_segments_tested": 4,
+        "walk_clip_segments_compatible": 1,
+        "walk_clip_segments_tested": 1
+      }
+    },
+    {
+      "character_table_id": 252,
+      "character_name": "InfectedBurned",
+      "model_key": "burned",
+      "model_status": "ok",
+      "idle_walk_skeleton_check": {
+        "idle_clip_segments_compatible": 4,
+        "idle_clip_segments_tested": 4,
+        "walk_clip_segments_compatible": 1,
+        "walk_clip_segments_tested": 1
+      }
+    },
+    {
+      "character_table_id": 251,
+      "character_name": "InfectedBlacksmith",
+      "model_key": "inf_blacksmith",
+      "model_status": "ok",
+      "idle_walk_skeleton_check": {
+        "idle_clip_segments_compatible": 4,
+        "idle_clip_segments_tested": 4,
+        "walk_clip_segments_compatible": 1,
+        "walk_clip_segments_tested": 1
+      }
+    },
+    {
+      "character_table_id": 255,
+      "character_name": "InfectedMaid",
+      "model_key": "inf_maid",
+      "model_status": "ok",
+      "idle_walk_skeleton_check": {
+        "idle_clip_segments_compatible": 4,
+        "idle_clip_segments_tested": 4,
+        "walk_clip_segments_compatible": 1,
+        "walk_clip_segments_tested": 1
+      }
+    },
+    {
+      "character_table_id": 256,
+      "character_name": "InfectedMerchant",
+      "model_key": "inf_merchant",
+      "model_status": "ok",
+      "idle_walk_skeleton_check": {
+        "idle_clip_segments_compatible": 4,
+        "idle_clip_segments_tested": 4,
+        "walk_clip_segments_compatible": 1,
+        "walk_clip_segments_tested": 1
+      }
+    },
+    {
+      "character_table_id": 257,
+      "character_name": "InfectedNun",
+      "model_key": "inf_nun",
+      "model_status": "ok",
+      "idle_walk_skeleton_check": {
+        "idle_clip_segments_compatible": 4,
+        "idle_clip_segments_tested": 4,
+        "walk_clip_segments_compatible": 1,
+        "walk_clip_segments_tested": 1
+      }
+    }
+  ],
+  "animation_candidates": [
+    {
+      "state": "Idle",
+      "anim_tpl_id": 321,
+      "manifest_mapping_count": 1,
+      "clip_compatibility": [
+        {
+          "path": "data/3d/characters/infected/animations/infected_idle.bdae",
+          "model_pairs_tested": 6,
+          "compatible_model_pairs": 6,
+          "segments_tested": 12,
+          "fully_compatible_segments": 12,
+          "unresolved_target_occurrences": 0,
+          "unresolved_target_names": []
+        },
+        {
+          "path": "data/3d/characters/infected/animations/infected_idle_02.bdae",
+          "model_pairs_tested": 6,
+          "compatible_model_pairs": 6,
+          "segments_tested": 12,
+          "fully_compatible_segments": 12,
+          "unresolved_target_occurrences": 0,
+          "unresolved_target_names": []
+        }
+      ],
+      "autonomous_transition_or_request_emitted": false
+    },
+    {
+      "state": "Walk",
+      "anim_tpl_id": 328,
+      "manifest_mapping_count": 1,
+      "clip_compatibility": [
+        {
+          "path": "data/3d/characters/infected/animations/infected_walk.bdae",
+          "model_pairs_tested": 6,
+          "compatible_model_pairs": 6,
+          "segments_tested": 6,
+          "fully_compatible_segments": 6,
+          "unresolved_target_occurrences": 0,
+          "unresolved_target_names": []
+        }
+      ],
+      "autonomous_transition_or_request_emitted": false
+    },
+    {
+      "state": "Attack",
+      "anim_tpl_id": 315,
+      "manifest_mapping_count": 1,
+      "clip_compatibility": [
+        {
+          "path": "data/3d/characters/faeries/animations/cs_madruk_end_scene06_faery01.bdae",
+          "model_pairs_tested": 6,
+          "compatible_model_pairs": 0,
+          "segments_tested": 12,
+          "fully_compatible_segments": 0,
+          "unresolved_target_occurrences": 540,
+          "unresolved_target_names": [
+            "IK_LWing03-node",
+            "IK_Lfoot03-node",
+            "IK_RWing03-node",
+            "IK_Rfoot03-node",
+            "LL_Kneepoint-node",
+            "Plane01-node",
+            "RL_Kneepoint-node",
+            "bip_LL_NUB-node",
+            "bip_LW_NUB-node",
+            "bip_RL_NUB-node",
+            "bip_RW_NUB-node",
+            "bip_faerie_GLOW-node",
+            "bip_head-node",
+            "bip_left_arm_faerie-node",
+            "bip_left_arm_faerie_mirrored_-node",
+            "bip_left_calf-node",
+            "bip_left_thigh-node",
+            "bip_left_wing_faerie-node",
+            "bip_left_wing_swoosh-node",
+            "bip_pelvis_faerie-node",
+            "bip_right_calf-node",
+            "bip_right_thigh-node",
+            "bip_right_wing_faerie-node",
+            "bip_right_wing_swoosh-node",
+            "bip_torso_faerie-node",
+            "root_character-node"
+          ]
+        },
+        {
+          "path": "data/3d/characters/prince/animations/cs_madruk_end_scene06_prince.bdae",
+          "model_pairs_tested": 6,
+          "compatible_model_pairs": 1,
+          "segments_tested": 6,
+          "fully_compatible_segments": 1,
+          "unresolved_target_occurrences": 10,
+          "unresolved_target_names": [
+            "Bip01_L_Toe0-node",
+            "Bip01_R_Toe0-node"
+          ]
+        }
+      ],
+      "autonomous_transition_or_request_emitted": false
+    },
+    {
+      "state": "Stunned-talk",
+      "anim_tpl_id": 326,
+      "manifest_mapping_count": 1,
+      "clip_compatibility": [
+        {
+          "path": "data/3d/characters/npcs/animations/cs_madruk_intro_rene_scene07_talk.bdae",
+          "model_pairs_tested": 6,
+          "compatible_model_pairs": 0,
+          "segments_tested": 6,
+          "fully_compatible_segments": 0,
+          "unresolved_target_occurrences": 28,
+          "unresolved_target_names": [
+            "Bip01_L_Toe0-node",
+            "Bip01_R_Toe0-node",
+            "anchor_shield_left-node",
+            "anchor_weapon_left-node",
+            "anchor_weapon_right-node"
+          ]
+        }
+      ],
+      "autonomous_transition_or_request_emitted": false
+    }
+  ],
+  "translation_summary": {
+    "ambush_script_requests": 5,
+    "static_character_matches": 4,
+    "unresolved_requests": 1,
+    "explicit_spawn_state_requests": 4,
+    "actor_model_variant_pairs": 24,
+    "animation_requests_emitted": 0,
+    "request_rows": [
+      {
+        "command_index": 0,
+        "byte_offset": 8,
+        "status": "translated_explicit_request",
+        "actor_name": "_prim_tmp_infected05",
+        "source_record": 6,
+        "authored_initial_state": {
+          "name": "Limbus",
+          "id": 0
+        },
+        "state_request": {
+          "name": "Spawn",
+          "id": 1,
+          "origin": "SpawnCharacter -> SM_SetSpawnState(false, false)"
+        },
+        "animation_request": null,
+        "animation_status": "withheld_unresolved",
+        "animation_reason": "No checked-in typed CharTemplate/CharAnimTable record reader proves the native CSSpawn animation slot for these data. The cache's named Spawn mapping is not emitted as a runtime animation request.",
+        "model_choices": [
+          {
+            "character_table_id": 258,
+            "character_name": "InfectedVillager",
+            "model_key": "infected"
+          },
+          {
+            "character_table_id": 252,
+            "character_name": "InfectedBurned",
+            "model_key": "burned"
+          },
+          {
+            "character_table_id": 251,
+            "character_name": "InfectedBlacksmith",
+            "model_key": "inf_blacksmith"
+          },
+          {
+            "character_table_id": 255,
+            "character_name": "InfectedMaid",
+            "model_key": "inf_maid"
+          },
+          {
+            "character_table_id": 256,
+            "character_name": "InfectedMerchant",
+            "model_key": "inf_merchant"
+          },
+          {
+            "character_table_id": 257,
+            "character_name": "InfectedNun",
+            "model_key": "inf_nun"
+          }
+        ],
+        "model_choice_selected": false,
+        "script_or_trigger_executed": false
+      },
+      {
+        "command_index": 1,
+        "byte_offset": 36,
+        "status": "translated_explicit_request",
+        "actor_name": "_prim_tmp_infected07",
+        "source_record": 8,
+        "authored_initial_state": {
+          "name": "Limbus",
+          "id": 0
+        },
+        "state_request": {
+          "name": "Spawn",
+          "id": 1,
+          "origin": "SpawnCharacter -> SM_SetSpawnState(false, false)"
+        },
+        "animation_request": null,
+        "animation_status": "withheld_unresolved",
+        "animation_reason": "No checked-in typed CharTemplate/CharAnimTable record reader proves the native CSSpawn animation slot for these data. The cache's named Spawn mapping is not emitted as a runtime animation request.",
+        "model_choices": [
+          {
+            "character_table_id": 258,
+            "character_name": "InfectedVillager",
+            "model_key": "infected"
+          },
+          {
+            "character_table_id": 252,
+            "character_name": "InfectedBurned",
+            "model_key": "burned"
+          },
+          {
+            "character_table_id": 251,
+            "character_name": "InfectedBlacksmith",
+            "model_key": "inf_blacksmith"
+          },
+          {
+            "character_table_id": 255,
+            "character_name": "InfectedMaid",
+            "model_key": "inf_maid"
+          },
+          {
+            "character_table_id": 256,
+            "character_name": "InfectedMerchant",
+            "model_key": "inf_merchant"
+          },
+          {
+            "character_table_id": 257,
+            "character_name": "InfectedNun",
+            "model_key": "inf_nun"
+          }
+        ],
+        "model_choice_selected": false,
+        "script_or_trigger_executed": false
+      },
+      {
+        "command_index": 2,
+        "byte_offset": 64,
+        "status": "unresolved_static_character",
+        "actor_name": "_prim_tmp_infected17",
+        "match_count": 0,
+        "state_request": null,
+        "animation_request": null
+      },
+      {
+        "command_index": 3,
+        "byte_offset": 92,
+        "status": "translated_explicit_request",
+        "actor_name": "_prim_tmp_infected06",
+        "source_record": 7,
+        "authored_initial_state": {
+          "name": "Limbus",
+          "id": 0
+        },
+        "state_request": {
+          "name": "Spawn",
+          "id": 1,
+          "origin": "SpawnCharacter -> SM_SetSpawnState(false, false)"
+        },
+        "animation_request": null,
+        "animation_status": "withheld_unresolved",
+        "animation_reason": "No checked-in typed CharTemplate/CharAnimTable record reader proves the native CSSpawn animation slot for these data. The cache's named Spawn mapping is not emitted as a runtime animation request.",
+        "model_choices": [
+          {
+            "character_table_id": 258,
+            "character_name": "InfectedVillager",
+            "model_key": "infected"
+          },
+          {
+            "character_table_id": 252,
+            "character_name": "InfectedBurned",
+            "model_key": "burned"
+          },
+          {
+            "character_table_id": 251,
+            "character_name": "InfectedBlacksmith",
+            "model_key": "inf_blacksmith"
+          },
+          {
+            "character_table_id": 255,
+            "character_name": "InfectedMaid",
+            "model_key": "inf_maid"
+          },
+          {
+            "character_table_id": 256,
+            "character_name": "InfectedMerchant",
+            "model_key": "inf_merchant"
+          },
+          {
+            "character_table_id": 257,
+            "character_name": "InfectedNun",
+            "model_key": "inf_nun"
+          }
+        ],
+        "model_choice_selected": false,
+        "script_or_trigger_executed": false
+      },
+      {
+        "command_index": 4,
+        "byte_offset": 120,
+        "status": "translated_explicit_request",
+        "actor_name": "_prim_tmp_infected16",
+        "source_record": 19,
+        "authored_initial_state": {
+          "name": "Limbus",
+          "id": 0
+        },
+        "state_request": {
+          "name": "Spawn",
+          "id": 1,
+          "origin": "SpawnCharacter -> SM_SetSpawnState(false, false)"
+        },
+        "animation_request": null,
+        "animation_status": "withheld_unresolved",
+        "animation_reason": "No checked-in typed CharTemplate/CharAnimTable record reader proves the native CSSpawn animation slot for these data. The cache's named Spawn mapping is not emitted as a runtime animation request.",
+        "model_choices": [
+          {
+            "character_table_id": 258,
+            "character_name": "InfectedVillager",
+            "model_key": "infected"
+          },
+          {
+            "character_table_id": 252,
+            "character_name": "InfectedBurned",
+            "model_key": "burned"
+          },
+          {
+            "character_table_id": 251,
+            "character_name": "InfectedBlacksmith",
+            "model_key": "inf_blacksmith"
+          },
+          {
+            "character_table_id": 255,
+            "character_name": "InfectedMaid",
+            "model_key": "inf_maid"
+          },
+          {
+            "character_table_id": 256,
+            "character_name": "InfectedMerchant",
+            "model_key": "inf_merchant"
+          },
+          {
+            "character_table_id": 257,
+            "character_name": "InfectedNun",
+            "model_key": "inf_nun"
+          }
+        ],
+        "model_choice_selected": false,
+        "script_or_trigger_executed": false
+      }
+    ]
+  },
+  "unresolved_template_ai_data": {
+    "typed_template_and_ai_records_decoded": false,
+    "reason": "The checked-in PyData readers cover array/struct names and integer constants, but not typed AIProps, CharTemplate, or CharAnimTable records. The original native record readers are documented in the recovered assembly/decompilation, but no checked-in host decoder exposes these record values.",
+    "checked_in_struct_field_names_only": {
+      "AIProps": [
+        "AttackDelay",
+        "CombatBeat",
+        "CombatMusic",
+        "DelayedLoad",
+        "Flags",
+        "InteractRadius",
+        "LeashDistance",
+        "MeleeRadius",
+        "OnAggroSFX",
+        "Script",
+        "SelfFX",
+        "Trophy",
+        "Type",
+        "ViewRadius",
+        "ViewRadiusNoAggro"
+      ],
+      "CharTemplate": [
+        "CharInfo"
+      ]
+    },
+    "checked_in_array_name_counts_only": {
+      "AITable": 76,
+      "CharAnimTable": 80,
+      "Charater_Templates": 121
+    },
+    "struct_name_trace_sha256": "94201dae07d7dee055afef052670d65433b8f9fae53f2db42556803e2002b464",
+    "array_name_trace_sha256": "d72e8b22b1d2fa5e58c60306535eed77c9d3079d3f5f188603fed534f7178b4d",
+    "cache_files_hashed": [
+      "data/pydata/ai_pyarray.bin",
+      "data/pydata/ai_pyarraynames.bin",
+      "data/pydata/ai_pystructnames.bin",
+      "data/pydata/character_templates_pyarray.bin",
+      "data/pydata/character_templates_pyarraynames.bin",
+      "data/pydata/character_templates_pystructnames.bin",
+      "data/pydata/ai_pycst.bin"
+    ],
+    "transition_condition_recovered": false,
+    "movement_inferred": false,
+    "attack_inferred": false,
+    "idle_inferred": false
+  },
+  "cache_source_sha256": {
+    "data/3d/modules/infectedvillage/mgp/infected01.mgp": "c3fbe80d3228592cd117012baf2f2151e4ab46c452213911ca5c4d3195e4bbc3",
+    "data/3d/modules/infectedvillage/mgp/infected02.mgp": "a128c22031b9ba64fde81c7951e215cc2999e8ffb95a3a5cf30560cc712e8c5b",
+    "data/3d/modules/infectedvillage/mvp/infected01.mvp": "02d255cc6214a3c3d28b2f7e921626344a67e2edded1579da8ad7256e72a9df8",
+    "data/3d/modules/infectedvillage/mvp/infected02.mvp": "8af1f65e45c67d07c11482988d7381fc1dfb15d36a5a9321b48efbe67e6fbf7a",
+    "data/pydata/levels_pyarray.bin": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+    "data/pydata/levels_pyarraynames.bin": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+    "data/pydata/scripts/005_infectedvillage_pyscriptnames.bin": "2652216d7e6b722fb3c6c52c5cc89eedf3bd608766bc29dac8c429edaebefb2f",
+    "data/pydata/scripts/005_infectedvillage_pyscripts.bin": "12c9e8f3f68f2b813edd24ccda1f894b3d470c83b13f66d2fe23b1cc7e0477d8",
+    "data/pydata/scripts_pyscriptnames.bin": "96c9ba8b4cf6afef1318495f2fa18ca4e6e125b187f4bad086e109d22fcbf3bd",
+    "data/pydata/scripts_pyscripts.bin": "39bd1a0c3c7b55c996688687b69504c0446175b3b3451bc1e7481ab18135551a",
+    "data/scene/005_infectedvillage.mlx": "4cd2007c7de65d38065f8a5f57faaa57dc56cc332db35cdb50d7d42d5af73ed8",
+    "data/pydata/ai_pyarray.bin": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc",
+    "data/pydata/ai_pyarraynames.bin": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a",
+    "data/pydata/ai_pystructnames.bin": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82",
+    "data/pydata/character_templates_pyarray.bin": "815ace4b5921f86e59c05f2b6c25f80de39a4195f3a09bdfc93020b6f024dce2",
+    "data/pydata/character_templates_pyarraynames.bin": "a211685c487eb834521101959077b03ff233219a7908a3538564c311cc0991e0",
+    "data/pydata/character_templates_pystructnames.bin": "cb84c15300beb2528555c01e281eaac151a523d3a36fd2aaadc7c4574a41e64b"
+  },
+  "checked_in_native_source_sha256": {
+    "recovered/native/decompiled/libDungeonHunter2.so/functions-006.pseudo.c": "79d9fda289bbf966c61d81032ea9378b7c88ab7c7dd9f8cee19eaeed03425dcc",
+    "recovered/native/decompiled/libDungeonHunter2.so/functions-003.pseudo.c": "1abbf26fb7ea813c1f160dd95d088a7bd9a1e7eb5a88602c1e38aaa6d3c0741f",
+    "recovered/native/assembly/libDungeonHunter2.so/CSLimbus-f65fc268875e-001.asm": "10b861c36c94d6eb32a50999aa49c1cb6396c08066a5dfade335126501fac196",
+    "recovered/native/assembly/libDungeonHunter2.so/CSSpawn-6f640697797f-001.asm": "a993e1448f2be9c77ff69c211fcd35e61f1df6607744b823ebe1ba0bf6335308"
+  },
+  "translation_policy": {
+    "SpawnCharacter_to_Spawn": "supported only as a conditional script state request for a unique static Character match",
+    "model_selection": "all six alternatives retained; selection policy unresolved",
+    "animation_request": "withheld",
+    "ai_decisions": "none"
+  }
+}

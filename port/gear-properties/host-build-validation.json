@@ -1,0 +1,30 @@
+{
+  "complete_game": false,
+  "artifacts": {
+    "gears-host.so": {
+      "sha256": "fb19589a5b269eccd57b3aaadbdd3f6018e76c4ba0c14a9354987a4d17b89936"
+    }
+  },
+  "source_sha256": {
+    "gears.c": "b7d142f84cc08a63388ffce62a5d47ac131e734b86302e926a89b6a4772504aa",
+    "../loot-tables/loot.c": "82646012a94f3c6edcf7a797e8b97fd281c4a96eb2acc333b862257139a98fb4",
+    "../character-classes/classes.c": "f67ecaab58c5b25813d7c3e474e3d386db96b1bc42518ef9f357d9d8f255ef9c",
+    "../property-composition/composition.c": "171c943e47e8887ac901f756681456b4249e758fffa1bef3ff80860fc4e1c7ee",
+    "../character-properties/properties.c": "d41c1333ec01405c6e674b4fd1f06217796652ff011c864553962bc67771aafa",
+    "gears.h": "77ecd3a042d9c0c8ad5fb24096f670e76a6fd75a87f1ac8029a54f16b4803d04",
+    "../loot-tables/loot.h": "bfc4b9dfb8b7254f787f4c3f59a673651d66b715a12466f889790c56f1559d58",
+    "../character-classes/classes.h": "df8d3aa5ebd5c59dc76f7e02770dcfba5f87777cd41c20bb721ed3f27d0884cc",
+    "../character-state/state.h": "77a92e2339a292e8ab80e0f6d6a5ed4c4a7914414b3faad4a0092b671c6e92e7",
+    "../property-composition/composition.h": "a540c780f3292779f83e0454620892fcf27acaab23ca4cc32ced2f6150bcde42",
+    "../character-properties/properties.h": "9192ed0b67c15a323535b9593c4b9158d29ab2a3472fd374012ac98af1fb1ff4"
+  },
+  "build_tool_sha256": "491a3aecea9f4edb86a0d81c0c67f45cadd89f0ff9d49bb031242d01e9ced971",
+  "safety": {
+    "iterations": 12000,
+    "asan": true,
+    "ubsan": true,
+    "recover": false,
+    "test_sha256": "33b52f03e23c419507988bf34d3faba10755084c08b155feffed55443f019693",
+    "seed": 20261002
+  }
+}

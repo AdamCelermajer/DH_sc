@@ -1,0 +1,220 @@
+{
+  "upstream": {
+    "repository": "https://github.com/AdamCelermajer/DH_sc",
+    "commit": "c3ae797332a82a30a586b9156cddc25445e36a4c",
+    "commit_subject": "Preserve three-session native gameplay, menu and level-loader checkpoint"
+  },
+  "imported_files": {
+    "port/game-data/item_gear_properties_v5.hpp": {
+      "sha256": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+      "size": 1074,
+      "upstream_path": "port/game-data/item_gear_properties_v5.hpp"
+    },
+    "port/game-data/item_gear_properties_v5.cpp": {
+      "sha256": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+      "size": 3289,
+      "upstream_path": "port/game-data/item_gear_properties_v5.cpp"
+    },
+    "port/game-data/item_power_tables_v5.hpp": {
+      "sha256": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+      "size": 1380,
+      "upstream_path": "port/game-data/item_power_tables_v5.hpp"
+    },
+    "port/game-data/item_power_tables_v5.cpp": {
+      "sha256": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391",
+      "size": 4203,
+      "upstream_path": "port/game-data/item_power_tables_v5.cpp"
+    },
+    "port/game-data/tests/item_gear_properties_v5.cpp": {
+      "sha256": "a423c04213f22c149a5f5ab30b6d0a698d07d98b059c12029b931d1ef5df34cb",
+      "size": 4707,
+      "upstream_path": "port/game-data/tests/item_gear_properties_v5.cpp"
+    },
+    "port/game-data/tests/item_gear_properties_v5_original.py": {
+      "sha256": "1eecb1954a1d7d2b79071c6fd0af8b60ba8b102b1fa9bf6438d74dcd9a354376",
+      "size": 6480,
+      "upstream_path": "port/game-data/tests/item_gear_properties_v5_original.py"
+    },
+    "port/game-data/tests/item_power_tables_v5_original.py": {
+      "sha256": "96d8a38a8c24df00cbee5820a150968f7cbcc0cd3ba56b6a37e4db0a9d8815cb",
+      "size": 3517,
+      "upstream_path": "port/game-data/tests/item_power_tables_v5_original.py"
+    },
+    "port/game-data/reference/adam-c3ae797-item-v5/gear-fixtures.bin": {
+      "sha256": "da4c00dddc1e930c7de136ef898e22563b9b0d2191e4172e9bc416ded813894f",
+      "size": 10469744,
+      "upstream_path": "port/game-data/reference/player-item-effects-v5/gear-fixtures.bin"
+    },
+    "port/game-data/reference/adam-c3ae797-item-v5/power-fixtures.bin": {
+      "sha256": "af0106cd1437dda390bd8c2469498429155454f03bc2a7f45935217d6496f6c2",
+      "size": 90289,
+      "upstream_path": "port/game-data/reference/player-item-effects-v5/power-fixtures.bin"
+    },
+    "port/game-data/reference/adam-c3ae797-item-v5/inherited-item-gear-properties-arm64-report.json": {
+      "sha256": "5d866040ff5f4c648af5f3483f4d6e53ad05153481ca90e84445dba79ff962a4",
+      "size": 1721,
+      "upstream_path": "port/game-data/reports/item-gear-properties-v5-arm64-differential.json"
+    }
+  },
+  "original_library_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_ranges": {
+    "item_gear_properties_v5": [
+      {
+        "original_symbol": "_ZN9Character12ValidateHPMPEv",
+        "elf_address": "0x3bd140",
+        "size": 140,
+        "sha256": "f8b614e857e216839762a9b9d060c3958babe0609f6c9a22ebae2d35b4127adb"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+        "elf_address": "0x3deca0",
+        "size": 276,
+        "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+      },
+      {
+        "original_symbol": "_ZNK14CharProperties11_GetDefaultEi",
+        "elf_address": "0x3def10",
+        "size": 36,
+        "sha256": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+        "elf_address": "0x3def34",
+        "size": 80,
+        "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties20ResetGearsPropertiesEv",
+        "elf_address": "0x3defac",
+        "size": 8,
+        "sha256": "3f77b4414e6ee3c3feccdb753b8dfb22f382a12822cb6361d700c0ba6f78ea95"
+      },
+      {
+        "original_symbol": "_ZNK14CharProperties14_IsPropertySetERKN7Structs19CharacterPropertiesEi",
+        "elf_address": "0x3df114",
+        "size": 44,
+        "sha256": "2d40e1a43f3becbe9b22b2d5a93c9043c6757e591415e227d31d80ff963c7303"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii",
+        "elf_address": "0x3df140",
+        "size": 96,
+        "sha256": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties19LoadGearsPropertiesEv",
+        "elf_address": "0x3df480",
+        "size": 200,
+        "sha256": "29e14f0559f8e10e5fbbb497f836dbfc7254b9793db2c28329f4ee6a21d035fe"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties16RecalcPropertiesEb",
+        "elf_address": "0x3e0810",
+        "size": 68,
+        "sha256": "ee6c8e0297cd277d0de16726c029da676123d199fbda3421ffa72f174c8708c9"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties21UpdateGearsPropertiesEv",
+        "elf_address": "0x3e08a8",
+        "size": 36,
+        "sha256": "a6e6393033840308385123b125dee49f4b6d157c5bdb26228a1a07d36936304a"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties14_LoadGearStatsEib",
+        "elf_address": "0x3e3154",
+        "size": 352,
+        "sha256": "0bccbb9468eec29197b630bc2c3051123fe06a14e6f81ec144e2479991b296aa"
+      },
+      {
+        "original_symbol": "_ZN14CharProperties14_LoadGearPowerEib",
+        "elf_address": "0x3e32b4",
+        "size": 2660,
+        "sha256": "654f8443e3f3e877d11f39d77cb94eb59f572c04bb6ebafa9d419d6645364c5d"
+      }
+    ],
+    "item_power_tables_v5": [
+      {
+        "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+        "elf_address": "0x459090",
+        "size": 176,
+        "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+      },
+      {
+        "original_symbol": "_ZN6Arrays14ItemPowerTable8finalizeEv",
+        "elf_address": "0x4a6b74",
+        "size": 228,
+        "sha256": "bfa1c826cac16f833e9896937dfa1f5377672a56eba7930d008345facb09a6bc"
+      },
+      {
+        "original_symbol": "_ZN6Arrays14ItemPowerTable9readNamesEP11IStreamBase",
+        "elf_address": "0x4b6630",
+        "size": 408,
+        "sha256": "84574995ea70c876b11e00476c707221b41138e11a1c64b2bdf323375f8a2f21"
+      },
+      {
+        "original_symbol": "_ZN6Arrays14ItemPowerTable4readEP11IStreamBase",
+        "elf_address": "0x4bab7c",
+        "size": 332,
+        "sha256": "90caa751da38ff84fffbaa1a02ca1a83473b558d8fb63a5d693f8d593d2bcd32"
+      },
+      {
+        "original_symbol": "_ZN6Arrays13ItemPowerList4readEP11IStreamBase",
+        "elf_address": "0x4bacc8",
+        "size": 332,
+        "sha256": "11d7a8e7819817da911bd17f85a9501b873dc18e65d7393669e94acbe5317092"
+      },
+      {
+        "original_symbol": "_ZN7Structs12ItemPowerRef8finalizeEv",
+        "elf_address": "0x4d573c",
+        "size": 100,
+        "sha256": "e75dbc93c700a83994882f6d51bdee6de6d0242c80cdc9c4e8f255a65f4ff953"
+      },
+      {
+        "original_symbol": "_ZN12StreamReader6readAsIaEEvP11IStreamBasePT_",
+        "elf_address": "0x4db9fc",
+        "size": 176,
+        "sha256": "ea0dc44358bcd1753b66faa89e097ce4e831859120f16e333ed8fa3ba6cf7557"
+      },
+      {
+        "original_symbol": "_ZN7Structs18ItemPowerEntryList4readEP11IStreamBase",
+        "elf_address": "0x4dc8fc",
+        "size": 364,
+        "sha256": "d44eb2c59671b5d639ddbc244239ee1726aee7e0c0df6f78070b7006f92078d3"
+      },
+      {
+        "original_symbol": "_ZN7Structs12ItemPowerRef4readEP11IStreamBase",
+        "elf_address": "0x4ecdc8",
+        "size": 912,
+        "sha256": "7a0ab08d6c8c5aafe45b8ce79ac515542cc4ae9f9ec2374ab890bfe513eb658a"
+      },
+      {
+        "original_symbol": "_ZN7Structs14ItemPowerEntry4readEP11IStreamBase",
+        "elf_address": "0x4ed200",
+        "size": 128,
+        "sha256": "48a3da37036461f80d84357a77e5e187ab65a6773b411aa4af932439d1595a8c"
+      }
+    ]
+  },
+  "inherited_evidence": {
+    "item_gear_arm64_report": {
+      "upstream_path": "port/game-data/reports/item-gear-properties-v5-arm64-differential.json",
+      "sha256": "5d866040ff5f4c648af5f3483f4d6e53ad05153481ca90e84445dba79ff962a4",
+      "status": "inherited source report; not rerun in DH2R"
+    },
+    "item_power_tables_report": {
+      "upstream_path": "port/game-data/reports/item-power-tables-v5-arm64-differential.json",
+      "sha256": "98269b927f49d407a6c80a2255b22e259af7958ba893c7ce019000bf2799dfdc",
+      "status": "not imported as proof: report source hashes predate c3ae797 parser code",
+      "report_source_sha256": {
+        "port/game-data/item_power_tables_v5.hpp": "cec1eab98e7d137303267bd586e8be00821c3067ffa2501e5d6730e8aba3167d",
+        "port/game-data/item_power_tables_v5.cpp": "c391a2b2b7800306ccbb7c5bebf5f7d595e71a7224dd8c004f864efe37a580d6",
+        "port/game-data/tests/item_power_tables_v5_original.py": "9beb5f682b339141ad4430fe7a13cbe59ba5d0e4161aecf2480d58228fecd449"
+      },
+      "current_source_sha256": {
+        "port/game-data/item_power_tables_v5.hpp": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+        "port/game-data/item_power_tables_v5.cpp": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391"
+      }
+    }
+  },
+  "scope": "Exact source/test bytes and original-derived host gold fixtures imported. ARM64 report counts remain upstream evidence; no DH2R run is claimed."
+}

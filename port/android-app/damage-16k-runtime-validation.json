@@ -1,0 +1,138 @@
+{
+  "complete_game": false,
+  "original_gameplay_equivalence_tested": false,
+  "device": {
+    "serial": "emulator-5558",
+    "release": "17",
+    "sdk": 37,
+    "page_size": 16384,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "1692549ee46c4ca241dd1c31ce1334a3d7a8bc20865816bbb22d146e66ed63d9",
+  "installed_apk_hash_matches": true,
+  "formula_to_health_lethal_sequence": true,
+  "explicit_dead_target_noop": true,
+  "boundary_policies_and_death_reason": true,
+  "invalid_argument_rollback": true,
+  "retained_generation_and_import_recovery": true,
+  "cases": [
+    {
+      "name": "properties",
+      "kind": "properties",
+      "bytes": 2700,
+      "sha256": "3f5dfb29872294afff63d2f37fc4173adb91e8008d630376ae87eb12438a7ae1",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "items",
+      "kind": "items",
+      "bytes": 284104,
+      "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f",
+      "status": "Items loaded. New script property objects can test equipment bonuses; gameplay is unfinished."
+    },
+    {
+      "name": "ai",
+      "kind": "constants",
+      "bytes": 1042,
+      "sha256": "c3e5338160ef790decc62163c551b24be6401332aa5867d7274de8fd89e1d94e",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "design",
+      "kind": "constants",
+      "bytes": 3999,
+      "sha256": "db014f9832c1d9e60c62272a2ee67d15568d003c191ae32bbce070cb49056931",
+      "status": "Constants loaded. Script combat calculations are ready; gameplay is unfinished."
+    },
+    {
+      "name": "prepare",
+      "kind": "script",
+      "bytes": 352,
+      "sha256": "13f9beb44c3df165392a0edd46b1d84b2b769bf00576455d2023daa55032f552",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "combat",
+      "kind": "script",
+      "bytes": 1017,
+      "sha256": "d611e553d2c2ffc7d50d328ab7aca692fe0829e48fbb2d6ab5d0e66e1358727d",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "policies",
+      "kind": "script",
+      "bytes": 1042,
+      "sha256": "fe22d32830d9d3c0b1ebe3cb340adedb9d94cf19b0ab59229da43715af5fc6bd",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "rollback",
+      "kind": "script",
+      "bytes": 846,
+      "sha256": "24fb8ffc1bb051abc21d3f3378db27acc8abd11f8e0969d7cdf0e5576269757c",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "name": "real_properties",
+      "kind": "properties",
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "name": "malformed",
+      "kind": "properties",
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Properties rejected: malformed character property file"
+    },
+    {
+      "name": "retained_recovery",
+      "kind": "script",
+      "bytes": 386,
+      "sha256": "114c73cda4f9a451d8083c9df0346444fcfe8660f588c91a4b7e11785072ae51",
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "visual_imports": [
+    {
+      "path": "data/3d/characters/prince/prince_low_poly_warrior.bdae",
+      "sha256": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+      "statuses": [
+        "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/textures/prince-warrior.tga",
+      "sha256": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+      "statuses": [
+        "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    },
+    {
+      "path": "data/3d/characters/prince/animations/prince_walk_dual.bdae",
+      "sha256": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+      "statuses": [
+        "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+        "Script loaded. Game objects are not connected yet."
+      ]
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "damage-ready.png",
+    "sha256": "0a6bec19154f941728ba8a0dd21849e2255d1f8921c1f812bf5a5ed7cabcb973"
+  },
+  "test_sha256": "7ae13a4d808e574f2f8715da0b1d2314d305299482c4fc48aa5e30982c650346",
+  "source_sha256": {
+    "scripts.cpp": "bd67122f365f31a76b708036a843d9e21eec97bd8022586a74c6b342487a3e98",
+    "src/local/dh2/sourceviewer/MainActivity.java": "c32a6014324e199a084d5f7b7d214b691227aa4c4d3f9c824981afefd5f9cfa5",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22",
+    "../lua-character/bridge.c": "f898699c9cb5225651f7c24b64f2a3beee6ae1594b74a344875656e922d33ec1",
+    "../character-damage/damage.c": "0e93d3c6caa323562b3a1c937fafc98139758703aeace207155d9efae27dbb01"
+  },
+  "scope": "Installed pure source APK feeds exact recovered melee formula damage into the original-matched non-player HitFor projection on owned diagnostic actors. Authored integration assertions verify two 5-HP hits kill a 10-HP fixture, explicit dead target noop, online/local/debug policies, network death-reason retention, numeric argument rollback and retained generations after property replacement/rejection. Source model/texture/walk preview loads in the same process. No original Character, native full result dispatch, real death owner, world, enemy loop, progression or saves is claimed."
+}

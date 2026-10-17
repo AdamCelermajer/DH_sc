@@ -1,0 +1,45 @@
+{
+  "validation": "PASS",
+  "scope": "host-only CSLimbus::OnFocus producer decision; timer storage is the existing Character Coordinator",
+  "executable": "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-limbus-respawn-root\\test.exe",
+  "host_report": {
+    "limbus_respawn_focus_cases": 14,
+    "byte530_distinct_from_1481": true,
+    "delay_getter_called_twice": true,
+    "coordinator_timer_store_reused": true,
+    "timer_repeat": 0,
+    "timer_event": 47,
+    "online_host_gate": true,
+    "normal_path_clear_aggro_last": true,
+    "adapter_failure_does_not_invent_clear_aggro": true,
+    "mismatches": 0
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_limbus_respawn.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_limbus_respawn.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_respawn_outer.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_group_respawn.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_coordinator.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_state.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_timers.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-limbus-respawn-root\\test.exe"
+  ],
+  "compiled_source_sha256": {
+    "port/level-world/tests/character_limbus_respawn.cpp": "3ed2154fb1db91958a8db4adf441667aa820cda02156f7f7f4ba217e9ae74f82",
+    "port/level-world/character_limbus_respawn.cpp": "131905ca46f61162eeaef2e212ee6e38f6fc8c4c222c1acdba3b645d7018cd81",
+    "port/level-world/character_respawn_outer.cpp": "0ba762b065907ad4dcbef038e9035c2296de5576d76fca01e6dbf768658e4839",
+    "port/level-world/character_group_respawn.cpp": "d3343a8d1f8c73686b75eb315e8fc207d5871e14b1153b42b8e43929f66a3779",
+    "port/level-world/character_coordinator.cpp": "2ab1ac65a49ddd120f6bbc09e7da4ca2b88be329e0aef2434755cdf5cad2338a",
+    "port/level-world/character_state.cpp": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+    "port/level-world/character_timers.cpp": "5bb3e0181f361c7c3b3633069a6148abcdbfaa99806d6798619a996bef203ba9"
+  },
+  "source_limbus_gate_and_manager_policy_wired_to_android": false
+}

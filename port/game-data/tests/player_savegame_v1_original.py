@@ -6,7 +6,7 @@ import hashlib,json,random,struct,sys
 from pathlib import Path
 ROOT=Path(__file__).resolve().parents[3]; SCR=ROOT/'.local-inputs/player-inventory-v1'
 sys.path.insert(0,str(ROOT/'port/game-data/tests'))
-from items_differential import Original,strings
+from items_differential_v4_original import Original,strings
 from unicorn import UC_HOOK_CODE
 W=lambda *x:struct.pack('<'+'I'*len(x),*(v&0xffffffff for v in x))
 class Save(Original):

@@ -1,0 +1,43 @@
+{
+  "status": "PASS",
+  "arm_comparisons": 277,
+  "executed_pinned_words": 311,
+  "native_failure_checks": 88,
+  "mismatches": [],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "player_add_character_v1.cpp": "c2803fc751b48457e1471cd8ddaf71372af8a0cc4859d49b500f132a3422753e",
+    "player_add_character_v1.hpp": "d96a86859e3f6a49866319d2d2ed886df93bdd45d958f6034d9cb5395e560ec4",
+    "tests/player_add_character_v1_host.cpp": "3d35c0e452eddbe8b36786d334cf8b2d5f828b993607d6e5edd2be3b0aeb6848",
+    "tests/run_player_add_character_v1.py": "aacb2f9e7b1c5b933be7bc0e456e5cd25c090439394987748ac87bc2d5ed000a",
+    "reference/player-add-character-v1/original-functions.json": "7c43996e19cecb93507f31b7a6050989de44cbfdc3e24d8115dfbe0cf0704faf"
+  },
+  "binary_sha256": {
+    "host.exe": "cda559bd57f60232f1f1aca2e3ab34e2ddf0684896470ffe2b65cfb189793ffd",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "773ab53364bf58683e029c1507d9319cb48a32c9692c6d3099cfba40130af8ee",
+    "libdh2_level_world.dll": "79b8bfc554e630a3e0c957c8cc90ca412395479edcbe641e801149679fd058ae"
+  },
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_level_world_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world/../adam-script-runtime/lua -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/level-world -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-skinning -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/engine-animation -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/scene-materials -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/adam-script-runtime -isystem C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/physics-backend/box2d-2.0.1/Include -O1 -Wall -Wextra -fno-fast-math -ffp-contract=off -o selected-world\\CMakeFiles\\dh2_level_world.dir\\C_\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_add_character_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\player-info-level\\player_add_character_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_add_character_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/CMakeFiles/dh2_level_world.dir/C_/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/player-info-level/player_add_character_v1.cpp.obj"
+    }
+  ],
+  "selected_library_sha256": "47a875c0f0ba1b34a92fcd88d4c0165ae15988744250f88ec2c409001f864b3d",
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\libdh2_level_world.dll.a",
+  "scope": "Caller and GetBuffer ARM execution; Spawn/Save/Character/platform services are declared fixtures, not native gameplay validation.",
+  "compilation": "host selected library",
+  "android_compilation": false,
+  "live_gameplay": false,
+  "native_policies": [
+    "Captured or defined stack residues for short/missing GetBuffer payloads",
+    "Source assertion mode2 and post-assert null Character dereference reported as source_fault before native UB",
+    "Oversized GetBuffer payload rejected before native stack overflow"
+  ]
+}

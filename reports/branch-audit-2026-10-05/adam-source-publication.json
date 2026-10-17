@@ -1,0 +1,3650 @@
+{
+  "validation": "PASS",
+  "scope": "Staged blobs for every captured Android compiler/app input match tested bytes or differ only by CRLF/LF. APK/compiler capture retain raw tested bytes; no claim that git-normalized blobs were separately rebuilt.",
+  "apk_sha256": "724bb2dbda2b45c32fcfe71251f828329c6da4bbb398f0768db761295a72bf4a",
+  "captured_inputs": 520,
+  "exact": 210,
+  "line_endings_only": 310,
+  "inputs": [
+    {
+      "path": "port/adam-script-runtime/lua/lapi.c",
+      "tested_sha256": "88603b1d26a282cd6c637e0b637b6ecea3373dd05a1ca1bc3e2b9cc56a251b3f",
+      "staged_sha256": "6aa0d9fdd88b13fe46568ad6722ecf44164fb84476cfdf6480cf05b5704935f8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lapi.h",
+      "tested_sha256": "d303b261fe6018f51e0ce84b9f90acef8683cbe8ac257f81225d42e4b85efee1",
+      "staged_sha256": "4aea4c1b975d43184f4f1fd1a42c79cf11d74d2801315740cec07fe9abebb56d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lauxlib.c",
+      "tested_sha256": "864f1e52a7e12688e148679356fedf8a3baff8a66800d527617535ac1d678d6d",
+      "staged_sha256": "b564650bf4aca2757b9966311d32c8d5fea8803f6f33d72a856448d3b5d6d992",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lauxlib.h",
+      "tested_sha256": "82d7bcc075308fd1dcee8a8766ab69cda6945624fc4899021e5e971717df1b59",
+      "staged_sha256": "c741f9c1587f29fd08a79acbe0c46884768a47f89bee4147669f774c5cf50fc0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lbaselib.c",
+      "tested_sha256": "9005372de751bf9be09a7c412ea25157632465b4e3ee1d5ccc5b6daae8d5f222",
+      "staged_sha256": "703b8c0de8142d486bc6d6082cf6427583189319a4aed3a02dd8c1653e0fd42b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lcode.c",
+      "tested_sha256": "2c5f2dea541c59fb52634ea46fe40d3e05aa1259e6a9e2c03730cfe0b1b15197",
+      "staged_sha256": "f8026741a3e6ea3520c751ef2e7f6c0b88e0e36b4dab93a238d2a5ef0dab18a5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lcode.h",
+      "tested_sha256": "f13b4081ad1d48f8423580a624d7d0ecc7dea6cb052aa4318a77cf40af38c206",
+      "staged_sha256": "97d5a37f3b1b19eda1ef39607b3358aa0f7e917568ccd27ed0f14bc6a70d4b17",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldebug.c",
+      "tested_sha256": "791fdeeff52e67ebb3d2a196822bbae14cb853413c981b9f903615a50c7cd669",
+      "staged_sha256": "afa5840195befaec55177273c8168748026b38df3243767fc740cc7ced0c4c8f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldebug.h",
+      "tested_sha256": "f02eded8c4860046b5b2058fca83a4b55fcaa4422a5e16ab92acd94d7e82ed2c",
+      "staged_sha256": "d036f0dbb996bdecd48d505746f72c31b82fb2fc38f111b780568338d4ed9e9c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldo.c",
+      "tested_sha256": "816fa9f50d1674ea75a2bb7452b39608136b159f4dc40cc3ec31d8fb1ad2c19f",
+      "staged_sha256": "1839bd9227430c5344b348f57e5cd680f56e854932abde31f402282d95882326",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldo.h",
+      "tested_sha256": "be1970358a771004937d263282326daab04277a4ea63c0e518e52a2a41d5bcf2",
+      "staged_sha256": "591ad9a90098d3fbf06839da3de752d2c2585cbf5801dde4cdaffe12b23a182e",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ldump.c",
+      "tested_sha256": "41dd832b0c03e2c9e5d0352eeeb6e32bdb076bf79bb4f2cea59316c89d0865cd",
+      "staged_sha256": "661d499262e9808732b2bf67d2d0cedafcaf0b4eefb54c922959af450fd2b87b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lfunc.c",
+      "tested_sha256": "344d6f5f003cb87aab783d2ef4d72d0f732cec4a2807de9ddf25db405ab99073",
+      "staged_sha256": "525681d79098958530e5c937f7cbe94a4dafa679746ffdb16258f82b7ece29ce",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lfunc.h",
+      "tested_sha256": "0f18fd116cc0a8091a7c40e5c33bb438e6211d6db349513148f1ea10e686d404",
+      "staged_sha256": "3cea0071ffda94eac378adb5f1ecb467ef2ffafff4315459e4ccdf05b5119da4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lgc.c",
+      "tested_sha256": "affe7edb37514bbb83521b660f663fa820c31cfd2c31d8c366dcc5c6f0b42f00",
+      "staged_sha256": "d80a0d7f440f5b1c2a39eaf7f9e51fced0eeb02d220a3cce2e993b7590f522fa",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lgc.h",
+      "tested_sha256": "42fe93edf3a4bf7938a6adb18882872a59b2de9c44f5e962ff2109729286b3a6",
+      "staged_sha256": "fbab2b989515377729d4c029dd58b3b6242877a88a7c4cfa703ea0deeb069a1e",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/llex.c",
+      "tested_sha256": "31dbfd76b2288bc3c5d0745b3a0b278d762519fbe5f2c75a478d5bea99d26688",
+      "staged_sha256": "aecb5f00908832222e62fb1b970825278dc460a65a080d79a3693f82438e52c8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/llex.h",
+      "tested_sha256": "c86e68a0dc2a9692462730a7d3bde6bec2e3e13a9192f420340505cba4167015",
+      "staged_sha256": "0f3715d22b025727ef11debd641600a123b81718d195cd8445ac6378814458e6",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/llimits.h",
+      "tested_sha256": "f0e369d46b79026107f4b7ac54d3ee70b15e9482d8e05f5cc16154600bae336c",
+      "staged_sha256": "1910669296681d9d2814ca46c325063724bb634c0428dae4e5ff59be54e0b758",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lmathlib.c",
+      "tested_sha256": "6a2e9673eda84cf41d43040875705ba0bac36b2032460603546be06625aecd9f",
+      "staged_sha256": "e2933a56332d567cdd69f0fe514d638a8f82da6878754ff259e77cf2157263c3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lmem.c",
+      "tested_sha256": "08a47c61d5347280fac3040cbe3c07e1fbba81dcef10417136cf7b319a0ad628",
+      "staged_sha256": "e63c50cb1c75356bd4123c9ca05f77bd0cd99e05c099cf6d1bf472086761e9c5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lmem.h",
+      "tested_sha256": "465e212c1cf0c25d750f20ac9cd6095dad1c3aa23f34724c9492ac733654a22b",
+      "staged_sha256": "abd1258418486c69bf5a93ceea3a1b9f8af2c7497a4fa6c27b442ffec2c5bbb1",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lobject.c",
+      "tested_sha256": "5160a4348317285d003aaa7b4c8db374da89459898b441b06a5aaee395c96226",
+      "staged_sha256": "d704915c79c721556cc5850d741ed3bef1611221356f0e3a2f0ee5cfd5fd3632",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lobject.h",
+      "tested_sha256": "6ea53c1bcdaabb4bdbe02287eb3b3fddbac497d7642147395f49646542186b03",
+      "staged_sha256": "274c18373fbbad71bfebd534cae4b2d2e49934abf6672f44735edc6646fb6a8b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lopcodes.c",
+      "tested_sha256": "fa1233a188697642be338114ce31a623bbfe49c5e718fe5b33a6b4bce2c8bb8c",
+      "staged_sha256": "63cd74edc75970092a8ce078c4ab970efa1ee18de960d00eb826d49fe98d8a76",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lopcodes.h",
+      "tested_sha256": "6dc1c16676e28cad35e6acf40b4c110b04630ebffa2e36c4fd6866df43028a5b",
+      "staged_sha256": "a15fe349da7c1e73b563e8c3249fe7d535eccc844cb30ec80b4e335b0699279b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lparser.c",
+      "tested_sha256": "90b79276da5a08dcecd782ce23812eff55f2b95de030bb1fd258d1688bc422ab",
+      "staged_sha256": "61c85a7c4f5387d36b91d53a60df3802d7639928b1d76675ede6fb0868ad2510",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lparser.h",
+      "tested_sha256": "398b81305656d8f0a9827943d7ab77e6ccaf06794d129a0dfff3532389688d4e",
+      "staged_sha256": "84512d6540b83ab599cd8de5a1c8c4deaf71ff353f8e4fbc2e4ca135ba4e9ef0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstate.c",
+      "tested_sha256": "a09cc02990c27639560c357babbe2c01c753ac19d8b7bea903abf01c5c3c63fb",
+      "staged_sha256": "c36d6b9354aaa30b5323b4984f3172783f69e0deb3186c2ef6f16a8281c59c29",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstate.h",
+      "tested_sha256": "620cb6779a368c9c083e91bafd5a014c3c3c02951b5d5d4b10e59725c1d2ea48",
+      "staged_sha256": "dc64ea7ec74d7c1efaeaf6a9e2257f0b7856a5c988747948af2e76cf079d20fe",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstring.c",
+      "tested_sha256": "53cc6dd8cbbef5c91fe390d293f209ae867211c36bbe596dcd5a5857827706d7",
+      "staged_sha256": "aa7e934c435d870b9d937ac2fb03dbfa15d367012d46e7e995a2ad8d440f2f6d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstring.h",
+      "tested_sha256": "845244bef3dfb35e323503cd57b3be0a038e73a9b041d733f4c1f427a5b93b81",
+      "staged_sha256": "c0e8af4eb33e3357be79f906e7e1191ba53a3a790d36ca15b50471d3a339e1f0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lstrlib.c",
+      "tested_sha256": "207703835595b62a0e9c43b0f89ade77804ae1b80854acb1d6a591f3a7e3d700",
+      "staged_sha256": "a978166ca36525de2708ac931834d575c8df057719bc2da39dbe3befe810ec1d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltable.c",
+      "tested_sha256": "d5df266f7ed1bb832c10f32958f8f2940c0205a513c9af1c88ed1a7b164dc4fc",
+      "staged_sha256": "3a853ce89bf5e834ec53f2a0dd2386eb8b84accbe5fdc18dabd7515b819f0f7c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltable.h",
+      "tested_sha256": "a93a3ab6d8d515c9086eacc8967c236daa68064d488185d885ea48900d22dcf9",
+      "staged_sha256": "219e6ac2bf43aaa93093c6bcd571c012660325e6b87ea3d6c1b40679a0acfd64",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltablib.c",
+      "tested_sha256": "1e1aa085f3ba40cfc136399002ebf284222b26e1dc7d353d01200933c719fc97",
+      "staged_sha256": "e934dc4b2fc117a501c717302a00147f7b44eea978ef87a58a3e40e9bfe45d20",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltm.c",
+      "tested_sha256": "a7551c630c2c86701af7ef57648062b3d802b69b2c5bb8081553fe36bf570303",
+      "staged_sha256": "9759ae5d1aa3b11e1c7faa6c0f65e05c7126417f7f8f3f989d82fc170b07f891",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/ltm.h",
+      "tested_sha256": "dd24d1e73f109bbea9a97940b68c0e7a968ce0e3b3b76e7210b7e701c2bdf891",
+      "staged_sha256": "54f4c2fa76b8ed8d48163e31807a19999f5d65b009ae862cb757e0773f2aa485",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lua.h",
+      "tested_sha256": "9a8ee0cb834877ad723a6bd29f92385376dea5f012d32f9e181388c33820c5a3",
+      "staged_sha256": "c2a78484b53d115d9229a62e8d16db8309f1c68415b56ad5672e00674119bebb",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/luaconf.h",
+      "tested_sha256": "cf26ba410be013a61d04322d507e6442691db20c52604ddeb19bfc47e3723761",
+      "staged_sha256": "b3ec2e1f0d42e099157cc0adc8a4ef5c62afa09f5fefad9c95de3ef3be89cf23",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lualib.h",
+      "tested_sha256": "fdc28369da6fffb836b744b8a6d4b78d386e2b7348247f5cf3246b421d9f0439",
+      "staged_sha256": "13f880e9dd997a0f7fd0b17ccd949c98f33e95bd120f084de66084e888217413",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lundump.c",
+      "tested_sha256": "b9db5bc6d0096e4662d630f097a15a56afe4309f376fc5e20526bc697d7de06d",
+      "staged_sha256": "611fdad9c97d2b81c918d08bc610c830dc6b8f1167b718cb32b5d1eb76149f21",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lundump.h",
+      "tested_sha256": "e34c2063b73b24e9a05a29a984ae1a9adf5c4463ab75850f3acee3b2ed2ebdd6",
+      "staged_sha256": "9f3a2924d1585620993a70eea6cf3def34acb8322b2d9c3629bcdacc037edc64",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lvm.c",
+      "tested_sha256": "88cd8a3e80acf774deaef846883f46298ebed29ad3a286e00cb18d285643d1e3",
+      "staged_sha256": "f9f0979df389c571193c4b5d20ae80180d9857ca5a9873c601c42055583cf19d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lvm.h",
+      "tested_sha256": "dde27a5ef887e8ec43518906f8a491c9ff1a91617c3c9035e8e0ea3eb5796a6a",
+      "staged_sha256": "db4b79dc7f4e7656078aa527350fbf14b2fde5d136ccf1cb4f3dc397def5fb67",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lzio.c",
+      "tested_sha256": "e0c2de4dc36d404a907b0a80506f6637acb00a7b17b6db10d74975f7b31e1972",
+      "staged_sha256": "892bc24d898c19cbedceba419c68f910b99321c0b462be2c2c00b9d763563173",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/lua/lzio.h",
+      "tested_sha256": "716d05b89824c09dbd7daf4ce31244131b4adceff19a46065a41fc0379b46aab",
+      "staged_sha256": "0ec77d0179bf29c1ccab97028fed761944d5c21c02808e10cd7b5883b58b2ca6",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/script_function_alias.cpp",
+      "tested_sha256": "2f40e5f8ba2ebafaf217cb5efe0d795bd193f366e42a83b70960dd57c64f3cea",
+      "staged_sha256": "d6bc06c9ac09969b914f4d8025d2efea281eaf2bd91a9bb52dccc141512e3271",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/script_function_alias.h",
+      "tested_sha256": "767ea8b24a05e04416ca4b29e0873b772295d742b9a2e5101d6e6122a05c0d0b",
+      "staged_sha256": "9d138d3aa92e96fd0d0dabddea721c7fc8470b7e64d5bf116c98865e7c84d868",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/script_game_bindings.c",
+      "tested_sha256": "3f2d89631c1908c88677a10417345031f50473fadc1a958db651443f19983292",
+      "staged_sha256": "779f245eb5b5b738381bd003f622f84e83390af254cd2268dc9f81503e3df482",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/script_game_bindings.h",
+      "tested_sha256": "a8d768040ea89440014c9707f6104bfb83b3cdb1be6e80cab165f08fdee4c3f2",
+      "staged_sha256": "3772bc95bcb5e26fe4969586705c89912ed468b301f40c1fcd35d628bd257266",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/script_runtime.c",
+      "tested_sha256": "2c7f1bb0e82370df7f4c0882c92d916ab66bf6458e9a541ab14be178e6ad8e95",
+      "staged_sha256": "4b9648f2fea5abc98d717341692a1bb3e0c6ec41689ed8d801d26e12dee43d33",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/adam-script-runtime/script_runtime.h",
+      "tested_sha256": "5d637bcf54a1e5978630667da852a7c3e93e6cca73f64236a35a9e9f8af20081",
+      "staged_sha256": "1f7babd33e55c51270de6622b74dfdcd00daf415f164762cdc3c3158ef0f39b3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/ghost_ai_owner.cpp",
+      "tested_sha256": "159a346294c0e9a71b4b22916f0192f80a51be406e06c4cfdf799544c3382c55",
+      "staged_sha256": "159a346294c0e9a71b4b22916f0192f80a51be406e06c4cfdf799544c3382c55",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/ghost_ai_owner.hpp",
+      "tested_sha256": "9524cc32cf5161a80ece7a871d1b1297e8ff83a5b49fcd6e7f1be27fa4323042",
+      "staged_sha256": "9524cc32cf5161a80ece7a871d1b1297e8ff83a5b49fcd6e7f1be27fa4323042",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/mod_assets.cpp",
+      "tested_sha256": "212caaf14faedcf71c358ba9e80c16f66dc8449c96120fb7cdf804e5ad86a11f",
+      "staged_sha256": "212caaf14faedcf71c358ba9e80c16f66dc8449c96120fb7cdf804e5ad86a11f",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/mod_assets.hpp",
+      "tested_sha256": "f30536fe3c7e7f4ecbe7bed2505c47ecade7f585ae45bda8edcbe90ff4e05a9e",
+      "staged_sha256": "f30536fe3c7e7f4ecbe7bed2505c47ecade7f585ae45bda8edcbe90ff4e05a9e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.cpp",
+      "tested_sha256": "338a6474343bec26cb4746197d6447c06379415dafcb60e81b642e740747d305",
+      "staged_sha256": "a63145c347a51b91a13b5783b36062dd4936395287de5a14601779a268826bd7",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/model_renderer.hpp",
+      "tested_sha256": "2e70a72ea027d9d2bf465d4e057528de0d69e4be4b8cd6e7824c9b11a7243b36",
+      "staged_sha256": "7801f63bdc75e188ab2cf2af7ab3225d42747b78468cb31aba1a81810d6b4a42",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_app.cpp",
+      "tested_sha256": "42a7bcba7425d4d26aa3936028e64cab3bf8ecc6f8ad5622e1919ee381b230b3",
+      "staged_sha256": "b6fc876aff4efeaaab77f07327c74cb3669793bddd596e9aa97f36c02f36f9b9",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_list.cpp",
+      "tested_sha256": "6987c6b6daff3b0f5b8aad9f054e85eab8f37ea9cb05fd100e1d9ea276380c37",
+      "staged_sha256": "6987c6b6daff3b0f5b8aad9f054e85eab8f37ea9cb05fd100e1d9ea276380c37",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_list.hpp",
+      "tested_sha256": "5b333d2e56f83e77773994ba99ea39821a639cf03a423d10cb521ba052307d83",
+      "staged_sha256": "5b333d2e56f83e77773994ba99ea39821a639cf03a423d10cb521ba052307d83",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_stop.cpp",
+      "tested_sha256": "856e26a086fd7ac143bdc65485dd9f5a72d7530170047b392d1807b3175f3d11",
+      "staged_sha256": "856e26a086fd7ac143bdc65485dd9f5a72d7530170047b392d1807b3175f3d11",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_stop.hpp",
+      "tested_sha256": "d08893896d96a3ea0a0710b2e46984ef39057e741e9321cdf9d3eea1847eabfc",
+      "staged_sha256": "d08893896d96a3ea0a0710b2e46984ef39057e741e9321cdf9d3eea1847eabfc",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_debug_files.cpp",
+      "tested_sha256": "1668fb6314e5f6f3dd0f84fba79c6646b14f6e18daf8ebf139453722098e066d",
+      "staged_sha256": "1668fb6314e5f6f3dd0f84fba79c6646b14f6e18daf8ebf139453722098e066d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_debug_files.hpp",
+      "tested_sha256": "292a1404037de551d3a5d5731ddc197b98cf12403c3473208c998a22f6c5d696",
+      "staged_sha256": "292a1404037de551d3a5d5731ddc197b98cf12403c3473208c998a22f6c5d696",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_ghost_skills.cpp",
+      "tested_sha256": "2e2819bae0c076c040b2f12372361cce7ab44b94ea538f88e21c8c79a3d2dd2d",
+      "staged_sha256": "2e2819bae0c076c040b2f12372361cce7ab44b94ea538f88e21c8c79a3d2dd2d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_ghost_skills.hpp",
+      "tested_sha256": "bb3859be852ffc283b7281f4c712e414cbd2a276c32146cf5945f69f3c087f11",
+      "staged_sha256": "bb3859be852ffc283b7281f4c712e414cbd2a276c32146cf5945f69f3c087f11",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/asset-payloads/payloads.cpp",
+      "tested_sha256": "f921d16550af1133a8c7fb264c0132381ff7f3643c56fbdc3a13512ff478742b",
+      "staged_sha256": "b0f391f8be6a4cef0ed8818a390d3fa7f0353472e31bae461d334809d9b08179",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/asset-payloads/payloads.hpp",
+      "tested_sha256": "fdceff59143442d61cec4a587bfc4dd13318a2592fac19d3bf0e15902680fa09",
+      "staged_sha256": "6cd094eef4d8acbded6d3b013bc3eed6fb7e919f3f9d709792d98f20e77770de",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/angle_interpreter.cpp",
+      "tested_sha256": "5b509d60a4d0800742b14f67a979df6a24c9dc194f5be1016ae60ee20c692787",
+      "staged_sha256": "018a29c34536fce1831e9f78aee41e1c58584875fa522a22e05fc89fd84ab45f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/angle_interpreter.hpp",
+      "tested_sha256": "0d764435b154c1e5b8b59f044cc8a36fccaa2c272ee4e128705f0fc55abf8658",
+      "staged_sha256": "27fb2ebadeafe4b758ee5f142560aaa01fefa2f27c845fad1c8adff0ce0d01df",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/animation.cpp",
+      "tested_sha256": "c1ffcca1fd140744e5587251a8fde8a6392da1d169c4879730ea78f35c2a6903",
+      "staged_sha256": "741a4df6e1c1753a9fbcf20192c2b1f09ed0d1bfc5701ab9ccd943e76713237f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/animation.hpp",
+      "tested_sha256": "1f3316e168168c898a9786d931e1dfaec78f1f110f518aa28d2ab5121711ff83",
+      "staged_sha256": "876d1b7e6fe4d1bf9363d7bcb28b0e7ef2b253794bebaa3421f29d87bbd756b3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/animation_blend.cpp",
+      "tested_sha256": "428d5b26789fbe8bc519f9a9531cfe6dac1e77c1b98a9a25c53375b31be98f11",
+      "staged_sha256": "5066e683add9d92643f350aa91819f694a7b2be82201785be40cc7812536d2ac",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/animation_blend.hpp",
+      "tested_sha256": "f2569d361bc50b2e7e3e82c80af2fc50df6ecafcd3fc57ea10bdd43d03dbf209",
+      "staged_sha256": "e88920e0485bd8e18f18598edc80a1dccc0fa83d43c34262e4fc750f3e20f5e3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/animation_registration.cpp",
+      "tested_sha256": "612c97d63223bfc571815fd561828b756ac74a43628c1467e4e28ba52e4ba108",
+      "staged_sha256": "74365756322d081aa171ca54802fbf5a94488f1e29a9b9a0260ff0bb2514f0ae",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/animation_registration.hpp",
+      "tested_sha256": "27d3e197b413b856b40281ec974f2b5a7d325307fce59d9d1d8087f49d927d73",
+      "staged_sha256": "2a7d8c0f6cb887af5e2268c88e28fc5408441d9770d7fbc779efbcd897bca8b1",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/component_applicator.cpp",
+      "tested_sha256": "9abca1a630447b10b7ea871f66af1e523511af5328fd03189e8be13dd1bb57bd",
+      "staged_sha256": "6f0a3e4ea2b8be7c73747e0749830ec8d8cc052ef463a652b2944b9fc1fde711",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/component_applicator.hpp",
+      "tested_sha256": "dd30a665ff1ad58ddceb04c8d204ac597237a17761eee9055fb985b219af945d",
+      "staged_sha256": "6b48f994981a2b5222030f648e47fdc6fbd167a6520b394952d90adb40433970",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/event_track.cpp",
+      "tested_sha256": "1cc2528d615a85123695cf9717cc3eb04add55d474ab4aa467915371dacec863",
+      "staged_sha256": "e7b70e88bbcbdc54ce28adbc78590fdc1005304cc8d017f9aab91149bf150792",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/events.cpp",
+      "tested_sha256": "e53937ac01560ddef84f1304cb0a848669604d3cf7c6ebb5cd82b72f49dc9c74",
+      "staged_sha256": "5f2b833865f68399c337fd5037e011fac70c6ec7a539acd02f0c159f874d0f35",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-animation/events.hpp",
+      "tested_sha256": "e48e965c35361461d222526f9142825ffb9bdd1be16be18cd1116890278e6029",
+      "staged_sha256": "0ed4ff91b4402ccdf0acc938e4a0ea88ef20f3be6ba942b5039e6233677a560a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-camera/frustum.cpp",
+      "tested_sha256": "a8720172cafd16d6a2521164ca1c0300b7e9cd39e66b2aaa70a2ea72f6898f04",
+      "staged_sha256": "a8720172cafd16d6a2521164ca1c0300b7e9cd39e66b2aaa70a2ea72f6898f04",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-camera/frustum.hpp",
+      "tested_sha256": "0cc8e9e50cef9309fb9d59ba88d4c23ecea30d83019f923824df70c851188ba8",
+      "staged_sha256": "0cc8e9e50cef9309fb9d59ba88d4c23ecea30d83019f923824df70c851188ba8",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-camera/frustum_bounds.cpp",
+      "tested_sha256": "8129c50be78a72c652e1d38a732038f9968eb291e72d3de184b4bdd35e68ea18",
+      "staged_sha256": "8129c50be78a72c652e1d38a732038f9968eb291e72d3de184b4bdd35e68ea18",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-camera/frustum_bounds.hpp",
+      "tested_sha256": "d08998e06b137f8f8259277bd13606765bed134964e5548695c4a1b7be94eada",
+      "staged_sha256": "d08998e06b137f8f8259277bd13606765bed134964e5548695c4a1b7be94eada",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-camera/frustum_runtime.cpp",
+      "tested_sha256": "548c171fed55b73a5edb0af630d87fc449fb4a27cc1e236722e21937ae689c04",
+      "staged_sha256": "548c171fed55b73a5edb0af630d87fc449fb4a27cc1e236722e21937ae689c04",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-camera/frustum_runtime.hpp",
+      "tested_sha256": "8a2c682adc3c7bedc28d06fd39530a4cec9cd2164f5ed250d25fbd61a1da432e",
+      "staged_sha256": "8a2c682adc3c7bedc28d06fd39530a4cec9cd2164f5ed250d25fbd61a1da432e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-camera/plane_intersection.cpp",
+      "tested_sha256": "717854b485ee4e78af49fbbfc1d5a056bfbcbad6974dbc939b1c7a5021e8da57",
+      "staged_sha256": "717854b485ee4e78af49fbbfc1d5a056bfbcbad6974dbc939b1c7a5021e8da57",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-camera/plane_intersection.hpp",
+      "tested_sha256": "62c65530c1a4eaa9724e0aed6c28202fa3b028dc43b9435bd85917b450e0cddf",
+      "staged_sha256": "62c65530c1a4eaa9724e0aed6c28202fa3b028dc43b9435bd85917b450e0cddf",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-math/math.cpp",
+      "tested_sha256": "04baafb69f3520bdee2a9097df8457903c9a3f04d3c1c66c5add870e06179ee6",
+      "staged_sha256": "9bb0ad401cd274aad9172158039b107d29b9c7b01ce4a6627b0a4630523313d4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-math/math.hpp",
+      "tested_sha256": "52a54820c7e591d03b78e3124a2d7583338587916980178077067344f9d06b01",
+      "staged_sha256": "978108687aa3f88adb46a4716e689787925acddac00d2df4e8a9473f5a0a97ff",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-resources/resources.cpp",
+      "tested_sha256": "5908520d2a2bdd318669c30e0a6863c023b05327366cc0c1cad782700c945b25",
+      "staged_sha256": "9b93e43036f62094fd9d2fa68514f6e0035fbd3ff3aacc6acfaf9a605f476083",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-resources/resources.hpp",
+      "tested_sha256": "e8d08f735c4c5ee30baebb2d3afca0d91b805b9e3cdfc50152011dbf70ceb230",
+      "staged_sha256": "2cf4a179e8d8bbe1caa62c5c543ee540cc41b45fd0f7da605dea6f8173f54d61",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-skinning/skinning.cpp",
+      "tested_sha256": "e887fa5f9ae1b8774e795d451d30869bee4331eb87170ea2245e15977c8197b1",
+      "staged_sha256": "2ee08cf3509bb4f69a7f872b2085375178213c66c86e8a22e047fbc024329102",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-skinning/skinning.hpp",
+      "tested_sha256": "fda3f6e14c0215d8cadd42003b3816e673ca43cab390d5bbe5ab27ac5eed5bb1",
+      "staged_sha256": "a391a40189905b937069fe786c5a615e87b9daf8a679b121b62418f0a2ed09a2",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-textures/pvrtc.cpp",
+      "tested_sha256": "20d5000c9d9b6062f4c2f0bcce02413eafa296d581eda501b462a691b38b5602",
+      "staged_sha256": "dd88a34faff7b5741da77be72a49c0668e75f5aa57c146a3ea7c51817228d575",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-textures/textures.cpp",
+      "tested_sha256": "81852739c6b921cb4e38c13e36e127ed0e73b0d9c77852e8799438af7b25a6fe",
+      "staged_sha256": "80264623322fd3262ceeebe1473711ebf5c9546a1f2028d0915c17d5572eb7cb",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-textures/textures.hpp",
+      "tested_sha256": "0730f0a7b517fcb4da569c94adc58ccd138439340a26e033c85d9c01ddb1f90e",
+      "staged_sha256": "806ba7487bda7dda7de8e8f7b8c22f3165cd9ee46cadb635f4f0bf8ccf34cb61",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/aggro.cpp",
+      "tested_sha256": "c9f10eb5697227dad1e7fb767b07929da4b5373327d49ce350dc1318e6b2f050",
+      "staged_sha256": "ae05055695fb38680e41b8a11c79ce8f31b3865c14d44864e6da52def34c89fe",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/aggro.hpp",
+      "tested_sha256": "3a8d50a78c05e4e2759ffa92c1a881c811573d7d2e37191a9e513e7588b4e742",
+      "staged_sha256": "a4624693ae19a5ab6f058f4137d535a9b3ad41a5129faa5c0eb1a82850a1f703",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/ai.cpp",
+      "tested_sha256": "f53b4473fa4dd02ed73d514fe5b84d02058807c4bf800ab1952fc7141a229928",
+      "staged_sha256": "e36de5efc51972186aa9a480e55da72b1353fd4c05bbca2211441685881b2e01",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/ai.hpp",
+      "tested_sha256": "00eb983ad3120ba68f86f104186d8216e70f73da54451b59a2b760b16468e8a5",
+      "staged_sha256": "e74238d1609df42c9086c0bdbad0b0e3a863d8081dba7260cc33fa67e512bf70",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/animation_bank.cpp",
+      "tested_sha256": "d01fc6391ddb543eb2eadca8ce52e6b6e814cdd52d146d358c221d5a418d044f",
+      "staged_sha256": "157397a725c0c86e1f4e91a398402b459c1801992c56bf68f8075a5155d898ff",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/animation_bank.hpp",
+      "tested_sha256": "8e858b78976ee8d4dbaee87f6379228df12a30ed4819b2d3acf03f2df8c4ac33",
+      "staged_sha256": "6273ee6614948256576bfc6a1d741f2f605539dcc48b628f177709a7165abdcb",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/animation_scheduler.cpp",
+      "tested_sha256": "a75190454cb98071e91483125861abe41f84217d280b44d6db5bc1fff432cfd4",
+      "staged_sha256": "9e59745dab060de37f56268e39be515bb918ccf24e18b8de115e1a7be32727b5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/animation_scheduler.hpp",
+      "tested_sha256": "001547189bcb3d47fd096541db08ce5bd3b6935725a543735dd253da840b7aa3",
+      "staged_sha256": "4786d3ffedb4dc3596607841179cdf8156add19c37c3fc5bdeedae4b84ca613f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/animation_selection.cpp",
+      "tested_sha256": "f9f985cc772e1adea4cdc7dfa1bf27f987d06308f55b3603b64722877de857ad",
+      "staged_sha256": "3c45ece50511df67d7885388d8f56e64f1a979e9ed2a52d1983b6fa1dbea2880",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/animation_tables.cpp",
+      "tested_sha256": "436cff5b347f1d756777775e35110bab113de3547b6a878932538afac21ef86e",
+      "staged_sha256": "edf5d8fc71d225e975a4b7459a5ef2169ea3a84a8964b39290cfa9d91abc4b67",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/animation_tables.hpp",
+      "tested_sha256": "031dbc1ec565bc468357a21a9994abfba2c00f046796f4e8c409c63b8b872ecc",
+      "staged_sha256": "ff7a7e7c9050893c4efc68b314bae1f20197013fa12cda4f10bf2646ad94c35d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/class_tables.cpp",
+      "tested_sha256": "07da2fa749e71057367e24365fd68a2813fc4c3eefd50c1ad42c4a6990263935",
+      "staged_sha256": "3960dbf2d35b895c3baa137cecf67dacd6fafb368352f74c89af4cc2f90d1595",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/class_tables.hpp",
+      "tested_sha256": "4d94bb3ea1f91742a0e3e0ccc75fb79b8519f729b18d6e10a4b10d89b79b38e9",
+      "staged_sha256": "f9f41759396e9c4c421ae4013797410c03b4d8ee3b5d78a2656b6bf26c6185e7",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat.cpp",
+      "tested_sha256": "228da172df7ee0ef290a59ccaf2fcf21890705f7165528366bf5f6615fdeb4cc",
+      "staged_sha256": "cd7adcea012ce9a7f4e8fba10a3bd16f515cea8bd66848c374bc6f5d42db1312",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat.hpp",
+      "tested_sha256": "61cb840335e6eec650dc5520873067e89bafca8aac7dec22cd6c081ca846afd7",
+      "staged_sha256": "23546c2f0446014225166f897219e8a9be17f8f51452ce45809e88beba25a958",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat_application.cpp",
+      "tested_sha256": "ef5c7a603160b99cbec98851f69f61f8a62612cacd6dccf1e20f8f0362769557",
+      "staged_sha256": "2cd3e5e75b78cd023a0510e5b8f2ff9554e1c5fe3c10bce15d7c36c7e8634b84",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat_application.hpp",
+      "tested_sha256": "7b1bf8f631a3c3221c5eb2d03901dd96d43f6a168bd4a47733ce6eff97e23127",
+      "staged_sha256": "f32e8d69188beecc3f84551fd61c2d55e61d515a1b43df540734b9d222724334",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat_events.cpp",
+      "tested_sha256": "a7ac6d24c1d221506617bcfe2b2e86275e7dddac597ae28ae1911218c5238b32",
+      "staged_sha256": "4abdcbb44dc3b00348436f80658366ada3f9ec3473f94af25cd3a85bb4f8783a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat_events.hpp",
+      "tested_sha256": "5ea137c6d04a3fd19a6ef57305e304d5d7653893ec29a6ec071f311603b0b8b1",
+      "staged_sha256": "9b8779bb369add564066f2da52ca6f444420806faa54959dd09fb1a3434bb7cf",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat_result.cpp",
+      "tested_sha256": "8c049006cb01b294304bb9820950f1d8da733bd8f7d4d7c5518d9718f18a18e3",
+      "staged_sha256": "e7a90976e2cc02d6a55dc6cd4d446b8f1f20bd62353f82d29cd85f7ef518e6b8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/combat_result.hpp",
+      "tested_sha256": "80c13844301caea0c6df3f34a0f4d722c8f794a661f681a509729ab132f7c5b2",
+      "staged_sha256": "5c47ea89402de6b1fd5405ba751763edda8ee8b741c78e8ac3dd4c355ee68120",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/data.cpp",
+      "tested_sha256": "4aed92413669a1457166e3022671a9e67fc1c483f0db1ada38e3f39570cae7c5",
+      "staged_sha256": "f7350be46f850c30a7d8f328adf48e03c91c1888c1f9df5c091077d75431642f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/data.hpp",
+      "tested_sha256": "fa34d805a525c31b2121d4d722b1dea793f8163480e6d2ad21316f37316fa0c4",
+      "staged_sha256": "ecc6a73c30c67685af8a3c9d5e70c5ddb9e74143da47abcd355592f791dd2901",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/fresh_inventory_owned_v4.cpp",
+      "tested_sha256": "9abbd1a0f5eed7bd6f6acb801bc2a7be18e3613bd17f43bf063caaa5057535e4",
+      "staged_sha256": "9abbd1a0f5eed7bd6f6acb801bc2a7be18e3613bd17f43bf063caaa5057535e4",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/fresh_inventory_owned_v4.hpp",
+      "tested_sha256": "e666cc21941ab7cbe39ae3ac0d1edbdd4f3cd0e70fdcffef6c7ffc06055d67a2",
+      "staged_sha256": "e666cc21941ab7cbe39ae3ac0d1edbdd4f3cd0e70fdcffef6c7ffc06055d67a2",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/health.cpp",
+      "tested_sha256": "98035dd3c80ecac8e0e96c3f06d7f045dd42df80ecfe935411729bf8bff98595",
+      "staged_sha256": "04a52298a1841645eb472b08b33095f80e09c8f6d9bdb211644e5389f495eeea",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/health.hpp",
+      "tested_sha256": "54dc3a4600ac752fc8c434bddcd29f3c77df9900eaf5c958ea54ad0aa39140f6",
+      "staged_sha256": "fa8d4508a841c26cfcb72526cb5b811eee0a7775d82bea1b209588149c630aa8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/item_gear_properties_v5.cpp",
+      "tested_sha256": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+      "staged_sha256": "cdcaa4df6038198b9b6b36ba828bc9ac89c67ceaade52f0059f3a7d85a56107b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/item_gear_properties_v5.hpp",
+      "tested_sha256": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+      "staged_sha256": "b8c100585f7654e47741555a0314f564f1f2b052cca6afd986eab9ca2fcb4a4e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/item_instance.cpp",
+      "tested_sha256": "d3d0160862d89b1d512ad7682ba16b65540d496c83148bb463b1ef672ef5d423",
+      "staged_sha256": "d3d0160862d89b1d512ad7682ba16b65540d496c83148bb463b1ef672ef5d423",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/item_instance.hpp",
+      "tested_sha256": "c95b0b07ca099ac525ac7bead4e327934164e959c2369a3fb3661aeabe9f9578",
+      "staged_sha256": "c95b0b07ca099ac525ac7bead4e327934164e959c2369a3fb3661aeabe9f9578",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/item_power_tables_v5.cpp",
+      "tested_sha256": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391",
+      "staged_sha256": "61bf6b39245ef0e88743946be9ec6f36538aca24845e35ff933cb230df766391",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/item_power_tables_v5.hpp",
+      "tested_sha256": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+      "staged_sha256": "bec8e56696dd291c0e50b6e6b4c4724ee8ccead446ea7e6d21a4df9420eccb80",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/items.cpp",
+      "tested_sha256": "2468a9e5fcc12a00859bf403dba09b66dbc9a39a3231de6c1ac88abb6fd5f091",
+      "staged_sha256": "094bf9c52b35f65ba2829dbeee25cae68040271074c9a92a6d4478cfa4b53cfb",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/items.hpp",
+      "tested_sha256": "12661c391735a81c29ffff587a5322dc2753c3ebe324e56be2b4a86db7e9e633",
+      "staged_sha256": "7657720fcb66d6d5c26a02f6288214278f2124e0c766c963301cbd1f3944b98f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/level_tables.cpp",
+      "tested_sha256": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+      "staged_sha256": "f3a11df89280e6d0a4d58f40a52e4be5e4ebdb8902bf1e53f076f75f2d9fc615",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/level_tables.hpp",
+      "tested_sha256": "aa20e39db0aaab7dfdd9556db275e3d41c2e3709939c9f074851907a6470f742",
+      "staged_sha256": "aa20e39db0aaab7dfdd9556db275e3d41c2e3709939c9f074851907a6470f742",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/loot_power_resources_v7.cpp",
+      "tested_sha256": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+      "staged_sha256": "afb52f3f7f8bb8b596d818d10c47130d81831660cbe7a7dc5c41a291a23be244",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/loot_power_resources_v7.hpp",
+      "tested_sha256": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+      "staged_sha256": "ba129428839360f209db56af1a51b80e3a0d749d36f339973be6b2dfddc2fb2b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/loot_tables_v2.cpp",
+      "tested_sha256": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+      "staged_sha256": "ba72e90ac1003fe2e931024b3a21a99231048e8788d449794d80fffbc609892a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/loot_tables_v2.hpp",
+      "tested_sha256": "2e7cf1a4ece3778e109b1d758be4c3e052ee7a9154a41917a53840c83c387d72",
+      "staged_sha256": "2e7cf1a4ece3778e109b1d758be4c3e052ee7a9154a41917a53840c83c387d72",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/player_gear_effects_v5.cpp",
+      "tested_sha256": "863f410ae216da1e43399be9c8983999475dd9af7a6e03ce30d062c67fa9ad42",
+      "staged_sha256": "863f410ae216da1e43399be9c8983999475dd9af7a6e03ce30d062c67fa9ad42",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/player_gear_effects_v5.hpp",
+      "tested_sha256": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7",
+      "staged_sha256": "14fda13f2d6758d456fc08e23aebe9b78211dc2e0f59e1c030b202bfbf2d9eb7",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/properties.cpp",
+      "tested_sha256": "efa0bb41855d20f638f7cabe4c250a16997c041f748bf532c11d39f6bac23fb5",
+      "staged_sha256": "f1a77dbcb075c04fecaf3ec1d61180eb0e123e8f5cab5f64090d43aea6aa7877",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/properties.hpp",
+      "tested_sha256": "6a4219c2745c4301899f8a5c282c054822f2d317bf51f8644c38a101c5adf21d",
+      "staged_sha256": "aeaaa77b0134ab614892cd726c8124548d3c249cf7c4f8a2e43964fdcd41217d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/skill_tables.cpp",
+      "tested_sha256": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+      "staged_sha256": "e9441c5e7eb0d93bfe62385645d0b88f220c13e762fa604e33a206a05c4373ac",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/skill_tables.hpp",
+      "tested_sha256": "8004113c312d881f7e2f5e83252c3531300c68a88c902bfa35f241339a1facab",
+      "staged_sha256": "8004113c312d881f7e2f5e83252c3531300c68a88c902bfa35f241339a1facab",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/vitals.cpp",
+      "tested_sha256": "34999512b1bff69e99dd39aa9f252470366c8a950c9de03dc894cf299b67e5b9",
+      "staged_sha256": "117d155de48432916b4c86c897c2284e46cd1c4ed3d23d08244406fad20c59d8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/game-data/vitals.hpp",
+      "tested_sha256": "c0a378ae928dbb6a7c579385e1dcb70c7731fe1772c7d48b37991d51d6fd0de3",
+      "staged_sha256": "526cb0138fadc5964f4a74e27c65d33d2054a0cd61f3a71cbf08981c8954ed85",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_blended_playback.cpp",
+      "tested_sha256": "f4f84d16734eb0a9bd071a8234708fa2795b8b8b102bfd93502ab521452de567",
+      "staged_sha256": "139ebade8b14e07771c1a9a34d4996fa9940dcf99b05e291db3a07f1056cfa3b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_blended_playback.hpp",
+      "tested_sha256": "f6342a4694c654b567c656bb26883faa6272ae628b0a6188fcfedb1bcd2d4eee",
+      "staged_sha256": "6bfe572044fa203f877acdd500fe48e2a3eef41886a6fd0a673694b02bef3bf2",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_playback.cpp",
+      "tested_sha256": "337ea66e2b4955c581d0e1226ca3a3080561f87ab3b6df07aae2ff0d1ae55493",
+      "staged_sha256": "64d4ccdf7efe30c644d1bb0982a98fda78582d25fd5fc0c2e9d908d10faa9c29",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_playback.hpp",
+      "tested_sha256": "eb267319a7bd38ab1335b72cddb8b677fbe3bf0388b9f0f1056e4d6d44d11ac2",
+      "staged_sha256": "a6dab849421a916bb34856a182fe98da57cf3829199423b6bff47eaaf9ac68f4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_rotation.cpp",
+      "tested_sha256": "c966a0fcfa693c327b9e95253efba52d45f2f9bc11202bed152138296602c35f",
+      "staged_sha256": "3351581401858a0cfa462de899de720fb292b06e038e074a5e0199c04fdc0c58",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_rotation.hpp",
+      "tested_sha256": "02cf9c62cf3e8c096b6fd82d2d340631a4cba0019d3b526b9fca3255604d00e0",
+      "staged_sha256": "58fd75a271be3d01c1d749ff796e49db2229c79480269fccf7f5ef748f2f7212",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_runtime.cpp",
+      "tested_sha256": "e3c2c016f930e67caf7dd1f7d8c47b91435c87e48d01ec1a43fc96ee05a83d9d",
+      "staged_sha256": "d276eac12a0cce1faaa40e9b13a16fdfad07b19e0cd28316a8a669ac21f0f9d5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/actor_runtime.hpp",
+      "tested_sha256": "58e973db47b6c274c450b05ee01c77e0acb1f8d3d9b7108c618145c4285e5d98",
+      "staged_sha256": "e1e0f84529dbf69811994a73c092afded509ec07a066d7f411fc7ed849195c38",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/ais_default_collision_persist.cpp",
+      "tested_sha256": "fccd18290a8d16f75122748d18837ba70b5d73d68a5b10386a6b9dddb3b135cf",
+      "staged_sha256": "fccd18290a8d16f75122748d18837ba70b5d73d68a5b10386a6b9dddb3b135cf",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_default_collision_persist.hpp",
+      "tested_sha256": "835c383f95c11244d4a66be840b362ae36d9a301b293cac56be8b17c62648fc7",
+      "staged_sha256": "835c383f95c11244d4a66be840b362ae36d9a301b293cac56be8b17c62648fc7",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_init_callbacks.cpp",
+      "tested_sha256": "908856af34fa69bdc4fb0133ae416e1a38eb70a0a1038238c10d4ea5439ff5e4",
+      "staged_sha256": "908856af34fa69bdc4fb0133ae416e1a38eb70a0a1038238c10d4ea5439ff5e4",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_init_callbacks.hpp",
+      "tested_sha256": "b3eec4f44c006e4a390212b4d67f79784ffc923498349d26503032c3feb95885",
+      "staged_sha256": "b3eec4f44c006e4a390212b4d67f79784ffc923498349d26503032c3feb95885",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_init_vcb.cpp",
+      "tested_sha256": "074f00fae47c19006b6ddc424a142a5148b7ec70be4150825d100988b2def86a",
+      "staged_sha256": "074f00fae47c19006b6ddc424a142a5148b7ec70be4150825d100988b2def86a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_init_vcb.hpp",
+      "tested_sha256": "22baf75dabd5dcfa42769a33df22a4e6e09445c9d0497ed4251970d479a4d316",
+      "staged_sha256": "22baf75dabd5dcfa42769a33df22a4e6e09445c9d0497ed4251970d479a4d316",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_initialization.cpp",
+      "tested_sha256": "b1fd0aefb7f66ea70d3e2af7d715bab5fdab47b58efc179749110c6643a2f6f3",
+      "staged_sha256": "b1fd0aefb7f66ea70d3e2af7d715bab5fdab47b58efc179749110c6643a2f6f3",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_initialization.hpp",
+      "tested_sha256": "6f7524f1230e69e318cca7e873d32fd3ee4538ef5de9b39b23883a2e7bb692be",
+      "staged_sha256": "6f7524f1230e69e318cca7e873d32fd3ee4538ef5de9b39b23883a2e7bb692be",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_update.cpp",
+      "tested_sha256": "23f9267964858e163373626c5aa7a68b9ace75001be1a7a359167fe2f9a273b0",
+      "staged_sha256": "23f9267964858e163373626c5aa7a68b9ace75001be1a7a359167fe2f9a273b0",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_external_update.hpp",
+      "tested_sha256": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+      "staged_sha256": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_native_bindings.cpp",
+      "tested_sha256": "7b02b2566eef6cb559d0dd372f560593c5e8085e7adb60de8252136ab5370771",
+      "staged_sha256": "7b02b2566eef6cb559d0dd372f560593c5e8085e7adb60de8252136ab5370771",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_native_bindings.hpp",
+      "tested_sha256": "09a53e2655519e0ecdcad7b99b18c081f47eecc26a4812b56b77c623cd66b81d",
+      "staged_sha256": "09a53e2655519e0ecdcad7b99b18c081f47eecc26a4812b56b77c623cd66b81d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_player_init_vcb.cpp",
+      "tested_sha256": "69de158e86ff88cd52a56072c68f2f2f69b7d9d2ee32bb7ea187c185e1be6cb0",
+      "staged_sha256": "69de158e86ff88cd52a56072c68f2f2f69b7d9d2ee32bb7ea187c185e1be6cb0",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_player_init_vcb.hpp",
+      "tested_sha256": "5676ada6948a4fca723210bf8ed2c642235c58715cca8e69354d57ecad53ae63",
+      "staged_sha256": "5676ada6948a4fca723210bf8ed2c642235c58715cca8e69354d57ecad53ae63",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_state_callbacks.cpp",
+      "tested_sha256": "b809836420fe255bbea75ad7db2529a3942ba0b6da007120747f4af3b106ffd8",
+      "staged_sha256": "b809836420fe255bbea75ad7db2529a3942ba0b6da007120747f4af3b106ffd8",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ais_state_callbacks.hpp",
+      "tested_sha256": "5cf435a846197974552e36d53eb072d265c5b06e299613e82109ef08422adaeb",
+      "staged_sha256": "5cf435a846197974552e36d53eb072d265c5b06e299613e82109ef08422adaeb",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/animation_blender.cpp",
+      "tested_sha256": "2ec38b31d7e2bb1a3f97a7ef6debe7a2ce170316cfe1948245e863cba796938f",
+      "staged_sha256": "6701d9be1d72b85537d3aa90eb461741e25312c307e8db820cc665626dfba694",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/animation_blender.hpp",
+      "tested_sha256": "b4021869fdcea3f4b43535bee8cd77e67afcf222cb9cec5ea4df89530c05df88",
+      "staged_sha256": "1cbd58f878b9a050c07f6b2a1cfc120808811cf0417f509220154b8ab9bc605c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/body_transform.cpp",
+      "tested_sha256": "f814c74e8fbd4c4048a64b3ae928e8def5a8d4436086a2dd3075d03942d1c4d2",
+      "staged_sha256": "c744fa0504bc5f0361e85fcce41a24bcf8abc8de14f2e1276b2ce45359092adf",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/body_transform.hpp",
+      "tested_sha256": "39d8c2529fbb66d5611c3f5e0b64f0619ad663519fcdc0d4200adff933fa947d",
+      "staged_sha256": "9f1249603a4cc7425c288ea2f1e87ce23ed59d2cd82763ad75757ff7b925f34f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_aggro_acquisition_prefix.cpp",
+      "tested_sha256": "057f78dbcde4e2852f0c9a3e73858dcef94fe145d2ad14b040f8d60cbec9c0b2",
+      "staged_sha256": "057f78dbcde4e2852f0c9a3e73858dcef94fe145d2ad14b040f8d60cbec9c0b2",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_acquisition_prefix.hpp",
+      "tested_sha256": "1ce70f05d83d50e9652b201ba0647bbd64eec6115e79cb3f640071eeba375d8b",
+      "staged_sha256": "1ce70f05d83d50e9652b201ba0647bbd64eec6115e79cb3f640071eeba375d8b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_candidate_events.cpp",
+      "tested_sha256": "dedf5be12e89fcd4b0d5b57652144505b8b2f277bf3fcf3844513664a91f8e5d",
+      "staged_sha256": "dedf5be12e89fcd4b0d5b57652144505b8b2f277bf3fcf3844513664a91f8e5d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_candidate_events.hpp",
+      "tested_sha256": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+      "staged_sha256": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_character_list.cpp",
+      "tested_sha256": "fe15f152e10f23175c53fb0af8eee36ddcf94f65bd643e6ba4447820916fe1d2",
+      "staged_sha256": "cc79aeaf99f6e504df965ac70968005609c94f96450c714175a7a738e4955087",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_aggro_character_list.hpp",
+      "tested_sha256": "df7abcbd4caba67d16f563285d419876e9b660a378b1aec9e3df1000cb48ca40",
+      "staged_sha256": "df7abcbd4caba67d16f563285d419876e9b660a378b1aec9e3df1000cb48ca40",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_delay.cpp",
+      "tested_sha256": "041e7e2eea050be466169ecddddd604f912a173233733c761a6010330b870a9e",
+      "staged_sha256": "041e7e2eea050be466169ecddddd604f912a173233733c761a6010330b870a9e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_delay.hpp",
+      "tested_sha256": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+      "staged_sha256": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_object_manager_list.cpp",
+      "tested_sha256": "12488169a29cb4d2565f328237cbed1dc8ed921d6fb8c63853175ed50c500124",
+      "staged_sha256": "12488169a29cb4d2565f328237cbed1dc8ed921d6fb8c63853175ed50c500124",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_object_manager_list.hpp",
+      "tested_sha256": "5b217d65b9fa1a584e2ef406c0d3b3ba5bffc56cc2a26dcd47f82c125cb50f8e",
+      "staged_sha256": "5b217d65b9fa1a584e2ef406c0d3b3ba5bffc56cc2a26dcd47f82c125cb50f8e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_target_search.cpp",
+      "tested_sha256": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+      "staged_sha256": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_aggro_target_search.hpp",
+      "tested_sha256": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+      "staged_sha256": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_association.cpp",
+      "tested_sha256": "adbea7da6fb2d4fe5f063aa97377bfb43207678ebe9cca3430f49852fb625437",
+      "staged_sha256": "adbea7da6fb2d4fe5f063aa97377bfb43207678ebe9cca3430f49852fb625437",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_association.hpp",
+      "tested_sha256": "3701763347ffede660e32e8c930bc0826d7935912e992dd587513ad0da60ac95",
+      "staged_sha256": "3701763347ffede660e32e8c930bc0826d7935912e992dd587513ad0da60ac95",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_attack.cpp",
+      "tested_sha256": "517b8fd84b871827ab05c19b2f5a0d3580b2394ce90fd79306ea872fe5207e8b",
+      "staged_sha256": "8f85ccec8afd24c0d3b47cf5ecad897a53364a7e2b467c19a831b987d0473562",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_attack.hpp",
+      "tested_sha256": "61bdf138134271768d00d12129b9303523d3340cadcce208f8af1c4bc02192db",
+      "staged_sha256": "f329c57cf11a0d8542549dfbd3cd8934257838e5bcdd3eefd256ee3de21420a0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_classification.cpp",
+      "tested_sha256": "49e3b6432a98e22e7fc028f600c90b4faa83f8a364854a44f7536178591cdcf1",
+      "staged_sha256": "49e3b6432a98e22e7fc028f600c90b4faa83f8a364854a44f7536178591cdcf1",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_classification.hpp",
+      "tested_sha256": "57703f3462983e3d026a1a832c9e3cbceb52f045e899ac2a487bc57782cd299c",
+      "staged_sha256": "57703f3462983e3d026a1a832c9e3cbceb52f045e899ac2a487bc57782cd299c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_events.cpp",
+      "tested_sha256": "0e81bd5a93bf67e3be0c558fd637c28624a2a6cf71b0353764f2e782512b2a62",
+      "staged_sha256": "fa459fb66755400887d4e042d1038013001ec2ebd3746962a7d2f29830baa5b0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_events.hpp",
+      "tested_sha256": "6efbb946bdda798c1fcf6dbbefc6cfcc06992b8b49f09db0453bf5a56683436a",
+      "staged_sha256": "e78a1542dd1316047414419bcea7d8ad9fee32a410959d2f80db4af47ef357c3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_frame.cpp",
+      "tested_sha256": "3e3cc6064dc9315f8ec66622f7980a540b8faca5cd1d79b8d5c44506c4228718",
+      "staged_sha256": "9694d48f363c07102988223ccb1c89c932b0693afa919f95d491f70099993e04",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_frame.hpp",
+      "tested_sha256": "ac6e1b08d98f10253853c30ce050b5fa977267c223633c90ffb3c6a0238201df",
+      "staged_sha256": "6f93867b30aeb651c68787493a7ea377670a86f0f11e0e4f1f406e03f3ac883f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_in_combat.cpp",
+      "tested_sha256": "b762ddde559413c8bc63b9081581b44bac2a447bf8d9e1f20633eeca148bcf58",
+      "staged_sha256": "b762ddde559413c8bc63b9081581b44bac2a447bf8d9e1f20633eeca148bcf58",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_in_combat.hpp",
+      "tested_sha256": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+      "staged_sha256": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_initialization.cpp",
+      "tested_sha256": "d08f7316b373e9d72b90b249650c693e406845c4716747f9be59778156ee7241",
+      "staged_sha256": "d08f7316b373e9d72b90b249650c693e406845c4716747f9be59778156ee7241",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_initialization.hpp",
+      "tested_sha256": "d16d4a5b2848a9a5e037fc03999cebc44b689543b114edb0d22a50865aac72bd",
+      "staged_sha256": "d16d4a5b2848a9a5e037fc03999cebc44b689543b114edb0d22a50865aac72bd",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_interaction_range.cpp",
+      "tested_sha256": "e7adcccf6438bea3b778c6e25368be503015bb71c68c365635efcfc702a46d46",
+      "staged_sha256": "e7adcccf6438bea3b778c6e25368be503015bb71c68c365635efcfc702a46d46",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_interaction_range.hpp",
+      "tested_sha256": "f2576cde0fb675ce3aa789caa5c5fb4993ae6d3fd1c29456174a45b2c3f9550a",
+      "staged_sha256": "f2576cde0fb675ce3aa789caa5c5fb4993ae6d3fd1c29456174a45b2c3f9550a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_master_update.cpp",
+      "tested_sha256": "b9df80c86dec327a94f21e2074a6cab59cf7d3d6a42cd565566d0341fc5eab63",
+      "staged_sha256": "b9df80c86dec327a94f21e2074a6cab59cf7d3d6a42cd565566d0341fc5eab63",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_master_update.hpp",
+      "tested_sha256": "b7bd52f31a8dc6f130f13512190228f76c5e584bbcec0daf1b041a4a24706d8e",
+      "staged_sha256": "b7bd52f31a8dc6f130f13512190228f76c5e584bbcec0daf1b041a4a24706d8e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_melee_range.cpp",
+      "tested_sha256": "5ece7ff32aa677db7e8b14b202e60ca37894fe4d4bfa066dae89a815d67f6fee",
+      "staged_sha256": "5ece7ff32aa677db7e8b14b202e60ca37894fe4d4bfa066dae89a815d67f6fee",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_melee_range.hpp",
+      "tested_sha256": "94f493092f95d1ff91f64a5eac66f03563a939cb4e0185a19878ff14b4eb5f67",
+      "staged_sha256": "94f493092f95d1ff91f64a5eac66f03563a939cb4e0185a19878ff14b4eb5f67",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_pause_update.cpp",
+      "tested_sha256": "9e26911f837c1a83e834cffea583279f81e9abb5a21668ed32623daca38525a6",
+      "staged_sha256": "9e26911f837c1a83e834cffea583279f81e9abb5a21668ed32623daca38525a6",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_pause_update.hpp",
+      "tested_sha256": "aca55bf8a231cec5b81375ec94d0e02299368ec76968d657c42e1681ee2a0db8",
+      "staged_sha256": "aca55bf8a231cec5b81375ec94d0e02299368ec76968d657c42e1681ee2a0db8",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_queue.cpp",
+      "tested_sha256": "91c9c43bb6ea1efdf4a895bfb836137a2b51044ffc288cd88170599de68b5141",
+      "staged_sha256": "91c9c43bb6ea1efdf4a895bfb836137a2b51044ffc288cd88170599de68b5141",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_queue.hpp",
+      "tested_sha256": "24051a580fdc81add0e29a245502f04cd8d55c50a17673a65edead4fa9a368d5",
+      "staged_sha256": "24051a580fdc81add0e29a245502f04cd8d55c50a17673a65edead4fa9a368d5",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_ranged_range.cpp",
+      "tested_sha256": "e05996fedf0d19f470214c129fedbf351c57a71134f9dc1fdc4f44ee681db7be",
+      "staged_sha256": "8bdb66362d1dbb89524b5a5d0b7fa199bdc3171ae3300eead10d37bf0b769557",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_ranged_range.hpp",
+      "tested_sha256": "4ff33987e8f0d97a2fc4ca0fd04cb675124d9c7bba540966a41236530a3333ab",
+      "staged_sha256": "97d6c94f10ddfdfc477419bc09d3d0d8ae6064307a2419a0c71be3276d5d1a5f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_relations.cpp",
+      "tested_sha256": "b88021247e65d54a407e3f1e350e683ba6e4a6dbf1827b8e62c16f94977f5f42",
+      "staged_sha256": "b88021247e65d54a407e3f1e350e683ba6e4a6dbf1827b8e62c16f94977f5f42",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_relations.hpp",
+      "tested_sha256": "d2555cde0441bdcccc2a9a2df69099b899c5121171b67a18ef7506cf4be62ebf",
+      "staged_sha256": "d2555cde0441bdcccc2a9a2df69099b899c5121171b67a18ef7506cf4be62ebf",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_set_skills_and_spells.cpp",
+      "tested_sha256": "7e69c2ac7589b8e0c964548c886206b2b7c1e33d1a096d560f31b56dadfa66b5",
+      "staged_sha256": "7e69c2ac7589b8e0c964548c886206b2b7c1e33d1a096d560f31b56dadfa66b5",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_set_skills_and_spells.hpp",
+      "tested_sha256": "5690c7ba63ec9294fa0f02e31c4e359faf4b4f38f45c19f6f7fc6285c7313e53",
+      "staged_sha256": "5690c7ba63ec9294fa0f02e31c4e359faf4b4f38f45c19f6f7fc6285c7313e53",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_set_target.cpp",
+      "tested_sha256": "27185727ef99d803d451b9168e90a32aa665202721d942b5056d048ea5e0487d",
+      "staged_sha256": "27185727ef99d803d451b9168e90a32aa665202721d942b5056d048ea5e0487d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_set_target.hpp",
+      "tested_sha256": "13e569adc9eec552333c6a265eb35bf4ff22175145691a011f0a0ecf6e56e184",
+      "staged_sha256": "13e569adc9eec552333c6a265eb35bf4ff22175145691a011f0a0ecf6e56e184",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_sight.cpp",
+      "tested_sha256": "841b1b72e26de327434fd337ce8a0d50449805b5fef03e3a0030d82defd6298f",
+      "staged_sha256": "841b1b72e26de327434fd337ce8a0d50449805b5fef03e3a0030d82defd6298f",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_sight.hpp",
+      "tested_sha256": "ae36f54ffd97cfb079905e3e03854fc354853304609135aba76591bfb07e9a81",
+      "staged_sha256": "ae36f54ffd97cfb079905e3e03854fc354853304609135aba76591bfb07e9a81",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_skill_script_constructor.cpp",
+      "tested_sha256": "ed5b38d079f1cba7f0692ec675c7755572823c4a1f35a3059dd3a55f3a1510fb",
+      "staged_sha256": "ed5b38d079f1cba7f0692ec675c7755572823c4a1f35a3059dd3a55f3a1510fb",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_skill_script_constructor.hpp",
+      "tested_sha256": "1a1f10d29b5bba0fabb05a9069982a38de384e2100efef6fe40fd2e6bb956a5c",
+      "staged_sha256": "1a1f10d29b5bba0fabb05a9069982a38de384e2100efef6fe40fd2e6bb956a5c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_state.cpp",
+      "tested_sha256": "3453b19410ab038b889ceba40b41b73b937dc2f0ca4faabd5f98fe5df03b8107",
+      "staged_sha256": "c2449141c8c7564438fb162871746a0f06d78910c214537f178156ce5a12f97b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_state.hpp",
+      "tested_sha256": "e6188f3b92742c409167127feeab2783e3abb3ecd96979e38c606963dade8955",
+      "staged_sha256": "c55db3bfcda83c2531ef60c4e6dbe2d42d4ffb3f8d4b57b0ba91a0b7a3ebea8c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_turn.cpp",
+      "tested_sha256": "e0eb5bf3bb58dd59798116d4c54e953321de4bfb0dca13bb7ccacaa7746d4cf7",
+      "staged_sha256": "e0eb5bf3bb58dd59798116d4c54e953321de4bfb0dca13bb7ccacaa7746d4cf7",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_turn.hpp",
+      "tested_sha256": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+      "staged_sha256": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_update.cpp",
+      "tested_sha256": "936d520aeeed25e7356e92efd9403161864b437b862b06e16eee3a3d63339a3d",
+      "staged_sha256": "ba39216c5ab26eb3a3f04a165c57d7644b819548fb387332c8e8076f68662e39",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_update.hpp",
+      "tested_sha256": "ff896c1a49d5000d5b55f7c70a75bee75210644cf100cbfffbc87c0af075d0fd",
+      "staged_sha256": "35efb90d8a55675e48a602d21dcce1ddbdb1aa211a6fca0acddcaa66d77e2758",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_ai_update_all_skills.cpp",
+      "tested_sha256": "2912b318b014eeda8ed28e77a8e250ca069b542129e1cd63882152339bbbc54f",
+      "staged_sha256": "2912b318b014eeda8ed28e77a8e250ca069b542129e1cd63882152339bbbc54f",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_update_all_skills.hpp",
+      "tested_sha256": "fde8cb066981c2c1eee98a6dec55b2fb031394038ac475f752b9784066ad1a2c",
+      "staged_sha256": "fde8cb066981c2c1eee98a6dec55b2fb031394038ac475f752b9784066ad1a2c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_update_target.cpp",
+      "tested_sha256": "6271d889d51a3044d45d2b4162810a0253640342904effd334e8d7c19d19dc8e",
+      "staged_sha256": "6271d889d51a3044d45d2b4162810a0253640342904effd334e8d7c19d19dc8e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_ai_update_target.hpp",
+      "tested_sha256": "53b8a94ef3d82b46a64c76ebdfc63e668e7089f724721b59373e2dbc97f8e3d2",
+      "staged_sha256": "53b8a94ef3d82b46a64c76ebdfc63e668e7089f724721b59373e2dbc97f8e3d2",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_animation_ai.cpp",
+      "tested_sha256": "2cad2aca1bdfd4140e42305ee9ba1ae2ae062fc2f0630775e5721d12d355a842",
+      "staged_sha256": "92396b47fce401114bfdbd1ab114a8459174aef24e127b492f659bafc821aeec",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_animation_ai.hpp",
+      "tested_sha256": "8652a206c3d0c5bc84d3086f6ee8e929a730ee271fb0735903ccb825874c0523",
+      "staged_sha256": "d7af17ad1a831587c93f65365120d2f337fcdb23c07abf97a4895f5697cadfe4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_animation_events.cpp",
+      "tested_sha256": "387e8245a4ed5d7ecf7e09c31e950cfd349aeedd2c99b55305605a8ba7c3d5c1",
+      "staged_sha256": "30f6c6ec8ddad18d89f1162943554d5e19228cd447601db5824aeed3cc1811a0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_animation_events.hpp",
+      "tested_sha256": "0e060ee682c7ee49b9a7517833ecb6fd32653a7244e35f9e42688f49c3dbc753",
+      "staged_sha256": "63dc4657bc693de9755e4be2575fc7592cc7e054ce83509fa85520010c4f7b34",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_attack_geometry.cpp",
+      "tested_sha256": "c00bcda08b2f0aa6e4609cd97a3c2d7365e7f7a4fb63e4a0611f96476547177f",
+      "staged_sha256": "ea1f629b88bdd223253e51a6a344f01c87b257b18791169eae1cb92e9f413dd0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_attack_geometry.hpp",
+      "tested_sha256": "af9d0501d5409ffd7bf6526e99bcf925c34ed895e895feeb3724031729ec3e2c",
+      "staged_sha256": "7dc77693466a6e547ff3948648ad58c0c79c3e210e3585528f708b617113acf2",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_body_config.cpp",
+      "tested_sha256": "a882504c827554b6fb7bf4d00cf8ec66a72cb7779ffbf9f9ad1fb529494b6eaf",
+      "staged_sha256": "acef13c8923143a1ad22aa8d57bbdc7c949d24183b6104bc15095db10442f58c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_body_config.hpp",
+      "tested_sha256": "cec9d32b55b6fb74f09853a993f32191fbf41313d181bf0715b1e792c7944869",
+      "staged_sha256": "c2c921fdd67013db9ff9d000bf10852fb5bb3ba358c3822d993d3cd0ff64a28d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_combat_queries.cpp",
+      "tested_sha256": "a11da8bf0515312db35489b8692962f8d76bca576b1e4fb3bd7f75002d7811b0",
+      "staged_sha256": "0bee17391e579111e6e7e3fec4184bd44d868616884c332038576b8f4a4a7225",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_combat_queries.hpp",
+      "tested_sha256": "dc840c1073ef4f1f4eebc3618bff70547c72666b32b12ce3224d9709ec668a02",
+      "staged_sha256": "89cb7b2b2cc69f00f6408f0b468f0c46e065c1cb7e4fa30280d9d49902d16edf",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_controller_commands.cpp",
+      "tested_sha256": "93dda5dc4300a41e3e1250f8d86974368ff386d76e0aa98da180e0231258a806",
+      "staged_sha256": "68cb770d894bb2504947678701a03173a6a6cb693ac47df080b18723c96bb342",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_controller_commands.hpp",
+      "tested_sha256": "ee16f28dee18d04156601f32edcc7235f3356d9ae891e10f8ba77710864c787b",
+      "staged_sha256": "ad23b308d6219c6a98c4588fc6915026edcb862a8afdd71a61674f2dbefd39c5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_coordinator.cpp",
+      "tested_sha256": "2ab1ac65a49ddd120f6bbc09e7da4ca2b88be329e0aef2434755cdf5cad2338a",
+      "staged_sha256": "2ab1ac65a49ddd120f6bbc09e7da4ca2b88be329e0aef2434755cdf5cad2338a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_coordinator.hpp",
+      "tested_sha256": "de7ab3a0328a69a290bd706167d71347403ad3b86f83dc7ac4cc1fbb062b8452",
+      "staged_sha256": "de7ab3a0328a69a290bd706167d71347403ad3b86f83dc7ac4cc1fbb062b8452",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_culling_runtime.cpp",
+      "tested_sha256": "a3ca38f918cf6542d9d1c3ebd70ad5134a401c636154f9f4388fbea925754bdb",
+      "staged_sha256": "a3ca38f918cf6542d9d1c3ebd70ad5134a401c636154f9f4388fbea925754bdb",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_culling_runtime.hpp",
+      "tested_sha256": "098857e211dda9172c4e76ed23f03119482cfccf281701d1402d7b02c1335bfd",
+      "staged_sha256": "098857e211dda9172c4e76ed23f03119482cfccf281701d1402d7b02c1335bfd",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_enemy_retention.cpp",
+      "tested_sha256": "5884f734bfe51b4137b129c99e85c7f0c2cd7d70df52a3c8acdda1df0d779037",
+      "staged_sha256": "5884f734bfe51b4137b129c99e85c7f0c2cd7d70df52a3c8acdda1df0d779037",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_enemy_retention.hpp",
+      "tested_sha256": "a8aedc3e9031ab1053931f7f9abd64378280fc9a01a1ba4837a08caa667cab95",
+      "staged_sha256": "a8aedc3e9031ab1053931f7f9abd64378280fc9a01a1ba4837a08caa667cab95",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_enemy_spotted.cpp",
+      "tested_sha256": "e9e5cb5d17f3621f69f3ffab31106f61cbedb3b3736044d9ce4c1ca9ee877c6b",
+      "staged_sha256": "e9e5cb5d17f3621f69f3ffab31106f61cbedb3b3736044d9ce4c1ca9ee877c6b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_enemy_spotted.hpp",
+      "tested_sha256": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+      "staged_sha256": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_factory.cpp",
+      "tested_sha256": "28f86f3a3b87fdee1ecb476110a145a6935847229ac6e48ddaceccafa5a65168",
+      "staged_sha256": "28f86f3a3b87fdee1ecb476110a145a6935847229ac6e48ddaceccafa5a65168",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_factory.hpp",
+      "tested_sha256": "f8aefdcc79cb403f988668c276b49af88fb990bd82d24c0b6cc05be1c0fb539e",
+      "staged_sha256": "f8aefdcc79cb403f988668c276b49af88fb990bd82d24c0b6cc05be1c0fb539e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_faery_selection.cpp",
+      "tested_sha256": "3eefe1e3dc4312363cf4dec1fca4fd31af5f8b5cb8c97c4cabf733f220bb7764",
+      "staged_sha256": "3eefe1e3dc4312363cf4dec1fca4fd31af5f8b5cb8c97c4cabf733f220bb7764",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_faery_selection.hpp",
+      "tested_sha256": "351ca88b792c1eacdc5f0358b4b1245c96d1c4937ce4c97efc1949368d23a27d",
+      "staged_sha256": "351ca88b792c1eacdc5f0358b4b1245c96d1c4937ce4c97efc1949368d23a27d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_init_hp_mp.cpp",
+      "tested_sha256": "48bc25a9e04a0182797499544057d70f1283ec951dfcf0f14fecc47c054cdb9e",
+      "staged_sha256": "48bc25a9e04a0182797499544057d70f1283ec951dfcf0f14fecc47c054cdb9e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_init_hp_mp.hpp",
+      "tested_sha256": "c4ee2159b091c672d978a2c4b2c9cec21895a6ac6f4ee16fd70143376f1cd2d1",
+      "staged_sha256": "c4ee2159b091c672d978a2c4b2c9cec21895a6ac6f4ee16fd70143376f1cd2d1",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_interactive.cpp",
+      "tested_sha256": "890d3300046c370c4b37d8607e50d7e93abc228bf0ebee6651b0d20c38cf9d3a",
+      "staged_sha256": "890d3300046c370c4b37d8607e50d7e93abc228bf0ebee6651b0d20c38cf9d3a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_interactive.hpp",
+      "tested_sha256": "bb64936cd21596c59fe68a70c4fa9c7989b8cc537928d9faf4aecd72ebc9c7d6",
+      "staged_sha256": "bb64936cd21596c59fe68a70c4fa9c7989b8cc537928d9faf4aecd72ebc9c7d6",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_level_runtime.cpp",
+      "tested_sha256": "0e864b30b74d8c229168c1bca2b19902929df5cd0cfbc2d4e814f231bbcbf432",
+      "staged_sha256": "0e864b30b74d8c229168c1bca2b19902929df5cd0cfbc2d4e814f231bbcbf432",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_level_runtime.hpp",
+      "tested_sha256": "88f58ddb8038c65aa817e24631a7a429ce93e5434f4310879f4f5428cfee1f7b",
+      "staged_sha256": "88f58ddb8038c65aa817e24631a7a429ce93e5434f4310879f4f5428cfee1f7b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_monster_retarget.cpp",
+      "tested_sha256": "a20a9aaeb2f34034bda22a33ee64c4735c237cc407e5f3a4ddf58213a61fa9b0",
+      "staged_sha256": "a20a9aaeb2f34034bda22a33ee64c4735c237cc407e5f3a4ddf58213a61fa9b0",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_monster_retarget.hpp",
+      "tested_sha256": "cde628b6f6445b5490f4f0b8c7af7bc36bc3e0807b77630469b5aacfd49ba6ac",
+      "staged_sha256": "cde628b6f6445b5490f4f0b8c7af7bc36bc3e0807b77630469b5aacfd49ba6ac",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_native_bindings.cpp",
+      "tested_sha256": "bf5002296a5ec3ff4f0d1d22a706ae4b5bb92c0385a9c32362f6a1c1a1701cff",
+      "staged_sha256": "b1ed191a7a8df2dcf371b14f1ea8353408b132caa355893fb828497c58804109",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_native_bindings.hpp",
+      "tested_sha256": "3754dc6bbe1ea2bc2f8f50ffd2b1c482d69eb5ec766c1129a9324345f42e263a",
+      "staged_sha256": "842fd3c07a74f14119ef66391fe9c8d0dc48e929ec20b42b2913eb41a6087e7d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_path_commands.cpp",
+      "tested_sha256": "a8562e98fd449081d2a0fdd27444e302c8e4f7d6807acbf214f13c9bc86d5baf",
+      "staged_sha256": "0c9f22f1f8ba398e5549c2ab6329d47d32ac09c35da99c38df25d9895f1b243c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_path_commands.hpp",
+      "tested_sha256": "56189c414ae0afcd5962248e14950dd1ea5713ec796e524a63c7fdf233f62c00",
+      "staged_sha256": "780c25895e0f633769c78b4d6311d8f3a08d44c964fcb2ff84f00589c8cb98f7",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_physics_position.cpp",
+      "tested_sha256": "200f5cfbe4d9801122c1adcebce1678a916377ec2c61a4f48be9e90288ad939a",
+      "staged_sha256": "200f5cfbe4d9801122c1adcebce1678a916377ec2c61a4f48be9e90288ad939a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_physics_position.hpp",
+      "tested_sha256": "51f100f7a69f513a512b16769275637b883104d56a407feca64abb78bd4f8297",
+      "staged_sha256": "51f100f7a69f513a512b16769275637b883104d56a407feca64abb78bd4f8297",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_range_capability.cpp",
+      "tested_sha256": "e0adf14559191000747e05909760fe53303cf5ce03b96e70b8c0cb05fad38e87",
+      "staged_sha256": "e0adf14559191000747e05909760fe53303cf5ce03b96e70b8c0cb05fad38e87",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_range_capability.hpp",
+      "tested_sha256": "9ed2dbeeb69409ae56501cc7942c5831e962421b53e8cbb5c2fc552b9e5b5a8f",
+      "staged_sha256": "9ed2dbeeb69409ae56501cc7942c5831e962421b53e8cbb5c2fc552b9e5b5a8f",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_regeneration.cpp",
+      "tested_sha256": "df02c3f3aee7e175ac3e0dc8d6a2e54a623b2b18b46e3b2e3daebe57fddfb295",
+      "staged_sha256": "df02c3f3aee7e175ac3e0dc8d6a2e54a623b2b18b46e3b2e3daebe57fddfb295",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_regeneration.hpp",
+      "tested_sha256": "3e0146040c5083351a985e83f3bc72436971bb1caf89a0e779374c400f9a2784",
+      "staged_sha256": "3e0146040c5083351a985e83f3bc72436971bb1caf89a0e779374c400f9a2784",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_scene.cpp",
+      "tested_sha256": "f4e11f40ebffc3868341d4313718edc81aad23dbd6ac1aefeda4942426768b72",
+      "staged_sha256": "3659d37e59559781fe7ab9f61e3383e1042187577df0cbba0a65bd7c3b8294f0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_scene.hpp",
+      "tested_sha256": "ed04dea82ee305f96deed12a827845f6245342fe9842dd239c05b34377377b38",
+      "staged_sha256": "73f428a7f369a9f924bda424be7215b1d4e522e3edcd3b928f1d679c76d69534",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_collision.cpp",
+      "tested_sha256": "82864d4a41ba468168fa32923cf8b8aa761741f0041855e32ada7669acf34be2",
+      "staged_sha256": "51d0c80d7a712770747e1d91aa99ed16393a4917b17b2c9f2192df1a4729a2a8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_collision.hpp",
+      "tested_sha256": "8d966813fe224ee7f510c5042494336730d101b8231c331fcc0c19566279147e",
+      "staged_sha256": "4f17cc2e4bdbe869533dc5bda1bd1ec8aeeaf5620f498fa18b6521580272ea42",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_lifecycle.cpp",
+      "tested_sha256": "291251995f3c1db5161460611c72c3e384c4f422363ad7adcecf464ed4a91583",
+      "staged_sha256": "7161ac627879454dfb6166d1db46108ef238bb171e64eb85b5a0d50248c4a6df",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_lifecycle.hpp",
+      "tested_sha256": "6c25371e6dc6579a6d0f0293561e94f1e23466caf31802da708d4c25bde9acd5",
+      "staged_sha256": "bf7916e299901b3e46fbb1b1a388165f1f2a90895f55c808792c52e0f59ef9c7",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_selection.cpp",
+      "tested_sha256": "83f48d3eaaf05baae41948c66e3099688f849a089b84322f66fec1590a7d6ccd",
+      "staged_sha256": "7be3767ab0b91a18d965862ab2ebaef6e0c8469ce1ee2ef0dfb29e55caa0e93a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_selection.hpp",
+      "tested_sha256": "69a918de2860f1c9966b7fa6e526b3273ab7ba3c14850d5964551fc877f2db16",
+      "staged_sha256": "4414d0203ca20c90d40460863f75c3f0d373b43017664547386e41c43c73514e",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_set_level.cpp",
+      "tested_sha256": "7d188fb1faa8d9958dcf355152c458308fab287467ad399c766068e13fd6110c",
+      "staged_sha256": "7d188fb1faa8d9958dcf355152c458308fab287467ad399c766068e13fd6110c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_script_set_level.hpp",
+      "tested_sha256": "1a12ea5d04c7e2d21066d32c1d172241a25301d5e84bc2e359919c8bb6ab310c",
+      "staged_sha256": "1a12ea5d04c7e2d21066d32c1d172241a25301d5e84bc2e359919c8bb6ab310c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_script_timers.cpp",
+      "tested_sha256": "355a6810caf2864c88e668b18f94734568a53589dd4c0147d882dc7754c285ec",
+      "staged_sha256": "4e43fafc6ed2f58998fc53630ab0e8397045608af1f9a1bbcffb381778a6fa21",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_timers.hpp",
+      "tested_sha256": "b33fb151a63f951b8eee7ddf7ee85fb507aef1835426ff753f4e856d7fb5abf1",
+      "staged_sha256": "7db0bf26b906477b3c8ba39ee1466c699b1e1080c62c8f430cbac08d470fd63e",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_update.cpp",
+      "tested_sha256": "2bf32b7a6e65a4d3bcb4f421c27bce831929291c46e0176cb52a4ffe96b6008c",
+      "staged_sha256": "2c0eea6dea5ed38e483abaaa6f8e8cb5ce410deda376d5b68d9e710dd3ee8eb9",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_script_update.hpp",
+      "tested_sha256": "fe4fd4fde7b0f8a09668993c9f01ffcedb22e3b24a4f8f44410ca707d2288a84",
+      "staged_sha256": "d50372020d0f99fe88aa12c5172fcee54b2c5e4f81a464d080ade1f89c30a4d4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_skill_cooldown_services.cpp",
+      "tested_sha256": "19679fb74bd6f8335a52115890c3f0cb6b3ac0eb572f855c17768a38d929a59e",
+      "staged_sha256": "19679fb74bd6f8335a52115890c3f0cb6b3ac0eb572f855c17768a38d929a59e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_skill_cooldown_services.hpp",
+      "tested_sha256": "5f2bea042897ace60b062e667727db0efd6a916bff809e5f854da8485b57ec5f",
+      "staged_sha256": "5f2bea042897ace60b062e667727db0efd6a916bff809e5f854da8485b57ec5f",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_skill_state_queries.cpp",
+      "tested_sha256": "7da75186510205f82c78cc5ace63942bbf4132ccb32f7ec333ecd9f3221b35c1",
+      "staged_sha256": "7da75186510205f82c78cc5ace63942bbf4132ccb32f7ec333ecd9f3221b35c1",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_skill_state_queries.hpp",
+      "tested_sha256": "629922158aaa4d5004c5c6401406ed45f1e57a221729eef4af52c154e931d5d0",
+      "staged_sha256": "629922158aaa4d5004c5c6401406ed45f1e57a221729eef4af52c154e931d5d0",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_stance.cpp",
+      "tested_sha256": "1db27edbff8a8a4a37a31495a1f5fd3aba5684af70ce6f36822c4c98181b14c2",
+      "staged_sha256": "7aa106e88b4931132013be78f918143940e93780fdbff8f9c4fb08dff2483f6f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_stance.hpp",
+      "tested_sha256": "6ce708a75947413a499b6bf329d4928881cabdb011fcfb85025ed79ec3bb22ee",
+      "staged_sha256": "b4166f82c932a2122cccb1bee48cfedc930ee78903413a0ed342e6ed61e6c757",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_state.cpp",
+      "tested_sha256": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+      "staged_sha256": "f96e42ac27ad675b732a729ab5ca0a8d9d48f58c3a71491b868b25946c6fd6aa",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_state.hpp",
+      "tested_sha256": "22d512b11c0f20d00ea01c4344bbf0d3b072c4be74ad2a297e2b4519e2e9cdc9",
+      "staged_sha256": "a90e256b5cfc353537f6202c749783086df8b16622123d844046c4e9497bc5c1",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_target_search.cpp",
+      "tested_sha256": "c1c43e7e1ee1b9cee94ddb6cf14f40af9d7a6353a17d8755e8498f33868590c7",
+      "staged_sha256": "a5ae15fd5818a1d7646061adc536af30383295324594ecaeef29cbefbf5c1063",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_target_search.hpp",
+      "tested_sha256": "c22abdb55677bf15192b0fd97b5dee91bf4dad437ed244d776b5812f40d5297a",
+      "staged_sha256": "38ce6f1b5742642abe5e79e222330264d2a67933dddfa38bb81569b40b2e9c8a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_timers.cpp",
+      "tested_sha256": "5bb3e0181f361c7c3b3633069a6148abcdbfaa99806d6798619a996bef203ba9",
+      "staged_sha256": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_timers.hpp",
+      "tested_sha256": "d57e1c747cd582a2948a90799754681e6a876f8b50a6b3537881142f9f9f505c",
+      "staged_sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/character_update_eligibility.cpp",
+      "tested_sha256": "51c9b88fffe41884323bf1dcca81b51fd8f6d51e7878dcca133a94226f5d618c",
+      "staged_sha256": "51c9b88fffe41884323bf1dcca81b51fd8f6d51e7878dcca133a94226f5d618c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_update_eligibility.hpp",
+      "tested_sha256": "2142ad323c1bba578c8766f2daf338411eca273711af1722637d310184212f1e",
+      "staged_sha256": "2142ad323c1bba578c8766f2daf338411eca273711af1722637d310184212f1e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_update_script_scheduler.cpp",
+      "tested_sha256": "4685be8561e6bbe44526e25a586dcde10b3657b0d1c59567c9840ef2d41861e1",
+      "staged_sha256": "4685be8561e6bbe44526e25a586dcde10b3657b0d1c59567c9840ef2d41861e1",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_update_script_scheduler.hpp",
+      "tested_sha256": "be4e7124417d5a08e7fd70a6c6607fa423c26d0699fc66aa5dafc449c6f27e3b",
+      "staged_sha256": "be4e7124417d5a08e7fd70a6c6607fa423c26d0699fc66aa5dafc449c6f27e3b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_zonability.cpp",
+      "tested_sha256": "324051b8aa03aedd69b5c6d48107f5d5539e0154f587313041a4bae4e31e00b3",
+      "staged_sha256": "324051b8aa03aedd69b5c6d48107f5d5539e0154f587313041a4bae4e31e00b3",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/character_zonability.hpp",
+      "tested_sha256": "0c395ae04332cfa5f8fa4f57da2319ed14eb0eb9acc7bddad04e97e919167148",
+      "staged_sha256": "0c395ae04332cfa5f8fa4f57da2319ed14eb0eb9acc7bddad04e97e919167148",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/collision.cpp",
+      "tested_sha256": "828f8ec6ff4c0de9388c21930e8aa7774dce324661430b6c384653c3e4c2f9a5",
+      "staged_sha256": "dff964510ded9c4586688d6494f7946636ba7b4385994e632f26e37635bc2378",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/collision.hpp",
+      "tested_sha256": "87c4b94767d11a7aa276e0e5507d2455e0f3471f49d6b22eb83ef035afca178d",
+      "staged_sha256": "87d5813bc13b4f9653ed0cf6766d0d4355bfce6447a2777a1d01adb0e4c4399b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/controller_physical.cpp",
+      "tested_sha256": "f59e5fd3ddfb21674af730c8fe06a510378e7d1ab57c9729048df621b632a171",
+      "staged_sha256": "825c49d208897c23735e9b6e22cacd70e45ff3571c848588a1e8688a18915330",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/controller_physical.hpp",
+      "tested_sha256": "15e4dcb1db80e50882fd4eac8b466f9a687d0d07d62b1c342e14939052111cbf",
+      "staged_sha256": "090f8ab4433146f415201b56fe13dacba8618188b9c4c77d5de4b2decaa1a7c3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/crypt_spawn_script_session.cpp",
+      "tested_sha256": "d9898c58fd89cc6be41ace89801bdb9d7f3480f0136de8729bd1442b928bcbba",
+      "staged_sha256": "d9898c58fd89cc6be41ace89801bdb9d7f3480f0136de8729bd1442b928bcbba",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/crypt_spawn_script_session.hpp",
+      "tested_sha256": "32cf96caa69727f7d4e7801b6de7f5ba54f451d1ab28257b0568803d2f958539",
+      "staged_sha256": "32cf96caa69727f7d4e7801b6de7f5ba54f451d1ab28257b0568803d2f958539",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/crypt_spawn_trigger.cpp",
+      "tested_sha256": "49b4f1a03dae63cb3f75be7da466c90e59511598b8d0ffc35fdb1579448836dd",
+      "staged_sha256": "49b4f1a03dae63cb3f75be7da466c90e59511598b8d0ffc35fdb1579448836dd",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/crypt_spawn_trigger.hpp",
+      "tested_sha256": "e821aaa8459c0827053e39ca95dcfa65e5b232e1d61e0354bcb4d7f1f8b28cc3",
+      "staged_sha256": "e821aaa8459c0827053e39ca95dcfa65e5b232e1d61e0354bcb4d7f1f8b28cc3",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/debug_switches_persistence.cpp",
+      "tested_sha256": "6ee75cdc99ebbddf2892317d3ea7ab98c7f295912a0989b41e1545446b0b2442",
+      "staged_sha256": "6ee75cdc99ebbddf2892317d3ea7ab98c7f295912a0989b41e1545446b0b2442",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/debug_switches_persistence.hpp",
+      "tested_sha256": "f05f1ada58d2e52bebc45a2298a4660767fe5de8e5be53fe93a4927184dafb69",
+      "staged_sha256": "f05f1ada58d2e52bebc45a2298a4660767fe5de8e5be53fe93a4927184dafb69",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/debug_switches_runtime.cpp",
+      "tested_sha256": "df695288c131f169cfabbd7efec398c4bce94cd054f335951ca63b03e14d4d6a",
+      "staged_sha256": "df695288c131f169cfabbd7efec398c4bce94cd054f335951ca63b03e14d4d6a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/debug_switches_runtime.hpp",
+      "tested_sha256": "92c296a3ee0dec9313adaf99e47e7fbc17b537e3248b2de69ed1531d811d25fc",
+      "staged_sha256": "92c296a3ee0dec9313adaf99e47e7fbc17b537e3248b2de69ed1531d811d25fc",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/decor_body_config.cpp",
+      "tested_sha256": "627dec02e5464556e6d04185e99f614c7f6604a6e6fc5f173bf14e50252a9277",
+      "staged_sha256": "12632e46228e34601b5e44cf3cd63b9b2dc6a7e44bdda884821cd287b25600fa",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/decor_body_config.hpp",
+      "tested_sha256": "3015c7eaad806ea427386e4386aaa19d47cf4cf070f9eaf266b3ee8889d4196a",
+      "staged_sha256": "423f63f5fa4b5c73c72f030c3842ae8f3c76237154330668315c70c527a26dfd",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/decor_scene.cpp",
+      "tested_sha256": "23e477c209dd4545639b7d87cba864b9db6938610cd1eed6f71ba18e48af6f10",
+      "staged_sha256": "fb9e12a72dc1ccde580ba3973b11e9c40737954d4e58a76579949a3252c55a4a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/decor_scene.hpp",
+      "tested_sha256": "488d86ae895e3a6659c25056e5c45a6b033788fa6dede4acf78d0edd0917d89c",
+      "staged_sha256": "a6af7f3f8f8dc5e54bec46eb2f82572af27b3d9f128d712c59365638c638cb73",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/floor_source.cpp",
+      "tested_sha256": "483c7bbaa71536b148a79d8ed38c11ac0930ae499ef52607fc32f899e6252aea",
+      "staged_sha256": "d5b1975107ad31a889cf0d37c25bd13bebf01969bf41b412a74bae64d1d4b706",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/floor_source.hpp",
+      "tested_sha256": "84e227bc57ea1d6ffb02ec79f7a1d48a949f08e896881b3fa05d4d2e3c907262",
+      "staged_sha256": "8491cb902451cd4b82a25509819661a060db7f4e44e4a8c87f02f9cf8e46bfe8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/floors.cpp",
+      "tested_sha256": "d4dc2d56875cd2f06d5492a19430282845cd472e0a30edbab6105c022984ad55",
+      "staged_sha256": "02c8357c2300d7f19bdc08a7bb156c350fff9c32e14e026f0ef94b68aa03d1a4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/floors.hpp",
+      "tested_sha256": "cb9108b5c40e2ccbbae1b8ebc6ebc24f8dc13610e32c2a646d78e920434b1bd0",
+      "staged_sha256": "8d770c1b41e29c9261c6074dc942b9db2d4b343d87743a66c7475bb9cb3267f0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/game_object_set_visible.cpp",
+      "tested_sha256": "2f35afce4d0d60a5f78b7058ba3036fcf49965feef2fe3787c9760a01d38982d",
+      "staged_sha256": "2f35afce4d0d60a5f78b7058ba3036fcf49965feef2fe3787c9760a01d38982d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/game_object_set_visible.hpp",
+      "tested_sha256": "fb470ab13730d8b125183c9cdee3a44a02c8f5827f5eb62a2c047ac281f86653",
+      "staged_sha256": "fb470ab13730d8b125183c9cdee3a44a02c8f5827f5eb62a2c047ac281f86653",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/game_object_stop.cpp",
+      "tested_sha256": "86be418038d6fa1ff46a0710f51b4a1e256d53023759697c086a9371b16723b2",
+      "staged_sha256": "86be418038d6fa1ff46a0710f51b4a1e256d53023759697c086a9371b16723b2",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/game_object_stop.hpp",
+      "tested_sha256": "77ffbe3e6e3c1325735df47e8b49941a1e7a4e76e218cd0347ad47d435b9cf8d",
+      "staged_sha256": "77ffbe3e6e3c1325735df47e8b49941a1e7a4e76e218cd0347ad47d435b9cf8d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/game_object_zoning_visibility.cpp",
+      "tested_sha256": "4b0733c5f5946045c12c7a09d75e2bc9b5ce85792cc912f138d9413af3d5ac52",
+      "staged_sha256": "4b0733c5f5946045c12c7a09d75e2bc9b5ce85792cc912f138d9413af3d5ac52",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/game_object_zoning_visibility.hpp",
+      "tested_sha256": "cc1d859e41a88fc0a704d4231bf74d1b735f49ae2cbd17e5befdca013d98a32e",
+      "staged_sha256": "cc1d859e41a88fc0a704d4231bf74d1b735f49ae2cbd17e5befdca013d98a32e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ghost_ai_session.cpp",
+      "tested_sha256": "b51d3f9a594ce55b43332b20f9d7e3f6a1174e01cecd23f0d125ad57e7a7d743",
+      "staged_sha256": "b51d3f9a594ce55b43332b20f9d7e3f6a1174e01cecd23f0d125ad57e7a7d743",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/ghost_ai_session.hpp",
+      "tested_sha256": "3fc81b8fcc2adb3fe92da058c7f18bc0751bd03480a7f13d3423c4edae02f003",
+      "staged_sha256": "3fc81b8fcc2adb3fe92da058c7f18bc0751bd03480a7f13d3423c4edae02f003",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/level_construction_fields.cpp",
+      "tested_sha256": "ae9768fef62b05f278bf8d5cdac5cbbfdf09c91612f5223fc39b54b7134925ef",
+      "staged_sha256": "ae9768fef62b05f278bf8d5cdac5cbbfdf09c91612f5223fc39b54b7134925ef",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/level_construction_fields.hpp",
+      "tested_sha256": "1a3f0a7e2210fdbae3d22d8e96892f64ceacb257cdb5eeb2fa4e3b058c57db16",
+      "staged_sha256": "1a3f0a7e2210fdbae3d22d8e96892f64ceacb257cdb5eeb2fa4e3b058c57db16",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/lua_script_level_queries.cpp",
+      "tested_sha256": "cc8a97a495ba6f98410f3a27bd9b87ba364bb5bef46216203d78780a8d070bcd",
+      "staged_sha256": "cc8a97a495ba6f98410f3a27bd9b87ba364bb5bef46216203d78780a8d070bcd",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/lua_script_level_queries.hpp",
+      "tested_sha256": "8b05ca372a84272a5a71e36d0aad40c4312461cea25308257ce952a6daef1b9e",
+      "staged_sha256": "8b05ca372a84272a5a71e36d0aad40c4312461cea25308257ce952a6daef1b9e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/lua_script_load_once.cpp",
+      "tested_sha256": "f65057388a4ac782ba95561cbc8d992138e2c19094aeeb4e60b20b21c673db4a",
+      "staged_sha256": "f65057388a4ac782ba95561cbc8d992138e2c19094aeeb4e60b20b21c673db4a",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/lua_script_load_once.hpp",
+      "tested_sha256": "e14aff85bdbe215d2766a5a72f0198416ae27753a4728fd6988fc4d623a4d5f4",
+      "staged_sha256": "e14aff85bdbe215d2766a5a72f0198416ae27753a4728fd6988fc4d623a4d5f4",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/module_room_zone_bounds.cpp",
+      "tested_sha256": "9fbd3afe92868a124fd68fcb56f2051e0f22d7dd860afb649203a145a7fac154",
+      "staged_sha256": "9fbd3afe92868a124fd68fcb56f2051e0f22d7dd860afb649203a145a7fac154",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/module_room_zone_bounds.hpp",
+      "tested_sha256": "5ba7755229af957daddf3624ae12c7ece9d24e193183ca7c37b6396deaeb986e",
+      "staged_sha256": "5ba7755229af957daddf3624ae12c7ece9d24e193183ca7c37b6396deaeb986e",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/monster_external_script_session.cpp",
+      "tested_sha256": "aea307273e124cb3f85851a519e63d5e3f16ff66e81c189ece1bbf87f4e196cb",
+      "staged_sha256": "aea307273e124cb3f85851a519e63d5e3f16ff66e81c189ece1bbf87f4e196cb",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/monster_external_script_session.hpp",
+      "tested_sha256": "e90d4023348098e911aae03349fae3d708632d1795103d131b885ae70ecb5623",
+      "staged_sha256": "e90d4023348098e911aae03349fae3d708632d1795103d131b885ae70ecb5623",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/move_state.cpp",
+      "tested_sha256": "74622f90da0bd193540b08592549ae3bdddc664554ce71e1b5ba448127537264",
+      "staged_sha256": "671596b24c3bce671fc5da633652f93ab5377e26586599369772b0efa4cf1b77",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/move_state.hpp",
+      "tested_sha256": "2ec7bf0ca12ac3745945af532355a8d22d7f682e863b7cf138d5899b00504186",
+      "staged_sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/native_body.cpp",
+      "tested_sha256": "e820fd71bb6c9387ca9c47a7233a881a399ef8c2cfbfdef091f74a5bd3201bd1",
+      "staged_sha256": "242a54b3ce929e57da9ff41e91206189e7cf31be8a289eb11f676c846b7df6e9",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "tested_sha256": "903f9329f9e97ef695e771aa28965b560728d12b9167bb417af16cdd1b608b18",
+      "staged_sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation.cpp",
+      "tested_sha256": "f39f65eb39f315c10e0f4e917df3bd453599572bfdf4646948c927b0d8bcffaa",
+      "staged_sha256": "b598f4ff669792c36382d92639f61e7e4df793d809eb9bd8990b0e8b3d4c336f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation.hpp",
+      "tested_sha256": "9d6f01d85e7d0533050dd53bb3c61e86d18bd344b90bf86a99ba11a1e79ddeab",
+      "staged_sha256": "ddc90198792130ec4bcff9402b4eb7721c636d417e8515356b7c15455f089f71",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.cpp",
+      "tested_sha256": "1e30e3e2b6e90466e5f1060cc4656439221460de6e03bbdf40c0f6a79fbc5fcc",
+      "staged_sha256": "5b34aeffe47c370fe8683d7dd71d5a383dd44324218b4a1d8e7f0e3cff74d7de",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.hpp",
+      "tested_sha256": "1a8738338c4a5a691ee0088cb70a92672d2b52ccebd522661f77b650f8e713be",
+      "staged_sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_controller.cpp",
+      "tested_sha256": "e48a96e0a733c7e6bf4a70b7d889176dc018d6eecd2e2ba85b61c457ed417810",
+      "staged_sha256": "43e6d236fa5d7bdf7d2befda7f288008a6cfb87ec06a411c19fdcf2465eed9ae",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_controller.hpp",
+      "tested_sha256": "f30bb259c4e56e65c2728fcef97d1b920973f7d816ab96176f6b6f123d119c4b",
+      "staged_sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_heading.cpp",
+      "tested_sha256": "8067293e41a4bdaddebafbc9f996ac9484b77f9968290bc3f500bf3bf7c60bc4",
+      "staged_sha256": "98f771927be4021dad6432e1aee509bf91f4db17f7525668ef1332ba09b3818d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_heading.hpp",
+      "tested_sha256": "932e8d204efa7c3864d31ef3ccbc4cb3fa9a38eb643f6fe21fa8fcc1523af38b",
+      "staged_sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_motion.cpp",
+      "tested_sha256": "ddfef4bcc72719fb01e77e0b7296dfafe3fd06417fc8a2da22292caa177df577",
+      "staged_sha256": "9d87dcb28d981a83d278f098807a9deb65e4b4491b49938fa3bdca87d1c1509f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "tested_sha256": "a05c6a893cdbdd172bc286abc31c46008abc37fafb7ddb4d565735ba215961b5",
+      "staged_sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_objects.cpp",
+      "tested_sha256": "fd3a1c4d33af78262b22a55b92ded760c482cb1b9b60dc049c122e6c7627affa",
+      "staged_sha256": "daa5d8c5d117b0ebbfcc7c363259c66c58d6e29ce89776044bdd0a9ad4cedbc9",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "tested_sha256": "cf120827d5df79ce5c09340ebf453e654eed93140f7cfd0dd152971bed6634db",
+      "staged_sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_path.cpp",
+      "tested_sha256": "3e898bf804d38b0b91f2f4cdefcfb001796cf170ccee4966efd74cf9cd3522ce",
+      "staged_sha256": "48216b8fc84c158e3e278e0895e464e3b801490aebe5074c1edadffb8b1c1591",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "tested_sha256": "d9044a95ee529ddbaf215f421ef021da697bf88d1f45d2bf407a3224b3d32d80",
+      "staged_sha256": "af1c1dce850c0b51e68793d79d8d354e237bb3934fe63f12c5c79535a0dfde5a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_producers.cpp",
+      "tested_sha256": "034e4ef93faf4de950f280f09dd96f8983a7081551bc4b802d1713b23b4e908e",
+      "staged_sha256": "6983efb07745d539cb82eb09adc2b841cf14349037e06a9f2f69d33baddb49ac",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_producers.hpp",
+      "tested_sha256": "a53b42be122b26269044a86e646b7e842ce1782a9bb96cba6778ae30d5f826e3",
+      "staged_sha256": "b1f5eee90199451fca19bc7436e27bd67771dd28f488982782d1bf7d9e549904",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_search.cpp",
+      "tested_sha256": "c7464583741b171b1a22ce19c092ce09d055aec2507c57076c499ebde13f1579",
+      "staged_sha256": "468666c49030bdfed67074356e1130579d651b8bfca5a3f35e2cdae79debdaa0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_search.hpp",
+      "tested_sha256": "1cb12c0b9d50c75d6f205f377fba03ddec439c1439bc9770ded9063d30871d41",
+      "staged_sha256": "af3060785046aac8ae0feb43d131fd0b4ada7099deb681f018bd27a7eae17bb0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_world.cpp",
+      "tested_sha256": "e12ab20917f787732cd4795bdd21ecb787a264cf6c9043593f7b6c6d71d88e16",
+      "staged_sha256": "0799b088893b4c774a56541acbb4593a4bb7c7dc343452f8ab136c3574025f0d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "tested_sha256": "2e35d819626702b055c0840ba8d9f5ef4ef9dbd11bc017251e3ee81982fb7659",
+      "staged_sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/object_update_culling.cpp",
+      "tested_sha256": "f529960dd9bf3946a1b6846bf451eb05edd534d4d9b5b636fc9d927e5b6f84af",
+      "staged_sha256": "f529960dd9bf3946a1b6846bf451eb05edd534d4d9b5b636fc9d927e5b6f84af",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/object_update_culling.hpp",
+      "tested_sha256": "db2e00bff24c1d4f52fef7ce6dc22581dca4b91ae94054a6a90e494f76b6e386",
+      "staged_sha256": "db2e00bff24c1d4f52fef7ce6dc22581dca4b91ae94054a6a90e494f76b6e386",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/object_update_dispatch.cpp",
+      "tested_sha256": "af4e63783d856fe3e5fc0a1d612633444e4e80fac22f735fb6e4a49c2282a0f7",
+      "staged_sha256": "af4e63783d856fe3e5fc0a1d612633444e4e80fac22f735fb6e4a49c2282a0f7",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/object_update_dispatch.hpp",
+      "tested_sha256": "ec15f800007e224f29986fd8f2179160ab5e34f729409d3e6ae8e6e05b0fab21",
+      "staged_sha256": "ec15f800007e224f29986fd8f2179160ab5e34f729409d3e6ae8e6e05b0fab21",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/objects.cpp",
+      "tested_sha256": "8a4de5306ba09867a29c66859b15712c1c5bc8f3d12a8e38aabbdafcf957c93f",
+      "staged_sha256": "22a70dc64f500fd494318add7ce2b253a9d5edc7c5d3051b66df1bb485d56eb7",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/objects.hpp",
+      "tested_sha256": "fc801b16c8b834f8479f89366427854dab19ffe867c930278324aba51885e9ea",
+      "staged_sha256": "104135d8f613fecae1453e11f801d0dfae97270301851c452399af1da5afb9da",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/octree.cpp",
+      "tested_sha256": "c2d630197ef49a190fdde5ab52bf52d919c41aeb766b9de1aa47749664e2a5c1",
+      "staged_sha256": "bda658c0603f1e896ef6cdde3753605a541b250de5271735ca8e03e0ae43c05a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/octree.hpp",
+      "tested_sha256": "b7e01f0bb6f117baa579a5c956d7d00259cbbd0e2fd63d839a3f002cb48fb6fc",
+      "staged_sha256": "d4559a690c6c62ee2d5ac768c116e091fb1852a7801b1a7a4fed02692dd1cf83",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/physical_controls.cpp",
+      "tested_sha256": "4b9f11b6de5d8145dfc697e745bab5c8dbf8cabd801922bd4c16eb63878dd20a",
+      "staged_sha256": "104b8b409e40eb1e733388d8977b7c0dbe333dfd7b61fc9d17aef67dca77aea6",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "tested_sha256": "9209492d39631c26775c9b9b5dddc55e358463caca071878c0f7f52f319ec7e4",
+      "staged_sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/physical_lifecycle.cpp",
+      "tested_sha256": "a92de0e8831484389cda3aa566a8f6c2bafc1517d86099e21682f9d0817779ab",
+      "staged_sha256": "717afdf187fb884c44d1eb0dba0b2f957fcda8c0a613ccb3efd852808746ca3b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/physical_lifecycle.hpp",
+      "tested_sha256": "63b3c2918dc58e7636cb9ad828f88b7070eb10ce0413f48d205a401119f930be",
+      "staged_sha256": "f7741420fb2dbeddf23392000b563ed67f27d7ee432189ef9a27067702b53510",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/physical_world.cpp",
+      "tested_sha256": "ec9116b687452f5cd3808f64d229aa0af4a9d9b830978fdc7d2f1d6fb75c85e7",
+      "staged_sha256": "be5bf1faa4256553033b260b993ed32347766b9a029196616c5c4fb07eb99b15",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/physical_world.hpp",
+      "tested_sha256": "ecb4180baf21facd5ee5235bdf3708fca8650fb1431e1a36f525a4023ca549f3",
+      "staged_sha256": "6041e04d6ffe0f95319eb2b66c614c013bc0f35f0205a89428f4ad9ceb7ce3c6",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/room_zone_enrollment.cpp",
+      "tested_sha256": "992a33364b8f7c9307d0b06d684c2f18121a6ab5b868acbb25a6afbeb7d6c4dc",
+      "staged_sha256": "992a33364b8f7c9307d0b06d684c2f18121a6ab5b868acbb25a6afbeb7d6c4dc",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/room_zone_enrollment.hpp",
+      "tested_sha256": "d4bd8777964b673191fa4ab74c81f55438007d8bb842aada802d107e18331e73",
+      "staged_sha256": "d4bd8777964b673191fa4ab74c81f55438007d8bb842aada802d107e18331e73",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/level-world/selector.cpp",
+      "tested_sha256": "b4cc745ade1732c555a8019a5c4dc2e65a9e4a6e1445718381ff72faa27134b1",
+      "staged_sha256": "312fa4adfa811188cb4df66b893826ecaafc795deba21d5ef38f21e3f984e4d5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/selector.hpp",
+      "tested_sha256": "3f46e5b20bd7aab7fcd3a7c6efa7f46ac451a18abd9bc0b69ab2df771fe2c23a",
+      "staged_sha256": "a4dd1bd20d3e5c69cc39c17da0d3078e80728c2213d5e60bbad968c73ac89790",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/subobjects_update.cpp",
+      "tested_sha256": "de6c05d22a767fb324634354c9fa03259c1244a86b793802b251a4057d5a0e8d",
+      "staged_sha256": "da7407030dee5be659b4ffe3b9e5c3f10671fb47b08b2694a7eab2526ba56bfe",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/subobjects_update.hpp",
+      "tested_sha256": "cbee76cd842d3e4029f3a853c509edb05992553da5a76f5f52e1bc4221e8d540",
+      "staged_sha256": "867d8285f4328dec490f0f00f6fd82800ac24477a5e29bc132af0464a9fd4c03",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/visual_motion.cpp",
+      "tested_sha256": "f2e5efbfcf4263c73b8a9cbeca9efb87340906966df41f7cdc41613e49d6464f",
+      "staged_sha256": "7d9e9ab6fa0f6a2653f67b114b36dd38a18338409d1969390f75b4ba4a59d414",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/visual_motion.hpp",
+      "tested_sha256": "7e388529a1c6bfb5022b1b54a26b53573427e21b1458405d2c45944877548346",
+      "staged_sha256": "c5949284aedefb97f05ccfe85c81089dacee09ccd0b339f8fdf5f1d7b708193f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/visual_timeline.cpp",
+      "tested_sha256": "babda2abc443c38e5bef7e0c8786b9663523cb9229d9c130b3c948e0437c175a",
+      "staged_sha256": "9a6ffdec646fc927ce82199a193df7d1d14ba2f738464e312efead143b4899ca",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/visual_timeline.hpp",
+      "tested_sha256": "2386f96aed8483d0134bec0aedbf7687e86a72d9a0e5a499f96c79af34b22d8a",
+      "staged_sha256": "36a31a050d03f488328c6a4bb3c4287ff3e81ed5044929deded1b3d33ccd1611",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/world.cpp",
+      "tested_sha256": "8c75d0de6488719fae4606352fd59cc38cf80a08bb3ddaf47c20231f12a051c8",
+      "staged_sha256": "02f32e5549ac9122972b0a4b2e53417ea9838e26fdf5f996072f7d6de111f6dc",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/world.hpp",
+      "tested_sha256": "2d8645655a91a667c4a02b4321cb2f49b351954b5275686532234f386401749b",
+      "staged_sha256": "8ac00eafe7a504f6484aa4359846bdb5469091d512c5d6404c71861d7add52d3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/lua-numeric/numeric.c",
+      "tested_sha256": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8",
+      "staged_sha256": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/lua-numeric/numeric.h",
+      "tested_sha256": "03237985e1b5d0e10f61cacbbbc6320a75a052f9d8e08a9f94b8ba24a7467475",
+      "staged_sha256": "03237985e1b5d0e10f61cacbbbc6320a75a052f9d8e08a9f94b8ba24a7467475",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/material-bindings/bindings.cpp",
+      "tested_sha256": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+      "staged_sha256": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/material-bindings/bindings.hpp",
+      "tested_sha256": "7821ff4e8f585df4aadd31bc2f72ab0022094487e0c4efa700405395a892939f",
+      "staged_sha256": "7821ff4e8f585df4aadd31bc2f72ab0022094487e0c4efa700405395a892939f",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/persistence/binary.h",
+      "tested_sha256": "e39dc86328b2f90d282d0e0b3a33a7ddf9aa394eb86b0820309cd4ba239cb4d7",
+      "staged_sha256": "e39dc86328b2f90d282d0e0b3a33a7ddf9aa394eb86b0820309cd4ba239cb4d7",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Include/Box2D.h",
+      "tested_sha256": "0ad13b9cdae52a4d57f70f824a856601b151d7d5ac483d354740a3e9a46aa7a5",
+      "staged_sha256": "232f3578d5aa12f3e59761e97009be2a548022b7651260b99cf9efb999f4445d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.cpp",
+      "tested_sha256": "0629b27c6fd842dea90070e8ea7dcb27fc0eb86bafe9aadaa13b114dfb61aa20",
+      "staged_sha256": "d84d3826a351bbcca7acaa64d0daf0c90ff8017e45b93dcc990da5b3b024d0be",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.h",
+      "tested_sha256": "a575f875afa9c0aae4e01b1aa186ddfb4fc2aa6f217be69d7d09996e4ab30fcd",
+      "staged_sha256": "f0d2b0c6a6d12e3bf6e3507979d05bc0cb5b69d894aa5ddffb957ea268f54235",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.cpp",
+      "tested_sha256": "2281e552b7cf16b79d704a89160550c5e0a56da2a210ce926fd0719301cb61e1",
+      "staged_sha256": "b589190cf79be83ec582c473a2b7314a4c1e45c9c577ea61149946e89b071792",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.h",
+      "tested_sha256": "54b78992f13caf81515710d9341eba4f61a72820a341ce567fdad3062b7041c6",
+      "staged_sha256": "e8b3f9243e7929a552665d4beb9fea8ae000c2e0a0c8cf8e49b364f262c2db05",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.cpp",
+      "tested_sha256": "2bcfc135682d3c311ea246b2b8d2ce14ccc7694a5d586348761ae12bc9cd696e",
+      "staged_sha256": "47e59b0e961fb01bdcaa3b2d902a703dc64a62038bf67ed26bdf9a804b0298d4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.h",
+      "tested_sha256": "ea59008f09889b632c0ac6cd5f2724781c9dbe23f9663ab9d38a2b21ef07fa4c",
+      "staged_sha256": "c5aae433a436de27ae3ba01d1759e2af3efbbced6bbb3d4bfa4c9bf964374f66",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.cpp",
+      "tested_sha256": "cfa4503a3c9a95db001e10dcc4cd6a9f27a97cbe5c676e46a5751cab7a8c06af",
+      "staged_sha256": "de732862b7f2e9d43afd415955b57ab22885e119d2669f272ac916fd20c4f403",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.h",
+      "tested_sha256": "b5e0f3f4c15c15f365bae101f819e21098b6a1c819fc2329f3830aa5bdd953d8",
+      "staged_sha256": "b5108b02113cf5e1fd442196e24b265ef1d635346512dd02627d29f60fd88fb9",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollideCircle.cpp",
+      "tested_sha256": "a0ce1f621ae819514cfd26b2b9231cfd1fb301d960857256c809bd0620495113",
+      "staged_sha256": "2d2fad863c3069929960353638a021ce7c71a7384a9d5828ae158a14fff25743",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollidePoly.cpp",
+      "tested_sha256": "22b2e4611e696f041298ae0b63596f2eb54159d4a039fc65036290295080dacc",
+      "staged_sha256": "27d38fe463b8620432584d8ab1ce6bb9f4175eb4ae6355eb84493be40f3f51b4",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.cpp",
+      "tested_sha256": "052c979a72176b10b404c7c8b900e1a8662f661ffa6476d2c18edec47e57ddd4",
+      "staged_sha256": "23aa011a3d412b25b39e1c47b08c3cc75a64145d1e40dccb67b9646a350d2f72",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.h",
+      "tested_sha256": "d1f825e57717f8163ff8e937b02f2e39a99a16714a37919fa83daca9a62f84a9",
+      "staged_sha256": "27ee41cff4e9d1b0ae602fd59361fb11019b960d291b016ea58efc933adbe94f",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Distance.cpp",
+      "tested_sha256": "0e5e43d8a6318555994ad7dbd44e3d8d38430964ea8989991aed9c880365dc1a",
+      "staged_sha256": "52b84efaa4862a62426d5328f33d4880049e5b2199555dc53aec5ff982274b90",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.cpp",
+      "tested_sha256": "0ba3ce40b97bc5c4c50aacbd131f665a63e44c8130c2ddf4c9ecc9abe75e2f4c",
+      "staged_sha256": "416a6ed7c370116ffe67d9894cf568a7f22bcbec2b3c2bf2ab724be5b83d6fe9",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.h",
+      "tested_sha256": "f22b19e47d91b75d2fe2f691e5e10100ce1463672524c1fadecb79339e91c1ae",
+      "staged_sha256": "b67e089d15635a24f1bac9b4c617798a1e243c7858582cf2d36b29f78a21de1b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2TimeOfImpact.cpp",
+      "tested_sha256": "a4b145c6773ad798844f83ee7fb621a143261a237372e1fbb82c27bb72ee6201",
+      "staged_sha256": "06bbbaca6b674d8f3eacc5326eff7f38e464cec12594df3dd40a3bd106c1b183",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.cpp",
+      "tested_sha256": "12426570e627db745da2bc5f7edbe0629d95b834dfabf87ef621a91623ae39f5",
+      "staged_sha256": "79a90c30084cc22651edb3afc83514e78a0655ca58e568274c2e371282db293d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.h",
+      "tested_sha256": "b9056e01399ee810604c54097a25d71f8e867e0ffad2712bc98498fce2d5bfce",
+      "staged_sha256": "43b435851bf8d92f3b0828ae46e9bfc99ed699becd2fee47299e7a36530b1f9a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.cpp",
+      "tested_sha256": "9dd538fca46377fc5ddfccaa5aaf293397c83d06e8400426856f0dbb8489a688",
+      "staged_sha256": "40b19183b8fcf2a678fb413d6552a11dbcc4548a5b019e32ccf6cfd247908e48",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.h",
+      "tested_sha256": "bb9eb24351da6c1bb1ff6fee57e013e502057e4837511b1d236c2b252d1ba418",
+      "staged_sha256": "195966e0000a73e8116c84887f4158c937191bedc7a318387a682fe7fc90ad71",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.cpp",
+      "tested_sha256": "5a5d9af838afb02ff85ae840b83c2e3ebd30550005b80ed61109e2eb1cd63625",
+      "staged_sha256": "3ee6f2cd9a6de15be2d79d8705e2ae495edfaa2c5fb7d26cb3ac20a057270a31",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.h",
+      "tested_sha256": "ac5ba67e35bacea5965b8ea939641b8b5f6d337b37f8c4776c739057a9f9369d",
+      "staged_sha256": "96bf15dff66884df1aaabd9f39e2ef0c0c41e9d66ac1cbd1e59c1a90dc74f6a2",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.cpp",
+      "tested_sha256": "abbfebe42cd6d45ee5a46d8afb031c8e6560908eadaab010152afb94e3a8a8c4",
+      "staged_sha256": "0c1ae0d31d75a306fae4902e8dc2b1bcc08705cf5ab4370ade5017b1389a72d3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.h",
+      "tested_sha256": "3b65b1456f10ccf5ecb72583f05eaaf50094d3cffbbca1012cb0bee100484e60",
+      "staged_sha256": "ae0ea171393346cd98ee039b8f0966e581d4234306c7a0bed8dcec7d8e674224",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.cpp",
+      "tested_sha256": "ded2f2cda858750019b6859922ac5d2b0916ff1f0d388a3fab2ed9689a665c9d",
+      "staged_sha256": "563ddcf79aad58042a9739ccb04b749e1fa914c439a9bc3e2e4dd06f49a6e166",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.h",
+      "tested_sha256": "7d5d026bc0f7e4d05bfb43f6f01cc5581b672138cd30ab5fb804a8dd42abd231",
+      "staged_sha256": "3f8456b82c204f08fbe12a4fa734390a6c9b22731b7e9777368004c5c0c8c8f2",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.cpp",
+      "tested_sha256": "a0875445d2a2b253fa2815b26373611fe1cfdfcc24084cae74dba20a21e81b2b",
+      "staged_sha256": "6c343de91e1be3d371d8e6ad59116249ba986b940873bc7091b269a7acc60f0e",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.h",
+      "tested_sha256": "da89817056b93e124f53bb520402466df01986d3da9d449222838ff6ad841ac0",
+      "staged_sha256": "eaf80ceb4d163d171a57c502748000345451345414003b5262a84ce3e6a270f5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.cpp",
+      "tested_sha256": "c9c0560fe24e87b37c54268b8a90a36ce3261e61647fc76acf4b38f09b6cf65c",
+      "staged_sha256": "23eaf0d94b20ae8cb70ff9928ec9c25cf4a986f56cf13bb96a39550eddf405a5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.h",
+      "tested_sha256": "4a41c009fd2af2aee9b7c499095f767c92812dc06ab309add137b91be68ebe60",
+      "staged_sha256": "85424facf0fd869b30e407535fc4538fab24db1a4f55ee94eb4a09e279d89514",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2NullContact.h",
+      "tested_sha256": "74899863e071428be4d71d6c1fe062650cde7d49ba7064fc9f9d7f5e8c43d8aa",
+      "staged_sha256": "b45a18ba02ca0152642646a77c5ef8c660be4cdc2e24e4939f1c0d26e475f722",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.h",
+      "tested_sha256": "a15c3588c089059af1d99b7733412518059e16c2dc2df6c92cd99089fb66d55e",
+      "staged_sha256": "1c17c09af333dd5b0c466471dfc72fb7d88dc046fb6a9ef35538ae7b8497e8c5",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.cpp",
+      "tested_sha256": "04e0d8d2be9eb55e2374935f01d09be785959e806f49ec478700cd07f7d6955c",
+      "staged_sha256": "0fd571b506e48505d674129112430dc36654adaa3ab4be2312a2c31e912fd707",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.h",
+      "tested_sha256": "67ad4841a0f4a008722bbd1fb41b49b46bb60ea0b1d63fd92002528224acbd8a",
+      "staged_sha256": "aa24a5b5ec6a93185660cab8c7af67284b8944f081c2dacf57e34e4df81320dd",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.cpp",
+      "tested_sha256": "0853ceb8d146a5db0ec0eea208f8751f61386f41532f4edf3ac0e72a0108a34c",
+      "staged_sha256": "7a70ec7f5b79ef93fcc07b61af83c735019e04c07b2e99cd704cd7c5fb946af1",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.h",
+      "tested_sha256": "c167e9f0362edb80c8949e8c66fb9ac267fed3628313c4b696cd055cd88ed100",
+      "staged_sha256": "81905cfcc51a112763b22c6d8f6da906793e97f9de4338e17345b2ed031c4d82",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.cpp",
+      "tested_sha256": "4a5424b398f016dc9a8c5b5538066a6c5e391e9748498e702bb5d060ad44083d",
+      "staged_sha256": "9f96a369fea976cb39a89faba2cb0171777ed89560d96d321b58929277c717e2",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.h",
+      "tested_sha256": "e61df42dd9366d6f472bf18843838579863602281c336b4148f634b7f9a60fd5",
+      "staged_sha256": "a0d53326fcefe981f9fd2849cda7778177f8b5bc89615f9826b38d411ce85a7b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.cpp",
+      "tested_sha256": "b6a439cbbf8bc4a4fe835d29b652fcfedf5affb3a8dc7786b68ed1e1a45547dd",
+      "staged_sha256": "e6a0262ce1725cb20cdab1bf6d45e7f7b0cb7dcbc5f4a1cc75e656b5c356b50c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.h",
+      "tested_sha256": "b01f4e90a0ea7044b9cadeb5c8cf91ae752e2c115cf0f764c1f45a249e4778f9",
+      "staged_sha256": "ce6985999a864d50accfb6968922bb22185f5e2d7de5c455a965d529f2df53ae",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.cpp",
+      "tested_sha256": "0a9d8342dfa3dc12af1876421d3c33e71b5532d14db8cba0bbf24bf80f6b1e78",
+      "staged_sha256": "2b6e4ab9e09542e98783ad144b86b1db67b0a29a5e754e440552d173561296a0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.h",
+      "tested_sha256": "820476f8770f51e86df059703a54244e37291cadf48be436582d2341d5921473",
+      "staged_sha256": "fd18295b9b45346470993306c82a167c5935c5ed031e29a572c64d7bf26a1fa6",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.cpp",
+      "tested_sha256": "ee3981cfa0e94d82799d6eebecf81a09cd2bc137ac6f43a6c04ef5de197a9a28",
+      "staged_sha256": "e328bf8b408d58e3b266db474d29903691a51aa5955a5e2b331755b072e64a2d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.h",
+      "tested_sha256": "0f9fc788a01c0cb02b3e959d9d2a2d6eed1012276288bff39d1dd6cd019f9081",
+      "staged_sha256": "3bdf56803e48a46c92e3559640a04296b8b036acd48f91accbd1271acc9a933a",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.cpp",
+      "tested_sha256": "5cb5b0c762d2e6164c79e62316930f9d317fe4f99be8376481f08ebae157a83a",
+      "staged_sha256": "9a14c34dee41552c4419ec4f782b7e891eee61fd691ca1afe29c65d4e254db15",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.h",
+      "tested_sha256": "3a3b2642c88952e5412c29409ea066d18b82611710e8cb926b2d83f1931731c4",
+      "staged_sha256": "d26b137548731906b0e7765b3d4aeef0a480eb28597ff18cfbc466a85f446b29",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.cpp",
+      "tested_sha256": "c720e0b2cfe29d40292536913d32b2da0f74cc2d60759c5fe6e67cb735b56c33",
+      "staged_sha256": "5e644eaf889fe45de323b64ae0d11f46a657593eb89cec887dc428e7e251ebbd",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.h",
+      "tested_sha256": "608269ad82b95ba822abcb65d55f1c82dcba40ed07cb35eba22236ebfc58d1ff",
+      "staged_sha256": "d048e453e0d51f39328dd39ebe617848518d6148d4d745e700ebf1961b065ace",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.cpp",
+      "tested_sha256": "54055e4d49d2dbfb618768bac214855b20eceba404864a585eaf665cd9698cf3",
+      "staged_sha256": "053d5da77d62f34c66748a59bccf40c6bf1abc67e47b2f13ad1b688e86749675",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.h",
+      "tested_sha256": "634324f14ef3835a5d33e2043a80dbcc4fb2bcbc1db9f9089e8205be998216ea",
+      "staged_sha256": "5c69e407dd6e339f55719beb67fa78a297e9e261db245541183d9fe29bb6e5f8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.cpp",
+      "tested_sha256": "7c370f2d5012f921ce8b2a3ae194332792f5e773f3031e61e7c2c4f4a9dcb6a8",
+      "staged_sha256": "e882b9b1efc0418bc4a8ab2b4325ca8cd8a8e5a920669b4716d576353df054ce",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.h",
+      "tested_sha256": "1e17705e78b21186149ae7177a3725911e7d35a42c503eec383b5eb7813777ed",
+      "staged_sha256": "c6bb1dcc382d7bc920de0b93aeaa851d8e670beed102271211295ff806a50d11",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.cpp",
+      "tested_sha256": "6cb95aa76e75683326a5e0a1c841d7df4501559d79d5456ef74dcc7787a0d79f",
+      "staged_sha256": "fe67b07d389830d87a67edb79c25350da81135385ce84e626e0cff15317247ad",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.h",
+      "tested_sha256": "12a643d7d1215966c1f95dc10857bdbce50f1f55aef33a122345b89b12b2d733",
+      "staged_sha256": "b794f90b0aeb1cf827b21760f8a8d6eb10ed02d44184aedb1f50c196ad43ea56",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.cpp",
+      "tested_sha256": "ad0dd30502b442b6b27bc05e62239ff6ef823ade04a19c34482665c25ecbdd56",
+      "staged_sha256": "79ee833da8ab3e95a24a914afa089bf301f0974509dea5308389c07e4f9c20e0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.h",
+      "tested_sha256": "8b54a4fc617e0e15828063ca00b8529c9c254a1b13a100bc91ad7b3d322df93d",
+      "staged_sha256": "c86f96c508653059c0ce8a89c9134138a42552d45fc19cfb9c0a1d9f242ff40b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.cpp",
+      "tested_sha256": "335f631fd1ab520f44025ca684568905be30fe5ab0eb6f9449af1a756be64ee9",
+      "staged_sha256": "84b2474f28b93147749e9c74ae1fe83e11d17db73c6e5bfb3a66850b449633da",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.h",
+      "tested_sha256": "3aab4ccbfc8a8c4d207d7ac82d2fa0509a8942eba792cb0f788e9c1b115b1d19",
+      "staged_sha256": "03013b5448bf2c02169c0a6b1963ca5ad90eb594ee5c660400efd881ac10e4ac",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/player-info-level/character_level_member.cpp",
+      "tested_sha256": "7ea31533168ae7ad1b3e5ede78ad3944d30d1f1cf40717d9b92fbfab2e35d487",
+      "staged_sha256": "7ea31533168ae7ad1b3e5ede78ad3944d30d1f1cf40717d9b92fbfab2e35d487",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/player-info-level/character_level_member.hpp",
+      "tested_sha256": "58ed0aa1557b3a55c9b63b94ac26af3eacc41a44a7f4cfdb0a132d635591d5f2",
+      "staged_sha256": "58ed0aa1557b3a55c9b63b94ac26af3eacc41a44a7f4cfdb0a132d635591d5f2",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/player-info-level/player_manager_host_level.cpp",
+      "tested_sha256": "2d4ef7bee48d7dedecb247fc524b42757faba2354572da66855827d3f800fb9b",
+      "staged_sha256": "2d4ef7bee48d7dedecb247fc524b42757faba2354572da66855827d3f800fb9b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/player-info-level/player_manager_host_level.hpp",
+      "tested_sha256": "ab58feaa5f4fe67348cfb9d9127531f4a62c4d49ef685013aba6792883bd4cc5",
+      "staged_sha256": "ab58feaa5f4fe67348cfb9d9127531f4a62c4d49ef685013aba6792883bd4cc5",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/pydata-constants/constants.c",
+      "tested_sha256": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
+      "staged_sha256": "08de59987e05ed27ac89263395f48d99fa81a1a38c4bf6ffd63731815169a377",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/pydata-constants/constants.h",
+      "tested_sha256": "bf5ea5bcb1ac5112c71c0351e7841721bba6c20f761ac5891af28bb344270fa6",
+      "staged_sha256": "bf5ea5bcb1ac5112c71c0351e7841721bba6c20f761ac5891af28bb344270fa6",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/pydata-scripts/native/pydata_scripts.cpp",
+      "tested_sha256": "a146a72dc96f20cd1610a2be18beb91d534174c717bed6a8c958a2d4504d5aa0",
+      "staged_sha256": "a146a72dc96f20cd1610a2be18beb91d534174c717bed6a8c958a2d4504d5aa0",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/pydata-scripts/native/pydata_scripts.h",
+      "tested_sha256": "f452a4e529a84a334a262f5bcd5e8a4e7987fb72644033ff64429835f872bf70",
+      "staged_sha256": "f452a4e529a84a334a262f5bcd5e8a4e7987fb72644033ff64429835f872bf70",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/random/random.c",
+      "tested_sha256": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+      "staged_sha256": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/random/random.h",
+      "tested_sha256": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+      "staged_sha256": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/scene-materials/render_state_snapshot.cpp",
+      "tested_sha256": "8924ebbaaa675163509bd938706ded30604602832069e1820b5bcdfc7c4b6083",
+      "staged_sha256": "8924ebbaaa675163509bd938706ded30604602832069e1820b5bcdfc7c4b6083",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/scene-materials/render_state_snapshot.hpp",
+      "tested_sha256": "dcf812dc8aad61b55311406def972a3bdeec031c89b568e35f0e4183674541eb",
+      "staged_sha256": "dcf812dc8aad61b55311406def972a3bdeec031c89b568e35f0e4183674541eb",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/scene-materials/scene.cpp",
+      "tested_sha256": "2e9b93fa4fb414731c5729e8280b02b6f26be66af37f2cf36fb6b425bfa26ada",
+      "staged_sha256": "056638ec512ca2dcdcb684f334273d85b323716bc46506a360749fa79cab143d",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/scene-materials/scene.hpp",
+      "tested_sha256": "c869cb708659096a90dfa68c26b4d7b65cb279ca50a59e7522772540c17b16b6",
+      "staged_sha256": "12d0a8b7487b26d2748ebc1e29325f28a99a2f410147f455a419324d56e9dd90",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/scene-materials/source_state_conversion.cpp",
+      "tested_sha256": "c2ede9875060eb483387973f1f78f9c4782a4d3a83a4d9350df918b1a975ede2",
+      "staged_sha256": "c2ede9875060eb483387973f1f78f9c4782a4d3a83a4d9350df918b1a975ede2",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/scene-materials/source_state_conversion.hpp",
+      "tested_sha256": "54cd2904fdeb5f5f5426f00ed8c11d2624f1f1e48fd1efc1bc35b8bd35810eec",
+      "staged_sha256": "54cd2904fdeb5f5f5426f00ed8c11d2624f1f1e48fd1efc1bc35b8bd35810eec",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/scene-materials/technique_selector.cpp",
+      "tested_sha256": "7160bc64f7847d34ba21057baa9ae83428c53e1050e9ba68897126fb3c4e87fd",
+      "staged_sha256": "7160bc64f7847d34ba21057baa9ae83428c53e1050e9ba68897126fb3c4e87fd",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/scene-materials/technique_selector.hpp",
+      "tested_sha256": "efc0c2c81fb7181ea4aa7ab35276fa2d5b8e66d665cc9ee7946db38e4624c629",
+      "staged_sha256": "efc0c2c81fb7181ea4aa7ab35276fa2d5b8e66d665cc9ee7946db38e4624c629",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/script-runtime/script_runtime.cpp",
+      "tested_sha256": "5acf91646b99d844e122052de7bf3af39a1c1b3381bdd3c4cf13f481de39ba42",
+      "staged_sha256": "5acf91646b99d844e122052de7bf3af39a1c1b3381bdd3c4cf13f481de39ba42",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/script-runtime/script_runtime.hpp",
+      "tested_sha256": "84fc1fdcd9761e1e0d45003dbb8993e74b54bc33a93ea2d08f1ce524de384570",
+      "staged_sha256": "84fc1fdcd9761e1e0d45003dbb8993e74b54bc33a93ea2d08f1ce524de384570",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/trigger-contact/trigger_contact.cpp",
+      "tested_sha256": "6cca865cf78b7305f921204eae9ae098266b197c54711eacfc6aa87b2f285426",
+      "staged_sha256": "6cca865cf78b7305f921204eae9ae098266b197c54711eacfc6aa87b2f285426",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/trigger-contact/trigger_contact.hpp",
+      "tested_sha256": "5c3f6e3ec1d9e91bbfab8dde8e88f58bc5cf8fb87b0544792f03c09454c54e78",
+      "staged_sha256": "5c3f6e3ec1d9e91bbfab8dde8e88f58bc5cf8fb87b0544792f03c09454c54e78",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/zone-contact-runtime/zone_geometry.cpp",
+      "tested_sha256": "309b5488892877ee0c8ebbcd4bfc8ea5874a82709e0856a10c87e8ef4a2fbd52",
+      "staged_sha256": "309b5488892877ee0c8ebbcd4bfc8ea5874a82709e0856a10c87e8ef4a2fbd52",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/zone-contact-runtime/zone_geometry.hpp",
+      "tested_sha256": "3ee48e006a36fc06971a23305068ffab1bb1b7502c25922723a8ddd208e6230b",
+      "staged_sha256": "3ee48e006a36fc06971a23305068ffab1bb1b7502c25922723a8ddd208e6230b",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp",
+      "tested_sha256": "0ff192b00e5a99843a0c9515b60a600540f2bdb87b0c493d7d8427798b1891fb",
+      "staged_sha256": "92804f8e2e219f80ff6d3e97064bca4056ee9ee7f997a89e3844fbef8b843e9b",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/AndroidManifest.xml",
+      "tested_sha256": "a676882caa6442c320e91f521f05ea111b5782debce140f9ab789214e380b47b",
+      "staged_sha256": "c00fbacc3affa77af48bffe77d8aabafe4a26f99d4ed7ed7ea3475541490b5fc",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/CMakeLists.txt",
+      "tested_sha256": "378868a37d981ddf6fbc537e0c1c443ac7a1f900bea7a0af14e5b95f8dcabf1f",
+      "staged_sha256": "66c6711816e589f4e33a148b3cdc92c3669869371048822993cdccf3bd5ddafa",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/drawable/ic_launcher_background.xml",
+      "tested_sha256": "38381d0d0a64770d992c98e5b5e492555690af40e2fc6ee59e5a1c2a7c0fdcde",
+      "staged_sha256": "ed423c73a6f40a4d2909f0901e60527b3a807cd59e1b5593bcaae1808b1c6321",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/drawable/ic_launcher_foreground.xml",
+      "tested_sha256": "6e3c1bb64d9bec079cf0030d867c58b064d2fb19ca6c5a691543c43134f64a2a",
+      "staged_sha256": "01d1a6a6c1234eb7fe270d097eb283d72b9c95ae5118886f1b6573aad280f1f7",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml",
+      "tested_sha256": "e7c073fbec1a51a73f678b266a1cb207aa6468e3ea1504d24f43591f31d2b7c5",
+      "staged_sha256": "88f7653499ef524126ea5018a99baf9cc3269e7e584d6205dfdd76db39f39cc0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml",
+      "tested_sha256": "e7c073fbec1a51a73f678b266a1cb207aa6468e3ea1504d24f43591f31d2b7c5",
+      "staged_sha256": "88f7653499ef524126ea5018a99baf9cc3269e7e584d6205dfdd76db39f39cc0",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-hdpi/ic_launcher.webp",
+      "tested_sha256": "dd00996198640ed28fbc09cdcd7a3807cf8707f3eb255b659634da3ca6a6ff01",
+      "staged_sha256": "dd00996198640ed28fbc09cdcd7a3807cf8707f3eb255b659634da3ca6a6ff01",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-hdpi/ic_launcher_round.webp",
+      "tested_sha256": "1ed73f5341a69d3b41c7e02e126803f50cc8c3284adf4bbb737f0c93577aef07",
+      "staged_sha256": "1ed73f5341a69d3b41c7e02e126803f50cc8c3284adf4bbb737f0c93577aef07",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-mdpi/ic_launcher.webp",
+      "tested_sha256": "846219e6f72fe9a6c104ca8919cbee36a101e7d2ff8da9da67b689a5888f060d",
+      "staged_sha256": "846219e6f72fe9a6c104ca8919cbee36a101e7d2ff8da9da67b689a5888f060d",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-mdpi/ic_launcher_round.webp",
+      "tested_sha256": "4e2c58b91de01130e6479e00cbbaaf6e77cd961dd2c8e303cf13cd077fa92632",
+      "staged_sha256": "4e2c58b91de01130e6479e00cbbaaf6e77cd961dd2c8e303cf13cd077fa92632",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-xhdpi/ic_launcher.webp",
+      "tested_sha256": "398340dad816fc9a6338cb151a8cf1e45b926f9bfb70628b24c4bd2523cc94d4",
+      "staged_sha256": "398340dad816fc9a6338cb151a8cf1e45b926f9bfb70628b24c4bd2523cc94d4",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-xhdpi/ic_launcher_round.webp",
+      "tested_sha256": "91b490aef86574901137f0a252272e1f1add99c1ad709e0696ed68929b88d261",
+      "staged_sha256": "91b490aef86574901137f0a252272e1f1add99c1ad709e0696ed68929b88d261",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-xxhdpi/ic_launcher.webp",
+      "tested_sha256": "58ae87fa0c5b5d1562d27fd648d2c061553fe20e3ed570bde588162d01ea7a27",
+      "staged_sha256": "58ae87fa0c5b5d1562d27fd648d2c061553fe20e3ed570bde588162d01ea7a27",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.webp",
+      "tested_sha256": "3009fad079f5772f30ecd767f98924367fbe0f81c30048d672d4fda2d5ca7d12",
+      "staged_sha256": "3009fad079f5772f30ecd767f98924367fbe0f81c30048d672d4fda2d5ca7d12",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-xxxhdpi/ic_launcher.webp",
+      "tested_sha256": "f98fef5bc3bfe5b65692c40ad1cbae2bec4faf9f1b249c397626740db71b62d8",
+      "staged_sha256": "f98fef5bc3bfe5b65692c40ad1cbae2bec4faf9f1b249c397626740db71b62d8",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.webp",
+      "tested_sha256": "5faf033745c8c882c43bb1b372d4e4a5890caec63d9892a2e756c954108b85dc",
+      "staged_sha256": "5faf033745c8c882c43bb1b372d4e4a5890caec63d9892a2e756c954108b85dc",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values/colors.xml",
+      "tested_sha256": "31e0230ab2d96fa128a11705e85e590f3462745dc3c04bc851bc724a445921c1",
+      "staged_sha256": "b5626527d503417f0d8e5b1e08f338de7b31173bf0e122815f03e64932adbd88",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values/strings.xml",
+      "tested_sha256": "527ecba0816217b7efdb2146311a2b56c1ba59ead9e9b6c861d23c5f1ca6fc09",
+      "staged_sha256": "f2ee0196c3e7eee8128ba213a5ef94483d7a449255ebba680fd65722db05f170",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values/themes.xml",
+      "tested_sha256": "6f3e4e683630fd062ca76931da8a66541078cdc27294fc6019751c1635425d58",
+      "staged_sha256": "227eeba8df87b86c9d63ea9f69e98c42d8244bcf02d6e50ef994f52eb1b67ba1",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/values-night/themes.xml",
+      "tested_sha256": "27df89a04e7bab96cdc046a7cc672433b3989bd64f2b48e59e1c6ba93333f08b",
+      "staged_sha256": "ccf3c9d622cc046847ede718aee413e638c8bd11427c335463872bb1034611ba",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/xml/backup_rules.xml",
+      "tested_sha256": "facaaef2162be6dd86544a819278042729ed481c38933a410651b81424da7ea7",
+      "staged_sha256": "6cf1a27e6807b1d24e41d3fbe7ddc1bfe1f42226027964f6eaf477d71b43b283",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/res/xml/data_extraction_rules.xml",
+      "tested_sha256": "940f48fb2ba4d9ec5a55671126796fefa71661c0a5d7b434dc1e9be23da41690",
+      "staged_sha256": "cb1fc47ab4a984530ed60e0e6ee638929c3038290e7e7e0b4b03a3a30fbe7381",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java",
+      "tested_sha256": "fc9e6d4c0dab49f09fec4aae403cdac205f14d6b8be089ef744e3970cafa99b0",
+      "staged_sha256": "e10e36cfa5ae27e17ab1e6177c03a29a996d952b1b6922c5149bad8ebe7a73b8",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/java/com/example/dh2/NativeBridge.java",
+      "tested_sha256": "89ebb1edd6a655315e882a0084ffaef7cdbf6a99296146911fc63f9e731a3d5d",
+      "staged_sha256": "d55b2f66f41d18bce1bb2c1a2405a9548692d898ef941a8f3730c580e60688a1",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/tests/native_ghost_skills_host.cpp",
+      "tested_sha256": "c7b5e1e3621d7094d81428760d62c7554a71f89c8c43773ee6f14a5bbab4ee90",
+      "staged_sha256": "c7b5e1e3621d7094d81428760d62c7554a71f89c8c43773ee6f14a5bbab4ee90",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/tests/run_native_ghost_skills_host.py",
+      "tested_sha256": "c41b8ec338070d16c480c812c251d5434a295d22bd619ca7cef66bfaa22b575c",
+      "staged_sha256": "c41b8ec338070d16c480c812c251d5434a295d22bd619ca7cef66bfaa22b575c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/engine-animation/CMakeLists.txt",
+      "tested_sha256": "53439a82988cadd8674a36d6da1e70d254a5e86b50c4aa264859813018ab2741",
+      "staged_sha256": "3d52b1cfc0a3f2ac9d2f1fc14f8aa8c861d61fc25f4247a5d6159e223b8a19e3",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-skinning/CMakeLists.txt",
+      "tested_sha256": "358f9d0a366d8fc861e64277147a3510bd14a95dbf3186d2cb4ca8f71fa04c8c",
+      "staged_sha256": "736195abf2bdb0b18f74f32e23da37f121873a6cb96439663355f1b28a485a6c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-textures/CMakeLists.txt",
+      "tested_sha256": "7e7f662bc93ee81fb558230737ddf58dad8cd157904d6f790f2b73ac907f8bac",
+      "staged_sha256": "e8b9b1a4e0179fb68fd7659b672e38108b5208fbd4c06f0bf28cac736004423c",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/engine-camera/CMakeLists.txt",
+      "tested_sha256": "23e501081a20f7056c810d65cdd68f5a01c1ca01cad2a9d2aa4b338f4c53d47c",
+      "staged_sha256": "23e501081a20f7056c810d65cdd68f5a01c1ca01cad2a9d2aa4b338f4c53d47c",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/game-data/CMakeLists.txt",
+      "tested_sha256": "1bda4c7fa86ae2f6083b53a7b0d4c0ee2fc2acca584a66a329d23a7854c5a0f3",
+      "staged_sha256": "460d21cc226a8cb2aaa7b1325cfd66ff1bff75b69d006e461c70e883e1a18721",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/level-world/CMakeLists.txt",
+      "tested_sha256": "d925341fd5a91495daf76dca538ae876ced3e13b3ba251939bfce0aed1b68205",
+      "staged_sha256": "d925341fd5a91495daf76dca538ae876ced3e13b3ba251939bfce0aed1b68205",
+      "exact": true,
+      "line_endings_only": false
+    },
+    {
+      "path": "port/physics-backend/CMakeLists.txt",
+      "tested_sha256": "42d80313e12296c9f71a8fadb252cbad5d88574e265805e4b7cff1a35a4c7cb6",
+      "staged_sha256": "8e7041f90cf62cc78a52085cac6ddcceface17825916f493ff836561616d0d10",
+      "exact": false,
+      "line_endings_only": true
+    },
+    {
+      "path": "port/scene-materials/CMakeLists.txt",
+      "tested_sha256": "6274830b9960800a3653cc0c1545aecc13a30fc678eb5a6dccc9a3888f778f6a",
+      "staged_sha256": "4b6805b94d9ff1115fe8106d2f0639aa4b5a037a25ce4014e157688c7770ceff",
+      "exact": false,
+      "line_endings_only": true
+    }
+  ]
+}

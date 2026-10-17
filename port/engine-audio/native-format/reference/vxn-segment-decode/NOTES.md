@@ -1,0 +1,11 @@
+# VXN IMA segment decode boundary
+
+Pinned to the original ELF SHA-256 `36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80` using live IDA/REA and retained assembly: `DecoderNativeCursor::ParseFile` at `0x8738bc`, IMA `DecodeBlock` at `0x887068`, cursor `Seek` at `0x8710fc`, and IMA `Seek` at `0x88635c`.
+
+`DecoderNativeCursor::ParseFile` reads a segment count, computes record stride as `(chunk_bytes - 4) / count`, and copies records at 24-byte stride. In `VoxNativeSubDecoderIMAADPCM::DecodeBlock`, row words at `+0`, `+4`, and `+8` are respectively the segment start byte, encoded-byte bound, and decoded-sample limit. The decoder seeks to `segment_start + state_byte_position`, limits reads to `encoded_bound - state_byte_position`, advances the byte position by actual bytes read, and truncates output at the sample limit.
+
+Each channel's encoded group starts with a 16-bit signed predictor, an index byte, and one reserved byte. The remaining four bytes produce eight samples, low nibble first. Channels write interleaved 16-bit PCM. A Crypt ambience bank has two 24-byte rows with equal 5,140,480-byte extents and a 5,105,117-sample cap each; this pins metadata and bounds, not decoded output.
+
+`DecoderNativeCursor::Seek` dispatches to subdecoder vtable slot `+0x0c`, or returns `-1` with no subdecoder. The IMA subdecoder's `Seek` currently returns zero without changing state. Cursor `Decode` restores/snapshots native state and advances internal byte counters by the actual decoded byte count, but full counter/remainder and buffered-state restore semantics are not yet mapped. Only three of six segment words are explained. No original decoded PCM vector is pinned; full-bank decode and playback remain disconnected.
+
+The separate IMA `SetDecodingBufferToSegmentPosition` path reconstructs sample seeking by blocks: divide the requested sample position by the decoder's samples-per-block field (`+0x170`), multiply that quotient by encoded bytes-per-block (`signed16(+0x10)`), decode from that byte offset, retain the intra-block sample remainder in the per-segment decode-buffer cursor, then restore the requested sample position. Thus the no-op subdecoder `Seek` is not evidence that the cursor's higher-level decode path cannot seek. Exact loop/state interactions and PCM output still need an original vector.

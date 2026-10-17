@@ -1,0 +1,295 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "new_complete_caller_bodies": 3,
+  "new_complete_dependency_bodies": 0,
+  "bounded_original_loader_branch": true,
+  "functions": [
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "scope": "complete source caller"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "scope": "complete source caller"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9SetSwitchERKSsb",
+      "elf_address": "0x337ddc",
+      "size": 236,
+      "sha256": "1653c8daee8e1628a83fb5836064799d57507147e05c372e831c39a8883bece3",
+      "scope": "complete source caller"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches13_loadSwitchesEP11IFileStream",
+      "elf_address": "0x3374e4",
+      "size": 932,
+      "sha256": "4b934bce6a21a2152962d7b056b6656062cb181c923eeca57ab3783810e20f34",
+      "scope": "bounded source binary switch-loop branch"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4saveEv",
+      "elf_address": "0x337d54",
+      "size": 136,
+      "sha256": "bb52db94b17bd5240c3398df62ba12a9da4d67dc4b75dcf436c8994e2ba4b829",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x3369a8",
+      "size": 212,
+      "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+      "elf_address": "0x337288",
+      "size": 380,
+      "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+      "elf_address": "0x3140ec",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZNSsD1Ev",
+      "elf_address": "0x318254",
+      "size": 68,
+      "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEET_P11IStreamBase",
+      "elf_address": "0x3364ec",
+      "size": 184,
+      "sha256": "461597c8f50bde14e013316c8820011152d5a9dc2b785302426839031690cc5b",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIhEET_P11IStreamBase",
+      "elf_address": "0x3365a4",
+      "size": 184,
+      "sha256": "3319d06774aaf85f768a7364b3f935cc0b61aecef70e8b615361b45c4f21549e",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader10readStringEP11IStreamBasePcy",
+      "elf_address": "0x317734",
+      "size": 244,
+      "sha256": "7a5ddf3ee51d3f11ea0aea9b3666862146edec1c8681f8e1f5587acba9e8ea52",
+      "scope": "external provider evidence"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitchesC2Ev",
+      "elf_address": "0x335f94",
+      "size": 56,
+      "sha256": "a464b492a141b0921b85dc23c1afc195df57c318f0df2719493adbc6869d4ef6",
+      "scope": "external provider evidence"
+    }
+  ],
+  "literals": [
+    {
+      "pc_add_address": "0x3378ec",
+      "literal_address": "0x337a6c",
+      "elf_address": "0x8bfe40",
+      "text": "DebugSwitches.savegame",
+      "sha256": "5ca1a68dc0aa1c58d1d11276597e6cb0785da445c7e766f59df4586f7fb984e0"
+    },
+    {
+      "pc_add_address": "0x337950",
+      "literal_address": "0x337a74",
+      "elf_address": "0x8bfe58",
+      "text": "IsDeactivatingFlashMenus",
+      "sha256": "3d505897e8f172d88505bfbb219bbb027f3409598be25c2aa9e8ddb58fea62d6"
+    },
+    {
+      "pc_add_address": "0x337984",
+      "literal_address": "0x337a78",
+      "elf_address": "0x8bfe78",
+      "text": "IsDeactivatingFlashMenusUpdate",
+      "sha256": "20821455267d0a9abe009e61cfdf7926e661a6ad1cbd87de7cfec398628ea89c"
+    },
+    {
+      "pc_add_address": "0x3379b8",
+      "literal_address": "0x337a7c",
+      "elf_address": "0x8bfe98",
+      "text": "IsDeactivatingFlashMenusRender",
+      "sha256": "72b0e904b1444e72da8f975db6a6e305bad05166d4421e3b7ba6952921216e99"
+    },
+    {
+      "pc_add_address": "0x3379ec",
+      "literal_address": "0x337a80",
+      "elf_address": "0x8bfeb8",
+      "text": "ConnectToAlphaServer",
+      "sha256": "6ffe3905d328b203deae15140ab2f1c4cf8d6a34feb4a1ba4ab750ad13ff0a23"
+    },
+    {
+      "pc_add_address": "0x337a1c",
+      "literal_address": "0x337a84",
+      "elf_address": "0x8bfed0",
+      "text": "ConnectToBetaServer",
+      "sha256": "660ef499a33161249ecb8b3f0a497dca98bd6f66abcefe0bab971d354a15ee64"
+    },
+    {
+      "pc_add_address": "0x337b18",
+      "literal_address": "0x337b48",
+      "elf_address": "0x8bfd88",
+      "text": "isTracingDebugSwitches",
+      "sha256": "44fbaa35e9452bb7fbeee05fd228f7376b903385caa1c0d852e84916619a2878"
+    },
+    {
+      "pc_add_address": "0x337e80",
+      "literal_address": "0x337ec4",
+      "elf_address": "0x8bfd88",
+      "text": "isTracingDebugSwitches",
+      "sha256": "44fbaa35e9452bb7fbeee05fd228f7376b903385caa1c0d852e84916619a2878"
+    },
+    {
+      "pc_add_address": "0x337620",
+      "literal_address": "0x33786c",
+      "elf_address": "0x8bfda0",
+      "text": "isTracingDebugSwitchesFile",
+      "sha256": "1abd888faa04efdc3f80320d9823d58a13d7f794e3c038444b8d4e2cc441f9dc"
+    }
+  ],
+  "global_objects": [
+    {
+      "symbol": "_ZN13DebugSwitches6s_instE",
+      "slot": "0x99531c",
+      "target": "0x9a1d18",
+      "bytes": 48
+    },
+    {
+      "symbol": "_ZN13DebugSwitches8s_loadedE",
+      "slot": "0x9988e8",
+      "target": "0x9a1d48",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZN9SingletonI11ApplicationE6s_instE",
+      "slot": "0x99828c",
+      "target": "0x99f72c",
+      "bytes": 272
+    }
+  ],
+  "cache_debug_configuration": {
+    "path": "DebugSwitches.savegame",
+    "bytes": 665,
+    "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+    "header_hex": "575342440000020000000000",
+    "rows": [
+      {
+        "name": "ConnectToAlphaServer",
+        "value": 0
+      },
+      {
+        "name": "ConnectToBetaServer",
+        "value": 0
+      },
+      {
+        "name": "DontUsePlayerSeed",
+        "value": 0
+      },
+      {
+        "name": "DumpQuestInformationOnce",
+        "value": 0
+      },
+      {
+        "name": "EnablePlayerHeadLight",
+        "value": 1
+      },
+      {
+        "name": "ForceAll4Players",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenus",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenusRender",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenusUpdate",
+        "value": 0
+      },
+      {
+        "name": "IsDisablingMinimap",
+        "value": 0
+      },
+      {
+        "name": "IsLevelUpdatePaused",
+        "value": 0
+      },
+      {
+        "name": "IsUsingCharacterShowRoom",
+        "value": 0
+      },
+      {
+        "name": "IsUsingGamepadTweaker",
+        "value": 0
+      },
+      {
+        "name": "IsUsingToggleDisplayMode",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableAllLighting",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableAllSpecular",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableGpuSkinning",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_EnableShadowProjection",
+        "value": 1
+      },
+      {
+        "name": "RENDERING_EnableXray",
+        "value": 1
+      },
+      {
+        "name": "TestMultiPlayerLight",
+        "value": 1
+      },
+      {
+        "name": "ToggleGamepadScreenShot",
+        "value": 1
+      },
+      {
+        "name": "isTracingDebugSwitches",
+        "value": 0
+      },
+      {
+        "name": "isTracingDebugSwitchesFile",
+        "value": 0
+      }
+    ],
+    "fully_consumed": true,
+    "requested_key_present": false,
+    "parsing_scope": "Actual cache and accepted original binary switch-loop branches are decoded into maintained owned maps; complete load/GetSwitch/SetSwitch callers, bounded loader branch only. No whole original file/STL/string/save dependency body claim."
+  },
+  "unsupported_boundaries": [
+    "positive module-entry lists",
+    "old version/text/invalid magic paths",
+    "ReadString names over255bytes",
+    "more than10000switches",
+    "source raw filesystem/string/map/save bodies"
+  ],
+  "native_wired": false
+}

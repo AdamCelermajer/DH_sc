@@ -1,0 +1,106 @@
+{
+  "complete_game": false,
+  "scope": "APK property data imports, 1344 real final/default queries, typed methods, dataset generations, malformed and size rejection/recovery. No real Character, derived stats, buffs, combat or game loop.",
+  "device": {
+    "serial": "emulator-5560",
+    "android_release": "17",
+    "sdk": 37,
+    "page_size": 4096,
+    "abi": "x86_64"
+  },
+  "apk_sha256": "31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7",
+  "installed_apk_hash_matches": true,
+  "real_cache_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+  "cases": [
+    {
+      "case": "not_loaded",
+      "properties": false,
+      "bytes": 46,
+      "sha256": "78a63f074bc94470c2928cda43719ae6f7d109d891bee4758e62cce2a4914868",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "real_cache",
+      "properties": true,
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "real_queries",
+      "properties": false,
+      "bytes": 38173,
+      "sha256": "45d498d248953ffd73817b83b286cfcb6f35d2f17a6208e13920c05b2244caab",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "generation_a",
+      "properties": true,
+      "bytes": 2700,
+      "sha256": "40d0ed85dbeed4cc09f9efaa1edfb5d365eed9939fb58b6ce75057899c187adf",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "methods",
+      "properties": false,
+      "bytes": 615,
+      "sha256": "238af0369e1607d2bf9ff897d1a3bdcb96d3e77223f5fe52c19a2cce70c2247c",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "malformed",
+      "properties": true,
+      "bytes": 1,
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "status": "Properties rejected: malformed character property file"
+    },
+    {
+      "case": "retained",
+      "properties": false,
+      "bytes": 75,
+      "sha256": "51e3e51c5899d1ca345ba05f596bff0d6d7e0156d4172049ec400640644db567",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "generation_b",
+      "properties": true,
+      "bytes": 2700,
+      "sha256": "47aad0f98b25dad700c9310e57fffb6f1cefc3bd553847d00c36f7c727b7f294",
+      "status": "Properties loaded. Script property objects are ready; gameplay is unfinished."
+    },
+    {
+      "case": "replacement",
+      "properties": false,
+      "bytes": 243,
+      "sha256": "7ac2f4ad82945576da7e84e7c746d6e9464db82f22e14113a09d17c485334326",
+      "status": "Script loaded. Game objects are not connected yet."
+    },
+    {
+      "case": "oversize",
+      "properties": true,
+      "bytes": 4194305,
+      "sha256": "95e441ca65cd41fa01b2a71799e79fd60db59ed34f13af32a91e85f90378676c",
+      "status": "Properties rejected: File exceeds 4 MiB limit"
+    },
+    {
+      "case": "recovery",
+      "properties": false,
+      "bytes": 75,
+      "sha256": "3ac50aa75d316ad752cf0ec94afb6dec8bddfbe79e0c91943b1a0f8971ae47b5",
+      "status": "Script loaded. Game objects are not connected yet."
+    }
+  ],
+  "process_survived_all_cases": true,
+  "fatal_in_run": false,
+  "screenshot": {
+    "file": "properties-ready.png",
+    "sha256": "3a6c196fbef1a4e9a6efbac7612de1685e49c3c4006f390711ce2fdf4c2f388a"
+  },
+  "log_start_emulator_gmt": "10-02 17:25:29.000",
+  "test_sha256": "e0f9bcdd855365f7214c2d2827481e6094fb134233ca63a0688de4383ec6802c",
+  "source_sha256": {
+    "scripts.cpp": "cd3737b29921a51d833adc0bc14aced30b75fa28dfd911e417c23df3e7eac5e5",
+    "src/local/dh2/sourceviewer/MainActivity.java": "21625543c01ac9d0c5b1f0655db0fcdf794e0e9ceabafdae52940b3b54974d00",
+    "build.py": "6836dc6cf8b5eddf458f741354a251b5d9977e459aed7d3536a5f07fdadbda22"
+  }
+}

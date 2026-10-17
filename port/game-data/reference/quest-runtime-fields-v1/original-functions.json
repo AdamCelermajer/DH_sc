@@ -1,0 +1,158 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN5QuestC1Ei",
+      "elf_address": "0x4808e4",
+      "size": 96,
+      "sha256": "5105aba8cb303f2c3e861dc405655b78073a4ca4ae3347c9f47827b414a0cdcb"
+    },
+    {
+      "original_symbol": "_ZN5Quest18SetOwnerToChildrenEv",
+      "elf_address": "0x4807d8",
+      "size": 68,
+      "sha256": "1079543588769d35354a59668a285185c802f4691d1704f256dc108678a7641b"
+    },
+    {
+      "original_symbol": "_ZN5Quest12AssignPyDataEPN7Structs7v2QuestE",
+      "elf_address": "0x48081c",
+      "size": 200,
+      "sha256": "db22d896a4a654834244c59615b902409f76195a915a4d40692a23b75cf55467"
+    },
+    {
+      "original_symbol": "_ZN5Quest6ReInitEv",
+      "elf_address": "0x480060",
+      "size": 252,
+      "sha256": "bbe24c47bb649594a6b732e11b614dfb2a1e65eeaaf1345658622e2f1145be94"
+    },
+    {
+      "original_symbol": "_ZN5Quest14_loadQuestDataEP11IStreamBaseb",
+      "elf_address": "0x47f78c",
+      "size": 112,
+      "sha256": "9eac33a991fb207a1b28ddf91a7af41cd2e29d45af34b6f8b4eea7a3a5fe696a"
+    },
+    {
+      "original_symbol": "_ZNK5Quest15IsVolatileStateEi",
+      "elf_address": "0x47f70c",
+      "size": 40,
+      "sha256": "b3fafff7d6267bb582e6750b2c89675edb85d007cf8573235b1ddb5db2e8c321"
+    },
+    {
+      "original_symbol": "_ZN5QuestD1Ev",
+      "elf_address": "0x4809a4",
+      "size": 112,
+      "sha256": "944cd07da5ddb583636dac8a8d1b5518fab12cebaa571a31b131e68bb023c881"
+    },
+    {
+      "original_symbol": "_ZN5QuestD2Ev",
+      "elf_address": "0x480a14",
+      "size": 112,
+      "sha256": "357589c135671c2ce339e7f4e7a5ea01c340020106caafb0adb2032393775e98"
+    }
+  ],
+  "declared_callee_dependencies": [
+    {
+      "original_symbol": "_ZN13ConditionListC1Ev",
+      "elf_address": "0x4786f0",
+      "size": 20,
+      "sha256": "9448dc4c8e2d0453cdbef676eba4b5322852c33e65e1691a7da41e8bd20e21d9"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveListC1Ev",
+      "elf_address": "0x47a3d4",
+      "size": 20,
+      "sha256": "9448dc4c8e2d0453cdbef676eba4b5322852c33e65e1691a7da41e8bd20e21d9"
+    },
+    {
+      "original_symbol": "_ZN10RewardListC1Ev",
+      "elf_address": "0x482b0c",
+      "size": 64,
+      "sha256": "15a880bdd504980d25bb81d2adbc43fa3c511f3acd4c896cad6103317b9183d4"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList8SetOwnerEP9Character",
+      "elf_address": "0x47a414",
+      "size": 48,
+      "sha256": "6d336b2ae4c801b65e8e6283038084e31ff6a8fd78b6becd85004017a17e1210"
+    },
+    {
+      "original_symbol": "_ZN10RewardList8SetOwnerEP9Character",
+      "elf_address": "0x4828f0",
+      "size": 48,
+      "sha256": "6d336b2ae4c801b65e8e6283038084e31ff6a8fd78b6becd85004017a17e1210"
+    },
+    {
+      "original_symbol": "_ZN13ConditionList12AssignPyDataEPN7Structs15v2ConditionStubEi",
+      "elf_address": "0x478914",
+      "size": 136,
+      "sha256": "8c51b8af8ef8bcc684bb90e5634dd05583669aca2121391cf8477857ab2e9d22"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList12AssignPyDataEPN7Structs20v2QuestObjectiveStubEi",
+      "elf_address": "0x47aa48",
+      "size": 108,
+      "sha256": "4a0207c99f9abd934bc845c3ef57f5029fc9e826082009575f052b1fcdcef5e9"
+    },
+    {
+      "original_symbol": "_ZN10RewardList12AssignPyDataEPN7Structs17v2QuestRewardStubEi",
+      "elf_address": "0x483950",
+      "size": 180,
+      "sha256": "c2fae73102f470a43c56ecd7d6ec3ea04ff09e6678a63e7d48fe80892582b98c"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList25CreateObjectiveWithPyDataEPN7Structs20v2QuestObjectiveStubE",
+      "elf_address": "0x47a3e8",
+      "size": 44,
+      "sha256": "f59a7afeeab1a110d79a2bf9bdb1418bec55ea4cbc052ce4e13f921a4d5aaade"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList22RemoveObjectiveMarkersEv",
+      "elf_address": "0x47a5cc",
+      "size": 36,
+      "sha256": "a0bcc2cf3d0a3dc12b9541df2022c7623850d140149f38304e72af44b390bfbe"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList10UnregisterEv",
+      "elf_address": "0x47a5f0",
+      "size": 36,
+      "sha256": "b617d447efc30b276407504711e7a1a3a0d098139bc9eeb6f13873bec66f1482"
+    },
+    {
+      "original_symbol": "_ZNSt4priv12_String_baseIcSaIcEE17_M_allocate_blockEj",
+      "elf_address": "0x31167c",
+      "size": 108,
+      "sha256": "bd4931d0fa0bb58d37743dda6bcb4ea26f84fc82fc5901be1d2ade1dad8eac22"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "elf_address": "0x459090",
+      "size": 176,
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "original_symbol": "_ZN13ObjectiveList9_loadDataEP11IStreamBase",
+      "elf_address": "0x47a798",
+      "size": 44,
+      "sha256": "b57c45ccd1240a442306d3566dd3b41280cc219c7468569f8f32ce95c80a999b"
+    }
+  ],
+  "scope": "Whole Quest scalar callers and three original embedded constructors. Other listed child/list/Objective/virtual bodies remain mandatory real providers. The private original and campaign files are not distributed.",
+  "volatile_state_table": {
+    "elf_address": "0x8cdf24",
+    "size": 10,
+    "values": [
+      1,
+      0,
+      1,
+      1,
+      0,
+      1,
+      1,
+      0,
+      1,
+      1
+    ],
+    "sha256": "f5216c6b35aba987bd3dc9fd704504e9ff7a74da668f2e234bd9bca4cbc30f84"
+  },
+  "destruction_scope": "Whole112B D1/D2 caller order. Actual action deleting virtual4 and Reward/Objective/ConditionList destructors are mandatory external providers."
+}

@@ -1,0 +1,169 @@
+{
+  "complete_game": false,
+  "scripts_executed": false,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "host_sha256": "023daf33cc8283501f48d3159098cc868f9be81e8f593c93130e3d881d03e64d",
+  "arm64_sha256": "5f806241385641a2700cc59e45338fdc1f6f0598b4de0c1c1339a524c90edded",
+  "test_sha256": "2eab57068f1100235a82ad1d6e87b52e405d5e851ec7a6bd47be57df95f5e511",
+  "cache_sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+  "seed": 20261002,
+  "cases": {
+    "actual cache type writes": 896,
+    "GetInt current final": 1676,
+    "synthetic flag writes": 780
+  },
+  "comparisons": 3352,
+  "mismatches": 0,
+  "function_evidence": [
+    {
+      "elf_address": "0x3e07a0",
+      "size": 104,
+      "symbol": "_ZN14CharProperties9PROPS_SetEii",
+      "sha256": "e8dba6a3ac25d476f2bded4744830d789ad77a4b18271d7ae04b14f111422051"
+    },
+    {
+      "elf_address": "0x3e0708",
+      "size": 144,
+      "symbol": "_ZN14CharProperties9PROPS_AddEii",
+      "sha256": "0e4a2cdfe4feef368849e8823b05d451f55b4178b762f3fa9fcaf27d8abf79c3"
+    },
+    {
+      "elf_address": "0x3e0808",
+      "size": 8,
+      "symbol": "_ZN14CharProperties12PROPS_SetIntEii",
+      "sha256": "6dbf784d5661121e826220b3ddbfaa4ff1598dbe86491d341f15b8460b79bc51"
+    },
+    {
+      "elf_address": "0x3e0798",
+      "size": 8,
+      "symbol": "_ZN14CharProperties12PROPS_AddIntEii",
+      "sha256": "0bd5ce810e2f1f26510b70a87c6528abb381a9c39ab4f0ecedc7e3725c0bd6b2"
+    },
+    {
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342"
+    },
+    {
+      "elf_address": "0x3dfe60",
+      "size": 1972,
+      "symbol": "_ZN14CharProperties14RecalcPropertyEi",
+      "sha256": "9df07709d1780dd22c056b6bdca240de845b4c118b7b4b3d6719595193ec9030"
+    },
+    {
+      "elf_address": "0x004b4340",
+      "size": 324,
+      "symbol": "_ZN6Arrays14CharacterTable4readEP11IStreamBase",
+      "sha256": "114e5785de05fc00c84c205edfc7365b359990d124aec051cc65f18219cc048d"
+    },
+    {
+      "elf_address": "0x004b41f4",
+      "size": 332,
+      "symbol": "_ZN6Arrays25StatAutoAssignSchemeTable4readEP11IStreamBase",
+      "sha256": "c0f780de23feb18ab6fc1c839c85b0ffc690edb06c93b83fde9c0c56f83e6f46"
+    },
+    {
+      "elf_address": "0x004b40a8",
+      "size": 332,
+      "symbol": "_ZN6Arrays13StatListTable4readEP11IStreamBase",
+      "sha256": "89a8c1761d1e5334b48f512c1a9afa2953a7577854791fa7a0b2b1b8afa0a128"
+    },
+    {
+      "elf_address": "0x004f2750",
+      "size": 21276,
+      "symbol": "_ZN7Structs19CharacterProperties4readEP11IStreamBase",
+      "sha256": "e36675bc084dc08077b2f32397e55caff7d6e63fa0e1976fffa1c984d532f26d"
+    },
+    {
+      "elf_address": "0x004dce90",
+      "size": 348,
+      "symbol": "_ZN7Structs24StatAutoAssignTargetList4readEP11IStreamBase",
+      "sha256": "9d4d371867274a2c7dd95c50e55ea3f158c169d232528a318a88aeb1ade3577e"
+    },
+    {
+      "elf_address": "0x004ef520",
+      "size": 300,
+      "symbol": "_ZN7Structs20StatAutoAssignTarget4readEP11IStreamBase",
+      "sha256": "e65025c4e9e416c60589f9b5e1d95dd04c80bbd6c823ab8862740717ce769958"
+    },
+    {
+      "elf_address": "0x004eacc0",
+      "size": 292,
+      "symbol": "_ZN7Structs12StatListList4readEP11IStreamBase",
+      "sha256": "7e655808d197d6a013a9538d89757ce6b686b999152477e131dcd8a20c8764e0"
+    },
+    {
+      "elf_address": "0x00313a90",
+      "size": 184,
+      "symbol": "_ZN12StreamReader6readAsIjEET_P11IStreamBase",
+      "sha256": "aa0ca3fa275c748cd04a9694d9d0f3a6112241e79cdf905fcbed0485c9930c79"
+    },
+    {
+      "elf_address": "0x003df1a0",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIjEEvP11IStreamBasePT_",
+      "sha256": "80fbe74a694f45c71b183a970e0501cda9ffd07e1544dedbaeccd1926968aafa"
+    },
+    {
+      "elf_address": "0x00459090",
+      "size": 176,
+      "symbol": "_ZN12StreamReader6readAsIiEEvP11IStreamBasePT_",
+      "sha256": "68ef60c0ae32f44c79a4109bf541d8ab9b7c302f0562cdc9a84dea2efc1d83ed"
+    },
+    {
+      "elf_address": "0x003deca0",
+      "size": 276,
+      "symbol": "_ZN14CharProperties12_SetPropertyERN7Structs19CharacterPropertiesEii",
+      "sha256": "61d5cdfabfb0a114c233ebf4a4b867830a9f1c087009a5a5f8bf7503a4370510"
+    },
+    {
+      "elf_address": "0x003dedb4",
+      "size": 292,
+      "symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "elf_address": "0x003deed8",
+      "size": 56,
+      "symbol": "_ZNK14CharProperties8_GetTypeEi",
+      "sha256": "2767da71c9c875e51ac9db94b0947e106cac232f998cba6be36d4fd5a4b945bb"
+    },
+    {
+      "elf_address": "0x003def10",
+      "size": 36,
+      "symbol": "_ZNK14CharProperties11_GetDefaultEi",
+      "sha256": "6710c8429d947c675e85a03cbb9a7f46bb197eafcc3f847cabdcaa91385a3017"
+    },
+    {
+      "elf_address": "0x003def34",
+      "size": 80,
+      "symbol": "_ZN14CharProperties16_ResetPropertiesERN7Structs19CharacterPropertiesE",
+      "sha256": "76bfb4312f9a2a80f4f25ffa6933ba404ee59b7bd710702321d36686b58418e2"
+    },
+    {
+      "elf_address": "0x003df114",
+      "size": 44,
+      "symbol": "_ZNK14CharProperties14_IsPropertySetERKN7Structs19CharacterPropertiesEi",
+      "sha256": "2d40e1a43f3becbe9b22b2d5a93c9043c6757e591415e227d31d80ff963c7303"
+    },
+    {
+      "elf_address": "0x003df140",
+      "size": 96,
+      "symbol": "_ZN14CharProperties12_AddPropertyERN7Structs19CharacterPropertiesEii",
+      "sha256": "4d850624c15803158ef818077afaa6307d142de37f14c28fa56c85c65a15911e"
+    },
+    {
+      "elf_address": "0x003df250",
+      "size": 84,
+      "symbol": "_ZN14CharProperties18_LoadFromCharTableERN7Structs19CharacterPropertiesEi",
+      "sha256": "64632e1381f967cb747d5071e8b93b6e36135fd51b6eadd01b31595f17743a45"
+    }
+  ],
+  "whole_four_sheet_state_comparison": true,
+  "original_reserved_fields_preserved": true,
+  "output_guards": true,
+  "stack_restoration": true,
+  "dependency_model": "Actual original PROPS_Set/Add/SetInt/AddInt/GetInt(false), RecalcProperty and property helpers execute on empty buff containers. Source compares all four sheets and arithmetic shift output; defaults initialized from checked records by authored source ownership. Virtual reads, allocation/disposal and memcpy/memmove/memcmp are bounded models. Buff-inclusive write routing, original Character construction, Lua arguments/ReturnValues, derived base-stat calculations, Android integration and gameplay remain unfinished. Source ARM64 runs in Unicorn, without hardware execution."
+}

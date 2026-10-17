@@ -1,0 +1,224 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CSDead7OnFocusEiP9CharacterP16CharStateMachineiiPv",
+      "elf_address": "0x3c4d50",
+      "size": 572,
+      "sha256": "7a16b14c31d94ef4aa492583a503198b61fa4035e839d352ea75729bd56fa226"
+    },
+    {
+      "original_symbol": "_ZN9Character14CancelSneakingEv",
+      "elf_address": "0x3bc6b8",
+      "size": 204,
+      "sha256": "d6373ab73d784aeec6a20fb1b71b48d3657f1e0d1dbb442d47c1d3311ef059a4"
+    },
+    {
+      "original_symbol": "_ZNK9Character10IsSneakingEv",
+      "elf_address": "0x3bc690",
+      "size": 40,
+      "sha256": "a676ab62253174c6e16ef64e181800290d6dd78d8b8b3e0c34054651dbfb76bb"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f"
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20"
+    },
+    {
+      "original_symbol": "_ZNK9Character16GetCharSkillListEv",
+      "elf_address": "0x3bc5fc",
+      "size": 48,
+      "sha256": "7711762aa425c1b5e34dd0b9ce1f2e0d9316ef3d7c0c7ad43a51b30e0dcd9210"
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad"
+    },
+    {
+      "original_symbol": "_ZN6CharAI14AI_CancelSkillEj",
+      "elf_address": "0x3d84e0",
+      "size": 244,
+      "sha256": "b304aa5ca13b9b51caf272960f8e93cfcad7b3fd364762b80130a6c50f6f0924"
+    },
+    {
+      "original_symbol": "_ZN9Character26RemoveMultiplayerHighlightEv",
+      "elf_address": "0x3a4068",
+      "size": 72,
+      "sha256": "55fe16c35ef299a3a3d39441c7d9f6414593f6c30e1a303a8548eb7982a3aaa4"
+    },
+    {
+      "original_symbol": "_ZN9Character14DisableStateFXEv",
+      "elf_address": "0x3a40e4",
+      "size": 52,
+      "sha256": "5cee7994f802b8f65bf5fc90858b61b248328747a20828b4911995e3de62d50e"
+    },
+    {
+      "original_symbol": "_ZN9Character13DisableSelfFXEv",
+      "elf_address": "0x3a40b0",
+      "size": 52,
+      "sha256": "6c1bde33e2bcab23cc7e4900b7203df67156985ac591ee624d1336fec80273fd"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties20PROPS_RemoveAllBuffsEv",
+      "elf_address": "0x3e0af8",
+      "size": 372,
+      "sha256": "e4cd4ad28f349467bbec59eaf964f82b45950f5ee9ddd666a8587048c255165a"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC2EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3a9340",
+      "size": 1448,
+      "sha256": "ef72da53c9a0ec2014a3fbcf81a04d57cc49859415d822fd932ca11ff0e77ceb"
+    },
+    {
+      "original_symbol": "_ZN9CharacterC1EN10ObjectBase6GO_IDSE",
+      "elf_address": "0x3aa1b4",
+      "size": 1448,
+      "sha256": "85471dbc43082bce2a8f0fd429f0764fb55948ce47c3396dfca28933d701e6e6"
+    },
+    {
+      "original_symbol": "_ZN6CharAIC2Ev",
+      "elf_address": "0x3cebf0",
+      "size": 352,
+      "sha256": "90203efdaeb5c4e378736be80a95ab30a278cf81e2ccbe097e43a20f34db4009"
+    },
+    {
+      "original_symbol": "_ZN6CharAIC1Ev",
+      "elf_address": "0x3ced50",
+      "size": 352,
+      "sha256": "e4a3df105876c622bb394d7f12bb43ac915bf8ba4927708337bf8ba786323919"
+    },
+    {
+      "original_symbol": "_ZN6CharAI6UpdateEv",
+      "elf_address": "0x3cfbf4",
+      "size": 372,
+      "sha256": "ac1373709c4ba656b3deba4c9e5f75b3677a7f526e009e748acc2880f884dcfe"
+    },
+    {
+      "original_symbol": "_ZN6CharAI8OnUpdateEv",
+      "elf_address": "0x3d1050",
+      "size": 364,
+      "sha256": "b7f3702aa3d33a84667fd56c9fd44b1694acd7a557b9bd301dcb978a51d8ebde"
+    },
+    {
+      "original_symbol": "_ZN11AISExternal8OnUpdateEv",
+      "elf_address": "0x3dce64",
+      "size": 64,
+      "sha256": "47fc8c7829030778675408d02e0b1e3773f59a620bad5d373201c65fb0e61dc6"
+    },
+    {
+      "original_symbol": "_ZN10AISDefault8OnUpdateEv",
+      "elf_address": "0x3dc798",
+      "size": 64,
+      "sha256": "b4b2accbca71efc2e95e37357589e0c2e722873cac3f1395065000d8561a8913"
+    },
+    {
+      "original_symbol": "_ZN6CharAI15UpdateAllSkillsEv",
+      "elf_address": "0x3d8894",
+      "size": 180,
+      "sha256": "7c3efb393b1c872b2992c91f04214cbf333d09330a5fd26d84e14c1b0fef58c3"
+    },
+    {
+      "original_symbol": "_ZN6CharAI12UpdateSkillsEv",
+      "elf_address": "0x3d8a04",
+      "size": 148,
+      "sha256": "82796a85dc2dab42ac52b4442a3c5c52f932e580855257ccff2326db8600f389"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "elf_address": "0x37280c",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce"
+    }
+  ],
+  "direct_text_xrefs": [
+    {
+      "callsite": "0x373970",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN13PlayerManager17_ManageCharactersEv",
+      "caller_address": "0x37280c"
+    },
+    {
+      "callsite": "0x3a5a38",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN9Character6ReviveEP10GameObjectb",
+      "caller_address": "0x3a59ac"
+    },
+    {
+      "callsite": "0x3a9de8",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN9Character12ReloadSkillsEv",
+      "caller_address": "0x3a9db4"
+    },
+    {
+      "callsite": "0x3ae69c",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN9Character13IncFaeryLevelEj",
+      "caller_address": "0x3ae61c"
+    },
+    {
+      "callsite": "0x3aea08",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN9Character11ChangeFaeryEj",
+      "caller_address": "0x3ae99c"
+    },
+    {
+      "callsite": "0x3b4b48",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN9Character9InitFinalEv",
+      "caller_address": "0x3b4978"
+    },
+    {
+      "callsite": "0x3bcebc",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN9Character8IncSkillEib",
+      "caller_address": "0x3bcc58"
+    },
+    {
+      "callsite": "0x3ce7e0",
+      "target": "0x3d8894",
+      "instruction": "BL",
+      "caller": "_ZN6CharAI17InitScriptProcessEb",
+      "caller_address": "0x3ce7c0"
+    },
+    {
+      "callsite": "0x3d8d6c",
+      "target": "0x3d8894",
+      "instruction": "B",
+      "caller": "_ZN6CharAI15AI_ReloadSkillsEv",
+      "caller_address": "0x3d8cfc"
+    },
+    {
+      "callsite": "0x468208",
+      "target": "0x3d8a04",
+      "instruction": "BL",
+      "caller": "_ZN14PlayerSavegame17SG_SetSkillInSlotEij",
+      "caller_address": "0x4680a8"
+    }
+  ],
+  "claims": {
+    "byte415": "Character+415 is embedded CharAI+4d; C2 3cec6c/C1 3cedcc write constructor1.",
+    "fx_zero": "Character C2 3a963c/3a964c/3a9674 writes self1484/state148c/highlight14a0 zero.",
+    "dead_order": "CSDead focus explicitly loads and queries two Debug switches before flags; CancelSneaking removes player buff146 then writes byte415=1 before reading resolvedSneak198.",
+    "player_manager": "ManageCharacters calls UpdateAllSkills only after changed skill member400/continuation and valid signed received levels cause SG_SetSkillLevel in slots0..29. It is not blanket cadence.",
+    "frame": "CharAI Update gates paused, controller forced/blocked/locked, flags520 bit100, zonable/zoned/inzone; then target/master/aggro and virtual OnUpdate. AISExternal calls default, flagged Lua OnUpdate, stateUpdate, conditions. Neither directly calls UpdateAllSkills.",
+    "kill_continuation": "Current native application already reaches dead/HP0 Kill prefix; full Player kill count/trophy/online continuation remains open, and must not reenter full Kill after dead1."
+  },
+  "scope": "Static original bytes and direct ARM B/BL xrefs only. No indirect-xref completeness, full Character/PlayerManager execution, native AI frame, native positive FX or Kill continuation claim."
+}

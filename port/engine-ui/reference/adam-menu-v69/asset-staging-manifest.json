@@ -1,0 +1,3256 @@
+{
+  "commit": "791e961b12233100b303038c961666834f4beb9d",
+  "scope": "Private APK asset staging only. This manifest contains paths/hashes, not original bytes. Catalog includes optional languages/device variants; runtime requires Android menu/shared/loading, actual text/font/texture URIs plus direct inputs. Model/clip/texture closure is owned by renderer integration.",
+  "entries": [
+    {
+      "uri": "data/3d/textures/iphone_table_dh2.tga",
+      "asset": "original-cache/data/3d/textures/iphone_table_dh2.tga",
+      "sha256": "9850caf0375d313529b4219ecc4bb2be24118e70546c5edfc577f4028dc0f58b",
+      "bytes": 32828,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/iphone_table_dh2.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/map_bottom.tga",
+      "asset": "original-cache/data/3d/textures/map_bottom.tga",
+      "sha256": "038faedbd0f68f42975deca4638257382dcd79fc5907138fad67efb026c0a1b3",
+      "bytes": 524348,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/map_bottom.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/map_top.tga",
+      "asset": "original-cache/data/3d/textures/map_top.tga",
+      "sha256": "d758912d7e9e9cfaee64bb8fe7afdafd70eaf7841c106b82f205e176a2b97be9",
+      "bytes": 131132,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/map_top.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/MenusGraphics.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics.tga",
+      "sha256": "ddc6194e85381e07ecc9586040e0546fd3219a53fc054095277f6c0d7262ad74",
+      "bytes": 4194348,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/MenusGraphics.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/menusgraphics1.tga",
+      "asset": "original-cache/data/3d/textures/menusgraphics1.tga",
+      "sha256": "364498ef2145d5176e98694311aa3de90cb27f3c4d1480c892c451544b35f3b0",
+      "bytes": 131132,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/menusgraphics1.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/MenusGraphics_droid.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics_droid.tga",
+      "sha256": "c75e8f4df8a9b28fcca7aa819a05cd69e6206d27a391b4364fd67790aeea86c7",
+      "bytes": 524348,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/MenusGraphics_droid.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/MenusGraphics_I9000.tga",
+      "asset": "original-cache/data/3d/textures/MenusGraphics_I9000.tga",
+      "sha256": "44d275f3e6ce9b06ed4870eba4a0d8e3e6707b3667203fa6b86f724a4356d282",
+      "bytes": 524348,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/MenusGraphics_I9000.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/splash_final.tga",
+      "asset": "original-cache/data/3d/textures/splash_final_droid.tga",
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",
+      "bytes": 8388652,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/splash_final_droid.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/3d/textures/splash_final_droid.tga",
+      "asset": "original-cache/data/3d/textures/splash_final_droid.tga",
+      "sha256": "2a296425a7072f22b6ac0ec9344b441599ebc7b5497dc22e671c791f455df2a8",
+      "bytes": 8388652,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/3d/textures/splash_final_droid.tga",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/arkham_bold.ttf",
+      "asset": "original-cache/data/arkham_bold.ttf",
+      "sha256": "864b81bc3014986063289eb67be492b19c4bc57da1d46035b4fe9c55ce346df1",
+      "bytes": 39276,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/arkham_bold.ttf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/arkham_reg.ttf",
+      "asset": "original-cache/data/arkham_reg.ttf",
+      "sha256": "86146a3d9a59cf55d3eb79288f99129182ad30f8031b12d8f6572c6bb9aab828",
+      "bytes": 38912,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/arkham_reg.ttf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/Fontin SmallCaps.ttf",
+      "asset": "original-cache/data/Fontin SmallCaps.ttf",
+      "sha256": "e0aa9854059f79a24dd9ced942c1add193d1ff83c3ff44685c6d5d8ff3ce53c4",
+      "bytes": 79836,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/Fontin SmallCaps.ttf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/japanese.ttf",
+      "asset": "original-cache/data/japanese.ttf",
+      "sha256": "792f186108fb8b082247928a8328f6a9b1554b0cd7114163c12cb7fa0d7c1d9e",
+      "bytes": 2733604,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/japanese.ttf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/.nomedia",
+      "asset": "original-cache/data/menus/.nomedia",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/.nomedia",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqcharmenu.swf",
+      "asset": "original-cache/data/menus/dqcharmenu.swf",
+      "sha256": "c781079110555b174d5006b0f9387e8dedb2572fe47f4eb1ec5e53e5f10e63ac",
+      "bytes": 10105982,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqcharmenu_droid.swf",
+      "asset": "original-cache/data/menus/dqcharmenu_droid.swf",
+      "sha256": "43227075f407626b52eca4c345ac6f568023fcb39c269588201026c0fc6760e0",
+      "bytes": 248432,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqcharmenu_i9000.swf",
+      "asset": "original-cache/data/menus/dqcharmenu_i9000.swf",
+      "sha256": "54c22c02ac91134d58f281b29d4b54da3f5743c11289db16c06a92f280c33d93",
+      "bytes": 248432,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqcharmenu_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqhud.swf",
+      "asset": "original-cache/data/menus/dqhud.swf",
+      "sha256": "3ab455733367acf657df6eaaec39c93fed34cbcf519255e02cf488c07a96f2bb",
+      "bytes": 10720682,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqhud_droid.swf",
+      "asset": "original-cache/data/menus/dqhud_droid.swf",
+      "sha256": "a4ffacd1abdf7c9b2ba19c46ebb81c60c100458731a4cdba5880391b9c11b238",
+      "bytes": 224739,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqhud_i9000.swf",
+      "asset": "original-cache/data/menus/dqhud_i9000.swf",
+      "sha256": "366165170bba0de9e265903e112b8d86c9e68dfb53b74ab25c7e75fde4667938",
+      "bytes": 224739,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqhud_jp.swf",
+      "asset": "original-cache/data/menus/dqhud_jp.swf",
+      "sha256": "6cdcc009a0d90614c6ed19296303d3b2e9c415337dc26e1b3434499ab450bfa4",
+      "bytes": 72937,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_jp.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqhud_jp_droid.swf",
+      "asset": "original-cache/data/menus/dqhud_jp_droid.swf",
+      "sha256": "b33af9ef8051914b51ee7aa4a141852da1249d70c331fcd51b7c1149fd1cf001",
+      "bytes": 72943,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_jp_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqhud_jp_i9000.swf",
+      "asset": "original-cache/data/menus/dqhud_jp_i9000.swf",
+      "sha256": "8e4053f029c47905e96442b404b200e950d33b701013ca17998e25b3fbd606be",
+      "bytes": 72942,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqhud_jp_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus.swf",
+      "asset": "original-cache/data/menus/dqmenus.swf",
+      "sha256": "3c1a8ff1d43e89fa5608fb38dc1b27540b07dbd018206f02c6fb8d3ba061c6a5",
+      "bytes": 10167265,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus2.swf",
+      "asset": "original-cache/data/menus/dqmenus2.swf",
+      "sha256": "13cab94c9110dc19fd1e54a312d5b2639f4391c10d874381fb56336110ddc5fe",
+      "bytes": 20689,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus2.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus2_droid.swf",
+      "asset": "original-cache/data/menus/dqmenus2_droid.swf",
+      "sha256": "2e2712a9cc6901ab16d801716c24d4e01457e5edf88ac0b4789ab0591b0d1f94",
+      "bytes": 20695,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus2_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus2_i9000.swf",
+      "asset": "original-cache/data/menus/dqmenus2_i9000.swf",
+      "sha256": "308321c474491afd481186318d65a06b5b155a71699b504ce0a7ae54995d3566",
+      "bytes": 20695,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus2_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_droid.swf",
+      "asset": "original-cache/data/menus/dqmenus_droid.swf",
+      "sha256": "c114c7d39b7fe0351a93a515c78f9457dda715d78aed6e3bcc3f4895120de421",
+      "bytes": 315965,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_i9000.swf",
+      "asset": "original-cache/data/menus/dqmenus_i9000.swf",
+      "sha256": "83f3530a66d3a668bcecc6b6e7d0aedfba1d9800341f1f874993ac0691d6dc20",
+      "bytes": 315771,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_i9000_htc.swf",
+      "asset": "original-cache/data/menus/dqmenus_i9000_htc.swf",
+      "sha256": "90b6ecdb484fe20265bb7194ed3a8399ff0913bfc3174f198ce3631982a53979",
+      "bytes": 315732,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_i9000_htc.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_i9000_lg.swf",
+      "asset": "original-cache/data/menus/dqmenus_i9000_lg.swf",
+      "sha256": "f07af0c7187afcc1c5d8b95bcb313423590cb15adbb411a0ae143bd3ca1cd4db",
+      "bytes": 315465,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_i9000_lg.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_jp.swf",
+      "asset": "original-cache/data/menus/dqmenus_jp.swf",
+      "sha256": "09957697ac16bd96114de6e7976f5a94a1550b6247860e0837ab17157c465c5d",
+      "bytes": 7870181,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_jp.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_jp_droid.swf",
+      "asset": "original-cache/data/menus/dqmenus_jp_droid.swf",
+      "sha256": "3a00db9a9656f266f368527daa0a366ee6cc529e31b8d7455b08c3b92712d628",
+      "bytes": 183450,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_jp_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_jp_i9000.swf",
+      "asset": "original-cache/data/menus/dqmenus_jp_i9000.swf",
+      "sha256": "4fe76a14377c5c49ca375768c0baf5bae5d5571d66780c370680e857b5a29bdf",
+      "bytes": 182882,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_jp_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenus_kor.swf",
+      "asset": "original-cache/data/menus/dqmenus_kor.swf",
+      "sha256": "e6ccbacd22325cf69b18db517d1a41cf0fae71b0e0e8b733b55524d1a07a3e81",
+      "bytes": 8083669,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenus_kor.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqmenusapple.swf",
+      "asset": "original-cache/data/menus/dqmenusapple.swf",
+      "sha256": "9e021738f84e93cf4c192211bbb569dcd38077e8ed6690f6f2b7dcca01116d4a",
+      "bytes": 257343,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqmenusapple.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqshared.swf",
+      "asset": "original-cache/data/menus/dqshared.swf",
+      "sha256": "c2c5f597b4697df9fe59accf72fbc9037bc4c8ad85be76f71b897e14e16e8513",
+      "bytes": 5634050,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqshared.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqshared_droid.swf",
+      "asset": "original-cache/data/menus/dqshared_droid.swf",
+      "sha256": "f0f9f119f2fe474d21c722e361ef9907ef2b885654705073e0cb956432f46263",
+      "bytes": 67525,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqshared_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqshared_i9000.swf",
+      "asset": "original-cache/data/menus/dqshared_i9000.swf",
+      "sha256": "297a420bbf548e4414c334d773250d6f36d9f8759662a7230dfc41b5d8b88631",
+      "bytes": 67500,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqshared_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/dqsharedsssss.swf",
+      "asset": "original-cache/data/menus/dqsharedsssss.swf",
+      "sha256": "14c64cceda083aa51ce5b33ba969c3bbf4345ce77c3734d9da777b36a85b521e",
+      "bytes": 69872,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/dqsharedsssss.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/key.swf",
+      "asset": "original-cache/data/menus/key.swf",
+      "sha256": "af1581bee019d51e4ea23e0ff1aa0a770dfff62e38f293fc5b7e47a7d37ae02f",
+      "bytes": 41739,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/key.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/loadanims.swf",
+      "asset": "original-cache/data/menus/loadanims.swf",
+      "sha256": "7242d0e9a563ddd2f97e9711b55fb273fea615d2f2f4dd20b59c6cf9bdd3eeff",
+      "bytes": 1563,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/loadanims.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/loadanims_droid.swf",
+      "asset": "original-cache/data/menus/loadanims_droid.swf",
+      "sha256": "ee12d5c1dd9791fe2d438eb931794ff78ee53618c084bf350b90ad33838f34d5",
+      "bytes": 1456,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/loadanims_droid.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/loadanims_i9000.swf",
+      "asset": "original-cache/data/menus/loadanims_i9000.swf",
+      "sha256": "1089ccb7f77e4da014d47326a9cbe0bb6150b1439ebb04693154d997d678d2a3",
+      "bytes": 1456,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/loadanims_i9000.swf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/menus/sct_font_3.fnt",
+      "asset": "original-cache/data/menus/sct_font_3.fnt",
+      "sha256": "45a426d731ec69996de61a2c47290afa0a59f6a64079440e298339cdfa15656d",
+      "bytes": 120568,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/menus/sct_font_3.fnt",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/nanumgothic.ttf",
+      "asset": "original-cache/data/nanumgothic.ttf",
+      "sha256": "8ee4e9fab0b4c65ecd2aa04a205a4b4b7770ed154b7290be027cec826c40f591",
+      "bytes": 2346444,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/nanumgothic.ttf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/pydata/common_text_pyarray.bin",
+      "asset": "original-cache/data/pydata/common_text_pyarray.bin",
+      "sha256": "03b99c2d8e5293f57233626721a003b1a5f5bbcaff5fcb9c2e315f68954e0286",
+      "bytes": 10167,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarray.bin",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/pydata/common_text_pyarraynames.bin",
+      "asset": "original-cache/data/pydata/common_text_pyarraynames.bin",
+      "sha256": "a24e59f8d5c7479b31117085e56a7ce99946882acb80b3a438c9b0e2b1eb688b",
+      "bytes": 96,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pyarraynames.bin",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/pydata/common_text_pycst.bin",
+      "asset": "original-cache/data/pydata/common_text_pycst.bin",
+      "sha256": "1d5eae8f575f8e5ae625f72eae7e6485a2c610ef08c160a51bb6148ff6a5bcc5",
+      "bytes": 155738,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pycst.bin",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/pydata/common_text_pystructnames.bin",
+      "asset": "original-cache/data/pydata/common_text_pystructnames.bin",
+      "sha256": "e2e395411036e57c7148f7b3f8c4b0a7924b97f405f07493e5f2274b2cc9d0ad",
+      "bytes": 36,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/pydata/common_text_pystructnames.bin",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.english",
+      "asset": "original-cache/data/text/abbey.english",
+      "sha256": "c159ec8504161b587abe3eeaf3e79f275b7ea1fa7d15d69989b6807aefbec285",
+      "bytes": 3131,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.french",
+      "asset": "original-cache/data/text/abbey.french",
+      "sha256": "3bcc41d54445df5fceb98b6084d959e9cb256ed032c3cf4169b861afe01ab772",
+      "bytes": 5410,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.german",
+      "asset": "original-cache/data/text/abbey.german",
+      "sha256": "ef7ca036880a7505d79d75c3e2ec06d6e61e2c7158ce9ab505ba44d2c61dca05",
+      "bytes": 5465,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.italian",
+      "asset": "original-cache/data/text/abbey.italian",
+      "sha256": "e51908fe28129dbc9444fc8435d323c1c036f9ac89578c64da8a5a63bab239fd",
+      "bytes": 3413,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.japanese",
+      "asset": "original-cache/data/text/abbey.japanese",
+      "sha256": "910252b47bf513731c07ff085da917776ffe57e78ae818233e29dbcf12eefcb8",
+      "bytes": 4682,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.korean",
+      "asset": "original-cache/data/text/abbey.korean",
+      "sha256": "602273d43725e58e4861dd4f4afe4744dd799e9f1f6d4401075183c8ab6e338e",
+      "bytes": 5034,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.sc",
+      "asset": "original-cache/data/text/abbey.sc",
+      "sha256": "6c662e8e799c32f35c54bd65fafd0552738dc5880de5a06ce6a3ee6e437ba8aa",
+      "bytes": 4075,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.spanish",
+      "asset": "original-cache/data/text/abbey.spanish",
+      "sha256": "6d445fcb8a494297ef25a7e41d8b0d1a6c95d5414f06f66f4aedf34ee04ab539",
+      "bytes": 3463,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbey.symbols",
+      "asset": "original-cache/data/text/abbey.symbols",
+      "sha256": "1348d9026282f44ca64a54aa50649bce9e1f84ff613de130a66a0f266a7c1cf2",
+      "bytes": 1290,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbey.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.english",
+      "asset": "original-cache/data/text/abbeyb.english",
+      "sha256": "de67d4395405f7602ae2c7281ccdb5e3d859be9df067818c733057f2e7afacde",
+      "bytes": 1424,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.french",
+      "asset": "original-cache/data/text/abbeyb.french",
+      "sha256": "4afa787a82b1fe5ae2c83ca4f0f4a7f07abf5e33e836bb7990e21ad43c699230",
+      "bytes": 2085,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.german",
+      "asset": "original-cache/data/text/abbeyb.german",
+      "sha256": "0cd1849ade8edd993d654f21721d7f4573d6620e8f1747ebe8730ea885fe4989",
+      "bytes": 2060,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.italian",
+      "asset": "original-cache/data/text/abbeyb.italian",
+      "sha256": "1ae8680966d54c51679178a42b7973e7557bf4ab86b6c420cef745236d67ed4b",
+      "bytes": 1383,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.japanese",
+      "asset": "original-cache/data/text/abbeyb.japanese",
+      "sha256": "9942085ca9775555fc40a0337cffe7737e86797f20fa26babfdaf717bbbc32c1",
+      "bytes": 1891,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.korean",
+      "asset": "original-cache/data/text/abbeyb.korean",
+      "sha256": "e89b329d22fc8c6f1bfec7c5500c7e6c8265a5d73b680d33f71da0a0fd50d23b",
+      "bytes": 2151,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.sc",
+      "asset": "original-cache/data/text/abbeyb.sc",
+      "sha256": "3966cd55d8e73f7273c5326de0042b207351de491b65b6bcc0e828d9359fcb76",
+      "bytes": 1902,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.spanish",
+      "asset": "original-cache/data/text/abbeyb.spanish",
+      "sha256": "e0e396e3fbb745b627656facd8aefcb71467b6383072dd84208995cd47b658e2",
+      "bytes": 1501,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/abbeyb.symbols",
+      "asset": "original-cache/data/text/abbeyb.symbols",
+      "sha256": "3785a3a35ee17a501009d1aa53bfea6dfcba7bed522e20598c89272b80386ab1",
+      "bytes": 1019,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/abbeyb.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.english",
+      "asset": "original-cache/data/text/airtemple.english",
+      "sha256": "f38dc2786069543c49e97b9b849d37b75f4a498fecbd384b2426af0450dffc5d",
+      "bytes": 2182,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.french",
+      "asset": "original-cache/data/text/airtemple.french",
+      "sha256": "25c7417202e9157be5f1e4824a3f65bbc365111efdb0619ed7b91afb00ed8adf",
+      "bytes": 3498,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.german",
+      "asset": "original-cache/data/text/airtemple.german",
+      "sha256": "77a1adf999c257c9f8f05f85fb6e72928699c1c1de718670832ed13a503a6015",
+      "bytes": 3503,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.italian",
+      "asset": "original-cache/data/text/airtemple.italian",
+      "sha256": "2801e5227fa5bfa8d6ddd4bdef067d78f0828feb8756cc0ef17911e31e5c076b",
+      "bytes": 2333,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.japanese",
+      "asset": "original-cache/data/text/airtemple.japanese",
+      "sha256": "e78d8b0b3f73efb7b30bcec5889315170b2daf1da1928da93b16d7e62859c2e4",
+      "bytes": 3209,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.korean",
+      "asset": "original-cache/data/text/airtemple.korean",
+      "sha256": "d0e11f0a5c6836f30344ccab5b493d323404f89a4f1c26337d772054879c0e65",
+      "bytes": 3621,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.sc",
+      "asset": "original-cache/data/text/airtemple.sc",
+      "sha256": "f5b112bf8d334e0bb9ec5325dba0de843ff41cbbff9936c385bcede7187c1acc",
+      "bytes": 2972,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.spanish",
+      "asset": "original-cache/data/text/airtemple.spanish",
+      "sha256": "7051beda01051020268fbcc5a874cb3ff7b26b655d72eb6ac0da4139c315a9ad",
+      "bytes": 2438,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/airtemple.symbols",
+      "asset": "original-cache/data/text/airtemple.symbols",
+      "sha256": "b61350d14660e6da93e82fe40312d1e3da06182c2a7ade507aa1172d48a7cc8b",
+      "bytes": 1294,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/airtemple.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.english",
+      "asset": "original-cache/data/text/darktemple.english",
+      "sha256": "2d4e8618385e850ad39bcecba07fd65d632182654f557d7bea08cea7c009ed88",
+      "bytes": 2321,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.french",
+      "asset": "original-cache/data/text/darktemple.french",
+      "sha256": "bdc2e9a4e86507cd03a762bd9a49cd46e781770e6c7e6d8d28533f6c1b3ec31e",
+      "bytes": 3855,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.german",
+      "asset": "original-cache/data/text/darktemple.german",
+      "sha256": "bd3f5032481653fe01fa6bf70afa0228322d06ee27a543a55fa63c70d412ae38",
+      "bytes": 3925,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.italian",
+      "asset": "original-cache/data/text/darktemple.italian",
+      "sha256": "72e39ff1d8dbaeedbcfe5c3ee6487a77fc264bb01a68b60ca092dae46a803c1b",
+      "bytes": 2481,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.japanese",
+      "asset": "original-cache/data/text/darktemple.japanese",
+      "sha256": "eb470008b884c2672334029836d0bdbe8e94150120cd5ccbb9dc1de6741644d5",
+      "bytes": 3838,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.korean",
+      "asset": "original-cache/data/text/darktemple.korean",
+      "sha256": "a9c4f53ddaccf1c6fe05e03018587e9ede8fcc5f78a0775029dcfd4104e4b3e2",
+      "bytes": 3793,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.sc",
+      "asset": "original-cache/data/text/darktemple.sc",
+      "sha256": "e652cfa03b9c6557e38042c56f1d5411e0731b83c42c441ff3d3a8907ce1cfea",
+      "bytes": 3269,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.spanish",
+      "asset": "original-cache/data/text/darktemple.spanish",
+      "sha256": "6ea307d32f3599bf40e9add58ed982de950cb2aa9a7975b0455979855381f7d1",
+      "bytes": 2541,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darktemple.symbols",
+      "asset": "original-cache/data/text/darktemple.symbols",
+      "sha256": "b840f18c5156adc415cf539f9b60aea9c05c0ffd1233c732ba5b16b503902c0f",
+      "bytes": 1614,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darktemple.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.english",
+      "asset": "original-cache/data/text/darkwoods.english",
+      "sha256": "4ff352081f4653d3854781cc827ec964d18dacd72ea5ca2cc83ab39c28bee196",
+      "bytes": 5352,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.french",
+      "asset": "original-cache/data/text/darkwoods.french",
+      "sha256": "09bc7c5537448bb450f2cb9f441e0b04bc36d97a57370e535bd8323eee1c32d4",
+      "bytes": 9114,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.german",
+      "asset": "original-cache/data/text/darkwoods.german",
+      "sha256": "c6f316f32dd6d08480486a826d90f620c9b234c22dbdf4e827e5dfad2f59244a",
+      "bytes": 9251,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.italian",
+      "asset": "original-cache/data/text/darkwoods.italian",
+      "sha256": "8e4c6b6624fad825802c78387d92cedf93efbafbd474046a37e16461668afa35",
+      "bytes": 5569,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.japanese",
+      "asset": "original-cache/data/text/darkwoods.japanese",
+      "sha256": "38ff412d030048f4ee1ae15274b76210da4f1f62d338606ee31a0507fddd117e",
+      "bytes": 8089,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.korean",
+      "asset": "original-cache/data/text/darkwoods.korean",
+      "sha256": "61d7b737361304258e5309e5058586d6d257ba45fab996ed0120590be447a334",
+      "bytes": 8050,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.sc",
+      "asset": "original-cache/data/text/darkwoods.sc",
+      "sha256": "6f70397dc3226bd4e1ea1edc42a9bb811113e832341daad31310b53590ae0200",
+      "bytes": 7005,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.spanish",
+      "asset": "original-cache/data/text/darkwoods.spanish",
+      "sha256": "912e90578cfe654f9780186ae71b0b8346b85437b4a5253f4c72dcf668d36ae4",
+      "bytes": 6028,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/darkwoods.symbols",
+      "asset": "original-cache/data/text/darkwoods.symbols",
+      "sha256": "d0dc5383fc6df776d4e2c09555946584108a2f1639a6e490a593f0092b7f4666",
+      "bytes": 2833,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/darkwoods.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.english",
+      "asset": "original-cache/data/text/desert.english",
+      "sha256": "a8cd0d6f199e2936d65f76f88389ff4acfe8543f6a97de7af5dd55a73b620ad8",
+      "bytes": 2216,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.french",
+      "asset": "original-cache/data/text/desert.french",
+      "sha256": "5dc0d4e7f12416ba83abc3e5a879263e240cb3f2518d69ece6ea55562b4be1ff",
+      "bytes": 3866,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.german",
+      "asset": "original-cache/data/text/desert.german",
+      "sha256": "0f856406df96b1d547e0f90281a84de268565503eaa06397dfaf95f8c30492e7",
+      "bytes": 3923,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.italian",
+      "asset": "original-cache/data/text/desert.italian",
+      "sha256": "07a9e1b6725a4eacaabaca352e9b42027a11c408eae823d71861d03e41561954",
+      "bytes": 2512,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.japanese",
+      "asset": "original-cache/data/text/desert.japanese",
+      "sha256": "2fbd5090ebf7cadaa3c84b164750f8a9f2131f89735a43de69efca492f10bcf4",
+      "bytes": 3638,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.korean",
+      "asset": "original-cache/data/text/desert.korean",
+      "sha256": "a6258a94571a90ef9194e5844089c90c91e1ae986ee641322d9b07aaa23d4136",
+      "bytes": 3585,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.sc",
+      "asset": "original-cache/data/text/desert.sc",
+      "sha256": "d3d3881639dbf111588eb6efb793753a0df25b5659c92e35608ea61611899e21",
+      "bytes": 3144,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.spanish",
+      "asset": "original-cache/data/text/desert.spanish",
+      "sha256": "a8d8000bcfe24b794e25ba5b3808729eb2fdff3c2c07ebcfaeddb889fe812a7e",
+      "bytes": 2569,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/desert.symbols",
+      "asset": "original-cache/data/text/desert.symbols",
+      "sha256": "f967880f5ecdc824569d5380436165cbe33065c73bc5a01c570378a5bc5d41e1",
+      "bytes": 1241,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/desert.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.english",
+      "asset": "original-cache/data/text/driedwell.english",
+      "sha256": "b71f7f891e076e2d624fdaf400f9b34b417ce2f1e42f9a7040a9f3926aa47128",
+      "bytes": 777,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.french",
+      "asset": "original-cache/data/text/driedwell.french",
+      "sha256": "5fd9e9e008116083dd692457955c0ede356c0c1834181f776825869e44f73f4f",
+      "bytes": 1142,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.german",
+      "asset": "original-cache/data/text/driedwell.german",
+      "sha256": "524e6b128e34a35354e1d2b903146317a197fc7ea11df3e3fe1a733e0a577425",
+      "bytes": 1146,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.italian",
+      "asset": "original-cache/data/text/driedwell.italian",
+      "sha256": "f6579fdea11e116a45fc0410b6daeb3cce244374adeab9cb70f02b9d06ce639b",
+      "bytes": 779,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.japanese",
+      "asset": "original-cache/data/text/driedwell.japanese",
+      "sha256": "251e4ba1eda75d41c6d115227fe7caad7af5268717f0d8c584e5d136ff039ea8",
+      "bytes": 1229,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.korean",
+      "asset": "original-cache/data/text/driedwell.korean",
+      "sha256": "c2b226750de71c7476583152168dadb611b64169438016c2afa46c88d94f263f",
+      "bytes": 1081,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.sc",
+      "asset": "original-cache/data/text/driedwell.sc",
+      "sha256": "62d59ec975d69e3453fa2a9d1938b91a2cd9f8214da187cfd75e899fe92f1c3a",
+      "bytes": 1075,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.spanish",
+      "asset": "original-cache/data/text/driedwell.spanish",
+      "sha256": "70da11fb43e1349ed1eeb40d087f98ad4122df3261eeab48ff62c7941d0c25fd",
+      "bytes": 826,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/driedwell.symbols",
+      "asset": "original-cache/data/text/driedwell.symbols",
+      "sha256": "f334664d0ba44dfb8df7423961f50e8fe542a5cccd88a1569e6969df9bbaedd3",
+      "bytes": 451,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/driedwell.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.english",
+      "asset": "original-cache/data/text/earthtemple.english",
+      "sha256": "bc8a55182c4f608f978a9586f8b81321117137fd155769580ebb573ee781e1f2",
+      "bytes": 2221,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.french",
+      "asset": "original-cache/data/text/earthtemple.french",
+      "sha256": "71266df03077a6b8bb983daca52895b9cc83abfd1455c49bcfe3a7ce5b9d9845",
+      "bytes": 3717,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.german",
+      "asset": "original-cache/data/text/earthtemple.german",
+      "sha256": "66752b0d8a8a54d7c85bb0f03e9eb3a3c13f03bd81877395b1e8ed2d11d9d37c",
+      "bytes": 3758,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.italian",
+      "asset": "original-cache/data/text/earthtemple.italian",
+      "sha256": "ae6d3681914fa890e09996436f1f4c88b14ec00ea3502840a197800165f01856",
+      "bytes": 2269,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.japanese",
+      "asset": "original-cache/data/text/earthtemple.japanese",
+      "sha256": "560c32a2eef2e0133f6256640e9a1a3f14d0598d56653cd5346b2efbc3f9db2f",
+      "bytes": 3421,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.korean",
+      "asset": "original-cache/data/text/earthtemple.korean",
+      "sha256": "e488b2809d8804c56e03bc04dac377440c2a60d6d8c9b1058dc6bec540e1dcaa",
+      "bytes": 3415,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.sc",
+      "asset": "original-cache/data/text/earthtemple.sc",
+      "sha256": "53f40d49141bfe50fc5210f4b37eb88e51323135196eafb6d259b99d449b49bf",
+      "bytes": 2903,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.spanish",
+      "asset": "original-cache/data/text/earthtemple.spanish",
+      "sha256": "612001ba076ef4f9b3f9dfe026da8ba06e11f60f82946d7e7e6441ec6ec2d601",
+      "bytes": 2502,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/earthtemple.symbols",
+      "asset": "original-cache/data/text/earthtemple.symbols",
+      "sha256": "26767deb2d6161399b8734cc4a052ad3f27231571d0158507a834a44b14f1251",
+      "bytes": 1408,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/earthtemple.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.english",
+      "asset": "original-cache/data/text/extras.english",
+      "sha256": "2eda0189d2e6aecced7461ba068335364474badaa77bff19e51aa3578d2dfc31",
+      "bytes": 1469,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.french",
+      "asset": "original-cache/data/text/extras.french",
+      "sha256": "afe5d56d148af0c826096b4486dfb32cc436532be19af182681cb11240a7fbd7",
+      "bytes": 2287,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.german",
+      "asset": "original-cache/data/text/extras.german",
+      "sha256": "00629a88a6aad762a4ae7fed906fae2ab0830036b75a1e04ffa37bb69856244b",
+      "bytes": 2333,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.italian",
+      "asset": "original-cache/data/text/extras.italian",
+      "sha256": "6b09f9292485d4dfb91c3649d465fe7d22de1f706db4baa4ab6fa1a341269154",
+      "bytes": 1649,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.japanese",
+      "asset": "original-cache/data/text/extras.japanese",
+      "sha256": "cb08265eadd8a8c15492d83de86c279de0576bdeaed23d95da0eabcd30dc0609",
+      "bytes": 2381,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.korean",
+      "asset": "original-cache/data/text/extras.korean",
+      "sha256": "1447b6b1a81e91692af0ca742febfb35e783778dc231f0087af088fac5292190",
+      "bytes": 2376,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.sc",
+      "asset": "original-cache/data/text/extras.sc",
+      "sha256": "8de5a42e8c178669fd8ba001996c3eb392b0e5267f8196123d9db1c6c86db4d8",
+      "bytes": 2134,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.spanish",
+      "asset": "original-cache/data/text/extras.spanish",
+      "sha256": "7cc69c38791e3ca93c0dfcf8b105be59e29be8cf4424ea6b0118c7761fba68d6",
+      "bytes": 1691,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/extras.symbols",
+      "asset": "original-cache/data/text/extras.symbols",
+      "sha256": "390b456fe6cd02ce6a94f67437068c05e7c205f9992fab93038c781f081170f5",
+      "bytes": 1222,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/extras.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.english",
+      "asset": "original-cache/data/text/gameplaymenus.english",
+      "sha256": "ce07a456aaf8a8d914b210e62e40a5606bcc9a3a40348c958063bcc10e3c4000",
+      "bytes": 14692,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.french",
+      "asset": "original-cache/data/text/gameplaymenus.french",
+      "sha256": "5af2b9b5fa389185e7d09be41880209b6e1afdff0d1083e5b67d509720f6af9b",
+      "bytes": 25438,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.german",
+      "asset": "original-cache/data/text/gameplaymenus.german",
+      "sha256": "8871686e0caeaaa3e63705a7fc2627615ac6d19682bb9239328d25180ebdcf38",
+      "bytes": 25933,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.italian",
+      "asset": "original-cache/data/text/gameplaymenus.italian",
+      "sha256": "b1338157d9f20325e4436943d38688c509be70ce4730cbe3bcde75660e659530",
+      "bytes": 15792,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.japanese",
+      "asset": "original-cache/data/text/gameplaymenus.japanese",
+      "sha256": "76323a876c51c43ac11847c858304788bedf624f53b511ddfb47eab0fc0f8704",
+      "bytes": 19924,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.korean",
+      "asset": "original-cache/data/text/gameplaymenus.korean",
+      "sha256": "02d2fcb5bd53d490c422465c046624631f00547d3694e01706a2e5caecdd6349",
+      "bytes": 18183,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.sc",
+      "asset": "original-cache/data/text/gameplaymenus.sc",
+      "sha256": "1a39172f1bae20ae26d27b81ae11d0e143192a4d01f2bb11f3d840b7636e98cc",
+      "bytes": 16292,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.spanish",
+      "asset": "original-cache/data/text/gameplaymenus.spanish",
+      "sha256": "c4d3b0e9a831289e2c78ea1ff3fd103463f5e3cc3010f7eb869b0527356e53d1",
+      "bytes": 16411,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gameplaymenus.symbols",
+      "asset": "original-cache/data/text/gameplaymenus.symbols",
+      "sha256": "7a933388893c6963b537791fbaf240660b5e39ef1c54741f98dd21ba5b89e136",
+      "bytes": 14967,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gameplaymenus.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.english",
+      "asset": "original-cache/data/text/gated.english",
+      "sha256": "d7776aaf589a148c6e644352e7c70e1babfa7f8c4dfa255debb142f367884d0b",
+      "bytes": 3525,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.french",
+      "asset": "original-cache/data/text/gated.french",
+      "sha256": "637693224f4422dd34052eb453d7bc921c08607962fb37007dd75a917ff430ad",
+      "bytes": 6011,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.german",
+      "asset": "original-cache/data/text/gated.german",
+      "sha256": "4c628b981870210d06d470254cfa538831d88b5825351d1abf5ea9f498bba803",
+      "bytes": 6000,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.italian",
+      "asset": "original-cache/data/text/gated.italian",
+      "sha256": "f1588898cd4e466ddf67554b4314bb73af7e18cd351c0882e476c81735ddaf1c",
+      "bytes": 3648,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.japanese",
+      "asset": "original-cache/data/text/gated.japanese",
+      "sha256": "b0fe8d6afc12f680cb5c282fdf0b7914316509ec79a4fa894dfc16f6a26f30cd",
+      "bytes": 5817,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.korean",
+      "asset": "original-cache/data/text/gated.korean",
+      "sha256": "183631565cb82c2bf7672c28ccde52ff12aeb733e0a0beec9c1bae6801508042",
+      "bytes": 5556,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.sc",
+      "asset": "original-cache/data/text/gated.sc",
+      "sha256": "eaef82eefe80b5b4508143cd6008a53cf7053fc13cbd1318617c431ce34657c3",
+      "bytes": 4693,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.spanish",
+      "asset": "original-cache/data/text/gated.spanish",
+      "sha256": "c0640f87a1758bc5e28bcfff8399e3a26b5db43db772a00cd67e218ad5402dc6",
+      "bytes": 3982,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gated.symbols",
+      "asset": "original-cache/data/text/gated.symbols",
+      "sha256": "b195ad3cc68a0bca6a8717376ec9083eebb9e11c9a0f9345156f89fe4fd13ba4",
+      "bytes": 1766,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gated.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.english",
+      "asset": "original-cache/data/text/gatedb.english",
+      "sha256": "e60b32b05edb5726569bbb845d2bdc68eedbde7dcf7ebdfbb47da37c312b07e6",
+      "bytes": 138,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.french",
+      "asset": "original-cache/data/text/gatedb.french",
+      "sha256": "a595e72faa30ff213b07f871963fafed5db69285aaf0c64b032066bcecf02bcf",
+      "bytes": 223,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.german",
+      "asset": "original-cache/data/text/gatedb.german",
+      "sha256": "ed6339536141a89abf1d85b623b12588977b83f95f14ce7e6853748eb58ff300",
+      "bytes": 221,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.italian",
+      "asset": "original-cache/data/text/gatedb.italian",
+      "sha256": "e13fb145741319945bdc60b859dba18dfeaede9ed6b61381095acae969eb5a83",
+      "bytes": 149,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.japanese",
+      "asset": "original-cache/data/text/gatedb.japanese",
+      "sha256": "039a56e09170b734a25e02a8b072d735b3a32ae693d3370e56c0acf1fbded891",
+      "bytes": 212,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.korean",
+      "asset": "original-cache/data/text/gatedb.korean",
+      "sha256": "72b8862cf70b872727728a4e5bd382b7e0a4e952d9c85a3c788cd024aff79e0e",
+      "bytes": 258,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.sc",
+      "asset": "original-cache/data/text/gatedb.sc",
+      "sha256": "2b5052c99176153b5ac8bcdccf7445f8ce1b92346d7aacc94e6af8aec624f29c",
+      "bytes": 164,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.spanish",
+      "asset": "original-cache/data/text/gatedb.spanish",
+      "sha256": "df9a24b73ecdad8d0109ec2e725ed491c38734df8483e43df2dc72841de347d2",
+      "bytes": 170,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gatedb.symbols",
+      "asset": "original-cache/data/text/gatedb.symbols",
+      "sha256": "02fcd06aeec963934c9cddccbfe9cbb39ffa543929937e8924ff7c5ad1324ed2",
+      "bytes": 107,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gatedb.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.english",
+      "asset": "original-cache/data/text/gllive.english",
+      "sha256": "c5f4f7de502905116f34c887318362158b0545e16a9444c346efa35f6474b6a1",
+      "bytes": 2737,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.french",
+      "asset": "original-cache/data/text/gllive.french",
+      "sha256": "74c8142b5facc5fcb2893b57595e9153a108595ac65ae4c4c42cefadddb94e1b",
+      "bytes": 5128,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.german",
+      "asset": "original-cache/data/text/gllive.german",
+      "sha256": "4d8d066aa4115f34993c13049093db488dfdd1c88586e6593b1a7e91b305e2e1",
+      "bytes": 5056,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.italian",
+      "asset": "original-cache/data/text/gllive.italian",
+      "sha256": "5484a8cf09f866b68a025b8faa73699daf111045a4f0242b5e79fb38ace702da",
+      "bytes": 3143,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.japanese",
+      "asset": "original-cache/data/text/gllive.japanese",
+      "sha256": "1ec66d722a01c6e009aea0d63c70cce205de56775d23005606b342c1d8954c0d",
+      "bytes": 4336,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.korean",
+      "asset": "original-cache/data/text/gllive.korean",
+      "sha256": "84f53c0331d621db1943263676c83854ff1e9e0f64b3f983a51f7a7d1ae59459",
+      "bytes": 4323,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.sc",
+      "asset": "original-cache/data/text/gllive.sc",
+      "sha256": "a13682ef4744b30f79831a62ceb8d202b08bc123f182bbbd11d82056fcca6ec9",
+      "bytes": 3249,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.spanish",
+      "asset": "original-cache/data/text/gllive.spanish",
+      "sha256": "fa4c90e06aa38d46e51ac9dd766d012ea63b70676ffd5670c9f50df3a27a62bf",
+      "bytes": 3309,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gllive.symbols",
+      "asset": "original-cache/data/text/gllive.symbols",
+      "sha256": "d944217da39b7e37607f25556b707b9101dd36563a50866a52dd2377b4094666",
+      "bytes": 3749,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gllive.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.english",
+      "asset": "original-cache/data/text/global.english",
+      "sha256": "020a1779505fda2387cd4b2506aa0ac2ae04d7467405edb10eaefdff3049e568",
+      "bytes": 1273,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.french",
+      "asset": "original-cache/data/text/global.french",
+      "sha256": "b83af28d058c82598a411fa6bca1eb74f4fa0f8df3abf44811b233f7674c3841",
+      "bytes": 2137,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.german",
+      "asset": "original-cache/data/text/global.german",
+      "sha256": "e4dab0ad733919ad3fca4e26b7a1c19380c8e1b1cb0447cef3c050446312c92c",
+      "bytes": 2145,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.italian",
+      "asset": "original-cache/data/text/global.italian",
+      "sha256": "7e85cb66ecddbcb56a46a529e94fe630378fa3f962705c2d1e957561a18f24b5",
+      "bytes": 1385,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.japanese",
+      "asset": "original-cache/data/text/global.japanese",
+      "sha256": "b07b8485dd8aaa730b9b425c7122e310057bc646e29efc5e1aa284a55689cf67",
+      "bytes": 2340,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.korean",
+      "asset": "original-cache/data/text/global.korean",
+      "sha256": "7bfccb3af4995ab3c095eca8cf23b1aabd5f8b26e399208c41b59278150feb25",
+      "bytes": 2239,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.sc",
+      "asset": "original-cache/data/text/global.sc",
+      "sha256": "7e4ac7d98a2fbcc34599117c752d359df272f388deac79ee0560b0a82182e9ad",
+      "bytes": 1715,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.spanish",
+      "asset": "original-cache/data/text/global.spanish",
+      "sha256": "1f2697e07b75affbc3127862fb5c7382c03b953fb180d259f1401c5391673edd",
+      "bytes": 1466,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/global.symbols",
+      "asset": "original-cache/data/text/global.symbols",
+      "sha256": "5eb997db344a3a5241d26486b4edb19b3fda8a4f1fdeadf2b8c91514a848f3ac",
+      "bytes": 1656,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/global.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.english",
+      "asset": "original-cache/data/text/gothicusa.english",
+      "sha256": "7e0b7ce2ff555590f9e46f36b0ef9e1c5fc14d4c497eeb9ea0c2113f07cfc501",
+      "bytes": 1849,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.french",
+      "asset": "original-cache/data/text/gothicusa.french",
+      "sha256": "b2f6efc1a1615d919fd9913664dc45b664313b2ed63e36297ae5e66622e32f8b",
+      "bytes": 2968,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.german",
+      "asset": "original-cache/data/text/gothicusa.german",
+      "sha256": "e3a7033cb7201712a8680b727b0b926f9d4c0559847dde80fcbebd99afc365d4",
+      "bytes": 3038,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.italian",
+      "asset": "original-cache/data/text/gothicusa.italian",
+      "sha256": "4c14b8ffcc98b84f2a7c0fe24f86dbc2a70b20719705b67c3769df07ab409234",
+      "bytes": 1900,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.japanese",
+      "asset": "original-cache/data/text/gothicusa.japanese",
+      "sha256": "9259922eecaf045ab41166b53f96c73522c6409ae466d47b5ddf54f0cb577dce",
+      "bytes": 2819,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.korean",
+      "asset": "original-cache/data/text/gothicusa.korean",
+      "sha256": "59822129cf08aa966d34c6e89c700c2fc68f6ce03daed5a333ae63355fa9547e",
+      "bytes": 3208,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.sc",
+      "asset": "original-cache/data/text/gothicusa.sc",
+      "sha256": "3aac227f22283d16af2e5fb4c21500be466aedea6338294518571fb69f876a74",
+      "bytes": 2577,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.spanish",
+      "asset": "original-cache/data/text/gothicusa.spanish",
+      "sha256": "17abe442645de70cfe6422dbdb624499865e122d9ceae600a4e3f11c736fd85e",
+      "bytes": 2115,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusa.symbols",
+      "asset": "original-cache/data/text/gothicusa.symbols",
+      "sha256": "a8b9fba1101eb7a15120b78faeb9e63bdf1eba06fa2bc248b63424b24845ba28",
+      "bytes": 1204,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusa.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.english",
+      "asset": "original-cache/data/text/gothicusb.english",
+      "sha256": "574552b90fa11a84cdc483bd1a987cea24db7f4c903a43e0511a8e4bfdab4e36",
+      "bytes": 2197,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.french",
+      "asset": "original-cache/data/text/gothicusb.french",
+      "sha256": "8f73c57a4bd8710e10edfff90dc300d05f925600c7c3c23bb5ff1ac74efd50c6",
+      "bytes": 3378,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.german",
+      "asset": "original-cache/data/text/gothicusb.german",
+      "sha256": "282266f249ab648d0bcdfcbf1b7e65fd94588f3a5d30b496adad4fd6a9c13291",
+      "bytes": 3425,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.italian",
+      "asset": "original-cache/data/text/gothicusb.italian",
+      "sha256": "da9edd297ffd0784808d20d8b0868ff694ee3c9964cf611aafaf59bc7c33780f",
+      "bytes": 2262,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.japanese",
+      "asset": "original-cache/data/text/gothicusb.japanese",
+      "sha256": "db573e8854cc2b449ec5018306ec10f5dda93ce6f788652e20cba30a6b86d512",
+      "bytes": 2951,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.korean",
+      "asset": "original-cache/data/text/gothicusb.korean",
+      "sha256": "acf69fbf1ba5d21ded7a79030270ceb115f95acd8f4f9f1973de64e2081cad26",
+      "bytes": 3535,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.sc",
+      "asset": "original-cache/data/text/gothicusb.sc",
+      "sha256": "55846f3713603231d728e8e962d0746c257f5f8ac1a80fe2a69d09bd9b3a8071",
+      "bytes": 3042,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.spanish",
+      "asset": "original-cache/data/text/gothicusb.spanish",
+      "sha256": "fb79aa245ce24cb9fb9573ee97faf2ac60e634edb2deb4730f8787b6d6f823fa",
+      "bytes": 2289,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/gothicusb.symbols",
+      "asset": "original-cache/data/text/gothicusb.symbols",
+      "sha256": "dc39bc65c874f3031dd2c07fc3622c012a8df31ef635874c071d85d816441e26",
+      "bytes": 1199,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/gothicusb.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.english",
+      "asset": "original-cache/data/text/graveyard.english",
+      "sha256": "b3acf891a6dcdd48e4945c2f4bbafa90f8f63d05a73709a8f4ab35d46743ed42",
+      "bytes": 566,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.french",
+      "asset": "original-cache/data/text/graveyard.french",
+      "sha256": "c51bc57d44c399d0dd2e7baf4776410e9946935776a440eda0eb1f7a3965304f",
+      "bytes": 845,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.german",
+      "asset": "original-cache/data/text/graveyard.german",
+      "sha256": "7760f82237bda07acef9b89ddf3d97a1070946803aec2b14815c9a9863699d18",
+      "bytes": 841,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.italian",
+      "asset": "original-cache/data/text/graveyard.italian",
+      "sha256": "ef10df26479248cd02b323f0a98d45a91833635a99a6ca4f2422077b2591ab8d",
+      "bytes": 560,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.japanese",
+      "asset": "original-cache/data/text/graveyard.japanese",
+      "sha256": "83bdf68c343f4cf4ce4233ca6aea82fda508edcad5b9b066fb8d9990edb9a739",
+      "bytes": 947,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.korean",
+      "asset": "original-cache/data/text/graveyard.korean",
+      "sha256": "4832677448b046c545c2824fb956bb5c81c9741d22be0f927145a248eb58d62f",
+      "bytes": 1153,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.sc",
+      "asset": "original-cache/data/text/graveyard.sc",
+      "sha256": "7ca2c3e5cc040dd6beee82c2efbd167ba774d5df14cb029db22fb4b754c4d9f8",
+      "bytes": 765,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.spanish",
+      "asset": "original-cache/data/text/graveyard.spanish",
+      "sha256": "0c617ab9e3563f5086cb74f8b57104c7cf5fc90b463fb2cd8392905af523ae9f",
+      "bytes": 630,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/graveyard.symbols",
+      "asset": "original-cache/data/text/graveyard.symbols",
+      "sha256": "a717e475ee2ee1ff4c6e174f0672b4ef8b9ba3e38772b43760f54bf775a23089",
+      "bytes": 307,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/graveyard.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.english",
+      "asset": "original-cache/data/text/hellgate.english",
+      "sha256": "98520a99dc69be5a583ead22e5e26e047ce07fcc4316f76d318c3af641ced162",
+      "bytes": 3906,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.french",
+      "asset": "original-cache/data/text/hellgate.french",
+      "sha256": "afcbe96af61b468ce75bf6ff4b8df623fcdc1a0ace2dfd23ffa47c992dd07e16",
+      "bytes": 6618,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.german",
+      "asset": "original-cache/data/text/hellgate.german",
+      "sha256": "934b01cd534002838254578cce5a11b0ace16d1e2afbf27617eb2ced395c80ab",
+      "bytes": 6720,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.italian",
+      "asset": "original-cache/data/text/hellgate.italian",
+      "sha256": "9b52e58455aaf3afea8687348c6979f88f515403163a005dc15c3630e9ea2f72",
+      "bytes": 4231,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.japanese",
+      "asset": "original-cache/data/text/hellgate.japanese",
+      "sha256": "3379dcd17cc618d1f289849baf7f33594c7af838fffc3fb259a115d66e583ad1",
+      "bytes": 5903,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.korean",
+      "asset": "original-cache/data/text/hellgate.korean",
+      "sha256": "08734ef23f4aab2ba943eb7b9311631ab7a4825ddc672725631e4491c1078817",
+      "bytes": 5831,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.sc",
+      "asset": "original-cache/data/text/hellgate.sc",
+      "sha256": "36134c6b19d28f3827b2f88950ff904914c28be98599396ab41f3f4d69a7c213",
+      "bytes": 5268,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.spanish",
+      "asset": "original-cache/data/text/hellgate.spanish",
+      "sha256": "b4cde2e7b99e79620cb63079674c40c153af6fdf346e012f07e1b2db4f4e26b9",
+      "bytes": 4368,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgate.symbols",
+      "asset": "original-cache/data/text/hellgate.symbols",
+      "sha256": "f0dbf9af8a97ba4c44ddadab4700f5452d745df13b25eb29c3d21e19c223242f",
+      "bytes": 1850,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgate.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.english",
+      "asset": "original-cache/data/text/hellgateb.english",
+      "sha256": "4f5ad9d04afcae1cae2f930c6ce8fa5f0af57c83cb4b3fe56659c702c50db231",
+      "bytes": 1403,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.french",
+      "asset": "original-cache/data/text/hellgateb.french",
+      "sha256": "fbb2a0caa1c0a84a59447b3aca49421b3b4ad2de06eda792bdb8b169b6473e91",
+      "bytes": 2189,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.german",
+      "asset": "original-cache/data/text/hellgateb.german",
+      "sha256": "af10b76674d9b525785cbcdc26faedf49dba7edd609db3ccc208754cf75b5419",
+      "bytes": 2227,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.italian",
+      "asset": "original-cache/data/text/hellgateb.italian",
+      "sha256": "545f83c5ce75415719113e21f8342bf8a5453e70499cd97c7c99faa39acbf1e6",
+      "bytes": 1526,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.japanese",
+      "asset": "original-cache/data/text/hellgateb.japanese",
+      "sha256": "7101861f7aece3ccc2904f0b9809773984cec5aad3d3b82a9ae66401c7e0047a",
+      "bytes": 2182,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.korean",
+      "asset": "original-cache/data/text/hellgateb.korean",
+      "sha256": "23fd7c772159a60979b23cdbb622455531388de540589bdcb6c79bdc7bfdef12",
+      "bytes": 2307,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.sc",
+      "asset": "original-cache/data/text/hellgateb.sc",
+      "sha256": "8e798c2d00ab25ab256a49745cfc78255b931027a0dab7a4d1358b2c1f76404f",
+      "bytes": 1999,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.spanish",
+      "asset": "original-cache/data/text/hellgateb.spanish",
+      "sha256": "43f407e5b2d55f4586da3ed12a000b78fde7618a7a9c397996879ee09e3e89a2",
+      "bytes": 1577,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/hellgateb.symbols",
+      "asset": "original-cache/data/text/hellgateb.symbols",
+      "sha256": "bd79fa03640d073dbe1b1c54764d6955728e6bcefcc5754caefee10627d6186d",
+      "bytes": 994,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/hellgateb.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.english",
+      "asset": "original-cache/data/text/icyhub.english",
+      "sha256": "60e33d2586cd5b43f30b0d4aef84c0d70dcf8158e616b5d5533f670b3765d40a",
+      "bytes": 4988,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.french",
+      "asset": "original-cache/data/text/icyhub.french",
+      "sha256": "d01b261cf57e45493c42d56ccfaa102e8893f217ffb954ed48c4bb4a7d122b44",
+      "bytes": 8352,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.german",
+      "asset": "original-cache/data/text/icyhub.german",
+      "sha256": "e48e5eb8a305272025ceb9196a9a3ee6d5317389a803e674fa6dfb5d06cb0f1a",
+      "bytes": 8444,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.italian",
+      "asset": "original-cache/data/text/icyhub.italian",
+      "sha256": "0282683aece2aae1de46bc35db7ba29806b9829c6450f3cc98c63ec5e84e6201",
+      "bytes": 5216,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.japanese",
+      "asset": "original-cache/data/text/icyhub.japanese",
+      "sha256": "d1768df8a17399c48bd862155e75d53a0ec96a22633b33cee42ab5dcbd96153d",
+      "bytes": 7199,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.korean",
+      "asset": "original-cache/data/text/icyhub.korean",
+      "sha256": "6cedbe1b884ea79054489bdef54e1b1cb1e5c31d3ebfc1260ae7d9949951c5e1",
+      "bytes": 7827,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.sc",
+      "asset": "original-cache/data/text/icyhub.sc",
+      "sha256": "c7479806365b1ff9c615398a95b3a186cd6a2efbce6116e855860ec2e2e23ff8",
+      "bytes": 6154,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.spanish",
+      "asset": "original-cache/data/text/icyhub.spanish",
+      "sha256": "f7eefb0df3f14032229b86090470b499c78bb88ff76ce50877415a3f8f60bbfb",
+      "bytes": 5500,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/icyhub.symbols",
+      "asset": "original-cache/data/text/icyhub.symbols",
+      "sha256": "16d1558a4eb981b4ef5cf6528599ce0dae62c1d32fa0101b2638fa623690f027",
+      "bytes": 2448,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/icyhub.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.english",
+      "asset": "original-cache/data/text/infected.english",
+      "sha256": "39fc4565475ec03b813dc038bf2c25174d14c28a385620793d6e01623a45f81f",
+      "bytes": 431,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.french",
+      "asset": "original-cache/data/text/infected.french",
+      "sha256": "5f7840a68850d3c777d0759463565873e633f97a78b117b114f03f166e408d2e",
+      "bytes": 568,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.german",
+      "asset": "original-cache/data/text/infected.german",
+      "sha256": "8978c194e29ccef5d0e7a6911dda0ac72a931e7f67650567f4d14160b880797e",
+      "bytes": 590,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.italian",
+      "asset": "original-cache/data/text/infected.italian",
+      "sha256": "ebd646c57f9ac62703c721abe8a3b0499d56499a8fef4b68aaeab4016ab99c66",
+      "bytes": 401,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.japanese",
+      "asset": "original-cache/data/text/infected.japanese",
+      "sha256": "cb32f25ba5501754b48ce7dfc6ecb00ef6c0d861c506dc703df2625d4173ffe1",
+      "bytes": 698,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.korean",
+      "asset": "original-cache/data/text/infected.korean",
+      "sha256": "71044b33f858f0a84cdb4768bf89e493f1687bb2e0b1a15f581fd4c2fe180d02",
+      "bytes": 603,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.sc",
+      "asset": "original-cache/data/text/infected.sc",
+      "sha256": "53632b9bafe4dde73c9f16c6549fd45e5bb988522901ba8471eb5ec11169c324",
+      "bytes": 614,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.spanish",
+      "asset": "original-cache/data/text/infected.spanish",
+      "sha256": "4b6a85da797ec267c90795d2b843d4b9361e846c117d36aa00727f7816538199",
+      "bytes": 456,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/infected.symbols",
+      "asset": "original-cache/data/text/infected.symbols",
+      "sha256": "0c659fa39fccac4af85c037a0d50ece73fdc55491324a460454c005145dceee1",
+      "bytes": 173,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/infected.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.english",
+      "asset": "original-cache/data/text/ingame.english",
+      "sha256": "445b1ea59be3f9a9a39753afda8f16825840a67982336c072e2b11a7769f2bff",
+      "bytes": 6100,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.french",
+      "asset": "original-cache/data/text/ingame.french",
+      "sha256": "396a3fc7b575f02e89a89428415d9a268908e93a7907c8deacb464aaf896e1ca",
+      "bytes": 10842,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.german",
+      "asset": "original-cache/data/text/ingame.german",
+      "sha256": "4b70c970b63d38da918308d13362d8477f01fc83a918a8049331c54d63b84e35",
+      "bytes": 10926,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.italian",
+      "asset": "original-cache/data/text/ingame.italian",
+      "sha256": "49bd8016f02d63465b231df34b6b06882b7d2c2ff0d5e1df69a17536c474acf1",
+      "bytes": 6890,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.japanese",
+      "asset": "original-cache/data/text/ingame.japanese",
+      "sha256": "e9fbe5d16a5eecba746aa0afeb80a5c08840822f372257ae1b84db7b6acfe0ad",
+      "bytes": 9138,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.korean",
+      "asset": "original-cache/data/text/ingame.korean",
+      "sha256": "dd8a2d5e74a1fd2a4734114f95a6482992425e092a9535c5c58b8ff041d6e8b1",
+      "bytes": 7975,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.sc",
+      "asset": "original-cache/data/text/ingame.sc",
+      "sha256": "2853322bb96c4f46d8625e4e9c11aa4ba9da854fc6c891b5e997dd88ec519e3b",
+      "bytes": 7199,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.spanish",
+      "asset": "original-cache/data/text/ingame.spanish",
+      "sha256": "7e7725a53ee9870c3681c41acb94334b885c2b2aa28e2e9a092cd4d1df1ebf23",
+      "bytes": 6721,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/ingame.symbols",
+      "asset": "original-cache/data/text/ingame.symbols",
+      "sha256": "d14bcdc7e180ad32522db8c1fd40815d85260ccf0484f9e94ed7a0ee715995d3",
+      "bytes": 10865,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/ingame.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.english",
+      "asset": "original-cache/data/text/items.english",
+      "sha256": "c1b2c984b5c8b24d3c0c9f0d69a65c4a54cde7275cef0c122361229e4c9604f3",
+      "bytes": 22049,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.french",
+      "asset": "original-cache/data/text/items.french",
+      "sha256": "bd25e631991b39526bcac2f9148d6b782b4e8beadeab0e31e3bcf891f9b37ac1",
+      "bytes": 42187,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.german",
+      "asset": "original-cache/data/text/items.german",
+      "sha256": "82fa229e88a3a5bcc38f1dada72527356ab6aa760247aba3bcf2f4878c63e1c3",
+      "bytes": 42861,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.italian",
+      "asset": "original-cache/data/text/items.italian",
+      "sha256": "f35b71a8c7fde0b79ecb2e6e8600979bf9b4b76dff4a36c130dce9e20a35f4b0",
+      "bytes": 29515,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.japanese",
+      "asset": "original-cache/data/text/items.japanese",
+      "sha256": "edaa99f3aff48c9c93be0cd1756b28652ab06d66ee842393d9a20f232615a733",
+      "bytes": 32757,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.korean",
+      "asset": "original-cache/data/text/items.korean",
+      "sha256": "fc9adcaa719fbe118eabe7a4b42890faf03daef8ab492ded7e54c9b5753787ce",
+      "bytes": 31796,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.sc",
+      "asset": "original-cache/data/text/items.sc",
+      "sha256": "db3eea7782cc1404e9020d2567f9c46a7723c50e07dffd87c9050acdb0674d8a",
+      "bytes": 26634,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.spanish",
+      "asset": "original-cache/data/text/items.spanish",
+      "sha256": "493450edd511b58585823e52bbce0b84899d57b7ca0e9e62017614a3aee59944",
+      "bytes": 27454,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/items.symbols",
+      "asset": "original-cache/data/text/items.symbols",
+      "sha256": "e13d7043dad8858e02707ec88e1727e4428a06ba14b40cfa663858b5a7fe0761",
+      "bytes": 33739,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/items.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.english",
+      "asset": "original-cache/data/text/lighthouse.english",
+      "sha256": "623fd0bd465c59d0f0579c4c70c7067658bc2736a549a026cec1565909158ae6",
+      "bytes": 2989,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.french",
+      "asset": "original-cache/data/text/lighthouse.french",
+      "sha256": "bf807d387e4032cef7b7e54c86cf34fb3f4f1b8c5c764f50b6baa3e3248df779",
+      "bytes": 4895,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.german",
+      "asset": "original-cache/data/text/lighthouse.german",
+      "sha256": "3cd3d7db47924a51f256bfd29a63733b86628871563da4106a45bb9298e01f67",
+      "bytes": 4978,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.italian",
+      "asset": "original-cache/data/text/lighthouse.italian",
+      "sha256": "0f7b90f5c1d00460510b3710d8bcb7a7defd85d6d2b60f4b498b5b87d0a220ae",
+      "bytes": 3063,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.japanese",
+      "asset": "original-cache/data/text/lighthouse.japanese",
+      "sha256": "59b1e54d1518e7426486d1c424c38d78f0a317af25514b9f652e26e5ffe0f0c7",
+      "bytes": 4293,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.korean",
+      "asset": "original-cache/data/text/lighthouse.korean",
+      "sha256": "34246082421ecf877600d097ae0a8ffa9b1251e60f9a738b4548238e2cd07316",
+      "bytes": 4726,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.sc",
+      "asset": "original-cache/data/text/lighthouse.sc",
+      "sha256": "7fca478e0554b945c2a72d3a31c68c3e9ddbc5946b5ec1b4bb6772728f36be57",
+      "bytes": 3995,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.spanish",
+      "asset": "original-cache/data/text/lighthouse.spanish",
+      "sha256": "aab64e23fd1e6fb2025500dea500a973c9ab2138c3b8d7117c76d48e9dbf785e",
+      "bytes": 3297,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/lighthouse.symbols",
+      "asset": "original-cache/data/text/lighthouse.symbols",
+      "sha256": "52dfd06162a84b985baca3d3f188963933a0faae62dd83bfd450deb2087c9a72",
+      "bytes": 1699,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/lighthouse.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.english",
+      "asset": "original-cache/data/text/locations.english",
+      "sha256": "72f96a85beda370b7005826174fcf5569e540c2083cfd62db7b9ed40b28251fc",
+      "bytes": 7850,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.french",
+      "asset": "original-cache/data/text/locations.french",
+      "sha256": "355cb804f4c35579c2443825f583cb9a96778bdf5a23b67ae2c3f02c3f47d603",
+      "bytes": 14225,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.german",
+      "asset": "original-cache/data/text/locations.german",
+      "sha256": "b19f1b35bec5496be7c46becdedf61845949515fa5ee0e27c6d7ce717707af21",
+      "bytes": 14297,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.italian",
+      "asset": "original-cache/data/text/locations.italian",
+      "sha256": "f53b2dd7a359fb08e97a00a57c029379a6967253671692af9908ed1ff5e83789",
+      "bytes": 8782,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.japanese",
+      "asset": "original-cache/data/text/locations.japanese",
+      "sha256": "205ae4941ea5bc5fe7a596ef6defc6ba62a540bcfcf41103477e1074e6ee439e",
+      "bytes": 10190,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.korean",
+      "asset": "original-cache/data/text/locations.korean",
+      "sha256": "6a6bfc6757f352c9ae4d95ebaf3312a39b16177f301fd4a32706887ff0f872e6",
+      "bytes": 11491,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.sc",
+      "asset": "original-cache/data/text/locations.sc",
+      "sha256": "9a709a59be813ab8465938b8814b014b820685ab118e87b114268ba2ae7d7412",
+      "bytes": 8646,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.spanish",
+      "asset": "original-cache/data/text/locations.spanish",
+      "sha256": "3f981dc27cb8a8a4d887b9ba76805c60f1a06cbbbe0216e4aca5b1c76dd68d50",
+      "bytes": 8963,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/locations.symbols",
+      "asset": "original-cache/data/text/locations.symbols",
+      "sha256": "5fbe4830370a2bf12d530de07b09eb6f4f7c4c83cda2d94407b077bdd663276e",
+      "bytes": 6595,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/locations.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.english",
+      "asset": "original-cache/data/text/machine.english",
+      "sha256": "e0631467392ea5f641c980e27f3655ad03b254fe956de993a2b0aa5b44f0fead",
+      "bytes": 1103,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.french",
+      "asset": "original-cache/data/text/machine.french",
+      "sha256": "8c33bd5803d5916503c5a40165b8c3b75bd35324230694b85c33ed7722959ac8",
+      "bytes": 1747,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.german",
+      "asset": "original-cache/data/text/machine.german",
+      "sha256": "0be1dde0e54b73eb4d7561b31a62c3c3ec9cc0de118915981507cdd29177d110",
+      "bytes": 1793,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.italian",
+      "asset": "original-cache/data/text/machine.italian",
+      "sha256": "b2b8039d44110be31dc7edbe40a570da918a0824674068ece2bfc8e3d703a302",
+      "bytes": 1182,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.japanese",
+      "asset": "original-cache/data/text/machine.japanese",
+      "sha256": "43ca81ed3419a8737f35c0dbbb2bea8794710abc21621087a02f26766a1c161a",
+      "bytes": 1598,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.korean",
+      "asset": "original-cache/data/text/machine.korean",
+      "sha256": "cb5968e3000be0f0944c8d3c7411c2e0ca8346fa8f0a5acbfb217b9fa87d4359",
+      "bytes": 1742,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.sc",
+      "asset": "original-cache/data/text/machine.sc",
+      "sha256": "1413dc7dac56d9a30e73c48683dfa15c30f2749e8132a86c2abdfa51afe87a5c",
+      "bytes": 1459,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.spanish",
+      "asset": "original-cache/data/text/machine.spanish",
+      "sha256": "146d421ac1a6441b06ab1273fcea369f34077e2986ca362ea3aceb13d5811526",
+      "bytes": 1225,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/machine.symbols",
+      "asset": "original-cache/data/text/machine.symbols",
+      "sha256": "07818d10dd9ae4454434fa9b2066239dbd51ced1d2702b7e1cf2726b98959ed9",
+      "bytes": 712,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/machine.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.english",
+      "asset": "original-cache/data/text/menu.english",
+      "sha256": "50e01954a9104b7b3c08bcbab0985c1e516cc873645854cc6fbdaa65a9fad101",
+      "bytes": 23878,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.french",
+      "asset": "original-cache/data/text/menu.french",
+      "sha256": "dcc34540767c50e5ef66a8d9da50c7079189123a2eb34a307e9683bd4d4f9247",
+      "bytes": 39457,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.german",
+      "asset": "original-cache/data/text/menu.german",
+      "sha256": "2da0ede6be5a6bee49af78844d9ea5447a36ebb0a67e2a941346323439df2dda",
+      "bytes": 40290,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.italian",
+      "asset": "original-cache/data/text/menu.italian",
+      "sha256": "7d63df093b8961cc8664e5f6f54af3356d6e1b4ba71e2772b74da1f019d28935",
+      "bytes": 25718,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.japanese",
+      "asset": "original-cache/data/text/menu.japanese",
+      "sha256": "a4cd33ae5edc91e803b677034eb6f49a57011e20ad2d2b55bc4598e1035fbd7a",
+      "bytes": 32658,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.korean",
+      "asset": "original-cache/data/text/menu.korean",
+      "sha256": "2fd75dbb8f5f047d18316b5463a36273d7a3d4924b1bf61005b436b186955c04",
+      "bytes": 28364,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.sc",
+      "asset": "original-cache/data/text/menu.sc",
+      "sha256": "4fa68b95235c729ffa791eb49f4f540c10122bda6ba2729ba8b15b6ba4814f9c",
+      "bytes": 24463,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.spanish",
+      "asset": "original-cache/data/text/menu.spanish",
+      "sha256": "ea64e56112bbd9175372807ecfe6764b1b201bd8110f4da91fada2ecb182c4af",
+      "bytes": 26091,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/menu.symbols",
+      "asset": "original-cache/data/text/menu.symbols",
+      "sha256": "95213f4b9c9a3f04c604a29a7586e26992fd81b1f08a3460d24cc9e1f321323b",
+      "bytes": 9363,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/menu.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.english",
+      "asset": "original-cache/data/text/quests.english",
+      "sha256": "fb7602bc127ccc40cafe26458472dc1ad32df7a62f71c4062b5251e865f7f394",
+      "bytes": 440,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.french",
+      "asset": "original-cache/data/text/quests.french",
+      "sha256": "97bd96c31620cfd2959e48e7f93066e73a26772f54aa00f4c10ccdc5bc447ede",
+      "bytes": 801,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.german",
+      "asset": "original-cache/data/text/quests.german",
+      "sha256": "d2e739fa06ec9bee7ed4c55d018328eb057aba0a390da49bb3c57d46b3582949",
+      "bytes": 812,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.italian",
+      "asset": "original-cache/data/text/quests.italian",
+      "sha256": "eed14f00f4f7f4b06a5ed92f2ab4b14a43741820fd139a88ce7aa513f610bb29",
+      "bytes": 501,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.japanese",
+      "asset": "original-cache/data/text/quests.japanese",
+      "sha256": "c27f4ea95c295d4adc4d694a975c20d08214e49098259346e8c89aba0933543d",
+      "bytes": 718,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.korean",
+      "asset": "original-cache/data/text/quests.korean",
+      "sha256": "0b052c3f7d2c396b1ccb21a7ce313b63e1bed97ba7be2d2536961b86068d92af",
+      "bytes": 728,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.sc",
+      "asset": "original-cache/data/text/quests.sc",
+      "sha256": "e229a947a9e9c6ebfe0938f3326de9d72bad824ac6e01c4b80227b9505ebfb39",
+      "bytes": 475,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.spanish",
+      "asset": "original-cache/data/text/quests.spanish",
+      "sha256": "2e1e7a5fdb1fbf486cf64b5b9f32cc448c17ef620f4648a0952156ef56f281a3",
+      "bytes": 461,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/quests.symbols",
+      "asset": "original-cache/data/text/quests.symbols",
+      "sha256": "ca25ea3dfa84986d48cc4f56badd9a445bd224bba328df3cbc70d93bf70a0e77",
+      "bytes": 348,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/quests.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.english",
+      "asset": "original-cache/data/text/sewer.english",
+      "sha256": "8adafca5e72f54198d71a3f506ebe32ec53e2efe221827751fcb4389f38cd80a",
+      "bytes": 633,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.french",
+      "asset": "original-cache/data/text/sewer.french",
+      "sha256": "8c83722a073f7cd817157d9eb971ce179b34735c4922da20dd42d1673279c3c2",
+      "bytes": 959,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.german",
+      "asset": "original-cache/data/text/sewer.german",
+      "sha256": "74dc707ffaa3ef2923d1e07195606ba7035ab3b9626d986f329971798d91a882",
+      "bytes": 1007,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.italian",
+      "asset": "original-cache/data/text/sewer.italian",
+      "sha256": "6303912a78a7b987678ceb028da637ece213e9c28d231b6ed3b1f70fb6b062d9",
+      "bytes": 675,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.japanese",
+      "asset": "original-cache/data/text/sewer.japanese",
+      "sha256": "f8e674a305a731345810d781d1b602aca7126203813d9dcc27c22dd086a70214",
+      "bytes": 999,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.korean",
+      "asset": "original-cache/data/text/sewer.korean",
+      "sha256": "28e5bb0210a3fb00c5a625787b84455ffe20bfafea92a6e1f312b680e7799725",
+      "bytes": 1115,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.sc",
+      "asset": "original-cache/data/text/sewer.sc",
+      "sha256": "f65376fe273f76aeb1844bd2da868b898167a27aac5069fd3a6c06ce7c585355",
+      "bytes": 955,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.spanish",
+      "asset": "original-cache/data/text/sewer.spanish",
+      "sha256": "445d016acc8fad6781b5b8ec6211c99e2c2e2334cb55667024bd0797c1dc821a",
+      "bytes": 735,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sewer.symbols",
+      "asset": "original-cache/data/text/sewer.symbols",
+      "sha256": "e2ff34d43374492a8a5f6e027a2e03f0c3e533ac53bca658092b1c980e54f627",
+      "bytes": 238,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sewer.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.english",
+      "asset": "original-cache/data/text/sidequests.english",
+      "sha256": "7f4e66c15c7b63cd5d9e05e61b4239159e683dbae5282aff6db4d67dc8b9d18f",
+      "bytes": 6385,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.french",
+      "asset": "original-cache/data/text/sidequests.french",
+      "sha256": "60618fce557de0e8e7062522b06f9d88e0af21538abb7a2228670cd742a83da9",
+      "bytes": 11047,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.german",
+      "asset": "original-cache/data/text/sidequests.german",
+      "sha256": "a0e6b1cf05786a574057a70430dae4a04ef8ec788f03481a596ee145a14d127a",
+      "bytes": 11105,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.italian",
+      "asset": "original-cache/data/text/sidequests.italian",
+      "sha256": "e410f566e93f525d14e94d012ec432ec5004bf9aa67b9bdb02cdebe7cc1a9cb6",
+      "bytes": 7179,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.japanese",
+      "asset": "original-cache/data/text/sidequests.japanese",
+      "sha256": "04f3f22224e707d0ab1a57937b17592c0417b159e3d594925987df4eb21f3d59",
+      "bytes": 9334,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.korean",
+      "asset": "original-cache/data/text/sidequests.korean",
+      "sha256": "4f2debf3a944071b58fe3f09e5d0a0cd44d66fdd30a49e3950fe237b4b73e078",
+      "bytes": 8549,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.sc",
+      "asset": "original-cache/data/text/sidequests.sc",
+      "sha256": "3d329a721a84a12b58b7800f875189e7e2293aae9f69808c2ac188fc38c62a0c",
+      "bytes": 7982,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.spanish",
+      "asset": "original-cache/data/text/sidequests.spanish",
+      "sha256": "e72eaf2d2cb29d3a1b0360bfd8b07f3ebd85de9440c2367a4dc41aebba82356d",
+      "bytes": 7070,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/sidequests.symbols",
+      "asset": "original-cache/data/text/sidequests.symbols",
+      "sha256": "74a407f85dc59f6bb8266ce6c91a757a254ca4a21b9eb9935e451c51fbf27666",
+      "bytes": 7153,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/sidequests.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.english",
+      "asset": "original-cache/data/text/swamp.english",
+      "sha256": "073a547b7a7849ca53b8388d27ca472ae09b51adae437af2484611f65d894308",
+      "bytes": 4343,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.french",
+      "asset": "original-cache/data/text/swamp.french",
+      "sha256": "71be430389cf3c8e9584315b9ca9ef1560ce74e7509dc5015824e0560b44396d",
+      "bytes": 7515,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.german",
+      "asset": "original-cache/data/text/swamp.german",
+      "sha256": "b56ddf616f602a166f98311853e530c30e1a6e21e47ba2630185aecac11f7c0a",
+      "bytes": 7572,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.italian",
+      "asset": "original-cache/data/text/swamp.italian",
+      "sha256": "992c63aa6fa2613872944b0638a7576684ba92686b2f4310a9d2462790123ddf",
+      "bytes": 4579,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.japanese",
+      "asset": "original-cache/data/text/swamp.japanese",
+      "sha256": "22ed9d3c102323b1c8f90ac65feab361a660f68aecc7c2accf102e64a0b79f9a",
+      "bytes": 6478,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.korean",
+      "asset": "original-cache/data/text/swamp.korean",
+      "sha256": "2d968d3c61cfcc28da5547d1ca8fa90bfbf1bd39f4fb0abedbc44281bdea699b",
+      "bytes": 6581,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.sc",
+      "asset": "original-cache/data/text/swamp.sc",
+      "sha256": "e949347846f6c2a934df71428619c36daab483fab87522bcad8112a8d6bf99e7",
+      "bytes": 6164,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.spanish",
+      "asset": "original-cache/data/text/swamp.spanish",
+      "sha256": "ee39b7a587386a344ecd40a858982dd7ccb3ddc05be0eae337e79a87ebab3e42",
+      "bytes": 5022,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swamp.symbols",
+      "asset": "original-cache/data/text/swamp.symbols",
+      "sha256": "e3faf84bd9bfcc5d2f3b5bf4bae6293c214137f104a4ccd807086bab4fe2c375",
+      "bytes": 2394,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swamp.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.english",
+      "asset": "original-cache/data/text/swampb.english",
+      "sha256": "a853efc746e1e14e18f8c70d378dc005031f5aeb339cef811dc2cb7c45248f75",
+      "bytes": 567,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.french",
+      "asset": "original-cache/data/text/swampb.french",
+      "sha256": "ce4bc24b05f2960bb6db3105bc93f75628cb5d1a68512316987610204a260693",
+      "bytes": 874,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.german",
+      "asset": "original-cache/data/text/swampb.german",
+      "sha256": "5def7c2085970c5e47d497386e1cd928bfdb418d1a6dcdb85e04ef69d46a9a1d",
+      "bytes": 858,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.italian",
+      "asset": "original-cache/data/text/swampb.italian",
+      "sha256": "39712e42af6675d7865b10a1fbc46dd1a5d786916b21f1faa9f80d445544c482",
+      "bytes": 586,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.japanese",
+      "asset": "original-cache/data/text/swampb.japanese",
+      "sha256": "5cecffeb4c8983850e629db47528216cc01df18e0f127eb98496091ab325ed44",
+      "bytes": 944,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.korean",
+      "asset": "original-cache/data/text/swampb.korean",
+      "sha256": "6946d0721d466a5bad925bc37213d80c2fd7a9351cdc04e58659564e6e13887a",
+      "bytes": 1045,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.sc",
+      "asset": "original-cache/data/text/swampb.sc",
+      "sha256": "39fbb53d7f02ab2c469606ec59a33816b32443946e0e92fb575bf44f2079770e",
+      "bytes": 809,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.spanish",
+      "asset": "original-cache/data/text/swampb.spanish",
+      "sha256": "fa636d027360bc191aaf824624f4429470720773612c392bf1b60d738a60a38b",
+      "bytes": 565,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/swampb.symbols",
+      "asset": "original-cache/data/text/swampb.symbols",
+      "sha256": "4bd2f2e9ad32be91cb792cbea8a62cac98ffc509f37440155a4a26b1951387cb",
+      "bytes": 395,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/swampb.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.english",
+      "asset": "original-cache/data/text/tutorial.english",
+      "sha256": "aff283597c8d1943950c23cfca168b3811ae61339c1ef29adb1473fb5d8ed5b5",
+      "bytes": 9682,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.french",
+      "asset": "original-cache/data/text/tutorial.french",
+      "sha256": "b17c8870cd21526665a359474f5917991bb07c86cf0191a744939af888b91e37",
+      "bytes": 18235,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.german",
+      "asset": "original-cache/data/text/tutorial.german",
+      "sha256": "899c0eb57d01661fe61ed373c13b8c3477539a34e3705e416a233a4ac0e48c3d",
+      "bytes": 18727,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.italian",
+      "asset": "original-cache/data/text/tutorial.italian",
+      "sha256": "861eb3eceb3886fe659c60ddd84cbd1701e466e3f5057aa3cb22e1474a27a8f2",
+      "bytes": 10412,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.japanese",
+      "asset": "original-cache/data/text/tutorial.japanese",
+      "sha256": "3d48e5a8fbeb1dffecd931773f088025b5dcfd88736f1555919255142171f320",
+      "bytes": 15280,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.korean",
+      "asset": "original-cache/data/text/tutorial.korean",
+      "sha256": "64a7dafd0ada4e6a28c31d95c3acfab87b329f38d4608fc812179935d07cf550",
+      "bytes": 12814,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.sc",
+      "asset": "original-cache/data/text/tutorial.sc",
+      "sha256": "d027d14762cc685e1c0261f577c03b4c63f1c5fe7b4e9945e9aa98ddd1039ab1",
+      "bytes": 10358,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.spanish",
+      "asset": "original-cache/data/text/tutorial.spanish",
+      "sha256": "5b71177cf46c240e684a5f71deda2c83811e45893302d3456afef91903b088d7",
+      "bytes": 10867,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/tutorial.symbols",
+      "asset": "original-cache/data/text/tutorial.symbols",
+      "sha256": "4e64b6ab6ebbcdede7a1ec0131ff8dbc36e9e9bc51ef42af315f9e35713848f6",
+      "bytes": 2825,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/tutorial.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.english",
+      "asset": "original-cache/data/text/underworldhub.english",
+      "sha256": "1f1bed960f3a8b0dcb642c1edaed951eee2456f4316a362123433531a7ee86fc",
+      "bytes": 3047,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.french",
+      "asset": "original-cache/data/text/underworldhub.french",
+      "sha256": "c181caf04feb0579212ab1b55088d4c7e6937457163ae7bfa341470bb0adf02a",
+      "bytes": 4819,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.german",
+      "asset": "original-cache/data/text/underworldhub.german",
+      "sha256": "103abb0e87c5a06a0227ba4bf5a23ff90ffeaee9a238af1604b5c975deefc3aa",
+      "bytes": 4930,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.italian",
+      "asset": "original-cache/data/text/underworldhub.italian",
+      "sha256": "af3150294ddc0e80924a82f7d8d75b0caeaf749a1fb22c42d9c61efe6efc5ede",
+      "bytes": 2976,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.japanese",
+      "asset": "original-cache/data/text/underworldhub.japanese",
+      "sha256": "8a032a3874736c3d3ef0e0896273ff99403fd9e6bd27cfd18cc3d8214b708bd6",
+      "bytes": 4455,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.korean",
+      "asset": "original-cache/data/text/underworldhub.korean",
+      "sha256": "5c7d8322402c1cb560ee00c2980d156e5cf9829f16f38ed797f4d0479f39a833",
+      "bytes": 4837,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.sc",
+      "asset": "original-cache/data/text/underworldhub.sc",
+      "sha256": "b8b6496867c40a5aac9e718ea4623e424981373b75c777256eed4b3f0543e156",
+      "bytes": 3971,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.spanish",
+      "asset": "original-cache/data/text/underworldhub.spanish",
+      "sha256": "52f1191dc694194caca64e969eb9e0ad9ec0b525e1d903ce9a4fad683af40200",
+      "bytes": 3227,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/underworldhub.symbols",
+      "asset": "original-cache/data/text/underworldhub.symbols",
+      "sha256": "536f40b147960aa9aa6749adcd7befc94079850431d276323b4ce733716adc08",
+      "bytes": 2651,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/underworldhub.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.english",
+      "asset": "original-cache/data/text/void.english",
+      "sha256": "b6000711ca3b37dc3dd4ccebea8c1c53eee43d9760307b1bbf1d09c70fe76630",
+      "bytes": 1535,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.french",
+      "asset": "original-cache/data/text/void.french",
+      "sha256": "0d11bd7b1edfd79ef40e2828c4b1ee53330cd49f5406fc1ec7ec132e23985fca",
+      "bytes": 2428,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.german",
+      "asset": "original-cache/data/text/void.german",
+      "sha256": "2a4c94a585faabac7acfb73cf296338ebcd65b0974dea3bb773fa141ba7722af",
+      "bytes": 2441,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.italian",
+      "asset": "original-cache/data/text/void.italian",
+      "sha256": "6dae2d185a44c884fa11ddcc8074904eed312d6e14b09d10d601311b60b700ba",
+      "bytes": 1721,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.japanese",
+      "asset": "original-cache/data/text/void.japanese",
+      "sha256": "2afd44a099042df61b4ed2a18b0fc1f5345209dc31844aceb255d78f4dbb0ac6",
+      "bytes": 2257,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.korean",
+      "asset": "original-cache/data/text/void.korean",
+      "sha256": "ac3afffd32327f5c4909b5c94f7f28068b2f4668ac16e080068ffaf08fd5af02",
+      "bytes": 2352,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.sc",
+      "asset": "original-cache/data/text/void.sc",
+      "sha256": "e6e059780fd35804460f92609c9ea6fdc58e3cbd44aceb630873fc02d00d3809",
+      "bytes": 2210,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.spanish",
+      "asset": "original-cache/data/text/void.spanish",
+      "sha256": "c37b4d2b6c672afabc6410c5a355657a7790ee34b7eaa76c875c6e8844a895be",
+      "bytes": 1696,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/void.symbols",
+      "asset": "original-cache/data/text/void.symbols",
+      "sha256": "a415da1c2effc3a5b9a60612f16f568b94b3c23dfe3df5ed6fde051971225599",
+      "bytes": 1006,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/void.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.english",
+      "asset": "original-cache/data/text/volcano.english",
+      "sha256": "882088913d02eb258c3a5c3d10e95fd308ac0b87c6fa522decbcb04fc200b900",
+      "bytes": 3499,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.french",
+      "asset": "original-cache/data/text/volcano.french",
+      "sha256": "908d219b48115c08fd1db06e0c1c94a6e94d2cf04c5419182517e7f6fb0a82b8",
+      "bytes": 5884,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.german",
+      "asset": "original-cache/data/text/volcano.german",
+      "sha256": "87803c24b88ac9546350876743ef1733043af0690c52267f2157831dd3f64a55",
+      "bytes": 5981,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.italian",
+      "asset": "original-cache/data/text/volcano.italian",
+      "sha256": "3a6a5b000821a2baa6af94b6974a25bb32c1161f941337852ba9abdb08219203",
+      "bytes": 3608,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.japanese",
+      "asset": "original-cache/data/text/volcano.japanese",
+      "sha256": "9cc86f011ea02345464dae39224c05f46f784ccd2c3b4d1ce80bc689362eb603",
+      "bytes": 4916,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.korean",
+      "asset": "original-cache/data/text/volcano.korean",
+      "sha256": "e3721afc7000c495b41c9987ee5e9c8d884eb7262518503646f4ca2007c187b8",
+      "bytes": 5647,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.sc",
+      "asset": "original-cache/data/text/volcano.sc",
+      "sha256": "eaa61afc78697debba38cdf6992ca5f2bc75e7780cb61389e0fe797718f7ca05",
+      "bytes": 4459,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.spanish",
+      "asset": "original-cache/data/text/volcano.spanish",
+      "sha256": "3ab0181997544f7a7afe33cdc4ebb6d3cd7f001952180a66470377dfbeea3c78",
+      "bytes": 3712,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/volcano.symbols",
+      "asset": "original-cache/data/text/volcano.symbols",
+      "sha256": "239fc456d80df45c27d0e1e09675fd3e65c99aceb60c8a0f5080371787ccf629",
+      "bytes": 2068,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/volcano.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.english",
+      "asset": "original-cache/data/text/watertemple.english",
+      "sha256": "058eb8e62979cd3fb21b181ade35a16e0a3eb867fca396c3ee80bca96ee98120",
+      "bytes": 3700,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.english",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.french",
+      "asset": "original-cache/data/text/watertemple.french",
+      "sha256": "80d8940a4d23c52c46c5be11e4e5e418861ea4c8fd5d9333a6102f1ad1a44495",
+      "bytes": 6054,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.french",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.german",
+      "asset": "original-cache/data/text/watertemple.german",
+      "sha256": "fd2695444fe21ee7e9f13b2d3d24c95415c6271cf1a6b1551ffbf181267ec94e",
+      "bytes": 6109,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.german",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.italian",
+      "asset": "original-cache/data/text/watertemple.italian",
+      "sha256": "38a21154a51f2d27df7722cb39315827ba166a3e99869410f2d32877e5567a53",
+      "bytes": 3903,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.italian",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.japanese",
+      "asset": "original-cache/data/text/watertemple.japanese",
+      "sha256": "b767dde603a7390382f428e4ac12580cc92e3d425d00fa0bee40566502ecdedf",
+      "bytes": 5575,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.japanese",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.korean",
+      "asset": "original-cache/data/text/watertemple.korean",
+      "sha256": "1755710eda1f24a5510f54c9ff6e5baf2fbbb69c10fd67276b41638f227e9820",
+      "bytes": 5783,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.korean",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.sc",
+      "asset": "original-cache/data/text/watertemple.sc",
+      "sha256": "d95f002aa108efbbda8814497943a627d2b0d4f4a497718dccb8ff1031ca1095",
+      "bytes": 4876,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.sc",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.spanish",
+      "asset": "original-cache/data/text/watertemple.spanish",
+      "sha256": "29af8c9517fe024cff0c13cf5a83537b4e214cec1007c0edd7b99be7c04d793d",
+      "bytes": 3863,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.spanish",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/text/watertemple.symbols",
+      "asset": "original-cache/data/text/watertemple.symbols",
+      "sha256": "80c6dfbcd0dc9ec411734a789a60bb334b977dd72961962b6ccefa9dd01dd5da",
+      "bytes": 2470,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/text/watertemple.symbols",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/uncadis.ttf",
+      "asset": "original-cache/data/uncadis.ttf",
+      "sha256": "edc0d4d451b92d17062af875a365095fccfa6d00765a28eac956b31c19b37db0",
+      "bytes": 56260,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/uncadis.ttf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "data/wqy-zenhei.ttf",
+      "asset": "original-cache/data/wqy-zenhei.ttf",
+      "sha256": "734b412c7aea22930d740a8edd9162f36f99aa343ca9271411ab501279fc7dd3",
+      "bytes": 10773492,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/data/wqy-zenhei.ttf",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "uri": "gameswf_effects.bdae",
+      "asset": "original-cache/gameswf_effects.bdae",
+      "sha256": "8e9f5a3d59c2bac3d713f856a326e5556412f0bca1f2646feaa4be3a502895d9",
+      "bytes": 3752,
+      "source_path": "port/android-native/app/src/main/assets/original-cache/gameswf_effects.bdae",
+      "role": "exact URI catalog (language/device variants; superset)"
+    },
+    {
+      "asset": "data/fonts_pycst.bin",
+      "source_path": "port/android-native/app/src/main/assets/data/fonts_pycst.bin",
+      "git_blob": "66c3bb70a4a1d1054b8e7ab274c30e272ac74858",
+      "sha256": "6cc64a82f85ca20006e9ffd6092a39fcaf0eb38858bac0091c8335b56963d8fa",
+      "bytes": 163,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "front-compat/dqmenus_droid.swf",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/front-compat/dqmenus_droid.swf",
+      "git_blob": "8ea0f4fa3c076cdc474a13f12313cc9544558ef6",
+      "sha256": "f01cbeec730848d57aed8923b51ed2c927403687122e870878d713a1d389d430",
+      "bytes": 315955,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "data/character_properties_pyarray.bin",
+      "source_path": "port/android-native/app/src/main/assets/data/character_properties_pyarray.bin",
+      "git_blob": "ef32cd310b320d4cf96c5f8a8e4b791d2d85533a",
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784",
+      "bytes": 401608,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "data/character_properties_pyarraynames.bin",
+      "source_path": "port/android-native/app/src/main/assets/data/character_properties_pyarraynames.bin",
+      "git_blob": "6312dc94c9f2c16574fa33a3672255f8c972f9ec",
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801",
+      "bytes": 8993,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "data/character_properties_pystructnames.bin",
+      "source_path": "port/android-native/app/src/main/assets/data/character_properties_pystructnames.bin",
+      "git_blob": "983dc50b95467443ff1e028826256a21cf320f65",
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2",
+      "bytes": 5032,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "data/levels_pyarray.bin",
+      "source_path": "port/android-native/app/src/main/assets/data/levels_pyarray.bin",
+      "git_blob": "477e28ecef11d7166d0cc6120c90eaa36dcd5ed5",
+      "sha256": "459291ac3f01ed60ad78da26e5bf8c58dfa05833c419db51a31db3e1e8a5717c",
+      "bytes": 5574,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "data/levels_pyarraynames.bin",
+      "source_path": "port/android-native/app/src/main/assets/data/levels_pyarraynames.bin",
+      "git_blob": "66b6d7804a7fadf406b5877ebf48d31f9561f479",
+      "sha256": "35c5fa5ca6bd15e6e7f9b58bf3354727f11e8fe86d847a8b4c3a14ac33a82432",
+      "bytes": 1943,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "data/levels_pystructnames.bin",
+      "source_path": "port/android-native/app/src/main/assets/data/levels_pystructnames.bin",
+      "git_blob": "8252414509fb3a868939b0bff2400cb4fe4be15a",
+      "sha256": "e2b94a43ec198969f510b7a35ba27b1f71be1c1ffa1178db97ee48a925f9c705",
+      "bytes": 337,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-cache/data/pydata/design_pyarray.bin",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-cache/data/pydata/design_pyarray.bin",
+      "git_blob": "1b9fba22f4b5eee456ca12cffff268bd15ae2988",
+      "sha256": "fd70c8be93cd3d5b7947309e22f00a7c5230a4a7541ec6f9ebfdac67335e6296",
+      "bytes": 692,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-cache/data/pydata/design_pyarraynames.bin",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-cache/data/pydata/design_pyarraynames.bin",
+      "git_blob": "daf6c68ec87462768b396977a0489f6cd1b1436b",
+      "sha256": "d9d5ec686e24d2ee0dcf9f7b627b6679ee522b2df311c6861b7c1bb39ab96c7b",
+      "bytes": 272,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-cache/data/pydata/design_pystructnames.bin",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-cache/data/pydata/design_pystructnames.bin",
+      "git_blob": "ba52e58e4e81dfaed1d2268bba4365832fd75adc",
+      "sha256": "d955c29a9ddeb091bc5382eff44002a93e6390228bbe0974769648cc58044dc6",
+      "bytes": 1443,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/intro.mp4",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/intro.mp4",
+      "git_blob": "ef262711a3a69b2327515a4bc4c8138a5bb81388",
+      "sha256": "859f2dde32401f996a5faeaf8c914965b5410d0200315c0bfb90d8c71aa59b22",
+      "bytes": 20248857,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/title_intro.wav",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/title_intro.wav",
+      "git_blob": "e3a0ee07c7fddc019622db482f7b07ffdbc67446",
+      "sha256": "424e61941a95020cf499dd933fd064b1357bc459702d984ced84af2be752e2f2",
+      "bytes": 746622,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/title_loop.wav",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/title_loop.wav",
+      "git_blob": "bc82744b0b8677983bc8a696271da4a5e6dd5575",
+      "sha256": "2ad9ec9422c4a0f1c45c66abcaadde32d968d7bec60f02168c57767b9592dc4d",
+      "bytes": 14491470,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/sfx_menu_back.wav",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/sfx_menu_back.wav",
+      "git_blob": "e5eb507aa1e9e1e2d7c5802bc493d854ebe58763",
+      "sha256": "5de393048fc8c60f0d687d430bb4aa7bf49a317a3f2fe3cbf351e51b2ddc82e5",
+      "bytes": 254588,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/sfx_menu_confirm.wav",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/sfx_menu_confirm.wav",
+      "git_blob": "753bda8be0c0dae260eefc4a7dcfe9c47fe7ad01",
+      "sha256": "b8bd71d85b23c9a6f24b4650d98fc533b5a6e11034bbfb6277294fc1c9705ae5",
+      "bytes": 248108,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/sfx_menu_select.wav",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/sfx_menu_select.wav",
+      "git_blob": "9da46cd48b922e9421048992b93fc1376dfbe44c",
+      "sha256": "8afb7665dec542af18f914295adb0ea7ecfb498ba5973d573d755ae485e6799d",
+      "bytes": 10784,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/sfx_menu_spending.wav",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/sfx_menu_spending.wav",
+      "git_blob": "bb9f6692605c19348ad4ffbf8dcec370dab97df0",
+      "sha256": "8535ff7019e1b23cfe356c215457d5ff126db3fe67e4af3cd6376444028b2c7b",
+      "bytes": 36426,
+      "role": "direct front read/media"
+    },
+    {
+      "asset": "original-media/sfx_menu_tab.wav",
+      "source_path": "session-contributions/menu-launch/verified-v69/port/android-native/app/src/main/assets/original-media/sfx_menu_tab.wav",
+      "git_blob": "0aeab3fd5e091deafe6b8494dd05867479422b7c",
+      "sha256": "07aadc9a76daf36ea170f537a5f7875fc878f543e65bc54b5cbe50ceeaa08449",
+      "bytes": 59534,
+      "role": "direct front read/media"
+    },
+    {
+      "uri": "shaders/shaders.pak",
+      "asset": "shaders/shaders.pak",
+      "sha256": "365a4d3c432454c44208ebb484c7a472a3a4534a0c5c9e77a7a90f3b87b1b5c0",
+      "bytes": 44194,
+      "source_path": "port/android-native/app/src/main/assets/shaders/shaders.pak",
+      "git_blob": "f89a2bda60811c6412fce6aa3b70a2319382d82e",
+      "role": "direct authored GameSWF shader source pack"
+    }
+  ],
+  "unique_asset_paths": 405
+}

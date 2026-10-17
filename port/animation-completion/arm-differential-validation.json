@@ -1,0 +1,43 @@
+{
+  "complete_game": false,
+  "android_integrated": false,
+  "game_callbacks_tested": false,
+  "comparison": "Original ARM32 dispatch/fields vs compiled ARM64 and host; pointer presence/context/pending projected across ABI widths",
+  "setter_calls": 384,
+  "check_calls": 768,
+  "controlled_dispatches": 144,
+  "mismatches": 0,
+  "controlled_callback_reentry_fields": true,
+  "clear_after_callback": true,
+  "missing_callback_retains_pending": true,
+  "wide_timeline_handles": true,
+  "wide_handle_mapping": "Original receives low 32 bits; ARM64/host receive full uintptr_t",
+  "output_guards": true,
+  "stack_restoration": true,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_sha256": "9d5d083ebbb380c43afb2013a6ef63b99602ae671d6c09fb4475dda684e03a21",
+  "arm64_sha256": "27a8e8308ec44ed0cdab11235f1633d7403fb249a76f94a7e7ad74b3007d3bdd",
+  "oracle_sha256": "0c43ca2690eded825cb7f18e65a796ed535f97e0e2cc8ddb64d0d4d17340e83e",
+  "function_evidence": [
+    {
+      "elf_address": "0x00364400",
+      "size": 12,
+      "name": "SetCallback",
+      "symbol": "_ZN14AnimApplicator11SetCallbackEPFvPN6glitch5scene19ITimelineControllerEPvES4_",
+      "sha256": "5fd34ab14d6c4283eb84308a454613a784ce101ec4c69714b0aefcc2748e413f"
+    },
+    {
+      "elf_address": "0x0036440c",
+      "size": 56,
+      "name": "CheckCallback",
+      "symbol": "_ZN14AnimApplicator13CheckCallbackEPN6glitch5scene19ITimelineControllerE",
+      "sha256": "1231f2f6febc828c60eb8d03d14dc10f33d0c13f41e4f08142b784aea6ab61ed"
+    }
+  ],
+  "source_sha256": {
+    "completion.cpp": "60a19356a71caff810b51e184ebdf1b8e34a5de73ff0548197a48e89b38fb69e",
+    "completion.hpp": "a99fb7a02e3d780d07a2f7c3f1f49952a0b9574f972767f4839ce97ffd1b4f46"
+  },
+  "test_sha256": "113a94e272f5c6770e47b48f7feb4d4a3405dd2a2fc1b0ee58bb919fc350952f",
+  "dependency_model": "Actual original SetCallback/CheckCallback execute; callback bodies are controlled test effects, not the original game callbacks"
+}

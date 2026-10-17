@@ -1,0 +1,80 @@
+{
+  "validation": "PASS",
+  "host_original_comparisons": {
+    "input_manager_v1": 325,
+    "cnet_player_info_v1": 72,
+    "netstruct_members_v1": 138
+  },
+  "total_host_original_comparisons": 535,
+  "native_policy_checks": 6,
+  "android_compilation": {
+    "arm64-v8a": {
+      "elf64": true,
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "sha256": "e78898c1d7118e2e5a10df65e93f6df6ff622d1ff9e6bb0d5151de99d69b70e1",
+      "new_sources_selected_once": true,
+      "export_counts": {
+        "input_manager_v1": 18,
+        "cnet_player_info_v1": 10,
+        "netstruct_members_v1": 56
+      },
+      "selected_sources": [
+        "port/player-info-level/input_manager_v1.cpp",
+        "port/player-info-level/cnet_player_info_v1.cpp",
+        "port/player-info-level/netstruct_members_v1.cpp",
+        "port/player-info-level/character_level_member.cpp"
+      ]
+    },
+    "x86_64": {
+      "elf64": true,
+      "load_alignments": [
+        16384,
+        16384,
+        16384
+      ],
+      "sha256": "18c23ea55cc95a6a2bac84d0cb237950ca63387bd800a1071b0b00aae40b3825",
+      "new_sources_selected_once": true,
+      "export_counts": {
+        "input_manager_v1": 18,
+        "cnet_player_info_v1": 10,
+        "netstruct_members_v1": 56
+      },
+      "selected_sources": [
+        "port/player-info-level/input_manager_v1.cpp",
+        "port/player-info-level/cnet_player_info_v1.cpp",
+        "port/player-info-level/netstruct_members_v1.cpp",
+        "port/player-info-level/character_level_member.cpp"
+      ]
+    }
+  },
+  "live_gameplay_for_new_foundations": false,
+  "published_apk_unchanged": "native-menu-crypt-2026-10-06",
+  "adam_refreshed_main": "791e961b12233100b303038c961666834f4beb9d",
+  "native_registration_connected": false,
+  "remaining": [
+    "Full PlayerInfo constructor/reset/copy/assignment/destruction, including 25 derived members",
+    "Bind offline controller checks/map registration to canonical native PlayerManager before authored Assign",
+    "Character660, gameplay Save SG_Load2/4/GEAR/InitPost, equipment and skill grants",
+    "Live integrated Crypt combat/loot milestone"
+  ],
+  "source_sha256": {
+    "port/player-info-level/input_manager_v1.cpp": "8ed04ccd8c668f0aa07e0dd2c00a00c508532c8788302077c7c468700dd90cad",
+    "port/player-info-level/input_manager_v1.hpp": "75b53b2fa4f2170a78a21532f6c542ebcbd6624b3192a18a31f3357db2749f5c",
+    "port/player-info-level/netstruct_members_v1.cpp": "a7703fea61e98164982e3303e93c8a31585a7703732b50630db465e193cd1d6f",
+    "port/player-info-level/netstruct_members_v1.hpp": "14b48b7b20abeaa0eacdb27a89679894ab2fdc6675c52ced2ac11145d4017cbb",
+    "port/player-info-level/cnet_player_info_v1.cpp": "d02c4897e2b659645392c08c764c50ce207be90aab38ca0fd51d1e10812c51ac",
+    "port/player-info-level/cnet_player_info_v1.hpp": "387468710540738bff51019f0aee4f69b2564e41e0567103e41c8f187265d027",
+    "port/player-info-level/character_level_member.cpp": "e5d9ee9f1c5f23c98cd47edecca16fe124a92b9ed69012ce4fd99c1514247f36",
+    "port/player-info-level/character_level_member.hpp": "e6e3301ae0f345c73d0a5da9846579c46aa7e43365579c4918cdc6e2ad9bb5cf",
+    "port/level-world/CMakeLists.txt": "3c6be2b4c4e8dbbb7976514b4d53fd7e5b48d78df930117a77376e7ebc96b532"
+  },
+  "existing_level_regression": {
+    "host_cases": 8,
+    "original_arm_cases": 8,
+    "mismatches": 0
+  }
+}

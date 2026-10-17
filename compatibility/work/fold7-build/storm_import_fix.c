@@ -4,6 +4,7 @@
 #include <elf.h>
 #include <stdint.h>
 #include <stddef.h>
+#include "storm_path_repair.h"
 
 extern void* storm_dlopen(const char*,int);
 extern void* storm_dlsym(void*,const char*);
@@ -42,6 +43,23 @@ void* dh2_fopen_guard(const char* path,const char* mode) {
     }
     void* result=storm_fopen(path,mode);
     int saved_errno=*storm_errno();
+    if(!result && dh2_read_only_mode(mode)) {
+        char recovered[1024];
+        if(dh2_repeated_cache_root(path,recovered,sizeof recovered)) {
+            result=storm_fopen(recovered,mode);
+            if(result) {
+                saved_errno=*storm_errno();
+                dh2_note("DH2FileGuard recovered repeated root: ",recovered);
+            } else *storm_errno()=saved_errno;
+        }
+        if(!result && dh2_qata_texture_path(path,recovered,sizeof recovered)) {
+            result=storm_fopen(recovered,mode);
+            if(result) {
+                saved_errno=*storm_errno();
+                dh2_note("DH2FileGuard recovered texture path: ",recovered);
+            } else *storm_errno()=saved_errno;
+        }
+    }
     /* Record the asset whose failed reopen immediately preceded Test 4's
      * COnDemandReader null dispatch. Do not flood logs for all engine opens. */
     const char* basename=path;

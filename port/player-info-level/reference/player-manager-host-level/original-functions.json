@@ -1,0 +1,85 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "PlayerManager::GetHostingPlayer/GetPlayerByInternalID source selection plus the bounded _ManageCharacters property-level comparison, repeated read, and setter dispatch. PlayerInfo construction, manager iteration, network implementation, and application lifecycle remain outside this kernel.",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager16GetHostingPlayerEv",
+      "demangled": "PlayerManager::GetHostingPlayer()",
+      "elf_address": "0x36e09c",
+      "size": 112,
+      "sha256": "e00e77f9a58281185b7840208afbc95fb217efbdd0201f57ab830829b2da9be1",
+      "scope": "Executed original ARM body for the outer host ID selection. Online/network call targets are explicit harness hooks; the offline ID-zero call and returned PlayerInfo projection are real source instructions."
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "demangled": "PlayerManager::GetPlayerByInternalID(int, bool)",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090",
+      "scope": "Executed original ARM -1 fallback and offline ordered-tree lookup branches; network predicates are covered by the native host fixture, not emulated as game services."
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager17_ManageCharactersEv",
+      "demangled": "PlayerManager::_ManageCharacters()",
+      "elf_address": "0x37280c",
+      "size": 5072,
+      "sha256": "da2fe6a4ee1363f68a3f0a7b23aa851bd48d5bcbcfe4220e925de109a84ad7ce",
+      "scope": "Executed the original instruction slice 0x372cf8..0x372d30: property 0x13 read, compare to PlayerInfo+0x330, fresh second read only on mismatch, direct setter argument. The full manager loop is not run."
+    }
+  ],
+  "supporting_evidence": [
+    {
+      "kind": "property-getter",
+      "original_symbol": "_ZNK14CharProperties12PROPS_GetIntEib",
+      "elf_address": "0x3df6e0",
+      "size": 56,
+      "sha256": "f0b419601b44bb6aa3bea1f6df7d7323364dc572daa7a7d5e660201ec9868342",
+      "note": "The called implementation resolves the fixed property and returns an arithmetic-shifted ordinary signed integer. The ARM caller oracle supplies queued return values at this function boundary, then checks ID=19 and include_bonus=0; no additional shift is applied."
+    },
+    {
+      "kind": "setter",
+      "original_symbol": "_ZN10PlayerInfo17SetCharacterLevelEi",
+      "elf_address": "0x370e48",
+      "size": 168,
+      "sha256": "8f7da2a903e351f20a16438937583cb58b6fb219bd4677c48fd9b1b0808ce506",
+      "note": "The caller's direct setter dispatch is hooked only to capture the integer argument in this unit's ARM slice test. The setter's actual member/dirty effects are separately executed and validated by reference/character-level-member."
+    },
+    {
+      "kind": "dependency-hook",
+      "original_symbol": "_Z9GetOnlinev",
+      "elf_address": "0x7fd794",
+      "note": "The offline PlayerManager ARM scenarios return a harness-owned object whose +5 byte is zero. The online singleton and CMatching/network objects are explicit provider services in the host tests; they are not claimed as executed original callbacks here."
+    },
+    {
+      "kind": "offline-fallback-constructor",
+      "original_symbol": "_ZN13PlayerManagerC1Ev",
+      "elf_address": "0x374b28",
+      "size": 188,
+      "sha256": "dc0bdfb9bb07a71622e07b21d5b74557e38cb0c2fcbbae7609a829cd4eb7efab",
+      "note": "The constructor invokes PlayerInfo::C1 at this+8, then initializes the local ID-tree header/root. GetPlayerByInternalID returns this+8 for ID -1 or a local-tree miss, so that fallback is a real embedded PlayerInfo in a constructed PlayerManager."
+    },
+    {
+      "kind": "embedded-player-initializer",
+      "original_symbol": "_ZN10PlayerInfoC1Ev",
+      "elf_address": "0x37418c",
+      "size": 2460,
+      "sha256": "13d8ca15844ca9c10cd95116a9014af7c30d2ed759da55a2035b51c697eff580",
+      "note": "The constructor initializes the int NetStructMember at +0x310 and leaves its value at +0x330 equal to zero. Its conditional branch stores zero and calls SetChanged only if the pre-existing +0x330 word was nonzero; a pre-zeroed embedded member takes the no-dirty branch. This is a member-initializer fact, not a complete PlayerInfo/native manager reconstruction."
+    },
+    {
+      "kind": "base-constructor-boundary",
+      "original_symbol": "_ZN14CNetPlayerInfoC2Ev",
+      "elf_address": "0x80fc28",
+      "size": 1140,
+      "sha256": "5aeaff07322104a702856e702b7cddfbd54a77eda062f485093613d27a28401a",
+      "note": "PlayerInfo::C1 begins by invoking this base constructor. The +0x330 level member initialization is a subsequent PlayerInfo constructor operation."
+    }
+  ],
+  "limitations": [
+    "The returned PlayerInfo +0x330 member is represented by an owned stable projection. These files do not construct or register the original PlayerInfo object.",
+    "The online/network route preserves exact fresh query and manager reacquisition order at the typed provider boundary; the complete multiplayer singleton/network services are not reconstructed.",
+    "The caller slice is not the full _ManageCharacters loop. Its caller-owned player iteration, connectivity, character binding, and unrelated field synchronization remain outside scope.",
+    "A port adapter failure is reported as an error; the original source has no corresponding typed failure result or rollback."
+  ]
+}

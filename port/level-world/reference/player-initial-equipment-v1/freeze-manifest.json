@@ -1,0 +1,57 @@
+{
+  "validation": "PASS",
+  "upstream_author": "Adam Celermajer",
+  "upstream_commit": "791e961b12233100b303038c961666834f4beb9d",
+  "module": "Borrowed exact Character::_InitEquipment caller",
+  "files_sha256": {
+    "port/level-world/player_initial_equipment_v1.hpp": "84d37319afa29d076ae9287acfcc5495ad1f90638e04039bd2606c92d390b7bf",
+    "port/level-world/player_initial_equipment_v1.cpp": "9ba9217ff3de3f630e379d8541beaae381b36f063eb37b87e669c7cbd1725b80",
+    "port/level-world/tests/player_initial_equipment_v1.cpp": "209cee2080ba316611aaab68671bf3e8581d8e0528bfad76a4d15e24de5cd953",
+    "port/level-world/tests/player_initial_equipment_v1_original.py": "deea1902fae84d196f6133ada044bda9e0bd0a7df0365616e544824d46f74c3d",
+    "port/level-world/tests/run_player_initial_equipment_v1_host.py": "626a00707c07cebd786c6e8037105dd30a1d96e64bd7be7fa196bf58426d2c5b",
+    "port/level-world/tests/freeze_player_initial_equipment_v1.py": "b5561b890937bb60e5e2c345b250d3353e9da1403d7cbf38f3148d2873965d21",
+    "port/level-world/reference/player-initial-equipment-v1/original-functions.json": "a3faf076036c6b1d9b7b4762639968e6d345dbdc25e5f852ae2da3f8c4e72963",
+    "port/level-world/reference/player-initial-equipment-v1/original-capture.json": "e2a01478aa02fd8bb3b91c25a8cbdf2e24ca87c2fc005058a64b3e1914caa4ea",
+    "port/level-world/reference/player-initial-equipment-v1/original-cases.bin": "672db772e323c16b4961a4a4dcf94c5a0163300d0db7eeaab24e71675a0451ab",
+    "port/level-world/reference/player-initial-equipment-v1/NOTES.md": "cf22019ae6a471ac10325a8a7c02faf707ccca7839155f25e152d0fe434f9f3c",
+    "port/level-world/reports/player-initial-equipment-v1-selected-host.json": "4629ba86f97c4dcae6b6b715e3b7f9ffb007c70bb330c14a969934e4d444c4c8"
+  },
+  "whitelist": [
+    "port/level-world/player_initial_equipment_v1.hpp",
+    "port/level-world/player_initial_equipment_v1.cpp",
+    "port/level-world/tests/player_initial_equipment_v1.cpp",
+    "port/level-world/tests/player_initial_equipment_v1_original.py",
+    "port/level-world/tests/run_player_initial_equipment_v1_host.py",
+    "port/level-world/tests/freeze_player_initial_equipment_v1.py",
+    "port/level-world/reference/player-initial-equipment-v1/original-functions.json",
+    "port/level-world/reference/player-initial-equipment-v1/original-capture.json",
+    "port/level-world/reference/player-initial-equipment-v1/original-cases.bin",
+    "port/level-world/reference/player-initial-equipment-v1/NOTES.md",
+    "port/level-world/reports/player-initial-equipment-v1-selected-host.json",
+    "port/level-world/reference/player-initial-equipment-v1/freeze-manifest.json"
+  ],
+  "host_output": "C:/tmp/dh2-player-initial-equipment-selected-host",
+  "host_report": {
+    "validation": "PASS",
+    "original_caller_cases": 18,
+    "actual_player_classes": 3,
+    "failure_prefix_cases": 13,
+    "guard_cases": 8,
+    "same_buff_view_cases": 1,
+    "checks": 2151,
+    "native_InitPost": false,
+    "text_files": [
+      "text/gameplaymenus.english",
+      "text/global.english",
+      "text/ingame.english",
+      "text/items.english"
+    ]
+  },
+  "original_arm_cases": 18,
+  "original_distinct_words": 83,
+  "selected_project_inputs": 564,
+  "reached_cache_inputs": 21,
+  "selected_cmake_sha256": "1cad0014f2d0f4a80722f80664fa71d9a00f3da567ddfd29f7e0ea0821c1563f",
+  "source_before_after_equal": true,
+  "scope": "Whole original _InitEquipment caller with real nested cached _GetProperty; declared external callee fixtures. Actual selected sole V4 inventory, property/kernel/equipment services, five shared text TUs and real three player starter tables. Full AddLoot is mandatory; host V4 fixed-loot transport is proven only for these unpowered fixed starter rows at source difficulty zero. Online/locality/profile/scene attachment providers remain unbound natively. No InitPost, deployment or live gameplay claim."
+}

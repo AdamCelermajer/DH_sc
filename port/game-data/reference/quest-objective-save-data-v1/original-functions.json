@@ -1,0 +1,11 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {"name": "Objective::_saveData(IStreamBase*)", "address": "0x47ab74", "size": 16, "sha256": "084e52475a3577bdcb881f8078370316de710f7d4ffb722fa4f83d9761dd797b"},
+    {"name": "Objective_SavedQty::_saveData(IStreamBase*)", "address": "0x47ab84", "size": 32, "sha256": "b75e666b78aa7688de79fd3caf29002c042c10dae1702eea596c42e08d04d057"},
+    {"name": "StreamReader::writeAs<bool>(IStreamBase*,bool)", "address": "0x429d84", "size": 164, "sha256": "fc07065343c8005296d66aa91eb5a081896a6cb0319bccf6704c75993771ef84"},
+    {"name": "StreamReader::writeAs<int>(IStreamBase*,int)", "address": "0x33665c", "size": 164, "sha256": "e5cf0f8671045fff684ad7d1774e3e2bd1e738a508e748fc27261f16e6125c6d"}
+  ],
+  "stream_dispatch": {"vtable_slot_offset": 28, "bool_bytes": 1, "int_bytes": 4},
+  "scope": "Exact source virtual save bodies and StreamReader writeAs dispatch; no QEST framing, providers, or NativeSaveGame wiring."
+}

@@ -1,0 +1,9 @@
+{
+  "validation": "PASS",
+  "actual_production_inputs": 597,
+  "exact_blob_matches": 292,
+  "only_CRLF_normalized_matches": 305,
+  "other_mismatches": [],
+  "selected_module_freeze_manifests_unchanged": true,
+  "scope": "Git-index source bytes compared with actual r2 compiler/configure inputs. CRLF normalization allowed only when staged and built contents differ solely in line endings."
+}

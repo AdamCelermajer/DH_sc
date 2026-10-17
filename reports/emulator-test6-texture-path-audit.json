@@ -1,0 +1,63 @@
+{
+  "scope": "read-only classification of logged opens; candidate existence does not prove that loading succeeds",
+  "cache_file_count": 6833,
+  "unique_logged_paths": 4,
+  "logged_occurrences": 7,
+  "classification_occurrences": {
+    "qata_to_data_exact_suffix": 7
+  },
+  "findings": [
+    {
+      "requested": "/storage/emulated/0/Android/data/com.gameloft.android.GAND.GloftD2SS/files/qata/3d/textures/atlas_fx_particles_002.tga",
+      "occurrences": 1,
+      "cache_relative": "qata/3d/textures/atlas_fx_particles_002.tga",
+      "classification": "qata_to_data_exact_suffix",
+      "candidates": [
+        {
+          "cache_relative": "data/3d/textures/atlas_fx_particles_002.tga",
+          "bytes": 524348,
+          "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+        }
+      ]
+    },
+    {
+      "requested": "/storage/emulated/0/Android/data/com.gameloft.android.GAND.GloftD2SS/files/qata/3d/textures/atlas_modular_character_01.tga",
+      "occurrences": 2,
+      "cache_relative": "qata/3d/textures/atlas_modular_character_01.tga",
+      "classification": "qata_to_data_exact_suffix",
+      "candidates": [
+        {
+          "cache_relative": "data/3d/textures/atlas_modular_character_01.tga",
+          "bytes": 524348,
+          "sha256": "8a9dbda3b603acf05de48a45adc0f1c2fa1c68b001b966fbf9750e2bd26b9618"
+        }
+      ]
+    },
+    {
+      "requested": "/storage/emulated/0/Android/data/com.gameloft.android.GAND.GloftD2SS/files/qata/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "occurrences": 2,
+      "cache_relative": "qata/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "classification": "qata_to_data_exact_suffix",
+      "candidates": [
+        {
+          "cache_relative": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+          "bytes": 524348,
+          "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83"
+        }
+      ]
+    },
+    {
+      "requested": "/storage/emulated/0/Android/data/com.gameloft.android.GAND.GloftD2SS/files/qata/3d/textures/atlas_weapons_dh2.tga",
+      "occurrences": 2,
+      "cache_relative": "qata/3d/textures/atlas_weapons_dh2.tga",
+      "classification": "qata_to_data_exact_suffix",
+      "candidates": [
+        {
+          "cache_relative": "data/3d/textures/atlas_weapons_dh2.tga",
+          "bytes": 524348,
+          "sha256": "5f096c7ddbcf4aff6c3ebcf436fd60efcf023ca275b90f9c89d0721d71b9b6c1"
+        }
+      ]
+    }
+  ]
+}

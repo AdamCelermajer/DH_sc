@@ -1,0 +1,617 @@
+[
+  {
+    "args": [
+      "shell",
+      "getprop",
+      "ro.build.version.sdk"
+    ],
+    "returncode": 0,
+    "stdout": "37\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "getconf",
+      "PAGE_SIZE"
+    ],
+    "returncode": 0,
+    "stdout": "16384\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "getprop",
+      "ro.product.cpu.abi"
+    ],
+    "returncode": 0,
+    "stdout": "x86_64\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "install",
+      "-r",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\android-native\\build\\native-profile-inventory-r1-2026-10-06\\crypt-native-profile-inventory.apk"
+    ],
+    "returncode": 0,
+    "stdout": "Performing Streamed Install\nSuccess\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation"
+    ],
+    "returncode": 0,
+    "stdout": "lock 1\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "lock",
+      "0"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "push",
+      "C:\\Users\\noamc\\AppData\\Local\\Temp\\dh2-metadata-67tml0ml.bin",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "C:\\Users\\noamc\\AppData\\Local\\Temp\\dh2-metadata-67tml0ml.bin: 1 file pushed, 0 skipped. 0.0 MB/s (4 bytes in 0.000s)\n"
+  },
+  {
+    "args": [
+      "shell",
+      "run-as",
+      "com.example.dh2",
+      "cp",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin",
+      "files/dh2_000.savegame"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "private_copy_bytes": 4,
+    "private_copy_sha256": "ad95131bc0b799c0b1af477fb14fcf26a6a9f76079e48bf090acb7e8367bfd0e",
+    "matches_input": true
+  },
+  {
+    "args": [
+      "shell",
+      "rm",
+      "-f",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stdout": "1791234945.964377000\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "force-stop",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--es",
+      "world",
+      "crypt01.dwld",
+      "--ei",
+      "profile_slot",
+      "0",
+      "--ei",
+      "time_ms",
+      "0",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stdout": "Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }\nStatus: ok\nLaunchState: COLD\nActivity: com.example.dh2/.MainActivity\nTotalTime: 1970\nWaitTime: 1971\nComplete\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29065\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29065\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234945.964377000",
+      "--pid=29065",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "push",
+      "C:\\Users\\noamc\\AppData\\Local\\Temp\\dh2-metadata-odkdhecz.bin",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "C:\\Users\\noamc\\AppData\\Local\\Temp\\dh2-metadata-odkdhecz.bin: 1 file pushed, 0 skipped. 1.9 MB/s (9303 bytes in 0.005s)\n"
+  },
+  {
+    "args": [
+      "shell",
+      "run-as",
+      "com.example.dh2",
+      "cp",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin",
+      "files/dh2_000.savegame"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "private_copy_bytes": 9303,
+    "private_copy_sha256": "d4d947e32feb7b2ed5b64038195e565b8d5978adbaa86bf58027b47cfe2b43e2",
+    "matches_input": true
+  },
+  {
+    "args": [
+      "shell",
+      "rm",
+      "-f",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "date",
+      "+%s.%N"
+    ],
+    "returncode": 0,
+    "stdout": "1791234948.937861300\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "force-stop",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--es",
+      "world",
+      "crypt01.dwld",
+      "--ei",
+      "profile_slot",
+      "0",
+      "--ei",
+      "time_ms",
+      "0",
+      "--ez",
+      "enemy_ai",
+      "false"
+    ],
+    "returncode": 0,
+    "stdout": "Starting: Intent { cmp=com.example.dh2/.MainActivity (has extras) }\nStatus: ok\nLaunchState: COLD\nActivity: com.example.dh2/.MainActivity\nTotalTime: 2481\nWaitTime: 2483\nComplete\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "start",
+      "-W",
+      "-f",
+      "0x20000000",
+      "-n",
+      "com.example.dh2/.MainActivity",
+      "--ei",
+      "profile_slot",
+      "1"
+    ],
+    "returncode": 0,
+    "stdout": "Starting: Intent { flg=0x20000000 cmp=com.example.dh2/.MainActivity (has extras) }\nWarning: Activity not started, intent has been delivered to currently running top-most instance.\nStatus: ok\nLaunchState: UNKNOWN (0)\nActivity: com.example.dh2/.MainActivity\nTotalTime: 0\nWaitTime: 26\nComplete\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "am",
+      "broadcast",
+      "-a",
+      "com.example.dh2.DEBUG_RELOAD_WORLD",
+      "-p",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "Broadcasting: Intent { act=com.example.dh2.DEBUG_RELOAD_WORLD flg=0x400000 pkg=com.example.dh2 }\nBroadcast completed: result=0\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "lock",
+      "1"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "pidof",
+      "com.example.dh2"
+    ],
+    "returncode": 0,
+    "stdout": "29173\n",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "logcat",
+      "-d",
+      "-T",
+      "1791234948.937861300",
+      "--pid=29173",
+      "-v",
+      "brief"
+    ],
+    "returncode": 0,
+    "stdout": "[stored separately]",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "push",
+      "C:\\Users\\noamc\\AppData\\Local\\Temp\\dh2-metadata-qc04bmze.bin",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": "C:\\Users\\noamc\\AppData\\Local\\Temp\\dh2-metadata-qc04bmze.bin: 1 file pushed, 0 skipped. 0.1 MB/s (55 bytes in 0.001s)\n"
+  },
+  {
+    "args": [
+      "shell",
+      "run-as",
+      "com.example.dh2",
+      "cp",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin",
+      "files/dh2_000.savegame"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "private_copy_bytes": 55,
+    "private_copy_sha256": "223e3c16a1214152bb27179f17cf1c68fcd096678f9092e2c3e1e25068b1c876",
+    "matches_input": true
+  },
+  {
+    "args": [
+      "shell",
+      "rm",
+      "-f",
+      "/data/local/tmp/dh2-metadata-smoke-24872.bin"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  },
+  {
+    "args": [
+      "shell",
+      "cmd",
+      "window",
+      "user-rotation",
+      "lock",
+      "1"
+    ],
+    "returncode": 0,
+    "stdout": "",
+    "stderr": ""
+  }
+]

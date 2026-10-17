@@ -1,0 +1,162 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "record_scope_definition": "Complete original assembly ranges are hashed as evidence boundaries. These seven records are not seven fully rebuilt original function bodies, and do not measure whole-game completion.",
+  "source_reconstruction_scope": "Bounded original Crypt GhostAmbush01 Wait/Spawn session, owned native PyData tables, synchronous existing-Character factory dispatch, source Wait quantization and caller frame-phase ordering.",
+  "port_sources": [
+    "port/level-world/crypt_spawn_script_session.hpp",
+    "port/level-world/crypt_spawn_script_session.cpp",
+    "port/script-runtime/script_runtime.hpp",
+    "port/script-runtime/script_runtime.cpp",
+    "port/pydata-scripts/native/pydata_scripts.h",
+    "port/pydata-scripts/native/pydata_scripts.cpp",
+    "port/level-world/character_factory.hpp",
+    "port/level-world/character_factory.cpp",
+    "port/android-native/app/src/main/cpp/model_renderer.cpp",
+    "port/android-native/tools/prepare_crypt_scripts.py"
+  ],
+  "tests": [
+    "port/level-world/tests/crypt_spawn_script_session.cpp",
+    "port/level-world/tests/run_crypt_spawn_script_session_host.py",
+    "port/script-runtime/tests/script_runtime_test.cpp",
+    "port/script-runtime/tests/run_host.py"
+  ],
+  "original_cache_inputs": {
+    "data/pydata/scripts_pyscriptnames.bin": {
+      "bytes": 321,
+      "sha256": "96c9ba8b4cf6afef1318495f2fa18ca4e6e125b187f4bad086e109d22fcbf3bd"
+    },
+    "data/pydata/scripts_pyscripts.bin": {
+      "bytes": 1277,
+      "sha256": "39bd1a0c3c7b55c996688687b69504c0446175b3b3451bc1e7481ab18135551a"
+    },
+    "data/pydata/scripts/007_crypt_01_pyscriptnames.bin": {
+      "bytes": 507,
+      "sha256": "0270ad4f4fb2d2fe9ed0b6cefe208f5431b38504937aff0ea1aafabffd6f8b13"
+    },
+    "data/pydata/scripts/007_crypt_01_pyscripts.bin": {
+      "bytes": 2129,
+      "sha256": "78666c2e163441f806f9fae017030b475613d849f74b833fa6ed58000c5ec3cc"
+    },
+    "data/3d/modules/crypt/mgp/crypt_straight_c_ns_01.mgp": {
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    }
+  },
+  "caller_facts": [
+    "The original common table has 15 scripts and the Crypt table has 25. GhostAmbush01 local index 2/global ID 17 is Wait250, Spawn _prim_Monster_SURPRISE_01, Wait75, Spawn _prim_Monster_SURPRISE_02.",
+    "The direct pair and its ordinary one-shot zero-delay TriggerZone belong to crypt_straight_c_ns_01.mgp. GhostAmbushHallway and four weighted _prim_tmp_ambusher actors belong to a separate module/script path.",
+    "ExecuteScript checks a waiting command before adding current dt, then returns after Update without another check. A newly executed positive Wait is reset then updated with this same pass dt. Prior wait overshoot is discarded.",
+    "Level::Update calls ExecuteAllScripts at ELF0x3f8994, branches back to0x3f8474, then calls PhysicalWorld::update at0x3f84c8 and ObjectManager::Update at0x3f84e8. Trigger contact during ObjectManager becomes runnable next level update.",
+    "Script tables own their immutable decoded storage. Candidate session load is atomic and stable heap ownership retains task/script pointers and callback context until session disposal.",
+    "SpawnServices runs synchronously before scheduler shadow mutation and command PC advancement. Missing existing Characters are no-op misses, bound-service failure is terminal, and unsupported selected-program services are rejected before activation.",
+    "Activity/context restore retains session elapsed waits, activation count and trigger edge state while native bodies and renderer resources are rebound. Internal Prince scene load must preserve session ownership; public preview and failed world load dispose the session."
+  ],
+  "unsupported": [
+    "Arbitrary ScriptManager commands, skip/cutscene policy, full task/level save serialization, online/multi-player producers and full original manager body reconstruction are outside this adapter.",
+    "Generic diagnostic scheduler unsupported-command no-ops are not allowed for the selected live Crypt program; SpawnSession accepts only Wait and SpawnCharacter.",
+    "Original ObjectManager lookup filters by module ID (unless global/special-player policy applies). Current uniquely named pair is bounded; repeated-module expansion requires that producer and ownership model, not a global-name assumption.",
+    "Native integration source presence and host tests do not themselves prove Android runtime/rendered gameplay success. Device evidence must be reported separately with the tested APK identity.",
+    "Fresh Ghost Spawn/Idle/body services are bounded. Autonomous combat/AI, broad revival, weighted Hallway actors and full campaign reconstruction remain separate work.",
+    "Original Wait uses signed int elapsed addition. The bounded scheduler uses saturated uint32 elapsed arithmetic for exposed extreme dt; ordinary application frame dt is the reconstructed path."
+  ],
+  "verification": {
+    "method": "all seven complete indexed assembly ranges reconstructed and SHA256 checked; Script_Wait virtual slots independently resolved by original vtable",
+    "original_elf_vs_pseudocode": "Ghidra pseudocode export address comments are original ELF address +0x10000",
+    "host_status": "passed actual-cache Crypt session and SWAMP scheduler suites",
+    "crypt_fixture_dispatch_ms": {
+      "explicit_zero_delta_followup": [
+        250,
+        325
+      ],
+      "fixed_25_ms_after_initial_zero": [
+        275,
+        350
+      ]
+    },
+    "swamp_fixture_dispatch_ms": {
+      "explicit_zero_delta_followup": [
+        500,
+        2000,
+        4000
+      ],
+      "fixed_25_ms_after_initial_zero": [
+        525,
+        2025,
+        4025
+      ]
+    }
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN5Level6UpdateEb",
+      "demangled": "Level::Update(bool)",
+      "elf_address": "0x3f82d8",
+      "size": 2408,
+      "sha256": "2e75857c5060415c3708add8ad1a148a734aa25749571f8bd9d29e5495917998",
+      "scope": "complete original ELF byte range; implementation scope is bounded by port_coverage",
+      "assembly_file": "recovered/native/assembly/libDungeonHunter2.so/Level-1709305c9fa9-001.asm",
+      "port_coverage": "caller phase-order evidence only; bounded Android composition calls script advance before physics/actor and samples contact after updated player absolute AABB"
+    },
+    {
+      "original_symbol": "_ZN13ScriptManager13ExecuteScriptEi",
+      "demangled": "ScriptManager::ExecuteScript(int)",
+      "elf_address": "0x45c16c",
+      "size": 528,
+      "sha256": "95bbb1413317eadf2d935ab3ffbade7a84881d3f1fdc1d2876794fdd1cc196d4",
+      "scope": "complete original ELF byte range; implementation scope is bounded by port_coverage",
+      "assembly_file": "recovered/native/assembly/libDungeonHunter2.so/ScriptManager-6a1e69358783-001.asm",
+      "port_coverage": "bounded Wait/Spawn task dispatch with source IsBlocking-before-Update order; arbitrary command implementations and skipping policy are outside this adapter"
+    },
+    {
+      "original_symbol": "_ZN13ScriptManager17ExecuteAllScriptsEv",
+      "demangled": "ScriptManager::ExecuteAllScripts()",
+      "elf_address": "0x45c37c",
+      "size": 188,
+      "sha256": "7f267a40ddf9b8fa0f6776415ad0b52e684d0865a96a97a08bcb132718ed6392",
+      "scope": "complete original ELF byte range; implementation scope is bounded by port_coverage",
+      "assembly_file": "recovered/native/assembly/libDungeonHunter2.so/ScriptManager-6a1e69358783-001.asm",
+      "port_coverage": "bounded runnable-context snapshot represented by task tickets; newly started contexts wait for the following manager advance"
+    },
+    {
+      "original_symbol": "_ZNK11Script_Wait10IsBlockingEv",
+      "demangled": "Script_Wait::IsBlocking() const",
+      "elf_address": "0x455754",
+      "size": 24,
+      "sha256": "05e6799e35a81bd7afd1a26cb3efe119206f77f549221ee04aabf5c6ae6cab39",
+      "scope": "complete original ELF byte range; implementation scope is bounded by port_coverage",
+      "assembly_file": "recovered/native/assembly/libDungeonHunter2.so/Script_Wait-c7dc1f69cbcc-001.asm",
+      "port_coverage": "ordinary positive-duration elapsed/target comparison before Update; exposed uint32 arithmetic uses an explicit saturation boundary"
+    },
+    {
+      "original_symbol": "_ZN11Script_Wait6UpdateEv",
+      "demangled": "Script_Wait::Update()",
+      "elf_address": "0x4597b4",
+      "size": 52,
+      "sha256": "899e4cbb41efc31e42714ac562579a8f03d0ac66c5a0f92b4627e45ae2dd518b",
+      "scope": "complete original ELF byte range; implementation scope is bounded by port_coverage",
+      "assembly_file": "recovered/native/assembly/libDungeonHunter2.so/Script_Wait-c7dc1f69cbcc-001.asm",
+      "port_coverage": "adds caller-supplied current frame dt once to a blocking Wait and ends that task pass without rechecking"
+    },
+    {
+      "original_symbol": "_ZN11Script_Wait7ExecuteEbi",
+      "demangled": "Script_Wait::Execute(bool, int)",
+      "elf_address": "0x45c438",
+      "size": 160,
+      "sha256": "f7980a6c5064528963e030ffb09b1218933a5eb2e9691186fb5a28eb4a2a25a9",
+      "scope": "complete original ELF byte range; implementation scope is bounded by port_coverage",
+      "assembly_file": "recovered/native/assembly/libDungeonHunter2.so/Script_Wait-c7dc1f69cbcc-001.asm",
+      "port_coverage": "decoded duration resets elapsed; positive Wait receives current frame dt immediately through the recovered manager order; previous wait overshoot discarded"
+    },
+    {
+      "original_symbol": "_ZN21Script_SpawnCharacter7ExecuteEbi",
+      "demangled": "Script_SpawnCharacter::Execute(bool, int)",
+      "elf_address": "0x45f400",
+      "size": 232,
+      "sha256": "b1f7809cd225b9201b48371a3b9a34d1272ea35f5f11acc9a07a9fc3606582c7",
+      "scope": "complete original ELF byte range; implementation scope is bounded by port_coverage",
+      "assembly_file": "recovered/native/assembly/libDungeonHunter2.so/Script_SpawnCharacter-1a3476c33649-001.asm",
+      "port_coverage": "synchronous existing-Character exact-name request through the bounded factory; current selected pair is uniquely named; original module-ID filtering and full ObjectManager handle ownership remain dependencies"
+    }
+  ]
+}

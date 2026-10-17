@@ -1,0 +1,3533 @@
+[
+{
+"id": "r1n-net-transport-CAndroidSocket-2b6873-0",
+"category": "net-transport",
+"owner": "CAndroidSocket",
+"owners": [
+"CAndroidSocket"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x8408ac",
+"bytes": 228,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::SendBroadcast(char const*, int, int)"
+},
+{
+"address": "0x8409a0",
+"bytes": 96,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::SetBroadcast()"
+},
+{
+"address": "0x840a04",
+"bytes": 40,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::Listen(int)"
+},
+{
+"address": "0x840b4c",
+"bytes": 260,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::RecvFromUnkownIP(char*, int, char**, int*)"
+},
+{
+"address": "0x840cc8",
+"bytes": 264,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::RecvFrom(char*, int)"
+},
+{
+"address": "0x840de0",
+"bytes": 228,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::SendTo(char const*, int, char const*, int)"
+},
+{
+"address": "0x840f68",
+"bytes": 92,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::CreateSocket()"
+},
+{
+"address": "0x8410f8",
+"bytes": 224,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::Send(char*, int)"
+},
+{
+"address": "0x8412b4",
+"bytes": 56,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::CloseSocket()"
+},
+{
+"address": "0x8412f0",
+"bytes": 556,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::ConnectTo(char*, int)"
+},
+{
+"address": "0x84152c",
+"bytes": 596,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::Connect()"
+},
+{
+"address": "0x841790",
+"bytes": 804,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::ConnectByName(char*, unsigned short)"
+},
+{
+"address": "0x841ad0",
+"bytes": 192,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::SetNonBlocking()"
+},
+{
+"address": "0x841ca8",
+"bytes": 40,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::GetHostByName(char*)"
+},
+{
+"address": "0x841e4c",
+"bytes": 168,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::GetHostIP(char*)"
+},
+{
+"address": "0x841fbc",
+"bytes": 324,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::GetLocalIP(char*)"
+},
+{
+"address": "0x84210c",
+"bytes": 184,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::Clearup()"
+},
+{
+"address": "0x842208",
+"bytes": 80,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::Startup()"
+},
+{
+"address": "0x842260",
+"bytes": 80,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::~CAndroidSocket()"
+},
+{
+"address": "0x8422d4",
+"bytes": 80,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::~CAndroidSocket()"
+}
+],
+"bytes": 4592
+},
+{
+"id": "r1n-net-transport-CAndroidSocket-2b6873-1",
+"category": "net-transport",
+"owner": "CAndroidSocket",
+"owners": [
+"CAndroidSocket"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x84232c",
+"bytes": 44,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::CAndroidSocket(char*, int, GLXPlayerSocketObserver*)"
+},
+{
+"address": "0x842360",
+"bytes": 92,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::Accept()"
+},
+{
+"address": "0x842430",
+"bytes": 44,
+"owner": "CAndroidSocket",
+"demangled": "CAndroidSocket::CAndroidSocket(char*, int, GLXPlayerSocketObserver*)"
+}
+],
+"bytes": 180
+},
+{
+"id": "r1n-net-transport-CBluetoothReliable-350a35-0",
+"category": "net-transport",
+"owner": "CBluetoothReliable",
+"owners": [
+"CBluetoothReliable"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x828da0",
+"bytes": 80,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::AcceptConnections()"
+},
+{
+"address": "0x828df0",
+"bytes": 104,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::Connect(CNetworkId&)"
+},
+{
+"address": "0x828e58",
+"bytes": 72,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::Open(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::basic_string<char, std::char_traits<char>, std::allocator<char> >, int)"
+},
+{
+"address": "0x828ec8",
+"bytes": 128,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::Listen(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x8290dc",
+"bytes": 40,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::GetPeerNetworkId()"
+},
+{
+"address": "0x829400",
+"bytes": 156,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::Create(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::basic_string<char, std::char_traits<char>, std::allocator<char> >, int)"
+},
+{
+"address": "0x8294cc",
+"bytes": 196,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::InitializeTransport()"
+},
+{
+"address": "0x829694",
+"bytes": 40,
+"owner": "CBluetoothReliable",
+"demangled": "CBluetoothReliable::GetLocalNetworkId()"
+}
+],
+"bytes": 816
+},
+{
+"id": "r1n-net-transport-CBluetoothUnreliable-2d7a15-0",
+"category": "net-transport",
+"owner": "CBluetoothUnreliable",
+"owners": [
+"CBluetoothUnreliable"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8297a8",
+"bytes": 80,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::AcceptConnections()"
+},
+{
+"address": "0x829860",
+"bytes": 72,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::Open(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::basic_string<char, std::char_traits<char>, std::allocator<char> >, int)"
+},
+{
+"address": "0x8298d0",
+"bytes": 128,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::Listen(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x829a50",
+"bytes": 40,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::GetPeerNetworkId()"
+},
+{
+"address": "0x829b5c",
+"bytes": 80,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::CBluetoothUnreliable(unsigned int, bool)"
+},
+{
+"address": "0x829cfc",
+"bytes": 156,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::Create(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::basic_string<char, std::char_traits<char>, std::allocator<char> >, int)"
+},
+{
+"address": "0x829dc8",
+"bytes": 196,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::InitializeTransport()"
+},
+{
+"address": "0x829f9c",
+"bytes": 40,
+"owner": "CBluetoothUnreliable",
+"demangled": "CBluetoothUnreliable::GetLocalNetworkId()"
+}
+],
+"bytes": 792
+},
+{
+"id": "r1n-net-transport-CConnectionManager-5c506d-0",
+"category": "net-transport",
+"owner": "CConnectionManager",
+"owners": [
+"CConnectionManager"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7fc060",
+"bytes": 12,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::GetTransportType(tPROTOCOL_TYPE)"
+},
+{
+"address": "0x7fc0a8",
+"bytes": 136,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::CConnectionManager()"
+},
+{
+"address": "0x7fc3ac",
+"bytes": 64,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::SendTo(tPACKET_TYPE, CNetworkId&, void*, int)"
+},
+{
+"address": "0x7fc3ec",
+"bytes": 76,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::SendBroadcast(tPACKET_TYPE, void*, int)"
+},
+{
+"address": "0x7fc464",
+"bytes": 40,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::PingReceiverCallback(CNetworkId&, char*, int)"
+},
+{
+"address": "0x7fc508",
+"bytes": 96,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::ProcessConnectionFinalize(CNetworkId&, NetBitStream&)"
+},
+{
+"address": "0x7fc568",
+"bytes": 144,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::ProcessConnectionResponse(CNetworkId&, NetBitStream&)"
+},
+{
+"address": "0x7fc638",
+"bytes": 72,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::SendToServer(tPACKET_TYPE, void*, int)"
+},
+{
+"address": "0x7fc718",
+"bytes": 280,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::Disconnect(int, bool)"
+},
+{
+"address": "0x7fc9cc",
+"bytes": 168,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::Accept(int, CNetworkId&, unsigned long long)"
+},
+{
+"address": "0x7fca74",
+"bytes": 184,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::ProcessConnectionRequest(CNetworkId&, NetBitStream&)"
+},
+{
+"address": "0x7fcd04",
+"bytes": 52,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::TerminateInternal()"
+},
+{
+"address": "0x7fcdec",
+"bytes": 200,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::InitializeInternal()"
+},
+{
+"address": "0x7fcf94",
+"bytes": 536,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::GetServerPing()"
+},
+{
+"address": "0x7fd284",
+"bytes": 236,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::GetConnMemberIdList(bool)"
+},
+{
+"address": "0x7fd400",
+"bytes": 72,
+"owner": "CConnectionManager",
+"demangled": "CConnectionManager::~CConnectionManager()"
+}
+],
+"bytes": 2368
+},
+{
+"id": "r1n-net-transport-CNetPlayerManager-0e46d6-0",
+"category": "net-transport",
+"owner": "CNetPlayerManager",
+"owners": [
+"CNetPlayerManager"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x810108",
+"bytes": 60,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::Terminate()"
+},
+{
+"address": "0x810180",
+"bytes": 96,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::GetPlayerInternal(int, int)"
+},
+{
+"address": "0x8101e0",
+"bytes": 72,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::GetPlayer(int, bool)"
+},
+{
+"address": "0x810228",
+"bytes": 72,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::GetPlayerByMemberId(int, int, bool)"
+},
+{
+"address": "0x810610",
+"bytes": 604,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::WritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x8108a8",
+"bytes": 24,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::RemovePlayer(int)"
+},
+{
+"address": "0x810b7c",
+"bytes": 88,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::SetPlayerGamepadId(int, int)"
+},
+{
+"address": "0x810bd4",
+"bytes": 180,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::ReassignPlayer(int, int, int)"
+},
+{
+"address": "0x810c88",
+"bytes": 256,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::ClearPlayers()"
+},
+{
+"address": "0x811308",
+"bytes": 48,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::ResetPlayers()"
+},
+{
+"address": "0x811d74",
+"bytes": 288,
+"owner": "CNetPlayerManager",
+"demangled": "CNetPlayerManager::ReadPacketData(int, int, NetBitStream&)"
+}
+],
+"bytes": 1788
+},
+{
+"id": "r1n-net-transport-CPacketManager-e6e33d-0",
+"category": "net-transport",
+"owner": "CPacketManager",
+"owners": [
+"CPacketManager"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x815504",
+"bytes": 172,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::ProcessAcknowledgedPackets()"
+},
+{
+"address": "0x815ec8",
+"bytes": 380,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::PreparePacketData(int, unsigned int, NetBitStream&)"
+},
+{
+"address": "0x8162a4",
+"bytes": 408,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::CPacketManager()"
+},
+{
+"address": "0x8164e8",
+"bytes": 80,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::Initialize()"
+},
+{
+"address": "0x816540",
+"bytes": 408,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::CPacketManager()"
+},
+{
+"address": "0x81684c",
+"bytes": 116,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::SendWaitingPackets()"
+},
+{
+"address": "0x8168fc",
+"bytes": 436,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::ProcessLostPackets()"
+},
+{
+"address": "0x816ab8",
+"bytes": 352,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::~CPacketManager()"
+},
+{
+"address": "0x816eac",
+"bytes": 28,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::ReceivePackets()"
+},
+{
+"address": "0x81704c",
+"bytes": 352,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::~CPacketManager()"
+},
+{
+"address": "0x817814",
+"bytes": 444,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::SendPacket(int)"
+},
+{
+"address": "0x8179d0",
+"bytes": 600,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::SendPackets()"
+},
+{
+"address": "0x817d1c",
+"bytes": 80,
+"owner": "CPacketManager",
+"demangled": "CPacketManager::sPacketReceiverCallback(int, char*, int)"
+}
+],
+"bytes": 3856
+},
+{
+"id": "r1n-net-transport-CTransportManager-fbfc4f-0",
+"category": "net-transport",
+"owner": "CTransportManager",
+"owners": [
+"CTransportManager"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x81aa2c",
+"bytes": 88,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::Terminate()"
+},
+{
+"address": "0x81aa8c",
+"bytes": 128,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::EnableBroadcast(CNetworkId)"
+},
+{
+"address": "0x81ab0c",
+"bytes": 128,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::DisableBroadcast(CNetworkId)"
+},
+{
+"address": "0x81ab8c",
+"bytes": 128,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::GetTransportByPeer(tTRANSPORT_TYPE, CNetworkId)"
+},
+{
+"address": "0x81ac0c",
+"bytes": 108,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::IsConnectedTo(CNetworkId&)"
+},
+{
+"address": "0x81ac80",
+"bytes": 36,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::SetThreadTimestamp()"
+},
+{
+"address": "0x81ad30",
+"bytes": 356,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::GetListenNetworkId(tTRANSPORT_TYPE)"
+},
+{
+"address": "0x81ae94",
+"bytes": 124,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::IsTransportAvailable(tTRANSPORT_TYPE)"
+},
+{
+"address": "0x81af88",
+"bytes": 136,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::PrepareConnectionNetworkId(CNetworkId&)"
+},
+{
+"address": "0x81b010",
+"bytes": 260,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::Send(CTransport*, CNetworkId&, tPACKET_TYPE, void*, int)"
+},
+{
+"address": "0x81b11c",
+"bytes": 372,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::ReceiverCallback(CTransport*, CNetworkId&, char*, int)"
+},
+{
+"address": "0x81b2fc",
+"bytes": 204,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::Send(tTRANSPORT_TYPE, tPACKET_TYPE, void*, int)"
+},
+{
+"address": "0x81b3c8",
+"bytes": 48,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::Receive()"
+},
+{
+"address": "0x81b440",
+"bytes": 24,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::Disconnect(CNetworkId&)"
+},
+{
+"address": "0x81b544",
+"bytes": 20,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::InitializeInternal()"
+},
+{
+"address": "0x81b5b4",
+"bytes": 80,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::ReceiverThreadExecute()"
+},
+{
+"address": "0x81b604",
+"bytes": 64,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::Connect(CNetworkId&)"
+},
+{
+"address": "0x81b64c",
+"bytes": 48,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::TerminateInternal()"
+},
+{
+"address": "0x81b800",
+"bytes": 124,
+"owner": "CTransportManager",
+"demangled": "CTransportManager::Initialize()"
+}
+],
+"bytes": 2476
+},
+{
+"id": "r1n-net-transport-Connection-6512ee-0",
+"category": "net-transport",
+"owner": "Connection",
+"owners": [
+"Connection"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8457a4",
+"bytes": 32,
+"owner": "Connection",
+"demangled": "Connection::saveRetryData(DataPacket*)"
+},
+{
+"address": "0x84581c",
+"bytes": 296,
+"owner": "Connection",
+"demangled": "Connection::connect()"
+},
+{
+"address": "0x845944",
+"bytes": 108,
+"owner": "Connection",
+"demangled": "Connection::addIncomingPacket(DataPacket*)"
+},
+{
+"address": "0x8459b4",
+"bytes": 152,
+"owner": "Connection",
+"demangled": "Connection::addOutgoingPacket(DataPacket*)"
+},
+{
+"address": "0x845a50",
+"bytes": 36,
+"owner": "Connection",
+"demangled": "Connection::sendRetryData()"
+},
+{
+"address": "0x845b60",
+"bytes": 28,
+"owner": "Connection",
+"demangled": "Connection::sendKickOutPlayerPackage(char*)"
+},
+{
+"address": "0x846288",
+"bytes": 28,
+"owner": "Connection",
+"demangled": "Connection::sendCreateSessionPackage(char*, char*, int)"
+},
+{
+"address": "0x8463d0",
+"bytes": 20,
+"owner": "Connection",
+"demangled": "Connection::sendLoginPackage(char*)"
+},
+{
+"address": "0x846488",
+"bytes": 76,
+"owner": "Connection",
+"demangled": "Connection::sendEstablishConnectionPackage()"
+},
+{
+"address": "0x8466fc",
+"bytes": 568,
+"owner": "Connection",
+"demangled": "Connection::receiveDataLen()"
+},
+{
+"address": "0x84699c",
+"bytes": 368,
+"owner": "Connection",
+"demangled": "Connection::sendData()"
+},
+{
+"address": "0x846b14",
+"bytes": 48,
+"owner": "Connection",
+"demangled": "Connection::~Connection()"
+}
+],
+"bytes": 1760
+},
+{
+"id": "r1n-net-transport-LCAndroidSocket-d93a84-0",
+"category": "net-transport",
+"owner": "LCAndroidSocket",
+"owners": [
+"LCAndroidSocket"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x89e5b4",
+"bytes": 40,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::IsReadyForRW()"
+},
+{
+"address": "0x89e5dc",
+"bytes": 228,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::SendBroadcast(char const*, int, int)"
+},
+{
+"address": "0x89e6d0",
+"bytes": 72,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::SetBroadcast()"
+},
+{
+"address": "0x89e734",
+"bytes": 40,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Listen(int)"
+},
+{
+"address": "0x89e7e8",
+"bytes": 40,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::GetSocketAddr()"
+},
+{
+"address": "0x89e880",
+"bytes": 96,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::RecvFromUnkownIP(char*, int, char**, int*)"
+},
+{
+"address": "0x89ea00",
+"bytes": 248,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::RecvFrom(char*, int)"
+},
+{
+"address": "0x89eb1c",
+"bytes": 228,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::SendTo(char const*, int, char const*, int)"
+},
+{
+"address": "0x89ec70",
+"bytes": 76,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::CreateSocket()"
+},
+{
+"address": "0x89ece4",
+"bytes": 8,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Bind(char*, unsigned short)"
+},
+{
+"address": "0x89edfc",
+"bytes": 76,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Recv(char*, int)"
+},
+{
+"address": "0x89ee4c",
+"bytes": 224,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Send(char*, int)"
+},
+{
+"address": "0x89ef3c",
+"bytes": 200,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Select(LCXPlayerSocket::XSocketSelectFlag)"
+},
+{
+"address": "0x89f004",
+"bytes": 72,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::CloseSocket()"
+},
+{
+"address": "0x89f054",
+"bytes": 100,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::ConnectTo(char*, int)"
+},
+{
+"address": "0x89f290",
+"bytes": 20,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Connect()"
+},
+{
+"address": "0x89f4fc",
+"bytes": 216,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::ConnectByName(char*)"
+},
+{
+"address": "0x89f7c8",
+"bytes": 144,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::SetNonBlocking()"
+},
+{
+"address": "0x89f890",
+"bytes": 16,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::GetLastError()"
+},
+{
+"address": "0x89f9a0",
+"bytes": 180,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::GetHostIP(char*)"
+}
+],
+"bytes": 2324
+},
+{
+"id": "r1n-net-transport-LCAndroidSocket-d93a84-1",
+"category": "net-transport",
+"owner": "LCAndroidSocket",
+"owners": [
+"LCAndroidSocket"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x89fb04",
+"bytes": 32,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::GetHostByName(char*)"
+},
+{
+"address": "0x89fc1c",
+"bytes": 80,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::TransToIp(char*&)"
+},
+{
+"address": "0x89fc78",
+"bytes": 196,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Clearup()"
+},
+{
+"address": "0x89fd84",
+"bytes": 244,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::GetLocalIP(char*)"
+},
+{
+"address": "0x89feec",
+"bytes": 92,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Startup()"
+},
+{
+"address": "0x89ff54",
+"bytes": 80,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::~LCAndroidSocket()"
+},
+{
+"address": "0x8a0020",
+"bytes": 60,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::LCAndroidSocket(char*, int, LCXPlayerSocketObserver*)"
+},
+{
+"address": "0x8a0068",
+"bytes": 92,
+"owner": "LCAndroidSocket",
+"demangled": "LCAndroidSocket::Accept()"
+}
+],
+"bytes": 876
+},
+{
+"id": "r1n-net-transport-pack0-34ed2e-0",
+"category": "net-transport",
+"owner": "Buffer | BufferedStream | CBluetoothNetRoomInfo | CConnection | CDataStats | CNetPlayerInfo | CNetworkEmulation | CReadWriteLock | CSemaphore",
+"owners": [
+"Buffer",
+"BufferedStream",
+"CBluetoothNetRoomInfo",
+"CConnection",
+"CDataStats",
+"CNetPlayerInfo",
+"CNetworkEmulation",
+"CReadWriteLock",
+"CSemaphore"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x316568",
+"bytes": 276,
+"owner": "Buffer",
+"demangled": "Buffer::read(unsigned int, void*, unsigned int) const"
+},
+{
+"address": "0x317014",
+"bytes": 340,
+"owner": "Buffer",
+"demangled": "Buffer::setSize(unsigned int)"
+},
+{
+"address": "0x42b1e4",
+"bytes": 124,
+"owner": "BufferedStream",
+"demangled": "BufferedStream::FillBuffer(IStreamBase*)"
+},
+{
+"address": "0x800d7c",
+"bytes": 320,
+"owner": "CBluetoothNetRoomInfo",
+"demangled": "CBluetoothNetRoomInfo::CBluetoothNetRoomInfo()"
+},
+{
+"address": "0x801a0c",
+"bytes": 196,
+"owner": "CBluetoothNetRoomInfo",
+"demangled": "CBluetoothNetRoomInfo::~CBluetoothNetRoomInfo()"
+},
+{
+"address": "0x8259a8",
+"bytes": 252,
+"owner": "CConnection",
+"demangled": "CConnection::CConnection()"
+},
+{
+"address": "0x8261c4",
+"bytes": 428,
+"owner": "CConnection",
+"demangled": "CConnection::Connect(int, CNetworkId&)"
+},
+{
+"address": "0x826370",
+"bytes": 120,
+"owner": "CConnection",
+"demangled": "CConnection::~CConnection()"
+},
+{
+"address": "0x8266ec",
+"bytes": 68,
+"owner": "CConnection",
+"demangled": "CConnection::ProcessConnectFinalize(CNetworkId&)"
+},
+{
+"address": "0x826780",
+"bytes": 772,
+"owner": "CConnection",
+"demangled": "CConnection::Update()"
+},
+{
+"address": "0x825388",
+"bytes": 492,
+"owner": "CDataStats",
+"demangled": "CDataStats<int>::GetAverage(float)"
+},
+{
+"address": "0x825be8",
+"bytes": 436,
+"owner": "CDataStats",
+"demangled": "CDataStats<int>::GetSum(float)"
+},
+{
+"address": "0x80f3d0",
+"bytes": 584,
+"owner": "CNetPlayerInfo",
+"demangled": "CNetPlayerInfo::Update()"
+},
+{
+"address": "0x826fec",
+"bytes": 152,
+"owner": "CNetworkEmulation",
+"demangled": "CNetworkEmulation::GetCurrentConditionSet()"
+},
+{
+"address": "0x80e33c",
+"bytes": 4,
+"owner": "CReadWriteLock",
+"demangled": "CReadWriteLock::LockWrite()"
+},
+{
+"address": "0x80e340",
+"bytes": 4,
+"owner": "CReadWriteLock",
+"demangled": "CReadWriteLock::UnlockWrite()"
+},
+{
+"address": "0x80e344",
+"bytes": 4,
+"owner": "CReadWriteLock",
+"demangled": "CReadWriteLock::LockRead()"
+},
+{
+"address": "0x80e348",
+"bytes": 4,
+"owner": "CReadWriteLock",
+"demangled": "CReadWriteLock::UnlockRead()"
+},
+{
+"address": "0x80e2e4",
+"bytes": 4,
+"owner": "CSemaphore",
+"demangled": "CSemaphore::Wait()"
+},
+{
+"address": "0x80e2e8",
+"bytes": 4,
+"owner": "CSemaphore",
+"demangled": "CSemaphore::Release(int)"
+}
+],
+"bytes": 4584
+},
+{
+"id": "r1n-net-transport-pack1-c9f9b1-0",
+"category": "net-transport",
+"owner": "CSocket | CTcp | CTransportFactory | CTransportManagerImpl | CUdp | ConnectionLobby",
+"owners": [
+"CSocket",
+"CTcp",
+"CTransportFactory",
+"CTransportManagerImpl",
+"CUdp",
+"ConnectionLobby"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x827da0",
+"bytes": 308,
+"owner": "CSocket",
+"demangled": "CSocket::GetLocalAddress()"
+},
+{
+"address": "0x82a0d8",
+"bytes": 252,
+"owner": "CTcp",
+"demangled": "CTcp::ReceivePackets()"
+},
+{
+"address": "0x82a464",
+"bytes": 76,
+"owner": "CTcp",
+"demangled": "CTcp::InitializeTransport()"
+},
+{
+"address": "0x82a540",
+"bytes": 156,
+"owner": "CTcp",
+"demangled": "CTcp::AcceptConnections()"
+},
+{
+"address": "0x827220",
+"bytes": 84,
+"owner": "CTransportFactory",
+"demangled": "CTransportFactory::InitializeTransport(tTRANSPORT_TYPE)"
+},
+{
+"address": "0x8272c4",
+"bytes": 420,
+"owner": "CTransportFactory",
+"demangled": "CTransportFactory::ConnectTransport(CNetworkId&)"
+},
+{
+"address": "0x825110",
+"bytes": 100,
+"owner": "CTransportManagerImpl",
+"demangled": "CTransportManagerImpl::GetHostname(CNetworkId&)"
+},
+{
+"address": "0x825248",
+"bytes": 100,
+"owner": "CTransportManagerImpl",
+"demangled": "CTransportManagerImpl::StartReceiverThread()"
+},
+{
+"address": "0x8275b0",
+"bytes": 340,
+"owner": "CUdp",
+"demangled": "CUdp::Receive()"
+},
+{
+"address": "0x8278fc",
+"bytes": 108,
+"owner": "CUdp",
+"demangled": "CUdp::InitializeTransport()"
+},
+{
+"address": "0x846eb4",
+"bytes": 36,
+"owner": "ConnectionLobby",
+"demangled": "ConnectionLobby::sendRetryData()"
+},
+{
+"address": "0x846fb0",
+"bytes": 32,
+"owner": "ConnectionLobby",
+"demangled": "ConnectionLobby::saveRetryData(DataPacket*)"
+},
+{
+"address": "0x848300",
+"bytes": 28,
+"owner": "ConnectionLobby",
+"demangled": "ConnectionLobby::sendKickOutPlayerPackage(char*)"
+},
+{
+"address": "0x848b04",
+"bytes": 20,
+"owner": "ConnectionLobby",
+"demangled": "ConnectionLobby::sendLoginPackage(char*)"
+},
+{
+"address": "0x848cd0",
+"bytes": 624,
+"owner": "ConnectionLobby",
+"demangled": "ConnectionLobby::receiveDataLen()"
+},
+{
+"address": "0x848fac",
+"bytes": 300,
+"owner": "ConnectionLobby",
+"demangled": "ConnectionLobby::sendData()"
+}
+],
+"bytes": 2984
+},
+{
+"id": "r1n-net-transport-pack2-7ca702-0",
+"category": "net-transport",
+"owner": "DataPacketLobby | DefaultDataPacket | NetBitStream",
+"owners": [
+"DataPacketLobby",
+"DefaultDataPacket",
+"NetBitStream"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x849560",
+"bytes": 88,
+"owner": "DataPacketLobby",
+"demangled": "DataPacketLobby::String2Packet(char*, int)"
+},
+{
+"address": "0x849600",
+"bytes": 36,
+"owner": "DataPacketLobby",
+"demangled": "DataPacketLobby::setMessageBody(unsigned char*, int)"
+},
+{
+"address": "0x849714",
+"bytes": 44,
+"owner": "DataPacketLobby",
+"demangled": "DataPacketLobby::setIP(char*)"
+},
+{
+"address": "0x849748",
+"bytes": 196,
+"owner": "DataPacketLobby",
+"demangled": "DataPacketLobby::getShortLenString(char*&, short&)"
+},
+{
+"address": "0x849924",
+"bytes": 176,
+"owner": "DataPacketLobby",
+"demangled": "DataPacketLobby::addPacket(DataPacket*)"
+},
+{
+"address": "0x8499d8",
+"bytes": 144,
+"owner": "DataPacketLobby",
+"demangled": "DataPacketLobby::addShortLenString(char const*, short)"
+},
+{
+"address": "0x849d20",
+"bytes": 164,
+"owner": "DataPacketLobby",
+"demangled": "DataPacketLobby::DataPacketLobby(DataPacket*)"
+},
+{
+"address": "0x84a410",
+"bytes": 80,
+"owner": "DefaultDataPacket",
+"demangled": "DefaultDataPacket::Packet2String(char*, int&)"
+},
+{
+"address": "0x84a460",
+"bytes": 124,
+"owner": "DefaultDataPacket",
+"demangled": "DefaultDataPacket::addPacket(DataPacket*)"
+},
+{
+"address": "0x84a4dc",
+"bytes": 44,
+"owner": "DefaultDataPacket",
+"demangled": "DefaultDataPacket::setMessageBody(unsigned char*, int)"
+},
+{
+"address": "0x84a508",
+"bytes": 148,
+"owner": "DefaultDataPacket",
+"demangled": "DefaultDataPacket::DefaultDataPacket(DataPacket*)"
+},
+{
+"address": "0x84a5a4",
+"bytes": 148,
+"owner": "DefaultDataPacket",
+"demangled": "DefaultDataPacket::DefaultDataPacket(DataPacket*)"
+},
+{
+"address": "0x84a7f4",
+"bytes": 52,
+"owner": "DefaultDataPacket",
+"demangled": "DefaultDataPacket::setIP(char*)"
+},
+{
+"address": "0x84a9fc",
+"bytes": 20,
+"owner": "DefaultDataPacket",
+"demangled": "DefaultDataPacket::getPacket(DataPacket*&)"
+},
+{
+"address": "0x80eac8",
+"bytes": 232,
+"owner": "NetBitStream",
+"demangled": "NetBitStream::ShiftMemCopy(void*, unsigned int, void const*, unsigned int, int)"
+},
+{
+"address": "0x80edb0",
+"bytes": 92,
+"owner": "NetBitStream",
+"demangled": "NetBitStream::WriteString(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, unsigned int)"
+},
+{
+"address": "0x80ee5c",
+"bytes": 116,
+"owner": "NetBitStream",
+"demangled": "NetBitStream::operator=(NetBitStream const&)"
+},
+{
+"address": "0x80eef4",
+"bytes": 120,
+"owner": "NetBitStream",
+"demangled": "NetBitStream::NetBitStream(NetBitStream const&)"
+},
+{
+"address": "0x80ef8c",
+"bytes": 120,
+"owner": "NetBitStream",
+"demangled": "NetBitStream::NetBitStream(NetBitStream const&)"
+}
+],
+"bytes": 2144
+},
+{
+"id": "r1n-net-transport-pack3-8001d6-0",
+"category": "net-transport",
+"owner": "NetStructArray | NetStructByteArray | NetStructInterpolation | NetStructMember | StreamBuffer | Thread | updateJob_thread",
+"owners": [
+"NetStructArray",
+"NetStructByteArray",
+"NetStructInterpolation",
+"NetStructMember",
+"StreamBuffer",
+"Thread",
+"updateJob_thread"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7fe728",
+"bytes": 96,
+"owner": "NetStructArray",
+"demangled": "NetStructArray<CMatching::MemberInfoNetStruct, 32u>::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x7fe788",
+"bytes": 96,
+"owner": "NetStructArray",
+"demangled": "NetStructArray<CMatching::MemberInfoNetStruct, 32u>::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x805730",
+"bytes": 96,
+"owner": "NetStructArray",
+"demangled": "NetStructArray<CMatchingLocal::ServerBackupNetStruct, 32u>::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x805790",
+"bytes": 96,
+"owner": "NetStructArray",
+"demangled": "NetStructArray<CMatchingLocal::ServerBackupNetStruct, 32u>::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x3702f8",
+"bytes": 176,
+"owner": "NetStructByteArray",
+"demangled": "NetStructByteArray<36u>::Read(NetBitStream&)"
+},
+{
+"address": "0x3703b0",
+"bytes": 128,
+"owner": "NetStructByteArray",
+"demangled": "NetStructByteArray<3u>::Read(NetBitStream&)"
+},
+{
+"address": "0x370430",
+"bytes": 176,
+"owner": "NetStructByteArray",
+"demangled": "NetStructByteArray<30u>::Read(NetBitStream&)"
+},
+{
+"address": "0x7fee00",
+"bytes": 176,
+"owner": "NetStructByteArray",
+"demangled": "NetStructByteArray<64u>::Read(NetBitStream&)"
+},
+{
+"address": "0x8182e0",
+"bytes": 176,
+"owner": "NetStructByteArray",
+"demangled": "NetStructByteArray<256u>::Read(NetBitStream&)"
+},
+{
+"address": "0x3a3e64",
+"bytes": 88,
+"owner": "NetStructInterpolation",
+"demangled": "NetStructInterpolation<float>::AddValue(float, unsigned int)"
+},
+{
+"address": "0x8150a0",
+"bytes": 16,
+"owner": "NetStructMember",
+"demangled": "NetStructMember::GetFrameTime()"
+},
+{
+"address": "0x8150b0",
+"bytes": 92,
+"owner": "NetStructMember",
+"demangled": "NetStructMember::AreChangesAcknowledged()"
+},
+{
+"address": "0x3171b8",
+"bytes": 260,
+"owner": "StreamBuffer",
+"demangled": "StreamBuffer::StreamBuffer(IStreamBase*)"
+},
+{
+"address": "0x317e10",
+"bytes": 4,
+"owner": "Thread",
+"demangled": "Thread::~Thread()"
+},
+{
+"address": "0x84559c",
+"bytes": 36,
+"owner": "Thread",
+"demangled": "Thread::IsCurrectThreadRunning()"
+},
+{
+"address": "0x8455c0",
+"bytes": 72,
+"owner": "Thread",
+"demangled": "Thread::Run()"
+},
+{
+"address": "0x317e98",
+"bytes": 84,
+"owner": "updateJob_thread",
+"demangled": "updateJob_thread::Start2()"
+},
+{
+"address": "0x317ef8",
+"bytes": 84,
+"owner": "updateJob_thread",
+"demangled": "updateJob_thread::Start()"
+},
+{
+"address": "0x317f58",
+"bytes": 24,
+"owner": "updateJob_thread",
+"demangled": "updateJob_thread::Stop()"
+},
+{
+"address": "0x317f74",
+"bytes": 24,
+"owner": "updateJob_thread",
+"demangled": "updateJob_thread::Finish()"
+}
+],
+"bytes": 2000
+},
+{
+"id": "r1n-net-session-online-CMessaging-7b9dc9-0",
+"category": "net-session-online",
+"owner": "CMessaging",
+"owners": [
+"CMessaging"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x80a784",
+"bytes": 48,
+"owner": "CMessaging",
+"demangled": "CMessaging::PrintRecvQueue()"
+},
+{
+"address": "0x80a82c",
+"bytes": 48,
+"owner": "CMessaging",
+"demangled": "CMessaging::PrintSendQueue()"
+},
+{
+"address": "0x80aa50",
+"bytes": 96,
+"owner": "CMessaging",
+"demangled": "CMessaging::AreMessagesAcknowledged(char const*)"
+},
+{
+"address": "0x80ab00",
+"bytes": 32,
+"owner": "CMessaging",
+"demangled": "CMessaging::GetMessageFromQueue(char const*)"
+},
+{
+"address": "0x80acb8",
+"bytes": 20,
+"owner": "CMessaging",
+"demangled": "CMessaging::PurgeMessagesFromQueue(std::list<CMessage*, std::allocator<CMessage*> >*, CNetMutex*, char const*)"
+},
+{
+"address": "0x80ad54",
+"bytes": 24,
+"owner": "CMessaging",
+"demangled": "CMessaging::ProcessRecvQueue()"
+},
+{
+"address": "0x80afe4",
+"bytes": 280,
+"owner": "CMessaging",
+"demangled": "CMessaging::CMessaging()"
+},
+{
+"address": "0x80b438",
+"bytes": 316,
+"owner": "CMessaging",
+"demangled": "CMessaging::~CMessaging()"
+},
+{
+"address": "0x80b900",
+"bytes": 36,
+"owner": "CMessaging",
+"demangled": "CMessaging::PackMessages(int, NetBitStream&)"
+},
+{
+"address": "0x80d058",
+"bytes": 28,
+"owner": "CMessaging",
+"demangled": "CMessaging::ProcessMissingMessages(CMessage*)"
+},
+{
+"address": "0x80d624",
+"bytes": 32,
+"owner": "CMessaging",
+"demangled": "CMessaging::AddToRecvQueue(CMessage*)"
+},
+{
+"address": "0x80d67c",
+"bytes": 28,
+"owner": "CMessaging",
+"demangled": "CMessaging::HasMessageBeenQueued(CMessage*)"
+},
+{
+"address": "0x80d8a0",
+"bytes": 40,
+"owner": "CMessaging",
+"demangled": "CMessaging::ProcessSendQueue()"
+},
+{
+"address": "0x80d9c0",
+"bytes": 184,
+"owner": "CMessaging",
+"demangled": "CMessaging::ReceiveMessage(CMessage*)"
+},
+{
+"address": "0x80db24",
+"bytes": 132,
+"owner": "CMessaging",
+"demangled": "CMessaging::AddToSendQueue(CMessage*)"
+}
+],
+"bytes": 1344
+},
+{
+"id": "r1n-net-session-online-GameCenter-7accff-0",
+"category": "net-session-online",
+"owner": "GameCenter",
+"owners": [
+"GameCenter"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x499224",
+"bytes": 64,
+"owner": "GameCenter",
+"demangled": "GameCenter::SaveGCAchievement(char*)"
+},
+{
+"address": "0x499264",
+"bytes": 192,
+"owner": "GameCenter",
+"demangled": "GameCenter::SetPlayerIDStatus(char const*, char const*, bool)"
+},
+{
+"address": "0x499324",
+"bytes": 28,
+"owner": "GameCenter",
+"demangled": "GameCenter::IsHost()"
+},
+{
+"address": "0x499440",
+"bytes": 72,
+"owner": "GameCenter",
+"demangled": "GameCenter::GCStartGameTimeoutExpired()"
+},
+{
+"address": "0x499564",
+"bytes": 60,
+"owner": "GameCenter",
+"demangled": "GameCenter::ReportGCScore(int)"
+},
+{
+"address": "0x4995a0",
+"bytes": 84,
+"owner": "GameCenter",
+"demangled": "GameCenter::ReportGCAchievement(char*)"
+},
+{
+"address": "0x499694",
+"bytes": 548,
+"owner": "GameCenter",
+"demangled": "GameCenter::GetGCPlayerGroup()"
+},
+{
+"address": "0x499efc",
+"bytes": 40,
+"owner": "GameCenter",
+"demangled": "GameCenter::CoinTossForHost()"
+},
+{
+"address": "0x499f24",
+"bytes": 156,
+"owner": "GameCenter",
+"demangled": "GameCenter::GCStartMultiplayerGame()"
+},
+{
+"address": "0x499fc8",
+"bytes": 32,
+"owner": "GameCenter",
+"demangled": "GameCenter::GCStartMultiplayerGame(bool)"
+},
+{
+"address": "0x49a03c",
+"bytes": 100,
+"owner": "GameCenter",
+"demangled": "GameCenter::GCAddToJoinPlayerList(char const*)"
+}
+],
+"bytes": 1376
+},
+{
+"id": "r1n-net-session-online-MultiplayerCallback-2a3fd7-0",
+"category": "net-session-online",
+"owner": "MultiplayerCallback",
+"owners": [
+"MultiplayerCallback"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x49a0d4",
+"bytes": 164,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleAskResendAttributesMessage(void*)"
+},
+{
+"address": "0x49a17c",
+"bytes": 176,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleGlobalDeathMessage(void*)"
+},
+{
+"address": "0x49a6e4",
+"bytes": 108,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleRaisedEventMessage(void*)"
+},
+{
+"address": "0x49a75c",
+"bytes": 172,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::LoadGLLiveFriends()"
+},
+{
+"address": "0x49a808",
+"bytes": 332,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandlePlayerLeft(void*)"
+},
+{
+"address": "0x49a960",
+"bytes": 152,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleMenuReadyMessage(void*)"
+},
+{
+"address": "0x49a9fc",
+"bytes": 96,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleIsHostMessage(void*)"
+},
+{
+"address": "0x49aa60",
+"bytes": 428,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleSpawnObjectMessage(void*)"
+},
+{
+"address": "0x49ac18",
+"bytes": 444,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleLootMessage(void*)"
+},
+{
+"address": "0x49ade0",
+"bytes": 392,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleAttackMessage(void*)"
+},
+{
+"address": "0x49af74",
+"bytes": 192,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleQuestsSyncMessage(void*)"
+},
+{
+"address": "0x49b054",
+"bytes": 120,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleInitialMessage(void*)"
+},
+{
+"address": "0x49b0d8",
+"bytes": 716,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleStartGameMessage(void*)"
+},
+{
+"address": "0x49b3c8",
+"bytes": 172,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::roomLobbyUpdate(void*)"
+},
+{
+"address": "0x49b47c",
+"bytes": 244,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::lobbyUpdate(void*)"
+},
+{
+"address": "0x49b580",
+"bytes": 216,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::searchRoomPushNotif(void*)"
+},
+{
+"address": "0x49b660",
+"bytes": 484,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::searchRoom(void*)"
+},
+{
+"address": "0x49b990",
+"bytes": 924,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleMenuBackButton(void*)"
+},
+{
+"address": "0x49c5e4",
+"bytes": 436,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandleScriptCmd(void*)"
+},
+{
+"address": "0x49c7b4",
+"bytes": 268,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::joinRoom(void*)"
+}
+],
+"bytes": 6236
+},
+{
+"id": "r1n-net-session-online-MultiplayerCallback-2a3fd7-1",
+"category": "net-session-online",
+"owner": "MultiplayerCallback",
+"owners": [
+"MultiplayerCallback"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x49c8c0",
+"bytes": 348,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::createRoom(void*)"
+},
+{
+"address": "0x49cd94",
+"bytes": 444,
+"owner": "MultiplayerCallback",
+"demangled": "MultiplayerCallback::HandlePlayerJoined(void*)"
+}
+],
+"bytes": 792
+},
+{
+"id": "r1n-net-session-online-COnline-d15511-0",
+"category": "net-session-online",
+"owner": "COnline",
+"owners": [
+"COnline"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x7fd51c",
+"bytes": 76,
+"owner": "COnline",
+"demangled": "COnline::ReportDisconnect(COnline::tDisconnectCause, int)"
+},
+{
+"address": "0x7fd568",
+"bytes": 32,
+"owner": "COnline",
+"demangled": "COnline::GetPing()"
+},
+{
+"address": "0x7fd634",
+"bytes": 56,
+"owner": "COnline",
+"demangled": "COnline::SendPackets()"
+},
+{
+"address": "0x7fd66c",
+"bytes": 88,
+"owner": "COnline",
+"demangled": "COnline::Destroy()"
+},
+{
+"address": "0x7fd6d0",
+"bytes": 36,
+"owner": "COnline",
+"demangled": "COnline::Terminate()"
+},
+{
+"address": "0x7fd6f4",
+"bytes": 72,
+"owner": "COnline",
+"demangled": "COnline::Initialize()"
+},
+{
+"address": "0x7fd798",
+"bytes": 144,
+"owner": "COnline",
+"demangled": "COnline::COnline()"
+},
+{
+"address": "0x7fd838",
+"bytes": 144,
+"owner": "COnline",
+"demangled": "COnline::COnline()"
+},
+{
+"address": "0x7fd914",
+"bytes": 96,
+"owner": "COnline",
+"demangled": "COnline::ReceivePackets()"
+},
+{
+"address": "0x7fd974",
+"bytes": 120,
+"owner": "COnline",
+"demangled": "COnline::SendSyncTime()"
+},
+{
+"address": "0x7fd9ec",
+"bytes": 44,
+"owner": "COnline",
+"demangled": "COnline::SyncTime()"
+},
+{
+"address": "0x7fda38",
+"bytes": 84,
+"owner": "COnline",
+"demangled": "COnline::~COnline()"
+},
+{
+"address": "0x7fda98",
+"bytes": 84,
+"owner": "COnline",
+"demangled": "COnline::~COnline()"
+},
+{
+"address": "0x7fdb58",
+"bytes": 140,
+"owner": "COnline",
+"demangled": "COnline::Update(float)"
+},
+{
+"address": "0x7fdbe4",
+"bytes": 124,
+"owner": "COnline",
+"demangled": "COnline::PacketReceiverCallback(int, char*, int)"
+}
+],
+"bytes": 1340
+},
+{
+"id": "r1n-net-session-online-CMatching-9acceb-0",
+"category": "net-session-online",
+"owner": "CMatching",
+"owners": [
+"CMatching"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x7fe574",
+"bytes": 40,
+"owner": "CMatching",
+"demangled": "CMatching::LockRoom(bool)"
+},
+{
+"address": "0x7fe618",
+"bytes": 16,
+"owner": "CMatching",
+"demangled": "CMatching::GetMemberIdByIndex(unsigned int)"
+},
+{
+"address": "0x7fe628",
+"bytes": 60,
+"owner": "CMatching",
+"demangled": "CMatching::sReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x7fe66c",
+"bytes": 60,
+"owner": "CMatching",
+"demangled": "CMatching::sWritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x7fe6b0",
+"bytes": 52,
+"owner": "CMatching",
+"demangled": "CMatching::sProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x7fe6ec",
+"bytes": 52,
+"owner": "CMatching",
+"demangled": "CMatching::sProcessLostPacket(int, int)"
+},
+{
+"address": "0x7fea14",
+"bytes": 68,
+"owner": "CMatching",
+"demangled": "CMatching::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x7feac4",
+"bytes": 64,
+"owner": "CMatching",
+"demangled": "CMatching::ResendMemberData()"
+},
+{
+"address": "0x7feb40",
+"bytes": 76,
+"owner": "CMatching",
+"demangled": "CMatching::SearchRoom(CRoomSearchFilter, bool, unsigned char)"
+},
+{
+"address": "0x7feb8c",
+"bytes": 104,
+"owner": "CMatching",
+"demangled": "CMatching::Destroy()"
+},
+{
+"address": "0x7fed08",
+"bytes": 124,
+"owner": "CMatching",
+"demangled": "CMatching::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x7fed84",
+"bytes": 124,
+"owner": "CMatching",
+"demangled": "CMatching::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x7ff008",
+"bytes": 76,
+"owner": "CMatching",
+"demangled": "CMatching::SetRoomMemberAttibute(int, void const*, int)"
+},
+{
+"address": "0x7ff120",
+"bytes": 536,
+"owner": "CMatching",
+"demangled": "CMatching::JoinRoom(unsigned long long)"
+},
+{
+"address": "0x7ff350",
+"bytes": 568,
+"owner": "CMatching",
+"demangled": "CMatching::CreateJoinRoom(bool, CRoomAttributes)"
+},
+{
+"address": "0x7ff5a0",
+"bytes": 668,
+"owner": "CMatching",
+"demangled": "CMatching::Terminate()"
+},
+{
+"address": "0x7ff85c",
+"bytes": 668,
+"owner": "CMatching",
+"demangled": "CMatching::Initialize(int)"
+},
+{
+"address": "0x7fff9c",
+"bytes": 148,
+"owner": "CMatching",
+"demangled": "CMatching::CMatching()"
+},
+{
+"address": "0x80003c",
+"bytes": 148,
+"owner": "CMatching",
+"demangled": "CMatching::CMatching()"
+},
+{
+"address": "0x8002bc",
+"bytes": 1328,
+"owner": "CMatching",
+"demangled": "CMatching::UpdateMemberIdList()"
+}
+],
+"bytes": 4980
+},
+{
+"id": "r1n-net-session-online-CMatching-9acceb-1",
+"category": "net-session-online",
+"owner": "CMatching",
+"owners": [
+"CMatching"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x8008ac",
+"bytes": 200,
+"owner": "CMatching",
+"demangled": "CMatching::SetTeamId(int, unsigned char)"
+},
+{
+"address": "0x800a68",
+"bytes": 136,
+"owner": "CMatching",
+"demangled": "CMatching::~CMatching()"
+},
+{
+"address": "0x800b00",
+"bytes": 136,
+"owner": "CMatching",
+"demangled": "CMatching::~CMatching()"
+},
+{
+"address": "0x800f8c",
+"bytes": 268,
+"owner": "CMatching",
+"demangled": "CMatching::Get()"
+},
+{
+"address": "0x8010a4",
+"bytes": 124,
+"owner": "CMatching",
+"demangled": "CMatching::WritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x801120",
+"bytes": 2000,
+"owner": "CMatching",
+"demangled": "CMatching::ProcessEvents()"
+},
+{
+"address": "0x8018fc",
+"bytes": 116,
+"owner": "CMatching",
+"demangled": "CMatching::Update()"
+}
+],
+"bytes": 2980
+},
+{
+"id": "r1n-net-session-online-CMatchingLocal-402124-0",
+"category": "net-session-online",
+"owner": "CMatchingLocal",
+"owners": [
+"CMatchingLocal"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x805680",
+"bytes": 20,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::GetFriendsList(bool)"
+},
+{
+"address": "0x8057f0",
+"bytes": 108,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x80585c",
+"bytes": 108,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x805b14",
+"bytes": 240,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x805c1c",
+"bytes": 172,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::IsInRoom(int)"
+},
+{
+"address": "0x805cc8",
+"bytes": 112,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::IsInRoom()"
+},
+{
+"address": "0x805de0",
+"bytes": 256,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::SendServerResponse(bool)"
+},
+{
+"address": "0x805ee0",
+"bytes": 76,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::ProcessClientMessage(CNetworkId&, NetBitStream&)"
+},
+{
+"address": "0x80605c",
+"bytes": 60,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::Terminate()"
+},
+{
+"address": "0x8063c4",
+"bytes": 900,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::WritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x80675c",
+"bytes": 316,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::GenerateNewMemberId()"
+},
+{
+"address": "0x806d64",
+"bytes": 212,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::HideRoom()"
+},
+{
+"address": "0x806e4c",
+"bytes": 360,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::CloseRoom()"
+},
+{
+"address": "0x806fc8",
+"bytes": 224,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::ShowRoom()"
+},
+{
+"address": "0x8070bc",
+"bytes": 368,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::OpenRoom(bool)"
+},
+{
+"address": "0x8074a4",
+"bytes": 768,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::Reset()"
+},
+{
+"address": "0x8079d4",
+"bytes": 512,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::CreateJoinRoomInternal(bool, CRoomAttributes&)"
+},
+{
+"address": "0x807c70",
+"bytes": 136,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::Initialize(int)"
+},
+{
+"address": "0x807d08",
+"bytes": 304,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::CMatchingLocal()"
+},
+{
+"address": "0x807e44",
+"bytes": 304,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::CMatchingLocal()"
+}
+],
+"bytes": 5556
+},
+{
+"id": "r1n-net-session-online-CMatchingLocal-402124-1",
+"category": "net-session-online",
+"owner": "CMatchingLocal",
+"owners": [
+"CMatchingLocal"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x807f80",
+"bytes": 264,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::~CMatchingLocal()"
+},
+{
+"address": "0x808538",
+"bytes": 336,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::GetMemberName(int)"
+},
+{
+"address": "0x80890c",
+"bytes": 3016,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::Update()"
+},
+{
+"address": "0x8094fc",
+"bytes": 76,
+"owner": "CMatchingLocal",
+"demangled": "CMatchingLocal::AddServer(int, CNetworkId&, int, CRoomAttributes&)"
+}
+],
+"bytes": 3692
+},
+{
+"id": "r1n-net-session-online-CMatchingGLLive-07f9f6-0",
+"category": "net-session-online",
+"owner": "CMatchingGLLive",
+"owners": [
+"CMatchingGLLive"
+],
+"part": 0,
+"parts": 3,
+"functions": [
+{
+"address": "0x81bcd4",
+"bytes": 20,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SetGLLivePassword(char const*)"
+},
+{
+"address": "0x81bd08",
+"bytes": 20,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SetGLLiveUserName(char const*)"
+},
+{
+"address": "0x81bf88",
+"bytes": 16,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::IsLoggedIn()"
+},
+{
+"address": "0x81bf98",
+"bytes": 68,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetServerMemberId() const"
+},
+{
+"address": "0x81bfe4",
+"bytes": 80,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::ProcessLostPacket(int, int)"
+},
+{
+"address": "0x81c034",
+"bytes": 80,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::ProcessAcknowledgedPacket(int, int)"
+},
+{
+"address": "0x81c084",
+"bytes": 20,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GLSendHighScore(int)"
+},
+{
+"address": "0x81c0e8",
+"bytes": 20,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SendGLFriendInvite(char*)"
+},
+{
+"address": "0x81c37c",
+"bytes": 132,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetGLXPlayerUserFriend()"
+},
+{
+"address": "0x81c460",
+"bytes": 52,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetRoomId()"
+},
+{
+"address": "0x81c494",
+"bytes": 24,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetMemberByMemberId(int)"
+},
+{
+"address": "0x81c524",
+"bytes": 108,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetMemberCount() const"
+},
+{
+"address": "0x81c5e8",
+"bytes": 164,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetGLXPlayerLogin()"
+},
+{
+"address": "0x81c748",
+"bytes": 68,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::InitializeFriend()"
+},
+{
+"address": "0x81c9e8",
+"bytes": 52,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::sPacketReceiverCallback(int, char*, int)"
+},
+{
+"address": "0x81cec0",
+"bytes": 112,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::IsFriendWith(char const*, bool)"
+},
+{
+"address": "0x81cf30",
+"bytes": 196,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SendInvitation(char const*, char const*, bool)"
+},
+{
+"address": "0x81d2b4",
+"bytes": 772,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::~CMatchingGLLive()"
+},
+{
+"address": "0x81dba0",
+"bytes": 324,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetGLLiveMemberIdList()"
+},
+{
+"address": "0x81dd04",
+"bytes": 404,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetGLLiveMemberId() const"
+}
+],
+"bytes": 2732
+},
+{
+"id": "r1n-net-session-online-CMatchingGLLive-07f9f6-1",
+"category": "net-session-online",
+"owner": "CMatchingGLLive",
+"owners": [
+"CMatchingGLLive"
+],
+"part": 1,
+"parts": 3,
+"functions": [
+{
+"address": "0x81ded4",
+"bytes": 180,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::IsInRoom(int)"
+},
+{
+"address": "0x81df90",
+"bytes": 136,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetMemberName(int)"
+},
+{
+"address": "0x81e25c",
+"bytes": 608,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SyncMemberId()"
+},
+{
+"address": "0x81e4d0",
+"bytes": 208,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::ReadPacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x81ec5c",
+"bytes": 328,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetFriendsList(bool)"
+},
+{
+"address": "0x81ef7c",
+"bytes": 188,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::GetGLXPlayerMPLobby()"
+},
+{
+"address": "0x81f04c",
+"bytes": 212,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SetPlayerParam(std::basic_string<char, std::char_traits<char>, std::allocator<char> >, bool)"
+},
+{
+"address": "0x81f178",
+"bytes": 228,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SetGCState(int)"
+},
+{
+"address": "0x81f264",
+"bytes": 196,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::Initialize(int)"
+},
+{
+"address": "0x81f44c",
+"bytes": 24,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SendSetPlayerStatus(char)"
+},
+{
+"address": "0x81f53c",
+"bytes": 268,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::WritePacketData(int, int, NetBitStream&)"
+},
+{
+"address": "0x81f648",
+"bytes": 168,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SendGameParameters()"
+},
+{
+"address": "0x81f6f8",
+"bytes": 340,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::KickMember(int)"
+},
+{
+"address": "0x81f858",
+"bytes": 220,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::Terminate()"
+},
+{
+"address": "0x81f948",
+"bytes": 392,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::CreateJoinRoomInternal(bool, CRoomAttributes&)"
+},
+{
+"address": "0x81fadc",
+"bytes": 104,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::SearchRoomInternal(CRoomSearchFilter&, bool, unsigned char)"
+},
+{
+"address": "0x82078c",
+"bytes": 720,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::UpdateRoom()"
+},
+{
+"address": "0x820a6c",
+"bytes": 1016,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::Update()"
+},
+{
+"address": "0x820e7c",
+"bytes": 72,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::AddServer(int, CNetworkId&, int, CRoomAttributes&)"
+},
+{
+"address": "0x821110",
+"bytes": 120,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::ProcessServerMessage(CNetworkId&, NetBitStream&)"
+}
+],
+"bytes": 5728
+},
+{
+"id": "r1n-net-session-online-CMatchingGLLive-07f9f6-2",
+"category": "net-session-online",
+"owner": "CMatchingGLLive",
+"owners": [
+"CMatchingGLLive"
+],
+"part": 2,
+"parts": 3,
+"functions": [
+{
+"address": "0x821188",
+"bytes": 144,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::BroadcastPacketReceiverCallback(CNetworkId&, char*, int)"
+},
+{
+"address": "0x821218",
+"bytes": 52,
+"owner": "CMatchingGLLive",
+"demangled": "CMatchingGLLive::sBroadcastPacketReceiverCallback(CNetworkId&, char*, int)"
+}
+],
+"bytes": 196
+},
+{
+"id": "r1n-net-session-online-CMatchingGLLiveLobbyObserver-9d847a-0",
+"category": "net-session-online",
+"owner": "CMatchingGLLiveLobbyObserver",
+"owners": [
+"CMatchingGLLiveLobbyObserver"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x82134c",
+"bytes": 28,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPGetLobbyInfo(DataPacket*)"
+},
+{
+"address": "0x8213ec",
+"bytes": 88,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::ClearRoomList()"
+},
+{
+"address": "0x821448",
+"bytes": 40,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::Terminate()"
+},
+{
+"address": "0x821474",
+"bytes": 88,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::GetRoomIndexByName(char const*)"
+},
+{
+"address": "0x8214cc",
+"bytes": 112,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::GetMemberIndexByName(char const*)"
+},
+{
+"address": "0x8216a8",
+"bytes": 176,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushGameserverAddr(DataPacket*)"
+},
+{
+"address": "0x8217a8",
+"bytes": 996,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPListSessionSuccess(DataPacket*)"
+},
+{
+"address": "0x821bac",
+"bytes": 300,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::GetMemberIdVector()"
+},
+{
+"address": "0x821ed8",
+"bytes": 148,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::~CMatchingGLLiveLobbyObserver()"
+},
+{
+"address": "0x822324",
+"bytes": 192,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::GetMemberByMemberId(int)"
+},
+{
+"address": "0x822538",
+"bytes": 120,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::CMatchingGLLiveLobbyObserver()"
+},
+{
+"address": "0x8225b8",
+"bytes": 120,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::CMatchingGLLiveLobbyObserver()"
+},
+{
+"address": "0x822638",
+"bytes": 80,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::SetPlayerParam(std::basic_string<char, std::char_traits<char>, std::allocator<char> >)"
+},
+{
+"address": "0x822950",
+"bytes": 188,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::CollapseMemberList()"
+},
+{
+"address": "0x822b78",
+"bytes": 76,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPLeaveSessionSuccess()"
+},
+{
+"address": "0x822c58",
+"bytes": 332,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushKickOutPlayer(DataPacket*)"
+},
+{
+"address": "0x822db4",
+"bytes": 140,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyLaunched(DataPacket*)"
+},
+{
+"address": "0x822fa4",
+"bytes": 144,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPCreateSessionSuccess(DataPacket*)"
+},
+{
+"address": "0x8231e0",
+"bytes": 328,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPJoinSessionSuccess(DataPacket*)"
+},
+{
+"address": "0x823510",
+"bytes": 212,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushSetUserParameter(DataPacket*)"
+}
+],
+"bytes": 3908
+},
+{
+"id": "r1n-net-session-online-CMatchingGLLiveLobbyObserver-9d847a-1",
+"category": "net-session-online",
+"owner": "CMatchingGLLiveLobbyObserver",
+"owners": [
+"CMatchingGLLiveLobbyObserver"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x8235f8",
+"bytes": 140,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushJoinLobbyUnlaunched(DataPacket*)"
+},
+{
+"address": "0x823808",
+"bytes": 300,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushRejoinGame(DataPacket*)"
+},
+{
+"address": "0x823ac4",
+"bytes": 1256,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushLeaveLobby(DataPacket*)"
+},
+{
+"address": "0x823fd8",
+"bytes": 508,
+"owner": "CMatchingGLLiveLobbyObserver",
+"demangled": "CMatchingGLLiveLobbyObserver::OnMPProcessPushMessages(DataPacket*, int)"
+}
+],
+"bytes": 2204
+},
+{
+"id": "r1n-net-session-online-GLXPlayerUser-b74f6a-0",
+"category": "net-session-online",
+"owner": "GLXPlayerUser",
+"owners": [
+"GLXPlayerUser"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x83ac98",
+"bytes": 64,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::clearUserState()"
+},
+{
+"address": "0x83b1e0",
+"bytes": 60,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::processGetPromo_RSS(char*)"
+},
+{
+"address": "0x83b280",
+"bytes": 60,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::processGetADV_RSS(char*)"
+},
+{
+"address": "0x83b320",
+"bytes": 112,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::processUserGameIcon(char*)"
+},
+{
+"address": "0x83b724",
+"bytes": 48,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::processDownloadAvatar(char*)"
+},
+{
+"address": "0x83b82c",
+"bytes": 28,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::processUserAvatar(char*)"
+},
+{
+"address": "0x83c14c",
+"bytes": 92,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::processUserState(char*)"
+},
+{
+"address": "0x83c894",
+"bytes": 1100,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::OnUpdateSuccess(int)"
+},
+{
+"address": "0x83f754",
+"bytes": 80,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::GLXPlayerUser()"
+},
+{
+"address": "0x83f8a4",
+"bytes": 80,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::GLXPlayerUser()"
+},
+{
+"address": "0x83fb24",
+"bytes": 520,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::~GLXPlayerUser()"
+},
+{
+"address": "0x83fda0",
+"bytes": 520,
+"owner": "GLXPlayerUser",
+"demangled": "GLXPlayerUser::~GLXPlayerUser()"
+}
+],
+"bytes": 2764
+},
+{
+"id": "r1n-net-session-online-ALicenseCheck-6e7781-0",
+"category": "net-session-online",
+"owner": "ALicenseCheck",
+"owners": [
+"ALicenseCheck"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x89a6e8",
+"bytes": 160,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::LOGGER(char const*, ...)"
+},
+{
+"address": "0x89a8e0",
+"bytes": 52,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::CallJNIFuncChar(_jclass*, _jmethodID*, char*, int, char*)"
+},
+{
+"address": "0x89a9a4",
+"bytes": 148,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::CallJNIFuncChar(_jclass*, _jmethodID*, char*, int)"
+},
+{
+"address": "0x89aa38",
+"bytes": 96,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::LoadConfig()"
+},
+{
+"address": "0x89ab08",
+"bytes": 100,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::Init(_JNIEnv*, _jclass*)"
+},
+{
+"address": "0x89acfc",
+"bytes": 12,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::getIMEI(char*, int)"
+},
+{
+"address": "0x89aed4",
+"bytes": 32,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::CallJNIFuncVoid(_jclass*, _jmethodID*)"
+},
+{
+"address": "0x89af5c",
+"bytes": 120,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::getPhpAddress(char*)"
+},
+{
+"address": "0x89b044",
+"bytes": 112,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::getHost(char*)"
+},
+{
+"address": "0x89b25c",
+"bytes": 252,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::LoadRMS()"
+},
+{
+"address": "0x89b65c",
+"bytes": 20,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::SaveRMS(bool)"
+},
+{
+"address": "0x89bacc",
+"bytes": 208,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::validateResponse(char*)"
+},
+{
+"address": "0x89bc38",
+"bytes": 164,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::sendRequestByGet()"
+},
+{
+"address": "0x89bdc0",
+"bytes": 24,
+"owner": "ALicenseCheck",
+"demangled": "ALicenseCheck::ValidateServer(bool)"
+}
+],
+"bytes": 1500
+},
+{
+"id": "r1n-net-session-online-pack0-ae5040-0",
+"category": "net-session-online",
+"owner": "CLobbyParameterAndQuery | CMessage | CMsgAttackResult | CMsgRaisedEvent | CSignIn | CSignInGLLive | channel | item | OnlineSingleton<OnlineGameState>",
+"owners": [
+"CLobbyParameterAndQuery",
+"CMessage",
+"CMsgAttackResult",
+"CMsgRaisedEvent",
+"CSignIn",
+"CSignInGLLive",
+"channel",
+"item",
+"OnlineSingleton<OnlineGameState>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x837224",
+"bytes": 276,
+"owner": "CLobbyParameterAndQuery",
+"demangled": "CLobbyParameterAndQuery::CLobbyParameterAndQuery()"
+},
+{
+"address": "0x809ea4",
+"bytes": 88,
+"owner": "CMessage",
+"demangled": "CMessage::Initialize()"
+},
+{
+"address": "0x80a61c",
+"bytes": 208,
+"owner": "CMessage",
+"demangled": "CMessage::CMessage(char const*, bool)"
+},
+{
+"address": "0x3af330",
+"bytes": 116,
+"owner": "CMsgAttackResult",
+"demangled": "CMsgAttackResult::Create(int, int, Character::AttackResult const&, bool)"
+},
+{
+"address": "0x329630",
+"bytes": 112,
+"owner": "CMsgRaisedEvent",
+"demangled": "CMsgRaisedEvent::CMsgRaisedEvent(bool)"
+},
+{
+"address": "0x47ac58",
+"bytes": 56,
+"owner": "CMsgRaisedEvent",
+"demangled": "CMsgRaisedEvent::Create(QuestEvent*)"
+},
+{
+"address": "0x49a238",
+"bytes": 1036,
+"owner": "CMsgRaisedEvent",
+"demangled": "CMsgRaisedEvent::RaiseEventFromNetwork(CMsgRaisedEvent*)"
+},
+{
+"address": "0x81a58c",
+"bytes": 128,
+"owner": "CSignIn",
+"demangled": "CSignIn::CSignIn()"
+},
+{
+"address": "0x8242b4",
+"bytes": 148,
+"owner": "CSignInGLLive",
+"demangled": "CSignInGLLive::LoginLobby()"
+},
+{
+"address": "0x8243a8",
+"bytes": 52,
+"owner": "CSignInGLLive",
+"demangled": "CSignInGLLive::SignOut()"
+},
+{
+"address": "0x8243dc",
+"bytes": 156,
+"owner": "CSignInGLLive",
+"demangled": "CSignInGLLive::SignIn(CSignInCredentials&)"
+},
+{
+"address": "0x82447c",
+"bytes": 560,
+"owner": "CSignInGLLive",
+"demangled": "CSignInGLLive::Update()"
+},
+{
+"address": "0x843e64",
+"bytes": 408,
+"owner": "channel",
+"demangled": "channel::read(slim::XmlNode const*)"
+},
+{
+"address": "0x842a88",
+"bytes": 488,
+"owner": "item",
+"demangled": "item::read(slim::XmlNode const*)"
+},
+{
+"address": "0x320e98",
+"bytes": 168,
+"owner": "OnlineSingleton<OnlineGameState>",
+"demangled": "OnlineSingleton<OnlineGameState>::GetInstance()"
+}
+],
+"bytes": 4000
+},
+{
+"id": "r1n-net-session-online-pack1-b8ee1b-0",
+"category": "net-session-online",
+"owner": "OnlineGameState | CXPlayerManager | CMatching::MemberInfoNetStruct | CMatchingBluetooth | CMatchingLocal::ServerBackupNetStruct | CMatchingLocal::RoomInfoNetStruct | CMatchingLocal::MemberInfoNetStruct",
+"owners": [
+"OnlineGameState",
+"CXPlayerManager",
+"CMatching::MemberInfoNetStruct",
+"CMatchingBluetooth",
+"CMatchingLocal::ServerBackupNetStruct",
+"CMatchingLocal::RoomInfoNetStruct",
+"CMatchingLocal::MemberInfoNetStruct"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x43f9c4",
+"bytes": 136,
+"owner": "OnlineGameState",
+"demangled": "OnlineGameState::~OnlineGameState()"
+},
+{
+"address": "0x49fb0c",
+"bytes": 1188,
+"owner": "OnlineGameState",
+"demangled": "OnlineGameState::processMessages()"
+},
+{
+"address": "0x49ffe0",
+"bytes": 88,
+"owner": "OnlineGameState",
+"demangled": "OnlineGameState::OnlineGameState()"
+},
+{
+"address": "0x4a0040",
+"bytes": 88,
+"owner": "OnlineGameState",
+"demangled": "OnlineGameState::OnlineGameState()"
+},
+{
+"address": "0x4a0388",
+"bytes": 20,
+"owner": "OnlineGameState",
+"demangled": "OnlineGameState::Destroy()"
+},
+{
+"address": "0x4a039c",
+"bytes": 72,
+"owner": "OnlineGameState",
+"demangled": "OnlineGameState::Update()"
+},
+{
+"address": "0x4a04c0",
+"bytes": 4768,
+"owner": "OnlineGameState",
+"demangled": "OnlineGameState::Init(int)"
+},
+{
+"address": "0x52e524",
+"bytes": 124,
+"owner": "CXPlayerManager",
+"demangled": "CXPlayerManager::Init()"
+},
+{
+"address": "0x7ffd04",
+"bytes": 632,
+"owner": "CMatching::MemberInfoNetStruct",
+"demangled": "CMatching::MemberInfoNetStruct::MemberInfoNetStruct()"
+},
+{
+"address": "0x803cbc",
+"bytes": 60,
+"owner": "CMatchingBluetooth",
+"demangled": "CMatchingBluetooth::GenerateBluetoothDeviceName(tMatchingPeer)"
+},
+{
+"address": "0x806140",
+"bytes": 104,
+"owner": "CMatchingLocal::ServerBackupNetStruct",
+"demangled": "CMatchingLocal::ServerBackupNetStruct::~ServerBackupNetStruct()"
+},
+{
+"address": "0x8062d0",
+"bytes": 104,
+"owner": "CMatchingLocal::ServerBackupNetStruct",
+"demangled": "CMatchingLocal::ServerBackupNetStruct::~ServerBackupNetStruct()"
+},
+{
+"address": "0x806cac",
+"bytes": 168,
+"owner": "CMatchingLocal::ServerBackupNetStruct",
+"demangled": "CMatchingLocal::ServerBackupNetStruct::ServerBackupNetStruct()"
+},
+{
+"address": "0x8061bc",
+"bytes": 116,
+"owner": "CMatchingLocal::RoomInfoNetStruct",
+"demangled": "CMatchingLocal::RoomInfoNetStruct::~RoomInfoNetStruct()"
+},
+{
+"address": "0x80623c",
+"bytes": 20,
+"owner": "CMatchingLocal::RoomInfoNetStruct",
+"demangled": "CMatchingLocal::RoomInfoNetStruct::~RoomInfoNetStruct()"
+},
+{
+"address": "0x806964",
+"bytes": 540,
+"owner": "CMatchingLocal::RoomInfoNetStruct",
+"demangled": "CMatchingLocal::RoomInfoNetStruct::RoomInfoNetStruct()"
+},
+{
+"address": "0x806258",
+"bytes": 108,
+"owner": "CMatchingLocal::MemberInfoNetStruct",
+"demangled": "CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x806344",
+"bytes": 108,
+"owner": "CMatchingLocal::MemberInfoNetStruct",
+"demangled": "CMatchingLocal::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x806b98",
+"bytes": 256,
+"owner": "CMatchingLocal::MemberInfoNetStruct",
+"demangled": "CMatchingLocal::MemberInfoNetStruct::MemberInfoNetStruct()"
+}
+],
+"bytes": 8700
+},
+{
+"id": "r1n-net-session-online-pack2-7d6e5f-0",
+"category": "net-session-online",
+"owner": "CMatchingGLLive::MemberInfoNetStruct | CMatchingGLLiveMessageObserver | COnlineImpl | lib-online-glx | GLXPlayerUserFriend | GLXPlayerHttp | GLXPlayerSereverConfig | GLXPlayerSocket | GLXPlayerSocketFactory",
+"owners": [
+"CMatchingGLLive::MemberInfoNetStruct",
+"CMatchingGLLiveMessageObserver",
+"COnlineImpl",
+"lib-online-glx",
+"GLXPlayerUserFriend",
+"GLXPlayerHttp",
+"GLXPlayerSereverConfig",
+"GLXPlayerSocket",
+"GLXPlayerSocketFactory"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x81d1f4",
+"bytes": 144,
+"owner": "CMatchingGLLive::MemberInfoNetStruct",
+"demangled": "CMatchingGLLive::MemberInfoNetStruct::~MemberInfoNetStruct()"
+},
+{
+"address": "0x81e680",
+"bytes": 148,
+"owner": "CMatchingGLLive::MemberInfoNetStruct",
+"demangled": "CMatchingGLLive::MemberInfoNetStruct::MemberInfoNetStruct()"
+},
+{
+"address": "0x8241e0",
+"bytes": 36,
+"owner": "CMatchingGLLiveMessageObserver",
+"demangled": "CMatchingGLLiveMessageObserver::OnRequestSuccess(int, char*, int)"
+},
+{
+"address": "0x825068",
+"bytes": 72,
+"owner": "COnlineImpl",
+"demangled": "COnlineImpl::GetPlayerName()"
+},
+{
+"address": "0x82b634",
+"bytes": 152,
+"owner": "lib-online-glx",
+"demangled": "XP_API_PARSE_DATA_NEW"
+},
+{
+"address": "0x89d1d0",
+"bytes": 148,
+"owner": "lib-online-glx",
+"demangled": "LC_API_PARSE_DATA_NEW"
+},
+{
+"address": "0x82bfd8",
+"bytes": 92,
+"owner": "GLXPlayerUserFriend",
+"demangled": "GLXPlayerUserFriend::processFriendsList(char*)"
+},
+{
+"address": "0x82d444",
+"bytes": 252,
+"owner": "GLXPlayerHttp",
+"demangled": "GLXPlayerHttp::sendByPost(char*, char*)"
+},
+{
+"address": "0x82d6e0",
+"bytes": 184,
+"owner": "GLXPlayerHttp",
+"demangled": "GLXPlayerHttp::sendVideoByPost(char*, char*, char*, int&, char*)"
+},
+{
+"address": "0x82deac",
+"bytes": 160,
+"owner": "GLXPlayerHttp",
+"demangled": "GLXPlayerHttp::GLXPlayerHttp(char*, char*, char*)"
+},
+{
+"address": "0x82e3b4",
+"bytes": 252,
+"owner": "GLXPlayerSereverConfig",
+"demangled": "GLXPlayerSereverConfig::LoadConfig()"
+},
+{
+"address": "0x82eaac",
+"bytes": 148,
+"owner": "GLXPlayerSereverConfig",
+"demangled": "GLXPlayerSereverConfig::SendGetServerConfig(int&)"
+},
+{
+"address": "0x82f6d8",
+"bytes": 184,
+"owner": "GLXPlayerSereverConfig",
+"demangled": "GLXPlayerSereverConfig::OnUpdateSuccess(int)"
+},
+{
+"address": "0x82f940",
+"bytes": 224,
+"owner": "GLXPlayerSereverConfig",
+"demangled": "GLXPlayerSereverConfig::OnUpdateFailure(int)"
+},
+{
+"address": "0x82faac",
+"bytes": 276,
+"owner": "GLXPlayerSereverConfig",
+"demangled": "GLXPlayerSereverConfig::loadConfigFromLocal()"
+},
+{
+"address": "0x82fec8",
+"bytes": 368,
+"owner": "GLXPlayerSereverConfig",
+"demangled": "GLXPlayerSereverConfig::Update()"
+},
+{
+"address": "0x830448",
+"bytes": 52,
+"owner": "GLXPlayerSocket",
+"demangled": "GLXPlayerSocket::ParseHttpHeader(char*)"
+},
+{
+"address": "0x830f20",
+"bytes": 1452,
+"owner": "GLXPlayerSocket",
+"demangled": "GLXPlayerSocket::Run()"
+},
+{
+"address": "0x831528",
+"bytes": 24,
+"owner": "GLXPlayerSocketFactory",
+"demangled": "GLXPlayerSocketFactory::GetSocket(char*, int, GLXPlayerSocketObserver*)"
+}
+],
+"bytes": 4368
+},
+{
+"id": "r1n-net-session-online-pack3-947bc8-0",
+"category": "net-session-online",
+"owner": "GLXPlayerWebComponent | GLXPlayerLogin | GLXPlayerMPLobby | GLXPlayerPing",
+"owners": [
+"GLXPlayerWebComponent",
+"GLXPlayerLogin",
+"GLXPlayerMPLobby",
+"GLXPlayerPing"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x8319b0",
+"bytes": 520,
+"owner": "GLXPlayerWebComponent",
+"demangled": "GLXPlayerWebComponent::OnUpdateParse()"
+},
+{
+"address": "0x831bd4",
+"bytes": 32,
+"owner": "GLXPlayerWebComponent",
+"demangled": "GLXPlayerWebComponent::SendByPost(char*)"
+},
+{
+"address": "0x831cd4",
+"bytes": 280,
+"owner": "GLXPlayerWebComponent",
+"demangled": "GLXPlayerWebComponent::SendByGet(char*)"
+},
+{
+"address": "0x8333b4",
+"bytes": 36,
+"owner": "GLXPlayerLogin",
+"demangled": "GLXPlayerLogin::getProductGGI(int)"
+},
+{
+"address": "0x8333d8",
+"bytes": 36,
+"owner": "GLXPlayerLogin",
+"demangled": "GLXPlayerLogin::getProductID(int)"
+},
+{
+"address": "0x8333fc",
+"bytes": 32,
+"owner": "GLXPlayerLogin",
+"demangled": "GLXPlayerLogin::getProductName(int)"
+},
+{
+"address": "0x838528",
+"bytes": 112,
+"owner": "GLXPlayerMPLobby",
+"demangled": "GLXPlayerMPLobby::mpSendJoinPredefinedLobby(char*, int, char*, int, int, std::map<int, std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::less<int>, std::allocator<std::pair<int const, std::basic_string<char, std::char_traits<char>, std::allocator<char> > > > >&)"
+},
+{
+"address": "0x8389a8",
+"bytes": 140,
+"owner": "GLXPlayerMPLobby",
+"demangled": "GLXPlayerMPLobby::mpSendDisconnect()"
+},
+{
+"address": "0x839e7c",
+"bytes": 144,
+"owner": "GLXPlayerMPLobby",
+"demangled": "GLXPlayerMPLobby::mpSendEstablishConnection()"
+},
+{
+"address": "0x839f4c",
+"bytes": 252,
+"owner": "GLXPlayerMPLobby",
+"demangled": "GLXPlayerMPLobby::LoadConfig()"
+},
+{
+"address": "0x83a4f0",
+"bytes": 136,
+"owner": "GLXPlayerMPLobby",
+"demangled": "GLXPlayerMPLobby::~GLXPlayerMPLobby()"
+},
+{
+"address": "0x83a5ac",
+"bytes": 136,
+"owner": "GLXPlayerMPLobby",
+"demangled": "GLXPlayerMPLobby::~GLXPlayerMPLobby()"
+},
+{
+"address": "0x83a64c",
+"bytes": 84,
+"owner": "GLXPlayerMPLobby",
+"demangled": "GLXPlayerMPLobby::GLXPlayerMPLobby(GLXPlayerMPBaseObserver*, char*)"
+},
+{
+"address": "0x840280",
+"bytes": 120,
+"owner": "GLXPlayerPing",
+"demangled": "GLXPlayerPing::WaitForEchoReply(int)"
+},
+{
+"address": "0x8402f8",
+"bytes": 328,
+"owner": "GLXPlayerPing",
+"demangled": "GLXPlayerPing::RecvEchoReply()"
+},
+{
+"address": "0x840564",
+"bytes": 104,
+"owner": "GLXPlayerPing",
+"demangled": "GLXPlayerPing::GLXPlayerPing(char const*, int)"
+},
+{
+"address": "0x840600",
+"bytes": 104,
+"owner": "GLXPlayerPing",
+"demangled": "GLXPlayerPing::GLXPlayerPing(char const*, int)"
+},
+{
+"address": "0x84069c",
+"bytes": 436,
+"owner": "GLXPlayerPing",
+"demangled": "GLXPlayerPing::Kernel()"
+}
+],
+"bytes": 3032
+},
+{
+"id": "r1n-net-session-online-pack4-461b38-0",
+"category": "net-session-online",
+"owner": "GLXPlayerMPBase | LCXPlayerHttp | LCXPlayerSocketFactory | LCXPlayerSocket | tGLRoomInfo | tMemberInfo",
+"owners": [
+"GLXPlayerMPBase",
+"LCXPlayerHttp",
+"LCXPlayerSocketFactory",
+"LCXPlayerSocket",
+"tGLRoomInfo",
+"tMemberInfo"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x84abd8",
+"bytes": 140,
+"owner": "GLXPlayerMPBase",
+"demangled": "GLXPlayerMPBase::setErrMsg()"
+},
+{
+"address": "0x84ad78",
+"bytes": 128,
+"owner": "GLXPlayerMPBase",
+"demangled": "GLXPlayerMPBase::mpSendEstablishConnection()"
+},
+{
+"address": "0x84ae28",
+"bytes": 128,
+"owner": "GLXPlayerMPBase",
+"demangled": "GLXPlayerMPBase::mpSendDisconnect()"
+},
+{
+"address": "0x89d6a8",
+"bytes": 216,
+"owner": "LCXPlayerHttp",
+"demangled": "LCXPlayerHttp::sendByGetWithNoVer(char*, char*)"
+},
+{
+"address": "0x89d950",
+"bytes": 160,
+"owner": "LCXPlayerHttp",
+"demangled": "LCXPlayerHttp::LCXPlayerHttp(char*, char*, char*)"
+},
+{
+"address": "0x89daa0",
+"bytes": 184,
+"owner": "LCXPlayerHttp",
+"demangled": "LCXPlayerHttp::sendVideoByPost(char*, char*, char*, int&, char*)"
+},
+{
+"address": "0x89e048",
+"bytes": 252,
+"owner": "LCXPlayerHttp",
+"demangled": "LCXPlayerHttp::sendByPost(char*, char*)"
+},
+{
+"address": "0x89e57c",
+"bytes": 24,
+"owner": "LCXPlayerSocketFactory",
+"demangled": "LCXPlayerSocketFactory::GetSocket(char*, int, LCXPlayerSocketObserver*)"
+},
+{
+"address": "0x8a0af0",
+"bytes": 80,
+"owner": "LCXPlayerSocket",
+"demangled": "LCXPlayerSocket::ParseChunkedContent()"
+},
+{
+"address": "0x8a1c1c",
+"bytes": 1076,
+"owner": "LCXPlayerSocket",
+"demangled": "LCXPlayerSocket::Run()"
+},
+{
+"address": "0x82138c",
+"bytes": 72,
+"owner": "tGLRoomInfo",
+"demangled": "tGLRoomInfo::~tGLRoomInfo()"
+},
+{
+"address": "0x821dbc",
+"bytes": 80,
+"owner": "tMemberInfo",
+"demangled": "tMemberInfo::~tMemberInfo()"
+}
+],
+"bytes": 2540
+}
+]

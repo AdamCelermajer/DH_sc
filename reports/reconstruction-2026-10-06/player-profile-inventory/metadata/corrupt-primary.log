@@ -1,0 +1,67 @@
+--------- beginning of main
+I/libprocessgroup(29065): Created cgroup /sys/fs/cgroup/apps/uid_10233/pid_29065
+I/Zygote  (29065): Process 29065 created for com.example.dh2
+I/com.example.dh2(29065): Late-enabling -Xcheck:jni
+I/com.example.dh2(29065): Using generational CollectorTypeCMC GC.
+W/com.example.dh2(29065): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2(29065): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader(29065): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter(29065): Compat change id reported: 333566037; UID 10233; state: ENABLED
+D/nativeloader(29065): Configuring clns-9 for other apk /data/app/~~gEHTWF1M0F2RFfIF6iNkYw==/com.example.dh2-0nSqmXx0Ltfo72ZIIB--qA==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~gEHTWF1M0F2RFfIF6iNkYw==/com.example.dh2-0nSqmXx0Ltfo72ZIIB--qA==/lib/x86_64:/data/app/~~gEHTWF1M0F2RFfIF6iNkYw==/com.example.dh2-0nSqmXx0Ltfo72ZIIB--qA==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+--------- beginning of system
+D/ActivityThread(29065): Set OS env TMPDIR to /data/user/0/com.example.dh2/cache
+V/GraphicsEnvironment(29065): Currently set values for:
+V/GraphicsEnvironment(29065):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment(29065):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment(29065): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment(29065): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment(29065): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter(29065): Compat change id reported: 407952621; UID 10233; state: ENABLED
+D/CompatChangeReporter(29065): Compat change id reported: 419020719; UID 10233; state: ENABLED
+I/DisplayManager(29065): Choreographer implicitly registered for the refresh rate.
+D/com.example.dh2(29065): Initializing ProtoLog
+D/ProtoLog(29065): Initializing ProtoLog DataSource
+I/GFXSTREAM(29065): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM(29065): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    (29065): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    (29065): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/nativeloader(29065): Load /data/app/~~gEHTWF1M0F2RFfIF6iNkYw==/com.example.dh2-0nSqmXx0Ltfo72ZIIB--qA==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~gEHTWF1M0F2RFfIF6iNkYw==/com.example.dh2-0nSqmXx0Ltfo72ZIIB--qA==/base.apk!2): ok
+D/CompatChangeReporter(29065): Compat change id reported: 418924588; UID 10233; state: ENABLED
+W/HWUI    (29065): Unknown dataspace 0
+W/libc    (29065): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/WindowOnBackDispatcher(29065): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@fc83e8b
+D/CompatChangeReporter(29065): Compat change id reported: 458413887; UID 10233; state: ENABLED
+D/WindowOnBackDispatcher(29065): setOnBackInvokedCallbackInfo: android.app.Activity$$ExternalSyntheticLambda0@fc83e8b
+D/VRI[MainActivity](29065): WindowInsets changed: 1080x2424 statusBars:[0,142,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,174,0,84] 
+I/HWUI    (29065): Using FreeType backend (prop=Auto)
+I/Surface (29065): Creating surface for consumer unnamed-29065-0 with slotExpansion=1 for 64 slots
+I/Surface (29065): Creating surface for consumer VRI[MainActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+I/Surface (29065): Creating surface for consumer unnamed-29065-1 with slotExpansion=1 for 64 slots
+I/Surface (29065): Creating surface for consumer c935b81 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#1(BLAST Consumer)1 with slotExpansion=1 for 64 slots
+W/libc    (29065): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/DH2Native(29065): Campaign metadata slot selected; player registration remains pending
+I/DH2Native(29065): Renderer: Android Emulator OpenGL ES Translator (Google SwiftShader)
+I/DH2Native(29065): GLES: OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+I/DH2Native(29065): Enemy AI configured | automatic melee 0
+I/DH2Native(29065): Native skill catalogue | skill lists 36 | skills 127 | faery lists 4 | faeries 16 | shared immutable tables; full skill callbacks pending
+I/DH2Native(29065): Class tables ready | classes 260 | bytes 34224 | cached base snapshots
+I/DH2Native(29065): Native level catalogue | fast travel 33 | levels 51 | Crypt row 23 | ranges 8 10 / 45 47 / 74 76 | GSLevel ownership pending
+I/DH2Native(29065): AI tables ready | configs 76 | factions 16 | automatic melee 0 | pursuit and full FSM pending
+I/DH2Native(29065): Property rules ready | defaults row 0 | types row 1 | properties 224 | supplied sheets only
+I/DH2Native(29065): Animation tables ready | sequences 785 | characters 80 | clip paths 1447 | bytes 72812
+I/DH2Native(29065): Native terminal world discard | Ghost references 0 | remaining 0 | groups 0 | saved actors 0 | catalogue 0
+E/DH2Native(29065): World load failed: Campaign metadata import failed: source campaign section index failed: -4
+I/DH2Native(29065): worlds/crypt01.dwld: World load failed: Campaign metadata import failed: source campaign section index failed: -4
+I/DH2Native(29065): Surface resized to 1080 x 1953
+I/DH2Native(29065): Native skill catalogue | skill lists 36 | skills 127 | faery lists 4 | faeries 16 | shared immutable tables; full skill callbacks pending
+I/DH2Native(29065): Class tables ready | classes 260 | bytes 34224 | cached base snapshots
+I/DH2Native(29065): Native level catalogue | fast travel 33 | levels 51 | Crypt row 23 | ranges 8 10 / 45 47 / 74 76 | GSLevel ownership pending
+I/DH2Native(29065): AI tables ready | configs 76 | factions 16 | automatic melee 0 | pursuit and full FSM pending
+I/DH2Native(29065): Property rules ready | defaults row 0 | types row 1 | properties 224 | supplied sheets only
+I/DH2Native(29065): Animation tables ready | sequences 785 | characters 80 | clip paths 1447 | bytes 72812
+I/DH2Native(29065): Native terminal world discard | Ghost references 0 | remaining 0 | groups 0 | saved actors 0 | catalogue 0
+E/DH2Native(29065): World load failed: Campaign metadata import failed: source campaign section index failed: -4
+I/DH2Native(29065): worlds/crypt01.dwld: World load failed: Campaign metadata import failed: source campaign section index failed: -4
+I/DH2Native(29065): Surface resized to 1080 x 1867
+D/InsetsController(29065): hide(ime())
+I/ImeTracker(29065): com.example.dh2:37452612: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN

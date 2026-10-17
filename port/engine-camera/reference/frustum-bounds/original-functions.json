@@ -1,0 +1,74 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 1,
+    "new_full_dependency_bodies": 0,
+    "native_wired": false,
+    "source": [
+      "port/engine-camera/frustum_bounds.hpp",
+      "port/engine-camera/frustum_bounds.cpp"
+    ],
+    "tests": [
+      "port/engine-camera/tests/frustum_bounds_host.cpp",
+      "port/engine-camera/tests/run_frustum_bounds.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN6glitch5scene12SViewFrustum22recalculateBoundingBoxEv",
+      "demangled": "glitch::scene::SViewFrustum::recalculateBoundingBox()",
+      "elf_address": "0x5823d4",
+      "size": 748,
+      "sha256": "2b0029a114b889bfb7c06b6f663d128c9b3315a35e3f4c735667a3dee9a32360",
+      "scope": "Complete four-corner bounds writer; each source plane-intersection return is ignored, and each output vector starts at zero."
+    }
+  ],
+  "supporting_functions": [
+    {
+      "original_symbol": "_ZNK6glitch4core7plane3dIfE25getIntersectionWithPlanesERKS2_S4_RNS0_8vector3dIfEE",
+      "demangled": "glitch::core::plane3d<float>::getIntersectionWithPlanes(plane const&, plane const&, vector3d<float>&) const",
+      "elf_address": "0x3415d8",
+      "size": 100,
+      "sha256": "6f5874dc88d9a313a67e56afb44f9cca702a01a69db192da29de8774e3f33f63",
+      "scope": "Executed by original ARM as the explicit host-service boundary; the port does not implement it."
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core7plane3dIfE24getIntersectionWithPlaneERKS2_RNS0_8vector3dIfEES7_",
+      "demangled": "glitch::core::plane3d<float>::getIntersectionWithPlane(plane const&, vector3d<float>&, vector3d<float>&) const",
+      "elf_address": "0x341260",
+      "size": 888,
+      "sha256": "02a96375b30f9eb2dd155cfb9c3b3acdbf86f1ccb5b25133c37c920ae08da3fb",
+      "scope": "Supporting body of the three-plane intersection boundary, executed by original ARM only."
+    },
+    {
+      "original_symbol": "_ZNK6glitch4core7plane3dIfE23getIntersectionWithLineERKNS0_8vector3dIfEES6_RS4_",
+      "demangled": "glitch::core::plane3d<float>::getIntersectionWithLine(vector3d<float> const&, vector3d<float> const&, vector3d<float>&) const",
+      "elf_address": "0x34033c",
+      "size": 360,
+      "sha256": "c7c038769ce68abc3c393a5ebc5a1efdeb90373bfb918bb9143960c7d0e3e1cf",
+      "scope": "Supporting body of plane intersection, executed by original ARM only."
+    }
+  ],
+  "external_imports": [
+    {"plt_address":"0x30e2f8","symbol":"__aeabi_fcmpgt"},
+    {"plt_address":"0x30e70c","symbol":"__aeabi_fcmplt"},
+    {"plt_address":"0x30df8c","symbol":"__aeabi_fcmpeq"},
+    {"plt_address":"0x30eba4","symbol":"__aeabi_fadd"},
+    {"plt_address":"0x30e3ac","symbol":"__aeabi_fsub"},
+    {"plt_address":"0x30ed6c","symbol":"__aeabi_fmul"},
+    {"plt_address":"0x30ec94","symbol":"__aeabi_fdiv"},
+    {"plt_address":"0x30e8a4","symbol":"__aeabi_f2d"},
+    {"plt_address":"0x30e6a0","symbol":"__aeabi_d2f"},
+    {"plt_address":"0x30eab4","symbol":"__aeabi_dmul"},
+    {"plt_address":"0x30e340","symbol":"__aeabi_ddiv"},
+    {"plt_address":"0x30e760","symbol":"__aeabi_dcmplt"},
+    {"plt_address":"0x30e1c0","symbol":"sqrt"}
+  ],
+  "limits": [
+    "The new host body exactly reconstructs bounds seeding, four intersection calls, strict comparisons, and conditional stores. The plane intersection arithmetic remains a required callback boundary.",
+    "The original intersection helper instructions run in Unicorn; its imported arithmetic, square-root, conversion, and comparison helpers are modeled IEEE operations. Those results feed the host body's differential inputs.",
+    "The comparison wrappers preserve ordered strict binary32 greater/less behavior; imported-library implementation details and NaN payload propagation are not claimed.",
+    "No camera ownership, transformed frustum production, upstream Irrlicht convention, or native camera binding is claimed."
+  ]
+}

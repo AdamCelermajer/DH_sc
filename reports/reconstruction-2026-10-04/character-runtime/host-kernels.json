@@ -1,0 +1,52 @@
+{
+  "validation": "PASS",
+  "scope": "host source-linked service ordering/coordinator and actual descriptor compatibility; no whole-game parity",
+  "source_sha256": {
+    "port/level-world/character_coordinator.cpp": "2ab1ac65a49ddd120f6bbc09e7da4ca2b88be329e0aef2434755cdf5cad2338a",
+    "port/level-world/character_state.cpp": "7131944db0eb52a958b0b35aadd657545a79a6c5196ba0b923f9a3c6e89b84e5",
+    "port/level-world/character_factory.cpp": "28f86f3a3b87fdee1ecb476110a145a6935847229ac6e48ddaceccafa5a65168",
+    "port/level-world/objects.cpp": "8a4de5306ba09867a29c66859b15712c1c5bc8f3d12a8e38aabbdafcf957c93f"
+  },
+  "tests": [
+    {
+      "name": "coordinator",
+      "exit_code": 0,
+      "result": {
+        "source_state_move_idle": true,
+        "synchronous_reentry": true,
+        "facts_refresh": true,
+        "captured_expiry_event": true,
+        "expiry_hook_before_state": true,
+        "script_blocking_and_pause": true,
+        "spawn_timer_and_named_event": true,
+        "safe_growth": true,
+        "exception_borrow_cleanup": true
+      }
+    },
+    {
+      "name": "spawn",
+      "exit_code": 0,
+      "result": {
+        "spawn_transition_cases": 10,
+        "factory_atomicity_cases": 5,
+        "ordered_service_requests": 14,
+        "limbus_spawn_idle_path": true,
+        "interactive_event_body": true,
+        "fade_boundary_is_stub": true,
+        "on_update_invents_no_transition": true,
+        "mismatches": 0
+      }
+    },
+    {
+      "name": "objects-spawn",
+      "exit_code": 0,
+      "result": {
+        "baseline_records": 95,
+        "gated_records": 97,
+        "gated_ghosts": 2,
+        "baseline_preserved": true,
+        "malformed_gates_rejected": 4
+      }
+    }
+  ]
+}

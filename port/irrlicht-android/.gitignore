@@ -1,0 +1,5 @@
+build/
+upstream-full/
+upstream-full-source-manifest.json
+upstream-curated-*/
+upstream-curated-*-manifest.json

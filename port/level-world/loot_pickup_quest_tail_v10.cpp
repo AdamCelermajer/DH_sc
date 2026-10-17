@@ -1,12 +1,57 @@
 #include "loot_pickup_quest_tail_v10.hpp"
+
 namespace dh2::character {
-bool loot_pickup_quest_tail_v10(std::uintptr_t character,std::int32_t item,const LootPickupQuestServicesV10& s,std::string& e){
- if(!character)return true;
- bool player{};if(!s.is_player||!s.is_player(s.context,character,player,e)){if(e.empty())e="Required actual pickup destination IsPlayer";return false;}if(!player)return true;
- bool found{};if(!s.registered_gathering_id||!s.registered_gathering_id(s.context,character,item,found,e)){if(e.empty())e="Required SAME inventory gathering-ID list30";return false;}if(!found)return true;
- std::uintptr_t gs{};if(!s.current_game_state||!s.current_game_state(s.context,gs,e)){if(e.empty())e="Required actual Application current GS for pickup quest";return false;}if(!gs)return true;
- LootPickupQuestEventV10 event;event.character=character;event.item_id=item;
- if(!s.constant||!s.constant(s.context,"v2QuestObjectiveType","GatherLoot",event.objective_type,e)){if(e.empty())e="Required actual GatherLoot quest constant";return false;}
- if(!s.raise_async||!s.raise_async(s.context,gs,event,e)){if(e.empty())e="Required actual GS pickup quest AsyncCall";return false;}return true;
+namespace {
+
+bool missing_service(std::string& error, const char* message) {
+    if (error.empty()) error = message;
+    return false;
 }
+
+}  // namespace
+
+bool loot_pickup_quest_tail_v10(std::uintptr_t character, std::int32_t item,
+                                const LootPickupQuestServicesV10& services,
+                                std::string& error) {
+    error.clear();
+    if (!character) return true;
+
+    bool player{};
+    if (!services.is_player)
+        return missing_service(error, "Required actual pickup destination IsPlayer");
+    if (!services.is_player(services.context, character, player, error))
+        return missing_service(error, "Required actual pickup destination IsPlayer");
+    if (!player) return true;
+
+    bool registered{};
+    if (!services.registered_gathering_id)
+        return missing_service(error, "Required SAME inventory gathering-ID list30");
+    if (!services.registered_gathering_id(services.context, character, item,
+                                          registered, error))
+        return missing_service(error, "Required SAME inventory gathering-ID list30");
+    if (!registered) return true;
+
+    std::uintptr_t event_manager{};
+    if (!services.current_level_event_manager)
+        return missing_service(error, "Required actual Application current Level EventManager for pickup quest");
+    if (!services.current_level_event_manager(services.context, event_manager, error))
+        return missing_service(error, "Required actual Application current Level EventManager for pickup quest");
+    if (!event_manager) return true;
+
+    LootPickupQuestEventV10 event{};
+    event.character = character;
+    event.item_id = item;
+    if (!services.constant)
+        return missing_service(error, "Required actual GatherLoot quest constant");
+    if (!services.constant(services.context, "v2QuestObjectiveType", "GatherLoot",
+                           event.objective_type, error))
+        return missing_service(error, "Required actual GatherLoot quest constant");
+
+    if (!services.raise_async)
+        return missing_service(error, "Required current Level EventManager RaiseAsync for pickup quest");
+    if (!services.raise_async(services.context, event_manager, event, error))
+        return missing_service(error, "Required current Level EventManager RaiseAsync for pickup quest");
+    return true;
 }
+
+}  // namespace dh2::character

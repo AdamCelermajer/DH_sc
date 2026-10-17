@@ -1,0 +1,85 @@
+# Exact cache Lua source
+
+The owner's complete cache contains **219 readable source scripts, 900,493
+bytes**, under `data/scripts`. Their `.luac` extension does not identify their
+actual encoding: none has a Lua bytecode signature or NUL bytes. All are text;
+217 decode as UTF-8, and two contain single-byte non-UTF-8 characters. Original
+bytes, filenames, comments and line endings are retained under `original/`.
+
+The tree has 73 AI scripts, 128 skill scripts, 15 object scripts, two level
+scripts and one test script. These are actual cache source, distinct from the
+generated native pseudocode. They were not decompiled or rewritten. Each was
+compared byte-for-byte with its member in the complete cache ZIP, SHA-256
+`3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679`.
+[The manifest](manifest.json) pins paths, members, sizes, encodings and hashes.
+
+## Syntax and scope
+
+Lua 5.1.5's [parse-only compiler option](https://www.lua.org/source/5.1/luac.c.html)
+checks syntax without executing script code. **218 originals pass; one fails.**
+The original `ai/sandworm_small_core.luac` line 159 lacks the outer closing
+parenthesis in a `PlayAnim(GetPyOID(...))` call. A separate
+[one-character source override](../../port/lua-scripts/README.md) passes syntax.
+The original remains unchanged. [The validation report](../../reports/lua-source-validation.json)
+records the compiler identity, per-file results and exact source/test hashes.
+
+Syntax checks do not validate engine APIs, native object lifetimes, include
+resolution, skill behavior, enemy behavior or gameplay. The original library
+exports Lua 5.1-era APIs including `lua_getfenv` and `lua_setfenv`, and contains
+a `Lua 5.1.4` copyright/version string. The syntax checker is explicitly Lua
+5.1.5; these observations do not establish interpreter equivalence.
+The native scripting bridge and a source-built game remain unfinished. These
+files are not packaged into the current source preview APK.
+
+The scripts retain the game's original rights status. This import does not
+grant a game-wide open-source license; see [RIGHTS.md](../../RIGHTS.md).
+
+```sh
+python3 tools/verify_lua_source.py --cache /path/to/files --archive /path/to/cache.zip --compiler /usr/bin/luac5.1 --git-index --report /path/to/report.json
+```
+
+The archive/cache/compiler/index checks are optional. Hash verification of all
+tracked original and override files always runs. The full-cache ZIP and generated
+bytecode are not committed.
+
+## Native bridge inventory
+
+[The compiler-based inventory](../../reports/lua-global-bridge-audit.json)
+counts 8,022 global reads and 1,103 global writes across all 219 selected
+scripts, including nested function bodies. It uses the checked override for
+the one malformed original. There are 317 distinct names read and 445 written.
+Matching original native method names and Lua argument signatures identify
+104 candidate bridge names. Registration and runtime behavior have not been
+verified. A global read can refer to a value or a function; these counts are
+not counts of calls or executed paths. Source-defined globals and Lua standard
+library names are also present.
+
+```sh
+python3 tools/audit_lua_globals.py --compiler /usr/bin/luac5.1 --report /path/to/bridge-report.json
+```
+
+The tool checks source hashes and asks the compiler to list instructions
+without executing scripts. The report pins compiler, manifest, symbol index
+and tool hashes, with per-file global inventories and candidate method addresses.
+
+[The separate original registration trace](../../reports/lua-registration-trace.json)
+executes six original ARM32 registration caller bodies. It observes 568 Binder
+boundary calls: 310 function registrations and 258 method registrations,
+including inherited GameObject registrations repeated in derived classes.
+There are 175 distinct function names; 117 names read by scripts match them.
+It records exact names, callback targets, caller return addresses and contexts.
+The base, math, table and string library initialization requests are observed.
+
+Binder installation and standard library initialization are explicit stubs;
+the original callback bodies and scripts are not executed. This verifies the
+callers' registration arguments, not installation into a live Lua instance,
+availability in every game context or callback behavior. The initial inventory
+above remains a historical name/signature comparison with its original hash.
+
+```sh
+python3 tools/trace_lua_registrations.py --original /path/to/libDungeonHunter2.so --oracle port/skin-payloads/build/oracle.so --report /path/to/registration-report.json
+```
+
+The test needs Unicorn and pyelftools. It checks the original ELF identity and
+pins caller body, symbol index, dependency oracle and test hashes. Six boundary
+addresses are intercepted; inherited registration instructions run normally.

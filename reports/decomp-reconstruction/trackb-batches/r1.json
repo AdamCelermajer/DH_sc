@@ -1,0 +1,2259 @@
+[
+{
+"id": "r1-core-platform-global-f216b6-0",
+"category": "core-platform",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 0,
+"parts": 2,
+"functions": [
+{
+"address": "0x30fdd0",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "operator<<(std::basic_ostream<char, std::char_traits<char> >&, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x30ff48",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "operator<<(std::basic_ostream<char, std::char_traits<char> >&, glitch::core::vector3d<int> const&)"
+},
+{
+"address": "0x310178",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "operator<<(std::basic_ostream<char, std::char_traits<char> >&, glitch::video::SColor const&)"
+},
+{
+"address": "0x3133e0",
+"bytes": 96,
+"owner": "<global>",
+"demangled": "operator<<(std::basic_ostream<char, std::char_traits<char> >&, std::vector<Point3D<float>, std::allocator<Point3D<float> > > const&)"
+},
+{
+"address": "0x313498",
+"bytes": 540,
+"owner": "<global>",
+"demangled": "operator>>(std::basic_istream<char, std::char_traits<char> >&, std::vector<Point3D<float>, std::allocator<Point3D<float> > >&)"
+},
+{
+"address": "0x33971c",
+"bytes": 204,
+"owner": "<global>",
+"demangled": "ClearSubtitles"
+},
+{
+"address": "0x340154",
+"bytes": 72,
+"owner": "<global>",
+"demangled": "DBG_DisplayPointAsBox(glitch::core::vector3d<float> const&, glitch::video::SColor const&, int)"
+},
+{
+"address": "0x342478",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "operator<<(std::basic_ostream<char, std::char_traits<char> >&, ObjectHandle&)"
+},
+{
+"address": "0x34b170",
+"bytes": 64,
+"owner": "<global>",
+"demangled": "operator>>(std::basic_istream<char, std::char_traits<char> >&, ObjectHandle&)"
+},
+{
+"address": "0x43a8f0",
+"bytes": 52,
+"owner": "<global>",
+"demangled": "UpdateSavedValues()"
+},
+{
+"address": "0x43acb4",
+"bytes": 32,
+"owner": "<global>",
+"demangled": "NatvieResumeAllSounds(gameswf::fn_call const&)"
+},
+{
+"address": "0x50e3d8",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "RecursiveCount(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x50e46c",
+"bytes": 24,
+"owner": "<global>",
+"demangled": "setOnAnimateEnabled(glitch::scene::ISceneNode*, bool)"
+},
+{
+"address": "0x50e484",
+"bytes": 76,
+"owner": "<global>",
+"demangled": "RecursiveSetBoolOnNode(glitch::scene::ISceneNode*, bool, void (*)(glitch::scene::ISceneNode*, bool))"
+},
+{
+"address": "0x50e4d0",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "NodeRemoveAllChildren(glitch::scene::ISceneNode*)"
+},
+{
+"address": "0x50eca0",
+"bytes": 212,
+"owner": "<global>",
+"demangled": "DBG_TraverseAllGlitchNode(glitch::scene::ISceneNode*, void (*)(glitch::scene::ISceneNode*), bool (*)(glitch::scene::ISceneNode*))"
+},
+{
+"address": "0x533560",
+"bytes": 16,
+"owner": "<global>",
+"demangled": "appDebugLog"
+},
+{
+"address": "0x752b44",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "operator new[](unsigned int, swf::MemHint, char const*, int)"
+},
+{
+"address": "0x752b48",
+"bytes": 4,
+"owner": "<global>",
+"demangled": "operator new(unsigned int, swf::MemHint, char const*, int)"
+},
+{
+"address": "0x7a8420",
+"bytes": 68,
+"owner": "<global>",
+"demangled": "message_log(char const*)"
+}
+],
+"bytes": 1908
+},
+{
+"id": "r1-core-platform-global-f216b6-1",
+"category": "core-platform",
+"owner": "<global>",
+"owners": [
+"<global>"
+],
+"part": 1,
+"parts": 2,
+"functions": [
+{
+"address": "0x7a846c",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "log_callback(bool, char const*)"
+},
+{
+"address": "0x7a9954",
+"bytes": 48,
+"owner": "<global>",
+"demangled": "file_opener(char const*)"
+},
+{
+"address": "0x7f5038",
+"bytes": 40,
+"owner": "<global>",
+"demangled": "ClipSegmentToLine(ClipVertex*, ClipVertex*, b2Vec2 const&, float)"
+},
+{
+"address": "0x7f8018",
+"bytes": 80,
+"owner": "<global>",
+"demangled": "ProcessThree(b2Vec2*, b2Vec2*, b2Vec2*, b2Vec2*, b2Vec2*)"
+},
+{
+"address": "0x7f89e0",
+"bytes": 60,
+"owner": "<global>",
+"demangled": "ProcessTwo(b2Vec2*, b2Vec2*, b2Vec2*, b2Vec2*, b2Vec2*)"
+},
+{
+"address": "0x8279d8",
+"bytes": 196,
+"owner": "<global>",
+"demangled": "ParseDedicatedServerInfo(_tDedicatedServerInfo&, DataPacket*)"
+},
+{
+"address": "0x828b64",
+"bytes": 160,
+"owner": "<global>",
+"demangled": "_DBG_OUT(char const*, ...)"
+},
+{
+"address": "0x841ba8",
+"bytes": 92,
+"owner": "<global>",
+"demangled": "threadGetHostByNameProcess(void*)"
+},
+{
+"address": "0x8784f4",
+"bytes": 52,
+"owner": "<global>",
+"demangled": "dct_iv_slow(float*, int)"
+},
+{
+"address": "0x89f8a0",
+"bytes": 48,
+"owner": "<global>",
+"demangled": "threadGetHostByNameProcessLC(void*)"
+}
+],
+"bytes": 856
+},
+{
+"id": "r1-core-platform-FileSystemWin32-dbf7f1-0",
+"category": "core-platform",
+"owner": "FileSystemWin32",
+"owners": [
+"FileSystemWin32"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x34eec8",
+"bytes": 144,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::_FileHandle::read(void*, unsigned long long)"
+},
+{
+"address": "0x34ef58",
+"bytes": 172,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::_FileHandle::peek(void*, unsigned long long) const"
+},
+{
+"address": "0x34f274",
+"bytes": 192,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::deleteSavefile(char const*) const"
+},
+{
+"address": "0x34fb7c",
+"bytes": 56,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::_FileHandle::~_FileHandle()"
+},
+{
+"address": "0x34fbbc",
+"bytes": 20,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::_FileHandle::~_FileHandle()"
+},
+{
+"address": "0x34fbd8",
+"bytes": 56,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::_FileHandle::~_FileHandle()"
+},
+{
+"address": "0x34fc18",
+"bytes": 528,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::_FileHandle::_FileHandle(char const*, char const*, bool, bool)"
+},
+{
+"address": "0x34fee4",
+"bytes": 68,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::openSavefile(char const*, bool)"
+},
+{
+"address": "0x34ffb0",
+"bytes": 128,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::openFile(char const*, bool, bool)"
+},
+{
+"address": "0x35003c",
+"bytes": 528,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::_FileHandle::_FileHandle(char const*, char const*, bool, bool)"
+},
+{
+"address": "0x35041c",
+"bytes": 380,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::getFilesMatching(char const*, char const*, std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&) const"
+},
+{
+"address": "0x3505a0",
+"bytes": 248,
+"owner": "FileSystemWin32",
+"demangled": "FileSystemWin32::getFiles(char const*, std::vector<std::basic_string<char, std::char_traits<char>, std::allocator<char> >, std::allocator<std::basic_string<char, std::char_traits<char>, std::allocator<char> > > >&) const"
+}
+],
+"bytes": 2520
+},
+{
+"id": "r1-core-platform-pack0-b0e0bf-0",
+"category": "core-platform",
+"owner": "AccelerometerBase | Console | Device | FileSystemBase | GCSingleton | PerfCounters | TouchScreenBase | TouchScreenPS3 | TouchScreenWin32",
+"owners": [
+"AccelerometerBase",
+"Console",
+"Device",
+"FileSystemBase",
+"GCSingleton",
+"PerfCounters",
+"TouchScreenBase",
+"TouchScreenPS3",
+"TouchScreenWin32"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x33d8dc",
+"bytes": 48,
+"owner": "AccelerometerBase",
+"demangled": "AccelerometerBase::moved(float, float, float)"
+},
+{
+"address": "0x3301c4",
+"bytes": 16,
+"owner": "Console",
+"demangled": "Console::_setMenuLevelList()"
+},
+{
+"address": "0x3301dc",
+"bytes": 16,
+"owner": "Console",
+"demangled": "Console::_setMenuLoadQuestProgress()"
+},
+{
+"address": "0x334bd8",
+"bytes": 300,
+"owner": "Console",
+"demangled": "Console::Toggle()"
+},
+{
+"address": "0x3816a8",
+"bytes": 128,
+"owner": "Device",
+"demangled": "Device::IsProgrammablePipeline()"
+},
+{
+"address": "0x34df94",
+"bytes": 76,
+"owner": "FileSystemBase",
+"demangled": "FileSystemBase::doesFileExists(char const*)"
+},
+{
+"address": "0x34dfe0",
+"bytes": 68,
+"owner": "FileSystemBase",
+"demangled": "FileSystemBase::doesResourceExists(char const*)"
+},
+{
+"address": "0x34e150",
+"bytes": 92,
+"owner": "FileSystemBase",
+"demangled": "FileSystemBase::doesSavefileExists(char const*)"
+},
+{
+"address": "0x34e5f4",
+"bytes": 140,
+"owner": "FileSystemBase",
+"demangled": "FileSystemBase::getAbsolutePath(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> > const&) const"
+},
+{
+"address": "0x34e688",
+"bytes": 592,
+"owner": "FileSystemBase",
+"demangled": "FileSystemBase::createAndOpenFile(char const*)"
+},
+{
+"address": "0x34e96c",
+"bytes": 96,
+"owner": "FileSystemBase",
+"demangled": "FileSystemBase::ApplyFilenameHacks(char const*) const"
+},
+{
+"address": "0x32bd08",
+"bytes": 164,
+"owner": "GCSingleton",
+"demangled": "GCSingleton<GameCenter>::GetInstance()"
+},
+{
+"address": "0x3110c4",
+"bytes": 84,
+"owner": "PerfCounters",
+"demangled": "PerfCounters::PerfCounters()"
+},
+{
+"address": "0x311118",
+"bytes": 84,
+"owner": "PerfCounters",
+"demangled": "PerfCounters::PerfCounters()"
+},
+{
+"address": "0x311914",
+"bytes": 644,
+"owner": "PerfCounters",
+"demangled": "PerfCounters::Draw()"
+},
+{
+"address": "0x312584",
+"bytes": 128,
+"owner": "PerfCounters",
+"demangled": "PerfCounters::GetEntry(std::basic_string<char, std::char_traits<char>, std::allocator<char> > const&)"
+},
+{
+"address": "0x33c568",
+"bytes": 304,
+"owner": "TouchScreenBase",
+"demangled": "TouchScreenBase::ProcessEvents()"
+},
+{
+"address": "0x33d3f4",
+"bytes": 68,
+"owner": "TouchScreenPS3",
+"demangled": "TouchScreenPS3::TouchScreenPS3()"
+},
+{
+"address": "0x33d440",
+"bytes": 68,
+"owner": "TouchScreenPS3",
+"demangled": "TouchScreenPS3::TouchScreenPS3()"
+},
+{
+"address": "0x33d4b4",
+"bytes": 240,
+"owner": "TouchScreenWin32",
+"demangled": "TouchScreenWin32::onEvent(glitch::SEvent const&)"
+}
+],
+"bytes": 3356
+},
+{
+"id": "r1-core-platform-pack1-bcf756-0",
+"category": "core-platform",
+"owner": "rss | slim | sys",
+"owners": [
+"rss",
+"slim",
+"sys"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x844050",
+"bytes": 280,
+"owner": "rss",
+"demangled": "rss::read(slim::XmlNode const*)"
+},
+{
+"address": "0x844270",
+"bytes": 248,
+"owner": "slim",
+"demangled": "slim::utf16toutf8(wchar_t const*, unsigned int, char*, unsigned int)"
+},
+{
+"address": "0x317848",
+"bytes": 4,
+"owner": "sys",
+"demangled": "sys::printNoFormat(char const*)"
+},
+{
+"address": "0x31784c",
+"bytes": 188,
+"owner": "sys",
+"demangled": "sys::print(char const*, ...)"
+},
+{
+"address": "0x317914",
+"bytes": 200,
+"owner": "sys",
+"demangled": "sys::println(char const*, ...)"
+}
+],
+"bytes": 920
+},
+{
+"id": "r1-glitch-core-io-glitch_core-6498de-0",
+"category": "glitch-core-io",
+"owner": "glitch::core",
+"owners": [
+"glitch::core"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x322bc8",
+"bytes": 276,
+"owner": "glitch::core",
+"demangled": "glitch::core::fast_atof_move(char const*, float&)"
+},
+{
+"address": "0x5345f4",
+"bytes": 140,
+"owner": "glitch::core",
+"demangled": "glitch::core::allocProcessBuffer(int)"
+},
+{
+"address": "0x56fa04",
+"bytes": 512,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsink<glitch::io::SPakFileEntry>(glitch::io::SPakFileEntry*, int, int)"
+},
+{
+"address": "0x56fc0c",
+"bytes": 216,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsort<glitch::io::SPakFileEntry>(glitch::io::SPakFileEntry*, int)"
+},
+{
+"address": "0x57015c",
+"bytes": 344,
+"owner": "glitch::core",
+"demangled": "int glitch::core::binary_search<glitch::io::SPakFileEntry, glitch::core::SAllocator<glitch::io::SPakFileEntry, (glitch::memory::E_MEMORY_HINT)0> >(std::vector<glitch::io::SPakFileEntry, glitch::core::SAllocator<glitch::io::SPakFileEntry, (glitch::memory::E_MEMORY_HINT)0> > const&, glitch::io::SPakFileEntry const&)"
+},
+{
+"address": "0x5775a4",
+"bytes": 512,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsink<glitch::io::SZipFileEntry>(glitch::io::SZipFileEntry*, int, int)"
+},
+{
+"address": "0x5777ac",
+"bytes": 216,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsort<glitch::io::SZipFileEntry>(glitch::io::SZipFileEntry*, int)"
+},
+{
+"address": "0x5783c4",
+"bytes": 348,
+"owner": "glitch::core",
+"demangled": "int glitch::core::binary_search<glitch::io::SZipFileEntry, glitch::core::SAllocator<glitch::io::SZipFileEntry, (glitch::memory::E_MEMORY_HINT)0> >(std::vector<glitch::io::SZipFileEntry, glitch::core::SAllocator<glitch::io::SZipFileEntry, (glitch::memory::E_MEMORY_HINT)0> > const&, glitch::io::SZipFileEntry const&)"
+},
+{
+"address": "0x6651a0",
+"bytes": 84,
+"owner": "glitch::core",
+"demangled": "glitch::core::CMatrix4<float> glitch::core::operator*<float, glitch::collada::SMatrix>(glitch::core::CMatrix4<float> const&, glitch::collada::SMatrix const&)"
+},
+{
+"address": "0x6a1300",
+"bytes": 108,
+"owner": "glitch::core",
+"demangled": "void glitch::core::quantizeScaleOffset<glitch::core::vector3d<short>, glitch::core::vector3d<float> >(glitch::core::vector3d<short>*, unsigned int, glitch::core::vector3d<float> const*, unsigned int, unsigned int, glitch::core::vector3d<float>&, glitch::core::vector3d<float>&)"
+},
+{
+"address": "0x6a14f0",
+"bytes": 112,
+"owner": "glitch::core",
+"demangled": "void glitch::core::quantizeScaleOffset<glitch::core::vector2d<short>, glitch::core::vector2d<float> >(glitch::core::vector2d<short>*, unsigned int, glitch::core::vector2d<float> const*, unsigned int, unsigned int, glitch::core::vector2d<float>&, glitch::core::vector2d<float>&)"
+},
+{
+"address": "0x6b41d8",
+"bytes": 344,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsink<glitch::io::CFileList::FileEntry>(glitch::io::CFileList::FileEntry*, int, int)"
+},
+{
+"address": "0x6b4338",
+"bytes": 216,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsort<glitch::io::CFileList::FileEntry>(glitch::io::CFileList::FileEntry*, int)"
+},
+{
+"address": "0x6dac5c",
+"bytes": 304,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsink<glitch::video::CVideoModeList::SVideoMode>(glitch::video::CVideoModeList::SVideoMode*, int, int)"
+},
+{
+"address": "0x6dad8c",
+"bytes": 164,
+"owner": "glitch::core",
+"demangled": "void glitch::core::heapsort<glitch::video::CVideoModeList::SVideoMode>(glitch::video::CVideoModeList::SVideoMode*, int)"
+}
+],
+"bytes": 3896
+},
+{
+"id": "r1-glitch-core-io-glitch_io_CAttributes-aa6c8f-0",
+"category": "glitch-core-io",
+"owner": "glitch::io::CAttributes",
+"owners": [
+"glitch::io::CAttributes"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5618d8",
+"bytes": 24,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::pop()"
+},
+{
+"address": "0x561908",
+"bytes": 28,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::setGroup(unsigned int)"
+},
+{
+"address": "0x561aa0",
+"bytes": 172,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::setAttribute(int, boost::intrusive_ptr<glitch::video::CLight>)"
+},
+{
+"address": "0x561f04",
+"bytes": 156,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::getEnum(int, char const* const*)"
+},
+{
+"address": "0x562458",
+"bytes": 108,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::getEnum(char const*, char const* const*)"
+},
+{
+"address": "0x564148",
+"bytes": 100,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::getAttributeEnumerationLiteralsOfEnumeration(int, std::vector<std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> >, glitch::core::SAllocator<std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> >, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x5641ac",
+"bytes": 60,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::getAttributeEnumerationLiteralsOfEnumeration(char const*, std::vector<std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> >, glitch::core::SAllocator<std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> >, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x566db0",
+"bytes": 232,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::setAttribute(char const*, boost::intrusive_ptr<glitch::video::CLight>)"
+},
+{
+"address": "0x568124",
+"bytes": 268,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::addStringAsLight(char const*, wchar_t const*, bool)"
+},
+{
+"address": "0x568238",
+"bytes": 136,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::addLight(char const*, boost::intrusive_ptr<glitch::video::CLight>, bool)"
+},
+{
+"address": "0x56840c",
+"bytes": 196,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::addStringAsBinary(char const*, wchar_t const*, bool)"
+},
+{
+"address": "0x568580",
+"bytes": 136,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::addEnum(char const*, char const*, char const* const*, bool)"
+},
+{
+"address": "0x56b400",
+"bytes": 172,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::setAttribute(char const*, char const*, char const* const*)"
+},
+{
+"address": "0x56ba54",
+"bytes": 304,
+"owner": "glitch::io::CAttributes",
+"demangled": "glitch::io::CAttributes::setAttribute(char const*, glitch::core::aabbox3d<float>)"
+}
+],
+"bytes": 2092
+},
+{
+"id": "r1-glitch-core-io-glitch_io_CFileSystem-48a7aa-0",
+"category": "glitch-core-io",
+"owner": "glitch::io::CFileSystem",
+"owners": [
+"glitch::io::CFileSystem"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x56c058",
+"bytes": 72,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::CFileSystem()"
+},
+{
+"address": "0x56c0a8",
+"bytes": 72,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::CFileSystem()"
+},
+{
+"address": "0x56c528",
+"bytes": 64,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::changeWorkingDirectoryTo(char const*)"
+},
+{
+"address": "0x56c740",
+"bytes": 260,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::getFileBasename(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> > const&, bool) const"
+},
+{
+"address": "0x56cb78",
+"bytes": 204,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::clear()"
+},
+{
+"address": "0x56cc44",
+"bytes": 92,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::~CFileSystem()"
+},
+{
+"address": "0x56ccc4",
+"bytes": 92,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::~CFileSystem()"
+},
+{
+"address": "0x56df38",
+"bytes": 296,
+"owner": "glitch::io::CFileSystem",
+"demangled": "glitch::io::CFileSystem::existFile(char const*) const"
+}
+],
+"bytes": 1152
+},
+{
+"id": "r1-glitch-core-io-glitch_io-5e759c-0",
+"category": "glitch-core-io",
+"owner": "glitch::io",
+"owners": [
+"glitch::io"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x570bf4",
+"bytes": 76,
+"owner": "glitch::io",
+"demangled": "glitch::io::createWriteFile(char const*, bool)"
+},
+{
+"address": "0x575268",
+"bytes": 296,
+"owner": "glitch::io",
+"demangled": "glitch::io::createIXMLReader(glitch::io::IReadFile*)"
+},
+{
+"address": "0x576270",
+"bytes": 292,
+"owner": "glitch::io",
+"demangled": "glitch::io::createIXMLReaderUTF8(glitch::io::IReadFile*)"
+},
+{
+"address": "0x578670",
+"bytes": 340,
+"owner": "glitch::io",
+"demangled": "glitch::io::fromString(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> > const&, glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x5787cc",
+"bytes": 324,
+"owner": "glitch::io",
+"demangled": "glitch::io::toString(boost::intrusive_ptr<glitch::video::ITexture> const&, glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x6b58a8",
+"bytes": 224,
+"owner": "glitch::io",
+"demangled": "glitch::io::getVertexStreamsStride(boost::intrusive_ptr<glitch::video::CVertexStreams const> const&)"
+},
+{
+"address": "0x6b5dd4",
+"bytes": 956,
+"owner": "glitch::io",
+"demangled": "glitch::io::save(glitch::video::CPrimitiveStream const&, glitch::io::IWriteFile*, bool)"
+},
+{
+"address": "0x6b61fc",
+"bytes": 1104,
+"owner": "glitch::io",
+"demangled": "glitch::io::loadPS(glitch::io::IReadFile*, bool, glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x6b6cac",
+"bytes": 1828,
+"owner": "glitch::io",
+"demangled": "glitch::io::loadHeadersAndSkipData(glitch::io::IReadFile*, glitch::io::SPrimitiveStreamDesc&, bool)"
+},
+{
+"address": "0x6b73d8",
+"bytes": 2108,
+"owner": "glitch::io",
+"demangled": "glitch::io::loadVS(glitch::io::IReadFile*, bool, glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x6b7c1c",
+"bytes": 348,
+"owner": "glitch::io",
+"demangled": "glitch::io::loadMB(glitch::io::IReadFile*, bool, glitch::video::IVideoDriver*)"
+},
+{
+"address": "0x6b7d84",
+"bytes": 2500,
+"owner": "glitch::io",
+"demangled": "glitch::io::save(boost::intrusive_ptr<glitch::video::CVertexStreams const> const&, glitch::io::IWriteFile*, bool)"
+},
+{
+"address": "0x6b875c",
+"bytes": 212,
+"owner": "glitch::io",
+"demangled": "glitch::io::save(boost::intrusive_ptr<glitch::scene::CMeshBuffer const> const&, glitch::io::IWriteFile*, bool, unsigned int*, unsigned int*)"
+}
+],
+"bytes": 10608
+},
+{
+"id": "r1-glitch-core-io-glitch_io_CZipReader-759d33-0",
+"category": "glitch-core-io",
+"owner": "glitch::io::CZipReader",
+"owners": [
+"glitch::io::CZipReader"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x576ef4",
+"bytes": 36,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::isValid(char const*)"
+},
+{
+"address": "0x576f18",
+"bytes": 632,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::openFile(int)"
+},
+{
+"address": "0x577b50",
+"bytes": 100,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::deletePathFromFilename(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x577bc8",
+"bytes": 252,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::extractFilename(glitch::io::SZipFileEntry*)"
+},
+{
+"address": "0x577db4",
+"bytes": 280,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::scanLocalHeader()"
+},
+{
+"address": "0x577fa4",
+"bytes": 164,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::CZipReader(glitch::io::IReadFile*, bool, bool)"
+},
+{
+"address": "0x578050",
+"bytes": 164,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::CZipReader(glitch::io::IReadFile*, bool, bool)"
+},
+{
+"address": "0x57826c",
+"bytes": 164,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::CZipReader(char const*, bool, bool)"
+},
+{
+"address": "0x578318",
+"bytes": 164,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::CZipReader(char const*, bool, bool)"
+},
+{
+"address": "0x578520",
+"bytes": 60,
+"owner": "glitch::io::CZipReader",
+"demangled": "glitch::io::CZipReader::findFile(char const*)"
+}
+],
+"bytes": 2016
+},
+{
+"id": "r1-glitch-core-io-pack0-b8a439-0",
+"category": "glitch-core-io",
+"owner": "boost::intrusive_ptr<glitch::video::CMaterial> | glitch::io::CStringAttribute | glitch::io::CFloatAttribute | glitch::io::CColorAttribute | glitch::io::CVector4DAttribute | glitch::io::CNumbersAttribute | boost::intrusive_ptr<glitch::video::CMaterial const> | boost::intrusive_ptr<glitch::video::CMaterialRenderer> | boost::intrusive_ptr<glitch::video::CVertexStreams const> | glitch::core::quaternion | glitch::core::plane3d<float> | glitch::io::CTriangleAttribute | glitch::io::CEnumAttribute | glitch::io::CFile",
+"owners": [
+"boost::intrusive_ptr<glitch::video::CMaterial>",
+"glitch::io::CStringAttribute",
+"glitch::io::CFloatAttribute",
+"glitch::io::CColorAttribute",
+"glitch::io::CVector4DAttribute",
+"glitch::io::CNumbersAttribute",
+"boost::intrusive_ptr<glitch::video::CMaterial const>",
+"boost::intrusive_ptr<glitch::video::CMaterialRenderer>",
+"boost::intrusive_ptr<glitch::video::CVertexStreams const>",
+"glitch::core::quaternion",
+"glitch::core::plane3d<float>",
+"glitch::io::CTriangleAttribute",
+"glitch::io::CEnumAttribute",
+"glitch::io::CFile"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x310be8",
+"bytes": 64,
+"owner": "boost::intrusive_ptr<glitch::video::CMaterial>",
+"demangled": "boost::intrusive_ptr<glitch::video::CMaterial>::~intrusive_ptr()"
+},
+{
+"address": "0x31f324",
+"bytes": 236,
+"owner": "glitch::io::CStringAttribute",
+"demangled": "glitch::io::CStringAttribute::getBinary(void*, int)"
+},
+{
+"address": "0x327290",
+"bytes": 168,
+"owner": "glitch::io::CStringAttribute",
+"demangled": "glitch::io::CStringAttribute::getFloat()"
+},
+{
+"address": "0x32d3d4",
+"bytes": 296,
+"owner": "glitch::io::CStringAttribute",
+"demangled": "glitch::io::CStringAttribute::setFloat(float)"
+},
+{
+"address": "0x322d98",
+"bytes": 40,
+"owner": "glitch::io::CFloatAttribute",
+"demangled": "glitch::io::CFloatAttribute::setString(char const*)"
+},
+{
+"address": "0x32d6fc",
+"bytes": 112,
+"owner": "glitch::io::CFloatAttribute",
+"demangled": "glitch::io::CFloatAttribute::getStringW()"
+},
+{
+"address": "0x32324c",
+"bytes": 112,
+"owner": "glitch::io::CColorAttribute",
+"demangled": "glitch::io::CColorAttribute::setString(char const*)"
+},
+{
+"address": "0x3276f8",
+"bytes": 148,
+"owner": "glitch::io::CVector4DAttribute",
+"demangled": "glitch::io::CVector4DAttribute::getMatrix()"
+},
+{
+"address": "0x32d220",
+"bytes": 376,
+"owner": "glitch::io::CNumbersAttribute",
+"demangled": "glitch::io::CNumbersAttribute::getString()"
+},
+{
+"address": "0x32d52c",
+"bytes": 428,
+"owner": "glitch::io::CNumbersAttribute",
+"demangled": "glitch::io::CNumbersAttribute::getStringW()"
+},
+{
+"address": "0x351e3c",
+"bytes": 64,
+"owner": "boost::intrusive_ptr<glitch::video::CMaterial const>",
+"demangled": "boost::intrusive_ptr<glitch::video::CMaterial const>::~intrusive_ptr()"
+},
+{
+"address": "0x3522b8",
+"bytes": 64,
+"owner": "boost::intrusive_ptr<glitch::video::CMaterialRenderer>",
+"demangled": "boost::intrusive_ptr<glitch::video::CMaterialRenderer>::~intrusive_ptr()"
+},
+{
+"address": "0x35eb90",
+"bytes": 64,
+"owner": "boost::intrusive_ptr<glitch::video::CVertexStreams const>",
+"demangled": "boost::intrusive_ptr<glitch::video::CVertexStreams const>::~intrusive_ptr()"
+},
+{
+"address": "0x410e48",
+"bytes": 40,
+"owner": "glitch::core::quaternion",
+"demangled": "glitch::core::quaternion::fromAngleAxis(float, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x432e58",
+"bytes": 144,
+"owner": "glitch::core::quaternion",
+"demangled": "glitch::core::quaternion::toEulerDegree(glitch::core::vector3d<float>&) const"
+},
+{
+"address": "0x561bdc",
+"bytes": 44,
+"owner": "glitch::core::plane3d<float>",
+"demangled": "glitch::core::plane3d<float>::setPlane(glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&, glitch::core::vector3d<float> const&)"
+},
+{
+"address": "0x561d50",
+"bytes": 80,
+"owner": "glitch::io::CTriangleAttribute",
+"demangled": "glitch::io::CTriangleAttribute::getPlane()"
+},
+{
+"address": "0x56706c",
+"bytes": 164,
+"owner": "glitch::io::CEnumAttribute",
+"demangled": "glitch::io::CEnumAttribute::CEnumAttribute(char const*, char const*, char const* const*, bool)"
+},
+{
+"address": "0x56c960",
+"bytes": 132,
+"owner": "glitch::io::CFile",
+"demangled": "glitch::io::CFile::CFile(__sFILE*, char const*, bool)"
+},
+{
+"address": "0x56c9e8",
+"bytes": 132,
+"owner": "glitch::io::CFile",
+"demangled": "glitch::io::CFile::CFile(__sFILE*, char const*, bool)"
+}
+],
+"bytes": 2908
+},
+{
+"id": "r1-glitch-core-io-pack1-a5bb77-0",
+"category": "glitch-core-io",
+"owner": "glitch::io::CMemoryReadFile | glitch::io::CPakReader | glitch::io::CReadFile | glitch::io::CWriteFile | glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>",
+"owners": [
+"glitch::io::CMemoryReadFile",
+"glitch::io::CPakReader",
+"glitch::io::CReadFile",
+"glitch::io::CWriteFile",
+"glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x56ebac",
+"bytes": 52,
+"owner": "glitch::io::CMemoryReadFile",
+"demangled": "glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+},
+{
+"address": "0x56ebe0",
+"bytes": 92,
+"owner": "glitch::io::CMemoryReadFile",
+"demangled": "glitch::io::CMemoryReadFile::readAsync(void*, unsigned int, long, void (*)(int, int, glitch::io::IReadFile*, void*), void*)"
+},
+{
+"address": "0x56ec88",
+"bytes": 8,
+"owner": "glitch::io::CMemoryReadFile",
+"demangled": "glitch::io::CMemoryReadFile::getFileName() const"
+},
+{
+"address": "0x56ec90",
+"bytes": 8,
+"owner": "glitch::io::CMemoryReadFile",
+"demangled": "glitch::io::CMemoryReadFile::getFullPath() const"
+},
+{
+"address": "0x56ecc4",
+"bytes": 76,
+"owner": "glitch::io::CMemoryReadFile",
+"demangled": "glitch::io::CMemoryReadFile::read(void*, unsigned int)"
+},
+{
+"address": "0x56f568",
+"bytes": 100,
+"owner": "glitch::io::CPakReader",
+"demangled": "glitch::io::CPakReader::deletePathFromFilename(std::basic_string<char, std::char_traits<char>, glitch::core::SAllocator<char, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x56fcec",
+"bytes": 188,
+"owner": "glitch::io::CPakReader",
+"demangled": "glitch::io::CPakReader::extractFilename(glitch::io::SPakFileEntry*)"
+},
+{
+"address": "0x56fe44",
+"bytes": 372,
+"owner": "glitch::io::CPakReader",
+"demangled": "glitch::io::CPakReader::scanLocalHeader()"
+},
+{
+"address": "0x57002c",
+"bytes": 144,
+"owner": "glitch::io::CPakReader",
+"demangled": "glitch::io::CPakReader::CPakReader(glitch::io::IReadFile*, bool, bool)"
+},
+{
+"address": "0x5700c4",
+"bytes": 144,
+"owner": "glitch::io::CPakReader",
+"demangled": "glitch::io::CPakReader::CPakReader(glitch::io::IReadFile*, bool, bool)"
+},
+{
+"address": "0x5702b4",
+"bytes": 60,
+"owner": "glitch::io::CPakReader",
+"demangled": "glitch::io::CPakReader::findFile(char const*)"
+},
+{
+"address": "0x5704cc",
+"bytes": 216,
+"owner": "glitch::io::CReadFile",
+"demangled": "glitch::io::CReadFile::openFile()"
+},
+{
+"address": "0x5705a8",
+"bytes": 12,
+"owner": "glitch::io::CReadFile",
+"demangled": "glitch::io::CReadFile::getPos() const"
+},
+{
+"address": "0x57095c",
+"bytes": 224,
+"owner": "glitch::io::CWriteFile",
+"demangled": "glitch::io::CWriteFile::openFile(bool)"
+},
+{
+"address": "0x572e78",
+"bytes": 312,
+"owner": "glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>::readFile(glitch::io::IFileReadCallBack*)"
+},
+{
+"address": "0x573eb0",
+"bytes": 128,
+"owner": "glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>::~CXMLReaderImpl()"
+},
+{
+"address": "0x575918",
+"bytes": 1092,
+"owner": "glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<char, glitch::IReferenceCounted>::parseOpeningXMLElement()"
+}
+],
+"bytes": 3228
+},
+{
+"id": "r1-glitch-core-io-pack2-7c4aea-0",
+"category": "glitch-core-io",
+"owner": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted> | glitch::io::CXMLWriter | glitch::io::CUnzipReadFile | glitch::io::CUnZipReader | glitch::core::detail::CMatrix4Base<float> | boost::intrusive_ptr<glitch::video::CVertexStreams> | glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > > | boost::intrusive_ptr<glitch::video::CLight>",
+"owners": [
+"glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>",
+"glitch::io::CXMLWriter",
+"glitch::io::CUnzipReadFile",
+"glitch::io::CUnZipReader",
+"glitch::core::detail::CMatrix4Base<float>",
+"boost::intrusive_ptr<glitch::video::CVertexStreams>",
+"glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >",
+"boost::intrusive_ptr<glitch::video::CLight>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x573104",
+"bytes": 320,
+"owner": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::readFile(glitch::io::IFileReadCallBack*)"
+},
+{
+"address": "0x573928",
+"bytes": 128,
+"owner": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::~CXMLReaderImpl()"
+},
+{
+"address": "0x5743f0",
+"bytes": 144,
+"owner": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::getAttributeValueAsFloat(int) const"
+},
+{
+"address": "0x574488",
+"bytes": 144,
+"owner": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::getAttributeValueAsFloat(wchar_t const*) const"
+},
+{
+"address": "0x574520",
+"bytes": 904,
+"owner": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::replaceSpecialCharacters(std::basic_string<wchar_t, std::char_traits<wchar_t>, glitch::core::SAllocator<wchar_t, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x5749a0",
+"bytes": 1028,
+"owner": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>",
+"demangled": "glitch::io::CXMLReaderImpl<wchar_t, glitch::IReferenceCounted>::parseOpeningXMLElement()"
+},
+{
+"address": "0x576758",
+"bytes": 544,
+"owner": "glitch::io::CXMLWriter",
+"demangled": "glitch::io::CXMLWriter::writeElement(wchar_t const*, bool, std::vector<std::basic_string<wchar_t, std::char_traits<wchar_t>, glitch::core::SAllocator<wchar_t, (glitch::memory::E_MEMORY_HINT)0> >, glitch::core::SAllocator<std::basic_string<wchar_t, std::char_traits<wchar_t>, glitch::core::SAllocator<wchar_t, (glitch::memory::E_MEMORY_HINT)0> >, (glitch::memory::E_MEMORY_HINT)0> >&, std::vector<std::basic_string<wchar_t, std::char_traits<wchar_t>, glitch::core::SAllocator<wchar_t, (glitch::memory::E_MEMORY_HINT)0> >, glitch::core::SAllocator<std::basic_string<wchar_t, std::char_traits<wchar_t>, glitch::core::SAllocator<wchar_t, (glitch::memory::E_MEMORY_HINT)0> >, (glitch::memory::E_MEMORY_HINT)0> >&)"
+},
+{
+"address": "0x576988",
+"bytes": 360,
+"owner": "glitch::io::CXMLWriter",
+"demangled": "glitch::io::CXMLWriter::writeElement(wchar_t const*, bool, wchar_t const*, wchar_t const*, wchar_t const*, wchar_t const*, wchar_t const*, wchar_t const*, wchar_t const*, wchar_t const*, wchar_t const*, wchar_t const*)"
+},
+{
+"address": "0x576bb8",
+"bytes": 304,
+"owner": "glitch::io::CXMLWriter",
+"demangled": "glitch::io::CXMLWriter::writeText(wchar_t const*)"
+},
+{
+"address": "0x576db8",
+"bytes": 8,
+"owner": "glitch::io::CUnzipReadFile",
+"demangled": "glitch::io::CUnzipReadFile::getFileName() const"
+},
+{
+"address": "0x576dc4",
+"bytes": 44,
+"owner": "glitch::io::CUnZipReader",
+"demangled": "glitch::io::CUnZipReader::findFile(char const*)"
+},
+{
+"address": "0x577a48",
+"bytes": 112,
+"owner": "glitch::io::CUnZipReader",
+"demangled": "glitch::io::CUnZipReader::openFile(char const*)"
+},
+{
+"address": "0x5780fc",
+"bytes": 104,
+"owner": "glitch::io::CUnZipReader",
+"demangled": "glitch::io::CUnZipReader::CUnZipReader(glitch::io::IFileSystem*, char const*, bool, bool)"
+},
+{
+"address": "0x5781b4",
+"bytes": 104,
+"owner": "glitch::io::CUnZipReader",
+"demangled": "glitch::io::CUnZipReader::CUnZipReader(glitch::io::IFileSystem*, char const*, bool, bool)"
+},
+{
+"address": "0x5822c8",
+"bytes": 48,
+"owner": "glitch::core::detail::CMatrix4Base<float>",
+"demangled": "glitch::core::detail::CMatrix4Base<float>::setbyproduct(glitch::core::detail::CMatrix4Base<float> const&, glitch::core::detail::CMatrix4Base<float> const&)"
+},
+{
+"address": "0x5a10fc",
+"bytes": 64,
+"owner": "boost::intrusive_ptr<glitch::video::CVertexStreams>",
+"demangled": "boost::intrusive_ptr<glitch::video::CVertexStreams>::~intrusive_ptr()"
+},
+{
+"address": "0x5a24f8",
+"bytes": 156,
+"owner": "glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >",
+"demangled": "glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::findFarthestElemInternal(std::pair<unsigned int, glitch::core::aabbox3d<float> > const*&, float&, glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdNode const*) const"
+},
+{
+"address": "0x5a44b4",
+"bytes": 544,
+"owner": "glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >",
+"demangled": "glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::removeElemInternal(std::pair<unsigned int, glitch::core::aabbox3d<float> > const&, glitch::core::CKdTree<std::pair<unsigned int, glitch::core::aabbox3d<float> > >::SKdNode*)"
+},
+{
+"address": "0x5aa3c8",
+"bytes": 104,
+"owner": "boost::intrusive_ptr<glitch::video::CLight>",
+"demangled": "boost::intrusive_ptr<glitch::video::CLight>::~intrusive_ptr()"
+},
+{
+"address": "0x5bb650",
+"bytes": 128,
+"owner": "boost::intrusive_ptr<glitch::video::CLight>",
+"demangled": "boost::intrusive_ptr<glitch::video::CLight>::operator=(boost::intrusive_ptr<glitch::video::CLight> const&)"
+}
+],
+"bytes": 5292
+},
+{
+"id": "r1-glitch-core-io-pack3-f5ccb6-0",
+"category": "glitch-core-io",
+"owner": "boost::intrusive_ptr<glitch::video::CLight const> | glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits> | glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue | glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry | glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits> | glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue | glitch::core::SSharedProcessBuffer",
+"owners": [
+"boost::intrusive_ptr<glitch::video::CLight const>",
+"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>",
+"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue",
+"glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry",
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"glitch::core::SSharedProcessBuffer"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5b9118",
+"bytes": 104,
+"owner": "boost::intrusive_ptr<glitch::video::CLight const>",
+"demangled": "boost::intrusive_ptr<glitch::video::CLight const>::~intrusive_ptr()"
+},
+{
+"address": "0x5b9f04",
+"bytes": 24,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::getProperties(unsigned short)"
+},
+{
+"address": "0x5b9f1c",
+"bytes": 24,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::getProperties(unsigned short) const"
+},
+{
+"address": "0x5bb520",
+"bytes": 64,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::~SIDedCollection()"
+},
+{
+"address": "0x5c1104",
+"bytes": 200,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::removeAll(bool)"
+},
+{
+"address": "0x5b9f64",
+"bytes": 16,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x5b9f74",
+"bytes": 16,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x5b9fb8",
+"bytes": 44,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry::SEntry()"
+},
+{
+"address": "0x5b9fe4",
+"bytes": 44,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry::SEntry()"
+},
+{
+"address": "0x5ba010",
+"bytes": 84,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry::SEntry(glitch::video::SShaderParameterDef const&, std::priv::_Rb_tree_iterator<std::pair<glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName const, glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue>, std::priv::_MapTraitsT<std::pair<glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName const, glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue> > >)"
+},
+{
+"address": "0x5ba064",
+"bytes": 84,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry::SEntry(glitch::video::SShaderParameterDef const&, std::priv::_Rb_tree_iterator<std::pair<glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName const, glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue>, std::priv::_MapTraitsT<std::pair<glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName const, glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue> > >)"
+},
+{
+"address": "0x5bc5c4",
+"bytes": 92,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry::reset()"
+},
+{
+"address": "0x5bc620",
+"bytes": 128,
+"owner": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry",
+"demangled": "glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SEntry::set(glitch::video::SShaderParameterDef const&, std::priv::_Rb_tree_iterator<std::pair<glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName const, glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue>, std::priv::_MapTraitsT<std::pair<glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SName const, glitch::core::detail::SIDedCollection<glitch::video::SShaderParameterDef, unsigned short, false, glitch::video::detail::globalmaterialparametermanager::SPropeties, glitch::video::detail::globalmaterialparametermanager::SValueTraits>::SIdValue> > >)"
+},
+{
+"address": "0x5d7d9c",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short) const"
+},
+{
+"address": "0x5d7e20",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short)"
+},
+{
+"address": "0x5d9f74",
+"bytes": 268,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::remove(unsigned short, bool)"
+},
+{
+"address": "0x5da080",
+"bytes": 200,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::removeAll(bool)"
+},
+{
+"address": "0x5d7e34",
+"bytes": 32,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x5d7e54",
+"bytes": 32,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::CMaterialRenderer>, unsigned short, false, glitch::video::detail::materialrenderermanager::SProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x5d8ac4",
+"bytes": 100,
+"owner": "glitch::core::SSharedProcessBuffer",
+"demangled": "glitch::core::SSharedProcessBuffer::reset(int)"
+}
+],
+"bytes": 1596
+},
+{
+"id": "r1-glitch-core-io-pack4-7fd4ee-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::SScopedEnableProcessBufferHeapExcess | glitch::io::IAttributes | glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits> | glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue | glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits> | glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue | glitch::os::Printer | boost::intrusive_ptr<glitch::video::CMaterialRenderer const> | glitch::core::CMatrix4<float>",
+"owners": [
+"glitch::core::SScopedEnableProcessBufferHeapExcess",
+"glitch::io::IAttributes",
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"glitch::os::Printer",
+"boost::intrusive_ptr<glitch::video::CMaterialRenderer const>",
+"glitch::core::CMatrix4<float>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x5d93c8",
+"bytes": 32,
+"owner": "glitch::core::SScopedEnableProcessBufferHeapExcess",
+"demangled": "glitch::core::SScopedEnableProcessBufferHeapExcess::SScopedEnableProcessBufferHeapExcess(bool)"
+},
+{
+"address": "0x5e09fc",
+"bytes": 48,
+"owner": "glitch::io::IAttributes",
+"demangled": "glitch::video::E_POLYGON_MODE glitch::io::IAttributes::getEnum<glitch::video::E_POLYGON_MODE>(char const*)"
+},
+{
+"address": "0x5e53dc",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short) const"
+},
+{
+"address": "0x5e53f0",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short)"
+},
+{
+"address": "0x5e65dc",
+"bytes": 252,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::remove(unsigned short, bool)"
+},
+{
+"address": "0x5e66d8",
+"bytes": 200,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::removeAll(bool)"
+},
+{
+"address": "0x5e5490",
+"bytes": 16,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x5e54a0",
+"bytes": 16,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShader>, unsigned short, false, glitch::video::detail::shadermanager::SShaderProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x5e83e4",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short) const"
+},
+{
+"address": "0x5e83f8",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short)"
+},
+{
+"address": "0x5e9e7c",
+"bytes": 252,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::remove(unsigned short, bool)"
+},
+{
+"address": "0x5e9f78",
+"bytes": 200,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::removeAll(bool)"
+},
+{
+"address": "0x5e85b4",
+"bytes": 60,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x5e85f0",
+"bytes": 60,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::ITexture>, unsigned short, false, glitch::video::detail::texturemanager::STextureProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x60afd4",
+"bytes": 88,
+"owner": "glitch::os::Printer",
+"demangled": "glitch::os::Printer::logf(char const*, ...)"
+},
+{
+"address": "0x60b034",
+"bytes": 88,
+"owner": "glitch::os::Printer",
+"demangled": "glitch::os::Printer::logf(glitch::ELOG_LEVEL, char const*, ...)"
+},
+{
+"address": "0x65afc0",
+"bytes": 64,
+"owner": "boost::intrusive_ptr<glitch::video::CMaterialRenderer const>",
+"demangled": "boost::intrusive_ptr<glitch::video::CMaterialRenderer const>::~intrusive_ptr()"
+},
+{
+"address": "0x663ce8",
+"bytes": 88,
+"owner": "glitch::core::CMatrix4<float>",
+"demangled": "glitch::core::CMatrix4<float>::getInverse(glitch::core::CMatrix4<float>&) const"
+}
+],
+"bytes": 1544
+},
+{
+"id": "r1-glitch-core-io-pack5-d3217f-0",
+"category": "glitch-core-io",
+"owner": "glitch::IDevice | glitch::core::detail::SSharedStringHeapEntry::SData | glitch::core::detail | glitch::io::CFileList | glitch::io::CLimitReadFile | glitch::io::CZipWriter | glitch::io::SStreamItrWriter | glitch::io::SStreamItrLoader | glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"owners": [
+"glitch::IDevice",
+"glitch::core::detail::SSharedStringHeapEntry::SData",
+"glitch::core::detail",
+"glitch::io::CFileList",
+"glitch::io::CLimitReadFile",
+"glitch::io::CZipWriter",
+"glitch::io::SStreamItrWriter",
+"glitch::io::SStreamItrLoader",
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6714c8",
+"bytes": 68,
+"owner": "glitch::IDevice",
+"demangled": "glitch::IDevice::setEventReceiver(glitch::IEventReceiver*)"
+},
+{
+"address": "0x672040",
+"bytes": 136,
+"owner": "glitch::IDevice",
+"demangled": "glitch::IDevice::IDevice(glitch::SCreationParameters const&)"
+},
+{
+"address": "0x67228c",
+"bytes": 136,
+"owner": "glitch::IDevice",
+"demangled": "glitch::IDevice::IDevice(glitch::SCreationParameters const&)"
+},
+{
+"address": "0x6a4d9c",
+"bytes": 296,
+"owner": "glitch::core::detail::SSharedStringHeapEntry::SData",
+"demangled": "glitch::core::detail::SSharedStringHeapEntry::SData::release(glitch::core::detail::SSharedStringHeapEntry::SData*)"
+},
+{
+"address": "0x6a54d0",
+"bytes": 52,
+"owner": "glitch::core::detail",
+"demangled": "glitch::core::detail::registerSharedStringHeapInit()"
+},
+{
+"address": "0x6b40a0",
+"bytes": 228,
+"owner": "glitch::io::CFileList",
+"demangled": "glitch::io::CFileList::getFullFileName(unsigned int)"
+},
+{
+"address": "0x6b44e8",
+"bytes": 152,
+"owner": "glitch::io::CLimitReadFile",
+"demangled": "glitch::io::CLimitReadFile::read(void*, unsigned int)"
+},
+{
+"address": "0x6b4740",
+"bytes": 184,
+"owner": "glitch::io::CLimitReadFile",
+"demangled": "glitch::io::CLimitReadFile::init(char const*)"
+},
+{
+"address": "0x6b4810",
+"bytes": 164,
+"owner": "glitch::io::CLimitReadFile",
+"demangled": "glitch::io::CLimitReadFile::CLimitReadFile(glitch::io::IReadFile*, long, char const*, char const*)"
+},
+{
+"address": "0x6b48bc",
+"bytes": 92,
+"owner": "glitch::io::CLimitReadFile",
+"demangled": "glitch::io::CLimitReadFile::clone() const"
+},
+{
+"address": "0x6b4918",
+"bytes": 164,
+"owner": "glitch::io::CLimitReadFile",
+"demangled": "glitch::io::CLimitReadFile::CLimitReadFile(glitch::io::IReadFile*, long, char const*, char const*)"
+},
+{
+"address": "0x6b5238",
+"bytes": 72,
+"owner": "glitch::io::CZipWriter",
+"demangled": "glitch::io::CZipWriter::~CZipWriter()"
+},
+{
+"address": "0x6b5288",
+"bytes": 72,
+"owner": "glitch::io::CZipWriter",
+"demangled": "glitch::io::CZipWriter::~CZipWriter()"
+},
+{
+"address": "0x6b5990",
+"bytes": 484,
+"owner": "glitch::io::SStreamItrWriter",
+"demangled": "glitch::io::SStreamItrWriter::writeAndAdvance(glitch::io::IWriteFile*, bool)"
+},
+{
+"address": "0x6b5b74",
+"bytes": 440,
+"owner": "glitch::io::SStreamItrLoader",
+"demangled": "glitch::io::SStreamItrLoader::loadAndAdvance(glitch::io::IReadFile*, bool)"
+},
+{
+"address": "0x6e0860",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short)"
+},
+{
+"address": "0x6e0874",
+"bytes": 20,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::getProperties(unsigned short) const"
+},
+{
+"address": "0x6e1e54",
+"bytes": 252,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::remove(unsigned short, bool)"
+},
+{
+"address": "0x6e1f50",
+"bytes": 200,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::removeAll(bool)"
+}
+],
+"bytes": 3232
+},
+{
+"id": "r1-glitch-core-io-pack6-5e2e6b-0",
+"category": "glitch-core-io",
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"owners": [
+"glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x6e08b0",
+"bytes": 8,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+},
+{
+"address": "0x6e08b8",
+"bytes": 8,
+"owner": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue",
+"demangled": "glitch::core::detail::SIDedCollection<boost::intrusive_ptr<glitch::video::IShaderCode>, unsigned short, false, glitch::core::detail::sidedcollection::SEmptyProperties, glitch::core::detail::sidedcollection::SValueTraits>::SIdValue::SIdValue(unsigned short)"
+}
+],
+"bytes": 16
+},
+{
+"id": "r1-vox-audio-vox_EmitterObj-0522ad-0",
+"category": "vox-audio",
+"owner": "vox::EmitterObj",
+"owners": [
+"vox::EmitterObj"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x863954",
+"bytes": 128,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::CleanUp()"
+},
+{
+"address": "0x8653ec",
+"bytes": 24,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::SetPlayCursor(float)"
+},
+{
+"address": "0x8654f8",
+"bytes": 20,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::GetPlayCursor()"
+},
+{
+"address": "0x8657f4",
+"bytes": 20,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::IsAlive()"
+},
+{
+"address": "0x866380",
+"bytes": 576,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::EmitterObj(long long, int, int, vox::DriverSourceInterface*, vox::DataObj*)"
+},
+{
+"address": "0x8665cc",
+"bytes": 576,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::EmitterObj(long long, int, int, vox::DriverSourceInterface*, vox::DataObj*)"
+},
+{
+"address": "0x866818",
+"bytes": 24,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::GetDebugInfo(vox::DebugChunk_emitter&)"
+},
+{
+"address": "0x866acc",
+"bytes": 28,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::SetDSPParameter(int, void*)"
+},
+{
+"address": "0x86c5ec",
+"bytes": 1036,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::EmitterObj(long long, int, int, int, vox::DriverSourceInterface*, vox::DecoderCursorInterface*, vox::DataObj*)"
+},
+{
+"address": "0x86ce1c",
+"bytes": 1036,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::EmitterObj(long long, int, int, int, vox::DriverSourceInterface*, vox::DecoderCursorInterface*, vox::DataObj*)"
+},
+{
+"address": "0x86d238",
+"bytes": 892,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::LoadAsync()"
+},
+{
+"address": "0x86d5b8",
+"bytes": 28,
+"owner": "vox::EmitterObj",
+"demangled": "vox::EmitterObj::Update(float)"
+}
+],
+"bytes": 4388
+},
+{
+"id": "r1-vox-audio-vox_DriverAndroid-72f056-0",
+"category": "vox-audio",
+"owner": "vox::DriverAndroid",
+"owners": [
+"vox::DriverAndroid"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x88ef6c",
+"bytes": 24,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::_ResumeAT()"
+},
+{
+"address": "0x88f028",
+"bytes": 28,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::Resume()"
+},
+{
+"address": "0x88f044",
+"bytes": 16,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::_SuspendAT()"
+},
+{
+"address": "0x88f130",
+"bytes": 28,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::Suspend()"
+},
+{
+"address": "0x88f14c",
+"bytes": 220,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::DoCallbackAT(_jarray*&)"
+},
+{
+"address": "0x88f328",
+"bytes": 56,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::UpdateThreadedAT(void*)"
+},
+{
+"address": "0x88f59c",
+"bytes": 24,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::DestroyDriverSource(vox::DriverSourceInterface*)"
+},
+{
+"address": "0x88f660",
+"bytes": 360,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::_InitAT(void*)"
+},
+{
+"address": "0x88f9a0",
+"bytes": 24,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::Init(void*)"
+},
+{
+"address": "0x88f9ec",
+"bytes": 52,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::~DriverAndroid()"
+},
+{
+"address": "0x88fa28",
+"bytes": 20,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::~DriverAndroid()"
+},
+{
+"address": "0x88fa44",
+"bytes": 52,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::~DriverAndroid()"
+},
+{
+"address": "0x88fa80",
+"bytes": 60,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::DriverAndroid()"
+},
+{
+"address": "0x88fae4",
+"bytes": 32,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::DriverAndroid()"
+},
+{
+"address": "0x88fbe8",
+"bytes": 28,
+"owner": "vox::DriverAndroid",
+"demangled": "vox::DriverAndroid::CreateDriverSource(void*, void*, int)"
+}
+],
+"bytes": 1024
+},
+{
+"id": "r1-vox-audio-pack0-5b0f48-0",
+"category": "vox-audio",
+"owner": "lib-vox-audio | vox::VoxEngine | vox::VoxEngineInternal | vox::DecoderMPC8Cursor | vox::DecoderMPC8 | vox::DecoderNativeCursor | vox::VoxMSWavSubDecoderIMAADPCM",
+"owners": [
+"lib-vox-audio",
+"vox::VoxEngine",
+"vox::VoxEngineInternal",
+"vox::DecoderMPC8Cursor",
+"vox::DecoderMPC8",
+"vox::DecoderNativeCursor",
+"vox::VoxMSWavSubDecoderIMAADPCM"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x3104f8",
+"bytes": 4,
+"owner": "lib-vox-audio",
+"demangled": "VoxAlloc(unsigned int)"
+},
+{
+"address": "0x310648",
+"bytes": 24,
+"owner": "lib-vox-audio",
+"demangled": "VoxAlloc(unsigned int, vox::VoxMemHint)"
+},
+{
+"address": "0x310664",
+"bytes": 40,
+"owner": "lib-vox-audio",
+"demangled": "VoxAlloc(unsigned int, vox::VoxMemHint, char const*, char const*, int)"
+},
+{
+"address": "0x31068c",
+"bytes": 12,
+"owner": "lib-vox-audio",
+"demangled": "VoxAlloc(unsigned int, char const*, char const*, int)"
+},
+{
+"address": "0x889494",
+"bytes": 4,
+"owner": "lib-vox-audio",
+"demangled": "VoxAlloc_c"
+},
+{
+"address": "0x861928",
+"bytes": 32,
+"owner": "vox::VoxEngine",
+"demangled": "vox::VoxEngine::SetInteractiveMusicState(vox::EmitterHandle&, char const*)"
+},
+{
+"address": "0x862a18",
+"bytes": 20,
+"owner": "vox::VoxEngine",
+"demangled": "vox::VoxEngine::~VoxEngine()"
+},
+{
+"address": "0x862a34",
+"bytes": 124,
+"owner": "vox::VoxEngine",
+"demangled": "vox::VoxEngine::~VoxEngine()"
+},
+{
+"address": "0x862c4c",
+"bytes": 156,
+"owner": "vox::VoxEngine",
+"demangled": "vox::VoxEngine::UpdateEmittersThreaded()"
+},
+{
+"address": "0x862d10",
+"bytes": 200,
+"owner": "vox::VoxEngine",
+"demangled": "vox::VoxEngine::Initialize()"
+},
+{
+"address": "0x86764c",
+"bytes": 140,
+"owner": "vox::VoxEngineInternal",
+"demangled": "vox::VoxEngineInternal::SetInteractiveMusicState(vox::EmitterHandle&, char const*)"
+},
+{
+"address": "0x86b144",
+"bytes": 368,
+"owner": "vox::VoxEngineInternal",
+"demangled": "vox::VoxEngineInternal::LoadDataSource(int, void*, int, void*, int)"
+},
+{
+"address": "0x86b694",
+"bytes": 716,
+"owner": "vox::VoxEngineInternal",
+"demangled": "vox::VoxEngineInternal::ConvertToRawSource(vox::DataHandle&)"
+},
+{
+"address": "0x86ca08",
+"bytes": 796,
+"owner": "vox::VoxEngineInternal",
+"demangled": "vox::VoxEngineInternal::CreateEmitter(vox::DataHandle&, int, void*)"
+},
+{
+"address": "0x86e160",
+"bytes": 348,
+"owner": "vox::VoxEngineInternal",
+"demangled": "vox::VoxEngineInternal::KillEmitter(vox::EmitterObj*)"
+},
+{
+"address": "0x86fe38",
+"bytes": 40,
+"owner": "vox::DecoderMPC8Cursor",
+"demangled": "vox::DecoderMPC8Cursor::Decode(void*, int)"
+},
+{
+"address": "0x8704ac",
+"bytes": 24,
+"owner": "vox::DecoderMPC8",
+"demangled": "vox::DecoderMPC8::CreateNewCursor(vox::StreamCursorInterface*)"
+},
+{
+"address": "0x8738bc",
+"bytes": 440,
+"owner": "vox::DecoderNativeCursor",
+"demangled": "vox::DecoderNativeCursor::ParseFile()"
+},
+{
+"address": "0x8758d8",
+"bytes": 848,
+"owner": "vox::VoxMSWavSubDecoderIMAADPCM",
+"demangled": "vox::VoxMSWavSubDecoderIMAADPCM::DecodeBlock(void*)"
+}
+],
+"bytes": 4336
+},
+{
+"id": "r1-vox-audio-pack1-5206a2-0",
+"category": "vox-audio",
+"owner": "vox::RandomGroup | vox::SequentialGroup | vox::VoxNativeSubDecoder | vox::VoxNativeSubDecoderIMAADPCM | vox::VoxSoundPackXML | vox::DriverCallbackSourceInterface | vox::VoxThread",
+"owners": [
+"vox::RandomGroup",
+"vox::SequentialGroup",
+"vox::VoxNativeSubDecoder",
+"vox::VoxNativeSubDecoderIMAADPCM",
+"vox::VoxSoundPackXML",
+"vox::DriverCallbackSourceInterface",
+"vox::VoxThread"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x881b40",
+"bytes": 104,
+"owner": "vox::RandomGroup",
+"demangled": "vox::RandomGroup::RandomGroup(vox::GroupInfos*, int)"
+},
+{
+"address": "0x883404",
+"bytes": 192,
+"owner": "vox::RandomGroup",
+"demangled": "vox::RandomGroup::SetToPreviousState()"
+},
+{
+"address": "0x8834f0",
+"bytes": 416,
+"owner": "vox::RandomGroup",
+"demangled": "vox::RandomGroup::SetState(vox::RandomGroup&)"
+},
+{
+"address": "0x881cc0",
+"bytes": 112,
+"owner": "vox::SequentialGroup",
+"demangled": "vox::SequentialGroup::GetGroupElementPosition()"
+},
+{
+"address": "0x8847e8",
+"bytes": 32,
+"owner": "vox::VoxNativeSubDecoder",
+"demangled": "vox::VoxNativeSubDecoder::UpdateOldSegmentState(vox::TransitionRule*)"
+},
+{
+"address": "0x884bc4",
+"bytes": 340,
+"owner": "vox::VoxNativeSubDecoder",
+"demangled": "vox::VoxNativeSubDecoder::UpdateCurrentSegmentState(vox::TransitionRule*, bool)"
+},
+{
+"address": "0x885740",
+"bytes": 580,
+"owner": "vox::VoxNativeSubDecoder",
+"demangled": "vox::VoxNativeSubDecoder::UpdateSegmentsStates()"
+},
+{
+"address": "0x885984",
+"bytes": 184,
+"owner": "vox::VoxNativeSubDecoder",
+"demangled": "vox::VoxNativeSubDecoder::InterpretTransitionRule(int)"
+},
+{
+"address": "0x885a3c",
+"bytes": 132,
+"owner": "vox::VoxNativeSubDecoder",
+"demangled": "vox::VoxNativeSubDecoder::SetState(int)"
+},
+{
+"address": "0x8875b8",
+"bytes": 44,
+"owner": "vox::VoxNativeSubDecoderIMAADPCM",
+"demangled": "vox::VoxNativeSubDecoderIMAADPCM::DecodeSegment(void*, int, vox::SegmentState*)"
+},
+{
+"address": "0x887860",
+"bytes": 40,
+"owner": "vox::VoxNativeSubDecoderIMAADPCM",
+"demangled": "vox::VoxNativeSubDecoderIMAADPCM::DecodeCurrentSegmentWithOffset(void*, int)"
+},
+{
+"address": "0x88d344",
+"bytes": 28,
+"owner": "vox::VoxSoundPackXML",
+"demangled": "vox::VoxSoundPackXML::LoadXML(char const*)"
+},
+{
+"address": "0x88fdd4",
+"bytes": 308,
+"owner": "vox::DriverCallbackSourceInterface",
+"demangled": "vox::DriverCallbackSourceInterface::FillBufferStereo16NoInter(int*, int)"
+},
+{
+"address": "0x891860",
+"bytes": 172,
+"owner": "vox::DriverCallbackSourceInterface",
+"demangled": "vox::DriverCallbackSourceInterface::FillBufferStereo16(int*, int)"
+},
+{
+"address": "0x89278c",
+"bytes": 72,
+"owner": "vox::DriverCallbackSourceInterface",
+"demangled": "vox::DriverCallbackSourceInterface::FillBufferMono16NoInter(int*, int)"
+},
+{
+"address": "0x892bd0",
+"bytes": 64,
+"owner": "vox::DriverCallbackSourceInterface",
+"demangled": "vox::DriverCallbackSourceInterface::FillBufferMono16(int*, int)"
+},
+{
+"address": "0x893108",
+"bytes": 32,
+"owner": "vox::DriverCallbackSourceInterface",
+"demangled": "vox::DriverCallbackSourceInterface::Init()"
+},
+{
+"address": "0x893600",
+"bytes": 4,
+"owner": "vox::VoxThread",
+"demangled": "vox::VoxThread::GetCurThreadId()"
+},
+{
+"address": "0x893784",
+"bytes": 268,
+"owner": "vox::VoxThread",
+"demangled": "vox::VoxThread::VoxThread(void (*)(void*, void*), void*, void*, char*)"
+},
+{
+"address": "0x8938b4",
+"bytes": 16,
+"owner": "vox::VoxThread",
+"demangled": "vox::VoxThread::VoxThread(void (*)(void*, void*), void*, void*, char*)"
+}
+],
+"bytes": 3140
+},
+{
+"id": "r1-tinyxml-and-c-libs-pack0-28604f-0",
+"category": "tinyxml-and-c-libs",
+"owner": "<global> | TiXmlPrinterDH",
+"owners": [
+"<global>",
+"TiXmlPrinterDH"
+],
+"part": 0,
+"parts": 1,
+"functions": [
+{
+"address": "0x82b074",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "SSEncDec_Blob2ByteArray(unsigned char**, char*)"
+},
+{
+"address": "0x82b5c8",
+"bytes": 12,
+"owner": "<global>",
+"demangled": "SSEncDec_String2Blob(char*)"
+},
+{
+"address": "0x82b5e4",
+"bytes": 16,
+"owner": "<global>",
+"demangled": "SSEncDec_Blob2String(char*)"
+},
+{
+"address": "0x89cd60",
+"bytes": 20,
+"owner": "<global>",
+"demangled": "SSEncDec_Blob2ByteArrayLC(unsigned char**, char*)"
+},
+{
+"address": "0x89d034",
+"bytes": 108,
+"owner": "<global>",
+"demangled": "SSEncDec_ByteArray2BlobLC(unsigned char*, int)"
+},
+{
+"address": "0x89d164",
+"bytes": 12,
+"owner": "<global>",
+"demangled": "SSEncDec_String2BlobLC(char*)"
+},
+{
+"address": "0x89d180",
+"bytes": 16,
+"owner": "<global>",
+"demangled": "SSEncDec_Blob2StringLC(char*)"
+},
+{
+"address": "0x518110",
+"bytes": 104,
+"owner": "TiXmlPrinterDH",
+"demangled": "TiXmlPrinterDH::VisitEnter(TiXmlElement const&, TiXmlAttribute const*)"
+}
+],
+"bytes": 308
+}
+]

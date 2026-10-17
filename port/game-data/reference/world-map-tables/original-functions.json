@@ -1,0 +1,36 @@
+{
+  "functions": [
+    {
+      "original_symbol": "_ZN7Structs14WldMapLocation4readEP11IStreamBase",
+      "elf_address": "0x4eb5a8",
+      "size": 476,
+      "sha256": "e7d5787fc6dd347427dc908496d443c76447d38ffa909aeb8f6ef88a71846158"
+    },
+    {
+      "original_symbol": "_ZN7Structs14WorldMapLocker4readEP11IStreamBase",
+      "elf_address": "0x4eb4d8",
+      "size": 208,
+      "sha256": "a2b5e5e715bb637dbac5fba3e8e24f847d0507bd37dd0e86ffe654a2247bfed7"
+    }
+  ],
+  "source_offsets": {
+    "WldMapLocation": {
+      "stride": 20,
+      "Name": 4,
+      "State": 8,
+      "LocationLevelsCount": 12,
+      "LocationLevelsPointer": 16
+    },
+    "WorldMapLocker": {
+      "stride": 12,
+      "OnState": 4,
+      "QuestID": 8
+    }
+  },
+  "cache_sha256": {
+    "worldmap_pyarray.bin": "e212a7635c75b05b2cd8fb4e420bdffd1997b8da55670b9389a663141d33b7f0",
+    "worldmap_pyarraynames.bin": "38d5152a90925dbcb380e4f368f936fc7f67fa0813545bcf114f9d480003e879",
+    "worldmap_pystructnames.bin": "4bebfb4a737e36d6fc8048727c9833bba7c4d66f1a51bc322fb03660d1861bfc"
+  },
+  "scope": "Complete owned WorldMap two-section cache decoder (13 locations and3 lockers in supplied cache), not FastTravel data. Both original complete row-reader bodies run with declared signed/unsigned stream and tagged allocator providers. Native schema/count/UTF-8 bounds are additional policy. Actual51 LevelList and13 WorldMap defaults compose with complete original _InitLevelStates to compare192 saved words. Array readNames/finalize lifecycles, menu world-map rendering, quests and live SG_Load2 binding remain outside this proof."
+}

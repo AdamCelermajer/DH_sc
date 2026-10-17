@@ -7,6 +7,13 @@ float sub(float a,float b){volatile float v=a-b;return v;}
 float mul(float a,float b){volatile float v=a*b;return v;}
 float add(float a,float b){volatile float v=a+b;return v;}
 bool finite3(const float* p){return p&&std::isfinite(p[0])&&std::isfinite(p[1])&&std::isfinite(p[2]);}
+bool overlaps(const void* a,std::size_t an,const void* b,std::size_t bn){
+ if(!a||!b)return false;
+ const auto x=reinterpret_cast<std::uintptr_t>(a);
+ const auto y=reinterpret_cast<std::uintptr_t>(b);
+ if(x>UINTPTR_MAX-an||y>UINTPTR_MAX-bn)return true;
+ return x<y+bn&&y<x+an;
+}
 bool path_valid(const PathObject* p){return p&&!p->reserved&&p->count<=p->capacity&&(!p->capacity||p->segments)&&p->owned<=1&&p->owned<=p->count;}
 bool controller_valid(const PathController* c){return c&&c->path_requested<=1&&c->validate_boundary<=1&&c->heading.active<=1&&!c->heading.reserved&&finite3(c->position)&&finite3(c->destination)&&std::isfinite(c->heading.angle);}
 bool reached(const PathController& c,const PathObject& p){const auto* end=p.count?p.target:c.destination;const float x=sub(end[0],c.position[0]),y=sub(end[1],c.position[1]);return add(mul(x,x),mul(y,y))<6400.f;}
@@ -14,9 +21,20 @@ bool reached(const PathController& c,const PathObject& p){const auto* end=p.coun
 extern "C" int dh2_nav_is_at_destination(const PathController* c,const PathObject* p){if(!controller_valid(c)||!path_valid(p)||!finite3(p->target))return -1;return reached(*c,*p);}
 extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest* r){
  if(!out||out->reserved||!r||!controller_valid(r->controller)||!path_valid(r->path)||!r->object||r->object->reserved||!r->policy||!r->workspace)return 1;
+ if(r->source_game_object_moving){
+  const auto* moving=r->source_game_object_moving;
+  if(*moving>1||overlaps(out,sizeof(*out),moving,sizeof(*moving))||
+     overlaps(r,sizeof(*r),moving,sizeof(*moving))||
+     overlaps(r->controller,sizeof(*r->controller),moving,sizeof(*moving))||
+     overlaps(r->path,sizeof(*r->path),moving,sizeof(*moving))||
+     overlaps(r->object,sizeof(*r->object),moving,sizeof(*moving))||
+     overlaps(r->policy,sizeof(*r->policy),moving,sizeof(*moving))||
+     overlaps(r->workspace,sizeof(*r->workspace),moving,sizeof(*moving)))return 1;
+ }
  const auto& policy=*r->policy;auto& scratch=*r->workspace;
  if(policy.update_path>1||policy.avoid_obstacles>1||policy.debug_skip_boundary>1||policy.update_physics>1||scratch.reserved0||scratch.reserved1||scratch.reserved2||!finite3(r->path->target))return 1;
  auto state=*r->controller;auto object=*r->object;auto path=*r->path;ControllerResult result{};
+ std::uint8_t next_source_moving=r->source_game_object_moving?*r->source_game_object_moving:0;
  std::memcpy(path.position,state.position,12);std::memcpy(object.motion.position,state.position,12);
  // The original early gate still copies the GameObject position into PFObject.
  if(!policy.update_path){*r->path=path;*r->object=object;*out=result;return 0;}
@@ -26,9 +44,13 @@ extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest
  if(path.count){if(dh2_nav_move_path(&result.move,&path,r->graph))return 1;std::memcpy(state.destination,result.move.target,12);}
  result.at_destination=reached(state,path);
  if(result.at_destination){
-  if(state.path_requested&&!path.count){
+  const bool source_moving=r->source_game_object_moving
+      ?*r->source_game_object_moving!=0:state.path_requested!=0;
+  if(source_moving&&!path.count){
    if(dh2_nav_drop_path(&path))return 1;
-   std::memcpy(state.destination,state.position,12);state.path_requested=0;state.heading.active=0;for(auto& component:state.heading.direction)component=0;result.stopped=1;
+   std::memcpy(state.destination,state.position,12);
+   if(r->source_game_object_moving)next_source_moving=0;
+   state.path_requested=0;state.heading.active=0;for(auto& component:state.heading.direction)component=0;result.stopped=1;
    // Stop checks body presence and the physics-position virtual policy. Its
    // actual physical writes are deliberately left to the pending backend.
    if(policy.update_physics&&r->scene){
@@ -37,7 +59,9 @@ extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest
    }
   }
  }else{
-  state.path_requested=1;float direction[3];for(unsigned k=0;k<3;++k)direction[k]=sub(state.destination[k],state.position[k]);
+  state.path_requested=1;
+  if(r->source_game_object_moving)next_source_moving=1;
+  float direction[3];for(unsigned k=0;k<3;++k)direction[k]=sub(state.destination[k],state.position[k]);
   set_heading_unchecked(state.heading,direction,1);
  }
  ObstacleRegistry registry{};bool registry_used=false;
@@ -66,5 +90,7 @@ extern "C" int dh2_nav_update_path(ControllerResult* out,const ControllerRequest
  if(registry_used){auto& original=*r->scene->registry;if(registry.floor_count>original.floor_capacity)return 2;if(registry.floor_count)std::memcpy(original.floors,registry.floors,registry.floor_count*4);original.floor_count=registry.floor_count;}
  if(path.count)std::memcpy(r->path->segments,path.segments,path.count*sizeof(PathSegment));
  path.segments=r->path->segments;path.capacity=r->path->capacity;
- *r->path=path;*r->controller=state;*r->object=object;*out=result;return 0;
+ *r->path=path;*r->controller=state;*r->object=object;*out=result;
+ if(r->source_game_object_moving)*r->source_game_object_moving=next_source_moving;
+ return 0;
 }

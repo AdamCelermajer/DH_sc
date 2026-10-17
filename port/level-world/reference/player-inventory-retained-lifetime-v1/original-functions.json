@@ -1,0 +1,55 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13ItemInventory16_EquipItemToSlotEjjb",
+      "elf_address": "0x400634",
+      "size": 956,
+      "sha256": "193c3880f5be84860f5070e7aa40d3a675e878b89ddbc9639741811dc97eae48"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance5SplitEi",
+      "elf_address": "0x3fc3e0",
+      "size": 180,
+      "sha256": "de9ec67558fbb05bc47fe61d18f20c172d6edfbdbdfae79e9f76f97f865c199a"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstanceC1Eij",
+      "elf_address": "0x3fc26c",
+      "size": 372,
+      "sha256": "ec2a17d01d6d6619865d181c05c5374c3dd83aebaeac635ae1013bc236f63f52"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance8SetValueEi",
+      "elf_address": "0x3fbc58",
+      "size": 8,
+      "sha256": "e0857178738f7fd87b902d5d74ba0bd6662e141f7fcc92fecc29f2489fe5ee63"
+    },
+    {
+      "original_symbol": "_ZN12ItemInstance6AddQtyEi",
+      "elf_address": "0x3fa17c",
+      "size": 12,
+      "sha256": "af7638813c5f6c088456fdd2a6f47018f11b1ada7377753e2d3407bb2b2fd1be"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance11IsStackableEv",
+      "elf_address": "0x3f9e58",
+      "size": 16,
+      "sha256": "5e0476218eade30aec5ff23b960f65ed889c51d3ec915282b1f23b91aba83124"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance12GetNumPowersEv",
+      "elf_address": "0x3f9e80",
+      "size": 20,
+      "sha256": "93fe41b3d6348608be7e7434d76131aac9e4073c5890480baafc2bed878b04be"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance10GetPowerIdEj",
+      "elf_address": "0x3fa038",
+      "size": 172,
+      "sha256": "2f89242b7eb9f42fcdd477c9cc6f626b5887ffca1c2d58ff86d31f67102076f7"
+    }
+  ],
+  "scope": "Whole original Equip956B, Split180B and valid Constructor372B instruction bodies, actual SetValue8B and source metadata/getters. Stock cache has no naturally stackable equippable row; only row664 Stackable is synthetically set1, retaining all other actual fields. Item text, AddPower full32B entry storage/text, Debug, memory/string/libc transports are explicit fixtures. Required callee failures are injected source-prefix boundaries, not original C++ exception behavior. Vitals/property/Skin/VM/profile/startup are outside this proof.",
+  "attribution": "Gameloft original source; existing sole V4 inventory and V5 power/presentation/equipment/text contributions preserve Adam791e961 attribution. This repair adds only caller-owned borrowed lifetime boundaries."
+}

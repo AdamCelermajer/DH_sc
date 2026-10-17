@@ -7,6 +7,7 @@
 #include "gameswf/gameswf_text.h"
 #include <map>
 #include <vector>
+#include <string>
 #include <cstring>
 #include <cmath>
 #include <exception>
@@ -36,32 +37,37 @@ struct SwfInputConnection::State {
    auto*s=static_cast<gameswf::sprite_instance*>(c);if(!s->is_enabled())return false;const auto f=flags(c);if(f.mouse9c)return true;return std::strstr(c->get_name().c_str(),"btn")?s->m_enabled:false;
   }return c->can_handle_mouse_event();
  }
- gameswf::character* topmost(gameswf::character*c,float x,float y){if(!c)return nullptr;
+ gameswf::character* topmost(gameswf::character*c,float x,float y,bool&covered){covered=false;if(!c)return nullptr;
   if(c->is(gameswf::sprite_instance::m_class_id)){
    if(!c->get_visible())return nullptr;auto*s=static_cast<gameswf::sprite_instance*>(c);float point[2]{x,y};
    auto binding=scenes.find(c);if(binding!=scenes.end()&&binding->second.owner.get_ptr()==c&&binding->second.identity){if(!services.scene_local_mouse||!services.scene_local_mouse(services.context,binding->second.identity,c,point,error))throw std::runtime_error(error.empty()?"Required source scene-node local mouse service unavailable":error);}
    float m[6],local[2];matrix_words(c->get_matrix(),m);if(dh2_ui_swf_inverse_point(local,m,point))throw std::runtime_error("Malformed source hit matrix");
-   const int n=s->m_display_list.size();gameswf::character*last=nullptr;bool found=false;
+   const int n=s->m_display_list.size();gameswf::character*candidate=nullptr;bool found=false;
    for(int j=n-1;j>=0;--j){auto*child=s->m_display_list.get_character(j);if(!child||!child->get_visible())continue;
-    last=topmost(child,local[0],local[1]);if(last){if(virtual_mouse(last))return virtual_mouse(c)?c:last;found=true;}
-    if(!std::strcmp(child->get_name().c_str(),"hitzone"))break;
+    bool child_covered=false;auto*child_hit=topmost(child,local[0],local[1],child_covered);
+    if(child_covered){found=true;if(child_hit){candidate=child_hit;break;}}
    }
-   return found&&virtual_mouse(c)?c:last;
+   covered=found;
+   // Match GameSWF's return contract: coverage and the mouse target are
+   // separate. Decorative hits keep sibling traversal alive but are never
+   // returned as targets that can block an interactive control behind them.
+   if(found&&virtual_mouse(c))return c;
+   return candidate;
   }
   if((c->is(gameswf::edit_text_character::m_class_id)||dynamic_cast<gameswf::button_character_definition*>(c->get_character_def()))&&!c->get_visible())return nullptr;
   float m[6],point[2]{x,y},local[2];matrix_words(c->get_matrix(),m);if(dh2_ui_swf_inverse_point(local,m,point))throw std::runtime_error("Malformed source hit matrix");
   if(c->is(gameswf::edit_text_character::m_class_id)){
    if(!c->get_visible())return nullptr;auto*d=static_cast<gameswf::edit_text_character*>(c)->m_def.get_ptr();if(!d)throw std::runtime_error("Required source edit-text definition unavailable");const auto&r=d->m_rect;
-   if(local[0]<r.m_x_min||local[0]>r.m_x_max||local[1]<r.m_y_min||local[1]>r.m_y_max)return nullptr;return c;
+   if(local[0]<r.m_x_min||local[0]>r.m_x_max||local[1]<r.m_y_min||local[1]>r.m_y_max)return nullptr;covered=true;return virtual_mouse(c)?c:nullptr;
   }
   auto*d=c->get_character_def();if(!d)throw std::runtime_error("Required source character definition unavailable");
   if(auto*b=dynamic_cast<gameswf::button_character_definition*>(d)){
    if(!c->get_visible())return nullptr;for(int j=0;j<b->m_button_records.size();++j){auto&record=b->m_button_records[j];if(record.m_character_id<0||!record.m_hit_test)continue;
     float rm[6],rp[2];matrix_words(record.m_button_matrix,rm);if(dh2_ui_swf_inverse_point(rp,rm,local))throw std::runtime_error("Malformed source button matrix");
-    if(!record.m_character_def)throw std::runtime_error("Required source button-record shape unavailable");if(record.m_character_def->point_test_local(rp[0],rp[1]))return c;
+    if(!record.m_character_def)throw std::runtime_error("Required source button-record shape unavailable");if(record.m_character_def->point_test_local(rp[0],rp[1])){covered=true;return virtual_mouse(c)?c:nullptr;}
    }return nullptr;
   }
-  return d->point_test_local(local[0],local[1])?c:nullptr;
+  covered=d->point_test_local(local[0],local[1]);return covered&&virtual_mouse(c)?c:nullptr;
  }
  void collect(gameswf::character*c,const char*name,int mask){if(!c)throw std::runtime_error("Required source collection context unavailable");const bool visible=(mask&1)?c->get_visible():true;const bool sprite=c->is(gameswf::sprite_instance::m_class_id);
   if(sprite&&(mask&2)&&!static_cast<gameswf::sprite_instance*>(c)->m_enabled)return;if(!visible)return;
@@ -80,7 +86,10 @@ struct SwfInputConnection::State {
    case SwfInputOperation::screen_to_logical:out.values[0]=q.values[0];out.values[1]=q.values[1];return viewport.screen_to_logical(out.values,error);
    case SwfInputOperation::notify_mouse_state:return viewport.notify_mouse_state(trunc32(q.values[0]),trunc32(q.values[1]),q.integer,error);
    case SwfInputOperation::root_movie:out.identity=identity(lease.root->get_root_movie());return true;
-   case SwfInputOperation::topmost:out.identity=identity(topmost(c,q.values[0],q.values[1]));return true;
+   case SwfInputOperation::topmost:{
+    bool covered=false;auto*hit=topmost(c,q.values[0],q.values[1],covered);
+    out.identity=identity(hit);return true;
+   }
    case SwfInputOperation::set_matrix:{if(!c)return false;gameswf::matrix m;for(unsigned j=0;j<6;++j)m.m_[j/3][j%3]=q.values[j];c->set_matrix(m);return true;}
    case SwfInputOperation::collect_buttons:buttons.clear();collect(c,q.name,q.integer);out.characters=buttons.data();out.count=static_cast<std::int32_t>(buttons.size());return true;
    case SwfInputOperation::play_animation:out.result=0;if(!c||!c->is(gameswf::sprite_instance::m_class_id))return true;if(!q.name)return false;if(c->goto_labeled_frame(q.name)){c->set_play_state(gameswf::character::PLAY);out.result=1;}return true;

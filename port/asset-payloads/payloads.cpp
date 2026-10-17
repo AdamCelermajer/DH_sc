@@ -21,6 +21,14 @@ const char* text(const BresView& v, std::uint32_t o) {
         if (!v.bytes[i]) return reinterpret_cast<const char*>(v.bytes + o);
     return nullptr;
 }
+bool same_text(const char* a, const char* b) {
+    if (!a || !b) return false;
+    while (*a == *b) {
+        if (!*a) return true;
+        ++a; ++b;
+    }
+    return false;
+}
 constexpr std::uint32_t widths[] = {1, 1, 2, 2, 4, 4, 4};
 constexpr std::uint32_t primitive_map[] = {6, 4, 3, 1, 2};
 const std::uint8_t* buffer(const BresView& v, std::uint32_t offset, std::uint64_t size) {
@@ -91,17 +99,8 @@ bool truncated(float f, std::int32_t& result) {
     result = static_cast<std::int32_t>(f); return true;
 }
 std::int32_t difference(std::int32_t a, std::int32_t b) { return signed_word(std::uint32_t(a) - std::uint32_t(b)); }
-}
-
-extern "C" {
-Error dh2_mesh_open(Mesh* out, const BresView* image, std::int32_t geometry) {
-    if (!out) return Error::argument;
-    *out = {};
-    if (!image) return Error::argument;
-    const auto* g = dh2_bres_library_item(image, Library::geometry, geometry);
-    if (!g) return Error::range;
-    if (word(g + 8) != 0) return Error::geometry_type;
-    const auto* m = at(*image, word(g + 12), 44);
+Error open_mesh_record(Mesh* out, const BresView* image, const std::uint8_t* g, std::uint32_t mesh_offset) {
+    const auto* m = at(*image, mesh_offset, 44);
     if (!m) return Error::range;
     if (word(m) != 1) return Error::stream_layout;
     const auto* s = at(*image, word(m + 8), 44);
@@ -131,6 +130,56 @@ Error dh2_mesh_open(Mesh* out, const BresView* image, std::int32_t geometry) {
             if (index >= candidate.vertices || index < p.minimum_index || index > p.maximum_index) return Error::index;
         }
     }
+    *out = candidate; return Error::ok;
+}
+}
+
+extern "C" {
+Error dh2_mesh_open(Mesh* out, const BresView* image, std::int32_t geometry) {
+    if (!out) return Error::argument;
+    *out = {};
+    if (!image) return Error::argument;
+    const auto* g = dh2_bres_library_item(image, Library::geometry, geometry);
+    if (!g) return Error::range;
+    if (word(g + 8) != 0) return Error::geometry_type;
+    return open_mesh_record(out, image, g, word(g + 12));
+}
+Error dh2_type1_geometry_open(Type1Geometry* out, const BresView* image, std::int32_t geometry) {
+    if (!out) return Error::argument;
+    *out = {};
+    if (!image) return Error::argument;
+    const auto* g = dh2_bres_library_item(image, Library::geometry, geometry);
+    if (!g) return Error::range;
+    // This is deliberately bounded to the nine recovered corpus records. In
+    // each one the spline-named type-1 row is geometry zero and its suffix is
+    // an exact alias of the adjacent ordinary type-0 mesh payload. The APK's
+    // constructGeometry dispatcher itself continues to reject type 1 through
+    // dh2_mesh_open above.
+    if (geometry != 0) return Error::range;
+    if (word(g + 8) != 1) return Error::geometry_type;
+    const auto* id = text(*image, word(g));
+    const auto* name = text(*image, word(g + 4));
+    if (!id || !name || *name
+        || (!same_text(id, "Circle01-spline") && !same_text(id, "Line01-spline")))
+        return Error::stream_layout;
+    const auto payload = word(g + 12);
+    const auto* header = at(*image, payload, 20);
+    if (!header || payload > std::numeric_limits<std::uint32_t>::max() - 20U) return Error::range;
+    constexpr std::uint32_t observed_header[5] = {0, 15, 3, 0, 0};
+    for (std::uint32_t i = 0; i < 5; ++i)
+        if (word(header + i * 4) != observed_header[i]) return Error::stream_layout;
+    const auto source_mesh_geometry = std::uint32_t(geometry) + 1U;
+    const auto* source = dh2_bres_library_item(image, Library::geometry, source_mesh_geometry);
+    if (!source) return Error::range;
+    if (word(source + 8) != 0 || word(source + 12) != payload + 20U) return Error::stream_layout;
+    Mesh source_mesh{};
+    const auto source_error = dh2_mesh_open(&source_mesh, image, source_mesh_geometry);
+    if (source_error != Error::ok) return source_error;
+    Type1Geometry candidate{};
+    for (std::uint32_t i = 0; i < 5; ++i) candidate.opaque_header[i] = word(header + i * 4);
+    const auto error = open_mesh_record(&candidate.embedded_mesh, image, g, payload + 20U);
+    if (error != Error::ok) return error;
+    candidate.source_mesh_geometry = source_mesh_geometry;
     *out = candidate; return Error::ok;
 }
 Error dh2_mesh_attribute(const Mesh* m, std::int32_t i, Attribute* out) {
@@ -191,6 +240,24 @@ std::uint32_t dh2_animation_segments(const BresView* image) {
     const auto* l = at(*image, word(r + 48), 8);
     if (!l || !at(*image, word(l + 4), std::uint64_t(word(l)) * 24)) return 0;
     return word(l);
+}
+bool dh2_animation_segment_range(const BresView* image, std::int32_t segment,
+                                 std::int32_t* start_ms, std::int32_t* end_ms) {
+    if (!image || !start_ms || !end_ms || segment < 0
+        || std::uint32_t(segment) >= dh2_animation_segments(image)) return false;
+    const auto* root = at(*image, image->root_offset, 192);
+    if (!root) return false;
+    const auto* library = at(*image, word(root + 48), 8);
+    if (!library) return false;
+    const auto* rows = at(*image, word(library + 4),
+                          std::uint64_t(word(library)) * 24);
+    if (!rows) return false;
+    const auto* row = rows + std::size_t(std::uint32_t(segment)) * 24;
+    const auto state = word(row + 8);
+    if (state > 1) return false;
+    *start_ms = signed_word(word(row));
+    *end_ms = signed_word(word(row + 4));
+    return true;
 }
 Error dh2_animation_open(Animation* out, const BresView* image, std::int32_t animation, std::int32_t segment) {
     if (!out) return Error::argument;

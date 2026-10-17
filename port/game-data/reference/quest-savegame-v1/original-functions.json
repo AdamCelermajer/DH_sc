@@ -1,0 +1,95 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13QuestSavegameC1Ev",
+      "elf_address": "0x46b0a4",
+      "size": 160,
+      "sha256": "b8b36a07ba0c24b1d1c1909da8df91bfa0d2eef849e8c599c6794456572897bb"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegameC2Ev",
+      "elf_address": "0x46b004",
+      "size": 160,
+      "sha256": "f7f621c0e165e4ee770344c817e38bd7c7cc2c768823a26755381c3fc1287f39"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegame10InitQuestsEv",
+      "elf_address": "0x46c1a8",
+      "size": 412,
+      "sha256": "929825fa5c8a096d9b59c6733d6a5767342ce2a5f7a4ca1c5204f391911c97bf"
+    },
+    {
+      "original_symbol": "_ZN13QuestSavegameD1Ev",
+      "elf_address": "0x46be6c",
+      "size": 224,
+      "sha256": "c083426c0455130d0ae47371961e670a0dcb43efae5a3132e9b51b8b689369dd"
+    }
+  ],
+  "declared_callee_dependencies": [
+    {
+      "original_symbol": "_ZN5QuestC1Ei",
+      "elf_address": "0x4808e4",
+      "size": 96,
+      "sha256": "5105aba8cb303f2c3e861dc405655b78073a4ca4ae3347c9f47827b414a0cdcb"
+    },
+    {
+      "original_symbol": "_ZN5Quest18SetOwnerToChildrenEv",
+      "elf_address": "0x4807d8",
+      "size": 68,
+      "sha256": "1079543588769d35354a59668a285185c802f4691d1704f256dc108678a7641b"
+    },
+    {
+      "original_symbol": "_ZN5Quest12AssignPyDataEPN7Structs7v2QuestE",
+      "elf_address": "0x48081c",
+      "size": 200,
+      "sha256": "db22d896a4a654834244c59615b902409f76195a915a4d40692a23b75cf55467"
+    },
+    {
+      "original_symbol": "_ZN5Quest6ReInitEv",
+      "elf_address": "0x480060",
+      "size": 252,
+      "sha256": "bbe24c47bb649594a6b732e11b614dfb2a1e65eeaaf1345658622e2f1145be94"
+    },
+    {
+      "original_symbol": "_ZN5QuestD1Ev",
+      "elf_address": "0x4809a4",
+      "size": 112,
+      "sha256": "944cd07da5ddb583636dac8a8d1b5518fab12cebaa571a31b131e68bb023c881"
+    },
+    {
+      "original_symbol": "_ZNSt6vectorIP5QuestSaIS1_EE6resizeEjRKS1_",
+      "elf_address": "0x46c164",
+      "size": 68,
+      "sha256": "6a69029074539e232b9aa0f2dcba8a390cc9d2496786994ba58b48aa8f188819"
+    }
+  ],
+  "scope": "Whole source QuestSavegame C1/C2, InitQuests and D1 callers. Quest bodies, std::vector resize and allocator leaves are declared providers; fixture results do not validate a production Quest implementation. Whole blank PlayerSavegame C1 and both QuestSavegame C1 bodies also execute to verify only the canonical +fc/+15c act defaults; string reserve and empty-map insertion are declared fixtures.",
+  "native_policies": [
+    "Existing vectors reinitialize fresh QuestTable count, not their length; source null or short reads stop as source_fault at the reached prefix.",
+    "Fresh vectors resize to zero slots before any allocation; unpublished failed factory allocations remain with the existing factory.",
+    "Quest C1, children ownership, AssignPyData and ReInit are mandatory providers of actual stable Quest objects. No fabricated empty Quest succeeds.",
+    "The source table base is captured before allocation for each new Quest; Character+5c is read after constructor and before children.",
+    "Source publication follows ReInit; D1 destroys and deallocates before clearing each pointer, then releases vector storage in reverse difficulty order.",
+    "Host vector representation and overflow/allocation guards replace undefined native memory access, not source error recovery. Failed closures must not be automatically retried.",
+    "New ownership fields are not connected to the existing PlayerSavegame projections or Android gameplay yet.",
+    "QuestSavegame +44[3] borrows the existing canonical Save quest-act arrays through explicit backing; blank Save initializes both arrays1. LNAM continues to use that same owner."
+  ],
+  "blank_save_ctor_evidence": [
+    {
+      "original_symbol": "_ZN14PlayerSavegameC1Ev",
+      "elf_address": "0x465ae0",
+      "size": 352,
+      "sha256": "1d367427c0c4d624133c178718997d21444589abbd20f1d1dbb5b94399fda92e"
+    }
+  ],
+  "related_character_setter_evidence": [
+    {
+      "original_symbol": "_ZN9Character12SG_SetPlayerEPS_",
+      "elf_address": "0x3bb754",
+      "size": 28,
+      "sha256": "91fbd5ef17f0799059c7d35e1d3c27f558348f8c342339be3666ba449526fb82",
+      "scope": "All seven ARM words; existing Save.set_character implements the nonnull Save+10/log5c three-store branch, fixture models Character14e8 pointer presence."
+    }
+  ]
+}

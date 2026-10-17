@@ -1,0 +1,202 @@
+{
+  "native_dependency_adapter": true,
+  "new_complete_caller_bodies": 0,
+  "new_complete_dependency_bodies": 0,
+  "reused_manifests": [
+    "port/level-world/reference/debug-switches-runtime/original-functions.json",
+    "port/level-world/reference/debug-switches-persistence/original-functions.json"
+  ],
+  "scope": "Real native filesystem ownership/services for frozen source Debug load/GetSwitch/SetSwitch/save/writer callers. Original OS stream and allocator implementations are not reconstructed by this adapter.",
+  "android_wired": false,
+  "reused_original_evidence": [
+    {
+      "path": "port/level-world/reference/debug-switches-runtime/original-functions.json",
+      "sha256": "8b5d37629bb6f8313afee8e47179b92fb3260fda6424a7f4fc57ed2f974f340c",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "functions": [
+        {
+          "original_symbol": "_ZN13DebugSwitches4loadEv",
+          "elf_address": "0x337888",
+          "size": 512,
+          "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+          "elf_address": "0x337a88",
+          "size": 196,
+          "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9SetSwitchERKSsb",
+          "elf_address": "0x337ddc",
+          "size": 236,
+          "sha256": "1653c8daee8e1628a83fb5836064799d57507147e05c372e831c39a8883bece3",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches13_loadSwitchesEP11IFileStream",
+          "elf_address": "0x3374e4",
+          "size": 932,
+          "sha256": "4b934bce6a21a2152962d7b056b6656062cb181c923eeca57ab3783810e20f34",
+          "scope": "bounded source binary switch-loop branch"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches4saveEv",
+          "elf_address": "0x337d54",
+          "size": 136,
+          "sha256": "bb52db94b17bd5240c3398df62ba12a9da4d67dc4b75dcf436c8994e2ba4b829",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+          "elf_address": "0x3369a8",
+          "size": 212,
+          "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+          "elf_address": "0x337288",
+          "size": 380,
+          "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+          "elf_address": "0x3140ec",
+          "size": 52,
+          "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZNSsD1Ev",
+          "elf_address": "0x318254",
+          "size": 68,
+          "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader6readAsIiEET_P11IStreamBase",
+          "elf_address": "0x3364ec",
+          "size": 184,
+          "sha256": "461597c8f50bde14e013316c8820011152d5a9dc2b785302426839031690cc5b",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader6readAsIhEET_P11IStreamBase",
+          "elf_address": "0x3365a4",
+          "size": 184,
+          "sha256": "3319d06774aaf85f768a7364b3f935cc0b61aecef70e8b615361b45c4f21549e",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader10readStringEP11IStreamBasePcy",
+          "elf_address": "0x317734",
+          "size": 244,
+          "sha256": "7a5ddf3ee51d3f11ea0aea9b3666862146edec1c8681f8e1f5587acba9e8ea52",
+          "scope": "external provider evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitchesC2Ev",
+          "elf_address": "0x335f94",
+          "size": 56,
+          "sha256": "a464b492a141b0921b85dc23c1afc195df57c318f0df2719493adbc6869d4ef6",
+          "scope": "external provider evidence"
+        }
+      ]
+    },
+    {
+      "path": "port/level-world/reference/debug-switches-persistence/original-functions.json",
+      "sha256": "a746cbee7d0f060fee353c4596e19b38b5ddd8ffc32fe98c2d16c72767182854",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+      "functions": [
+        {
+          "original_symbol": "_ZN13DebugSwitches13_saveSwitchesEP11IFileStream",
+          "elf_address": "0x337b4c",
+          "size": 520,
+          "sha256": "0da7ccbd9117dd3ee21f29d9acacedfa552a2f10485c1aa19bc49cc417c386f4",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches4saveEv",
+          "elf_address": "0x337d54",
+          "size": 136,
+          "sha256": "bb52db94b17bd5240c3398df62ba12a9da4d67dc4b75dcf436c8994e2ba4b829",
+          "scope": "complete source caller"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader7writeAsIiEEvP11IStreamBaseT_",
+          "elf_address": "0x33665c",
+          "size": 188,
+          "sha256": "3b21fed5b8fd0bcf27b7f2d5f61a28f3115106114d881863051321feacc8d927",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader7writeAsIhEEvP11IStreamBaseT_",
+          "elf_address": "0x336718",
+          "size": 188,
+          "sha256": "ab2bff238634bdc6f485a6a2d0fa0e61bd091532ee64d0a8702e88c3ecf0db98",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZN12StreamReader11writeStringEP11IStreamBasePKcy",
+          "elf_address": "0x317490",
+          "size": 184,
+          "sha256": "2d50a9a9250385a8ab7e99d72b3ec2e853a47725d561518977b3d19d3c6d27c3",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches4loadEv",
+          "elf_address": "0x337888",
+          "size": 512,
+          "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+          "scope": "reused complete Runtime caller evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+          "elf_address": "0x337a88",
+          "size": 196,
+          "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+          "scope": "reused complete Runtime caller evidence"
+        },
+        {
+          "original_symbol": "_ZN13DebugSwitches9SetSwitchERKSsb",
+          "elf_address": "0x337ddc",
+          "size": 236,
+          "sha256": "1653c8daee8e1628a83fb5836064799d57507147e05c372e831c39a8883bece3",
+          "scope": "reused complete Runtime caller evidence"
+        },
+        {
+          "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+          "elf_address": "0x3369a8",
+          "size": 212,
+          "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+          "elf_address": "0x337288",
+          "size": 380,
+          "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+          "elf_address": "0x3140ec",
+          "size": 52,
+          "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+          "scope": "external dependency evidence"
+        },
+        {
+          "original_symbol": "_ZNSsD1Ev",
+          "elf_address": "0x318254",
+          "size": 68,
+          "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+          "scope": "external dependency evidence"
+        }
+      ]
+    }
+  ]
+}

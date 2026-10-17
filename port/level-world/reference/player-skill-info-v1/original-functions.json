@@ -1,0 +1,78 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "audit_scope": "Source boundary map only. No new callback implementation or saved-level fixture is claimed.",
+  "evidence_files": {
+    "character_assembly": {
+      "path": "recovered/native/assembly/libDungeonHunter2.so/Character-1405a63e8a78-001.asm",
+      "sha256": "2d55d50ded1c349fac5bf56e48db99920b22462ba00cda38364298c6611e8939"
+    },
+    "character_native_bindings_manifest": {
+      "path": "port/level-world/reference/character-native-bindings/original-functions.json",
+      "sha256": "ccc156f8151012495b3ec957fa83eaf83086fe5f7f9e968c0a10f28dad773f51"
+    },
+    "property_rules": {
+      "path": "port/game-data/reference/properties/property-rules.json",
+      "sha256": "62563819c67aa6a4fc911784fc0b291265d2243c791b0cf66dda246f340383ce"
+    },
+    "skill_commons_cache": {
+      "path": "data/scripts/skills/_commons.luac",
+      "sha256": "f3abf69124728bab3d344b56e8f3cb67127fbea4a8d1a7ab1d7401f2a2132e9d",
+      "global_audit_path": "reports/lua-global-bridge-audit.json",
+      "global_audit_sha256": "081321fb86f99f59656d65908b1d83b84dffd3cfcf4b0d74c3bc9f2c82409f17"
+    }
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character18_GetSkillIDFromOIDERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b856c",
+      "size": 220,
+      "sha256": "2e336b8f38bc58fe761aa0ea47aaf658c58d75993e49ef3f6e0d1bdf2c8e586e",
+      "observed_behavior": "Validate the Arguments vector and numeric Value, call Character::GetSkillIDFromOID(int), then append its result. The helper scans the selected SkillList member IDs and returns the matching list index, or -1. This does not read saved skill levels."
+    },
+    {
+      "original_symbol": "_ZN9Character20_GetCurrentSkillInfoERKN3sfc6script3lua9ArgumentsERNS2_12ReturnValuesEPv",
+      "elf_address": "0x3b8f9c",
+      "size": 232,
+      "sha256": "2379324b10def096a69c7b50f1557f9a019b406937b20a8c5c9d80f8242aeba6",
+      "observed_behavior": "Validate the numeric skill-list index, query GetCharSkill(index), then SG_GetSkillLevel(index), and append the saved level. Character::SG_GetSkillLevel reads Character+0x14e8; a null savegame pointer returns -1. No source starter level is supplied by this callback."
+    },
+    {
+      "original_symbol": "_ZNK9Character18GetCharSkillListIdEv",
+      "elf_address": "0x3bc5c0",
+      "size": 60,
+      "sha256": "ae0ccd8e8da06e96819b3c7d77bba945702d41a97bf35ff5530b54a83a72bc20",
+      "observed_behavior": "Read Character+0x1068; values below zero or greater than/equal to SkillListTable count select row 3. The raw source property is CharacterProperties.SkillTree (property ID 28)."
+    },
+    {
+      "original_symbol": "_ZNK9Character12GetCharSkillEi",
+      "elf_address": "0x3bc784",
+      "size": 220,
+      "sha256": "dc2d085f0cc0fd467f8bcf96357f3c2e4fe3bd99aaf38585eab36589e77020ad",
+      "observed_behavior": "Resolve the selected SkillList row and index to its cached SkillTable projection. _GetCurrentSkillInfo uses this as the reached index/row validation before reading the saved level."
+    },
+    {
+      "original_symbol": "_ZNK9Character16SG_GetSkillLevelEj",
+      "elf_address": "0x3bbed0",
+      "size": 28,
+      "observed_behavior": "Read Character+0x14e8; return -1 when null, otherwise forward the unsigned index to PlayerSavegame::SG_GetSkillLevel."
+    }
+  ],
+  "properties": [
+    {"id": 28, "name": "SkillTree", "role": "Selects SkillList; class/source property, not the saved per-skill level."},
+    {"id": 29, "name": "FaeryList", "role": "Selects FaeryList; separate from ordinary skills."},
+    {"id": 172, "name": "SnS_Level", "role": "Runtime skill-script property; not the PlayerSavegame level store."},
+    {"id": 173, "name": "SnS_ManaCost", "role": "Runtime skill-script property; not the PlayerSavegame level store."}
+  ],
+  "source_producers": {
+    "skill_list_selector": "Character::GetCharSkillListId reads the source Character+0x1068 field; current Player projection uses the live PropertyState's resolved SkillTree property 28 and retained SkillTables. Invalid selector fallback row 3 is source-defined.",
+    "saved_level": "Character+0x14e8 points to the PlayerSavegame owner. PlayerSavegame::initialize_skills receives the actual selected SkillList IDs and starts a newly-created save's rows at level 0; the real named Skills profile section then overwrites matching rows. The native Player path currently has no selected PlayerSavegame owner or loaded profile section, so it cannot expose a saved level.",
+    "mana_helper": "The cached skill _commons writes CalcManaCost into the shared skill VM. The current global audit shows it is script-defined, not a Character native function. Skill scripts also read GetCurrentSkillInfo and call GetPyStruct, ToFixed, and SetProp; the native Player provider currently fails closed for the unhandled Character callbacks and does not fabricate values."
+  },
+  "native_player_boundary": {
+    "provider": "port/android-native/app/src/main/cpp/model_renderer.cpp: NativePlayerSkills::native",
+    "currently_unprovided": ["GetSkillIDFromOID", "GetCurrentSkillInfo__", "GetProp external-sheet mode", "ToFixed"],
+    "result": "The first reached unprovided callback causes the current OnSkillUpdate attempt to fail closed and blocks subsequent attempts. This is not skill-use or mana-cost support.",
+    "required_for_reuse": "Borrow the eventual single PlayerSavegame owner and its loaded saved-skill rows; use the live resolved SkillTree property and retained SkillTables; keep its lifetime through the synchronous skill VM call. Do not add a second save, property, or skill-level store."
+  }
+}

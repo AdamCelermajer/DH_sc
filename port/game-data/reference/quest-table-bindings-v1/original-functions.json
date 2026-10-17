@@ -1,0 +1,80 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN6Arrays8v2Quests4readEP11IStreamBase",
+      "elf_address": "0x4b8acc",
+      "size": 464,
+      "sha256": "6c45f5ec81c284ce4a0a560869aaaf5307d3f8bf7d590f6f32896302c0c34fe6"
+    },
+    {
+      "original_symbol": "_ZN7Structs14v2QuestScripts4readEP11IStreamBase",
+      "elf_address": "0x4dd5a8",
+      "size": 2320,
+      "sha256": "cb39947c393b8bc036ca51c42014e291b83c8dd1d7dcd24f1fc11efda8df9edc"
+    },
+    {
+      "original_symbol": "_ZN7Structs16v2QuestObjective4readEP11IStreamBase",
+      "elf_address": "0x50358c",
+      "size": 300,
+      "sha256": "e7e8e2af46ff4714f53c5f990a10952d67ae92bd53effa83220f9242e06d625a"
+    },
+    {
+      "original_symbol": "_ZN7Structs20v2QuestObjectiveStub4readEP11IStreamBase",
+      "elf_address": "0x504818",
+      "size": 632,
+      "sha256": "e7c6f78bce73ba607b177854f63d1b44f7ff78350c482db0613846242724dff4"
+    },
+    {
+      "original_symbol": "_ZN7Structs7v2Quest4readEP11IStreamBase",
+      "elf_address": "0x504a94",
+      "size": 2408,
+      "sha256": "95db2aa6f0f64b247b29c34e5854c74ddc19063ff844ca168851245a3f8bfbee"
+    },
+    {
+      "original_symbol": "_ZN7Structs13v2QuestReward4readEP11IStreamBase",
+      "elf_address": "0x5053fc",
+      "size": 112,
+      "sha256": "1713755df9de8bc532209dca9edb03c9eb168e4efef048849017a9ac61e1d82d"
+    },
+    {
+      "original_symbol": "_ZN7Structs17v2QuestRewardStub4readEP11IStreamBase",
+      "elf_address": "0x50589c",
+      "size": 212,
+      "sha256": "2fcf2f091d72cfa18fd9df954971950dd78869f0554342bee2009e4b778b4146"
+    },
+    {
+      "original_symbol": "_ZN7Structs11v2Condition4readEP11IStreamBase",
+      "elf_address": "0x505b28",
+      "size": 112,
+      "sha256": "029e4906f8a56b17a6da828665cb9315b2168f68bafe8f6d7033e3749d63bd87"
+    },
+    {
+      "original_symbol": "_ZN7Structs15v2ConditionStub4readEP11IStreamBase",
+      "elf_address": "0x50600c",
+      "size": 212,
+      "sha256": "84d682abeaa815f69b2326b7461995d324ba7f08dc892bf45a36abcbffb91346"
+    },
+    {
+      "original_symbol": "_ZN6Arrays8v2Quests9readNamesEP11IStreamBase",
+      "elf_address": "0x4b1928",
+      "size": 408,
+      "sha256": "a7da0c5f189d494cf0056d2b02276d17d1edd96a13a4086540d7a8f8c04c365a"
+    }
+  ],
+  "reused_decoder": {
+    "path": "port/quest-data/quests.c",
+    "sha256": "9f8887a0b4f6469e6bbc58bb87811f1c3fe456755f2104ddadb4ade62bf0ce29",
+    "header_sha256": "7cd7d83581f2128850f9cae41d3008e6503aced3e7be8ec550d953fa30ed26d2",
+    "attribution": "Existing repository quest-data reader and original differential extraction are reused unchanged."
+  },
+  "prior_original_reference": {
+    "path": "port/quest-data/differential-validation.json",
+    "sha256": "3fb1a4542dc5c9d1401c62f11f246811c3bd1031fa0291ec5b7df5dce0be0ec7"
+  },
+  "cache": {
+    "v2quests_pyarray.bin": {"bytes": 21817, "sha256": "cbbde6ad8aef5f69ed913da5b62b4246a9c8584219c03256c3a2f8de8e8a1b36"},
+    "v2quests_pyarraynames.bin": {"bytes": 1357, "sha256": "78c929c572fe8637c30d03b3aa5bbbb5a1204887d8ab5b02b4665f433daf78c4"}
+  },
+  "scope": "Retained portable binding of the one actual immutable Quest definition generation. Fresh full original array/nested/row/name readers execute; bounded stream/allocation/disposal and libc memory leaves are declared. No Quest child execution, Lua import, native association, Android compilation or live gameplay is implied."
+}

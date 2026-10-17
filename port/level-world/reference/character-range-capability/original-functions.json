@@ -1,0 +1,122 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "implementation": {
+    "new_complete_callers": 4,
+    "additional_complete_getter_leaf_thunk_claims": 0,
+    "native_wired": false,
+    "source": [
+      "port/level-world/character_range_capability.hpp",
+      "port/level-world/character_range_capability.cpp"
+    ],
+    "tests": [
+      "port/level-world/tests/character_range_capability.cpp",
+      "port/level-world/tests/run_character_range_capability_host.py"
+    ]
+  },
+  "functions": [
+    {
+      "original_symbol": "_ZThn892_NK9Character14CanRangeAttackERiS0_S0_",
+      "elf_address": "0x3a4cc8",
+      "size": 8,
+      "sha256": "e34f159d8496478038eb98a6eaabe206fc47d8561808b5e411c705b0a406c17c",
+      "scope": "Supporting getter/leaf/thunk evidence; no additional complete-body count"
+    },
+    {
+      "original_symbol": "_ZNK9Character14CanRangeAttackERiS0_S0_",
+      "elf_address": "0x3a4cd0",
+      "size": 100,
+      "sha256": "f8c60f21f6594d07424c35db95caa12e6268791cd183556949d89a03d65adfa7",
+      "scope": "New complete caller body"
+    },
+    {
+      "original_symbol": "_ZThn892_NK9Character14CanRangeAttackEv",
+      "elf_address": "0x3a4d34",
+      "size": 8,
+      "sha256": "e34f159d8496478038eb98a6eaabe206fc47d8561808b5e411c705b0a406c17c",
+      "scope": "Supporting getter/leaf/thunk evidence; no additional complete-body count"
+    },
+    {
+      "original_symbol": "_ZNK9Character14CanRangeAttackEv",
+      "elf_address": "0x3a4d3c",
+      "size": 32,
+      "sha256": "822ce8055c08b622826f6350032ff8ab3f340e6b990e0ca04c3c2f6b471b72ae",
+      "scope": "New complete caller body"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanRangeAttackERiS0_S0_",
+      "elf_address": "0x3ffebc",
+      "size": 116,
+      "sha256": "f36cb850b23997e7e7506a857657e7ea742304da4ac82b5f0ea39c223e351b04",
+      "scope": "New complete caller body"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory15HasRangedWeaponEv",
+      "elf_address": "0x3fffa4",
+      "size": 112,
+      "sha256": "ca77ed45367f9721b071f87bb3025f11806a33b9234a75c416177cf2893f7eb4",
+      "scope": "New complete caller body"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory14CanRangeAttackEv",
+      "elf_address": "0x400014",
+      "size": 4,
+      "sha256": "ac9b01cb603af08a72da64e387bbb73b7fcb6d75a1aacd79bd3bef2afcbbae67",
+      "scope": "Supporting getter/leaf/thunk evidence; no additional complete-body count"
+    },
+    {
+      "original_symbol": "_ZNK13ItemInventory18GetCurrentEquipSetEi",
+      "elf_address": "0x3fc6a8",
+      "size": 32,
+      "sha256": "6ed6f8a015fc6b011d41d26f0eb64cb9980e597748a1ff0c711080f88e40d8ac",
+      "scope": "Supporting getter/leaf/thunk evidence; no additional complete-body count"
+    },
+    {
+      "original_symbol": "_ZNK12ItemInstance7GetItemEv",
+      "elf_address": "0x3f9e08",
+      "size": 44,
+      "sha256": "df3cef6ad94f3333a35c215c39f1330df860704814086e3f08133ee6333836b2",
+      "scope": "Supporting getter/leaf/thunk evidence; no additional complete-body count"
+    }
+  ],
+  "vtable_ranges": [
+    {
+      "symbol": "_ZTV13ItemInventory",
+      "elf_address": "0x967760",
+      "size": 24,
+      "sha256": "7ff622316c7bb417827f129089a7e2edfc633d984d6aa294c348125170a43798",
+      "address_point": "0x967768",
+      "slots": [
+        {
+          "byte_offset": "0x8",
+          "target": "0x400014",
+          "symbol": "_ZNK13ItemInventory14CanRangeAttackEv"
+        },
+        {
+          "byte_offset": "0xc",
+          "target": "0x3ffebc",
+          "symbol": "_ZNK13ItemInventory14CanRangeAttackERiS0_S0_"
+        }
+      ]
+    },
+    {
+      "symbol": "_ZTV9Character",
+      "elf_address": "0x965f30",
+      "size": 516,
+      "sha256": "17110ba0528830e45d55a3408a6878d9a0b75db30ff5857610b1a199102c0f26",
+      "address_point": "0x966124",
+      "slots": [
+        {
+          "byte_offset": "0x8",
+          "target": "0x3a4d34",
+          "symbol": "_ZThn892_NK9Character14CanRangeAttackEv"
+        },
+        {
+          "byte_offset": "0xc",
+          "target": "0x3a4cc8",
+          "symbol": "_ZThn892_NK9Character14CanRangeAttackERiS0_S0_"
+        }
+      ]
+    }
+  ]
+}

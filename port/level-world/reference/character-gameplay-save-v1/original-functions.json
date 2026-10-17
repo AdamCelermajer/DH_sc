@@ -1,0 +1,55 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character24InitializePlayerSavegameEv",
+      "elf_address": "0x3b36b0",
+      "size": 52,
+      "sha256": "30123d9f8a72d9e531e14bc9cff5d363580d7c3069730d1713bbcfa08bf6c821"
+    },
+    {
+      "original_symbol": "_ZN9Character12SG_SetPlayerEPS_",
+      "elf_address": "0x3bb754",
+      "size": 28,
+      "sha256": "91fbd5ef17f0799059c7d35e1d3c27f558348f8c342339be3666ba449526fb82"
+    },
+    {
+      "original_symbol": "_ZN9Character10SG_SetSlotEj",
+      "elf_address": "0x3bb740",
+      "size": 20,
+      "sha256": "b0d1eee50d67c19dba6eac998176c3f494f203c9c18d3093c94eba205ead90f4"
+    },
+    {
+      "original_symbol": "_ZN9Character7SG_LoadEi",
+      "elf_address": "0x3bc4d0",
+      "size": 20,
+      "sha256": "090c17df20995459a533229a6cf3d5b18684597dbb50ee4cfeddb77be3e048cb"
+    },
+    {
+      "original_symbol": "_ZN9Character7InitAllEv",
+      "elf_address": "0x3b35f0",
+      "size": 40,
+      "sha256": "a0cb579c5d560843ef584d20f1564de1e6e507f661201dfef7b63b6d0b6a2d9b"
+    }
+  ],
+  "character_vtable_address_point": "0x965f38",
+  "virtual_targets": [
+    {
+      "slot": "0x1c",
+      "original_symbol": "_ZN9Character8InitPostEv",
+      "elf_address": "0x3b4d60",
+      "size": 2164,
+      "vtable_word": "604d3b00",
+      "scope": "static dispatch target identity; body is an external provider"
+    },
+    {
+      "slot": "0x58",
+      "original_symbol": "_ZN9Character9InitFinalEv",
+      "elf_address": "0x3b4978",
+      "size": 588,
+      "vtable_word": "78493b00",
+      "scope": "static dispatch target identity; body is an external provider"
+    }
+  ],
+  "scope": "Five complete Character save/InitAll wrappers against pinned original ARM.\nAllocation, blank Save construction, InitPost/InitFinal virtuals and SG_Load\nare named providers; their bodies are not credited by this caller comparison.\nThe native SG_Load wrapper invokes its actual selected PlayerSaveLoadOwner.\n"
+}

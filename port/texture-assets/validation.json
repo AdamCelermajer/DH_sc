@@ -1,0 +1,70 @@
+{
+  "all_checks_passed": true,
+  "archive_sha256": "3fdf4e4c21d45a780a7c35fb4042abde0e88e76bf75416aad1f227481560b679",
+  "texture_files_checked": 363,
+  "containers": {
+    "png_encoded": 121,
+    "btex_pvr_v2": 234,
+    "tga_bgra8": 8
+  },
+  "pvr_formats": {
+    "pvrtc_2bpp": 17,
+    "pvrtc_4bpp": 217
+  },
+  "pvr_raw_flags": {
+    "33304": 17,
+    "33305": 76,
+    "537": 141
+  },
+  "dimensions": {
+    "1024x1024": 81,
+    "122x34": 2,
+    "128x128": 72,
+    "144x33": 2,
+    "14x13": 1,
+    "1x32": 1,
+    "1x374": 1,
+    "1x80": 1,
+    "2048x1024": 4,
+    "2048x2048": 1,
+    "22x20": 2,
+    "256x256": 20,
+    "26x18": 1,
+    "26x20": 2,
+    "303x63": 1,
+    "31x30": 4,
+    "31x31": 2,
+    "320x44": 1,
+    "320x62": 1,
+    "32x20": 2,
+    "39x30": 4,
+    "40x35": 1,
+    "40x40": 1,
+    "42x29": 1,
+    "45x30": 3,
+    "480x480": 1,
+    "48x48": 69,
+    "492x464": 4,
+    "512x512": 42,
+    "51x32": 1,
+    "55x23": 1,
+    "59x54": 1,
+    "61x56": 1,
+    "62x35": 2,
+    "640x960": 1,
+    "64x64": 22,
+    "74x68": 1,
+    "75x60": 1,
+    "76x50": 1,
+    "88x48": 1,
+    "95x95": 2
+  },
+  "unsupported_cache_formats": [],
+  "scope": "external .tga and .png files in complete owner-supplied cache ZIP; encoded payload views only",
+  "not_validated": [
+    "PVRTC pixel decode and upload",
+    "PNG decompression/pixels",
+    "BRES image references and materials",
+    "renderer or gameplay"
+  ]
+}

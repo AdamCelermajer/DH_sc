@@ -1,0 +1,615 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 20,
+  "guard_cases": 10,
+  "mismatches": 0,
+  "native_ai_wired": false,
+  "original_oracle": {
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "executed_scope": "ARM _UpdateAggro timed branch0x3cf75c..0x3cf8c0, exact RNG arithmetic, real GetDt leaf; IsMyTurn/debug query are supplied services; prior owner/player/Faerie branches and later NPC/acquisition bodies excluded",
+    "ranges": {
+      "0x3cf3f0/2052": "710f27619e4ec3f74e8b858e269dae79fde9f2fa0e5b21cebc2b6b4270415692",
+      "0x3cc484/288": "c64b83f2cfc69629118563c5b21dfb93be8a27a3e50282f022e4efca22804f0e",
+      "0x31f66c/8": "7a62d669c2eb2d53321c0b59f796d82a014b82f621897d727dfd9c45be567387",
+      "0x33ff90/196": "fc93b6feb58616e89b16d0bee33193af6b6cc36b6b29442fdca3e75c832ab665"
+    }
+  },
+  "fixture_globals_are_original_startup_values": false,
+  "results": [
+    {
+      "case": "not_turn_fresh_dt",
+      "input_words": [
+        100,
+        0,
+        0,
+        0,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 84,
+        "elapsed": 19,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 1,
+        "turn_queries": 1,
+        "debug_queries": 0,
+        "delta_reads": 2,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "cross_500_waits_this_frame",
+      "input_words": [
+        10,
+        499,
+        0,
+        0,
+        16,
+        20,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 4294967290,
+        "elapsed": 519,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 1,
+        "turn_queries": 1,
+        "debug_queries": 0,
+        "delta_reads": 2,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "elapsed_500_forces_turn",
+      "input_words": [
+        100,
+        500,
+        0,
+        0,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 84,
+        "elapsed": 0,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 2,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 1,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "elapsed_negative_is_signed",
+      "input_words": [
+        0,
+        4294967280,
+        0,
+        0,
+        16,
+        20,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 4294967280,
+        "elapsed": 4,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 1,
+        "turn_queries": 1,
+        "debug_queries": 0,
+        "delta_reads": 2,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "elapsed_large_signed_forces",
+      "input_words": [
+        0,
+        2147483647,
+        0,
+        0,
+        16,
+        20,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 122,
+        "elapsed": 0,
+        "seed": 7440422,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "turn_delay_still_positive",
+      "input_words": [
+        17,
+        41,
+        1,
+        0,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 1,
+        "elapsed": 0,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 2,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 1,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "turn_exact_delay_expiry",
+      "input_words": [
+        16,
+        41,
+        1,
+        0,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 122,
+        "elapsed": 0,
+        "seed": 7440422,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 1,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "turn_delay_overshoot",
+      "input_words": [
+        15,
+        41,
+        1,
+        0,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 122,
+        "elapsed": 0,
+        "seed": 7440422,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 1,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "zero_delay_no_dt",
+      "input_words": [
+        0,
+        41,
+        1,
+        0,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 122,
+        "elapsed": 0,
+        "seed": 7440422,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "negative_delay_no_dt",
+      "input_words": [
+        4294967295,
+        41,
+        1,
+        0,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 122,
+        "elapsed": 0,
+        "seed": 7440422,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "debug_bypasses_delay_rng",
+      "input_words": [
+        100,
+        41,
+        1,
+        1,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 100,
+        "elapsed": 0,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "debug_noncanonical_true",
+      "input_words": [
+        100,
+        41,
+        7,
+        4294967295,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 100,
+        "elapsed": 0,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "debug_not_queried_without_turn",
+      "input_words": [
+        100,
+        41,
+        0,
+        1,
+        16,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 84,
+        "elapsed": 60,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 1,
+        "turn_queries": 1,
+        "debug_queries": 0,
+        "delta_reads": 2,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "zero_seed",
+      "input_words": [
+        0,
+        0,
+        1,
+        0,
+        16,
+        19,
+        0,
+        0,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 249,
+        "elapsed": 0,
+        "seed": 177149,
+        "counter": 1,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "seed_32bit_multiply_wrap",
+      "input_words": [
+        0,
+        0,
+        1,
+        0,
+        16,
+        19,
+        4294967295,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 198,
+        "elapsed": 0,
+        "seed": 118098,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "counter_wrap",
+      "input_words": [
+        0,
+        0,
+        1,
+        0,
+        16,
+        19,
+        2147483648,
+        4294967295,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 154,
+        "elapsed": 0,
+        "seed": 9673654,
+        "counter": 0,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 0,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "negative_dt_wrap",
+      "input_words": [
+        5,
+        41,
+        1,
+        0,
+        4294967295,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 6,
+        "elapsed": 0,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 2,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 1,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "signed_subtract_wrap",
+      "input_words": [
+        2147483647,
+        41,
+        1,
+        0,
+        4294967295,
+        19,
+        123,
+        4,
+        0
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 122,
+        "elapsed": 0,
+        "seed": 7440422,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 1,
+        "random_draws": 1
+      }
+    },
+    {
+      "case": "fresh_snapshot_after_first_dt",
+      "input_words": [
+        100,
+        41,
+        0,
+        0,
+        16,
+        19,
+        123,
+        4,
+        1
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 84,
+        "elapsed": 60,
+        "seed": 123,
+        "counter": 4,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 1,
+        "turn_queries": 1,
+        "debug_queries": 0,
+        "delta_reads": 2,
+        "random_draws": 0
+      }
+    },
+    {
+      "case": "turn_captured_countdown",
+      "input_words": [
+        15,
+        41,
+        1,
+        0,
+        16,
+        19,
+        123,
+        4,
+        1
+      ],
+      "matched": true,
+      "actual": {
+        "countdown": 122,
+        "elapsed": 41,
+        "seed": 7440422,
+        "counter": 5,
+        "sync_seed": 1985229328,
+        "sync_counter": 19088743,
+        "decision": 3,
+        "turn_queries": 1,
+        "debug_queries": 1,
+        "delta_reads": 1,
+        "random_draws": 1
+      }
+    }
+  ],
+  "compiler_commands": [
+    [
+      "C:/Users/noamc/.local/mingw/mingw64/bin/gcc.exe",
+      "-std=c99",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-c",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\random\\random.c",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-aggro-delay-root\\test.random.o"
+    ],
+    [
+      "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+      "-std=c++17",
+      "-O2",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_aggro_delay.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_aggro_delay.cpp",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-aggro-delay-root\\test.random.o",
+      "-o",
+      "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-aggro-delay-root\\test.exe"
+    ]
+  ],
+  "source_sha256": {
+    "port/level-world/character_aggro_delay.cpp": "041e7e2eea050be466169ecddddd604f912a173233733c761a6010330b870a9e",
+    "port/level-world/tests/character_aggro_delay.cpp": "b88b324532f8b3c8bc97895e641822365c28f93398df9f04c5095193bc0c56af",
+    "port/random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "port/level-world/character_aggro_delay.hpp": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+    "port/random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+    "port/level-world/tests/run_character_aggro_delay_host.py": "2f71cb702ada305ab4522af565b54a09bde99ee84e74ef8942ec0c07de468f4f"
+  }
+}

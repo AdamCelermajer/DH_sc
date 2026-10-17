@@ -1,0 +1,47 @@
+{
+  "status": "PASS",
+  "arm_comparisons": 326,
+  "executed_pinned_words": 123,
+  "native_checks": 55,
+  "mismatches": [],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_sha256": {
+    "quest_condition_list_v1.cpp": "b50b0956dcabaf9b61ab36f98cba3771444aabfe400a79a5e3694cc3b4c1d214",
+    "quest_condition_list_v1.hpp": "da4e90407ea8e1d53934f337c7aaeb5926b3665fbb01d85204af9c5e8bdb8d30",
+    "tests/quest_condition_list_v1_host.cpp": "2b629987eb42285914f387f4df30a666852b4ab3060cd95fface060099824715",
+    "tests/run_quest_condition_list_v1.py": "1369d8517727c0ccf00659c16637962ec3f0a668565987503c05e0440ec0863b",
+    "reference/quest-condition-list-v1/original-functions.json": "5072717a0efc5f37552ad63794783e8644ed73001792df2f794c9384147d9174",
+    "quest_table_bindings_v1.cpp": "da344dfc5cae14c0f2121f12418248b250704806cf4690aa43786bfb273e8adc",
+    "quest_table_bindings_v1.hpp": "07e109bfd77f1f6e755899b9b41cec61ce4c117ac1160c1d72dfa83aaac59266"
+  },
+  "selected_kernel": true,
+  "selected_commands": [
+    {
+      "directory": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build",
+      "command": "C:\\Users\\noamc\\.local\\mingw\\mingw64\\bin\\g++.exe -Ddh2_game_data_EXPORTS -IC:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data -O1 -Wall -Wextra -fno-fast-math -o selected-world\\game-data\\CMakeFiles\\dh2_game_data.dir\\quest_condition_list_v1.cpp.obj -c C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\game-data\\quest_condition_list_v1.cpp",
+      "file": "C:/Users/noamc/Documents/Codex/2026-10-02/contineu-from-where-they-left-off/work/DH_sc/port/game-data/quest_condition_list_v1.cpp",
+      "output": "C:/Users/noamc/Documents/Codex/.checks/local-selection-selected/build/selected-world/game-data/CMakeFiles/dh2_game_data.dir/quest_condition_list_v1.cpp.obj"
+    }
+  ],
+  "selected_library": "C:\\Users\\noamc\\Documents\\Codex\\.checks\\local-selection-selected\\build\\selected-world\\game-data\\libdh2_game_data.dll.a",
+  "selected_library_sha256": "0979e00b3fce6c309a570cff90d2a98f442d97c60edc0eef4f176af161aeab4e",
+  "binary_sha256": {
+    "host.exe": "fd9bfdb69f301bd9583b0e97c4cba24e9b68a79a08b930531a1a416cc2e9fcfd",
+    "libdh2_script_runtime.dll": "23c02d2863a887ae4740aaab6946f6ba68e23c1c32376a17fa7022d17234e78b",
+    "libdh2_engine_animation.dll": "d0f17fa3bfbcc3a0a368861b99db1a93cc4396c351eabc33943097cce60cf173",
+    "libdh2_scene_materials.dll": "bb8a90fcfaf0b8a924e54865c326cc377591da0ce02317306f948182393f6d86",
+    "libdh2_engine_skinning.dll": "df74e140a18b7aba384a8a17b32099f6a20feced7c30160e03d79fd9522ca9fd",
+    "libdh2_game_data.dll": "1bff274e1c39d3e4b4727920693c51873492adeaebd4be0f62b2eae11f426d86",
+    "libdh2_level_world.dll": "3ba3e5ba9fe7dcd44e5b636786a7eab3a796155312bf7cf550136663c1fac884"
+  },
+  "scope": "Whole ConditionList C1/C2, AssignPyData, D1/D2 and Eval callers. Type factories, pointer-array allocator/deallocator and condition virtual Eval/deleting destructor remain declared providers. Definition borrows resolve through the selected actual retained QuestTable; native bounds/overflow guards stop undefined source accesses explicitly. No condition compiler, Android compilation or live gameplay is claimed.",
+  "source_policies": [
+    "Source signed count and definition pointer publish before allocation; nonpositive counts retain old child-array pointer.",
+    "Positive reassign overwrites the child-array without deleting the displaced array. The real allocator/factory arena retains all allocations until terminal cleanup.",
+    "Factory result publishes into the captured array; Condition+4 binds through the freshly read published array.",
+    "Destructor clears each pointer only after virtual deleting destructor success. Null slots do not trigger the source count/array reread.",
+    "Eval short-circuits false and rereads live count/array after each successful true result."
+  ],
+  "android_compilation": false,
+  "live_gameplay": false
+}

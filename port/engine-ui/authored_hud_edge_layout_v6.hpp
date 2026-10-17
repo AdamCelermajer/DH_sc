@@ -1,4 +1,6 @@
 #pragma once
+// Authored edge placement adapted from AdamCelermajer/DH_sc commit
+// 11fa5242de525e0fd132d8019920baa862ef70d7.
 #include "authored_gameplay_hud_v1.hpp"
 #include <functional>
 namespace dh2::ui {

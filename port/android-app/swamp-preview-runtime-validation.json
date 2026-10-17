@@ -1,0 +1,805 @@
+{
+  "scope": "Source-built authored development encounter plus static SWAMP module-zero geometry/material, path-mask-gated endpoint movement, and an explicit bounded logical trace of the original module-one LizardMan_Intro. Not the complete original game.",
+  "date": "2026-10-03",
+  "apk": {
+    "path": "port/android-app/build/dh2-source-renderer-debug.apk",
+    "sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+    "bytes": 3705654,
+    "target_sdk": 37,
+    "min_sdk": 26,
+    "abis": [
+      "arm64-v8a",
+      "x86_64"
+    ],
+    "elf_load_alignment_bytes": 16384,
+    "signature_schemes_verified": [
+      "v2",
+      "v3"
+    ]
+  },
+  "devices": [
+    {
+      "serial": "emulator-5558",
+      "android_api": 37,
+      "page_size_bytes": 16384,
+      "abi": "x86_64",
+      "installed_apk_sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+      "hud_after_reset": "HP 74/80 | Sentries 0/2",
+      "hud_after_attack": "HP 59/80 | Sentries 2/2 COMPLETE",
+      "preview_player": "335 vertices, 1092 indices, 18 joints; prince_idle_shield",
+      "filtered_error_log_entries": 0,
+      "prior_checks_apk_sha256": "2f39ebd6f8605f95140c702d6d1f8fb35acf98e9f8b398e366389333b9a616ad",
+      "prior_apk_checks": [
+        "cold process restart restored the saved 2/2 encounter",
+        "opened SWAMP preview; source scene, player pose and script table counts loaded",
+        "returned to encounter without losing saved progress",
+        "Reset showed sentries 0/2",
+        "holding Attack completed the authored objective at 2/2; HUD reported Progress saved"
+      ],
+      "installed_apk_bytes": 3705654,
+      "latest_movement_runtime": {
+        "android_release": "17",
+        "api": 37,
+        "page_size_bytes": 16384,
+        "abi": "x86_64",
+        "installed_apk_sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+        "installed_apk_bytes": 3705654,
+        "checks": [
+          "east/north movement and release-to-idle",
+          "pause/resume position stable",
+          "no-floor candidate rejected without changing position",
+          "LizardMan_Intro manual trace completed",
+          "return to encounter preserved state",
+          "filtered error log had zero entries"
+        ],
+        "pause_resume_no_drift": true,
+        "no_floor_candidate_rejected_without_position_change": true,
+        "trace_completed": true,
+        "return_preserved_encounter": true,
+        "filtered_app_fatal_or_native_error_entries": 0,
+        "hud_status": "53 drawn diagnostics / 54 source draws; 1 unresolved omitted",
+        "visual_result": "black bridge plane remains",
+        "evidence_directory": "../emulator-test/swamp-material-omit-restored/emulator-5558",
+        "screenshots": [
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/encounter-return.png",
+            "bytes": 372657,
+            "sha256": "0fd41e3ad6d8732a801bcdb1859c17d94a53ba31ba865080ce8c8499a23bf821"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-east-release-idle.png",
+            "bytes": 2570159,
+            "sha256": "6b5d172578939d324981fc405e589117f4ae13900db98ab8d33cbc9124dca37d"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-east-walk.png",
+            "bytes": 2569663,
+            "sha256": "9ab32afdd3a00173b8952a921ce47d443f91a4d62c81eac7d8daa991b945ab6e"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-no-floor.png",
+            "bytes": 2568532,
+            "sha256": "5e1ae1c6881fdabe6d78adcfaadf2a6b2f6cec6bfb7f0627bc03c968ea094c15"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-north-release-idle.png",
+            "bytes": 2568914,
+            "sha256": "f113e695e245a63986f447aec87b3a6c6440dd0acfb23352cbd464e2d145da01"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-north-walk.png",
+            "bytes": 2568018,
+            "sha256": "803fcda3aa13d52244e4a780d01094cf6776109836d9bb365b68935af29fdde7"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-pause-resume.png",
+            "bytes": 2566200,
+            "sha256": "9369995d59c28ecbaaadbb3fc1e0e91b0b24c929824582957bf8c5479801418f"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-complete.png",
+            "bytes": 2762593,
+            "sha256": "1a53c34ea83e6d9188e0cb5583997dee4f18d03efb7bdae89fc9f24080e2b9fb"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-events-timeline.png",
+            "bytes": 2769935,
+            "sha256": "085b6bb64fb0a02d66607f866b6ff8b9dfad756440d2400812b237b2cf797c62"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-events-top.png",
+            "bytes": 2790910,
+            "sha256": "5b86de09f49e0318a300aff65232ee47c012c24c7098a4efbc19d0f2c4c5bc7a"
+          }
+        ]
+      }
+    },
+    {
+      "serial": "emulator-5560",
+      "android_api": 37,
+      "page_size_bytes": 4096,
+      "abi": "x86_64",
+      "installed_apk_sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+      "hud_after_reset": "HP 77/80 | Sentries 0/2",
+      "hud_after_attack": "HP 62/80 | Sentries 2/2 COMPLETE",
+      "preview_player": "335 vertices, 1092 indices, 18 joints; prince_idle_shield",
+      "filtered_error_log_entries": 0,
+      "prior_checks_apk_sha256": "2f39ebd6f8605f95140c702d6d1f8fb35acf98e9f8b398e366389333b9a616ad",
+      "prior_apk_checks": [
+        "cold process restart restored the saved 2/2 encounter",
+        "opened SWAMP preview; source scene, player pose and script table counts loaded",
+        "returned to encounter without losing saved progress",
+        "Reset showed sentries 0/2",
+        "holding Attack completed the authored objective at 2/2; HUD reported Progress saved"
+      ],
+      "installed_apk_bytes": 3705654,
+      "latest_movement_runtime": {
+        "android_release": "17",
+        "api": 37,
+        "page_size_bytes": 4096,
+        "abi": "x86_64",
+        "installed_apk_sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+        "installed_apk_bytes": 3705654,
+        "checks": [
+          "east/north movement and release-to-idle",
+          "pause/resume position stable",
+          "no-floor candidate rejected without changing position",
+          "LizardMan_Intro manual trace completed",
+          "return to encounter preserved state",
+          "filtered error log had zero entries"
+        ],
+        "pause_resume_no_drift": true,
+        "no_floor_candidate_rejected_without_position_change": true,
+        "trace_completed": true,
+        "return_preserved_encounter": true,
+        "filtered_app_fatal_or_native_error_entries": 0,
+        "hud_status": "53 drawn diagnostics / 54 source draws; 1 unresolved omitted",
+        "visual_result": "black bridge plane remains",
+        "evidence_directory": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560",
+        "screenshots": [
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/encounter-return.png",
+            "bytes": 370228,
+            "sha256": "e24751f426229486938a07ac0eb31c7ff9b444cc5f4f19eabd57a0daf4f28a81"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-east-release-idle.png",
+            "bytes": 2566790,
+            "sha256": "fd0cfcae4a483d7531c8866a9e6595bfde1403c992c263f4c4048ea93a53cd35"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-east-walk.png",
+            "bytes": 2569241,
+            "sha256": "716280c659f1ea1d952ab90ba055ee661b6b0ca29973efcc78d72d7fd5cd34f6"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-no-floor.png",
+            "bytes": 2568575,
+            "sha256": "60b95e8fac7d596d7ca2d7ccf7b39f403c811ff151f18e772f54ad0896dd3bcd"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-north-release-idle.png",
+            "bytes": 2566171,
+            "sha256": "9c53aaf23422440645e083ebfef313068019f1cb1acdeba30022e854b6bb7de5"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-north-walk.png",
+            "bytes": 2571195,
+            "sha256": "bacb980bbe6ceb9aa81ca6d88660b2383ab3195e6802325985d0b8e957a6ba95"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-pause-resume.png",
+            "bytes": 2566935,
+            "sha256": "d8adb2932f2e48407ecc13744ca9a64a48a2143a59903d90c236ebf75a47351e"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-complete.png",
+            "bytes": 2762716,
+            "sha256": "5fde2f23ff1f306badc45764802c03a53b4d07a57af9bb1746eaaa26f5a2a422"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-events-timeline.png",
+            "bytes": 2780622,
+            "sha256": "49fd39acbc8add90bbc64d8a66b9df70456824f8bb75536846468824d3b8bd2f"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-events-top.png",
+            "bytes": 2797898,
+            "sha256": "05e80bfc5cad8340fc3eff98e19613277ee73d67124e42f7e21c748f799c8dd1"
+          }
+        ]
+      }
+    }
+  ],
+  "preview": {
+    "module": 0,
+    "root": "_module_obj_4of4_brdwalk_sw_00-node",
+    "records": 103,
+    "draw_commands": 54,
+    "vertices": 10816,
+    "indices": 13284,
+    "source_diffuse_draws": 49,
+    "source_alpha_map_draws": 22,
+    "player": {
+      "spawn": [
+        1090.75,
+        -212.202,
+        258.0
+      ],
+      "mesh_vertices": 335,
+      "mesh_indices": 1092,
+      "joints": 18,
+      "texture": [
+        256,
+        256
+      ],
+      "animation": "prince_idle_shield, 0-1066 ms",
+      "draw_mode": "diagnostic source-pose draw with GLES depth testing against opaque module geometry; translucent ColorMaterial root remains a diagnostic overlay; original gameplay occlusion is unverified"
+    },
+    "rendering_limitations": [
+      "source AlphaMap alpha is applied only for draws whose BRES metadata resolves to the bundled pvr2_env_swamp_alpha texture",
+      "visible ColorMaterial root is displayed as a translucent green diagnostic plane",
+      "five visible draws without a resolved diffuse texture use muted solid fallbacks",
+      "external shader/effect, specular and lighting parity is not reproduced",
+      "only module zero is rendered in the Android app"
+    ],
+    "script_reader": {
+      "common_scripts": 15,
+      "common_commands": 81,
+      "swamp_scripts": 55,
+      "swamp_commands": 789,
+      "lizardman_intro_global_id": 32,
+      "lizardman_intro_commands": 12,
+      "execution": "table reader plus explicit manually activated bounded LizardMan_Intro trace; other scripts are not executed"
+    },
+    "movement": {
+      "source_world": true,
+      "spawn_xyz": [
+        1090.75,
+        -212.202,
+        258.0
+      ],
+      "input": "two-axis normalized X/Y touch pad",
+      "fixed_step_ms": 20,
+      "catch_up_steps_per_frame_max": 5,
+      "speed_units_per_second": 30,
+      "camera": "following isometric projection exposing both ground axes",
+      "animation": "source idle and walk clips; animation root translation removed",
+      "candidate_rule": "endpoint accepted only when a known, non-void/non-wall source floor passes native CanPathOn subset rule for baseline player mask 2 and strict abs(candidate_z-floor_z)<100; accepted object-mode validation writes sampled floor height to candidate Z, while rejected steps roll back",
+      "limits": [
+        "selected floor ordering and vertical hit selection remain an approximation",
+        "no segment/radius wall or actor collision; endpoint steps can cross thin geometry",
+        "speed 30 units/second, module-zero restriction and fixed steps are preview choices",
+        "not a native Character controller; acceleration and source speed are unresolved"
+      ],
+      "host_test": "port/swamp-movement/tests/check_movement.py",
+      "source_floor_examples": {
+        "water_mask_2_passes_player_mask_2": true,
+        "module_7_hole_mask_1_rejected_by_player_mask_2": true,
+        "module_zero_contains_hole": false
+      }
+    }
+  },
+  "host_checks": {
+    "module_zero": "pass; original SWAMP MLX and BRES bind, module-zero subtree ranges and source diffuse references resolve, and BRES bytes remain unchanged",
+    "all_nine_modules": {
+      "result": "pass; expected source roots, placements/corrections, bounds and draw descriptors validated; BRES unchanged; no current renderer limit exceeded",
+      "records_draws_vertices_indices": [
+        [
+          103,
+          54,
+          10816,
+          13284
+        ],
+        [
+          100,
+          55,
+          7950,
+          10557
+        ],
+        [
+          83,
+          46,
+          5720,
+          8298
+        ],
+        [
+          59,
+          59,
+          6383,
+          9840
+        ],
+        [
+          59,
+          62,
+          9326,
+          12813
+        ],
+        [
+          49,
+          52,
+          4372,
+          6621
+        ],
+        [
+          42,
+          43,
+          2389,
+          4185
+        ],
+        [
+          12,
+          9,
+          4855,
+          7404
+        ],
+        [
+          108,
+          56,
+          2713,
+          4782
+        ]
+      ]
+    },
+    "navigation": "pass; 9 modules, 16 surfaces, 626 triangles; source floor tags carried through hits and native CanPathOn subset filtering is applied by the actor-floor query; ordering/collision response remain partial",
+    "level_catalogue": "pass; 18 tests; 33 fast-travel rows, 51 levels and 3 SWAMP exits validated against the supplied cache; level loading not performed",
+    "script_runtime": "pass; bounded host scheduler validates the 500/1500/2000 ms intro sequence and defers child scripts until the next native-style manager update; the Android preview adds a manual source-validated LizardMan_Intro trace"
+  },
+  "not_tested": [
+    "Fold7",
+    "physical ARM64 hardware",
+    "full SWAMP level rendering or navigation",
+    "original level scripts/triggers, physics, progression or campaign save compatibility"
+  ],
+  "screenshots_outside_repository": [
+    "work/emulator-test/final-preview-emulator-5558.png",
+    "work/emulator-test/final-preview-emulator-5560.png",
+    "work/emulator-test/final-win-emulator-5558.png",
+    "work/emulator-test/final-win-emulator-5560.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5558/trace-complete.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5558/trace-events-top.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5558/trace-events-timeline.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5558/encounter-return.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5560/trace-complete.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5560/trace-events-top.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5560/trace-events-timeline.png",
+    "work/emulator-test/swamp-intro-trace/emulator-5560/encounter-return.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/movement-east-walk.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/movement-east-release-idle.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/movement-north-walk.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/movement-north-release-idle.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/movement-pause-resume.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/movement-no-floor.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/trace-complete.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/trace-events-top.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/trace-events-timeline.png",
+    "work/emulator-test/swamp-movement-depth-16k/emulator-5558/encounter-return.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/movement-east-walk.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/movement-east-release-idle.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/movement-north-walk.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/movement-north-release-idle.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/movement-pause-resume.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/movement-no-floor.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/trace-complete.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/trace-events-top.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/trace-events-timeline.png",
+    "work/emulator-test/swamp-movement-depth-4k/emulator-5560/encounter-return.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/movement-east-walk.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/movement-east-release-idle.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/movement-north-walk.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/movement-north-release-idle.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/movement-pause-resume.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/movement-no-floor.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/trace-complete.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/trace-events-top.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/trace-events-timeline.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/emulator-5558/encounter-return.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/movement-east-walk.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/movement-east-release-idle.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/movement-north-walk.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/movement-north-release-idle.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/movement-pause-resume.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/movement-no-floor.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/trace-complete.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/trace-events-top.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/trace-events-timeline.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/emulator-5560/encounter-return.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/movement-east-walk.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/movement-east-release-idle.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/movement-north-walk.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/movement-north-release-idle.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/movement-pause-resume.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/movement-no-floor.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/trace-complete.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/trace-events-top.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/trace-events-timeline.png",
+    "../emulator-test/swamp-floor-mask-16k/emulator-5558/emulator-5558/encounter-return.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/movement-east-walk.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/movement-east-release-idle.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/movement-north-walk.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/movement-north-release-idle.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/movement-pause-resume.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/movement-no-floor.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/trace-complete.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/trace-events-top.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/trace-events-timeline.png",
+    "../emulator-test/swamp-floor-mask-4k/emulator-5560/emulator-5560/encounter-return.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/movement-east-walk.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/movement-east-release-idle.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/movement-north-walk.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/movement-north-release-idle.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/movement-pause-resume.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/movement-no-floor.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/trace-complete.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/trace-events-top.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/trace-events-timeline.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5558/encounter-return.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/movement-east-walk.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/movement-east-release-idle.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/movement-north-walk.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/movement-north-release-idle.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/movement-pause-resume.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/movement-no-floor.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/trace-complete.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/trace-events-top.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/trace-events-timeline.png",
+    "../emulator-test/swamp-material-omit-final/emulator-5560/encounter-return.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/encounter-return.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-east-release-idle.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-east-walk.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-no-floor.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-north-release-idle.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-north-walk.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-pause-resume.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-complete.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-events-timeline.png",
+    "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-events-top.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/encounter-return.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-east-release-idle.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-east-walk.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-no-floor.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-north-release-idle.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-north-walk.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-pause-resume.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-complete.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-events-timeline.png",
+    "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-events-top.png"
+  ],
+  "trace_validation": {
+    "script": "LizardMan_Intro",
+    "activation": "explicit developer button; one-shot source TriggerZone record #4 is activated manually; no collision integration",
+    "source": {
+      "module": 1,
+      "mgp": "obj_3of4_brdwalk_sw_00.mgp",
+      "preloaded_character_records": [
+        2,
+        3
+      ],
+      "trigger_record": 4,
+      "trigger_script": "LizardMan_Intro",
+      "trigger_count": 1,
+      "trigger_delay_ms": 0,
+      "preloaded_records": 19
+    },
+    "verified_scheduler_milestones_ms": {
+      "manual_trigger_activation": 0,
+      "first_state_1_request": 500,
+      "second_state_1_request": 2000,
+      "logical_main_script_end_unlock_and_return_camera_request": 4000,
+      "deferred_common_EndScriptedCutScene_completion": 4010
+    },
+    "ui_tick_completions_ms": {
+      "emulator-5558": 4040,
+      "emulator-5560": 4020
+    },
+    "scroll_panel": {
+      "layout_height_dp": 240,
+      "scrollable": true,
+      "return_control_overlaps_panel": false,
+      "verification": "Android UI hierarchy reports a scrollable ScrollView ending above Return; the test swipes both directions and captures the transcript."
+    },
+    "devices": [
+      {
+        "serial": "emulator-5558",
+        "android_release": "17",
+        "api": 37,
+        "page_size_bytes": 16384,
+        "abi": "x86_64",
+        "manual_trace_started": true,
+        "trace_completed": true,
+        "installed_apk_sha256": "09a4238b6262feac379bed8d4c7216becca7bd1fb5eae9aea154809407c01b5d",
+        "installed_apk_bytes": 3672886,
+        "encounter_unchanged_after_return": true,
+        "encounter_hud_before_return": "HP 59/80 | Sentries 2/2  COMPLETE | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+        "encounter_hud_after_return": "HP 59/80 | Sentries 2/2  COMPLETE | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+        "filtered_error_log_entries": 0,
+        "filtered_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "screenshots": [
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5558/trace-complete.png",
+            "bytes": 653712,
+            "sha256": "6c4b958521397e94dc9078a4c0f5c1d1f3e2b640510b739eeb0dea15fce6f7e8"
+          },
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5558/trace-events-top.png",
+            "bytes": 700503,
+            "sha256": "08fe20905ad6434ec679a034b5621a71215c020bf7767af9f48696bf74bcca4e"
+          },
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5558/trace-events-timeline.png",
+            "bytes": 653758,
+            "sha256": "063e265b9ed535fd99fe2cabafd4ba722838e86f279a348d8c4ddc407cbcd27c"
+          },
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5558/encounter-return.png",
+            "bytes": 372888,
+            "sha256": "291799e18eb6837ab61ea69296b96fb7709f4958fb4358b972eb81ef058caba5"
+          }
+        ]
+      },
+      {
+        "serial": "emulator-5560",
+        "android_release": "17",
+        "api": 37,
+        "page_size_bytes": 4096,
+        "abi": "x86_64",
+        "manual_trace_started": true,
+        "trace_completed": true,
+        "installed_apk_sha256": "09a4238b6262feac379bed8d4c7216becca7bd1fb5eae9aea154809407c01b5d",
+        "installed_apk_bytes": 3672886,
+        "encounter_unchanged_after_return": true,
+        "encounter_hud_before_return": "HP 62/80 | Sentries 2/2  COMPLETE | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+        "encounter_hud_after_return": "HP 62/80 | Sentries 2/2  COMPLETE | Move: left pad  Attack: right button\nProgress restored.\nProgress saved.",
+        "filtered_error_log_entries": 0,
+        "filtered_log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "screenshots": [
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5560/trace-complete.png",
+            "bytes": 653664,
+            "sha256": "dbddca1317054b0409e91d8551845983510e50bce21e601086d0a8e8204ccf0a"
+          },
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5560/trace-events-top.png",
+            "bytes": 696505,
+            "sha256": "bf3cc9a3930f67b82009c214593d75f4d505d2cb37a7997b329962ec46e7cb42"
+          },
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5560/trace-events-timeline.png",
+            "bytes": 667281,
+            "sha256": "3cea55f51b4a58e6a304cc7d09a437513e0c591a8d07a261aa441e613a312e11"
+          },
+          {
+            "path": "../../emulator-test/swamp-intro-trace/emulator-5560/encounter-return.png",
+            "bytes": 369809,
+            "sha256": "da81fdf393bd0333e1a7b13f1678829b3c7bdbe4c1c82382706bbe35299c2762"
+          }
+        ]
+      }
+    ]
+  },
+  "latest_preview_runtime": {
+    "date": "2026-10-03",
+    "apk_sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+    "apk_bytes": 3705654,
+    "movement_host_checks": {
+      "pass": true,
+      "checks": {
+        "source_entry_point": [
+          1090.75,
+          -212.202,
+          258.0
+        ],
+        "positive_x_step": [
+          1091.75,
+          -212.20199584960938,
+          255.00001525878906
+        ],
+        "positive_y_step": [
+          1090.75,
+          -211.20199584960938,
+          255.0
+        ],
+        "accepted_position_z_matches_sampled_floor": true,
+        "clamped_dt_seconds": 0.10000000149011612,
+        "zero_input_preserves_position_and_heading": true,
+        "invalid_input_preserves_position": true,
+        "module_zero_boundary_rejects_uncovered_candidate": true,
+        "unsupported_start_rejected": true,
+        "baseline_mask_2_passes_source_water": [
+          636.4003397623698,
+          2139.9967041015625,
+          10.0
+        ],
+        "baseline_mask_2_rejects_source_hole": [
+          -19262.489583333332,
+          13145.4375,
+          -113.9676513671875
+        ],
+        "hole_endpoint_failure_rolls_back_fixture_position_and_heading": true,
+        "known_gap_endpoint_only_step_is_accepted": {
+          "start": [
+            1.0,
+            1.0,
+            0.0
+          ],
+          "end": [
+            9.0,
+            1.0,
+            0.0
+          ],
+          "gap_x": [
+            2.0,
+            8.0
+          ],
+          "purpose": "locks down the known endpoint-only limitation; not a movement-parity claim"
+        },
+        "strict_100_unit_floor_height_tolerance": true,
+        "position_rollback_on_rejected_endpoint": [
+          1090.75,
+          -199.0,
+          258.0
+        ]
+      },
+      "source_mesh": {
+        "surfaces": 16,
+        "triangles": 626
+      }
+    },
+    "android_devices": {
+      "emulator-5558": {
+        "android_release": "17",
+        "api": 37,
+        "page_size_bytes": 16384,
+        "abi": "x86_64",
+        "installed_apk_sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+        "installed_apk_bytes": 3705654,
+        "checks": [
+          "east/north movement and release-to-idle",
+          "pause/resume position stable",
+          "no-floor candidate rejected without changing position",
+          "LizardMan_Intro manual trace completed",
+          "return to encounter preserved state",
+          "filtered error log had zero entries"
+        ],
+        "pause_resume_no_drift": true,
+        "no_floor_candidate_rejected_without_position_change": true,
+        "trace_completed": true,
+        "return_preserved_encounter": true,
+        "filtered_app_fatal_or_native_error_entries": 0,
+        "hud_status": "53 drawn diagnostics / 54 source draws; 1 unresolved omitted",
+        "visual_result": "black bridge plane remains",
+        "evidence_directory": "../emulator-test/swamp-material-omit-restored/emulator-5558",
+        "screenshots": [
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/encounter-return.png",
+            "bytes": 372657,
+            "sha256": "0fd41e3ad6d8732a801bcdb1859c17d94a53ba31ba865080ce8c8499a23bf821"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-east-release-idle.png",
+            "bytes": 2570159,
+            "sha256": "6b5d172578939d324981fc405e589117f4ae13900db98ab8d33cbc9124dca37d"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-east-walk.png",
+            "bytes": 2569663,
+            "sha256": "9ab32afdd3a00173b8952a921ce47d443f91a4d62c81eac7d8daa991b945ab6e"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-no-floor.png",
+            "bytes": 2568532,
+            "sha256": "5e1ae1c6881fdabe6d78adcfaadf2a6b2f6cec6bfb7f0627bc03c968ea094c15"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-north-release-idle.png",
+            "bytes": 2568914,
+            "sha256": "f113e695e245a63986f447aec87b3a6c6440dd0acfb23352cbd464e2d145da01"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-north-walk.png",
+            "bytes": 2568018,
+            "sha256": "803fcda3aa13d52244e4a780d01094cf6776109836d9bb365b68935af29fdde7"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/movement-pause-resume.png",
+            "bytes": 2566200,
+            "sha256": "9369995d59c28ecbaaadbb3fc1e0e91b0b24c929824582957bf8c5479801418f"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-complete.png",
+            "bytes": 2762593,
+            "sha256": "1a53c34ea83e6d9188e0cb5583997dee4f18d03efb7bdae89fc9f24080e2b9fb"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-events-timeline.png",
+            "bytes": 2769935,
+            "sha256": "085b6bb64fb0a02d66607f866b6ff8b9dfad756440d2400812b237b2cf797c62"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored/emulator-5558/trace-events-top.png",
+            "bytes": 2790910,
+            "sha256": "5b86de09f49e0318a300aff65232ee47c012c24c7098a4efbc19d0f2c4c5bc7a"
+          }
+        ]
+      },
+      "emulator-5560": {
+        "android_release": "17",
+        "api": 37,
+        "page_size_bytes": 4096,
+        "abi": "x86_64",
+        "installed_apk_sha256": "d178ef90c06e91630b26b1f705bae7be4abdc1b4c771d7acb09985902dfaf907",
+        "installed_apk_bytes": 3705654,
+        "checks": [
+          "east/north movement and release-to-idle",
+          "pause/resume position stable",
+          "no-floor candidate rejected without changing position",
+          "LizardMan_Intro manual trace completed",
+          "return to encounter preserved state",
+          "filtered error log had zero entries"
+        ],
+        "pause_resume_no_drift": true,
+        "no_floor_candidate_rejected_without_position_change": true,
+        "trace_completed": true,
+        "return_preserved_encounter": true,
+        "filtered_app_fatal_or_native_error_entries": 0,
+        "hud_status": "53 drawn diagnostics / 54 source draws; 1 unresolved omitted",
+        "visual_result": "black bridge plane remains",
+        "evidence_directory": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560",
+        "screenshots": [
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/encounter-return.png",
+            "bytes": 370228,
+            "sha256": "e24751f426229486938a07ac0eb31c7ff9b444cc5f4f19eabd57a0daf4f28a81"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-east-release-idle.png",
+            "bytes": 2566790,
+            "sha256": "fd0cfcae4a483d7531c8866a9e6595bfde1403c992c263f4c4048ea93a53cd35"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-east-walk.png",
+            "bytes": 2569241,
+            "sha256": "716280c659f1ea1d952ab90ba055ee661b6b0ca29973efcc78d72d7fd5cd34f6"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-no-floor.png",
+            "bytes": 2568575,
+            "sha256": "60b95e8fac7d596d7ca2d7ccf7b39f403c811ff151f18e772f54ad0896dd3bcd"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-north-release-idle.png",
+            "bytes": 2566171,
+            "sha256": "9c53aaf23422440645e083ebfef313068019f1cb1acdeba30022e854b6bb7de5"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-north-walk.png",
+            "bytes": 2571195,
+            "sha256": "bacb980bbe6ceb9aa81ca6d88660b2383ab3195e6802325985d0b8e957a6ba95"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/movement-pause-resume.png",
+            "bytes": 2566935,
+            "sha256": "d8adb2932f2e48407ecc13744ca9a64a48a2143a59903d90c236ebf75a47351e"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-complete.png",
+            "bytes": 2762716,
+            "sha256": "5fde2f23ff1f306badc45764802c03a53b4d07a57af9bb1746eaaa26f5a2a422"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-events-timeline.png",
+            "bytes": 2780622,
+            "sha256": "49fd39acbc8add90bbc64d8a66b9df70456824f8bb75536846468824d3b8bd2f"
+          },
+          {
+            "path": "../emulator-test/swamp-material-omit-restored-5560-rerun/emulator-5560/trace-events-top.png",
+            "bytes": 2797898,
+            "sha256": "05e80bfc5cad8340fc3eff98e19613277ee73d67124e42f7e21c748f799c8dd1"
+          }
+        ]
+      }
+    },
+    "aggregate_note": "The later combined run reached the 4 KiB trace timeline capture, then host Python/adb capture hit MemoryError under low host memory. Per-device evidence above is complete; no app assertion failed.",
+    "fold7_tested": false
+  }
+}

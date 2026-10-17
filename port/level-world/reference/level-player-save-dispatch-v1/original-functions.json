@@ -1,0 +1,29 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {"name":"Level::SG_SaveLocalPlayer","address":"0x3f07b0","size":64,"sha256":"1d86b0596346a6aea35552f68fba9ee1726034b19d95967e1bc9ceb6bcc6330b"},
+    {"name":"Level::SG_SaveAllPlayer","address":"0x3efc40","size":92,"sha256":"d8926119da8eb4d73d5e87b582bfa4ea8a1429b8fad6076e12ed8369eef43453"},
+    {"name":"Level::SG_SavePlayer(int,bool)","address":"0x3efaec","size":300,"sha256":"bd35565b645db79413bbd218166b1352929bfd7bc64bd745a543c6c6ac85fc70"},
+    {"name":"Level::SG_SavePlayer(Character*,bool)","address":"0x3efa54","size":152,"sha256":"25f228687c2c82e48394f9f555541e3e8474951e6daa3feec0bdbf440700a891"},
+    {"name":"Character::SG_Block","address":"0x3bb770","size":20,"sha256":"d56d6fa604a2fba1c69dbb2524c13408cc75631bd706f56eb48ac28905b0f7e0"},
+    {"name":"Character::SG_IsBlocked","address":"0x3bb784","size":20,"sha256":"5606764b7d6c243e974b6f5bb10571e12218fdf65b16a7896f89b1bab10e5e6f"},
+    {"name":"Character::SG_SetPlayerLevel","address":"0x3bb840","size":20,"sha256":"74e1314c792bb6f25b38fa7ae38453fc13a9613e5ea55b9147be4f86dee75a9a"},
+    {"name":"Character::SG_SetLevelEntryPoint","address":"0x3bb89c","size":64,"sha256":"ed8ebb7fe22cbce430111f03f6e3ed9f26c5da2971c5eb1ecd142ae5ceca3d5a"},
+    {"name":"Character::SG_SetSaveDate","address":"0x3bbc58","size":20,"sha256":"dee7036b55fa65aba4e2662e53376f34966452db3079cf29929cb746b2bb99b4"},
+    {"name":"Character::SG_Save","address":"0x3bc4a8","size":20,"sha256":"08472c35a78a76068ce290bed4db5bb5638253f66155462580d833ad9d350151"},
+    {"name":"PlayerSavegame::SG_Save","address":"0x464b2c","size":360,"sha256":"7495c5d45790550a71ee55f64ecda731a081efacb5cc74dfe47d7ffe99f7eb86"},
+    {"name":"PlayerSavegame::_SetupSavedSections","address":"0x468630","size":540,"sha256":"52d45f67d523a4fbc0db44a8597d6beecc5bdab8f012a518aea4b91a75929bd7"},
+    {"name":"PlayerSavegame::_SaveVolatileQuestsLog","address":"0x4684f0","size":120,"sha256":"b71bb701680b9b20d48010d8fb72a35ca40aa55f5bc0cc52582c3712fa5d2aca"},
+    {"name":"PlayerManager::GetLocalPlayer(int,bool)","address":"0x36e478","size":32,"sha256":"ece0c2718ccffb60b13f3a3f5a798eebbbb3e2c601bfb70738efac1cae4f9495"},
+    {"name":"PlayerManager::GetPlayer(int,bool)","address":"0x36e744","size":32,"sha256":"5d19ac5cd09da90a3037728eecc8623b843e040bab522a6abe6a2eaedb2a82a6"}
+  ],
+  "source_order": [
+    "SG_SaveLocalPlayer resolves GetLocalPlayer(0,1), reads PlayerInfo+0x660, and delegates to SG_SavePlayer(Character*,false).",
+    "SG_SaveAllPlayer loops PlayerManager+0x6c4 players and calls SG_SavePlayer(index,force) for each.",
+    "SG_SavePlayer(index,force) validates the index, resolves GetPlayer(index,1), reads PlayerInfo+0x660, then delegates to the Character overload.",
+    "SG_SavePlayer(Character*,force) rejects absent or source-virtual-ineligible Character; remembers its blocked state; force temporarily unblocks; then writes player level, save date, Level+0x110 entry point and global difficulty before Character::SG_Save; restores the prior blocked state.",
+    "Character::SG_Save calls PlayerSavegame::SG_Save on Character+0x14e8. This is profile persistence, separate from per-level LevelSavegame INFO/OBJS.",
+    "PlayerSavegame::SG_Save runs its saved-section setup and Savegame::saveAll path; registered sections include PDFL,LNAM,LEPT,LUSP,LVLS,FAES,FTVL. Online volatile quest log packing is a separate conditional tail."
+  ],
+  "scope": "Static source ordering for PlayerSavegame checkpoint dispatch; does not establish a live native provider, filesystem integration, gameplay transition, or Android validation."
+}

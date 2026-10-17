@@ -1,0 +1,103 @@
+{
+  "upstream": "https://github.com/AdamCelermajer/DH_sc",
+  "commit": "791e961b12233100b303038c961666834f4beb9d",
+  "files": [
+    {
+      "upstream_path": "port/game-data/item_presentation_v5.cpp",
+      "local_path": "port/game-data/item_presentation_v5.cpp",
+      "upstream_sha256": "a6900bc1065b6928ea2b8c247aae6b61b9664e34840af1b851e1d814e15e8128",
+      "bytes": 8372,
+      "adapted_sha256": "a6900bc1065b6928ea2b8c247aae6b61b9664e34840af1b851e1d814e15e8128",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/item_presentation_v5.hpp",
+      "local_path": "port/game-data/item_presentation_v5.hpp",
+      "upstream_sha256": "405da3483d5f595bfa7f3b4ba442f63ec0d00da5205dc2200615495cd2ba09b3",
+      "bytes": 2376,
+      "adapted_sha256": "732ed9ad83e3adc0cee0c3827f5e4dc94da90b4d690bb2afb5d80e65f266272d",
+      "changed_from_upstream": true
+    },
+    {
+      "upstream_path": "port/game-data/loot_power_creation_v7.cpp",
+      "local_path": "port/game-data/loot_power_creation_v7.cpp",
+      "upstream_sha256": "6f63b3a9c1086ec6d7c80f08342306a102c5a800fefe0eef9f754fad2c757d85",
+      "bytes": 9202,
+      "adapted_sha256": "9b87befc02c3a3d3588dcc77c0bd8a2df09f0e0e3231dd629a7ed9a9f9d30ef3",
+      "changed_from_upstream": true
+    },
+    {
+      "upstream_path": "port/game-data/loot_power_creation_v7.hpp",
+      "local_path": "port/game-data/loot_power_creation_v7.hpp",
+      "upstream_sha256": "577640b7ee36c61673fc88960750aeeb8a9b745c872be262ddc180d82b1b2a1d",
+      "bytes": 2397,
+      "adapted_sha256": "a9e391ef52a3e5efed6d549a8c598425a9e3daee112b8b19debec4cafbb7c0b4",
+      "changed_from_upstream": true
+    },
+    {
+      "upstream_path": "port/game-data/tests/item_presentation_v5.cpp",
+      "local_path": "port/game-data/tests/item_presentation_v5.cpp",
+      "upstream_sha256": "3327a31dd94cbee81db25268acad5041481e9d7457349aa853970cd29f41dba2",
+      "bytes": 3670,
+      "adapted_sha256": "3327a31dd94cbee81db25268acad5041481e9d7457349aa853970cd29f41dba2",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/tests/item_presentation_v5_fixture.cpp",
+      "local_path": "port/game-data/tests/item_presentation_v5_fixture.cpp",
+      "upstream_sha256": "8cf5008fbd7917a092f44c3bf4f0991d37852b696350b44b98344dcdd5f4f3ae",
+      "bytes": 2947,
+      "adapted_sha256": "8cf5008fbd7917a092f44c3bf4f0991d37852b696350b44b98344dcdd5f4f3ae",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/tests/item_power_instance_v5_fixture.cpp",
+      "local_path": "port/game-data/tests/item_power_instance_v5_fixture.cpp",
+      "upstream_sha256": "f85989864d9853f543261d0434a0e929b6fbf1589c042a24565f00de8c75ee4d",
+      "bytes": 1851,
+      "adapted_sha256": "f85989864d9853f543261d0434a0e929b6fbf1589c042a24565f00de8c75ee4d",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/tests/loot_power_creation_v7_fixture.cpp",
+      "local_path": "port/game-data/tests/loot_power_creation_v7_fixture.cpp",
+      "upstream_sha256": "c3a060bbdaec9d354a0bcd1e10b11a40b45dd8e50beb68d8700497c2b9fb91a1",
+      "bytes": 3700,
+      "adapted_sha256": "c3a060bbdaec9d354a0bcd1e10b11a40b45dd8e50beb68d8700497c2b9fb91a1",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/reference/loot-power-creation-v7/fixtures.bin",
+      "local_path": "port/game-data/reference/adam-791e961-item-loot/loot-power-creation-v7/fixtures.bin",
+      "upstream_sha256": "4e944554b9d83c227b3e35b7659c673ab21fbfc392025e1db4c267d9a356c104",
+      "bytes": 1581330,
+      "adapted_sha256": "4e944554b9d83c227b3e35b7659c673ab21fbfc392025e1db4c267d9a356c104",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/reference/loot-power-creation-v7/original-functions.json",
+      "local_path": "port/game-data/reference/adam-791e961-item-loot/loot-power-creation-v7/original-functions.json",
+      "upstream_sha256": "035b4c7687dbe1557da79628503b7e7981e07013da87b41ef057b3c0873250a6",
+      "bytes": 2631,
+      "adapted_sha256": "035b4c7687dbe1557da79628503b7e7981e07013da87b41ef057b3c0873250a6",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/reference/player-item-effects-v5/presentation-fixtures.bin",
+      "local_path": "port/game-data/reference/adam-791e961-item-loot/player-item-effects-v5/presentation-fixtures.bin",
+      "upstream_sha256": "82d8ffac0974fbd5b0e7536d81bc26f3210b15e892887b32be7719efb632505a",
+      "bytes": 1067528,
+      "adapted_sha256": "82d8ffac0974fbd5b0e7536d81bc26f3210b15e892887b32be7719efb632505a",
+      "changed_from_upstream": false
+    },
+    {
+      "upstream_path": "port/game-data/reference/player-item-effects-v5/power-instance-fixtures.bin",
+      "local_path": "port/game-data/reference/adam-791e961-item-loot/player-item-effects-v5/power-instance-fixtures.bin",
+      "upstream_sha256": "d74c0ec69cc552f83362090b9695725fae235a29c1609afe4faba65f3c02505e",
+      "bytes": 216023,
+      "adapted_sha256": "d74c0ec69cc552f83362090b9695725fae235a29c1609afe4faba65f3c02505e",
+      "changed_from_upstream": false
+    }
+  ],
+  "adaptation": "Existing ItemInstance header; same caller-owned V4 RNG descriptor; shared source arithmetic and failure-prefix semantics. No new inventory/properties/RNG authority."
+}

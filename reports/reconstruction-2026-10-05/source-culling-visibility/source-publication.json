@@ -1,0 +1,862 @@
+{
+  "schema": "dh2-host-proof-source-publication/v1",
+  "validation": "PASS",
+  "scope": "Raw tested inputs are pinned in each report. Staged Git bytes below are identical or differ only by CRLF-to-LF conversion; no source statements differ. Historical Windows byte pins are not advertised as Linux checkout raw hashes. Compiler-source ZIPs for earlier APKs remain separate and unchanged.",
+  "input_count": 142,
+  "identical_count": 57,
+  "crlf_only_count": 85,
+  "inputs": [
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_stop.cpp",
+      "raw_tested_sha256": "856e26a086fd7ac143bdc65485dd9f5a72d7530170047b392d1807b3175f3d11",
+      "staged_sha256": "856e26a086fd7ac143bdc65485dd9f5a72d7530170047b392d1807b3175f3d11",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/android-native/app/src/main/cpp/native_character_stop.hpp",
+      "raw_tested_sha256": "d08893896d96a3ea0a0710b2e46984ef39057e741e9321cdf9d3eea1847eabfc",
+      "staged_sha256": "d08893896d96a3ea0a0710b2e46984ef39057e741e9321cdf9d3eea1847eabfc",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-audio/native-format/chunk_view.hpp",
+      "raw_tested_sha256": "5b3957e866332020643e80d81eea63bf221386fe51831dcff16209b14bea9b18",
+      "staged_sha256": "5b3957e866332020643e80d81eea63bf221386fe51831dcff16209b14bea9b18",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-audio/native-format/reference/chunk-view/NOTES.md",
+      "raw_tested_sha256": "8cd8f38a595898a7d73b58edc634ae2086bcbc8109ec7ef952b99d7a5ae54326",
+      "staged_sha256": "8cd8f38a595898a7d73b58edc634ae2086bcbc8109ec7ef952b99d7a5ae54326",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-audio/native-format/reference/chunk-view/historical-framing.json",
+      "raw_tested_sha256": "4b08818555bc0cbb8d243687d762b2b540c029a25285c36f33a664fc52646274",
+      "staged_sha256": "4b08818555bc0cbb8d243687d762b2b540c029a25285c36f33a664fc52646274",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-audio/native-format/reference/chunk-view/provenance.json",
+      "raw_tested_sha256": "63756ff4b36e4a99e98bf58c883c820eed3ed61a6b8a3e8b7e2257d027e6919f",
+      "staged_sha256": "63756ff4b36e4a99e98bf58c883c820eed3ed61a6b8a3e8b7e2257d027e6919f",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-audio/native-format/tests/chunk_view.cpp",
+      "raw_tested_sha256": "fcd340f8104c4a0468d5d704619b0807e81aa3943f579b1c4b53df050780e9a4",
+      "staged_sha256": "fcd340f8104c4a0468d5d704619b0807e81aa3943f579b1c4b53df050780e9a4",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-audio/native-format/tests/run_chunk_view_host.py",
+      "raw_tested_sha256": "f0e1b1fd8c167a8b4841e905e2b9365375a9734310d5fe5aafe8712490a94249",
+      "staged_sha256": "f0e1b1fd8c167a8b4841e905e2b9365375a9734310d5fe5aafe8712490a94249",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/frustum.cpp",
+      "raw_tested_sha256": "a8720172cafd16d6a2521164ca1c0300b7e9cd39e66b2aaa70a2ea72f6898f04",
+      "staged_sha256": "a8720172cafd16d6a2521164ca1c0300b7e9cd39e66b2aaa70a2ea72f6898f04",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/frustum.hpp",
+      "raw_tested_sha256": "0cc8e9e50cef9309fb9d59ba88d4c23ecea30d83019f923824df70c851188ba8",
+      "staged_sha256": "0cc8e9e50cef9309fb9d59ba88d4c23ecea30d83019f923824df70c851188ba8",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/frustum_bounds.cpp",
+      "raw_tested_sha256": "8129c50be78a72c652e1d38a732038f9968eb291e72d3de184b4bdd35e68ea18",
+      "staged_sha256": "8129c50be78a72c652e1d38a732038f9968eb291e72d3de184b4bdd35e68ea18",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/frustum_bounds.hpp",
+      "raw_tested_sha256": "d08998e06b137f8f8259277bd13606765bed134964e5548695c4a1b7be94eada",
+      "staged_sha256": "d08998e06b137f8f8259277bd13606765bed134964e5548695c4a1b7be94eada",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/reference/frustum-bounds/original-functions.json",
+      "raw_tested_sha256": "13bd87c00c868ae302eae09ef222dea5dd2d7d43a19bfaa058244cea25f16910",
+      "staged_sha256": "13bd87c00c868ae302eae09ef222dea5dd2d7d43a19bfaa058244cea25f16910",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/reference/frustum-producer/original-functions.json",
+      "raw_tested_sha256": "5ceacd2a719b5c13479ef52094391f078e0972ab7f08952e2d2b0959725ca9b1",
+      "staged_sha256": "5ceacd2a719b5c13479ef52094391f078e0972ab7f08952e2d2b0959725ca9b1",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/tests/frustum_bounds_host.cpp",
+      "raw_tested_sha256": "23be5f95b267e2dbcffe6edc3402d7e9af334117fae8566e9dd8a660e947c8dc",
+      "staged_sha256": "23be5f95b267e2dbcffe6edc3402d7e9af334117fae8566e9dd8a660e947c8dc",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/tests/frustum_host.cpp",
+      "raw_tested_sha256": "8c8dc3bc987517ab3a88239f87c443d3c9de3ee8a68c1aa65b21554aa49f62cd",
+      "staged_sha256": "8c8dc3bc987517ab3a88239f87c443d3c9de3ee8a68c1aa65b21554aa49f62cd",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/tests/run_frustum_bounds.py",
+      "raw_tested_sha256": "fe7439af01b0a112bcff0d28ca01cc2c5ac02c1fb7e445aee14255b1e1c60596",
+      "staged_sha256": "fe7439af01b0a112bcff0d28ca01cc2c5ac02c1fb7e445aee14255b1e1c60596",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-camera/tests/run_frustum_host.py",
+      "raw_tested_sha256": "6d0cccf6c05ed84b9b46a18e7cf69044a6ca6ba733c260194eaba5a87e4d7304",
+      "staged_sha256": "6d0cccf6c05ed84b9b46a18e7cf69044a6ca6ba733c260194eaba5a87e4d7304",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/engine-resources/tests/cpu.py",
+      "raw_tested_sha256": "23090abbc5bfb64ba36628db8b264b68f188e28f5f97cb9d9b6ba7c5244c8c1a",
+      "staged_sha256": "e49e16f2db89c78d7e48302236c3b38e0a79b43b2fda7c5134373d490e7ac5ac",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/actor_runtime.hpp",
+      "raw_tested_sha256": "58e973db47b6c274c450b05ee01c77e0acb1f8d3d9b7108c618145c4285e5d98",
+      "staged_sha256": "e1e0f84529dbf69811994a73c092afded509ec07a066d7f411fc7ed849195c38",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/character_coordinator.cpp",
+      "raw_tested_sha256": "2ab1ac65a49ddd120f6bbc09e7da4ca2b88be329e0aef2434755cdf5cad2338a",
+      "staged_sha256": "2ab1ac65a49ddd120f6bbc09e7da4ca2b88be329e0aef2434755cdf5cad2338a",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/character_coordinator.hpp",
+      "raw_tested_sha256": "de7ab3a0328a69a290bd706167d71347403ad3b86f83dc7ac4cc1fbb062b8452",
+      "staged_sha256": "de7ab3a0328a69a290bd706167d71347403ad3b86f83dc7ac4cc1fbb062b8452",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/character_culling_runtime.cpp",
+      "raw_tested_sha256": "a3ca38f918cf6542d9d1c3ebd70ad5134a401c636154f9f4388fbea925754bdb",
+      "staged_sha256": "a3ca38f918cf6542d9d1c3ebd70ad5134a401c636154f9f4388fbea925754bdb",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/character_culling_runtime.hpp",
+      "raw_tested_sha256": "098857e211dda9172c4e76ed23f03119482cfccf281701d1402d7b02c1335bfd",
+      "staged_sha256": "098857e211dda9172c4e76ed23f03119482cfccf281701d1402d7b02c1335bfd",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/character_physics_position.cpp",
+      "raw_tested_sha256": "200f5cfbe4d9801122c1adcebce1678a916377ec2c61a4f48be9e90288ad939a",
+      "staged_sha256": "200f5cfbe4d9801122c1adcebce1678a916377ec2c61a4f48be9e90288ad939a",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/character_physics_position.hpp",
+      "raw_tested_sha256": "51f100f7a69f513a512b16769275637b883104d56a407feca64abb78bd4f8297",
+      "staged_sha256": "51f100f7a69f513a512b16769275637b883104d56a407feca64abb78bd4f8297",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/character_state.cpp",
+      "raw_tested_sha256": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+      "staged_sha256": "f96e42ac27ad675b732a729ab5ca0a8d9d48f58c3a71491b868b25946c6fd6aa",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/character_state.hpp",
+      "raw_tested_sha256": "22d512b11c0f20d00ea01c4344bbf0d3b072c4be74ad2a297e2b4519e2e9cdc9",
+      "staged_sha256": "a90e256b5cfc353537f6202c749783086df8b16622123d844046c4e9497bc5c1",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/character_timers.cpp",
+      "raw_tested_sha256": "5bb3e0181f361c7c3b3633069a6148abcdbfaa99806d6798619a996bef203ba9",
+      "staged_sha256": "8a7ea63fb09debcf850731c59ff7530fd5cc10d9b6753d3dfb6c97ae413c71f4",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/character_timers.hpp",
+      "raw_tested_sha256": "d57e1c747cd582a2948a90799754681e6a876f8b50a6b3537881142f9f9f505c",
+      "staged_sha256": "22c775ebf458563dfe1dccfe519b94cbd0e519897bf1c85bec1ec2d111eb0883",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/character_update_eligibility.cpp",
+      "raw_tested_sha256": "51c9b88fffe41884323bf1dcca81b51fd8f6d51e7878dcca133a94226f5d618c",
+      "staged_sha256": "51c9b88fffe41884323bf1dcca81b51fd8f6d51e7878dcca133a94226f5d618c",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/character_update_eligibility.hpp",
+      "raw_tested_sha256": "2142ad323c1bba578c8766f2daf338411eca273711af1722637d310184212f1e",
+      "staged_sha256": "2142ad323c1bba578c8766f2daf338411eca273711af1722637d310184212f1e",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/game_object_set_visible.cpp",
+      "raw_tested_sha256": "2f35afce4d0d60a5f78b7058ba3036fcf49965feef2fe3787c9760a01d38982d",
+      "staged_sha256": "2f35afce4d0d60a5f78b7058ba3036fcf49965feef2fe3787c9760a01d38982d",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/game_object_set_visible.hpp",
+      "raw_tested_sha256": "fb470ab13730d8b125183c9cdee3a44a02c8f5827f5eb62a2c047ac281f86653",
+      "staged_sha256": "fb470ab13730d8b125183c9cdee3a44a02c8f5827f5eb62a2c047ac281f86653",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/game_object_stop.cpp",
+      "raw_tested_sha256": "86be418038d6fa1ff46a0710f51b4a1e256d53023759697c086a9371b16723b2",
+      "staged_sha256": "86be418038d6fa1ff46a0710f51b4a1e256d53023759697c086a9371b16723b2",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/game_object_stop.hpp",
+      "raw_tested_sha256": "77ffbe3e6e3c1325735df47e8b49941a1e7a4e76e218cd0347ad47d435b9cf8d",
+      "staged_sha256": "77ffbe3e6e3c1325735df47e8b49941a1e7a4e76e218cd0347ad47d435b9cf8d",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/game_object_zoning_visibility.cpp",
+      "raw_tested_sha256": "4b0733c5f5946045c12c7a09d75e2bc9b5ce85792cc912f138d9413af3d5ac52",
+      "staged_sha256": "4b0733c5f5946045c12c7a09d75e2bc9b5ce85792cc912f138d9413af3d5ac52",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/game_object_zoning_visibility.hpp",
+      "raw_tested_sha256": "cc1d859e41a88fc0a704d4231bf74d1b735f49ae2cbd17e5befdca013d98a32e",
+      "staged_sha256": "cc1d859e41a88fc0a704d4231bf74d1b735f49ae2cbd17e5befdca013d98a32e",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/move_state.cpp",
+      "raw_tested_sha256": "74622f90da0bd193540b08592549ae3bdddc664554ce71e1b5ba448127537264",
+      "staged_sha256": "671596b24c3bce671fc5da633652f93ab5377e26586599369772b0efa4cf1b77",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/move_state.hpp",
+      "raw_tested_sha256": "2ec7bf0ca12ac3745945af532355a8d22d7f682e863b7cf138d5899b00504186",
+      "staged_sha256": "5140673461e9e52bfd6e8f029d14cb3a079e69c6e59e6871711707588256baa0",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/native_body.cpp",
+      "raw_tested_sha256": "e820fd71bb6c9387ca9c47a7233a881a399ef8c2cfbfdef091f74a5bd3201bd1",
+      "staged_sha256": "242a54b3ce929e57da9ff41e91206189e7cf31be8a289eb11f676c846b7df6e9",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/native_body.hpp",
+      "raw_tested_sha256": "903f9329f9e97ef695e771aa28965b560728d12b9167bb417af16cdd1b608b18",
+      "staged_sha256": "711c9049c8e686edc1e4d49890e7650205658070f65af225540c51d3f865e140",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_avoidance.hpp",
+      "raw_tested_sha256": "1a8738338c4a5a691ee0088cb70a92672d2b52ccebd522661f77b650f8e713be",
+      "staged_sha256": "3d1f726869fc6b8ea08e3c6ffc3d99e711a0caed07c8f9b9c2c58bd265f99b36",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_controller.cpp",
+      "raw_tested_sha256": "e48a96e0a733c7e6bf4a70b7d889176dc018d6eecd2e2ba85b61c457ed417810",
+      "staged_sha256": "43e6d236fa5d7bdf7d2befda7f288008a6cfb87ec06a411c19fdcf2465eed9ae",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_controller.hpp",
+      "raw_tested_sha256": "f30bb259c4e56e65c2728fcef97d1b920973f7d816ab96176f6b6f123d119c4b",
+      "staged_sha256": "2fd23f527acc7f3e9e0c3caac287906452b5e40954a3dcec4a44cadf4b7160e6",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_heading.cpp",
+      "raw_tested_sha256": "8067293e41a4bdaddebafbc9f996ac9484b77f9968290bc3f500bf3bf7c60bc4",
+      "staged_sha256": "98f771927be4021dad6432e1aee509bf91f4db17f7525668ef1332ba09b3818d",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_heading.hpp",
+      "raw_tested_sha256": "932e8d204efa7c3864d31ef3ccbc4cb3fa9a38eb643f6fe21fa8fcc1523af38b",
+      "staged_sha256": "d929560cd90c3fb99e72190734f4b70f405dc924764969709c132bd2f94d9c6e",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_motion.hpp",
+      "raw_tested_sha256": "a05c6a893cdbdd172bc286abc31c46008abc37fafb7ddb4d565735ba215961b5",
+      "staged_sha256": "f9f8848fdd4cd59cfea57e0bd92aba0717d27474a16577199662f310cd6a4dac",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_objects.hpp",
+      "raw_tested_sha256": "cf120827d5df79ce5c09340ebf453e654eed93140f7cfd0dd152971bed6634db",
+      "staged_sha256": "8bf7052ea8c1c58cadddda10f85e7d0808612df0c0bc6bf6be5532ebe9bfe011",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_path.cpp",
+      "raw_tested_sha256": "3e898bf804d38b0b91f2f4cdefcfb001796cf170ccee4966efd74cf9cd3522ce",
+      "staged_sha256": "48216b8fc84c158e3e278e0895e464e3b801490aebe5074c1edadffb8b1c1591",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_path.hpp",
+      "raw_tested_sha256": "d9044a95ee529ddbaf215f421ef021da697bf88d1f45d2bf407a3224b3d32d80",
+      "staged_sha256": "af1c1dce850c0b51e68793d79d8d354e237bb3934fe63f12c5c79535a0dfde5a",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/navigation_world.hpp",
+      "raw_tested_sha256": "2e35d819626702b055c0840ba8d9f5ef4ef9dbd11bc017251e3ee81982fb7659",
+      "staged_sha256": "b83122f6bcb8955fd16a52cc85d5d6f65158bd1db25fd40ebac9726903d85b6e",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/object_update_culling.cpp",
+      "raw_tested_sha256": "f529960dd9bf3946a1b6846bf451eb05edd534d4d9b5b636fc9d927e5b6f84af",
+      "staged_sha256": "f529960dd9bf3946a1b6846bf451eb05edd534d4d9b5b636fc9d927e5b6f84af",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/object_update_culling.hpp",
+      "raw_tested_sha256": "db2e00bff24c1d4f52fef7ce6dc22581dca4b91ae94054a6a90e494f76b6e386",
+      "staged_sha256": "db2e00bff24c1d4f52fef7ce6dc22581dca4b91ae94054a6a90e494f76b6e386",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/object_update_dispatch.cpp",
+      "raw_tested_sha256": "af4e63783d856fe3e5fc0a1d612633444e4e80fac22f735fb6e4a49c2282a0f7",
+      "staged_sha256": "af4e63783d856fe3e5fc0a1d612633444e4e80fac22f735fb6e4a49c2282a0f7",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/object_update_dispatch.hpp",
+      "raw_tested_sha256": "ec15f800007e224f29986fd8f2179160ab5e34f729409d3e6ae8e6e05b0fab21",
+      "staged_sha256": "ec15f800007e224f29986fd8f2179160ab5e34f729409d3e6ae8e6e05b0fab21",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/physical_controls.cpp",
+      "raw_tested_sha256": "4b9f11b6de5d8145dfc697e745bab5c8dbf8cabd801922bd4c16eb63878dd20a",
+      "staged_sha256": "104b8b409e40eb1e733388d8977b7c0dbe333dfd7b61fc9d17aef67dca77aea6",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/physical_controls.hpp",
+      "raw_tested_sha256": "9209492d39631c26775c9b9b5dddc55e358463caca071878c0f7f52f319ec7e4",
+      "staged_sha256": "fdcc4c6eef686bb9b9ecc9d10acab580eff3d8f0ec95ff850ad38850e1b33a85",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/reference/character-update-eligibility/original-functions.json",
+      "raw_tested_sha256": "a7830077d40936cfef2845f75f649d19276e3c61b4b55be9a6cfa46eeff7bdca",
+      "staged_sha256": "a7830077d40936cfef2845f75f649d19276e3c61b4b55be9a6cfa46eeff7bdca",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/reference/game-object-set-visible/NOTES.md",
+      "raw_tested_sha256": "da87339f38f60ba7929d94c9ca5b6b9d324c61bfa52de6c171cdfff4c8f7fab3",
+      "staged_sha256": "da87339f38f60ba7929d94c9ca5b6b9d324c61bfa52de6c171cdfff4c8f7fab3",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/reference/game-object-set-visible/original-functions.json",
+      "raw_tested_sha256": "d9eabf4ed4e5d1f2f76443b37fdd6274ce337000e20a7ca12dcccec23c892c4b",
+      "staged_sha256": "d9eabf4ed4e5d1f2f76443b37fdd6274ce337000e20a7ca12dcccec23c892c4b",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/reference/game-object-zoning-visibility/original-functions.json",
+      "raw_tested_sha256": "9002c1379d44132a39f42f576a6b71fb8bef0eb94311e93db01fb6cf80fafeb8",
+      "staged_sha256": "9002c1379d44132a39f42f576a6b71fb8bef0eb94311e93db01fb6cf80fafeb8",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/reference/object-update-culling/NOTES.md",
+      "raw_tested_sha256": "d460766a0092b1907595c64ebedaee49c9872bcf96554f5f83e319fec7412f9b",
+      "staged_sha256": "d460766a0092b1907595c64ebedaee49c9872bcf96554f5f83e319fec7412f9b",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/reference/object-update-culling/original-functions.json",
+      "raw_tested_sha256": "3151a68f3110f0251ba4e4f1ac2dc93eb6d84cde09ca245dba077bd0fc6593aa",
+      "staged_sha256": "3151a68f3110f0251ba4e4f1ac2dc93eb6d84cde09ca245dba077bd0fc6593aa",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/reference/object-update-dispatch/NOTES.md",
+      "raw_tested_sha256": "a53695bc2275f2fc02e1830a576877e51bc12db909e2fb62b3e9c093a541bbd1",
+      "staged_sha256": "a53695bc2275f2fc02e1830a576877e51bc12db909e2fb62b3e9c093a541bbd1",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/reference/object-update-dispatch/original-functions.json",
+      "raw_tested_sha256": "82803aa467f990e56e85199c1338ceb8a5199eacf74365be4d888be86dad0196",
+      "staged_sha256": "82803aa467f990e56e85199c1338ceb8a5199eacf74365be4d888be86dad0196",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/box2d_host_compat.hpp",
+      "raw_tested_sha256": "3df485a61e0911990cd60a9a5786438933065c65f0f436d7284145f0c58017c2",
+      "staged_sha256": "3df485a61e0911990cd60a9a5786438933065c65f0f436d7284145f0c58017c2",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/character_culling_runtime.cpp",
+      "raw_tested_sha256": "114b2f90f2d7d50f4034e349f2b46221816d3f900702dd4c4a6e8a7f125859be",
+      "staged_sha256": "114b2f90f2d7d50f4034e349f2b46221816d3f900702dd4c4a6e8a7f125859be",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/elf_import_identity.py",
+      "raw_tested_sha256": "b6e4bec2dcc844e74d96dc617bbd13de69dab1797006e7cc4d300dfb069a66d7",
+      "staged_sha256": "b6e4bec2dcc844e74d96dc617bbd13de69dab1797006e7cc4d300dfb069a66d7",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/game_object_set_visible.cpp",
+      "raw_tested_sha256": "36d4d1ba6458a07b5f6bea1ea26f4f09fe1f583312534ad08b4d6d189eb84a5d",
+      "staged_sha256": "36d4d1ba6458a07b5f6bea1ea26f4f09fe1f583312534ad08b4d6d189eb84a5d",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/game_object_zoning_visibility.cpp",
+      "raw_tested_sha256": "057cab3093331bf7503c0128e48ca73e96cb829155f847eb64f8f8023d7f4b9b",
+      "staged_sha256": "057cab3093331bf7503c0128e48ca73e96cb829155f847eb64f8f8023d7f4b9b",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/native_character_stop.cpp",
+      "raw_tested_sha256": "4624b5fb8551cca5c3c6007a088605787e59667f375a1e532c1f999ea61317cd",
+      "staged_sha256": "4624b5fb8551cca5c3c6007a088605787e59667f375a1e532c1f999ea61317cd",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/object_update_culling.cpp",
+      "raw_tested_sha256": "9fb416db1dee21fb0dafa3c2beb2719ed0fa236dbc0fb3bbc6dedb764bde15cd",
+      "staged_sha256": "9fb416db1dee21fb0dafa3c2beb2719ed0fa236dbc0fb3bbc6dedb764bde15cd",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/object_update_dispatch.cpp",
+      "raw_tested_sha256": "a38a0eac3ea68c02f1a89e9ede0e4267a4ff99b7d219b00612a562138bdb5bfa",
+      "staged_sha256": "49e9bfe1707599365c7691e5e851928e37199edc09193d959250a0f01c61927e",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/level-world/tests/run_character_culling_runtime_host.py",
+      "raw_tested_sha256": "fdad37c3fa1a4999a66c1543f8734ced08fefec192ab0853ca10e6e8adc94dec",
+      "staged_sha256": "fdad37c3fa1a4999a66c1543f8734ced08fefec192ab0853ca10e6e8adc94dec",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/run_game_object_set_visible_host.py",
+      "raw_tested_sha256": "70b34fb4bcba677b274225053447ab0c884c616ae910d553578f7285bfc286c1",
+      "staged_sha256": "70b34fb4bcba677b274225053447ab0c884c616ae910d553578f7285bfc286c1",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/run_game_object_zoning_visibility_host.py",
+      "raw_tested_sha256": "3f8236de3697c77ae5a5f7c3403600a3926fd5bf1060a50201d62f9fcab0ecfb",
+      "staged_sha256": "3f8236de3697c77ae5a5f7c3403600a3926fd5bf1060a50201d62f9fcab0ecfb",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/run_native_character_stop_host.py",
+      "raw_tested_sha256": "896fc9af1d9313c5f666747dd606b124e73833e29f4c2d60514cf3797f3ea9aa",
+      "staged_sha256": "896fc9af1d9313c5f666747dd606b124e73833e29f4c2d60514cf3797f3ea9aa",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/run_object_update_culling_host.py",
+      "raw_tested_sha256": "ab439ed3baa8214010da9030abe0ed63407c3b740799d0aa3abea2d11d9f9a46",
+      "staged_sha256": "ab439ed3baa8214010da9030abe0ed63407c3b740799d0aa3abea2d11d9f9a46",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/level-world/tests/run_object_update_dispatch_host.py",
+      "raw_tested_sha256": "892d1cd533be2747b970a745c30bc927ef4905a15b4745c0be0da82aa9a6ced4",
+      "staged_sha256": "892d1cd533be2747b970a745c30bc927ef4905a15b4745c0be0da82aa9a6ced4",
+      "relationship": "identical"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Include/Box2D.h",
+      "raw_tested_sha256": "0ad13b9cdae52a4d57f70f824a856601b151d7d5ac483d354740a3e9a46aa7a5",
+      "staged_sha256": "232f3578d5aa12f3e59761e97009be2a548022b7651260b99cf9efb999f4445d",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.cpp",
+      "raw_tested_sha256": "0629b27c6fd842dea90070e8ea7dcb27fc0eb86bafe9aadaa13b114dfb61aa20",
+      "staged_sha256": "d84d3826a351bbcca7acaa64d0daf0c90ff8017e45b93dcc990da5b3b024d0be",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2CircleShape.h",
+      "raw_tested_sha256": "a575f875afa9c0aae4e01b1aa186ddfb4fc2aa6f217be69d7d09996e4ab30fcd",
+      "staged_sha256": "f0d2b0c6a6d12e3bf6e3507979d05bc0cb5b69d894aa5ddffb957ea268f54235",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.cpp",
+      "raw_tested_sha256": "2281e552b7cf16b79d704a89160550c5e0a56da2a210ce926fd0719301cb61e1",
+      "staged_sha256": "b589190cf79be83ec582c473a2b7314a4c1e45c9c577ea61149946e89b071792",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2PolygonShape.h",
+      "raw_tested_sha256": "54b78992f13caf81515710d9341eba4f61a72820a341ce567fdad3062b7041c6",
+      "staged_sha256": "e8b3f9243e7929a552665d4beb9fea8ae000c2e0a0c8cf8e49b364f262c2db05",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.cpp",
+      "raw_tested_sha256": "2bcfc135682d3c311ea246b2b8d2ce14ccc7694a5d586348761ae12bc9cd696e",
+      "staged_sha256": "47e59b0e961fb01bdcaa3b2d902a703dc64a62038bf67ed26bdf9a804b0298d4",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/Shapes/b2Shape.h",
+      "raw_tested_sha256": "ea59008f09889b632c0ac6cd5f2724781c9dbe23f9663ab9d38a2b21ef07fa4c",
+      "staged_sha256": "c5aae433a436de27ae3ba01d1759e2af3efbbced6bbb3d4bfa4c9bf964374f66",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.cpp",
+      "raw_tested_sha256": "cfa4503a3c9a95db001e10dcc4cd6a9f27a97cbe5c676e46a5751cab7a8c06af",
+      "staged_sha256": "de732862b7f2e9d43afd415955b57ab22885e119d2669f272ac916fd20c4f403",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2BroadPhase.h",
+      "raw_tested_sha256": "b5e0f3f4c15c15f365bae101f819e21098b6a1c819fc2329f3830aa5bdd953d8",
+      "staged_sha256": "b5108b02113cf5e1fd442196e24b265ef1d635346512dd02627d29f60fd88fb9",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollideCircle.cpp",
+      "raw_tested_sha256": "a0ce1f621ae819514cfd26b2b9231cfd1fb301d960857256c809bd0620495113",
+      "staged_sha256": "2d2fad863c3069929960353638a021ce7c71a7384a9d5828ae158a14fff25743",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2CollidePoly.cpp",
+      "raw_tested_sha256": "22b2e4611e696f041298ae0b63596f2eb54159d4a039fc65036290295080dacc",
+      "staged_sha256": "27d38fe463b8620432584d8ab1ce6bb9f4175eb4ae6355eb84493be40f3f51b4",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.cpp",
+      "raw_tested_sha256": "052c979a72176b10b404c7c8b900e1a8662f661ffa6476d2c18edec47e57ddd4",
+      "staged_sha256": "23aa011a3d412b25b39e1c47b08c3cc75a64145d1e40dccb67b9646a350d2f72",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Collision.h",
+      "raw_tested_sha256": "d1f825e57717f8163ff8e937b02f2e39a99a16714a37919fa83daca9a62f84a9",
+      "staged_sha256": "27ee41cff4e9d1b0ae602fd59361fb11019b960d291b016ea58efc933adbe94f",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2Distance.cpp",
+      "raw_tested_sha256": "0e5e43d8a6318555994ad7dbd44e3d8d38430964ea8989991aed9c880365dc1a",
+      "staged_sha256": "52b84efaa4862a62426d5328f33d4880049e5b2199555dc53aec5ff982274b90",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.cpp",
+      "raw_tested_sha256": "0ba3ce40b97bc5c4c50aacbd131f665a63e44c8130c2ddf4c9ecc9abe75e2f4c",
+      "staged_sha256": "416a6ed7c370116ffe67d9894cf568a7f22bcbec2b3c2bf2ab724be5b83d6fe9",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2PairManager.h",
+      "raw_tested_sha256": "f22b19e47d91b75d2fe2f691e5e10100ce1463672524c1fadecb79339e91c1ae",
+      "staged_sha256": "b67e089d15635a24f1bac9b4c617798a1e243c7858582cf2d36b29f78a21de1b",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Collision/b2TimeOfImpact.cpp",
+      "raw_tested_sha256": "a4b145c6773ad798844f83ee7fb621a143261a237372e1fbb82c27bb72ee6201",
+      "staged_sha256": "06bbbaca6b674d8f3eacc5326eff7f38e464cec12594df3dd40a3bd106c1b183",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/Fixed.h",
+      "raw_tested_sha256": "818f120b7f17eee3bf0ceb54acb888650732fa1d267458e5477792d81483ffc5",
+      "staged_sha256": "17ec12c2c2e3ab4c02caf7d9872cce133034d45c67b5565f1252e8d416153f07",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.cpp",
+      "raw_tested_sha256": "12426570e627db745da2bc5f7edbe0629d95b834dfabf87ef621a91623ae39f5",
+      "staged_sha256": "79a90c30084cc22651edb3afc83514e78a0655ca58e568274c2e371282db293d",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2BlockAllocator.h",
+      "raw_tested_sha256": "b9056e01399ee810604c54097a25d71f8e867e0ffad2712bc98498fce2d5bfce",
+      "staged_sha256": "43b435851bf8d92f3b0828ae46e9bfc99ed699becd2fee47299e7a36530b1f9a",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.cpp",
+      "raw_tested_sha256": "9dd538fca46377fc5ddfccaa5aaf293397c83d06e8400426856f0dbb8489a688",
+      "staged_sha256": "40b19183b8fcf2a678fb413d6552a11dbcc4548a5b019e32ccf6cfd247908e48",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Math.h",
+      "raw_tested_sha256": "bb9eb24351da6c1bb1ff6fee57e013e502057e4837511b1d236c2b252d1ba418",
+      "staged_sha256": "195966e0000a73e8116c84887f4158c937191bedc7a318387a682fe7fc90ad71",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.cpp",
+      "raw_tested_sha256": "5a5d9af838afb02ff85ae840b83c2e3ebd30550005b80ed61109e2eb1cd63625",
+      "staged_sha256": "3ee6f2cd9a6de15be2d79d8705e2ae495edfaa2c5fb7d26cb3ac20a057270a31",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2Settings.h",
+      "raw_tested_sha256": "ac5ba67e35bacea5965b8ea939641b8b5f6d337b37f8c4776c739057a9f9369d",
+      "staged_sha256": "96bf15dff66884df1aaabd9f39e2ef0c0c41e9d66ac1cbd1e59c1a90dc74f6a2",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.cpp",
+      "raw_tested_sha256": "abbfebe42cd6d45ee5a46d8afb031c8e6560908eadaab010152afb94e3a8a8c4",
+      "staged_sha256": "0c1ae0d31d75a306fae4902e8dc2b1bcc08705cf5ab4370ade5017b1389a72d3",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/b2StackAllocator.h",
+      "raw_tested_sha256": "3b65b1456f10ccf5ecb72583f05eaaf50094d3cffbbca1012cb0bee100484e60",
+      "staged_sha256": "ae0ea171393346cd98ee039b8f0966e581d4234306c7a0bed8dcec7d8e674224",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Common/jtypes.h",
+      "raw_tested_sha256": "4ba0ec25429a79495203fc9ae80d1b82168e5cfa0a85d842f2ed3e89829f9c79",
+      "staged_sha256": "d234d5bbe1e1abb7f2bc467597a53ab643ecbd63446d59626afe1df59daa7a6f",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.cpp",
+      "raw_tested_sha256": "ded2f2cda858750019b6859922ac5d2b0916ff1f0d388a3fab2ed9689a665c9d",
+      "staged_sha256": "563ddcf79aad58042a9739ccb04b749e1fa914c439a9bc3e2e4dd06f49a6e166",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2CircleContact.h",
+      "raw_tested_sha256": "7d5d026bc0f7e4d05bfb43f6f01cc5581b672138cd30ab5fb804a8dd42abd231",
+      "staged_sha256": "3f8456b82c204f08fbe12a4fa734390a6c9b22731b7e9777368004c5c0c8c8f2",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.cpp",
+      "raw_tested_sha256": "a0875445d2a2b253fa2815b26373611fe1cfdfcc24084cae74dba20a21e81b2b",
+      "staged_sha256": "6c343de91e1be3d371d8e6ad59116249ba986b940873bc7091b269a7acc60f0e",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2Contact.h",
+      "raw_tested_sha256": "da89817056b93e124f53bb520402466df01986d3da9d449222838ff6ad841ac0",
+      "staged_sha256": "eaf80ceb4d163d171a57c502748000345451345414003b5262a84ce3e6a270f5",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.cpp",
+      "raw_tested_sha256": "c9c0560fe24e87b37c54268b8a90a36ce3261e61647fc76acf4b38f09b6cf65c",
+      "staged_sha256": "23eaf0d94b20ae8cb70ff9928ec9c25cf4a986f56cf13bb96a39550eddf405a5",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2ContactSolver.h",
+      "raw_tested_sha256": "4a41c009fd2af2aee9b7c499095f767c92812dc06ab309add137b91be68ebe60",
+      "staged_sha256": "85424facf0fd869b30e407535fc4538fab24db1a4f55ee94eb4a09e279d89514",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2NullContact.h",
+      "raw_tested_sha256": "74899863e071428be4d71d6c1fe062650cde7d49ba7064fc9f9d7f5e8c43d8aa",
+      "staged_sha256": "b45a18ba02ca0152642646a77c5ef8c660be4cdc2e24e4939f1c0d26e475f722",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.cpp",
+      "raw_tested_sha256": "0ff192b00e5a99843a0c9515b60a600540f2bdb87b0c493d7d8427798b1891fb",
+      "staged_sha256": "92804f8e2e219f80ff6d3e97064bca4056ee9ee7f997a89e3844fbef8b843e9b",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyAndCircleContact.h",
+      "raw_tested_sha256": "a15c3588c089059af1d99b7733412518059e16c2dc2df6c92cd99089fb66d55e",
+      "staged_sha256": "1c17c09af333dd5b0c466471dfc72fb7d88dc046fb6a9ef35538ae7b8497e8c5",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.cpp",
+      "raw_tested_sha256": "04e0d8d2be9eb55e2374935f01d09be785959e806f49ec478700cd07f7d6955c",
+      "staged_sha256": "0fd571b506e48505d674129112430dc36654adaa3ab4be2312a2c31e912fd707",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Contacts/b2PolyContact.h",
+      "raw_tested_sha256": "67ad4841a0f4a008722bbd1fb41b49b46bb60ea0b1d63fd92002528224acbd8a",
+      "staged_sha256": "aa24a5b5ec6a93185660cab8c7af67284b8944f081c2dacf57e34e4df81320dd",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.cpp",
+      "raw_tested_sha256": "0853ceb8d146a5db0ec0eea208f8751f61386f41532f4edf3ac0e72a0108a34c",
+      "staged_sha256": "7a70ec7f5b79ef93fcc07b61af83c735019e04c07b2e99cd704cd7c5fb946af1",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2DistanceJoint.h",
+      "raw_tested_sha256": "c167e9f0362edb80c8949e8c66fb9ac267fed3628313c4b696cd055cd88ed100",
+      "staged_sha256": "81905cfcc51a112763b22c6d8f6da906793e97f9de4338e17345b2ed031c4d82",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.cpp",
+      "raw_tested_sha256": "4a5424b398f016dc9a8c5b5538066a6c5e391e9748498e702bb5d060ad44083d",
+      "staged_sha256": "9f96a369fea976cb39a89faba2cb0171777ed89560d96d321b58929277c717e2",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2GearJoint.h",
+      "raw_tested_sha256": "e61df42dd9366d6f472bf18843838579863602281c336b4148f634b7f9a60fd5",
+      "staged_sha256": "a0d53326fcefe981f9fd2849cda7778177f8b5bc89615f9826b38d411ce85a7b",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.cpp",
+      "raw_tested_sha256": "b6a439cbbf8bc4a4fe835d29b652fcfedf5affb3a8dc7786b68ed1e1a45547dd",
+      "staged_sha256": "e6a0262ce1725cb20cdab1bf6d45e7f7b0cb7dcbc5f4a1cc75e656b5c356b50c",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2Joint.h",
+      "raw_tested_sha256": "b01f4e90a0ea7044b9cadeb5c8cf91ae752e2c115cf0f764c1f45a249e4778f9",
+      "staged_sha256": "ce6985999a864d50accfb6968922bb22185f5e2d7de5c455a965d529f2df53ae",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.cpp",
+      "raw_tested_sha256": "0a9d8342dfa3dc12af1876421d3c33e71b5532d14db8cba0bbf24bf80f6b1e78",
+      "staged_sha256": "2b6e4ab9e09542e98783ad144b86b1db67b0a29a5e754e440552d173561296a0",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2MouseJoint.h",
+      "raw_tested_sha256": "820476f8770f51e86df059703a54244e37291cadf48be436582d2341d5921473",
+      "staged_sha256": "fd18295b9b45346470993306c82a167c5935c5ed031e29a572c64d7bf26a1fa6",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.cpp",
+      "raw_tested_sha256": "ee3981cfa0e94d82799d6eebecf81a09cd2bc137ac6f43a6c04ef5de197a9a28",
+      "staged_sha256": "e328bf8b408d58e3b266db474d29903691a51aa5955a5e2b331755b072e64a2d",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PrismaticJoint.h",
+      "raw_tested_sha256": "0f9fc788a01c0cb02b3e959d9d2a2d6eed1012276288bff39d1dd6cd019f9081",
+      "staged_sha256": "3bdf56803e48a46c92e3559640a04296b8b036acd48f91accbd1271acc9a933a",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.cpp",
+      "raw_tested_sha256": "5cb5b0c762d2e6164c79e62316930f9d317fe4f99be8376481f08ebae157a83a",
+      "staged_sha256": "9a14c34dee41552c4419ec4f782b7e891eee61fd691ca1afe29c65d4e254db15",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2PulleyJoint.h",
+      "raw_tested_sha256": "3a3b2642c88952e5412c29409ea066d18b82611710e8cb926b2d83f1931731c4",
+      "staged_sha256": "d26b137548731906b0e7765b3d4aeef0a480eb28597ff18cfbc466a85f446b29",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.cpp",
+      "raw_tested_sha256": "c720e0b2cfe29d40292536913d32b2da0f74cc2d60759c5fe6e67cb735b56c33",
+      "staged_sha256": "5e644eaf889fe45de323b64ae0d11f46a657593eb89cec887dc428e7e251ebbd",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/Joints/b2RevoluteJoint.h",
+      "raw_tested_sha256": "608269ad82b95ba822abcb65d55f1c82dcba40ed07cb35eba22236ebfc58d1ff",
+      "staged_sha256": "d048e453e0d51f39328dd39ebe617848518d6148d4d745e700ebf1961b065ace",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.cpp",
+      "raw_tested_sha256": "54055e4d49d2dbfb618768bac214855b20eceba404864a585eaf665cd9698cf3",
+      "staged_sha256": "053d5da77d62f34c66748a59bccf40c6bf1abc67e47b2f13ad1b688e86749675",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Body.h",
+      "raw_tested_sha256": "634324f14ef3835a5d33e2043a80dbcc4fb2bcbc1db9f9089e8205be998216ea",
+      "staged_sha256": "5c69e407dd6e339f55719beb67fa78a297e9e261db245541183d9fe29bb6e5f8",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.cpp",
+      "raw_tested_sha256": "7c370f2d5012f921ce8b2a3ae194332792f5e773f3031e61e7c2c4f4a9dcb6a8",
+      "staged_sha256": "e882b9b1efc0418bc4a8ab2b4325ca8cd8a8e5a920669b4716d576353df054ce",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2ContactManager.h",
+      "raw_tested_sha256": "1e17705e78b21186149ae7177a3725911e7d35a42c503eec383b5eb7813777ed",
+      "staged_sha256": "c6bb1dcc382d7bc920de0b93aeaa851d8e670beed102271211295ff806a50d11",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.cpp",
+      "raw_tested_sha256": "6cb95aa76e75683326a5e0a1c841d7df4501559d79d5456ef74dcc7787a0d79f",
+      "staged_sha256": "fe67b07d389830d87a67edb79c25350da81135385ce84e626e0cff15317247ad",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2Island.h",
+      "raw_tested_sha256": "12a643d7d1215966c1f95dc10857bdbce50f1f55aef33a122345b89b12b2d733",
+      "staged_sha256": "b794f90b0aeb1cf827b21760f8a8d6eb10ed02d44184aedb1f50c196ad43ea56",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.cpp",
+      "raw_tested_sha256": "ad0dd30502b442b6b27bc05e62239ff6ef823ade04a19c34482665c25ecbdd56",
+      "staged_sha256": "79ee833da8ab3e95a24a914afa089bf301f0974509dea5308389c07e4f9c20e0",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2World.h",
+      "raw_tested_sha256": "8b54a4fc617e0e15828063ca00b8529c9c254a1b13a100bc91ad7b3d322df93d",
+      "staged_sha256": "c86f96c508653059c0ce8a89c9134138a42552d45fc19cfb9c0a1d9f242ff40b",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.cpp",
+      "raw_tested_sha256": "335f631fd1ab520f44025ca684568905be30fe5ab0eb6f9449af1a756be64ee9",
+      "staged_sha256": "84b2474f28b93147749e9c74ae1fe83e11d17db73c6e5bfb3a66850b449633da",
+      "relationship": "CRLF-to-LF-only"
+    },
+    {
+      "path": "port/physics-backend/box2d-2.0.1/Source/Dynamics/b2WorldCallbacks.h",
+      "raw_tested_sha256": "3aab4ccbfc8a8c4d207d7ac82d2fa0509a8942eba792cb0f788e9c1b115b1d19",
+      "staged_sha256": "03013b5448bf2c02169c0a6b1963ca5ad90eb594ee5c660400efd881ac10e4ac",
+      "relationship": "CRLF-to-LF-only"
+    }
+  ]
+}

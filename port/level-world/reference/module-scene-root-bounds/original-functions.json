@@ -1,0 +1,35 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {"label":"VisualObject_constructor","original_symbol":"_ZN12VisualObjectC1EP10GameObjectRKSsS3_","address":"0x472a0c","size":592,"sha256":"009dcf6e02d189677a66323fc1b3319734ce8913147232978c3ec55b23cdd0f9"},
+    {"label":"AssetManager_loadSceneNode","original_symbol":"_ZN12AssetManager13loadSceneNodeEPKcS1_bi","address":"0x50a504","size":60,"sha256":"30e371642cbd20699145ba5dccfebf01216b8b310ebf69c1194a5c67db9b9f71"},
+    {"label":"SceneManager_LoadScene","original_symbol":"_ZN12SceneManager9LoadSceneEPKcS1_bb","address":"0x3596f8","size":832,"sha256":"a3400f512e2359c9e9489575dc3b3ba5e4504c7a7737d52d9c5847950efe847e"},
+    {"label":"RootSceneNode_ResetPositionFromFile","original_symbol":"_ZN13RootSceneNode21ResetPositionFromFileEv","address":"0x35cc0c","size":208,"sha256":"b0b86b777910bf5a185ec53ef8bd889375315eb548245c9704ace61702f4e1fc"},
+    {"label":"VisualObject_SyncPosition","original_symbol":"_ZN12VisualObject12SyncPositionEv","address":"0x470cb8","size":20,"sha256":"0b12b65c824cb133ae35c2b3ebb9dc90b447e2c56cee89b2a1a57ac88723762a"},
+    {"label":"VisualObject_SetPosition","original_symbol":"_ZN12VisualObject11SetPositionERK7Point3DIfE","address":"0x470c24","size":96,"sha256":"b84dbc014302a72aab383009c9ddfc99afbc87f27b58eb3c7fd4c3b80f735015"},
+    {"label":"Module_InitPost","original_symbol":"_ZN6Module8InitPostEv","address":"0x388b20","size":312,"sha256":"d438871fa9b54d30df1000f53681149d23a0c72cf502f248008c584285d0a281"},
+    {"label":"RootSceneNode_constructor","original_symbol":"_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE","address":"0x35d824","size":236,"sha256":"f32bc6225098758a56760923eada3eb07ab19ad7269c635e82d887455244c29a"},
+    {"label":"RootSceneNode_RefreshBoundingBox","original_symbol":"_ZN13RootSceneNode18RefreshBoundingBoxEv","address":"0x35c854","size":156,"sha256":"afe4b5e093ece2de3a96cb51a4a0868839e74f86067890b24a17ba43bb4413ff"},
+    {"label":"CSceneNode_computeBoundingBox","original_symbol":"_ZNK6glitch7collada10CSceneNode18computeBoundingBoxERNS_4core8aabbox3dIfEE","address":"0x65cf8c","size":452,"sha256":"4e1299de7971229aefacd396a668b1b775d650fe38b9dc9fa55d59b4e7b48dde"},
+    {"label":"ISceneNode_getTransformedBoundingBox","original_symbol":"_ZNK6glitch5scene10ISceneNode25getTransformedBoundingBoxEv","address":"0x59770c","size":124,"sha256":"3ac37225aa9d7b429a9f40792c29254043fb1aa970ece65873bd6f22b357296d"}
+  ],
+  "vtable": {
+    "symbol":"_ZTV13RootSceneNode",
+    "symbol_address":"0x95fdd8",
+    "constructor":"_ZN13RootSceneNodeC1ERKN6glitch7collada16CColladaDatabaseE",
+    "itanium_address_point":"0x95fdf4",
+    "constructor_vptr_store_bytes":"1c3083e2003084e5",
+    "virtual_targets":{"0x30":"0x5839b0","0x34":"0x59770c","0xa0":"0x597124"}
+  },
+  "callsite_bytes": {
+    "VisualObject_calls_loadSceneNode_at_0x472b18":"795e02eb",
+    "loadSceneNode_node_to_reset_flag_at_0x50a518":"00c052e201c0a0130030a0e3",
+    "loadSceneNode_calls_LoadScene_at_0x50a534":"6f3cf9ea",
+    "LoadScene_calls_ResetPositionFromFile_at_0x3597c4":"100d00eb",
+    "SyncPosition_owner_plus_0x160_then_SetPosition_at_0x470cc4":"161e81e2d5ffffea",
+    "Module_InitPost_loads_visual_at_plus_0x2d8":"d83298e5",
+    "Module_InitPost_loads_root_at_visual_plus_8":"083093e5",
+    "Module_InitPost_calls_root_slot_plus_0x34_at_0x388b6c":"34f093e5"
+  },
+  "scope_note": "Exact original ARM ELF identities and selected call/virtual dispatch edges. The source path selects a Collada node, resets the loaded first child to identity, then synchronizes owner position into the game RootSceneNode; Module::InitPost invokes transformed bounds through the verified RootSceneNode vtable address point."
+}

@@ -1,0 +1,5 @@
+{
+  "validation": "PASS",
+  "scope": "Native mod-file boundary; no game behavior or device proof",
+  "result": "PASS: path, override, fallback, size, directory, retained-output; symlink unavailable"
+}

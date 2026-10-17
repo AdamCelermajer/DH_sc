@@ -1,0 +1,215 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "functions": [
+    {
+      "original_symbol": "_ZN13PlayerManager20GetPlayerByCharacterEPK9Characterb",
+      "elf_address": "0x36eea8",
+      "size": 340,
+      "sha256": "cb9f2652621dd1127f9cb1b041f3eedcea2769410054fe187912164986df306e",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager13IsLocalPlayerEPK9Character",
+      "elf_address": "0x36effc",
+      "size": 44,
+      "sha256": "9788e4a17e601db1483855dcde27c82c74471c4108bc232e4d19d0a4323beb0e",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo7IsLocalEv",
+      "elf_address": "0x80f1ec",
+      "size": 80,
+      "sha256": "803c5c96831e9c31302e8c30e8afce0403e69dcbe5340e668c880db532914fe6",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZN9CMatching8IsServerEv",
+      "elf_address": "0x7fe4e0",
+      "size": 100,
+      "sha256": "ca848fe764a3496aa2546d73e2df38a759a68737a01e371806d6570c85b35cb4",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZN9CMatching3GetEv",
+      "elf_address": "0x800f8c",
+      "size": 280,
+      "sha256": "681035becb75cb210697eaba3b69e1efe37e1082e9f6e27308ec17731f5ffefb",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZNK14CMatchingLocal11GetMemberIdEv",
+      "elf_address": "0x801b30",
+      "size": 12,
+      "sha256": "a3746700f81b4fb9ba4d52829e0a0b8cfa8b5d6f4efb931ca7c43195685b98dc",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZNK14CMatchingLocal17GetServerMemberIdEv",
+      "elf_address": "0x801b48",
+      "size": 12,
+      "sha256": "4904069873249eed60ca33ebb49e650df26ccb0e59dd6c2b4e0368dbbce03972",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZN9CMatchingC2Ev",
+      "elf_address": "0x80003c",
+      "size": 160,
+      "sha256": "2659056c43a29e548c8efa556fc0ff4964ea8b9b04a8cb7292e5714cbf5f5c54",
+      "dynamic_scope": "complete caller/leaf"
+    },
+    {
+      "original_symbol": "_ZN14CMatchingLocalC1Ev",
+      "elf_address": "0x807d08",
+      "size": 316,
+      "sha256": "01d720119037dee165815a71cabf196e91547162629b4fc19bd4534f6bcd941b",
+      "dynamic_scope": "local constructor prefix/Reset ID-store projection only"
+    },
+    {
+      "original_symbol": "_ZN14CMatchingLocal5ResetEv",
+      "elf_address": "0x8074a4",
+      "size": 1208,
+      "sha256": "02c59763ee484bbf3e9edc79df8b5b3741e6344b349aa77468d44b29c2e626bd",
+      "dynamic_scope": "local constructor prefix/Reset ID-store projection only"
+    },
+    {
+      "original_symbol": "_ZN14CMatchingLocal8IsInRoomEv",
+      "elf_address": "0x805cc8",
+      "size": 112,
+      "sha256": "cc1dd93077cd5108f3c2af9ded7712d7023ee1cd37183c0afbe0ce03150a4b22",
+      "dynamic_scope": "static dependency only; declared callee fixture when reached"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager21GetPlayerByInternalIDEib",
+      "elf_address": "0x36dfb0",
+      "size": 236,
+      "sha256": "126c852bbc5ee60745e5fce746d522206b1c1fa638db996674e3991b56bfa090",
+      "dynamic_scope": "static dependency only; declared callee fixture when reached"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManager17_GetNetPlayerInfoEib",
+      "elf_address": "0x36dec4",
+      "size": 236,
+      "sha256": "b011f387cbfca800425b15f432480aa8550d782bbe435a6538b1133e82b484f6",
+      "dynamic_scope": "static dependency only; declared callee fixture when reached"
+    },
+    {
+      "original_symbol": "_ZN14CNetPlayerInfo5ResetEv",
+      "elf_address": "0x80f27c",
+      "size": 100,
+      "sha256": "d0e26aa361dac5f63dec4c3be5d1826a180a3bda716de52cbd71ee130841ad72",
+      "dynamic_scope": "static dependency only; declared callee fixture when reached"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfo5ResetEv",
+      "elf_address": "0x373bdc",
+      "size": 1456,
+      "sha256": "66bb927ada569788c7fb97e9255f0a791d83b342837f62ab225417919f30eeb0",
+      "dynamic_scope": "static dependency only; declared callee fixture when reached"
+    },
+    {
+      "original_symbol": "_ZN10PlayerInfoC1Ev",
+      "elf_address": "0x37418c",
+      "size": 2460,
+      "sha256": "13d8ca15844ca9c10cd95116a9014af7c30d2ed759da55a2035b51c697eff580",
+      "dynamic_scope": "static dependency only; declared callee fixture when reached"
+    },
+    {
+      "original_symbol": "_ZN13PlayerManagerC1Ev",
+      "elf_address": "0x374b28",
+      "size": 188,
+      "sha256": "dc0bdfb9bb07a71622e07b21d5b74557e38cb0c2fcbbae7609a829cd4eb7efab",
+      "dynamic_scope": "static dependency only; declared callee fixture when reached"
+    }
+  ],
+  "matching_local_vtable": {
+    "original_symbol": "_ZTV14CMatchingLocal",
+    "elf_address": "0x992230",
+    "address_point_delta": 8,
+    "slots": {
+      "0x64": {
+        "symbol": "_ZN14CMatchingLocal8IsInRoomEv",
+        "address": "0x805cc8"
+      },
+      "0x6c": {
+        "symbol": "_ZNK14CMatchingLocal11GetMemberIdEv",
+        "address": "0x801b30"
+      },
+      "0x74": {
+        "symbol": "_ZNK14CMatchingLocal17GetServerMemberIdEv",
+        "address": "0x801b48"
+      }
+    }
+  },
+  "projection_windows": [
+    {
+      "function": "CMatchingC2",
+      "scope": "complete base constructor instructions;32 member-record constructors declared fixtures",
+      "active_store": "0x800084 (C2 +0xc byte store; C1 equivalent 0x7fffe4)"
+    },
+    {
+      "function": "CMatchingLocalC1",
+      "start": "0x807d08",
+      "stop": "0x807d4c",
+      "fields": {
+        "0xc": 0,
+        "0x3638": -1,
+        "0x363c": -2
+      }
+    },
+    {
+      "function": "CMatchingLocalReset",
+      "start": "0x8076a4",
+      "stop": "0x8076c0",
+      "fields": {
+        "0x363c": -2,
+        "0x3638": -1
+      },
+      "active_byte": "unchanged; no +0xc store in whole pinned Reset"
+    }
+  ],
+  "scope": "Complete original GetPlayerByCharacter, IsLocalPlayer, CNetPlayerInfo.IsLocal, CMatching.IsServer, CMatching.Get and both Local member leaves execute. Online/net/room and allocation/derived-constructor callees are declared fixtures. Base constructor scalar fields execute with member-record constructor fixtures; Local prefix and Reset ID-store windows are bounded projections, not full constructors/Reset. Canonical PlayerInfo identity is reused; source manager fallback/local result does not establish a registered Character association.",
+  "vtables": [
+    {
+      "original_symbol": "_ZTV10PlayerInfo",
+      "elf_address": "0x963930",
+      "size": 108,
+      "sha256": "62dc743b6c3e59a4a8ee97a81eb4dab1008ec1b04f337c2f2b9da66f9133b7e6",
+      "address_point_delta": 8,
+      "slots": {
+        "0x50": {
+          "symbol": "_ZN14CNetPlayerInfo7IsLocalEv",
+          "address": "0x80f1ec"
+        }
+      }
+    },
+    {
+      "original_symbol": "_ZTV14CMatchingLocal",
+      "elf_address": "0x992230",
+      "size": 192,
+      "sha256": "3c80fe2c1bc852bd0666dac4c965225ba9114006f6cbb96e703ac6a22cd572d2",
+      "address_point_delta": 8,
+      "slots": {
+        "0x64": {
+          "symbol": "_ZN14CMatchingLocal8IsInRoomEv",
+          "address": "0x805cc8"
+        },
+        "0x6c": {
+          "symbol": "_ZNK14CMatchingLocal11GetMemberIdEv",
+          "address": "0x801b30"
+        },
+        "0x74": {
+          "symbol": "_ZNK14CMatchingLocal17GetServerMemberIdEv",
+          "address": "0x801b48"
+        }
+      }
+    }
+  ],
+  "player_info_field_producers": {
+    "CNetPlayerInfo.Reset.call": "0x373c0c",
+    "member_1a0.store_minus_one": "0x80f294",
+    "PlayerInfo.Character660.store_null": "0x373c24",
+    "PlayerManager.empty_registry_stores": "0x374b58..0x374b90",
+    "registration": "not inferred by locality query; source _AddCharacter store at0x3722ec remains separate",
+    "PlayerInfo.constructor.Reset.call": "0x374a98"
+  }
+}

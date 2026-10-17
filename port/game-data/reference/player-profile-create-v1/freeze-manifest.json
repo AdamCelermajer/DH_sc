@@ -1,0 +1,70 @@
+{
+  "validation": "PASS",
+  "whitelist": [
+    "port/game-data/player_profile_create_v1.cpp",
+    "port/game-data/player_profile_create_v1.hpp",
+    "port/game-data/player_savegame_v1.cpp",
+    "port/game-data/player_savegame_v1.hpp",
+    "port/android-native/app/src/main/cpp/native_player_profile.cpp",
+    "port/android-native/app/src/main/cpp/native_player_profile.hpp",
+    "port/game-data/tests/player_profile_create_v1.cpp",
+    "port/game-data/tests/player_profile_create_v1_original.py",
+    "port/game-data/tests/run_player_profile_create_v1_host.py",
+    "port/game-data/reference/player-profile-create-v1/NOTES.md",
+    "port/game-data/reference/player-profile-create-v1/original-functions.json",
+    "port/game-data/reference/player-profile-create-v1/original-functions.asm",
+    "port/game-data/reference/player-profile-create-v1/original-capture.json",
+    "port/game-data/reference/player-profile-create-v1/fixtures.bin",
+    "port/game-data/reference/player-profile-create-v1/catalogue-functions.json",
+    "port/game-data/reference/player-profile-create-v1/catalogue-functions.asm",
+    "port/game-data/reports/player-profile-create-v1-host-audit.json",
+    "port/game-data/reference/player-profile-create-v1/freeze-manifest.json"
+  ],
+  "files_sha256": {
+    "port/game-data/player_profile_create_v1.cpp": "4ae5e1ba5be9617c5f7476303ae31beaa9bcd36e24edf9d19139eaa2fc3b0641",
+    "port/game-data/player_profile_create_v1.hpp": "44a626b1c9997f286a42fc7432a5d9c4d55eda50e78a16eba3cc2010bb0935a8",
+    "port/game-data/player_savegame_v1.cpp": "fc8881c5379ed9d6bab38bd2b20ec7ae7c11e2e92bcc4d681f04ac0443df74c2",
+    "port/game-data/player_savegame_v1.hpp": "05fba26a7dd9bce4ec37c6c8d3db84ce82ca9bd7f30adbb32070a9e100b97cfe",
+    "port/android-native/app/src/main/cpp/native_player_profile.cpp": "02083a1af7a7853cb44ad677c11762e9e616ec9e65113b50b8d9c6fedeca01a9",
+    "port/android-native/app/src/main/cpp/native_player_profile.hpp": "99c3c960547458ebb4398a69f9d50c8bc8cc25c9c1bbdae3ca833bbe53d57521",
+    "port/game-data/tests/player_profile_create_v1.cpp": "a719ea040899cd2dabbefe24de87ba39faa06e19d8354eec0a196cc041d4dbc7",
+    "port/game-data/tests/player_profile_create_v1_original.py": "2de08f5f7f8fcb22b9b4ca075c64c697c17c2b9ead01202eec20d2ff2141aa73",
+    "port/game-data/tests/run_player_profile_create_v1_host.py": "f79a8a7bd1932bd22e77762b16b8a34b69618711b51aa15e0286b2cc8353afd8",
+    "port/game-data/reference/player-profile-create-v1/NOTES.md": "06920fa0b3bb0aab95f4ed3f261e55eb77e5eec71fe26c60d8ffd5063087ac1c",
+    "port/game-data/reference/player-profile-create-v1/original-functions.json": "9057d1f015ec1f67a0086223cfc164ad14436a4c434113b5e81eca42130b324d",
+    "port/game-data/reference/player-profile-create-v1/original-functions.asm": "813d1cbaf98b446f92bd4fc9e0caab6ab1c1c13b2adda4cd50a53dc59e44e09a",
+    "port/game-data/reference/player-profile-create-v1/original-capture.json": "7a7ccc1a62ee413ed348d8126e168dc13ff347d52798c2fc6a5e13290bc4d950",
+    "port/game-data/reference/player-profile-create-v1/fixtures.bin": "8e1dd2301d1d66443810ee6d9182ec06f1fa891eb38c49217039b1b9fa7dfb26",
+    "port/game-data/reference/player-profile-create-v1/catalogue-functions.json": "88c4245b214f46d6d1c81161cf14ff7acf346a4dc39b5efacf3dd45ae7895ce9",
+    "port/game-data/reference/player-profile-create-v1/catalogue-functions.asm": "0c484e6676bad8abee9cac895882c0539686cbc45a3b75ac86be6ed5e9b7ab6a",
+    "port/game-data/reports/player-profile-create-v1-host-audit.json": "301c87da494aacf3e17f31684a4f61f092c577be5ca69615be3074c1dade70ba"
+  },
+  "modified_existing_authority": [
+    "port/game-data/player_savegame_v1.cpp",
+    "port/game-data/player_savegame_v1.hpp",
+    "port/android-native/app/src/main/cpp/native_player_profile.cpp",
+    "port/android-native/app/src/main/cpp/native_player_profile.hpp"
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_report_keys": [
+    "host_report",
+    "original_comparison",
+    "source_sha256",
+    "new_module_selected",
+    "source_tu_counts",
+    "selected_compiler_objects",
+    "binary_sha256"
+  ],
+  "project_inputs": 94,
+  "selected_data_cmake_sha256": "5fa28a798a73b36afa91a680b1fd0af76b6ba39b1def063cd5cc566cff0feaac",
+  "production_frozen": true,
+  "scope": "NativeCreate two-string valid body, indexed metadata fields/SG_Load1 registration, full offline SG_Save order, seven metadata writer bodies and saveAll stream bytes. AS conversion, slot catalogue, real clocks/online/I/O/cache publication and destructor are explicit original leaves. Selected host uses actual native Transport with explicit new-file creation, flushed atomic file publication and distinct gameplay Save SG_Load1 readback; directory power-loss durability is not claimed. Full online save/volatile body, gameplay InitPost/property/VM/grants and registration remain external requirements.",
+  "static_catalogue_evidence_only": true,
+  "root_owned_external_producer": "port/android-native/app/src/main/cpp/native_menu_runtime.cpp next_free_slot lambda; catalogue source bodies statically pinned here, platform provider not compiled by this host fixture.",
+  "private_campaign_bytes_published": false,
+  "source_before_after_equal": true,
+  "guarded_shared_source_sha256": {
+    "port/game-data/class_tables.cpp": "2ce809b6f057fb40747ebdc8a31ecd3d1cd99529bfe79221efc5aea31ac652fd",
+    "port/game-data/class_tables.hpp": "cad8938b4edda851ccc2a2a3ed4b6b2bdbc31fa0cfaa997119e78630698c8af2"
+  }
+}

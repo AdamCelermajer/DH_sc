@@ -1,0 +1,208 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "new_complete_caller_bodies": 2,
+  "new_complete_dependency_bodies": 0,
+  "functions": [
+    {
+      "original_symbol": "_ZN9Character7RegenHPEi",
+      "elf_address": "0x3bdca4",
+      "size": 236,
+      "sha256": "3dfc266ef09f6c4d4f6dbd6ba04b61a1c8d0b28ddc0c8ffb943891cbb8075e4d",
+      "scope": "complete caller body"
+    },
+    {
+      "original_symbol": "_ZN9Character7RegenMPEi",
+      "elf_address": "0x3bdbb8",
+      "size": 236,
+      "sha256": "f9aca1f9bfaa301e6ee4e98513b472a1340e41c2e1f4f22f3f7c31b2ade8185a",
+      "scope": "complete caller body"
+    },
+    {
+      "original_symbol": "_ZNK14CharProperties12_GetPropertyERKN7Structs19CharacterPropertiesEi",
+      "elf_address": "0x3dedb4",
+      "size": 292,
+      "sha256": "c227dbb320f18ab04022f3d61d90e90285652215e56bce8c89c8146aa0fa706f",
+      "scope": "external dependency evidence only"
+    },
+    {
+      "original_symbol": "_ZN14CharProperties9PROPS_AddEii",
+      "elf_address": "0x3e0708",
+      "size": 144,
+      "sha256": "0e4a2cdfe4feef368849e8823b05d451f55b4178b762f3fa9fcaf27d8abf79c3",
+      "scope": "external dependency evidence only"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "scope": "external dependency evidence only"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "scope": "external dependency evidence only"
+    },
+    {
+      "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+      "elf_address": "0x3140ec",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+      "scope": "external dependency evidence only"
+    },
+    {
+      "original_symbol": "_ZNSsD1Ev",
+      "elf_address": "0x318254",
+      "size": 68,
+      "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+      "scope": "external dependency evidence only"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+      "elf_address": "0x337288",
+      "size": 380,
+      "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+      "scope": "external dependency evidence only"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x3369a8",
+      "size": 212,
+      "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+      "scope": "external dependency evidence only"
+    }
+  ],
+  "debug_literal": {
+    "elf_address": "0x8c4898",
+    "text": "isTracingChar_Stats",
+    "sha256": "f8dcbe18adf8f41db43ba0b8c97ed0346738e7970bd604122da1fe30f2609b9b",
+    "regen_mp_pc_add": "0x3bdc48",
+    "regen_mp_literal": "0x3bdca0",
+    "regen_hp_pc_add": "0x3bdd34",
+    "regen_hp_literal": "0x3bdd8c"
+  },
+  "debug_singleton_got": {
+    "slot": "0x99531c",
+    "target": "0x9a1d18",
+    "symbol": "_ZN13DebugSwitches6s_instE",
+    "bytes": 48,
+    "got_base": "0x994a98",
+    "regen_mp_base_pc_add": "0x3bdbc8",
+    "regen_mp_base_literal": "0x3bdc94",
+    "regen_mp_symbol_literal": "0x3bdc9c",
+    "regen_hp_base_pc_add": "0x3bdcb4",
+    "regen_hp_base_literal": "0x3bdd80",
+    "regen_hp_symbol_literal": "0x3bdd88"
+  },
+  "cache_debug_configuration": {
+    "path": "DebugSwitches.savegame",
+    "bytes": 665,
+    "sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+    "header_hex": "575342440000020000000000",
+    "rows": [
+      {
+        "name": "ConnectToAlphaServer",
+        "value": 0
+      },
+      {
+        "name": "ConnectToBetaServer",
+        "value": 0
+      },
+      {
+        "name": "DontUsePlayerSeed",
+        "value": 0
+      },
+      {
+        "name": "DumpQuestInformationOnce",
+        "value": 0
+      },
+      {
+        "name": "EnablePlayerHeadLight",
+        "value": 1
+      },
+      {
+        "name": "ForceAll4Players",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenus",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenusRender",
+        "value": 0
+      },
+      {
+        "name": "IsDeactivatingFlashMenusUpdate",
+        "value": 0
+      },
+      {
+        "name": "IsDisablingMinimap",
+        "value": 0
+      },
+      {
+        "name": "IsLevelUpdatePaused",
+        "value": 0
+      },
+      {
+        "name": "IsUsingCharacterShowRoom",
+        "value": 0
+      },
+      {
+        "name": "IsUsingGamepadTweaker",
+        "value": 0
+      },
+      {
+        "name": "IsUsingToggleDisplayMode",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableAllLighting",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableAllSpecular",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_DisableGpuSkinning",
+        "value": 0
+      },
+      {
+        "name": "RENDERING_EnableShadowProjection",
+        "value": 1
+      },
+      {
+        "name": "RENDERING_EnableXray",
+        "value": 1
+      },
+      {
+        "name": "TestMultiPlayerLight",
+        "value": 1
+      },
+      {
+        "name": "ToggleGamepadScreenShot",
+        "value": 1
+      },
+      {
+        "name": "isTracingDebugSwitches",
+        "value": 0
+      },
+      {
+        "name": "isTracingDebugSwitchesFile",
+        "value": 0
+      }
+    ],
+    "fully_consumed": true,
+    "requested_key_present": false,
+    "parsing_scope": "Audit fixture decodes length-prefixed name bytes and byte values; no new native file/parser/map/load body claim."
+  },
+  "reused_maintained_sources": [
+    "port/game-data/properties.cpp",
+    "port/game-data/class_tables.cpp",
+    "port/game-data/vitals.cpp"
+  ],
+  "native_wired": false
+}

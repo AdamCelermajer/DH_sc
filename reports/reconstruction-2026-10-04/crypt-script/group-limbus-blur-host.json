@@ -1,0 +1,96 @@
+{
+  "validation": "PASS",
+  "host_report": {
+    "group_limbus_blur_cases": 16,
+    "role3_only": true,
+    "any_other_limbus_selects2": true,
+    "all_other_queries_in_order": true,
+    "count_snapshot_pointer_live": true,
+    "owner_skipped": true,
+    "aliases_and_errors_guarded": true,
+    "native_group_wired": false,
+    "mismatches": 0
+  },
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O1",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_group_limbus_blur.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_group_limbus_blur.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\character-group-limbus-blur-root\\test.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/tests/character_group_limbus_blur.cpp": "ae957f4e108fde3118d8dc7f8adefa3bd3cdfcc09fda7924f7f61b16bf911864",
+    "port/level-world/character_group_limbus_blur.cpp": "0737173e1456c13b7ab01547eb2f791ce53f86cdd89b0c37bbf58c8361c5bf5b",
+    "port/level-world/character_group_limbus_blur.hpp": "3e5d64efafd39b4a3650e3f1b16cbb71ee9da371a6293879d661addcbc9aaec1",
+    "port/level-world/character_group_respawn.hpp": "b5638d32559861fd2f4c7b60597a22975f51b872170f6b34a6c90ee203870a9c",
+    "port/level-world/tests/run_character_group_limbus_blur_host.py": "3d8ada997449bb5cde9a955753c21b51dbdb095053962a837395ab78d3bc230c"
+  },
+  "native_group_wired": false,
+  "original_branch_oracle": {
+    "validation": "PASS",
+    "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+    "cases": 7,
+    "executed_scope": "original ARM role/group branch 0x3c2c94 through normal convergence 0x3c2ca0; real SM_IsInLimbus and SM_GetState leaves; earlier OnBlur prefix not executed",
+    "results": [
+      {
+        "case": "other_role_no_group_read",
+        "group_status": 7,
+        "member_queries": []
+      },
+      {
+        "case": "empty",
+        "group_status": 0,
+        "member_queries": []
+      },
+      {
+        "case": "self_only",
+        "group_status": 0,
+        "member_queries": []
+      },
+      {
+        "case": "no_limbus",
+        "group_status": 0,
+        "member_queries": [
+          "a",
+          "b"
+        ]
+      },
+      {
+        "case": "mixed_no_short_circuit",
+        "group_status": 2,
+        "member_queries": [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      {
+        "case": "duplicate_peer",
+        "group_status": 2,
+        "member_queries": [
+          "a",
+          "a"
+        ]
+      },
+      {
+        "case": "captured_count_live_begin",
+        "group_status": 2,
+        "member_queries": [
+          "a",
+          "d",
+          "e"
+        ]
+      }
+    ],
+    "original_range_sha256": {
+      "0x3c2be4/344": "f3c50b20f129706b7c8cd8e0b5d283fa876a2246cbedd5734a25f104d593b57f",
+      "0x3c01c0/20": "9a5a7da0e51a2036859e2a5634b8b29dce869733922178f3d9f15430b7c2b3a7",
+      "0x3c01ac/20": "4b5797cd91d4afd7ee3becf1bb65b696146e55fc226838e13c0fbef91b0e4743"
+    }
+  }
+}

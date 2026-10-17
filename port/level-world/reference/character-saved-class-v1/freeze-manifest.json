@@ -1,0 +1,64 @@
+{
+  "validation": "PASS",
+  "whitelist": [
+    "port/level-world/character_saved_class_v1.cpp",
+    "port/level-world/character_saved_class_v1.hpp",
+    "port/game-data/player_savegame_v1.cpp",
+    "port/game-data/player_savegame_v1.hpp",
+    "port/level-world/tests/character_saved_class_v1.cpp",
+    "port/level-world/tests/character_saved_class_v1_original.py",
+    "port/level-world/tests/run_character_saved_class_v1_host.py",
+    "port/level-world/reference/character-saved-class-v1/NOTES.md",
+    "port/level-world/reference/character-saved-class-v1/original-functions.json",
+    "port/level-world/reference/character-saved-class-v1/original-functions.asm",
+    "port/level-world/reference/character-saved-class-v1/original-capture.json",
+    "port/level-world/reference/character-saved-class-v1/class-fixtures.bin",
+    "port/level-world/reference/character-saved-class-v1/prop-fixtures.bin",
+    "port/level-world/reports/character-saved-class-v1-host-audit.json",
+    "port/level-world/reference/character-saved-class-v1/freeze-manifest.json"
+  ],
+  "files_sha256": {
+    "port/level-world/character_saved_class_v1.cpp": "f3666e1bfd48fd5ac313f75ed9b69f7d5d8d39de4bed162f4815585df3466e2a",
+    "port/level-world/character_saved_class_v1.hpp": "5dca59a7ea47565767d2d98c1f48182b7af283261ab31b69e74dac4b3baa3c7d",
+    "port/game-data/player_savegame_v1.cpp": "fc8881c5379ed9d6bab38bd2b20ec7ae7c11e2e92bcc4d681f04ac0443df74c2",
+    "port/game-data/player_savegame_v1.hpp": "05fba26a7dd9bce4ec37c6c8d3db84ce82ca9bd7f30adbb32070a9e100b97cfe",
+    "port/level-world/tests/character_saved_class_v1.cpp": "532cf34cc1356ef21261222960281af6e4ebe5986c6cb874696e36f568c745ef",
+    "port/level-world/tests/character_saved_class_v1_original.py": "e631efbe7769630f55e8e8409b7934311f5541dfd9657b55397c7f86286d4805",
+    "port/level-world/tests/run_character_saved_class_v1_host.py": "c84bc9d47849563422d7dd518741d20cf30d3162b092d02f7f1ce4660e03334c",
+    "port/level-world/reference/character-saved-class-v1/NOTES.md": "cdd8b81d31b10c9b7dd0e2dec687bf3af7c30bf5df98199becea3fc19d0480b8",
+    "port/level-world/reference/character-saved-class-v1/original-functions.json": "2e1e41b88f9ad94385aa332a860e5e607b66e0b5c6a5dba47f17cb6816dbab0f",
+    "port/level-world/reference/character-saved-class-v1/original-functions.asm": "b742572a2e374f21176fb24562000b03cbd089829abf426c14304730927ece15",
+    "port/level-world/reference/character-saved-class-v1/original-capture.json": "d4c3503d8290ea73c5c290065913bc92764a8131b3fbe0726b132e9eb400645a",
+    "port/level-world/reference/character-saved-class-v1/class-fixtures.bin": "9ea46fc7ba0528c8bc74736fc09e2473c04ad4fc2412bab3d0a5c56683438b5c",
+    "port/level-world/reference/character-saved-class-v1/prop-fixtures.bin": "dbdb3f8b50671e705a8cd657309138d8c0aeda8400a4a4ba480ae5ff1df9a7c8",
+    "port/level-world/reports/character-saved-class-v1-host-audit.json": "a25225a410b43fef245e704255246237537c243486cf60e4391982d24254a164"
+  },
+  "modified_existing_authority": [
+    "port/game-data/player_savegame_v1.cpp",
+    "port/game-data/player_savegame_v1.hpp"
+  ],
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "host_report_keys": [
+    "host_report",
+    "original_comparison",
+    "source_sha256",
+    "cache_inputs_sha256",
+    "new_module_selected",
+    "source_tu_counts",
+    "selected_compiler_objects",
+    "binary_sha256"
+  ],
+  "project_inputs": 585,
+  "production_frozen": true,
+  "selected_world_cmake_sha256": "a028075ea0a4e3c2fc83187fd313a9ad863a3ae090b112358f0b5086a20a9b6f",
+  "selected_data_cmake_sha256": "5fa28a798a73b36afa91a680b1fd0af76b6ba39b1def063cd5cc566cff0feaac",
+  "scope": "Whole source SafeGetCharPropsId valid table domains, source template lookup/RNG/cache and gameplay Save load/class writeback. Whole nonnull-Character PROP reader with real nested type/property getters and bounded failure prefixes. Same borrowed Save/property/profile/RNG controls; no metadata copy, new native slot/association, full InitPost, registration, VM/vitals or native gameplay startup claim.",
+  "private_campaign_bytes_published": false,
+  "source_before_after_equal": true,
+  "guarded_shared_source_sha256": {
+    "port/game-data/class_tables.cpp": "2ce809b6f057fb40747ebdc8a31ecd3d1cd99529bfe79221efc5aea31ac652fd",
+    "port/game-data/class_tables.hpp": "cad8938b4edda851ccc2a2a3ed4b6b2bdbc31fa0cfaa997119e78630698c8af2",
+    "port/level-world/player_skill_property_services_v1.cpp": "db6d2b15ba744534df15ecc242fe6a8cf47a57e7a4261e9e42524a3ae60eb314",
+    "port/level-world/player_skill_property_services_v1.hpp": "712b9922b0b3ca851326d7dc810d52bd15482d2ccd806740d640cc5d135244f6"
+  }
+}

@@ -1,0 +1,389 @@
+--------- beginning of main
+I/libprocessgroup( 2434): Created cgroup /sys/fs/cgroup/apps/uid_10233/pid_2434
+I/Zygote  ( 2434): Process 2434 created for com.example.dh2
+I/com.example.dh2( 2434): Late-enabling -Xcheck:jni
+I/com.example.dh2( 2434): Using generational CollectorTypeCMC GC.
+W/com.example.dh2( 2434): Unexpected CPU variant for x86: x86_64.
+W/com.example.dh2( 2434): Known variants: atom, sandybridge, silvermont, goldmont, goldmont-plus, goldmont-without-sha-xsaves, tremont, kabylake, alderlake, pantherlake, default
+D/nativeloader( 2434): Load libframework-connectivity-tiramisu-jni.so using APEX ns com_android_tethering for caller /apex/com.android.tethering/javalib/framework-connectivity-t.jar: ok
+D/CompatChangeReporter( 2434): Compat change id reported: 333566037; UID 10233; state: ENABLED
+D/nativeloader( 2434): Configuring clns-9 for other apk /data/app/~~B5GL5yyOmqLX7BdSwmpraQ==/com.example.dh2-LIjN6PMyfEImWhigSOC0aA==/base.apk. target_sdk_version=37, uses_libraries=, library_path=/data/app/~~B5GL5yyOmqLX7BdSwmpraQ==/com.example.dh2-LIjN6PMyfEImWhigSOC0aA==/lib/x86_64:/data/app/~~B5GL5yyOmqLX7BdSwmpraQ==/com.example.dh2-LIjN6PMyfEImWhigSOC0aA==/base.apk!/lib/x86_64, permitted_path=/data:/mnt/expand:/data/user/0/com.example.dh2
+--------- beginning of system
+D/ActivityThread( 2434): Set OS env TMPDIR to /data/user/0/com.example.dh2/cache
+V/GraphicsEnvironment( 2434): Currently set values for:
+V/GraphicsEnvironment( 2434):   angle_gl_driver_selection_pkgs=[]
+V/GraphicsEnvironment( 2434):   angle_gl_driver_selection_values=[]
+V/GraphicsEnvironment( 2434): com.example.dh2 is not listed in per-application setting
+V/GraphicsEnvironment( 2434): No special selections for ANGLE, returning default driver choice
+V/GraphicsEnvironment( 2434): Neither updatable production driver nor prerelease driver is supported.
+D/CompatChangeReporter( 2434): Compat change id reported: 407952621; UID 10233; state: ENABLED
+D/CompatChangeReporter( 2434): Compat change id reported: 419020719; UID 10233; state: ENABLED
+D/com.example.dh2( 2434): Initializing ProtoLog
+D/ProtoLog( 2434): Initializing ProtoLog DataSource
+I/DisplayManager( 2434): Choreographer implicitly registered for the refresh rate.
+I/GFXSTREAM( 2434): [eglDisplay.cpp(297)] Opening libGLESv1_CM_emulation.so
+I/GFXSTREAM( 2434): [eglDisplay.cpp(297)] Opening libGLESv2_emulation.so
+W/libc    ( 2434): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+W/HWUI    ( 2434): Failed to initialize 101010-2 format, error = EGL_SUCCESS
+D/nativeloader( 2434): Load /data/app/~~B5GL5yyOmqLX7BdSwmpraQ==/com.example.dh2-LIjN6PMyfEImWhigSOC0aA==/base.apk!/lib/x86_64/libdh2_native.so using class loader ns clns-9 (caller=/data/app/~~B5GL5yyOmqLX7BdSwmpraQ==/com.example.dh2-LIjN6PMyfEImWhigSOC0aA==/base.apk!2): ok
+D/CompatChangeReporter( 2434): Compat change id reported: 418924588; UID 10233; state: ENABLED
+W/HWUI    ( 2434): Unknown dataspace 0
+W/libc    ( 2434): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+D/WindowOnBackDispatcher( 2434): setTopOnBackInvokedCallback (unwrapped): android.app.Activity$$ExternalSyntheticLambda0@fc83e8b
+D/CompatChangeReporter( 2434): Compat change id reported: 458413887; UID 10233; state: ENABLED
+D/VRI[MainActivity]( 2434): WindowInsets changed: 1080x2424 statusBars:[0,142,0,0] navigationBars:[0,0,0,63] mandatorySystemGestures:[0,174,0,84] 
+I/HWUI    ( 2434): Using FreeType backend (prop=Auto)
+D/WindowOnBackDispatcher( 2434): setOnBackInvokedCallbackInfo: android.app.Activity$$ExternalSyntheticLambda0@fc83e8b
+I/Surface ( 2434): Creating surface for consumer unnamed-2434-0 with slotExpansion=1 for 64 slots
+I/Surface ( 2434): Creating surface for consumer VRI[MainActivity]#0(BLAST Consumer)0 with slotExpansion=1 for 64 slots
+I/Surface ( 2434): Creating surface for consumer unnamed-2434-1 with slotExpansion=1 for 64 slots
+I/Surface ( 2434): Creating surface for consumer c935b81 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#1(BLAST Consumer)1 with slotExpansion=1 for 64 slots
+W/libc    ( 2434): Access denied finding property "vendor.mesa.virtgpu.kumquat"
+I/DH2Native( 2434): Renderer: Android Emulator OpenGL ES Translator (Google SwiftShader)
+I/DH2Native( 2434): GLES: OpenGL ES 3.0 (OpenGL ES 3.0 SwiftShader 4.0.0.1)
+I/DH2Native( 2434): Enemy AI configured | automatic melee 0
+I/AssistStructure( 2434): Flattened final assist data: 1724 bytes, containing 1 windows, 8 views
+I/DH2Native( 2434): Native skill catalogue | skill lists 36 | skills 127 | faery lists 4 | faeries 16 | shared immutable tables; full skill callbacks pending
+I/DH2Native( 2434): Class tables ready | classes 260 | bytes 34224 | cached base snapshots
+I/DH2Native( 2434): Native level catalogue | fast travel 33 | levels 51 | Crypt row 23 | ranges 8 10 / 45 47 / 74 76 | GSLevel ownership pending
+I/DH2Native( 2434): AI tables ready | configs 76 | factions 16 | automatic melee 0 | pursuit and full FSM pending
+I/DH2Native( 2434): Property rules ready | defaults row 0 | types row 1 | properties 224 | supplied sheets only
+I/DH2Native( 2434): Animation tables ready | sequences 785 | characters 80 | clip paths 1447 | bytes 72812
+I/DH2Native( 2434): Player attack track ready | clip 1111 | tracks 81 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1063 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1040 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1041 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1126 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1114 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 968 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 956 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 2434): Player attack track ready | clip 964 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 970 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 959 | tracks 25 | unbound 0 | attack_mainhand ms 899
+I/DH2Native( 2434): Player attack track ready | clip 965 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 972 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 962 | tracks 25 | unbound 0 | attack_mainhand ms 1533
+I/DH2Native( 2434): Player attack track ready | clip 966 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 967 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 955 | tracks 26 | unbound 0 | attack_mainhand ms 300
+I/DH2Native( 2434): Player attack track ready | clip 957 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 969 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 958 | tracks 26 | unbound 0 | attack_mainhand ms 899
+I/DH2Native( 2434): Player attack track ready | clip 960 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 971 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 961 | tracks 26 | unbound 0 | attack_mainhand ms 1500
+I/DH2Native( 2434): Player attack track ready | clip 963 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1025 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1074 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1110 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1071 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1076 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1109 | tracks 28 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1026 | tracks 30 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1029 | tracks 28 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1030 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1031 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1032 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 991 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 996 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player death track ready | clip 1023 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 992 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1028 | tracks 29 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1027 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1091 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1093 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1043 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 994 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1044 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1096 | tracks 14 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1103 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1107 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1104 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1108 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1101 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1105 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1100 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1097 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1234 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1239 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1238 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1035 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1036 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 986 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 974 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 976 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 988 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 978 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 980 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 990 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 984 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 985 | tracks 26 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 973 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 2434): Player attack track ready | clip 975 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 987 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 977 | tracks 25 | unbound 0 | attack_mainhand ms 1066
+I/DH2Native( 2434): Player attack track ready | clip 979 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 989 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 981 | tracks 25 | unbound 0 | attack_mainhand ms 1799
+I/DH2Native( 2434): Player attack track ready | clip 983 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1233 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1037 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1038 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1016 | tracks 23 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1000 | tracks 25 | unbound 0 | attack_mainhand ms 333
+I/DH2Native( 2434): Player attack track ready | clip 1011 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1018 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1003 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1012 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1020 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1006 | tracks 25 | unbound 0 | attack_mainhand ms 1566
+I/DH2Native( 2434): Player attack track ready | clip 1013 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1022 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1009 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1014 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1015 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 999 | tracks 25 | unbound 0 | attack_mainhand ms 400
+I/DH2Native( 2434): Player attack track ready | clip 1001 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1017 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1002 | tracks 25 | unbound 0 | attack_mainhand ms 866
+I/DH2Native( 2434): Player attack track ready | clip 1004 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1019 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1005 | tracks 25 | unbound 0 | attack_mainhand ms 1500
+I/DH2Native( 2434): Player attack track ready | clip 1007 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1021 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1008 | tracks 25 | unbound 0 | attack_mainhand ms 2266
+I/DH2Native( 2434): Player attack track ready | clip 1010 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1147 | tracks 27 | unbound 2 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1133 | tracks 27 | unbound 2 | attack_mainhand ms 1633
+I/DH2Native( 2434): Player attack track ready | clip 1146 | tracks 25 | unbound 2 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1218 | tracks 27 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1039 | tracks 25 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1077 | tracks 18 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1078 | tracks 18 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1079 | tracks 20 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1143 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1138 | tracks 0 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1136 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Player attack track ready | clip 1137 | tracks 24 | unbound 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Base class snapshot | _prim_tmp_cultist01 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 2434): Resolved properties | _prim_tmp_cultist01 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_tmp_cultist01 | character Crypt_Skeleton | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum ee913bf1bab19e05 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_tmp_cultist01 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist01 | character Crypt_Skeleton | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist01 | character Crypt_Skeleton | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 0 | clip 1194 | skeleton_idle_01.bdae | speed 1.0000 | actor _prim_tmp_cultist01
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1178 | groups 1 | attack_mainhand ms 100
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1179 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1180 | groups 1 | attack_mainhand ms 100
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1181 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1185 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1194 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1195 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1197 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1198 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | skeleton.bdae | clip 1204 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor clip bank ready | skeleton.bdae | clips 10 | independent instance clocks
+I/DH2Native( 2434): Object resource skeleton.bdae | primitives 1 | tracks 23 | unbound 3 | unsupported 0 | removed helpers 2
+I/DH2Native( 2434): Base class snapshot | _prim_tmp_cultist03 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 2434): Resolved properties | _prim_tmp_cultist03 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_tmp_cultist03 | character Crypt_Skeleton | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum ee913bf1bab19e05 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_tmp_cultist03 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist03 | character Crypt_Skeleton | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist03 | character Crypt_Skeleton | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 1 | clip 1195 | skeleton_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist03
+I/DH2Native( 2434): Base class snapshot | _prim_tmp_cultist05 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 2434): Resolved properties | _prim_tmp_cultist05 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_tmp_cultist05 | character CryptSlime | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum a1f87e373eade438 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_tmp_cultist05 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist05 | character CryptSlime | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist05 | character CryptSlime | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 5 | clip 1259 | slime_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist05
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1246 | groups 1 | attack_mainhand ms 266
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1247 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1248 | groups 1 | attack_mainhand ms 300
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1249 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1251 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1258 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1259 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1261 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1262 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | slime_green_v2.bdae | clip 1268 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor clip bank ready | slime_green_v2.bdae | clips 10 | independent instance clocks
+I/DH2Native( 2434): Object resource slime_green_v2.bdae | primitives 2 | tracks 12 | unbound 0 | unsupported 0 | removed helpers 0
+I/DH2Native( 2434): Base class snapshot | _prim_tmp_cultist06 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 2434): Resolved properties | _prim_tmp_cultist06 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_tmp_cultist06 | character CryptSlime | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum a1f87e373eade438 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_tmp_cultist06 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist06 | character CryptSlime | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist06 | character CryptSlime | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 5 | clip 1259 | slime_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist06
+I/DH2Native( 2434): Base class snapshot | _prim_tmp_cultist07 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 2434): Resolved properties | _prim_tmp_cultist07 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_tmp_cultist07 | character Crypt_Skeleton | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum ee913bf1bab19e05 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_tmp_cultist07 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist07 | character Crypt_Skeleton | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist07 | character Crypt_Skeleton | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 0 | clip 1194 | skeleton_idle_01.bdae | speed 1.0000 | actor _prim_tmp_cultist07
+I/DH2Native( 2434): Base class snapshot | _prim_tmp_cultist08 | character Crypt_Skeleton | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 41ae0e800682474e | cached only
+I/DH2Native( 2434): Resolved properties | _prim_tmp_cultist08 | character Crypt_Skeleton | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 41ae0e800682474e | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_tmp_cultist08 | character Crypt_Skeleton | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum ee913bf1bab19e05 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_tmp_cultist08 | character Crypt_Skeleton | amount 2030 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 11805120 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist08 | character Crypt_Skeleton | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_tmp_cultist08 | character Crypt_Skeleton | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | skeleton.bdae | table 62 | sequence 596 | step 1 | clip 1195 | skeleton_idle_02.bdae | speed 1.0000 | actor _prim_tmp_cultist08
+I/DH2Native( 2434): Object resource crypt_candles2_small.bdae | primitives 3 | tracks 5 | unbound 0 | unsupported 0 | removed helpers 1
+I/com.example.dh2( 2434): Compiler allocated 4522KB to compile void android.view.ViewRootImpl.performTraversals(long)
+I/DH2Native( 2434): Object resource crypt_candlestand_big.bdae | primitives 4 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 2434): Object resource crypt_candlestand.bdae | primitives 4 | tracks 7 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 2434): Object resource crypt_candle2.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 2434): Object resource crypt_candle1_small.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 2434): Object resource crypt_candles.bdae | primitives 3 | tracks 7 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 2434): Object resource swamp_caveentrance_effect.bdae | primitives 1 | tracks 0 | unbound 0 | unsupported 3 | removed helpers 0
+I/DH2Native( 2434): Object resource crypt_candle_big.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 2434): Base class snapshot | _prim_Monster | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 2434): Resolved properties | _prim_Monster | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_Monster | character CryptSlime | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum a1f87e373eade438 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_Monster | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster | character CryptSlime | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster | character CryptSlime | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 1 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster
+I/DH2Native( 2434): Base class snapshot | _prim_Monster02 | character CryptSlime_RE | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum eb471073d49b2c44 | cached only
+I/DH2Native( 2434): Resolved properties | _prim_Monster02 | character CryptSlime_RE | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum eb471073d49b2c44 | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_Monster02 | character CryptSlime_RE | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum 6eba0582f78691bb | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_Monster02 | character CryptSlime_RE | amount 2135 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 7440849 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster02 | character CryptSlime_RE | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster02 | character CryptSlime_RE | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 0 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster02
+I/DH2Native( 2434): Base class snapshot | _prim_Monster05 | character CryptSlime | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum e0cad1d302226d0f | cached only
+I/DH2Native( 2434): Resolved properties | _prim_Monster05 | character CryptSlime | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum e0cad1d302226d0f | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_Monster05 | character CryptSlime | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum a1f87e373eade438 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_Monster05 | character CryptSlime | amount 2036 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3406292 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster05 | character CryptSlime | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster05 | character CryptSlime | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | slime_green_v2.bdae | table 64 | sequence 613 | step 4 | clip 1258 | slime_idle.bdae | speed 1.0000 | actor _prim_Monster05
+I/DH2Native( 2434): Object resource crypt_candle1.bdae | primitives 3 | tracks 3 | unbound 0 | unsupported 0 | removed helpers 1
+I/DH2Native( 2434): Base class snapshot | _prim_Monster_Ghost05 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 2434): Resolved properties | _prim_Monster_Ghost05 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_Monster_Ghost05 | character Crypt_Ghost | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum e41199bf55080334 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_Monster_Ghost05 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_Ghost05 | character Crypt_Ghost | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_Ghost05 | character Crypt_Ghost | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_Ghost05
+I/DH2Native( 2434): Actor event track ready | ghost.bdae | clip 697 | groups 1 | attack_mainhand ms 999
+I/DH2Native( 2434): Actor event track ready | ghost.bdae | clip 700 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | ghost.bdae | clip 706 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | ghost.bdae | clip 707 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | ghost.bdae | clip 710 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | ghost.bdae | clip 714 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor event track ready | ghost.bdae | clip 717 | groups 0 | attack_mainhand ms -1
+I/DH2Native( 2434): Actor clip bank ready | ghost.bdae | clips 7 | independent instance clocks
+I/DH2Native( 2434): Object resource ghost.bdae | primitives 2 | tracks 24 | unbound 0 | unsupported 0 | removed helpers 2
+I/DH2Native( 2434): Base class snapshot | _prim_Monster_Ghost06 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 2434): Resolved properties | _prim_Monster_Ghost06 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_Monster_Ghost06 | character Crypt_Ghost | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum e41199bf55080334 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_Monster_Ghost06 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_Ghost06 | character Crypt_Ghost | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_Ghost06 | character Crypt_Ghost | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_Ghost06
+I/DH2Native( 2434): Base class snapshot | _prim_Monster_SURPRISE_01 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 2434): Resolved properties | _prim_Monster_SURPRISE_01 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_Monster_SURPRISE_01 | character Crypt_Ghost | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum e41199bf55080334 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_Monster_SURPRISE_01 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_SURPRISE_01 | character Crypt_Ghost | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_SURPRISE_01 | character Crypt_Ghost | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_SURPRISE_01
+I/DH2Native( 2434): Base class snapshot | _prim_Monster_SURPRISE_02 | character Crypt_Ghost | class 18 | level raw 256 | Max_HP raw 12160 | Max_MP raw 5632 | checksum 37563d932af809fb | cached only
+I/DH2Native( 2434): Resolved properties | _prim_Monster_SURPRISE_02 | character Crypt_Ghost | HP raw -1 | Max_HP raw 12160 | MP raw -1 | Max_MP raw 5632 | checksum 37563d932af809fb | supplied sheets only
+I/DH2Native( 2434): Spawn vitals | _prim_Monster_SURPRISE_02 | character Crypt_Ghost | HP raw 12160 | Max_HP raw 12160 | MP raw 5632 | Max_MP raw 5632 | first HP add raw 12160 | first MP add raw 5632 | second HP add raw 1 | second MP add raw 1 | checksum e41199bf55080334 | passes 2
+I/DH2Native( 2434): Combat result probe | _prim_Monster_SURPRISE_02 | character Crypt_Ghost | amount 2263 | dot element -1 | dot duration 0 | dot amount 0 | HP leech 0 | MP leech 0 | outcomes 0 | mask 2271925 | category -1 | element -1 | seed 3474079 | calls 9 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_SURPRISE_02 | character Crypt_Ghost | damage 256 | add -256 | before 12160 | after 11904 | kill 0 | armed 1 | cue 0 | lifecycle -1 | dead skip 0 | validation only
+I/DH2Native( 2434): Health probe | _prim_Monster_SURPRISE_02 | character Crypt_Ghost | damage 16384 | add -16384 | before 12160 | after 0 | kill 1 | armed 1 | cue 0 | lifecycle 3 | dead skip 0 | validation only
+I/DH2Native( 2434): Original idle selected | ghost.bdae | table 24 | sequence 210 | step 0 | clip 706 | ghost_idle_01.bdae | speed 1.3000 | actor _prim_Monster_SURPRISE_02
+I/DH2Native( 2434): 3D upload OK | 4 draws | 586 triangles | 2 textures
+I/DH2Native( 2434): 29 animation tracks | 0 skipped | Preview lighting. Drag to orbit. | nodes 35 | skipped nongeometry instances 1 | skin draws 4 | segments 2
+I/DH2Native( 2434): Player properties | KnightPlayerBase | HP -1 | MP -1 | checksum 2258e338f7c8222a | attempts 0 | attacking 0
+I/DH2Native( 2434): Prince blended bank ready | resources 116 | occurrences 158 | targets 83 | template 1111 | engine 0 | game clip 1111
+I/DH2Native( 2434): Blended character event | event 0x24 | clip 1111 | slot 0 | phase 5 | lag 0
+I/DH2Native( 2434): Blended character event | event 0x26 | clip 1111 | slot 0 | phase 5 | lag 0
+I/DH2Native( 2434): Character animation selected | state 3 | flags 2380 | sequence 262 | clip 1040 | actor state service
+I/DH2Native( 2434): Character state event | state 3 | event 1d | prior -1 | flags 2380
+I/DH2Native( 2434): Player source state | previous -1 | current 3 | event 0x0 | flags 2380 | root 262 | clip 1040 | position -2227.7700 1220.9301 842.3644 | Step 0
+I/DH2Native( 2434): Spawn visibility | _prim_Monster_SURPRISE_01 | visible 0 | enabled 1
+I/DH2Native( 2434): Spawn source state | _prim_Monster_SURPRISE_01 | previous -1 | current 0 | flags 0 | sequence -1 | clip 706 | body 0
+I/DH2Native( 2434): Gated character ready | _prim_Monster_SURPRISE_01 | source state 0 | presentation visible 0 | body 0 | Spawn sequence 213 | AI type 4 | restored 0
+I/DH2Native( 2434): Spawn visibility | _prim_Monster_SURPRISE_02 | visible 0 | enabled 1
+I/DH2Native( 2434): Spawn source state | _prim_Monster_SURPRISE_02 | previous -1 | current 0 | flags 0 | sequence -1 | clip 706 | body 0
+I/DH2Native( 2434): Gated character ready | _prim_Monster_SURPRISE_02 | source state 0 | presentation visible 0 | body 0 | Spawn sequence 213 | AI type 4 | restored 0
+I/DH2Native( 2434): Native actor ready | genuine bodies 83 | decor colliders 82 | radius 113.699707 | source bounds -2341.47 1190.17 -2114.07 1251.69 | flags 2380 | scene then Step then actor
+I/DH2Native( 2434): Native Level fields | ordinal 23 | hub 2 | random 1 | difficulty 0 | file 007_crypt_01.rule.xml | source ranges 8 10 / 45 47 / 74 76 | viewport owner; GSLevel stack pending
+I/DH2Native( 2434): CharAI constructor projections | characters 14 | native source-order registration records 14 | source Character associations 14 | active AIS initialization pending
+I/DH2Native( 2434): Native CharAI lifetime | fresh constructors 14 | retained owners 0 | graphics registry rebuilt
+I/DH2Native( 2434): Native Player skill preparation | skills 16 | faeries 5 | loaded paths 15 | declarations 26 | flags 0 | one VM; Player lifecycle and skill-use providers pending
+I/DH2Native( 2434): Native Player AIS initialized | AI 0x300000001 | AIS 0x71711c052fb8 | active 0x71711c052fb8 | pending 0x71711c052fb8 | phase 7 | VM 0x71715c042040 | init mask 1f | HP 42264 / 42265 | MP 6975 / 6976 | timer33 0 | timer34 1 | one source InitProcess; Character profile/grants/frame/activation pending
+I/DH2Native( 2434): Native Player AI timer snapshot | phase initial | event 33 | slot 0 | duration 3000 | repeat -1 | elapsed 0 | active 1 | paused 0 | ref 0 | delivered 0 | HP 42264 / 42265 | MP 6975 / 6976
+I/DH2Native( 2434): Native Player AI timer snapshot | phase initial | event 34 | slot 1 | duration 1000 | repeat -1 | elapsed 0 | active 1 | paused 0 | ref 0 | delivered 0 | HP 42264 / 42265 | MP 6975 / 6976
+I/DH2Native( 2434): Native Player skill update complete | attempt 1 | callbacks 13 | skill slots 16 | faery slots 5 | buffs 1 | groups 1 | one VM/save/property store; source InitProcess complete, activation pending
+I/DH2Native( 2434): Native Player buff snapshot | phase initial | count 1 | groups 1 | id 49 | instance 0x71728c186230 | timer -1 | strength 1 | sheet 3bfdcdd0eb338a14 | same VM/properties/Coordinator
+I/DH2Native( 2434): Native Player buff property | phase initial | name Resistance_Fire | index 74 | buff 0 | resolved 192
+I/DH2Native( 2434): Native Player buff property | phase initial | name Resistance_Water | index 75 | buff 0 | resolved 192
+I/DH2Native( 2434): Native Player buff property | phase initial | name Resistance_Lightning | index 76 | buff 7680 | resolved 7872
+I/DH2Native( 2434): Native Player buff property | phase initial | name Resistance_Earth | index 77 | buff 0 | resolved 192
+I/DH2Native( 2434): Native Player buff property | phase initial | name Resistance_Air | index 78 | buff 0 | resolved 192
+I/DH2Native( 2434): Native Player saved skills ready | owner 0x7171fc05fe48 | rows 16 | slot0 level 0 | source _InitSkills; starter grant/profile load pending
+I/DH2Native( 2434): Native Player saved faeries ready | difficulty 0 | selected 0 | level 0 | rows 5 5 5 | source constructor and _InitFaeries; same save owner
+I/DH2Native( 2434): Native managed host | Level 1 | difficulty 0 | property reads 2 | member writes 1 | offline embedded PlayerInfo; full profile/network pending
+I/DH2Native( 2434): Native Character classification | _prim_Monster_SURPRISE_01 | AI 68 | faction 7 | type 4 | monster 1 | player 0 | faerie 0 | NPC 0 | projected death 0 | source getters; autonomous frame pending
+I/DH2Native( 2434): Native Character zonability | _prim_Monster_SURPRISE_01 | zonable 1 | source classification; room enrollment pending
+I/DH2Native( 2434): Native monster initialization | _prim_Monster_SURPRISE_01 | Level 2048 | HP 25600 / 25600 | MP 23552 / 23552 | callbacks 1 | timers 2 | flags 183c | same VM published 1 | retained 0 | paused providers 2 | nonempty skills/autonomous frame pending
+I/DH2Native( 2434): Native Ghost skill initialization | _prim_Monster_SURPRISE_01 | phases 12345 | skills 0 | faeries 5 | null faeries 5 | post 1 | final 1 | update slots 0 5 | updates 0 | arguments 2 2 | Debug 2 2 | VCB 1 | path data/scripts/ai/ | retained 0 | bounded Ghost InitScriptProcess
+I/DH2Native( 2434): Native Ghost skill vector owner | _prim_Monster_SURPRISE_01 | faery storage 71729c118c50 | catalogue 7171ec05bce8
+I/DH2Native( 2434): Native monster VM owner | _prim_Monster_SURPRISE_01 | native handle 71728c1832f0 | source active 71728c183570 | source pending 71728c183570
+I/DH2Native( 2434): Native monster timer retained | _prim_Monster_SURPRISE_01 | slot 0 | event 33 | duration 3000 | elapsed 0 | active 1 | paused 1
+I/DH2Native( 2434): Native monster timer retained | _prim_Monster_SURPRISE_01 | slot 1 | event 34 | duration 1000 | elapsed 0 | active 1 | paused 1
+I/DH2Native( 2434): Native Character classification | _prim_Monster_SURPRISE_02 | AI 68 | faction 7 | type 4 | monster 1 | player 0 | faerie 0 | NPC 0 | projected death 0 | source getters; autonomous frame pending
+I/DH2Native( 2434): Native Character zonability | _prim_Monster_SURPRISE_02 | zonable 1 | source classification; room enrollment pending
+I/DH2Native( 2434): Native monster initialization | _prim_Monster_SURPRISE_02 | Level 2048 | HP 25600 / 25600 | MP 23552 / 23552 | callbacks 1 | timers 2 | flags 183c | same VM published 1 | retained 0 | paused providers 2 | nonempty skills/autonomous frame pending
+I/DH2Native( 2434): Native Ghost skill initialization | _prim_Monster_SURPRISE_02 | phases 12345 | skills 0 | faeries 5 | null faeries 5 | post 1 | final 1 | update slots 0 5 | updates 0 | arguments 2 2 | Debug 2 2 | VCB 1 | path data/scripts/ai/ | retained 0 | bounded Ghost InitScriptProcess
+I/DH2Native( 2434): Native Ghost skill vector owner | _prim_Monster_SURPRISE_02 | faery storage 71729c11c890 | catalogue 7171ec05bce8
+I/DH2Native( 2434): Native monster VM owner | _prim_Monster_SURPRISE_02 | native handle 71728c18ec60 | source active 71728c18eee0 | source pending 71728c18eee0
+I/DH2Native( 2434): Native monster timer retained | _prim_Monster_SURPRISE_02 | slot 0 | event 33 | duration 3000 | elapsed 0 | active 1 | paused 1
+I/DH2Native( 2434): Native monster timer retained | _prim_Monster_SURPRISE_02 | slot 1 | event 34 | duration 1000 | elapsed 0 | active 1 | paused 1
+I/DH2Native( 2434): Native Debug persistence | loaded 1 | switches 25 | read opens 1 | read closes 1 | saves 5 | write closes 5 | IO errors 0 | app-private real file
+I/DH2Native( 2434): Crypt script ready | common 15 | level 25 | script 17 | room 7 | trigger -1405.23 19500.3 608.062 | source AABB contact | other scripts pending
+I/DH2Native( 2434): Native Character list | characters 14 | owned nodes 14 | copied links 0 | full ObjectManager factory 0 | autonomous Ghost AI 0
+I/DH2Native( 2434): Objects ready | monsters 13 | decors 84 | resources 12 | instance draws 295 | triangles 6775 | character records 448 | model entries 116 | idle preview only
+I/DH2Native( 2434): Native floors ready | records 8 | graph nodes 335 | graph edges 838 | selector collision controls height
+I/DH2Native( 2434): Native floor links ready | neighbour relations 14 | validation references 998 | graph-node search ready
+I/DH2Native( 2434): Native graph route probe | floor pairs 64 | successful 64 | segments 1598 | state 5454073390c7d916 | endpoints and movement pending
+I/DH2Native( 2434): Native world route probe | floor pairs 64 | successful 64 | direct 0 | graph 64 | segments 2086 | state 3a3ab2a724cc383b | smoothing and movement pending
+I/DH2Native( 2434): Native FindPath probe | floor pairs 64 | successful 64 | owned 64 | segments 2086 | state 9356b419cae2bc57 | position controller pending
+I/DH2Native( 2434): Native floor motion probe | floor pairs 64 | position valid 64 | accepted 64 | direction valid 64 | state d60ad48039cc85c6 | controller and dynamic obstacles pending
+I/DH2Native( 2434): Native obstacle registry probe | floor pairs 64 | accepted 64 | registered 64 | relocated 56 | state 22a98dfc4102db51 | forces and controller pending
+I/DH2Native( 2434): Native avoidance probe | floors 8 | force contributions 16 | adjusted 8 | turn limited 8 | state 09d1d79d2612c945 | actor producers and controller pending
+I/DH2Native( 2434): Native actor producer probe | floors 8 | registered 8 | physical radius updates 8 | state 30c1f3ac1bf81145 | physical construction and controller pending
+I/DH2Native( 2434): Native heading control | player movement and melee facing use recovered source | UpdatePath rotation subobjects and genuine physics active
+I/DH2Native( 2434): World ready | rooms 8 | visual draws 101 | navigation triangles 314 | idle tracks 23 | walk tracks 27 | position -2227.7700 1220.9301 842.3644
+I/DH2Native( 2434): Prince blended inspection | frozen 0 | scene 0 | Step 0 | actor 0 | clip 1040 | ms 0 | body -22.2777 12.2093 | pose 5f96fe6e2b6d998d
+I/DH2Native( 2434): Prince retained animation inspection | state 3 | frozen 0 | scene 0 | clip 1040 | engine 2 | ms 0 | playback b6536d7d023b39d3 | pose 5f96fe6e2b6d998d
+I/DH2Native( 2434): worlds/crypt01.dwld: Crypt | 8 rooms | 13 monsters | 84 scenery objects
+I/DH2Native( 2434): 21612 triangles. Drag the movement control to walk.
+I/DH2Native( 2434): Surface resized to 1080 x 1953
+I/DH2Native( 2434): Character external service pending | service 19 | state 3
+I/DH2Native( 2434): Native actor frame | scene 1 | Step 1 | actor 1 | source phase 5 | clip 1040 | ms 0 | replays 0 | body -22.2777 12.2093 | contacts 0 0 | state 3 | body present 1 | timeline scale 1
+I/DH2Native( 2434): Source camera frame | 1 | 1080x1953 | matrix 408bb3d3 baabc043 ba1a0237 ba18bb06 3b63d229 3fd2a3b4 3f3ce139 3f3b4ff3 00000000 3fe21b23 bf2ff5b2 bf2e7fdf 4617e623 c564b15c 44b60331 44c0f33b | frustum c50b2b84 c2c42d20 45071284 ba18bb3a 3f3b4fff bf2e7fd3 c623616d 3a18bb07 bf3b4ff4 3f2e7fe0 c4b48083 bf798104 be28157c 3e1bd892 c51d33b1 3f799211 be267e8d 3e1bd892 44e43de1 3a3de666 bf68e5d5 bed48d4d 444a63e1 b992029c 3eb31201 3f6fd507 c4f8df6d c59bc8c3 c2c42d20 c616dd80 44016b35 463ca1c5 45071284
+I/DH2Native( 2434): Model frame submitted at 1080 x 1953
+E/BLASTBufferQueue( 2434): [c935b81 SurfaceView[com.example.dh2/com.example.dh2.MainActivity]#1](f:0,a:0) rejecting buffer:active_size=1080x1867, requested_size=1080x1867 buffer{size=1080x1953 transform=0}
+I/DH2Native( 2434): Surface resized to 1080 x 1867
+I/DH2Native( 2434): Source camera frame | 2 | 1080x1867 | matrix 40858cf8 baabbe02 ba1a002f ba18b903 3b59c716 3fd2a3b6 3f3ce138 3f3b4ff2 00000000 3fe21b22 bf2ff5b4 bf2e7fe1 461135ca c564b15c 44ac8434 44b7886b | frustum c50b2c38 c22bdb20 4503dcdd ba18b8e4 3f3b4fff bf2e7fd3 c6248ecd 3a18b902 bf3b4ff2 3f2e7fe1 c4ab15b1 bf78eb1a be2f60d5 3e22a4a6 c51cba06 3f78fce6 be2dcadf 3e22a4a6 44e3ec04 3a3de3e8 bf68e5d7 bed48d4a 44519909 b99200b2 3eb31204 3f6fd506 c4f544d8 c59fbe05 c22bdb20 c617aaf1 44210fce 463d7eaf 4503dcdd
+I/DH2Native( 2434): Model frame submitted at 1080 x 1867
+D/InsetsController( 2434): hide(ime())
+I/ImeTracker( 2434): com.example.dh2:8e54a199: onCancelled at PHASE_CLIENT_ALREADY_HIDDEN
+I/DH2Native( 2434): Blended character event | event 0x28 | clip 1040 | slot 1 | phase 1 | lag 13
+I/DH2Native( 2434): Player animation event | clip 1040 | name do_skill | sequence 0 | attack step 0 | kind 0 | lag 13 | scene before Step | Step 6 | position -2227.7700 1220.9301 842.3644
+I/DH2Native( 2434): Native Player AI timer delivered | event 34 | slot 1 | count 1 | combat 0 | remote 0 | HP rate 0 | MP rate 0 | HP 42264 / 42265 | MP 6975 / 6976 | DoT attacks 0 | HP before 42264 | MP before 6975 | no extra FSM event
+I/DH2Native( 2434): Character timer expired | slot 1 | event 0x34 | elapsed 6 | duration 1000 | gate 0 0 | Step 22 | before state update
+I/DH2Native( 2434): Blended character event | event 0x27 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 2434): Blended character event | event 0x25 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 2434): Blended character event | event 0x23 | clip 1040 | slot 1 | phase 4 | lag 0
+I/DH2Native( 2434): Blended character event | event 0x24 | clip 1040 | slot 1 | phase 5 | lag 0
+I/DH2Native( 2434): Blended character event | event 0x26 | clip 1040 | slot 1 | phase 5 | lag 0

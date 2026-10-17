@@ -1,0 +1,256 @@
+{
+  "validation": "PASS",
+  "original_arm_cases": 9,
+  "guard_cases": 8,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "results": [
+    {
+      "case": "outgoing_true",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 1,
+        "owner": 268517376,
+        "calls": [
+          [
+            0,
+            268500992
+          ]
+        ]
+      }
+    },
+    {
+      "case": "incoming_true",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 1,
+        "owner": 268517376,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ]
+        ]
+      }
+    },
+    {
+      "case": "attacking_true",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 1,
+        "owner": 268517376,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ],
+          [
+            2,
+            268517376
+          ]
+        ]
+      }
+    },
+    {
+      "case": "using_skill_true",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 1,
+        "owner": 268517376,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ],
+          [
+            2,
+            268517376
+          ],
+          [
+            3,
+            268517376
+          ]
+        ]
+      }
+    },
+    {
+      "case": "casting_raw",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 324508639,
+        "owner": 268517376,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ],
+          [
+            2,
+            268517376
+          ],
+          [
+            3,
+            268517376
+          ],
+          [
+            4,
+            268517376
+          ]
+        ]
+      }
+    },
+    {
+      "case": "all_false",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 0,
+        "owner": 268517376,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ],
+          [
+            2,
+            268517376
+          ],
+          [
+            3,
+            268517376
+          ],
+          [
+            4,
+            268517376
+          ]
+        ]
+      }
+    },
+    {
+      "case": "fresh_owner_all_queries",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 4294967295,
+        "owner": 268537856,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ],
+          [
+            2,
+            268525568
+          ],
+          [
+            3,
+            268529664
+          ],
+          [
+            4,
+            268533760
+          ]
+        ]
+      }
+    },
+    {
+      "case": "fresh_owner_attacking",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 1,
+        "owner": 268529664,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ],
+          [
+            2,
+            268525568
+          ]
+        ]
+      }
+    },
+    {
+      "case": "fresh_owner_using_skill",
+      "matched": true,
+      "source_result": {
+        "status": 0,
+        "value": 1,
+        "owner": 268533760,
+        "calls": [
+          [
+            0,
+            268500992
+          ],
+          [
+            1,
+            268500992
+          ],
+          [
+            2,
+            268525568
+          ],
+          [
+            3,
+            268529664
+          ]
+        ]
+      }
+    }
+  ],
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-O2",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\character_ai_in_combat.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\character_ai_in_combat.cpp",
+    "-o",
+    "port\\level-world\\build\\character-ai-in-combat-root\\host.exe"
+  ],
+  "source_sha256": {
+    "port/level-world/character_ai_in_combat.cpp": "b762ddde559413c8bc63b9081581b44bac2a447bf8d9e1f20633eeca148bcf58",
+    "port/level-world/tests/character_ai_in_combat.cpp": "c3b9e55274378e37993a96abafe77ecc45c33c3142308827e2e9057a43cac6cd",
+    "port/level-world/character_ai_in_combat.hpp": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+    "port/level-world/tests/run_character_ai_in_combat_host.py": "b13c865438f643dd996624b0086f6bfa7b5b18ef1a8e406e7635b622a5abe34c"
+  },
+  "scope": "Original 112-byte AI_IsInCombat caller instructions compared with compiled source; outgoing/incoming/state dependency calls are supplied fixtures, including owner replacement. Full callee storage bodies, native wiring and whole-game AI excluded.",
+  "native_wired": false
+}

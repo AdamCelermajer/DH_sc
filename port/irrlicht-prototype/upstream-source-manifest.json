@@ -1,0 +1,4971 @@
+{
+  "schema": "dh2.irrlicht-upstream-tree.v1",
+  "upstream": "Irrlicht Engine official SourceForge SVN repository",
+  "tag_url": "https://svn.code.sf.net/p/irrlicht/code/tags/release-1.8.5",
+  "version": "1.8.5",
+  "description": "Exact bytes fetched from the immutable release-1.8.5 tag; the full SDK media/examples are omitted.",
+  "file_count": 992,
+  "tree_manifest_sha256": "986c189e13b8bd19c74b2552a61e60febdc0e68f8e7f54cf9763249e14e4306e",
+  "files": [
+    {
+      "path": "changes.txt",
+      "bytes": 247954,
+      "sha256": "6049907034a072639ed0902390df106bb55f8a6d86084a3a8756339bf3ba2dcc"
+    },
+    {
+      "path": "include/CDynamicMeshBuffer.h",
+      "bytes": 2454,
+      "sha256": "e489a849fedb4e9b53dc5797c6c3597b1ffb241ae0cfa26ee3d27fc6dc256cd7"
+    },
+    {
+      "path": "include/CIndexBuffer.h",
+      "bytes": 4852,
+      "sha256": "dfa3366fdb803398062a7e3c1d4a0a0a524838f838c2773e9bf5b5fb6b064384"
+    },
+    {
+      "path": "include/CMeshBuffer.h",
+      "bytes": 7929,
+      "sha256": "a2f2080c28ffa5ee28fcb7a9555f5db4a161e4046098d6011ebfeee589297948"
+    },
+    {
+      "path": "include/CVertexBuffer.h",
+      "bytes": 4804,
+      "sha256": "0e8c9d276f466a872d60e45524676c7ce2f979255e886837b1b6eb306f893802"
+    },
+    {
+      "path": "include/EAttributes.h",
+      "bytes": 1520,
+      "sha256": "0e4f92eb41e32d3e385d843abccfed42dbcf475cb52317a3e4d695d95692333a"
+    },
+    {
+      "path": "include/ECullingTypes.h",
+      "bytes": 930,
+      "sha256": "615462ccb783fc7cf3a805244fcfcc294a724d5ef3217cef206dccdd575e4b92"
+    },
+    {
+      "path": "include/EDebugSceneTypes.h",
+      "bytes": 1092,
+      "sha256": "40269126da8328c576b1cced55bbbe7e1952263984b19abb36cb68b2e16c0e4f"
+    },
+    {
+      "path": "include/EDeviceTypes.h",
+      "bytes": 2320,
+      "sha256": "e7e65cb7c385e7153c9405aee0176f2ba0f16bd6f4b95d30e755c5693dbe0084"
+    },
+    {
+      "path": "include/EDriverFeatures.h",
+      "bytes": 3227,
+      "sha256": "d10542a89c469f826e7d3d75f9f996859955caf52cf02afe368d589203836967"
+    },
+    {
+      "path": "include/EDriverTypes.h",
+      "bytes": 2138,
+      "sha256": "4c52a364255fb00a5435a285ae384331e5ef5ee3d0d32dd02b25aa7ca94f30ab"
+    },
+    {
+      "path": "include/EGUIAlignment.h",
+      "bytes": 780,
+      "sha256": "c22a033d5fe5a3e5df65e478c65678ca248ba75ccb2673db1d5fd85a62b59f3e"
+    },
+    {
+      "path": "include/EGUIElementTypes.h",
+      "bytes": 2496,
+      "sha256": "3a7faa1b15e7fdecc4d6fc504907daf337c6fa636a2ec9ac3f74b8f4771029ca"
+    },
+    {
+      "path": "include/EHardwareBufferFlags.h",
+      "bytes": 938,
+      "sha256": "93c936f5208927b7f83705239a7a911dae05bcc87f4e1b71949fad9de6510a1d"
+    },
+    {
+      "path": "include/EMaterialFlags.h",
+      "bytes": 2847,
+      "sha256": "d8d262fa84a0e50028e17d433d11e1f7008daaee78af70351d3f72eb0f70f26a"
+    },
+    {
+      "path": "include/EMaterialTypes.h",
+      "bytes": 9759,
+      "sha256": "e04ad90e55385c81f37ac4c6e3797316570ea7c2c16f64b62157150677324983"
+    },
+    {
+      "path": "include/EMeshWriterEnums.h",
+      "bytes": 1567,
+      "sha256": "73d9b3807b193a7df431b3c6569b23e8abcf474cd8f9793158fe532619781d90"
+    },
+    {
+      "path": "include/EMessageBoxFlags.h",
+      "bytes": 752,
+      "sha256": "1d0b5c72533b82126f4b68162a9daa0b3a3fe32544b0da4cb05ef21266932953"
+    },
+    {
+      "path": "include/EPrimitiveTypes.h",
+      "bytes": 1461,
+      "sha256": "6b4b8114ba1fd84525ece161173c7a59313fac928d55971d4d4c15a32592ac36"
+    },
+    {
+      "path": "include/ESceneNodeAnimatorTypes.h",
+      "bytes": 1295,
+      "sha256": "c3867fe439832c9cf689edb44b05c7d945525a7fdfa268fb95531f09b546685d"
+    },
+    {
+      "path": "include/ESceneNodeTypes.h",
+      "bytes": 3031,
+      "sha256": "8ff82797e3d420bd81ff7510ae84cf7f05c86fce4d1fd2b6f45d2ff2ea08bd05"
+    },
+    {
+      "path": "include/EShaderTypes.h",
+      "bytes": 1762,
+      "sha256": "45af4dc370134d4dd8d2dc2a96de5601eb298eaa34f719455422cd4da295b8a3"
+    },
+    {
+      "path": "include/ETerrainElements.h",
+      "bytes": 962,
+      "sha256": "f458706a990a83578ed1c098c3330a522c6aa63a8f4cc60952ebeea17d69f851"
+    },
+    {
+      "path": "include/IAnimatedMesh.h",
+      "bytes": 3693,
+      "sha256": "2ce61658f7ed974f5e8c3cd748a97b332b5204600375002ea62acb7b84cf11cf"
+    },
+    {
+      "path": "include/IAnimatedMeshMD2.h",
+      "bytes": 2434,
+      "sha256": "fe8043d2a9a2dd8d3dabdf1a8a2cca493540c2a9a9c237d2d79e94711a02bd02"
+    },
+    {
+      "path": "include/IAnimatedMeshMD3.h",
+      "bytes": 7003,
+      "sha256": "c3ebce6114ddec218f6d402123f38c09c1d046499972410941be836cf549ddae"
+    },
+    {
+      "path": "include/IAnimatedMeshSceneNode.h",
+      "bytes": 9449,
+      "sha256": "848f26acb8b85caf224c157022a3d3831b9219032bf72d0970f0ace31dd368dc"
+    },
+    {
+      "path": "include/IAttributeExchangingObject.h",
+      "bytes": 1992,
+      "sha256": "51b727671a4d11240a93048fd74d03fb66490f5c656e8e48c835a12224eb5823"
+    },
+    {
+      "path": "include/IAttributes.h",
+      "bytes": 26526,
+      "sha256": "493f188d9808701b7c6e27a9757fadbd1a39fc050084f74d0d2644da1a3b9107"
+    },
+    {
+      "path": "include/IBillboardSceneNode.h",
+      "bytes": 2799,
+      "sha256": "9c6146118de2067ede93baaab58bab6fbd100ecece99ad49ff7137ff13058d2c"
+    },
+    {
+      "path": "include/IBillboardTextSceneNode.h",
+      "bytes": 2095,
+      "sha256": "95e837f5e7de21860d6ad1abe849fef18738113bf4642d3fc4d51d3ba729898e"
+    },
+    {
+      "path": "include/IBoneSceneNode.h",
+      "bytes": 2942,
+      "sha256": "52b361da5de31e87900c1257293a93e61d84bb2fc5c91f418c87c99e376d3a01"
+    },
+    {
+      "path": "include/ICameraSceneNode.h",
+      "bytes": 7956,
+      "sha256": "d6955eca1dfa5ae518ee09a273c51f7ffb8d2b0528d91ceab5fb25c1cfd8dc9a"
+    },
+    {
+      "path": "include/IColladaMeshWriter.h",
+      "bytes": 15297,
+      "sha256": "7fdaa6c04951dc5e0fb4abc1978938a4232b117b17ab89e46d6a32fa8362db76"
+    },
+    {
+      "path": "include/ICursorControl.h",
+      "bytes": 7009,
+      "sha256": "437b7d2eab663be2bd0397380b9b3189989adc93be0b0a71919d04fbf2839a26"
+    },
+    {
+      "path": "include/IDummyTransformationSceneNode.h",
+      "bytes": 1367,
+      "sha256": "248abfa4ff6f945de0b18c6c1fb16f6de0c2864657b8b27768c162daef4401c4"
+    },
+    {
+      "path": "include/IDynamicMeshBuffer.h",
+      "bytes": 6176,
+      "sha256": "36afa557513d44b2885029fc3a4236cd416c5ba800b27caf6a5d29a51f06dea9"
+    },
+    {
+      "path": "include/IEventReceiver.h",
+      "bytes": 15512,
+      "sha256": "da3326d3443455bc446b6f013705e459b91ff8423808554df87921d04a4c9274"
+    },
+    {
+      "path": "include/IFileArchive.h",
+      "bytes": 4523,
+      "sha256": "4f21019ec149e8024ca58837e5c8502fb6a4ffb17d0d965108357a8325de67d8"
+    },
+    {
+      "path": "include/IFileList.h",
+      "bytes": 4088,
+      "sha256": "4c57e903a35b3944567c2eec63a875c1d0af1d31544e1919348f2250afe20704"
+    },
+    {
+      "path": "include/IFileSystem.h",
+      "bytes": 19848,
+      "sha256": "cea0aea36094ee94ae9098a4ef900fb8d456cb30a6cc81cdaf24b8b1c5450ea3"
+    },
+    {
+      "path": "include/IGPUProgrammingServices.h",
+      "bytes": 21275,
+      "sha256": "5bdd7758fb053e7a40d9bc4ada22d839c10ac317141622cf0753ccade46cfe9f"
+    },
+    {
+      "path": "include/IGUIButton.h",
+      "bytes": 5298,
+      "sha256": "0c3462993f6ffd4b6cdc1a3b6eb8a87b25328621ef88e39d9a47914519746c4b"
+    },
+    {
+      "path": "include/IGUICheckBox.h",
+      "bytes": 945,
+      "sha256": "29a4f2e30f1313804ebad0a35914ac8e6cf443a6683c76720fbe1c8bb39a93d4"
+    },
+    {
+      "path": "include/IGUIColorSelectDialog.h",
+      "bytes": 731,
+      "sha256": "e86e3416fadedbd66d191506317990d0891e05ffeff9bb42ddb34d10d5da2b62"
+    },
+    {
+      "path": "include/IGUIComboBox.h",
+      "bytes": 2470,
+      "sha256": "640ee4f136d1c3a78f2ff2215c758131e9760efe6e7c537bd75a9ee73d58abdb"
+    },
+    {
+      "path": "include/IGUIContextMenu.h",
+      "bytes": 6262,
+      "sha256": "8c83a794aacf386c65ad0a028d915f726d42dfa542736afd9bce3d69d3869ebd"
+    },
+    {
+      "path": "include/IGUIEditBox.h",
+      "bytes": 5323,
+      "sha256": "225219ae9b486edf4840bebf0863691e296a48d7a23989ccff49d116c1d6e711"
+    },
+    {
+      "path": "include/IGUIElement.h",
+      "bytes": 28372,
+      "sha256": "23b2025ab70a8eccd510e400e755bafb389466e0d6b1789e12db4d0730054cb9"
+    },
+    {
+      "path": "include/IGUIElementFactory.h",
+      "bytes": 2817,
+      "sha256": "573320e60eeb07d9ae130aeb7f428e4ced5bd9cc9fc20093991ee0a466ad8256"
+    },
+    {
+      "path": "include/IGUIEnvironment.h",
+      "bytes": 28861,
+      "sha256": "21be7f5c227aa9fd85d7582d80bfd3aa4ecfa1cbacdeb17eaba1c4d93b6782de"
+    },
+    {
+      "path": "include/IGUIFileOpenDialog.h",
+      "bytes": 1296,
+      "sha256": "d8de8bd9ae12986c60c6c1a25b45484511e87e981f66542e58ce0ceb41ba3b33"
+    },
+    {
+      "path": "include/IGUIFont.h",
+      "bytes": 3919,
+      "sha256": "f0da384439f98c47c72afeb704be051530bf4bd6706d136137bf93d15c8220bd"
+    },
+    {
+      "path": "include/IGUIFontBitmap.h",
+      "bytes": 1559,
+      "sha256": "43c21889fa599ad8d9e52e3df9cbd3dbd3cf285ad7b40096fbec7e7f3f5d35e4"
+    },
+    {
+      "path": "include/IGUIImage.h",
+      "bytes": 1507,
+      "sha256": "7f427ca47b4aab0673a91c88bbdae41c7486a16761e89578c3178f9423fac8dd"
+    },
+    {
+      "path": "include/IGUIImageList.h",
+      "bytes": 1250,
+      "sha256": "a430c01529bb1931a9c7ed759472c2147a95a22cc46e1a62b5d0b4dfbb6d7767"
+    },
+    {
+      "path": "include/IGUIInOutFader.h",
+      "bytes": 2255,
+      "sha256": "f8917cd924262855361b4afe39ce2e4b7d4cc4e5c7a321908e713f9f24f0419d"
+    },
+    {
+      "path": "include/IGUIListBox.h",
+      "bytes": 4831,
+      "sha256": "73ca019d4492537a751581624138d95aa1380961ea6de0440c1e7c9e34869e83"
+    },
+    {
+      "path": "include/IGUIMeshViewer.h",
+      "bytes": 1191,
+      "sha256": "72f43a0a53561cfa15c138c15574467fbfbdf167cf346de4c0ea68ea26839a4d"
+    },
+    {
+      "path": "include/IGUIScrollBar.h",
+      "bytes": 1858,
+      "sha256": "7c8475a8c937c3d4313f17e32e5d22800ea28da089f016e9a6320209c5863869"
+    },
+    {
+      "path": "include/IGUISkin.h",
+      "bytes": 19602,
+      "sha256": "513bd7999235176bee53a6961bf4189ffbabadb9bf53e025bf87cc73a4223caf"
+    },
+    {
+      "path": "include/IGUISpinBox.h",
+      "bytes": 2179,
+      "sha256": "21eb34667fcabd1e3d610f8adc6091ff872ce5e7dca0b284a96709385edb8115"
+    },
+    {
+      "path": "include/IGUISpriteBank.h",
+      "bytes": 2812,
+      "sha256": "542c020a4e9aeb0601d92ddfe450836381452fcec9c9c25d8cc5c085531628ea"
+    },
+    {
+      "path": "include/IGUIStaticText.h",
+      "bytes": 5384,
+      "sha256": "351990011fecebcba29bfed5f97cbdd397f47b613095721fd46d804c51d5af26"
+    },
+    {
+      "path": "include/IGUITabControl.h",
+      "bytes": 4574,
+      "sha256": "6aa4915fe7c9dcc8870cef22da825b1cb924e464a947d56ded7f641e9d8f0479"
+    },
+    {
+      "path": "include/IGUITable.h",
+      "bytes": 6459,
+      "sha256": "628903b5c48d0179b53db8c306ff4ee8e2fa19bd8da8a90d44adf1f567faa948"
+    },
+    {
+      "path": "include/IGUIToolbar.h",
+      "bytes": 1062,
+      "sha256": "d7c2129c2d3e620e2b14908c0821b891d19901f4194072b0a13713759dbf09fb"
+    },
+    {
+      "path": "include/IGUITreeView.h",
+      "bytes": 10431,
+      "sha256": "06131bd2f786d791b75c1cd9a6081c4e45b84ee41cd316a4b0cd7cc2fe188492"
+    },
+    {
+      "path": "include/IGUIWindow.h",
+      "bytes": 2778,
+      "sha256": "113d2f6147a34fcf709635b4bfa8fe1cf690edea729494bb6f249596d91df763"
+    },
+    {
+      "path": "include/IGeometryCreator.h",
+      "bytes": 6582,
+      "sha256": "2bbb3135e4ed3b22ec54a819b8db20ba349834f104973f0e32aebafb139bda71"
+    },
+    {
+      "path": "include/IImage.h",
+      "bytes": 4605,
+      "sha256": "7b833543b1d91166da08f444ed2db9d64f9637c492a2b28afaac8da518d666c3"
+    },
+    {
+      "path": "include/IImageLoader.h",
+      "bytes": 1582,
+      "sha256": "d6d8e52fb9b864eb64d7086813202739076ce11f3144ab0eb47c1f3d933dc035"
+    },
+    {
+      "path": "include/IImageWriter.h",
+      "bytes": 1234,
+      "sha256": "51dfadbba6471610518ce0d706a10ffdebef4ccbeb378da0f6ca1df22568d86d"
+    },
+    {
+      "path": "include/IIndexBuffer.h",
+      "bytes": 1626,
+      "sha256": "5d032ac3af9315c9fdd2b5d37e7783c993f6c9b791040d92b27ee277afa9e89d"
+    },
+    {
+      "path": "include/ILightManager.h",
+      "bytes": 2672,
+      "sha256": "849cdd217b3144c0cc55f151614b65f91f6de7454eae60c461ea4c17e6313a9b"
+    },
+    {
+      "path": "include/ILightSceneNode.h",
+      "bytes": 2974,
+      "sha256": "8587d3c49f31d393b7244eee8a0f45f0b9e352d61cbcad59f9111525341622be"
+    },
+    {
+      "path": "include/ILogger.h",
+      "bytes": 3978,
+      "sha256": "014a2f1551c71d49df62235c4625eae53914b129be895f84e5304fef1ebfe70f"
+    },
+    {
+      "path": "include/IMaterialRenderer.h",
+      "bytes": 4819,
+      "sha256": "17436c9212feb0a163cb7593629b4d0233d820c6ffae71570d4ad7f8ea60d9d4"
+    },
+    {
+      "path": "include/IMaterialRendererServices.h",
+      "bytes": 4631,
+      "sha256": "9594f5c5999206b8320e5ce49258094a3d3264938e34a74e951edf77f3819f72"
+    },
+    {
+      "path": "include/IMesh.h",
+      "bytes": 2781,
+      "sha256": "9940acc9f5b3ea8409ae92b9be620372dd414b97ce717cde39a11f55d3dc18a7"
+    },
+    {
+      "path": "include/IMeshBuffer.h",
+      "bytes": 5902,
+      "sha256": "5f5508c9c47397613e37f6b9363b3413e0ea8e2a0863f29378174752da3229d4"
+    },
+    {
+      "path": "include/IMeshCache.h",
+      "bytes": 7207,
+      "sha256": "09520d1b382613f6d3e3a83cc604dad5adf967836a239caa4a8e93b91f8e3b34"
+    },
+    {
+      "path": "include/IMeshLoader.h",
+      "bytes": 1581,
+      "sha256": "bd78f289beb19a311c13a1671fad86af207e3e2e0ff5ed49d816baa6b980e3aa"
+    },
+    {
+      "path": "include/IMeshManipulator.h",
+      "bytes": 17305,
+      "sha256": "eb327425ff7a378e3f5006cc8aed122e5f609aa7748c9a8b757ad3dc0a281272"
+    },
+    {
+      "path": "include/IMeshSceneNode.h",
+      "bytes": 2978,
+      "sha256": "b9a84ed139a7eb5e5e8860e6ebb14af6ae8271be51065969a7ae985db675d505"
+    },
+    {
+      "path": "include/IMeshWriter.h",
+      "bytes": 1528,
+      "sha256": "6110c1b19a3772498c6aefe74e2aec6475eddd92afa35ed7c71f7c530c3a2bec"
+    },
+    {
+      "path": "include/IMetaTriangleSelector.h",
+      "bytes": 1402,
+      "sha256": "1cca750a2589864036924f3b5b9a47f049827bacd91c157ff37bdfdd6f625874"
+    },
+    {
+      "path": "include/IOSOperator.h",
+      "bytes": 1721,
+      "sha256": "4b0c027cd55107f2dfaa340ac80bbc687cbb998597519614506dc223cd7edb87"
+    },
+    {
+      "path": "include/IParticleAffector.h",
+      "bytes": 1627,
+      "sha256": "350d2344b00e9d9182d95b1c1782695e36eac38b4aa56ce132614701aeec40e9"
+    },
+    {
+      "path": "include/IParticleAnimatedMeshSceneNodeEmitter.h",
+      "bytes": 1952,
+      "sha256": "edff50966992b9777e74d8874eee73454f9192ffb1d67ac5dfefdb3be0d5b340"
+    },
+    {
+      "path": "include/IParticleAttractionAffector.h",
+      "bytes": 1836,
+      "sha256": "545cb937c3b18faec741c38e55866c0f2aa9eff1a762cd3ff6a1fa87ed71c848"
+    },
+    {
+      "path": "include/IParticleBoxEmitter.h",
+      "bytes": 834,
+      "sha256": "efe6434d7511d7381a2b80bf465e0622f8ff924ba2604476727522393c4f0369"
+    },
+    {
+      "path": "include/IParticleCylinderEmitter.h",
+      "bytes": 1650,
+      "sha256": "1e0ba7594275a726b36245a75b3abf776fe9319eaf8f7fabbf70c30813c2b14f"
+    },
+    {
+      "path": "include/IParticleEmitter.h",
+      "bytes": 3938,
+      "sha256": "ad008de2c740081083ce4d0da3f4018930963905fce51fd08d3ae3b88b3483ae"
+    },
+    {
+      "path": "include/IParticleFadeOutAffector.h",
+      "bytes": 1279,
+      "sha256": "7b86542dc185551f1ffe5f9bf4c602d35aae25bfaa748ad1a6d0a97f9ea5d458"
+    },
+    {
+      "path": "include/IParticleGravityAffector.h",
+      "bytes": 1256,
+      "sha256": "507a79e1b9a6e731c0cf22bb2f9e284fdc9129ec7a750348e634523c8faa922e"
+    },
+    {
+      "path": "include/IParticleMeshEmitter.h",
+      "bytes": 1733,
+      "sha256": "48ce65c6ce250d5a44ec89c812f61a54625f4f106af3471bf16ec89ede9d758a"
+    },
+    {
+      "path": "include/IParticleRingEmitter.h",
+      "bytes": 1169,
+      "sha256": "a808a848acc85d506107295e59c717ea46599b0fb05a50f51e765b09135abfc4"
+    },
+    {
+      "path": "include/IParticleRotationAffector.h",
+      "bytes": 1186,
+      "sha256": "d9f8955810cbb51879fd69db6cb1d4f73550b0dd093d3fce0866613744065c35"
+    },
+    {
+      "path": "include/IParticleSphereEmitter.h",
+      "bytes": 1087,
+      "sha256": "b39ae2b8dc2bd56ee3bad5adc0d7912c21fb45bd9f86809c88992807506ae098"
+    },
+    {
+      "path": "include/IParticleSystemSceneNode.h",
+      "bytes": 27211,
+      "sha256": "d6b3aede5e7cb10321bfa333773127151caa50c1fdd373ef52bc6f16947c7c9b"
+    },
+    {
+      "path": "include/IQ3LevelMesh.h",
+      "bytes": 1496,
+      "sha256": "c9b8294ba3f73a0fc164400a113c6c4e7ebfbb9dbde545f01a46cf3fed86393d"
+    },
+    {
+      "path": "include/IQ3Shader.h",
+      "bytes": 20270,
+      "sha256": "3288d80dc535c8e337f26cb26550cfc4b46eda210376421b47595f4e3df33e2f"
+    },
+    {
+      "path": "include/IRandomizer.h",
+      "bytes": 852,
+      "sha256": "08d3818e785b27d32f43ca86549901b0d966008199dbc5238052cc675a7a7dd9"
+    },
+    {
+      "path": "include/IReadFile.h",
+      "bytes": 1998,
+      "sha256": "6f6e6d2e990169d1c247f881154cf033735a8930e3a4edd5e85d4206a97f4ccf"
+    },
+    {
+      "path": "include/IReferenceCounted.h",
+      "bytes": 6245,
+      "sha256": "0e1dc3968271c23b1fb783968cdf142f028d4974f8e28916f7c091bddaa3dc28"
+    },
+    {
+      "path": "include/ISceneCollisionManager.h",
+      "bytes": 10538,
+      "sha256": "9ab920114ef92bd884579b9f01e8f120a0175bea7d82536cd180246c64235e83"
+    },
+    {
+      "path": "include/ISceneLoader.h",
+      "bytes": 2210,
+      "sha256": "0123a92ca36b44b1da61ec9b373b2f3d97376a08f45f4bc3570c892293581cc3"
+    },
+    {
+      "path": "include/ISceneManager.h",
+      "bytes": 88964,
+      "sha256": "4812d7045f1b850fa4f8e2cac50353e2aedda5df4cddd71e6b00741510b0da9e"
+    },
+    {
+      "path": "include/ISceneNode.h",
+      "bytes": 26491,
+      "sha256": "d849b868760723ab02c3e83ca0ec2fd10dcbf493c0ddc1983b4389a5dccd1f4a"
+    },
+    {
+      "path": "include/ISceneNodeAnimator.h",
+      "bytes": 2370,
+      "sha256": "b92e2d5133bd2e4b1f0d415fa5c41ca8f22de3868ccc1ffe517fd83d18497ac3"
+    },
+    {
+      "path": "include/ISceneNodeAnimatorCameraFPS.h",
+      "bytes": 2358,
+      "sha256": "7f43dc0784f743e17f25f6b7beb92abfefb0a95e9d7f6c3fb95ade558d61d91a"
+    },
+    {
+      "path": "include/ISceneNodeAnimatorCameraMaya.h",
+      "bytes": 1630,
+      "sha256": "61a3ebbadb8480bc13cd3f0cf55de76248f86bd5dc44aefda1ab984d5f006267"
+    },
+    {
+      "path": "include/ISceneNodeAnimatorCollisionResponse.h",
+      "bytes": 7600,
+      "sha256": "b75b610e4b0bb1393c9249c6d315c281b332c77222f1508787aef1fd56febd75"
+    },
+    {
+      "path": "include/ISceneNodeAnimatorFactory.h",
+      "bytes": 3305,
+      "sha256": "1e1436c6be1144cfc85c99b4e557acf30fe835b4d50bef4a8ff12be899e20655"
+    },
+    {
+      "path": "include/ISceneNodeFactory.h",
+      "bytes": 3115,
+      "sha256": "3d8e1781cf5c92d6e78416f795c2602a39c83576552976d14caa21edb1e1fa87"
+    },
+    {
+      "path": "include/ISceneUserDataSerializer.h",
+      "bytes": 1937,
+      "sha256": "f08b201e7589c9d4782293ce832e0c71351cf6f3973b07af87558b022426b241"
+    },
+    {
+      "path": "include/IShaderConstantSetCallBack.h",
+      "bytes": 3166,
+      "sha256": "c8a5484e40fb7058a801188a3988d4f055ac6e2c3507517b3cdeea66aee4ce2d"
+    },
+    {
+      "path": "include/IShadowVolumeSceneNode.h",
+      "bytes": 1007,
+      "sha256": "23292f4a3a9a018203764b75a621123120da54de56c62ae0d4fecd36547d0807"
+    },
+    {
+      "path": "include/ISkinnedMesh.h",
+      "bytes": 6248,
+      "sha256": "c7bc6c30d796506465f147e72bf1bc02d07e4d3b5a22a7ef4d3c88e4eb320f81"
+    },
+    {
+      "path": "include/ITerrainSceneNode.h",
+      "bytes": 8615,
+      "sha256": "36d39bd7749c390c2f291f5c1b9c3d960b98ed0f68d121a9742768f060c204f7"
+    },
+    {
+      "path": "include/ITextSceneNode.h",
+      "bytes": 894,
+      "sha256": "ae2586e22f91213d254cbd79faee7ee0585d3195221ab28f8084c894ee939e6f"
+    },
+    {
+      "path": "include/ITexture.h",
+      "bytes": 9054,
+      "sha256": "87a6f124d1954a501cac0e65e3ccd74ea258669314818679fd39a8136236e368"
+    },
+    {
+      "path": "include/ITimer.h",
+      "bytes": 3114,
+      "sha256": "011c6b0678ffdf446377f785f38f5cef45546e18dadb688d205c8c9cc06422db"
+    },
+    {
+      "path": "include/ITriangleSelector.h",
+      "bytes": 5480,
+      "sha256": "daa316315f68211ce6b67586ffe1097ef519a3259321e44e8f294d7eb9bdb505"
+    },
+    {
+      "path": "include/IVertexBuffer.h",
+      "bytes": 1595,
+      "sha256": "f13314a73589a65d4b408cce1700ccf3e10f64d3037f08df5590b6dcbba436b6"
+    },
+    {
+      "path": "include/IVideoDriver.h",
+      "bytes": 68177,
+      "sha256": "56a329728b34e1aac85e7d651491613387f6a89fa6d02fc0674b5817a2d01252"
+    },
+    {
+      "path": "include/IVideoModeList.h",
+      "bytes": 2411,
+      "sha256": "80c29156ad55aa296bacde09eba5fec5e542c7edd8f4d014b7dde061db84af3f"
+    },
+    {
+      "path": "include/IVolumeLightSceneNode.h",
+      "bytes": 1765,
+      "sha256": "96157528ac5193056f22b132bea0c6d85739273ae30cdfdbbed483239120ac59"
+    },
+    {
+      "path": "include/IWriteFile.h",
+      "bytes": 1574,
+      "sha256": "d13773b02678e5ffe46b4b13d24cf9813786b9e543e4766ec7628bf5d9cd443d"
+    },
+    {
+      "path": "include/IXMLReader.h",
+      "bytes": 1099,
+      "sha256": "e0f98bb7dd09e391bc9df19727fb60aecee44d7387d955203a7a971eca972591"
+    },
+    {
+      "path": "include/IXMLWriter.h",
+      "bytes": 2868,
+      "sha256": "8158380692cd72e3b357748357ccaf1104e7b8fea80da93e36f960e81c04b913"
+    },
+    {
+      "path": "include/IrrCompileConfig.h",
+      "bytes": 33686,
+      "sha256": "b197686f4b3b3d65b8b42bdd57f562eff5ff57f15de7864f745ad1c089389991"
+    },
+    {
+      "path": "include/IrrlichtDevice.h",
+      "bytes": 12218,
+      "sha256": "36595a9789d85d6e640983ac9346d4478fdd2330554582f9cb95290af83d05c6"
+    },
+    {
+      "path": "include/Keycodes.h",
+      "bytes": 7917,
+      "sha256": "4103a870651ad79de3a4c91a121fe1d32f52cb0d85c97c902784ca3b2c76aee1"
+    },
+    {
+      "path": "include/S3DVertex.h",
+      "bytes": 8498,
+      "sha256": "2a8f4817dffc2b06474e20a13eb4eab7c527cf57bb89989c9e1d64a702c168ed"
+    },
+    {
+      "path": "include/SAnimatedMesh.h",
+      "bytes": 5016,
+      "sha256": "20238a78c311749de2c3c75e2fca8653218fd760e9421c3eab3eb7d717f2c161"
+    },
+    {
+      "path": "include/SColor.h",
+      "bytes": 21718,
+      "sha256": "64d3ed1b3cb95cf15cae3a61162ccd5a71f7d11c63827fe905e2b333d764fc94"
+    },
+    {
+      "path": "include/SExposedVideoData.h",
+      "bytes": 2386,
+      "sha256": "4045467b8a4663e333d4d98072f5c29cc5626997c9af99c7ceca2f75c2c95d69"
+    },
+    {
+      "path": "include/SIrrCreationParameters.h",
+      "bytes": 11460,
+      "sha256": "9f85ba9e2ad1a1d540da02767c0730353591d6057f7fe8396fd4feaf7a7cc3bd"
+    },
+    {
+      "path": "include/SKeyMap.h",
+      "bytes": 914,
+      "sha256": "3dc626a91fd41f9d0e32b6636c9242907540ba8beff1eafd397a008e54c0094d"
+    },
+    {
+      "path": "include/SLight.h",
+      "bytes": 2806,
+      "sha256": "f5e8ed1a00cd26ad8f2b63ae4a7677ecc43a3c523c976463427fe4efbfa9d8d5"
+    },
+    {
+      "path": "include/SMaterial.h",
+      "bytes": 23686,
+      "sha256": "5aa3b4330815bf2b7dd7176fc160633728580106a5dfca2fb715707ca1218878"
+    },
+    {
+      "path": "include/SMaterialLayer.h",
+      "bytes": 6525,
+      "sha256": "e0a4d015d341565254ea85d5d6be07f8f1896fb6eb8b646cc3b90729bb1bf034"
+    },
+    {
+      "path": "include/SMesh.h",
+      "bytes": 3314,
+      "sha256": "5315db9e3e182f9ca08fbc7fcdbf7e644d0e26b4efcaf2de88f15a0eefd7184b"
+    },
+    {
+      "path": "include/SMeshBuffer.h",
+      "bytes": 228,
+      "sha256": "9dd66606a1116615492fa6f80b53ec27e1a6ccc160243a864ecb4899fb2aad0a"
+    },
+    {
+      "path": "include/SMeshBufferLightMap.h",
+      "bytes": 228,
+      "sha256": "9dd66606a1116615492fa6f80b53ec27e1a6ccc160243a864ecb4899fb2aad0a"
+    },
+    {
+      "path": "include/SMeshBufferTangents.h",
+      "bytes": 228,
+      "sha256": "9dd66606a1116615492fa6f80b53ec27e1a6ccc160243a864ecb4899fb2aad0a"
+    },
+    {
+      "path": "include/SParticle.h",
+      "bytes": 1331,
+      "sha256": "df98ad5ca9209b4f5df8a4d2733a9e2135afb5e0f8f05e041af4beddd024fb37"
+    },
+    {
+      "path": "include/SSharedMeshBuffer.h",
+      "bytes": 6338,
+      "sha256": "5887edc184c64fd100712b4f249fcbe82b1e1b418172c22c08a02c208f71ec8c"
+    },
+    {
+      "path": "include/SSkinMeshBuffer.h",
+      "bytes": 10083,
+      "sha256": "3f57b617cf290a45d7d9e96eed3a8c2dd1ffd3d2fe840dd3c88d74380b67c1a1"
+    },
+    {
+      "path": "include/SVertexIndex.h",
+      "bytes": 1397,
+      "sha256": "a1c05d8bf869ea961ed9fd930280ebce6aec485066e43f6f0a0942d56bbb03fc"
+    },
+    {
+      "path": "include/SVertexManipulator.h",
+      "bytes": 9960,
+      "sha256": "0e573520696e8f64d2f1c6d900e0531d3ad153df6ce4b2098e08974f741d70bd"
+    },
+    {
+      "path": "include/SViewFrustum.h",
+      "bytes": 10930,
+      "sha256": "243db1561bf9976ffe1c143791e35a456bee5dc17f16929d27f567e00d0d55f8"
+    },
+    {
+      "path": "include/SceneParameters.h",
+      "bytes": 6913,
+      "sha256": "3e9fe798440d7e14c6b26e1a7d84cc5b0eabb8f3873e90eafa8bdc950deb92da"
+    },
+    {
+      "path": "include/aabbox3d.h",
+      "bytes": 10785,
+      "sha256": "250f9ae6dfbc101fdd08bf30e35d3bad926c8e8f1c527e4d4381c64f96610230"
+    },
+    {
+      "path": "include/coreutil.h",
+      "bytes": 4554,
+      "sha256": "922dff1474e3de57339a6600775d4a5d579f78de5f1806efb6bc16066b5db720"
+    },
+    {
+      "path": "include/dimension2d.h",
+      "bytes": 5866,
+      "sha256": "ecf53bffff9d1bab24ab2e88e942c35644cac3ac86f896e4fa5cb8856c448cd0"
+    },
+    {
+      "path": "include/driverChoice.h",
+      "bytes": 1271,
+      "sha256": "726909988355e9b995b11583628b13980bbb3c1583322f27f514d439e7257f90"
+    },
+    {
+      "path": "include/fast_atof.h",
+      "bytes": 10056,
+      "sha256": "40dfa554fb335f2a6b28018ed9bd894a9caab29400eb38faa9c6dca8a36e252a"
+    },
+    {
+      "path": "include/heapsort.h",
+      "bytes": 1489,
+      "sha256": "e377417c10c6079fd23fa9560ecac73b17869bc99cbd0578faf360940d65086c"
+    },
+    {
+      "path": "include/irrAllocator.h",
+      "bytes": 2377,
+      "sha256": "7cb8488ea0269b3648ceb259bc043382bd6e7f7cf03ab6b699a68c305b6feafe"
+    },
+    {
+      "path": "include/irrArray.h",
+      "bytes": 16231,
+      "sha256": "ca6fca8d422498301e12ea12d619469efc4f4e04a3191fc6057e668146d4bacb"
+    },
+    {
+      "path": "include/irrList.h",
+      "bytes": 9652,
+      "sha256": "bfbf578aeecf2eb1114551d5b9f46461a21733df62d54ab65b11e37d436e06ec"
+    },
+    {
+      "path": "include/irrMap.h",
+      "bytes": 24509,
+      "sha256": "ef2dc3c14df23775b8fa7b19eed6c727030483c09022fe436b707b8cb6674f93"
+    },
+    {
+      "path": "include/irrMath.h",
+      "bytes": 19655,
+      "sha256": "69de1ef8ec098444ab36be85ce11a262dbd536b47fa9ee1b8905c6684bd53e01"
+    },
+    {
+      "path": "include/irrString.h",
+      "bytes": 29734,
+      "sha256": "fd946b6e2694385d617697969c44dc03d514cbb2d57d79410e3056d76120b1b0"
+    },
+    {
+      "path": "include/irrTypes.h",
+      "bytes": 8122,
+      "sha256": "8e95b2697f0692b00eb45c30db61957ddbc6fc3844e02de1e86ec5b59eec5fc7"
+    },
+    {
+      "path": "include/irrXML.h",
+      "bytes": 24665,
+      "sha256": "d81cfd67a19eab5dfbd0aa78fb65d8eb165c4477fea03132adea450c9ff6dbd6"
+    },
+    {
+      "path": "include/irrlicht.h",
+      "bytes": 13897,
+      "sha256": "4d857a62a0f46e54991667cd2f6402558b18df9bec3b0dbcb5d90c2226ade4ae"
+    },
+    {
+      "path": "include/irrpack.h",
+      "bytes": 1441,
+      "sha256": "8d19508de4010fedaedc28a32b898411789d9bed4c2bfc3e7b71728d006c4170"
+    },
+    {
+      "path": "include/irrunpack.h",
+      "bytes": 642,
+      "sha256": "1de5621adc25584c951bfed6a8667b3466c54344b58cfe2be82deb0cf005d429"
+    },
+    {
+      "path": "include/line2d.h",
+      "bytes": 10318,
+      "sha256": "873b7d9d1ad9a467a83184e16f4b124cddd5c6376d5b198275029b9f4a7f0d38"
+    },
+    {
+      "path": "include/line3d.h",
+      "bytes": 4478,
+      "sha256": "f128bd26d6558b4d70e2a4abccacc7958f0c6a1e6430fff0ce68b9c3d96b8a18"
+    },
+    {
+      "path": "include/matrix4.h",
+      "bytes": 64685,
+      "sha256": "8f3005e306e1955757702697301eae771bea1f46dcef125b910bad8fb2838ecc"
+    },
+    {
+      "path": "include/path.h",
+      "bytes": 1984,
+      "sha256": "61d3e306589befba6105692b08f4ef1474df567e8d17b746606317deff795f16"
+    },
+    {
+      "path": "include/plane3d.h",
+      "bytes": 7850,
+      "sha256": "6d7097ca07204c1e995cad74f975c4112d06c4aa2b3b10f75495cab42ab58559"
+    },
+    {
+      "path": "include/position2d.h",
+      "bytes": 986,
+      "sha256": "701dfbb1b3b0c477c64a67468ec33128013438be7af833226e31c1107a2976ae"
+    },
+    {
+      "path": "include/quaternion.h",
+      "bytes": 17884,
+      "sha256": "dea908bcce37cb250ccaa02297b8245399175be69fc8e2feae0306bced777099"
+    },
+    {
+      "path": "include/rect.h",
+      "bytes": 7633,
+      "sha256": "d7f411a20ab3a0fd6b40e3d7c7795a5e834a2bc3ec111b0a1cf30e277d9df986"
+    },
+    {
+      "path": "include/triangle3d.h",
+      "bytes": 10451,
+      "sha256": "9a0fb58d0af4daca492cc4cdc80f84fb9404bebe4b7da5c729f7b7260b7c0ff8"
+    },
+    {
+      "path": "include/vector2d.h",
+      "bytes": 12443,
+      "sha256": "d1d9c67f9477a6ac3eddf6539bd301bc2688c404263c7b13fc8467c6cc0eb091"
+    },
+    {
+      "path": "include/vector3d.h",
+      "bytes": 17163,
+      "sha256": "124dc2f2a5bd50c34944b11c0905e2bb1923a8ab974c0b524114272a24fcb364"
+    },
+    {
+      "path": "readme.txt",
+      "bytes": 11303,
+      "sha256": "3899e3c67e7a8cb8465ba65e28a0f25fe3dcc9dd56e0ff045c57e99644d66cc1"
+    },
+    {
+      "path": "source/Irrlicht/BuiltInFont.h",
+      "bytes": 53633,
+      "sha256": "5e6116dc8d93549ed177fdabdd87a700728458a74232eb7ec8e681a4317831ed"
+    },
+    {
+      "path": "source/Irrlicht/C3DSMeshFileLoader.cpp",
+      "bytes": 35117,
+      "sha256": "f02189f914e87152e3ce212b7e02ad29da38771b2c7083fb6eeaa2271a6c0415"
+    },
+    {
+      "path": "source/Irrlicht/C3DSMeshFileLoader.h",
+      "bytes": 4074,
+      "sha256": "9c2d56a82858aff59228bd4444801490d93d963bad465fd0f8ddeb76837b39d3"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshHalfLife.cpp",
+      "bytes": 45902,
+      "sha256": "8e849fe2d0d06400bd1b3621b2c41e498bf20390e792d4f814e6c3dca71c1f32"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshHalfLife.h",
+      "bytes": 16158,
+      "sha256": "862f13bb9af143aadd4591195f0825a3f44d0bf507817f64a52e24381e9b5843"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshMD2.cpp",
+      "bytes": 14617,
+      "sha256": "dd337a451f65f063399b8c225c00d6ebbad71ff3f174045e3fab34542e3eb95d"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshMD2.h",
+      "bytes": 4477,
+      "sha256": "bc728fb3adcaee6e04f9ef6c993799322361d34db4d942f8f3d9f0953e3a9640"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshMD3.cpp",
+      "bytes": 12401,
+      "sha256": "0168460aa91c6ff7386ca5f8cad301b31ed2793c652fd777683ba33f245970df"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshMD3.h",
+      "bytes": 3852,
+      "sha256": "642d71f8cdd9258e5dedf5fa0f46ad12a491338c1e6652213008bab6a8be661c"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshSceneNode.cpp",
+      "bytes": 30603,
+      "sha256": "e0956bc4904f42d075a1471b28bafeb09ba18cc5c18540d275d0d0caf70633f0"
+    },
+    {
+      "path": "source/Irrlicht/CAnimatedMeshSceneNode.h",
+      "bytes": 8046,
+      "sha256": "084812ad4413c3db1875bdb110d2c6606b238dcd0e1697220e190984d9d41acc"
+    },
+    {
+      "path": "source/Irrlicht/CAttributeImpl.h",
+      "bytes": 41746,
+      "sha256": "0125e7964084eb8e7c534c3fc6eb39f4f01143cbbd89e034995f8b9b142af8bb"
+    },
+    {
+      "path": "source/Irrlicht/CAttributes.cpp",
+      "bytes": 44834,
+      "sha256": "61bb96596d7ec97ace5621ace50a4e4950843e56caa75e9ca746fe7a980adc19"
+    },
+    {
+      "path": "source/Irrlicht/CAttributes.h",
+      "bytes": 24358,
+      "sha256": "4d9677c14a02f17e1b0398fbde11980959b2709e5d932a150e848106511e6521"
+    },
+    {
+      "path": "source/Irrlicht/CB3DMeshFileLoader.cpp",
+      "bytes": 33267,
+      "sha256": "5d552d025266d6c4db4821a5eb0b25bbe2336eafc076cfcffe9ac78fd0515d44"
+    },
+    {
+      "path": "source/Irrlicht/CB3DMeshFileLoader.h",
+      "bytes": 3434,
+      "sha256": "0a1b0a7b9408347d28822972e4356724e314bb3d96f7f78799e5f46d1367c6a9"
+    },
+    {
+      "path": "source/Irrlicht/CBSPMeshFileLoader.cpp",
+      "bytes": 2567,
+      "sha256": "a11677f87fe8398c660eaccca0214afb6a37c10ff2370f9b144768898c199523"
+    },
+    {
+      "path": "source/Irrlicht/CBSPMeshFileLoader.h",
+      "bytes": 1420,
+      "sha256": "63252d58230c72f29f477e792dbf6f4d3aa0d1abb22c25012f2a350a8d21eda7"
+    },
+    {
+      "path": "source/Irrlicht/CBillboardSceneNode.cpp",
+      "bytes": 7529,
+      "sha256": "c51dc25dcebe22d9277ca481d79b42656708d755d7192da262175c22033bbac3"
+    },
+    {
+      "path": "source/Irrlicht/CBillboardSceneNode.h",
+      "bytes": 3308,
+      "sha256": "5756ee489aff0e5b11c1a8d63e1e242038f314de3f5d8471021b0e6d178f47b2"
+    },
+    {
+      "path": "source/Irrlicht/CBlit.h",
+      "bytes": 27766,
+      "sha256": "563d5bb14ed90821a32203cc74e821b4b3187172cc0893eb5b7eee5660314e89"
+    },
+    {
+      "path": "source/Irrlicht/CBoneSceneNode.cpp",
+      "bytes": 3243,
+      "sha256": "ef39018f1554efab6989582975e6cd29b9d1740457f38fedff0848f35553695d"
+    },
+    {
+      "path": "source/Irrlicht/CBoneSceneNode.h",
+      "bytes": 2126,
+      "sha256": "ffd0a29d5c361be45399a11ed7c61afd066596493894ac1d109a766cc495dd65"
+    },
+    {
+      "path": "source/Irrlicht/CBurningShader_Raster_Reference.cpp",
+      "bytes": 36715,
+      "sha256": "701de8b668d7409d0e974870680c6eabf3a47425d41753ff9f56f3cb03a2ff8c"
+    },
+    {
+      "path": "source/Irrlicht/CCSMLoader.cpp",
+      "bytes": 19656,
+      "sha256": "8a3f3be90f53f8c81ed6a73d19616fb6e0b7ea99bc5555304db722cf04f0646f"
+    },
+    {
+      "path": "source/Irrlicht/CCSMLoader.h",
+      "bytes": 2851,
+      "sha256": "2a5298ae6b3357d588b8444d43d2362ac38685f0be6d9ac526a691b65edfa541"
+    },
+    {
+      "path": "source/Irrlicht/CCameraSceneNode.cpp",
+      "bytes": 10228,
+      "sha256": "e71ad3f4c03c76b0de116f753bb5dc3054ca5464e1d854ce1db7e13ad83fe729"
+    },
+    {
+      "path": "source/Irrlicht/CCameraSceneNode.h",
+      "bytes": 6527,
+      "sha256": "0ac9978b4892d51ecbe5e2ef447121b84370f24060e98d37987dbe49295c8a19"
+    },
+    {
+      "path": "source/Irrlicht/CCgMaterialRenderer.cpp",
+      "bytes": 8647,
+      "sha256": "6263821c96574b1c98c59395085cccee170b24073c9be0a93ed43955fa5ed091"
+    },
+    {
+      "path": "source/Irrlicht/CCgMaterialRenderer.h",
+      "bytes": 4836,
+      "sha256": "40acb6f67d6d08ee152e0eff909a5b525c2887fbe7f7b3fe9f22ae81b9762c2c"
+    },
+    {
+      "path": "source/Irrlicht/CColladaFileLoader.cpp",
+      "bytes": 85028,
+      "sha256": "51f4a4e31f9c6e2860d78188099da64ec47772986732df4ae1b57b67d8f06483"
+    },
+    {
+      "path": "source/Irrlicht/CColladaFileLoader.h",
+      "bytes": 11264,
+      "sha256": "048a05270e048577fad3bde7b4f3d19aa2b0b56091d6656f4c89c7f29eec3c95"
+    },
+    {
+      "path": "source/Irrlicht/CColladaMeshWriter.cpp",
+      "bytes": 66634,
+      "sha256": "557a8b5702492cd8df12714bb14e1a942a0e37f14e0c6de4e834e3ba3d36a68f"
+    },
+    {
+      "path": "source/Irrlicht/CColladaMeshWriter.h",
+      "bytes": 11617,
+      "sha256": "4e501b0d175a4fe6f75741dae0dab9f8c8f4cf744fec3f7e235e1719f300f835"
+    },
+    {
+      "path": "source/Irrlicht/CColorConverter.cpp",
+      "bytes": 13740,
+      "sha256": "d9121d396a7abc374b294aa849c30cb9c9573bb344c4c32e05c542310e61ee3e"
+    },
+    {
+      "path": "source/Irrlicht/CColorConverter.h",
+      "bytes": 4368,
+      "sha256": "d2937c69e33dc4eb53311194283c5366d945c02ec50ce9e0c1eae8db358d3156"
+    },
+    {
+      "path": "source/Irrlicht/CCubeSceneNode.cpp",
+      "bytes": 5834,
+      "sha256": "5ce85c4be674e6564ac613a96cc5002e9cbc85ef2b0660a8fab88984b7390480"
+    },
+    {
+      "path": "source/Irrlicht/CCubeSceneNode.h",
+      "bytes": 3286,
+      "sha256": "9bdf30c3390692ef8c89dba8e9254041ad56e0737a15488e5cb23ab37d6eeee8"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8Driver.cpp",
+      "bytes": 78203,
+      "sha256": "70139536177784ecfeaa95ca456fa7868ca7b14d6eacb7497360b535b7164303"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8Driver.h",
+      "bytes": 13043,
+      "sha256": "ca2b3f248f44107e4b7b36155664441eb4a91f2315d7a727c02263442db82c20"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8MaterialRenderer.h",
+      "bytes": 19631,
+      "sha256": "cb2100a81ce266ed70e65b69458074faedc055175df047d99429c2ec8748390b"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8NormalMapRenderer.cpp",
+      "bytes": 8614,
+      "sha256": "ecd2585de8b0cd65ba5c36afa94d1ec85c97a0b46deef4cacab199a39085b36b"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8NormalMapRenderer.h",
+      "bytes": 1503,
+      "sha256": "6df1967fc32bfac87994ce581f3773db459a5854582eb3116c1083854a80d724"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8ParallaxMapRenderer.cpp",
+      "bytes": 11593,
+      "sha256": "19ad28ae62508df185119fe35b423cfc503a3d4d3856e145551cb0c3e73d6cf8"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8ParallaxMapRenderer.h",
+      "bytes": 1784,
+      "sha256": "34f2d9ff6db31d0f9a89fc7fade078d70ce97efe03ef6a84ab78d1781aa990eb"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8ShaderMaterialRenderer.cpp",
+      "bytes": 8482,
+      "sha256": "f12b9ec2028b61b0933ed32790427e35c9afce88ed42016b5728b464a56a498d"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8ShaderMaterialRenderer.h",
+      "bytes": 2340,
+      "sha256": "a23e952fd2f14c78db041b2facf2eee157f72fb9c70ab25b47677566aadeb085"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8Texture.cpp",
+      "bytes": 15659,
+      "sha256": "14f8bb82b1f876b2910e8f2e0a884fa5fc04174d1636d488f4e2ca049216d910"
+    },
+    {
+      "path": "source/Irrlicht/CD3D8Texture.h",
+      "bytes": 3051,
+      "sha256": "619945a43e2375a436d1a7e27010ca38a1c0918e317fbf401ccb054e083bb5a9"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9CgMaterialRenderer.cpp",
+      "bytes": 6452,
+      "sha256": "aee51e760427bbc56c8a446d8f2a5adbb1ad7ada373dd7107c3b414be967099c"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9CgMaterialRenderer.h",
+      "bytes": 2800,
+      "sha256": "b8d5a60795b1564cfec480c752ccd12b96a811753f1797a5aba4cc5ab7529fd0"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9Driver.cpp",
+      "bytes": 112619,
+      "sha256": "e3bebdf14f7238be8016fa9ffa4c24996b02de62bbceb3cec5328bb418a84a6d"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9Driver.h",
+      "bytes": 17769,
+      "sha256": "14aed3d66965a4a3f58bd5fad489b65eb5f8b1eed846dacab6c92cba7aa5b77f"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9HLSLMaterialRenderer.cpp",
+      "bytes": 10370,
+      "sha256": "f3ede9268259a100437bc5f4ae330c684add54f635a95992de8862afbc4c909e"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9HLSLMaterialRenderer.h",
+      "bytes": 2469,
+      "sha256": "785214f7e69f90709a43d44c10b2d7de9532e1038083776ad84f8d45580fc194"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9MaterialRenderer.h",
+      "bytes": 20659,
+      "sha256": "807e70b4438a17a361879d171c9424fc552c40f12a07fb9e7b3bb89ee08cfe1f"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9NormalMapRenderer.cpp",
+      "bytes": 10890,
+      "sha256": "c730ec89006912a16460cdbbec69341770d5412afc34d15adf302795a462c5c5"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9NormalMapRenderer.h",
+      "bytes": 1463,
+      "sha256": "3ffd810ad4684f86509d264a6e3666b59003cdbdfd15a2812b776a5ab5617d2b"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9ParallaxMapRenderer.cpp",
+      "bytes": 15089,
+      "sha256": "4d05a6bfafe5f71f35006f1966394fc1069b10af0f7550baecd2b7b0165bc5bd"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9ParallaxMapRenderer.h",
+      "bytes": 1758,
+      "sha256": "ce69c47932c745a941550744df3771c91b22231f35a6e68302b3efb9999a7c35"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9ShaderMaterialRenderer.cpp",
+      "bytes": 15343,
+      "sha256": "ecdaa77a7a55c7f6c34e705dedb229a081f488cff031584987d221aeed2e6fc9"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9ShaderMaterialRenderer.h",
+      "bytes": 3377,
+      "sha256": "a5cc33f83deffa7f327556f04afe7200023f8ff7d949892a0d43f1a8c62d5ab0"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9Texture.cpp",
+      "bytes": 17270,
+      "sha256": "7d6af25232fa9eb651284ba64afc404156b953a753869d1e102251962f308b81"
+    },
+    {
+      "path": "source/Irrlicht/CD3D9Texture.h",
+      "bytes": 3523,
+      "sha256": "35155f42ad7e096578ea0c899de9e9e71539e5366b9256bf380c635863479cdb"
+    },
+    {
+      "path": "source/Irrlicht/CDMFLoader.cpp",
+      "bytes": 13349,
+      "sha256": "9b464d44cf9341f9b67953b18eae313aeb2c9192b4be8934a1d0324e45b7834c"
+    },
+    {
+      "path": "source/Irrlicht/CDMFLoader.h",
+      "bytes": 3329,
+      "sha256": "45659f6f7fa5b77fd12ee829a738a2cdeeea106cb575000cfef39b86cf192dfb"
+    },
+    {
+      "path": "source/Irrlicht/CDefaultGUIElementFactory.cpp",
+      "bytes": 5027,
+      "sha256": "0e6324b034f533fe0fae52473d53c7b5a4008fda22133309dd9cd4c25b987c61"
+    },
+    {
+      "path": "source/Irrlicht/CDefaultGUIElementFactory.h",
+      "bytes": 2789,
+      "sha256": "9e5697f12b21b364eb7606c55b4a6cdfcf0e5f883f8ea10e914bfbc96a1ede0f"
+    },
+    {
+      "path": "source/Irrlicht/CDefaultSceneNodeAnimatorFactory.cpp",
+      "bytes": 4300,
+      "sha256": "764d99cdebb3155a71fd02b7a9b2ff0e51030e35005da6945abd863aff4a5493"
+    },
+    {
+      "path": "source/Irrlicht/CDefaultSceneNodeAnimatorFactory.h",
+      "bytes": 2992,
+      "sha256": "74046385e8735259ec67a098d6728114192785e4ce49a54633634cda6b376dd0"
+    },
+    {
+      "path": "source/Irrlicht/CDefaultSceneNodeFactory.cpp",
+      "bytes": 6616,
+      "sha256": "968c4b447e3d67e5aaa9bf56ebe69b4656e4d762447f14b28d6a8407b906612d"
+    },
+    {
+      "path": "source/Irrlicht/CDefaultSceneNodeFactory.h",
+      "bytes": 2788,
+      "sha256": "2e33201430e7a2fc6ff3be6faa4cf28cd4e0f0963bf2e706d17a6b24b2944194"
+    },
+    {
+      "path": "source/Irrlicht/CDepthBuffer.cpp",
+      "bytes": 2949,
+      "sha256": "253fbecddaa3439540ea9ac8b34831a832c655b8621a09ad5aca942c53f94d9a"
+    },
+    {
+      "path": "source/Irrlicht/CDepthBuffer.h",
+      "bytes": 1945,
+      "sha256": "9585ee8d113da203e03e80ddbb8a0d059ac5a81cc3b436e633b3ca60847bfab2"
+    },
+    {
+      "path": "source/Irrlicht/CDummyTransformationSceneNode.cpp",
+      "bytes": 3232,
+      "sha256": "666a8bfd88e3718e421bb6834ff8d1c52cfb0989aaafaf2ce741b5fd1d871e8f"
+    },
+    {
+      "path": "source/Irrlicht/CDummyTransformationSceneNode.h",
+      "bytes": 1991,
+      "sha256": "db29eaa0617c874e1419095db99b6bd2fca0b877337d26df2bfe9386d18e2957"
+    },
+    {
+      "path": "source/Irrlicht/CEmptySceneNode.cpp",
+      "bytes": 1393,
+      "sha256": "3db732fab7b6299c0ffdf0e77af510b7171d89eabbc0a2a96a70fe528ed9bf5f"
+    },
+    {
+      "path": "source/Irrlicht/CEmptySceneNode.h",
+      "bytes": 1137,
+      "sha256": "a7d780fc8bb7c0706962f4c551fc0981a65a7801853c810485375502148c80a2"
+    },
+    {
+      "path": "source/Irrlicht/CFPSCounter.cpp",
+      "bytes": 1534,
+      "sha256": "124aa2ff3d5cdea8dfbbb7575cc4a5dc70fa09cb84a2c23dafd86af0e2176175"
+    },
+    {
+      "path": "source/Irrlicht/CFPSCounter.h",
+      "bytes": 964,
+      "sha256": "7425a6f1b2aac78a167164afb6502be9d961b6fcee794dd3088cb12ca9328671"
+    },
+    {
+      "path": "source/Irrlicht/CFileList.cpp",
+      "bytes": 3488,
+      "sha256": "d399849e1dce36f8cfad6250cf6c9f20f7e6248561622daaa7548b349750b402"
+    },
+    {
+      "path": "source/Irrlicht/CFileList.h",
+      "bytes": 3959,
+      "sha256": "1880b8dd7ea846b92dda34de0dfb6ba81d1be4e12c0e2292e4df7277f2270404"
+    },
+    {
+      "path": "source/Irrlicht/CFileSystem.cpp",
+      "bytes": 26323,
+      "sha256": "5c17cf021015e6d87079438a53b51c2de3b81d04faad1923e55d8eff869221d5"
+    },
+    {
+      "path": "source/Irrlicht/CFileSystem.h",
+      "bytes": 6178,
+      "sha256": "c609caa24bd152d48b79271402ad3fe98e32bceb8634dc4d8cbc484f1c629fea"
+    },
+    {
+      "path": "source/Irrlicht/CGUIButton.cpp",
+      "bytes": 13275,
+      "sha256": "0de81ba92b73cd59e1fc70347533f3f4d352ef85644828896e0452274f8a9e53"
+    },
+    {
+      "path": "source/Irrlicht/CGUIButton.h",
+      "bytes": 4573,
+      "sha256": "fa6716327f67b8d7cf3cca41e70a2499f39ec67677dd913873ab7303768b5c19"
+    },
+    {
+      "path": "source/Irrlicht/CGUICheckBox.cpp",
+      "bytes": 5014,
+      "sha256": "f377041a4d658d34c281867548a9875ad402f5e9836a1d3b5348812f77920ed4"
+    },
+    {
+      "path": "source/Irrlicht/CGUICheckBox.h",
+      "bytes": 1368,
+      "sha256": "fd38a0d2cde9a8e4a4ff0e611b0649d0270a6aa0514aee094e6c9b5b2b88bae7"
+    },
+    {
+      "path": "source/Irrlicht/CGUIColorSelectDialog.cpp",
+      "bytes": 13820,
+      "sha256": "3c259333eb38e0c03c8166ba7bc694bb599695d0a5025f43cbadbe15a2d59c70"
+    },
+    {
+      "path": "source/Irrlicht/CGUIColorSelectDialog.h",
+      "bytes": 1768,
+      "sha256": "31adfba63bac13f297e56cfcbe895a367b920b12b5813d23614638624bbf6e0f"
+    },
+    {
+      "path": "source/Irrlicht/CGUIComboBox.cpp",
+      "bytes": 12749,
+      "sha256": "203504b59dd7092542fabc7fa2bb9ddb85b9b30f824b105abb4337fb7cdac828"
+    },
+    {
+      "path": "source/Irrlicht/CGUIComboBox.h",
+      "bytes": 3181,
+      "sha256": "85634a31d94dde28c952aaf6e8a47ec0e0485dd49b6be0a0726c72f996070bdd"
+    },
+    {
+      "path": "source/Irrlicht/CGUIContextMenu.cpp",
+      "bytes": 20300,
+      "sha256": "d4338202bcef6cf25c4cb98fbaa419e1615c24d75e56772d2b38596935b42475"
+    },
+    {
+      "path": "source/Irrlicht/CGUIContextMenu.h",
+      "bytes": 5183,
+      "sha256": "5cfac3021cbad12e67e18eb035df4bb0fb34b94f620f4a34cca93b68f552a97a"
+    },
+    {
+      "path": "source/Irrlicht/CGUIEditBox.cpp",
+      "bytes": 37614,
+      "sha256": "f5886f346cfd11ee583c8ba7db8b55cf049addd5ddb43e3d901e57beb84c222f"
+    },
+    {
+      "path": "source/Irrlicht/CGUIEditBox.h",
+      "bytes": 6016,
+      "sha256": "3e99b71b4f6bfcc4b9ef063a547267be2786de301774ab00178329f630333624"
+    },
+    {
+      "path": "source/Irrlicht/CGUIEnvironment.cpp",
+      "bytes": 40256,
+      "sha256": "34249b63e26eac2dbe8df3532634f455eca8f162ad877188c2b173cddea13b53"
+    },
+    {
+      "path": "source/Irrlicht/CGUIEnvironment.h",
+      "bytes": 11539,
+      "sha256": "d181ae0f4944ab19d84343b1a4f73a2e790473d5d5c9539060e7c3145801c084"
+    },
+    {
+      "path": "source/Irrlicht/CGUIFileOpenDialog.cpp",
+      "bytes": 11861,
+      "sha256": "f735520a807552f498db6d267eecfc9c7da173c1ed8e1724d2a5a108bc8955d7"
+    },
+    {
+      "path": "source/Irrlicht/CGUIFileOpenDialog.h",
+      "bytes": 2298,
+      "sha256": "1fb803f5f6711728f9edca1ddf493bc75271c5119c77fd1cf9c6c65283c4a03f"
+    },
+    {
+      "path": "source/Irrlicht/CGUIFont.cpp",
+      "bytes": 14626,
+      "sha256": "81c5a065469e3b8a6e319c562564580078132c1850e77be155ed9d271bdabd2e"
+    },
+    {
+      "path": "source/Irrlicht/CGUIFont.h",
+      "bytes": 3122,
+      "sha256": "4f560344a3e633c40053178a848c2abc915f9a59f3688cc1540a15728c3783ae"
+    },
+    {
+      "path": "source/Irrlicht/CGUIImage.cpp",
+      "bytes": 3721,
+      "sha256": "987e3cb6740a1514d2a35d7146f7d0c96fa51816016e7a4ab1dbbf52b978f7af"
+    },
+    {
+      "path": "source/Irrlicht/CGUIImage.h",
+      "bytes": 1958,
+      "sha256": "875d46034063f42f34a0e8d251110b3ae100e812606d96ae6914622b7e0a9086"
+    },
+    {
+      "path": "source/Irrlicht/CGUIImageList.cpp",
+      "bytes": 1966,
+      "sha256": "dcce5438cb57e0c4a9927483a6e7fea0757b54bfcfe5ccdd6c765f98f2f619c3"
+    },
+    {
+      "path": "source/Irrlicht/CGUIImageList.h",
+      "bytes": 1909,
+      "sha256": "4db7622bb616a25c0c6b5d7c58e5ede7a9c164f80becfbefd992c123f8825785"
+    },
+    {
+      "path": "source/Irrlicht/CGUIInOutFader.cpp",
+      "bytes": 3613,
+      "sha256": "f951fe8a0e928b61959c14bce8b1e082d1feedca08ffa300dae91a0eea2d8709"
+    },
+    {
+      "path": "source/Irrlicht/CGUIInOutFader.h",
+      "bytes": 1842,
+      "sha256": "3a4ecd526da7cf53137c7d4c1ed5bfd15b212bb12f816ba2dea57422ef0645bf"
+    },
+    {
+      "path": "source/Irrlicht/CGUIListBox.cpp",
+      "bytes": 22247,
+      "sha256": "3c862a2bbc5675ed1ed22aea0a374c17e2362d35c9e79daa51c2455e9ff70e51"
+    },
+    {
+      "path": "source/Irrlicht/CGUIListBox.h",
+      "bytes": 5973,
+      "sha256": "b97ec9eed3311eda87c57962ebe837ad77e6e1a227e9d4e684edbb02e0fc9798"
+    },
+    {
+      "path": "source/Irrlicht/CGUIMenu.cpp",
+      "bytes": 6695,
+      "sha256": "30ab07c5ddaeccef27d174e67ff909b1d7eac9d2563abbbc98943fb9cece588b"
+    },
+    {
+      "path": "source/Irrlicht/CGUIMenu.h",
+      "bytes": 1261,
+      "sha256": "d6194ce868e34dafe985dc152833bd1a9a83300a9881157bcf39bf722ce424c1"
+    },
+    {
+      "path": "source/Irrlicht/CGUIMeshViewer.cpp",
+      "bytes": 4220,
+      "sha256": "7c9a5ad6c66caa98986ca1a3b6deb20351769d60dbd0c15fbb56821772154ede"
+    },
+    {
+      "path": "source/Irrlicht/CGUIMeshViewer.h",
+      "bytes": 1370,
+      "sha256": "ca4ebf7c8b03e547ec5befcff30c982c6165031710af85b829b3cf6d9524bda3"
+    },
+    {
+      "path": "source/Irrlicht/CGUIMessageBox.cpp",
+      "bytes": 13943,
+      "sha256": "eaaab31695e42a6f68b33026e620c601c01d5c146c623086cd2e36471d635369"
+    },
+    {
+      "path": "source/Irrlicht/CGUIMessageBox.h",
+      "bytes": 1696,
+      "sha256": "3cf6142a1ec9416d65fc6a65622794a492b5bbf5a0e2fab16dbe542cfe1dd452"
+    },
+    {
+      "path": "source/Irrlicht/CGUIModalScreen.cpp",
+      "bytes": 6064,
+      "sha256": "89a7ffb94dc505429b10197cd9418727496da69a02f1860fb5073e7e797fbdc0"
+    },
+    {
+      "path": "source/Irrlicht/CGUIModalScreen.h",
+      "bytes": 1894,
+      "sha256": "e06636753a005cfbf37d3914412f3fda6d35538650ec8063993747eb1e12acca"
+    },
+    {
+      "path": "source/Irrlicht/CGUIScrollBar.cpp",
+      "bytes": 14177,
+      "sha256": "a7dd63d2ea0a3d002d9cbaab9e99106581ae81bdb45b900ca105bad05d112e05"
+    },
+    {
+      "path": "source/Irrlicht/CGUIScrollBar.h",
+      "bytes": 2650,
+      "sha256": "6253747e1a8c9c707d26a50c73b5f88298e6656c3b33d65592a08fb2952b1863"
+    },
+    {
+      "path": "source/Irrlicht/CGUISkin.cpp",
+      "bytes": 31448,
+      "sha256": "e1dfd1f80167c6a2c4d6e8197d1d2292f1efde85ac234593711f9a42bebcfa1b"
+    },
+    {
+      "path": "source/Irrlicht/CGUISkin.h",
+      "bytes": 10533,
+      "sha256": "03a9d33d305dfc347071ee2db0e0fd2841cbdd19aa391eb1cf78d2fd26460b66"
+    },
+    {
+      "path": "source/Irrlicht/CGUISpinBox.cpp",
+      "bytes": 7691,
+      "sha256": "1bf4cd4f0181bd3a31416a7a7f88171cc2ff18bcf7f8fac21a270aa6764491cb"
+    },
+    {
+      "path": "source/Irrlicht/CGUISpinBox.h",
+      "bytes": 3152,
+      "sha256": "cca187bc3055659d03d6f1ba97fbd7ee46e9a09b7d9d7ed79c3b91bc0279b98b"
+    },
+    {
+      "path": "source/Irrlicht/CGUISpriteBank.cpp",
+      "bytes": 5626,
+      "sha256": "51b472dfd8b8af40741ce03be04444d54f75a4cedabd7ace934c48d65675d25b"
+    },
+    {
+      "path": "source/Irrlicht/CGUISpriteBank.h",
+      "bytes": 2309,
+      "sha256": "d3fcb0591991e9697ed3e394cb109d55cceac317c3642fc641ec9362735c44e6"
+    },
+    {
+      "path": "source/Irrlicht/CGUIStaticText.cpp",
+      "bytes": 15009,
+      "sha256": "be898a3cb38c5fb80900f080d29c0fa1ffd0cf559ece5155c42702088723433b"
+    },
+    {
+      "path": "source/Irrlicht/CGUIStaticText.h",
+      "bytes": 4519,
+      "sha256": "9c3ccadfd8cf4d16ad8870ca7d439bb971101c69dbabe7d93df10fcc35d1939c"
+    },
+    {
+      "path": "source/Irrlicht/CGUITabControl.cpp",
+      "bytes": 25228,
+      "sha256": "a56adf406e366b806718fc2a4f9e8b6a669b801739143a91f99917a409e76b78"
+    },
+    {
+      "path": "source/Irrlicht/CGUITabControl.h",
+      "bytes": 5791,
+      "sha256": "32bac3e7322092ef6097109a49b88a05ddd81fca535266f5abf9566391541276"
+    },
+    {
+      "path": "source/Irrlicht/CGUITable.cpp",
+      "bytes": 32926,
+      "sha256": "8241e87a85793b170cc00072b7fdb19a9c3d0aa55ba61395cb8430f7d376167b"
+    },
+    {
+      "path": "source/Irrlicht/CGUITable.h",
+      "bytes": 7286,
+      "sha256": "e9324d14afc171dd7187b8d84c4082b7d2cbb38a439250d480a9fc8cddb2fe83"
+    },
+    {
+      "path": "source/Irrlicht/CGUIToolBar.cpp",
+      "bytes": 4279,
+      "sha256": "188089cb93f9066abee2f4a7a8d6072c2047e64ad05d112fe3ad981fe1854564"
+    },
+    {
+      "path": "source/Irrlicht/CGUIToolBar.h",
+      "bytes": 1263,
+      "sha256": "b44e6678d074cfbd90ee7f44b80cc22d486e1dc0fe5053da516ea5a78df6d755"
+    },
+    {
+      "path": "source/Irrlicht/CGUITreeView.cpp",
+      "bytes": 26388,
+      "sha256": "4d3348d65db206cca3c0dc762d60c8349d39117500ad258ccfbd8f11fadf1570"
+    },
+    {
+      "path": "source/Irrlicht/CGUITreeView.h",
+      "bytes": 10547,
+      "sha256": "44b89c0bd44603a65529dde68a44f771dd1806c727bd786a75268da7625ffe27"
+    },
+    {
+      "path": "source/Irrlicht/CGUIWindow.cpp",
+      "bytes": 10866,
+      "sha256": "349830d0dde5472e08d44b572c8566a268d171c9e56ed24ab7bea12a430edede"
+    },
+    {
+      "path": "source/Irrlicht/CGUIWindow.h",
+      "bytes": 2758,
+      "sha256": "2dd876445601e65d7efb70794b809977ad73b1e6b0790921a7780984c1ee7f47"
+    },
+    {
+      "path": "source/Irrlicht/CGeometryCreator.cpp",
+      "bytes": 27373,
+      "sha256": "64e2a4ae8e138c8a39e916d00702a093ef2b9e45fa7096455d52f4c07be2a253"
+    },
+    {
+      "path": "source/Irrlicht/CGeometryCreator.h",
+      "bytes": 2177,
+      "sha256": "7dd093ecad3c38a8baeaf8f89db1819fa87bbb20afb52292a8f3d4b3dd26af50"
+    },
+    {
+      "path": "source/Irrlicht/CImage.cpp",
+      "bytes": 9861,
+      "sha256": "5214596a449bd357d2d5d55065aa12004e8d183d8afd6671feda6800cc626cfc"
+    },
+    {
+      "path": "source/Irrlicht/CImage.h",
+      "bytes": 3803,
+      "sha256": "4e533df522a06685336672523b66d87d54dbcad268f7b9766cce35a98319a930"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderBMP.cpp",
+      "bytes": 8626,
+      "sha256": "1423e7c900e4ef9d9b95d49f98b18d99a48136201e51c89e0fe6b500af1757cc"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderBMP.h",
+      "bytes": 2724,
+      "sha256": "f3a8f9602854a45c3dac9b5718fe203c373da1e25e19845a2ac8dc53e510f438"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderDDS.cpp",
+      "bytes": 16666,
+      "sha256": "425f202a881d9e688b614a394bfe44105163594c010ac300e0a26ee842fcc905"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderDDS.h",
+      "bytes": 5059,
+      "sha256": "d8d6af267b23b7e80ca94e1785efc064429b1d871bfb98c86fbe3e84414bf6c6"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderJPG.cpp",
+      "bytes": 7511,
+      "sha256": "4fbd7276ae80350d199c677bc5ba5d98f8927a17e951a02842ef8394e75e9e45"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderJPG.h",
+      "bytes": 4044,
+      "sha256": "5d1b2b2462d73922eecb06b15a3687ab8d60aac119de1feda6242f7844b73e0f"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPCX.cpp",
+      "bytes": 5965,
+      "sha256": "e3845bc3b43aae5068cb5212caf48e7b9a06e037a66deaf5d92a0f0ae1c9a84e"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPCX.h",
+      "bytes": 1754,
+      "sha256": "769fde871427b7eddd8128dbbe3a176e6a4c73965c1b8e6ad1da4ec1f6337ffc"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPNG.cpp",
+      "bytes": 7590,
+      "sha256": "f6496e37a993cf48726dbfec88cc68bc88fff8a5d320cc7b31754458162440ae"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPNG.h",
+      "bytes": 1218,
+      "sha256": "0393e18b0c51cb0c10751302c52ba81ab73563cbb889e62c6ab06c982ce31cb2"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPPM.cpp",
+      "bytes": 6093,
+      "sha256": "17266683041e3100d7ecdea54c354d337bce176ba23801610e935e428b2ceec6"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPPM.h",
+      "bytes": 1292,
+      "sha256": "bcc4975e6f1240b2272a54539e1b1e7d04f4db0f91b8dd056b1b267bbe4e19d2"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPSD.cpp",
+      "bytes": 8912,
+      "sha256": "f3020cc9426ee7b25c8e3861a98106a6a4118bb2574f860e0863521fd9e5ea4e"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderPSD.h",
+      "bytes": 1834,
+      "sha256": "ffc7f834e6746eb85b31c05881d95cbc398463f26a4727a04560b77f1b61c955"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderRGB.cpp",
+      "bytes": 22639,
+      "sha256": "4dc26cca0d88557b19106b408f6f0017000be833198e2bf18d45897291d6498d"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderRGB.h",
+      "bytes": 4168,
+      "sha256": "757daab2debf3ec38543d6a4f8d9da45f0c8f166a070b5c1eedaf8c53fe60b6f"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderTGA.cpp",
+      "bytes": 6485,
+      "sha256": "1321ae9f288ac0fe8a8ce66929abaa32cbe38bb9bffa8e0af05503e61a809a09"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderTGA.h",
+      "bytes": 1897,
+      "sha256": "4ad39e2d1cca7bd67ebc2766e5715951c40756b6cdb06d3591a71183e1bf9d09"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderWAL.cpp",
+      "bytes": 10826,
+      "sha256": "d81896acdd332838c2bda130dbf38672be8fd6eb74dc3a50460cf1d0640352a1"
+    },
+    {
+      "path": "source/Irrlicht/CImageLoaderWAL.h",
+      "bytes": 2433,
+      "sha256": "38943711b55b602cca69dc619bf0c94ae439832e0fb4d22cb37c6994ad57b230"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterBMP.cpp",
+      "bytes": 3905,
+      "sha256": "eb2967ee350eac3f7222f3b755f63be819e09d67f645a4da10b520a2f84dac24"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterBMP.h",
+      "bytes": 863,
+      "sha256": "ac0eac3f88bcae7c109c880261f48fb2157bd012e629e7ed955ffa41fd6c7b7e"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterJPG.cpp",
+      "bytes": 5218,
+      "sha256": "780b6801bfc9ab6a6d5abb894f7d6526304bada46ddc41076c9f1c69b3027219"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterJPG.h",
+      "bytes": 827,
+      "sha256": "60727b3e6fcc46777d318960c185b4b29829948bf1aba428250f57e6a3433372"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPCX.cpp",
+      "bytes": 3358,
+      "sha256": "f7622cdce76350526b3ce2c2003162636ddbe5e4a5d558defc22c7c2f1f0b3ff"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPCX.h",
+      "bytes": 863,
+      "sha256": "a7be0e87b0d9d75813a547c2408c6ff1e44304c215c4847490b32c8bc28cc40f"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPNG.cpp",
+      "bytes": 6077,
+      "sha256": "ab124fabaaa8b42e73d877af64d6b588745a582f7e74b10dd757164d3938cd84"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPNG.h",
+      "bytes": 863,
+      "sha256": "40bd0c231ab18bf229c12eaca9a31e577ffdf20eb9fc8f11ff3b696409add8ed"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPPM.cpp",
+      "bytes": 2219,
+      "sha256": "75a508e5dadfe42506e23fe18a258507af09bc3a56b76e95cfa09425170b1994"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPPM.h",
+      "bytes": 863,
+      "sha256": "ba2080258c0bdad9d0dd168ecf5d7a36b0e34ef44ab6e7c462329fef5af63515"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPSD.cpp",
+      "bytes": 972,
+      "sha256": "754f9724ac48652bebe18534cf5b659dfd8c4212fa55bb67c55ce2a8c2723f0c"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterPSD.h",
+      "bytes": 862,
+      "sha256": "55e3106a5782d85338555220a3606b0108d744f1314da023fcb1c5c2cf116000"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterTGA.cpp",
+      "bytes": 4050,
+      "sha256": "627554dd781927abc738a226120a3337d1b275443f1ca777c7c3be9610ffc24a"
+    },
+    {
+      "path": "source/Irrlicht/CImageWriterTGA.h",
+      "bytes": 862,
+      "sha256": "31adc84038a2c97b98afaba9a444e22f5e40208907c5f1d01751ba54107ba7fd"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceConsole.cpp",
+      "bytes": 12648,
+      "sha256": "8f227fc5a737021f08c1f680e24c021db69144629b8ec7f8691dbdaddd507c03"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceConsole.h",
+      "bytes": 9089,
+      "sha256": "96eb95bb0f289d1eb9fee7ad77adc1d423d29484c55fda4786ba158f984ddd04"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceFB.cpp",
+      "bytes": 10567,
+      "sha256": "b641b4ef7d0b4617e52819bc8cb90a0ba1f634860fd8cd993ff56e2306897ec3"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceFB.h",
+      "bytes": 5055,
+      "sha256": "b9785038d9b726d329ae25e990cd19be2be19f82875006bc59a32990d1a52136"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceLinux.cpp",
+      "bytes": 73087,
+      "sha256": "8d6360bf8296136edbecb5861574f0d8ac093096877227e9dc916a73e66b3242"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceLinux.h",
+      "bytes": 11693,
+      "sha256": "fa25e5dd105b2ccfc335b51e3a890a0bbfdea4ae0b53b9476e37b234d0e8c9f7"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceSDL.cpp",
+      "bytes": 30773,
+      "sha256": "2997dfe02d058343ee268e2cc56ef80d141ca45ba688660ca878b8cfa9377ee4"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceSDL.h",
+      "bytes": 5853,
+      "sha256": "2abd36718df26aca284c0db71082e439587d4122c6d627e148b890e73482282d"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceStub.cpp",
+      "bytes": 9932,
+      "sha256": "9045a6842e6d48009305359618090ddf2f7ca85820cfe2f15043c55db1fff2e6"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceStub.h",
+      "bytes": 6055,
+      "sha256": "d8fef752a392231649060d987aadd13224416897ddbdea7bb470bc7c8e2b9861"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceWin32.cpp",
+      "bytes": 59066,
+      "sha256": "f19d764156b67a8d518cde41a9021286b24154a7080ac0aa814ddbf5ac991356"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceWin32.h",
+      "bytes": 12306,
+      "sha256": "6b65d99f84cfbaeda112d4437940a8f18a5dfdf3c0e6697384affc0985ee4d30"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceWinCE.cpp",
+      "bytes": 22829,
+      "sha256": "2433ef72eacafcfb6a1a4f022a2b9184fac1f984b8d966360e73e9717c531328"
+    },
+    {
+      "path": "source/Irrlicht/CIrrDeviceWinCE.h",
+      "bytes": 7764,
+      "sha256": "ed9da6c922c40a2e3db228ca9c88e727392ff1dfb1bb9a8f766a6fde0499e9fc"
+    },
+    {
+      "path": "source/Irrlicht/CIrrMeshFileLoader.cpp",
+      "bytes": 13183,
+      "sha256": "eeb2c651dfe4b26b5ae4a346eb9af68668cd32950a6c57baf45d8c957e838403"
+    },
+    {
+      "path": "source/Irrlicht/CIrrMeshFileLoader.h",
+      "bytes": 2781,
+      "sha256": "ffcc86ff151816c20c6e41c86c001b7692139f99cdbffb16837ce4d19595eb70"
+    },
+    {
+      "path": "source/Irrlicht/CIrrMeshWriter.cpp",
+      "bytes": 7385,
+      "sha256": "7645cda508ec88a69c1b7addea2beb8b35a996bc1f8da0b4190b955cde079282"
+    },
+    {
+      "path": "source/Irrlicht/CIrrMeshWriter.h",
+      "bytes": 1558,
+      "sha256": "825cbf95ff03ca564ea12b5a22189cc4bf187a95df22cabe746eec38e7cba760"
+    },
+    {
+      "path": "source/Irrlicht/CLMTSMeshFileLoader.cpp",
+      "bytes": 10423,
+      "sha256": "05e3dfba368554193e1411a51bb3de340ea795875ad58c8b8aeed7173f78b7a6"
+    },
+    {
+      "path": "source/Irrlicht/CLMTSMeshFileLoader.h",
+      "bytes": 2319,
+      "sha256": "7bebf83db74765be03ca707a5a0fa933e799c034a3afe1c1a59561f86027c105"
+    },
+    {
+      "path": "source/Irrlicht/CLWOMeshFileLoader.cpp",
+      "bytes": 56113,
+      "sha256": "025ed1dd789e1dfb5d5600ea01206839bb65b7d012d884edeadf4150a6c1492e"
+    },
+    {
+      "path": "source/Irrlicht/CLWOMeshFileLoader.h",
+      "bytes": 2434,
+      "sha256": "9797aae8c028028fea6995cc6d2c81d04fae94ed354564852e68e62a7130643d"
+    },
+    {
+      "path": "source/Irrlicht/CLightSceneNode.cpp",
+      "bytes": 7724,
+      "sha256": "3576ffa66bd305544f1c48cdee8e7a58808a768143c7259c47e37e8eb2da9d56"
+    },
+    {
+      "path": "source/Irrlicht/CLightSceneNode.h",
+      "bytes": 3469,
+      "sha256": "dd3f22cf1758cfd1c481fc6ae641f8386f8ac8a091f0419bbc951fdd7f4e3968"
+    },
+    {
+      "path": "source/Irrlicht/CLimitReadFile.cpp",
+      "bytes": 2402,
+      "sha256": "fa7c7912c774ca9fe31a6dcbe4b8638baeb563d4985ff8341c352a39b5d8df5b"
+    },
+    {
+      "path": "source/Irrlicht/CLimitReadFile.h",
+      "bytes": 1556,
+      "sha256": "4af34413132e04ea0276b2fecc73826ac497a1e44dbd711371c621184098f27c"
+    },
+    {
+      "path": "source/Irrlicht/CLogger.cpp",
+      "bytes": 1962,
+      "sha256": "06e610bd7f772c23261753f0b5b2e5359d568a018a5d91e1112be7f1d0a6794b"
+    },
+    {
+      "path": "source/Irrlicht/CLogger.h",
+      "bytes": 1470,
+      "sha256": "ee412f2e141aee570de53fc7d9e9046f4b950d7e187bc14d0b5e7ded23e5797a"
+    },
+    {
+      "path": "source/Irrlicht/CMD2MeshFileLoader.cpp",
+      "bytes": 11553,
+      "sha256": "64a89417b30297a182647419561377b4ed8213400bbd235c4481d615a8587ad9"
+    },
+    {
+      "path": "source/Irrlicht/CMD2MeshFileLoader.h",
+      "bytes": 1248,
+      "sha256": "d084daf552d771ea4b27e07107ae82922d9e5981945957361ac5f1ebabca0993"
+    },
+    {
+      "path": "source/Irrlicht/CMD3MeshFileLoader.cpp",
+      "bytes": 1203,
+      "sha256": "0e6f1326310ff23e9b1810b96b5c577cd56a57eac9c2a902e194e8b93a79998c"
+    },
+    {
+      "path": "source/Irrlicht/CMD3MeshFileLoader.h",
+      "bytes": 1322,
+      "sha256": "51a4c4aa43f04aa3c140e2b1dcafd61958a2ec6037257060557e278d76f16a20"
+    },
+    {
+      "path": "source/Irrlicht/CMS3DMeshFileLoader.cpp",
+      "bytes": 24226,
+      "sha256": "501b16774ef9f60aad6fc54c45a7acbb6de1a60b3dcc4d3d1c0b43ff243aeec0"
+    },
+    {
+      "path": "source/Irrlicht/CMS3DMeshFileLoader.h",
+      "bytes": 1358,
+      "sha256": "bfed7a1d92b9af6efd6825354719eae7710acf176df4b0bf50b75d1ddf5f99aa"
+    },
+    {
+      "path": "source/Irrlicht/CMY3DHelper.h",
+      "bytes": 13943,
+      "sha256": "2bb9469c94bb24b4fde37777ec24959cc9f6b66148633a0bf35b565713e75f19"
+    },
+    {
+      "path": "source/Irrlicht/CMY3DMeshFileLoader.cpp",
+      "bytes": 25580,
+      "sha256": "9df195056f1765af1c9661a1d2c7b483e3d4ed0de56fdb1761284e565bd1d138"
+    },
+    {
+      "path": "source/Irrlicht/CMY3DMeshFileLoader.h",
+      "bytes": 3789,
+      "sha256": "b04afccfc5c20574366e01913f35b95173269a63deea7b3ac3b1157fa4398489"
+    },
+    {
+      "path": "source/Irrlicht/CMemoryFile.cpp",
+      "bytes": 2266,
+      "sha256": "d03c1a6d1f05724ab592f01c63748292667b4e308557145bf0568ee406ff5f94"
+    },
+    {
+      "path": "source/Irrlicht/CMemoryFile.h",
+      "bytes": 1378,
+      "sha256": "a0fcfeedfba698b4c1537134684d87e5797cdf2cb53f32742e8895df019e9141"
+    },
+    {
+      "path": "source/Irrlicht/CMeshCache.cpp",
+      "bytes": 3541,
+      "sha256": "9aefc651ecc03a61060e5bb3f6792cdaef60fed29a0f796e5a179fd09a3d6a95"
+    },
+    {
+      "path": "source/Irrlicht/CMeshCache.h",
+      "bytes": 4731,
+      "sha256": "0c1c1fe8774d02e25037570db7aa4a23e2a51f36f8ec2eba301ad55d6476b2e3"
+    },
+    {
+      "path": "source/Irrlicht/CMeshManipulator.cpp",
+      "bytes": 46320,
+      "sha256": "fb1b8a429c9f784803a3a9de6dda7e244b88e0074e373f085919787f8faf7567"
+    },
+    {
+      "path": "source/Irrlicht/CMeshManipulator.h",
+      "bytes": 4418,
+      "sha256": "5995783769ddbd3ca310beb528c5a7377e4e14bc15483ae8e4acfe57e89c5813"
+    },
+    {
+      "path": "source/Irrlicht/CMeshSceneNode.cpp",
+      "bytes": 11830,
+      "sha256": "d03da747bdf05236977631a99e8065f46c70c692c6863cf5b98b31a79f8e8c26"
+    },
+    {
+      "path": "source/Irrlicht/CMeshSceneNode.h",
+      "bytes": 3448,
+      "sha256": "3c686e03bd05e79cae4a0b593bdf177fa77c1241059c6fe83b6d298384cb05b9"
+    },
+    {
+      "path": "source/Irrlicht/CMetaTriangleSelector.cpp",
+      "bytes": 4700,
+      "sha256": "fd69ca589ed4fe090ad02b720cf67b4a14b7afb9b8d3c6ceb4b4545e52d64595"
+    },
+    {
+      "path": "source/Irrlicht/CMetaTriangleSelector.h",
+      "bytes": 2469,
+      "sha256": "1bfb07bfcd8a90d6a82cd644e5bc9c02da41f5d5784e9c1b4a4a341572890b09"
+    },
+    {
+      "path": "source/Irrlicht/CMountPointReader.cpp",
+      "bytes": 4370,
+      "sha256": "d937442fc43f6fe81f0c87e30853b3d558df02e34c65b9a5acdfea51d79824ab"
+    },
+    {
+      "path": "source/Irrlicht/CMountPointReader.h",
+      "bytes": 2763,
+      "sha256": "803df8cc9bcedb716f2453dff670abdee76d357dbf601539d6b7ddc0de9136f2"
+    },
+    {
+      "path": "source/Irrlicht/CNPKReader.cpp",
+      "bytes": 6227,
+      "sha256": "d2287d681ab7a0feccb5ccf089e7881a12f637e1e56f59b9f1a4dac9e65d70ea"
+    },
+    {
+      "path": "source/Irrlicht/CNPKReader.h",
+      "bytes": 3649,
+      "sha256": "bb59eddec3674c23b1d58e245e6a0f18e37245665d14b293b32b3c3f9e9e578b"
+    },
+    {
+      "path": "source/Irrlicht/CNullDriver.cpp",
+      "bytes": 69168,
+      "sha256": "3478f8d95d0436d5daed4dbe9e7535e15fb4dbe6e1ea21d2a344864b2781e95b"
+    },
+    {
+      "path": "source/Irrlicht/CNullDriver.h",
+      "bytes": 32980,
+      "sha256": "92f21e130b3ee9ed84785c62a35f3efca66a0e8e7f1bcd935058472fece9ac90"
+    },
+    {
+      "path": "source/Irrlicht/COBJMeshFileLoader.cpp",
+      "bytes": 27050,
+      "sha256": "c501b8d3d16b175267cf04b599c6fe7de6ed9c4f3c2dcd006e5217fe5205c5bf"
+    },
+    {
+      "path": "source/Irrlicht/COBJMeshFileLoader.h",
+      "bytes": 4488,
+      "sha256": "cc491e6dc778505cbaaa17e3c57411fa890c1b72fc27a447d6c95d72b92ca90f"
+    },
+    {
+      "path": "source/Irrlicht/COBJMeshWriter.cpp",
+      "bytes": 6017,
+      "sha256": "b600b711ab3fbce79d17033c404588f37232dc4ddca13cf104f8b2e8a0e36190"
+    },
+    {
+      "path": "source/Irrlicht/COBJMeshWriter.h",
+      "bytes": 1495,
+      "sha256": "fcac2c2684194b395216fc251870b2ed071f921dc390cd9a3ff4da2b966958e6"
+    },
+    {
+      "path": "source/Irrlicht/COCTLoader.cpp",
+      "bytes": 10196,
+      "sha256": "677a375d030a07e38b0744fe82f319be54634bd8825c2e5243aa9e491a148285"
+    },
+    {
+      "path": "source/Irrlicht/COCTLoader.h",
+      "bytes": 4029,
+      "sha256": "8f30c951c95b048192c9886c6a7c947e4d07cb8fd15a994227ef7a9cdeeca91d"
+    },
+    {
+      "path": "source/Irrlicht/COSOperator.cpp",
+      "bytes": 5086,
+      "sha256": "aee38450980893a6150aeffa46f05a0669085225b7cf4f963357e7e76de05dcb"
+    },
+    {
+      "path": "source/Irrlicht/COSOperator.h",
+      "bytes": 1658,
+      "sha256": "866d56a4a8e571e778332f33e7d21a89cd7532f6437c61101519c32a7be5408a"
+    },
+    {
+      "path": "source/Irrlicht/COctreeSceneNode.cpp",
+      "bytes": 18546,
+      "sha256": "88c49249f152c01731385c35f08e2f45a6aa590360eb55e5cafa27f13638fd49"
+    },
+    {
+      "path": "source/Irrlicht/COctreeSceneNode.h",
+      "bytes": 3724,
+      "sha256": "227f45a62cdf0d27a38f6ecf3cdef0ccb4769fac760030ee7e3fc456dca0e791"
+    },
+    {
+      "path": "source/Irrlicht/COctreeTriangleSelector.cpp",
+      "bytes": 6860,
+      "sha256": "6b16d5e976f0d422a708c07699dd1086e7ca60dadaf45fa73d2b1125e36e3039"
+    },
+    {
+      "path": "source/Irrlicht/COctreeTriangleSelector.h",
+      "bytes": 2093,
+      "sha256": "2f8ac4a495ebb74bcde842d358d6964503dfd3586b11679adc20ce6ba926e344"
+    },
+    {
+      "path": "source/Irrlicht/COgreMeshFileLoader.cpp",
+      "bytes": 44559,
+      "sha256": "e392798cc7fa0df7bac011b1d72a99b814098812bc9f3fb2949afdde313860e5"
+    },
+    {
+      "path": "source/Irrlicht/COgreMeshFileLoader.h",
+      "bytes": 7106,
+      "sha256": "a701008d3ade1f7300507d19cd699af7754bfed29502bb75399f56207de8493d"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLCgMaterialRenderer.cpp",
+      "bytes": 6862,
+      "sha256": "dc1bf63d36c65957d823db484220b60f95156769c492070215075ef8669ac005"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLCgMaterialRenderer.h",
+      "bytes": 3128,
+      "sha256": "1b8d489b720777f48d1f57705148d44f0fe7ca95dd1a99b7bc4b78143c000701"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLDriver.cpp",
+      "bytes": 143673,
+      "sha256": "032a8031769cacc8f57e89f39a4d26d1750c362f8eb5e0838e27504920cd04ec"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLDriver.h",
+      "bytes": 22748,
+      "sha256": "c6b7781e63db658dcc986c6904b144e64a63d894c446ec3e3c274eeaab3049f5"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLExtensionHandler.cpp",
+      "bytes": 36846,
+      "sha256": "41433f8bdbc7af3afa0bfb9cf4d014021ced108140ceaffe6f1f811f5a854928"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLExtensionHandler.h",
+      "bytes": 85030,
+      "sha256": "41ca8e2f9252ffe3a5cf742f962b07e1ea7623b5d106e79950608cc777af9e4f"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLMaterialRenderer.h",
+      "bytes": 25547,
+      "sha256": "b2ff607f63a77e8cf0bb37dae511e83045dc0b8b8d04cd28afc7bad86cf33097"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLNormalMapRenderer.cpp",
+      "bytes": 9761,
+      "sha256": "e3cb4db09c495042dab52402c796ddc5c7fbaf917686b1265e03a48bd0ffbda0"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLNormalMapRenderer.h",
+      "bytes": 1251,
+      "sha256": "31d8a8107ac5173d1a52e3c9eaed0a252c855c24635d2b748165f049bab89226"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLParallaxMapRenderer.cpp",
+      "bytes": 12142,
+      "sha256": "97bfe14911835b6acbd3d7c3845e449a7abdb8aa206232d0b5adefc9fb7e4ccf"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLParallaxMapRenderer.h",
+      "bytes": 1522,
+      "sha256": "b9780779582d28d08be5b41178635da4b60af50cf81b4ce80b3ed5dd49c3652c"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLSLMaterialRenderer.cpp",
+      "bytes": 18106,
+      "sha256": "17ceed28322a7e11e5c0c3acfad42188b6779de80d0ee9df540271ae642f8735"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLSLMaterialRenderer.h",
+      "bytes": 4487,
+      "sha256": "0036cc5b9fe3dbc44aca445e3cdcac2f8d143aa8a71ec86d8234744bfcbb6d3c"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLShaderMaterialRenderer.cpp",
+      "bytes": 9042,
+      "sha256": "826978a8cfc589eae48df103f72d85d681a499e3592755ec0530354fcbd55ddb"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLShaderMaterialRenderer.h",
+      "bytes": 2744,
+      "sha256": "05dcd691197ce8956c7673b1e02c5e2e3903289a6b08874e4b80030a19c3e065"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLTexture.cpp",
+      "bytes": 24965,
+      "sha256": "15e026859deb605fcc41b371a88e42c66f9727c3ab5a4464643e2a2fc7558b93"
+    },
+    {
+      "path": "source/Irrlicht/COpenGLTexture.h",
+      "bytes": 5707,
+      "sha256": "72a8687efb3bf59e00e845d13c26e4ee9a208742ee1da89ca654d46e1a796f6d"
+    },
+    {
+      "path": "source/Irrlicht/CPLYMeshFileLoader.cpp",
+      "bytes": 19517,
+      "sha256": "761f185d1077e0ee6bf613ee7c4bea8636ef70725d57c9c9627b9df9793e8882"
+    },
+    {
+      "path": "source/Irrlicht/CPLYMeshFileLoader.h",
+      "bytes": 3276,
+      "sha256": "adc072c3ba7f47b9d997f1eaf4c660a967e67cac89368fcf5c24284f0460a3ea"
+    },
+    {
+      "path": "source/Irrlicht/CPLYMeshWriter.cpp",
+      "bytes": 4401,
+      "sha256": "c9a1fd995e5c1e00b7e43b3d9d7b2ca8ab350d65aea8fcec9bf75fc15a1776e6"
+    },
+    {
+      "path": "source/Irrlicht/CPLYMeshWriter.h",
+      "bytes": 732,
+      "sha256": "b4f158984a1af0ec9cae7ca26657b2eaeff70c43b3faa2656a2e57d280a4bf24"
+    },
+    {
+      "path": "source/Irrlicht/CPakReader.cpp",
+      "bytes": 4372,
+      "sha256": "b1c09b86e128e86b302903ff6c77e4927b6cbfb1915ba3ec8c37181bac1d6826"
+    },
+    {
+      "path": "source/Irrlicht/CPakReader.h",
+      "bytes": 3598,
+      "sha256": "06a9bd5055685a772d5b8ed1fdbf5a52e83fd2f6241328a63602947a7ca8af77"
+    },
+    {
+      "path": "source/Irrlicht/CParticleAnimatedMeshSceneNodeEmitter.cpp",
+      "bytes": 6247,
+      "sha256": "4fa5eb3d436c4142b909a21933ca7be4757e827c4aad1c6061292933118bac42"
+    },
+    {
+      "path": "source/Irrlicht/CParticleAnimatedMeshSceneNodeEmitter.h",
+      "bytes": 6416,
+      "sha256": "384c6bdacb3b12ff3c35b15a7f665969f1d551b630b79a5a6330f89fe3ad7582"
+    },
+    {
+      "path": "source/Irrlicht/CParticleAttractionAffector.cpp",
+      "bytes": 2213,
+      "sha256": "9eae416ef41a863489ce7530be601fb988580b5452a250290728180dda782278"
+    },
+    {
+      "path": "source/Irrlicht/CParticleAttractionAffector.h",
+      "bytes": 2897,
+      "sha256": "8ff6b1f0e573f102a3dd181567c687cfa67943ad69c7ab26688283010f9be7bc"
+    },
+    {
+      "path": "source/Irrlicht/CParticleBoxEmitter.cpp",
+      "bytes": 6112,
+      "sha256": "51e43ba7ae632f47b7d9066f4dd9b2761e6107bb66f1655f213d321872130e9d"
+    },
+    {
+      "path": "source/Irrlicht/CParticleBoxEmitter.h",
+      "bytes": 4871,
+      "sha256": "b0b93b236141a27f0ef7f11ff99bfe37c17c10f2b958ad8352ad564f456b6d13"
+    },
+    {
+      "path": "source/Irrlicht/CParticleCylinderEmitter.cpp",
+      "bytes": 6589,
+      "sha256": "bd096cb8571f6c3f208173df6c7530976343aaf6e3d70939650bf9e0573c4875"
+    },
+    {
+      "path": "source/Irrlicht/CParticleCylinderEmitter.h",
+      "bytes": 5989,
+      "sha256": "5dcdd299c0f71a2031697aa7a926c61b685fe7d70916e31110856fdfa5361810"
+    },
+    {
+      "path": "source/Irrlicht/CParticleFadeOutAffector.cpp",
+      "bytes": 2146,
+      "sha256": "ea203092d53fcf42ebe4444d030f9e6ca2c0d8502477ac0ff9567cdfabdc516d"
+    },
+    {
+      "path": "source/Irrlicht/CParticleFadeOutAffector.h",
+      "bytes": 2267,
+      "sha256": "b24a8b1596a0b87a65936726e07036b8b27fbdb206647caafb0e425ed8952334"
+    },
+    {
+      "path": "source/Irrlicht/CParticleGravityAffector.cpp",
+      "bytes": 1616,
+      "sha256": "9d4e61f091d2f07c6c0fe43c2f882c97b0053f3cf20789880b906bc4a7056c8f"
+    },
+    {
+      "path": "source/Irrlicht/CParticleGravityAffector.h",
+      "bytes": 2267,
+      "sha256": "f800417be9c50405e41cc3d05e6751ed7cc3a9f279e3d2cf8196970b12789c84"
+    },
+    {
+      "path": "source/Irrlicht/CParticleMeshEmitter.cpp",
+      "bytes": 5659,
+      "sha256": "5f92f99a033cb3698653da60b7faa2c87853349e09331d99810fd213907f1de5"
+    },
+    {
+      "path": "source/Irrlicht/CParticleMeshEmitter.h",
+      "bytes": 6180,
+      "sha256": "abb4a095cb5be2502edbc0f6d170aa18572a9307e0bcd1acfc5fbf95b1518b67"
+    },
+    {
+      "path": "source/Irrlicht/CParticlePointEmitter.cpp",
+      "bytes": 5179,
+      "sha256": "d4052baea361f94f6c4a2e580df4567b8c7098afbf5b917731ed12bcf8372cfa"
+    },
+    {
+      "path": "source/Irrlicht/CParticlePointEmitter.h",
+      "bytes": 4552,
+      "sha256": "a27f4dfdcbb6b4cbe42f5e9fb038675320d989f7ae4115e0cd7140ec79cc441e"
+    },
+    {
+      "path": "source/Irrlicht/CParticleRingEmitter.cpp",
+      "bytes": 6107,
+      "sha256": "4c9f0f78d7295ca6db9a9fcfd0812568ca5978aec78dc516239c353f9ea027ce"
+    },
+    {
+      "path": "source/Irrlicht/CParticleRingEmitter.h",
+      "bytes": 5447,
+      "sha256": "3cdc2424f1e90a2f4216c25558ecaa4018cc2a28b5f8993f05774b8b2cc62f37"
+    },
+    {
+      "path": "source/Irrlicht/CParticleRotationAffector.cpp",
+      "bytes": 1746,
+      "sha256": "9e4cc4d4d6267fc4b78030766e3d180c63d6e81f36dd267870b5aa94203a8cb2"
+    },
+    {
+      "path": "source/Irrlicht/CParticleRotationAffector.h",
+      "bytes": 1743,
+      "sha256": "517fff5fb44987f20b660a19a6938f30efcf5a422403c5535f4c62f032020d9c"
+    },
+    {
+      "path": "source/Irrlicht/CParticleScaleAffector.cpp",
+      "bytes": 1485,
+      "sha256": "9920728e0bc835270e217f09fd8c5d4ba139a05643b6a0458a0a0cb218e059e3"
+    },
+    {
+      "path": "source/Irrlicht/CParticleScaleAffector.h",
+      "bytes": 1515,
+      "sha256": "892af2103f1a3b9f18bedec66d443e84ba34d37d1081c51e0e6fdf4f8d8e35d1"
+    },
+    {
+      "path": "source/Irrlicht/CParticleSphereEmitter.cpp",
+      "bytes": 6043,
+      "sha256": "2714059a700c2edf1b524775e48833c7cc3b877209b41b57e6482c7b5ff338ca"
+    },
+    {
+      "path": "source/Irrlicht/CParticleSphereEmitter.h",
+      "bytes": 5161,
+      "sha256": "90d2595deea0fa9009bd6ed4ea847892dc0eb4e0a5e3bbcc5d5cc0e56dd6f713"
+    },
+    {
+      "path": "source/Irrlicht/CParticleSystemSceneNode.cpp",
+      "bytes": 21379,
+      "sha256": "42aafb74721ffe408f6e07bbce59a4fd3ede8a3f92deb0ed17788d8dfc47122e"
+    },
+    {
+      "path": "source/Irrlicht/CParticleSystemSceneNode.h",
+      "bytes": 9827,
+      "sha256": "63639bc10855b45ea90e7be558c0e11ebccca011e1bc5633409a41997c4922ee"
+    },
+    {
+      "path": "source/Irrlicht/CQ3LevelMesh.cpp",
+      "bytes": 50904,
+      "sha256": "36d44b9ce0b4761a7731aa5cbf939d39d08a20ed143aebd9f071cad4308b3c66"
+    },
+    {
+      "path": "source/Irrlicht/CQ3LevelMesh.h",
+      "bytes": 15633,
+      "sha256": "58f8a48132ebcbb3098e0424f97b84dad090a1112e494921b0e58367d382088a"
+    },
+    {
+      "path": "source/Irrlicht/CQuake3ShaderSceneNode.cpp",
+      "bytes": 38222,
+      "sha256": "540e9ed1f46e906dbe2568521ad1566badbbb708e56a67dbcca58a1deefe8501"
+    },
+    {
+      "path": "source/Irrlicht/CQuake3ShaderSceneNode.h",
+      "bytes": 3673,
+      "sha256": "b4b3dd8676e0b23bc29d383bd0eacd1e2762f63a105fb727ae5e501a4e8dd0d4"
+    },
+    {
+      "path": "source/Irrlicht/CReadFile.cpp",
+      "bytes": 1927,
+      "sha256": "84105ae162fa7465a99fe75e14aaf077eb67c7353a00abf1d1f9dbbe26c51efe"
+    },
+    {
+      "path": "source/Irrlicht/CReadFile.h",
+      "bytes": 1241,
+      "sha256": "3c4704ad4fb6c3fe1d21c1a2ffd89bf2a751452905fc296cfa8ff7df21125798"
+    },
+    {
+      "path": "source/Irrlicht/CSMFMeshFileLoader.cpp",
+      "bytes": 6147,
+      "sha256": "60ec499373d02742052124189e3b255984315ffa2c8c34fc48f3964335522897"
+    },
+    {
+      "path": "source/Irrlicht/CSMFMeshFileLoader.h",
+      "bytes": 1778,
+      "sha256": "d07b8173744ec42dd2d582b284b21c7ff8dba86d45225ae9fbd844ceb218f7ff"
+    },
+    {
+      "path": "source/Irrlicht/CSTLMeshFileLoader.cpp",
+      "bytes": 5723,
+      "sha256": "013fb94c1edb46f28cf74179d65516299a5ca7030fdd680fac300cf26b7629ab"
+    },
+    {
+      "path": "source/Irrlicht/CSTLMeshFileLoader.h",
+      "bytes": 1528,
+      "sha256": "11266318efc94ed59ec6986839154bb92476a7462eaebde838a1d28799590e31"
+    },
+    {
+      "path": "source/Irrlicht/CSTLMeshWriter.cpp",
+      "bytes": 4509,
+      "sha256": "11e13efa129caf307a888d21d3c62ca5d433f3f87a1be9fc6e4b1aad968d27b1"
+    },
+    {
+      "path": "source/Irrlicht/CSTLMeshWriter.h",
+      "bytes": 1451,
+      "sha256": "07764895229654eb96e8889527188bd636749f18c22b690165cc2454bc9112d7"
+    },
+    {
+      "path": "source/Irrlicht/CSceneCollisionManager.cpp",
+      "bytes": 30054,
+      "sha256": "e02a5a79b21625f394731ecedceb93294a2e88e995af16bb201fee5a042dc43c"
+    },
+    {
+      "path": "source/Irrlicht/CSceneCollisionManager.h",
+      "bytes": 5482,
+      "sha256": "d772ba432062ec2b85deb11af6b89215501380c4afd70f9d95ed75841bc5317c"
+    },
+    {
+      "path": "source/Irrlicht/CSceneLoaderIrr.cpp",
+      "bytes": 7025,
+      "sha256": "8b65c6adebf75e3f0b157507cb48c3b91243f17543ecea142fedfad57a6cb6bb"
+    },
+    {
+      "path": "source/Irrlicht/CSceneLoaderIrr.h",
+      "bytes": 2275,
+      "sha256": "941a82f368727e2ee362efbe2a6e9c187d61f84515b267375cd51e84addf4f01"
+    },
+    {
+      "path": "source/Irrlicht/CSceneManager.cpp",
+      "bytes": 66906,
+      "sha256": "491ce7d01d0994b23e14cb95811aa35eac58ec097806999ed15c23fa4bd612fb"
+    },
+    {
+      "path": "source/Irrlicht/CSceneManager.h",
+      "bytes": 28835,
+      "sha256": "99b8d9c5f9dce94dc17e134bd0c1070c0531b3a34ae51de9d11cae6c052aeb42"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorCameraFPS.cpp",
+      "bytes": 8897,
+      "sha256": "1ce087dd4e8f6fbac2bc44a58b2a47cc5fe5fca06972d5531c06e12cc0388b1a"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorCameraFPS.h",
+      "bytes": 3482,
+      "sha256": "3a80d0b3f3f0d3bec7ffa3e2c05ebc634001e85dc990c89e8e215f26c65911b5"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorCameraMaya.cpp",
+      "bytes": 7790,
+      "sha256": "fa2465e42b65eb78982c9049a3b592601940c0b5271a95148213d450a99eb562"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorCameraMaya.h",
+      "bytes": 3098,
+      "sha256": "214a405848f7ed50699f6c2abe470b3081b03289450151d037cffc5dd3ba53fb"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorCollisionResponse.cpp",
+      "bytes": 7777,
+      "sha256": "9286226078501185d0024c00697db2ef4a40580616dd7925b18ef3ff42ebd49f"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorCollisionResponse.h",
+      "bytes": 5941,
+      "sha256": "248ae92d7b66c37b7664498bf0eba0a4d1564296375d07703c2276d0a2129a72"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorDelete.cpp",
+      "bytes": 1224,
+      "sha256": "f87526aff015bb75348705e2a9805633f0d31e7161f8f23ff2a59c55bed5a569"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorDelete.h",
+      "bytes": 1140,
+      "sha256": "2279012fc2d5f2662fd5eb7389e48c27e5a91a2639cba33a363cac1aab5c5fbc"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorFlyCircle.cpp",
+      "bytes": 2895,
+      "sha256": "658705c607ca80c986cb806152abde291507eb6cf97b2c51b97c8f68f960fbe8"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorFlyCircle.h",
+      "bytes": 1829,
+      "sha256": "408124b4af1031defea9e78deedc74061e6540924c141e131df3782c1651921e"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorFlyStraight.cpp",
+      "bytes": 2811,
+      "sha256": "efe94d10668d0d451d2d911cf2f21918848df6d29f84da2b7917e974d1e6e3f4"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorFlyStraight.h",
+      "bytes": 1753,
+      "sha256": "17bb9d2db53a4cce5262f17bf2642c1f924b987144084700f176268534fe17a2"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorFollowSpline.cpp",
+      "bytes": 4499,
+      "sha256": "ba29c4b095d132d23cfa9b1576033575e600f4afc8531ee094b631b7943b3563"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorFollowSpline.h",
+      "bytes": 1968,
+      "sha256": "05845b6f3303dfa813a0daf4b9fa8b6474f6dd2f84ae4ff7b24075eb25651bb4"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorRotation.cpp",
+      "bytes": 1869,
+      "sha256": "6491198c846afe9b1a71811878381d2ac9ac0acc097ff984006c8e8e72eb2690"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorRotation.h",
+      "bytes": 1453,
+      "sha256": "4689cda6333f16b13a200279ba65d4e1804d0c26bbbcd92dc4c2fd3766f8cfca"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorTexture.cpp",
+      "bytes": 3088,
+      "sha256": "b10a0b350e905d3b80585a3282edee203eead9119dd7ab1540fbe19785198696"
+    },
+    {
+      "path": "source/Irrlicht/CSceneNodeAnimatorTexture.h",
+      "bytes": 1683,
+      "sha256": "8ecd08f447c6dcae5123e17d3c6a24572d8b92b33601d9506ac9a379fe7bfabd"
+    },
+    {
+      "path": "source/Irrlicht/CShadowVolumeSceneNode.cpp",
+      "bytes": 10554,
+      "sha256": "01d35d6718b589e2c3bc53d892c34d42dad0949bc8a3defcae97218937f52a7b"
+    },
+    {
+      "path": "source/Irrlicht/CShadowVolumeSceneNode.h",
+      "bytes": 2449,
+      "sha256": "e5ba7dee6b20c0da9c0055a03687fa974027d42f19f552fc5abc3f2373f7c8e6"
+    },
+    {
+      "path": "source/Irrlicht/CSkinnedMesh.cpp",
+      "bytes": 37236,
+      "sha256": "a1bb0716f72a2d596d3d88a5e8906fd5654bfa7fd51adaf840f7ca369e49ed91"
+    },
+    {
+      "path": "source/Irrlicht/CSkinnedMesh.h",
+      "bytes": 7189,
+      "sha256": "e4e5326d467bd488c422b31c1b18ab08f7977979be8e34af26d6cd90953de7d7"
+    },
+    {
+      "path": "source/Irrlicht/CSkyBoxSceneNode.cpp",
+      "bytes": 8122,
+      "sha256": "fac68061beb13617bfcb566d30e85990f9e1daa62b6e5684106265a951102a70"
+    },
+    {
+      "path": "source/Irrlicht/CSkyBoxSceneNode.h",
+      "bytes": 1919,
+      "sha256": "0df4a4ecd8b0530fb87f764ae9125027a626e8d0544c14b5c2f5a7ace0bc0bd7"
+    },
+    {
+      "path": "source/Irrlicht/CSkyDomeSceneNode.cpp",
+      "bytes": 8265,
+      "sha256": "d81fb5d0cbe083c914130eecbfa8d6b0ebd788603861798707afd50cf8e984df"
+    },
+    {
+      "path": "source/Irrlicht/CSkyDomeSceneNode.h",
+      "bytes": 1495,
+      "sha256": "919c0141973b4a5b4e3330ae77c26a28b58dd7738a3e92e6dab52f7ffff241d1"
+    },
+    {
+      "path": "source/Irrlicht/CSoftware2MaterialRenderer.h",
+      "bytes": 2573,
+      "sha256": "1d3e07b9d88d745e1fb65658b4c2334ddd2082342cc68dac4e7caf84b1a53b8b"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareDriver.cpp",
+      "bytes": 26893,
+      "sha256": "6e2335d51743fa86aa1ee20d02f6881b98b2e17b96d6f1c8424432595d91eaeb"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareDriver.h",
+      "bytes": 6341,
+      "sha256": "d34d0547b1edd3f9744adaedd71614e6d1b72506e327a94cc24f01d84b0ddd68"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareDriver2.cpp",
+      "bytes": 79128,
+      "sha256": "de997fa3381f87a91063957e238833a0fede086feeebdd9741dce6ef0074f4e2"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareDriver2.h",
+      "bytes": 10554,
+      "sha256": "d01451103cc64ff8ec364d0903370f4562f450ba4886cd3edaef9fcf64132345"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareTexture.cpp",
+      "bytes": 2799,
+      "sha256": "1f6dfb24093ec31f1ab7b8e0333cfff719146a3d508495ea1da773c592d5f76c"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareTexture.h",
+      "bytes": 1834,
+      "sha256": "85ee5b8ae6538e04652fba89c6418a26404b02a5446df290ed7608bab4513abf"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareTexture2.cpp",
+      "bytes": 4378,
+      "sha256": "51bd1ca8e25c0ab9158aa3e00ef7b71707d9797e4bd438ae914d7f189639e24a"
+    },
+    {
+      "path": "source/Irrlicht/CSoftwareTexture2.h",
+      "bytes": 3033,
+      "sha256": "0639e4f3eb817f9ff9a8f74c9ebfb16b0505dfd4d54b43dcc63be95c0d9214e6"
+    },
+    {
+      "path": "source/Irrlicht/CSphereSceneNode.cpp",
+      "bytes": 5527,
+      "sha256": "1a98b8fef0f94dbea974edacd37c566b8eb089b5b0ebdc02db802ac5297540f0"
+    },
+    {
+      "path": "source/Irrlicht/CSphereSceneNode.h",
+      "bytes": 3393,
+      "sha256": "e97d32d35d5e64f2c857552893da99ee700b4a3d44e3222b7a5a25757259df15"
+    },
+    {
+      "path": "source/Irrlicht/CTRFlat.cpp",
+      "bytes": 7788,
+      "sha256": "5fdcf8f0fc41c82501bd513635478301cf347f09e59d65455a4e34872861b8da"
+    },
+    {
+      "path": "source/Irrlicht/CTRFlatWire.cpp",
+      "bytes": 7138,
+      "sha256": "403a263f1d6e0a8b19a4158d97bb0853ba524574d8a16bb00cbf7813596c48ea"
+    },
+    {
+      "path": "source/Irrlicht/CTRGouraud.cpp",
+      "bytes": 10682,
+      "sha256": "0dce4011781e8bb51e338ee962e95b855a8cfccc4bd4963307834802b99f27f7"
+    },
+    {
+      "path": "source/Irrlicht/CTRGouraud2.cpp",
+      "bytes": 13241,
+      "sha256": "f3559ba580276b2010ce4cac4c65c436e273010a95d55f5152eac8ef7b237d5e"
+    },
+    {
+      "path": "source/Irrlicht/CTRGouraudAlpha2.cpp",
+      "bytes": 13597,
+      "sha256": "ebf57dde9a31387e01325b1b41e8dbfc489783afb169543e1dd7ac25ee6747e1"
+    },
+    {
+      "path": "source/Irrlicht/CTRGouraudAlphaNoZ2.cpp",
+      "bytes": 13602,
+      "sha256": "360e1c98262b791c22975620958b06f965d00ac003c4ad07b3c0e33dc97cb1e6"
+    },
+    {
+      "path": "source/Irrlicht/CTRGouraudWire.cpp",
+      "bytes": 9609,
+      "sha256": "229c0d91504cc038741d6760f8c7cd01e00aa329236947ee186e587b12883b9c"
+    },
+    {
+      "path": "source/Irrlicht/CTRNormalMap.cpp",
+      "bytes": 18670,
+      "sha256": "7decad392b70f63065123fdb92b03f5e052899e6fdf368aa433e5cc76b50b509"
+    },
+    {
+      "path": "source/Irrlicht/CTRStencilShadow.cpp",
+      "bytes": 19603,
+      "sha256": "bff489314a5fc21aa0474887cc7bd1d5f47ab03cad2065085566c856eba2ee65"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureBlend.cpp",
+      "bytes": 47765,
+      "sha256": "63f5096901c28b43136a04c6009a3ade4c82a5f047aaeb0945bc967f2dc8a18c"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureDetailMap2.cpp",
+      "bytes": 14008,
+      "sha256": "7f2491fa2569e28fa06645dd8be8e597f2fbbce74f3987d673fbe8d2848849c7"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureFlat.cpp",
+      "bytes": 9618,
+      "sha256": "c86a0e43336c9836827b81ccd260091276b2a9eb228d70fe92570b11f0854890"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureFlatWire.cpp",
+      "bytes": 8718,
+      "sha256": "e45f8366f0c586435a151059c9598da74fe5b0eb7688af6657cca3f37efd062e"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraud.cpp",
+      "bytes": 13947,
+      "sha256": "32c5fd048b585360aab2675f1d05c30b7a8631445f597d97dc3b8fa4a5a7e6f2"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraud.h",
+      "bytes": 1925,
+      "sha256": "87aeea45232a93fa980d2e08e09f990158adc01cfb724256e5dcc26112406a1d"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraud2.cpp",
+      "bytes": 14151,
+      "sha256": "d295bdc351ca55dbb4dbbf8f77621697877b441b1058657eba7958895e886304"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudAdd.cpp",
+      "bytes": 13149,
+      "sha256": "ab99cb1601a1317f172da79e9e1d81a1bd472da7301ee07cb64d4579239200fa"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudAdd2.cpp",
+      "bytes": 14073,
+      "sha256": "efc0d0d6424c82878717f31d80dfdab28bf0913a50d4476c5b0da63c544c2681"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudAddNoZ2.cpp",
+      "bytes": 13530,
+      "sha256": "5043aa05001f5a61df7fcf55dba792090f909ded3cbaa215a77403970e7717b2"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudAlpha.cpp",
+      "bytes": 15562,
+      "sha256": "b6998153250d0422ca922ed563a46a32e50e16222bbe6fea90b95d181173fed3"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudAlphaNoZ.cpp",
+      "bytes": 15592,
+      "sha256": "f0140e6def68a91bbe70d224b4d0f2fa5ec07489a6936ef8814b1aaa7f83189c"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudNoZ.cpp",
+      "bytes": 11627,
+      "sha256": "17961125f32c0eb12dbbdb2ec8c8ab766f2a50d9a6c9f8c28d5657aba9dc68af"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudNoZ2.cpp",
+      "bytes": 13444,
+      "sha256": "e30cf5587c855866a9ed872002cb3b8528f333876c28359b0d93be64029dd6c0"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudVertexAlpha2.cpp",
+      "bytes": 14360,
+      "sha256": "80c2097c97fcd86b8f1abb0223e5184eb600edff26286440831c500b243f66ea"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureGouraudWire.cpp",
+      "bytes": 11508,
+      "sha256": "33b89011cfc8e94c27b1b30af045703fe510390b888c6e8a50aba5bd9d7fa4ce"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureLightMap2_Add.cpp",
+      "bytes": 14300,
+      "sha256": "a6e7f22d90c08b5ae8c9df344cac19a08e6499e61a1beb7081f38016167ee7cb"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureLightMap2_M1.cpp",
+      "bytes": 13742,
+      "sha256": "bd16d44c85cbf5cb496c96fa454db2f5aece0172f6a6bceed495ec6ea519c03b"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureLightMap2_M2.cpp",
+      "bytes": 13808,
+      "sha256": "b779cdf714198917db0593d947d929e8fdf1cb2459b59dd213621f4db7473d6a"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureLightMap2_M4.cpp",
+      "bytes": 25383,
+      "sha256": "677e1b3a6e18fce1a4c4493f374bb3e2fe442c755f25e62000b2254857c1f37f"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureLightMapGouraud2_M4.cpp",
+      "bytes": 14731,
+      "sha256": "892f0649f2b5a1782a72e86675a44cb861920d26c1a5c77e6d57e434cc743c59"
+    },
+    {
+      "path": "source/Irrlicht/CTRTextureWire2.cpp",
+      "bytes": 5498,
+      "sha256": "df568d590624b426f13d042421d443f7c9bdfdbce1bf481a6fee3969271aa594"
+    },
+    {
+      "path": "source/Irrlicht/CTarReader.cpp",
+      "bytes": 5855,
+      "sha256": "3b79b79853d1fd302329a30b95e0ee6fe5307ba1de2481fe0a1bdc74fb1838df"
+    },
+    {
+      "path": "source/Irrlicht/CTarReader.h",
+      "bytes": 3590,
+      "sha256": "2cba96c685cc6b2ff065ed964027a238e3e64d7477d9e64d3d4cd07f29b10343"
+    },
+    {
+      "path": "source/Irrlicht/CTerrainSceneNode.cpp",
+      "bytes": 43680,
+      "sha256": "9b4fc163cb22adb0b5e6ddc7b784c8ea8ff601fcd4ebb510e7ca4f3e52728bc9"
+    },
+    {
+      "path": "source/Irrlicht/CTerrainSceneNode.h",
+      "bytes": 12957,
+      "sha256": "883afb4af0c5ed60f1c0f5a2575b46caf942aad72dc91b1c430a7d470e09eb69"
+    },
+    {
+      "path": "source/Irrlicht/CTerrainTriangleSelector.cpp",
+      "bytes": 6300,
+      "sha256": "5a58ae82eea2c926cbb9c23d3325bf9e4e16dd7eaf50acf43b475729202f9e59"
+    },
+    {
+      "path": "source/Irrlicht/CTerrainTriangleSelector.h",
+      "bytes": 3147,
+      "sha256": "383a0bf102c05d4860f837bb7d4ca176b212acaa813bcfbf929a508449ac099c"
+    },
+    {
+      "path": "source/Irrlicht/CTextSceneNode.cpp",
+      "bytes": 12338,
+      "sha256": "5d7e31869ae8eff0aae997ccd3cadaeb1ffd5ea374c75b6b51b400b21822668b"
+    },
+    {
+      "path": "source/Irrlicht/CTextSceneNode.h",
+      "bytes": 4438,
+      "sha256": "510aec967738563714a1a1e093941d63312045ffe909a492e8043c932f645f8a"
+    },
+    {
+      "path": "source/Irrlicht/CTimer.h",
+      "bytes": 3070,
+      "sha256": "2b5fe44bb9e8efc5c7a1b0f81f06673f4a79e15aec2e03b45ccffdce24580494"
+    },
+    {
+      "path": "source/Irrlicht/CTriangleBBSelector.cpp",
+      "bytes": 2211,
+      "sha256": "2ae09b2cad871e5cf47a3126056d9a0c5dbc5a43e434e93c25f74f67de1715df"
+    },
+    {
+      "path": "source/Irrlicht/CTriangleBBSelector.h",
+      "bytes": 1270,
+      "sha256": "5777b9c7926ef3d3dc8d4d7a37e54f033c80b41162e87cafac43bf70f2b2dd2a"
+    },
+    {
+      "path": "source/Irrlicht/CTriangleSelector.cpp",
+      "bytes": 7237,
+      "sha256": "0f22fb86fa800e8752b788d0991c4f7e5409853461cac2af508ab1a0b833adca"
+    },
+    {
+      "path": "source/Irrlicht/CTriangleSelector.h",
+      "bytes": 3095,
+      "sha256": "cc267c03ac05de35c0e159679be91780f836a0d753a1209fa1b5b1a1aaab3d3c"
+    },
+    {
+      "path": "source/Irrlicht/CVideoModeList.cpp",
+      "bytes": 3045,
+      "sha256": "7a2a8b3fbd754d325915aaeb01301bceddca7dae4b8f81862a07160f317c1f64"
+    },
+    {
+      "path": "source/Irrlicht/CVideoModeList.h",
+      "bytes": 2110,
+      "sha256": "c662e6aec77fd88c689239a22541341a3689fb1d0ab99b32598d50a98f1667f5"
+    },
+    {
+      "path": "source/Irrlicht/CVolumeLightSceneNode.cpp",
+      "bytes": 5036,
+      "sha256": "b7a63ac8d1074ed69b65160afbcca732064e9e9b43ed96a6f056b8b88e20f915"
+    },
+    {
+      "path": "source/Irrlicht/CVolumeLightSceneNode.h",
+      "bytes": 3280,
+      "sha256": "adae291fc2493c86d81b127959affdfdca8face3e2e654a08c331c81efc7c417"
+    },
+    {
+      "path": "source/Irrlicht/CWADReader.cpp",
+      "bytes": 6138,
+      "sha256": "01339ce5d36f1d7bfefe6bc8005b96c091fd214030efbecf986a74796cd1f302"
+    },
+    {
+      "path": "source/Irrlicht/CWADReader.h",
+      "bytes": 4397,
+      "sha256": "1695887d1211492069015f6d09befbaabc74f67f4478c50906f15b3c543b2e74"
+    },
+    {
+      "path": "source/Irrlicht/CWaterSurfaceSceneNode.cpp",
+      "bytes": 3675,
+      "sha256": "6936b9546e9886874cb9569b3a181ef8fcb85088d8288966c562640153b7366a"
+    },
+    {
+      "path": "source/Irrlicht/CWaterSurfaceSceneNode.h",
+      "bytes": 1671,
+      "sha256": "93431e64dd13093ef95bf2af97d079c7f46a0896bb01bb6f283bba6d3294c200"
+    },
+    {
+      "path": "source/Irrlicht/CWriteFile.cpp",
+      "bytes": 2052,
+      "sha256": "fef74ed56b4451190e30a575895ef83d7ee125c3b94fad9ae78c7a60a1d9f2d7"
+    },
+    {
+      "path": "source/Irrlicht/CWriteFile.h",
+      "bytes": 1200,
+      "sha256": "6acbc2428ae1209c35aa82002821e9d3bc7d11e8fde42109609f3d0a738463a8"
+    },
+    {
+      "path": "source/Irrlicht/CXMLReader.cpp",
+      "bytes": 1618,
+      "sha256": "27d7c3cc90e5b1cb74e9a17a5cd9c0e720b7ea781bd111aa46b20f03ad3be503"
+    },
+    {
+      "path": "source/Irrlicht/CXMLReader.h",
+      "bytes": 559,
+      "sha256": "ba509dbb2d73e95c32382398f2ccc3aad808df7a621e900a7adb63c7fe3d46dd"
+    },
+    {
+      "path": "source/Irrlicht/CXMLReaderImpl.h",
+      "bytes": 18901,
+      "sha256": "52e012d12f1463634f4a0f0a045deacfc7aaff18ebf25cf02688b121f84991c8"
+    },
+    {
+      "path": "source/Irrlicht/CXMLWriter.cpp",
+      "bytes": 5404,
+      "sha256": "06b416fc44451599aba0c6149579f8abfcb37f88a0cff52b24af1735d9b6789c"
+    },
+    {
+      "path": "source/Irrlicht/CXMLWriter.h",
+      "bytes": 2119,
+      "sha256": "da1016a1a21fa29190ef62dc9bcfb9894dee9cce0c97a2ea30f0335688185765"
+    },
+    {
+      "path": "source/Irrlicht/CXMeshFileLoader.cpp",
+      "bytes": 60050,
+      "sha256": "5a5cd21b8883842ccdf5cdfe37167bb7a2ee5dbdc3dea0d42b4cd0b6096c6e55"
+    },
+    {
+      "path": "source/Irrlicht/CXMeshFileLoader.h",
+      "bytes": 5407,
+      "sha256": "766cfd3a2cc9833f53c573b0e3bc84244ad088b71af90f3ce64e40be429f4ec0"
+    },
+    {
+      "path": "source/Irrlicht/CZBuffer.cpp",
+      "bytes": 1705,
+      "sha256": "f6be25dcbbe25121bb5ca5c94eb950af96c3ae1d882bcc8991b6eb7ccc2b6eba"
+    },
+    {
+      "path": "source/Irrlicht/CZBuffer.h",
+      "bytes": 1032,
+      "sha256": "e5e1ba147f49654e6c642a4d5fd656f5598e4472e2862cd200d8ab822a19fbbd"
+    },
+    {
+      "path": "source/Irrlicht/CZipReader.cpp",
+      "bytes": 24464,
+      "sha256": "cdab66ff1d1761a44f3a08727cfa214b6d46c5f337f0cb9dc6fcd9fdf06c9e34"
+    },
+    {
+      "path": "source/Irrlicht/CZipReader.h",
+      "bytes": 6194,
+      "sha256": "7497dc277d38e3fe6fe76beb97beec0e6b0ca74be5ae46f64336381969d486a8"
+    },
+    {
+      "path": "source/Irrlicht/IAttribute.h",
+      "bytes": 4247,
+      "sha256": "3721bea3e8b87c4727112a3a1f29f63066c22b79c218c569528ee6ba79a28b0a"
+    },
+    {
+      "path": "source/Irrlicht/IBurningShader.cpp",
+      "bytes": 2881,
+      "sha256": "5eabb92eb39455f8570db0934edf3a2a14fe0d62da8389f26d47ec4dc50be4ce"
+    },
+    {
+      "path": "source/Irrlicht/IBurningShader.h",
+      "bytes": 5672,
+      "sha256": "5116dd4d8529a8eb22398333feab9846b0beab1ba0a5f52b5e4168987cb0577d"
+    },
+    {
+      "path": "source/Irrlicht/IDepthBuffer.h",
+      "bytes": 1857,
+      "sha256": "0055bb8e4592ae89e9e13d6e9034b1ebef354018f9046dd574fb3cf2b88c6186"
+    },
+    {
+      "path": "source/Irrlicht/IImagePresenter.h",
+      "bytes": 836,
+      "sha256": "93228dbf21d932ddc331597e5c910c7bea3a3562cb860cb9b67669605f204f00"
+    },
+    {
+      "path": "source/Irrlicht/ISceneNodeAnimatorFinishing.h",
+      "bytes": 829,
+      "sha256": "bea549bb556f82291f31b4fe0556596cc435303a5d7089636c55b920fb822523"
+    },
+    {
+      "path": "source/Irrlicht/ITriangleRenderer.h",
+      "bytes": 2070,
+      "sha256": "eb7bd5f4a12823e715fc55f6b5cf055c75e37b2f30d953cc4581dd22549747e6"
+    },
+    {
+      "path": "source/Irrlicht/IZBuffer.h",
+      "bytes": 1032,
+      "sha256": "6c8ac402f438a8b2f9d07310329df68a22d1fbb98f8cf1795a4a4fa6c6993572"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht-gcc.cbp",
+      "bytes": 50700,
+      "sha256": "ad15e74655c3634c4dd3add600866f636b0caf58abd6472e74fe7e816a11a944"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht.aps",
+      "bytes": 61604,
+      "sha256": "17594ea37938776f959efca55039ccc4039aeb92010109d55aec5359945e9607"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht.cpp",
+      "bytes": 4051,
+      "sha256": "10415dca3a78e296c3c718405d0aeaa4ef0c7fc7fbcfba701ddc1d00ac7c519f"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht.dev",
+      "bytes": 102385,
+      "sha256": "d83c121be717731ee0046fbbf59da9bc62c2a0ba08e611b957e5814cbf70a50a"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht.rc",
+      "bytes": 4598,
+      "sha256": "f3010ee12be1755102b53d2bde6eaa1afa7cc3f9117eac3067fc18d5d98186e6"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht10.0.sln",
+      "bytes": 3460,
+      "sha256": "d8b5fb916ebade8aebe2bd6f92a1c2dcabc7c43bb111e85a7940c06f615edc0c"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht10.0.vcxproj",
+      "bytes": 91658,
+      "sha256": "13e9360dbf0e39fd79361e45fddb7f0682416d988d95165453b6b5bbc5df11cd"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht10.0.vcxproj.filters",
+      "bytes": 84879,
+      "sha256": "8dc4341d1689c31fcfb813e3961034321da5bf0f9151966d048d9af2f5db9426"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht11.0.sln",
+      "bytes": 3460,
+      "sha256": "05548fecdfc84458639c32bebc8c243126739771cd318e87c5779825f00fe329"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht11.0.vcxproj",
+      "bytes": 91737,
+      "sha256": "b03fee8cc2add1d7574027b94b8a96b3930cd8caaafc53fe28468a1364d8b860"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht11.0.vcxproj.filters",
+      "bytes": 84879,
+      "sha256": "8dc4341d1689c31fcfb813e3961034321da5bf0f9151966d048d9af2f5db9426"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht12.0.vcxproj",
+      "bytes": 91659,
+      "sha256": "131ed1b96460949a162c5887d5a87706d5dcab4817c8b34b759d0d09fc53829f"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht12.0.vcxproj.filters",
+      "bytes": 84879,
+      "sha256": "8dc4341d1689c31fcfb813e3961034321da5bf0f9151966d048d9af2f5db9426"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht8.0.sln",
+      "bytes": 1756,
+      "sha256": "0bd3c1e1a4be1e3241e498b773fa6884d93ec76d4c185217a14d4e30bd147796"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht8.0.vcproj",
+      "bytes": 70810,
+      "sha256": "ff93ccb4557a3f21a8cb54eda96252b10965b2bf7186aed4212baa4904fe48fa"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht9.0.sln",
+      "bytes": 2023,
+      "sha256": "b19d2d55140a86a164ff9905ba37d4143f2e4c84b096dd388638faec0972806f"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht9.0.vcproj",
+      "bytes": 75780,
+      "sha256": "32b1eccde9d6d809fc05c7a4c7017f415fe1629624356161eae28fea82f99465"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht_mobile6.sln",
+      "bytes": 1638,
+      "sha256": "eb984835b5b9a2345eee729f85c2fb53c9b07f3451939780c480ed248d9c9279"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht_mobile6.vcproj",
+      "bytes": 59960,
+      "sha256": "a9019514a23591da52b86cf67164f8a3fd19482618ac57b79929dfc5bd9be62d"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht_xbox.sln",
+      "bytes": 1496,
+      "sha256": "2078a798fa2ab6f117b94ef2b9d75e67ce989b7146f64277c95737db8b611038"
+    },
+    {
+      "path": "source/Irrlicht/Irrlicht_xbox.vcproj",
+      "bytes": 45969,
+      "sha256": "6126b44ac1ad9e934e1e8281f311195f8fef3c2caec4cae122c4d939d4522841"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/._MainMenu.nib",
+      "bytes": 82,
+      "sha256": "00cae67a835c85683fc592498a066e5c0a056f2b8756847d24da296d870dabc2"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/AppDelegate.h",
+      "bytes": 566,
+      "sha256": "a316f4f9dccd433841dcacd9627985754527d21242646ae43a1e7f5c0d501b3a"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/AppDelegate.mm",
+      "bytes": 1430,
+      "sha256": "e55f4a017364b7181e7a54131f461f1a1449d1a9585ba2de8c337ea619be8185"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/CIrrDeviceMacOSX.h",
+      "bytes": 7027,
+      "sha256": "9b3c366d5e5db575df6c560f0530c1dc7265b26ab6c197e094b105be9fb07fa2"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/CIrrDeviceMacOSX.mm",
+      "bytes": 56986,
+      "sha256": "593685b6d313b9d8baf0da140d298a54676c160728492c65ece149b05aea2e42"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/DemoApp-Info.plist",
+      "bytes": 746,
+      "sha256": "7b552d9530e6dc75e6b27e0c5baf1043f36f9e2dfc57172d6d6122757c358670"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/Irrlicht-Info.plist",
+      "bytes": 637,
+      "sha256": "3d8010eb5c344f248e351718dc6f442cf9e2b61ec2b8c43b4f6bb4df745b3e99"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/MacOSX.xcodeproj/project.pbxproj",
+      "bytes": 517358,
+      "sha256": "1fb2ef1c68eb1d008f8034783fa8a9527230dd0852348a24cc352ab005e6f957"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/MacOSX_Prefix.pch",
+      "bytes": 135,
+      "sha256": "be37e679868e55fdaa1f5b829a47f3f8ebf2e39c21e02ace4ce7bc22c1459772"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/MainMenu.nib/classes.nib",
+      "bytes": 110,
+      "sha256": "e9c13890d0b8166ac446f6e0199331c0b27d0e866254c17cc05ee7b2421a8e64"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/MainMenu.nib/info.nib",
+      "bytes": 496,
+      "sha256": "3158160cbd8ead1f3cba3d64a73881d1032234d86c9aa817b3bdce9026b5188f"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/MainMenu.nib/keyedobjects.nib",
+      "bytes": 13030,
+      "sha256": "3b74552e860ebe0e0c2315139411bfeee88f70c77576d0429a41565cb1988f8b"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/OSXClipboard.h",
+      "bytes": 374,
+      "sha256": "4ac103f430aa16657f8a0f0f78c174ae1c6d7fe83c0f9493c75af0b094faa508"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/OSXClipboard.mm",
+      "bytes": 967,
+      "sha256": "c97a6b454b266d606ecf5fcb5444581e1504d492007ab35fd19221c9833987d4"
+    },
+    {
+      "path": "source/Irrlicht/MacOSX/irrFramework-Info.plist",
+      "bytes": 637,
+      "sha256": "3d8010eb5c344f248e351718dc6f442cf9e2b61ec2b8c43b4f6bb4df745b3e99"
+    },
+    {
+      "path": "source/Irrlicht/Makefile",
+      "bytes": 12614,
+      "sha256": "0b90107e3e00165a70c57cd35c5af1475074267d2958df71470b4b2d49eae5d1"
+    },
+    {
+      "path": "source/Irrlicht/Octree.h",
+      "bytes": 9461,
+      "sha256": "569e71b8437c2c4b654a50f6de9635b21b7bf04290ee913759557d74b5d2a49e"
+    },
+    {
+      "path": "source/Irrlicht/S2DVertex.h",
+      "bytes": 594,
+      "sha256": "06c5118e2d55f9703e4d68f1b398917b48ed960fa6dea21c302a8c5363e9cbd7"
+    },
+    {
+      "path": "source/Irrlicht/S4DVertex.h",
+      "bytes": 13600,
+      "sha256": "bb1718302d8198674c1f7d2fbafca4215f884b97a55ba08f0fc7a84bb13077d7"
+    },
+    {
+      "path": "source/Irrlicht/SConstruct",
+      "bytes": 8476,
+      "sha256": "d8c1cc6313ea5c0dcc049766259d65106b205c0457adb3e3ffac3619240e6a71"
+    },
+    {
+      "path": "source/Irrlicht/SoftwareDriver2_compile_config.h",
+      "bytes": 3270,
+      "sha256": "31c274d1b5df0f429767c497e163a3d891abb5b0d3508c80245f59430306541f"
+    },
+    {
+      "path": "source/Irrlicht/SoftwareDriver2_helper.h",
+      "bytes": 25996,
+      "sha256": "9c44bb86023d1cff08cd6e47f520ed96c2f69c3b0f4a81973de63a9c4d916f3d"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/Readme.txt",
+      "bytes": 965,
+      "sha256": "71a725f24ef79f47bf6b8e97aec2ee7375d63f2edc582850cc5d94b29538f3c5"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/aes.h",
+      "bytes": 4391,
+      "sha256": "6010457080dc0f28b401813f39c4c84ed383755147038970418879f52dcb4d02"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/aescrypt.cpp",
+      "bytes": 10582,
+      "sha256": "d8da6175c2434fadfd95a78e007c7033f1aa965e4bc112432b0c78eb9e5b90e7"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/aeskey.cpp",
+      "bytes": 15259,
+      "sha256": "e11d1a130161418e11e251c1def147fea3356906f5f65d67ab0ec992374a9d4a"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/aesopt.h",
+      "bytes": 37233,
+      "sha256": "cf22f742b2e3d7b9f51335fc03ec07f6a13084263dac42e55277eaccf94cdb45"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/aestab.cpp",
+      "bytes": 6118,
+      "sha256": "8ac551baf5b07c9f66f7aa1909e2e984cce84941f58b07b092a5b5695b87005d"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/fileenc.cpp",
+      "bytes": 5042,
+      "sha256": "bf8d54c5b4a04e9da17c7e05cccc05a3db1b3bf011adaf8b6ce127a2b0089eb4"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/fileenc.h",
+      "bytes": 4304,
+      "sha256": "42f54305cc919af3758644e074b7721007bec1570926c5ed340a3aa7d8731fa1"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/hmac.cpp",
+      "bytes": 5451,
+      "sha256": "a00da436edc94abcec66112370e7b231688e43920988b312de4d1d29d5fce789"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/hmac.h",
+      "bytes": 3125,
+      "sha256": "12378928b27e7c284ef3bfb6e19ac031cbf0d55d4a481a551055620b9c549e4d"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/prng.cpp",
+      "bytes": 5250,
+      "sha256": "185ae1393731a800cab01e031f0db6d9daff94a65590473e87e4879a7b3346a3"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/prng.h",
+      "bytes": 3010,
+      "sha256": "e8407be80197fbbbde925d29e92244339c1f8ff87a7e0de433e70d74a80421e9"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/pwd2key.cpp",
+      "bytes": 6165,
+      "sha256": "34be68e9685e89336ceb32a67a7cd54b0128c772275e987ef0f392918fca5fc1"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/pwd2key.h",
+      "bytes": 1985,
+      "sha256": "d515d22d78c1baa1ae246ab9e7c10c1f12081811176943a4d2349d45a4a010f9"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/sha1.cpp",
+      "bytes": 8250,
+      "sha256": "70282a93e4238d816d757535072fb3e3fcd1e300c3f488f3de2c4aee7475f10b"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/sha1.h",
+      "bytes": 2187,
+      "sha256": "85dfabdbcf3c3dbf19b13e77aaf0f61c6b92c4aed62a12a2dd7627af8a118bdd"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/sha2.cpp",
+      "bytes": 23749,
+      "sha256": "68d4dd6fd3bff9dc6154fad80751635b68a8b3412d110f92b1da6e38d76321e6"
+    },
+    {
+      "path": "source/Irrlicht/aesGladman/sha2.h",
+      "bytes": 4995,
+      "sha256": "453b7e1e8bdf5e421090aa6276ca59306070848388b1f61d3eb4bef39095a3ff"
+    },
+    {
+      "path": "source/Irrlicht/builtInFont.bmp",
+      "bytes": 8266,
+      "sha256": "9578933d3bb8edc6fcbbe3c46466c1a483aa42df2992ca14da76e3a941035608"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/CHANGES",
+      "bytes": 11417,
+      "sha256": "cf9ea36ed7161f90be08940164de30d5426c236dabab5f396ae6fbf19bdb2b7b"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/LICENSE",
+      "bytes": 1901,
+      "sha256": "4919cfb14a73cd64fcef67b107613970cf1659a09aa675dba31314f373bc7204"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/Makefile",
+      "bytes": 6302,
+      "sha256": "5e5818994b515c1c930cdcafa1c551b7f43789c2b98e3a66a55c67a911f14075"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/Makefile-libbz2_so",
+      "bytes": 1734,
+      "sha256": "959b4743758c96b1dc2978d15304f16aca0f49263abd4c590245fa3f82779349"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/README",
+      "bytes": 7582,
+      "sha256": "52ba29d974c085ac7f33603b30aea9d5aed09c6eef0e4a5f6f53747cba22b079"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/README.COMPILATION.PROBLEMS",
+      "bytes": 2511,
+      "sha256": "1b98d5e0a695949072bad62a55638bb8baf3f7caa840dbecb2c3aab249e18606"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/README.XML.STUFF",
+      "bytes": 1364,
+      "sha256": "bfee8553918aec485e93a2f1df29275332f662110619f1c47ac020c926adf5ec"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/blocksort.c",
+      "bytes": 30694,
+      "sha256": "5a87cc2624b4c676fdb595a3caad22cfe4f667e347c7dcc22ad39c64bc243471"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bz-common.xsl",
+      "bytes": 1057,
+      "sha256": "cceeb48f5ddf2bcac9cd196f67413466e70c9f801e1c508aaa1de574cbe71cbc"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bz-fo.xsl",
+      "bytes": 10585,
+      "sha256": "a25683b9893709d92ab61fb91c3bc6b1892498d9f43fd0c22b3917a3789cdc2d"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bz-html.xsl",
+      "bytes": 646,
+      "sha256": "d45f09d996c464af6dabd9e8cb8a45799637c8f8562c8d6cad283896771ce455"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzcompress.c",
+      "bytes": 20561,
+      "sha256": "eaa8b0d57e61aa259938e5023e0afa33bf88146a6797c38409d1c6e72ae8ccbf"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzdiff",
+      "bytes": 2128,
+      "sha256": "ca96220d7df823031c028dbb32183e6a8e9e05737eda10b97ec9c3e01724d6cf"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzdiff.1",
+      "bytes": 897,
+      "sha256": "32d1a7cd115430398e58537532584ef2ab76343c9f094dcd1253d9c4c0f705bf"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzgrep",
+      "bytes": 1677,
+      "sha256": "2855f1850e1281747d70d1409084ff156cd42eb07872ffadab610a59e90df869"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzgrep.1",
+      "bytes": 1297,
+      "sha256": "924aa4a7c7c1467400181e4c0ee1b527db142b6399a717171f2351b72b5899df"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzip.css",
+      "bytes": 1746,
+      "sha256": "2af2624c4d0d861d4ebb915a3e4e5b1dcd87adf289d389d5eb2507d08f71acc2"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzip2.1",
+      "bytes": 16256,
+      "sha256": "ffbfa089a0576074cbc78957151587e2bb6a8f00ebadd56763db954dc7c1ebf9"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzip2.1.preformatted",
+      "bytes": 20935,
+      "sha256": "49014439a6c5741fadba0473680bd75545aea9d089fe62024b4ccaba261ea390"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzip2.c",
+      "bytes": 58556,
+      "sha256": "87aff50026000cbab8d7e7314bab83a980fd481c96005d8650f3df1c748d9fcf"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzip2.txt",
+      "bytes": 18988,
+      "sha256": "89a673a8ae1caca7aece10e4ef66feb735b5f00642f0126fa97525402d47fb21"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzip2recover.c",
+      "bytes": 14924,
+      "sha256": "9a55818d0984b7a23934e6dc760f653076b25a1ae5adcc8038828a44883688b9"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzlib.c",
+      "bytes": 46155,
+      "sha256": "dccaf90c84cccae7d65076bbc8d25a8a82cf36f01ab754664efad82e04dcce4e"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzlib.h",
+      "bytes": 6303,
+      "sha256": "6383efa37b7180c3d46e6c372c782b29c0f5d3d5625c3c75ea30a989268a4b4d"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzlib_private.h",
+      "bytes": 13244,
+      "sha256": "0cdc41a109e5f003a691a3b541c7c75ea44b5da82f91605b197124a598a79741"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzmore",
+      "bytes": 1259,
+      "sha256": "836536d4c7469788c730355d59f8ae8d16ba07cb0754174878d99ed90f04448d"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/bzmore.1",
+      "bytes": 4310,
+      "sha256": "ccfcf3f995e11adae3035e287252091bb72d165da21e0c385a4965d17c9051c7"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/crctable.c",
+      "bytes": 4818,
+      "sha256": "12cde199e167a5d48a8a463d1234d6ec345f77df2b11dcd025fe137da6eb53da"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/decompress.c",
+      "bytes": 20919,
+      "sha256": "e703faddf69686cb5664be628da2e3c8c443acc16e2a137a0d546d4ededbf72e"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/dlltest.c",
+      "bytes": 4402,
+      "sha256": "1568b2dd44d3007dd52bfb1bdf9f31ffc90706d260ec5a3504bc47dc32a040a1"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/dlltest.dsp",
+      "bytes": 3516,
+      "sha256": "5073bbf71a35876e8f82e34c66ccc578552713d0798576d944d9ec7ab61070c8"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/entities.xml",
+      "bytes": 240,
+      "sha256": "a6c4afd00b4eefd58f20283126ef2ad8409088d0a9ac1c21c0fdbecefab2cc61"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/format.pl",
+      "bytes": 1689,
+      "sha256": "2d6b195aa9071819c91774d1645d9529cce8dcc7284bd3dba6d45f5eca772f6d"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/huffman.c",
+      "bytes": 6991,
+      "sha256": "faa54732e6148d5c5832c5cd7c1986c1ba25b6917354c42e0cd6a7370ca25056"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/libbz2.def",
+      "bytes": 517,
+      "sha256": "7c72d18c550afbf464c92aeb3869eb559c9faba5c7828546d1ec8620e9d5c7a3"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/libbz2.dsp",
+      "bytes": 4254,
+      "sha256": "e92bc39a2fc6a8c7e095971a55e5779d4c255b4484d259914614ab49bf09db8f"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/makefile.msc",
+      "bytes": 1615,
+      "sha256": "aa4179750a47298dd61dd296937735afb04cff81957852eaf491819c20e1f406"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/mk251.c",
+      "bytes": 919,
+      "sha256": "844eb2e4acb4de272927bd5b9ee1ad802458cbacb85ad249723b79fa383be79f"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/randtable.c",
+      "bytes": 3860,
+      "sha256": "46d27493aa8f64bed44495e3fa30233a2938056b2b274410bd67aaf40b8ef5f6"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/spewG.c",
+      "bytes": 1730,
+      "sha256": "b6be093348cdb8c396dc71c0cd853370778690c2ca99cb84e54285c496fe1779"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/unzcrash.c",
+      "bytes": 3651,
+      "sha256": "a2d7d39bbe2c2ec2515aafa99ef54ea3844cd3e9acfac6ce2247cc58e7a19ac9"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/words0",
+      "bytes": 376,
+      "sha256": "cb3ad1756ad30df2b53e4abc0cc5fa19f120de5582bee32481460cb6991d4b24"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/words1",
+      "bytes": 103,
+      "sha256": "199303545d9a074b351c9d58fe41032a65840eb9638a8a1be9aea6b63ce55a19"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/words2",
+      "bytes": 186,
+      "sha256": "953e874cc77023c5a61c16d71a27e789209c56996c943fb55dcc8092ca39259b"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/words3",
+      "bytes": 945,
+      "sha256": "6c9b45d0f7a9d5a1aee52016b48bef8171be2cda23cf18144ef1d5d36eceb260"
+    },
+    {
+      "path": "source/Irrlicht/bzip2/xmlproc.sh",
+      "bytes": 2916,
+      "sha256": "bb4ce53b6a94f89e72f8b8fcdc48f1499e6fab2b3d59384c693942cf55a579b6"
+    },
+    {
+      "path": "source/Irrlicht/dmfsupport.h",
+      "bytes": 21512,
+      "sha256": "bdd4040da0f1b3cd16c72d9af4dce398bf343923aa26c47efd29b7a097d5828e"
+    },
+    {
+      "path": "source/Irrlicht/glext.h",
+      "bytes": 735998,
+      "sha256": "896755e3ea0eb7ffad4c72532d77219474a3af5580b7f06b467b39898679019d"
+    },
+    {
+      "path": "source/Irrlicht/glxext.h",
+      "bytes": 44880,
+      "sha256": "adb0ab93eb2083a34a884134dac13764020be94e43caf016351abe0f40488f5f"
+    },
+    {
+      "path": "source/Irrlicht/irrXML.cpp",
+      "bytes": 4109,
+      "sha256": "ba37dcb14ff4e8f431c84c0d07495f25287689a6e1e8d0ee6adfbd361b70db85"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/Makefile.am",
+      "bytes": 5082,
+      "sha256": "7c20ea9e19301bca71f0c2ea1416eec3864cef5d19218395e8a2664904148ff9"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/Makefile.in",
+      "bytes": 54815,
+      "sha256": "8842617cc2f26fd6ba3d359a291e6d4161ad60be29ce68de37e447147d89c74a"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/README",
+      "bytes": 17587,
+      "sha256": "67f098c29401646a0f52da432efc3bab0433c13f17effc3314e9fa523da51b75"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/aclocal.m4",
+      "bytes": 356604,
+      "sha256": "1c1a0746a6b4fa4cd27c314a56e44c4c7ff099508051d3355545413f0c8d4d96"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/ansi2knr.1",
+      "bytes": 1565,
+      "sha256": "d323f18fb8ce06a9cdeacba2e7fd29bec84b8a277203e5e0049dbd7972da0c86"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/ansi2knr.c",
+      "bytes": 21008,
+      "sha256": "76eaa625414be089c35f3b9138e995ce0bac3c09ad0f0dce8cb221f39fb05557"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/cderror.h",
+      "bytes": 5465,
+      "sha256": "ff7586b747cca0a7e47040c83bce352092c2321daf45323927f30e0ed03245b7"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/cdjpeg.c",
+      "bytes": 4863,
+      "sha256": "61376c9575c949d0afc3534538f9814644d19509f2e273766ae4c1eda48d553e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/cdjpeg.h",
+      "bytes": 6443,
+      "sha256": "9d045a78fbea58c5533e2773651dfdcae77390ba406e52a00335b49059400359"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/change.log",
+      "bytes": 14444,
+      "sha256": "44629f87a5dfe3ce214557efe7aa13594a492530095b985c47ce1977f7f8d1e7"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/cjpeg.1",
+      "bytes": 12718,
+      "sha256": "136070e0ed9e2131d15108ea53bd08f5950d783d2952e6085ddbb308fa2241df"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/cjpeg.c",
+      "bytes": 21625,
+      "sha256": "cdbc02a9129d231f570a319b74d4d22165559cddc5a33d6cd9476f4ea2ea6d5c"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/ckconfig.c",
+      "bytes": 12568,
+      "sha256": "678e81db360546bf21f0ae8785bd1d2f7c7d50a90984cd009d151a6a6a7c0a88"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/coderules.txt",
+      "bytes": 5482,
+      "sha256": "dd7b351ae702bf0d4cae40f937f5f8b88ce6bc086deed77f5b92321631bc0826"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/config.guess",
+      "bytes": 46103,
+      "sha256": "4821a8285bd25d1d9e233367cbd7331f63ff245058d1849859e2af25b5db99de"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/config.sub",
+      "bytes": 37213,
+      "sha256": "9bf74a6eafe4a3e4e74f3d4f7c66ce10e49efafd69a1a935f5ce420d3be3b450"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/configure",
+      "bytes": 487373,
+      "sha256": "684b67e12a493cffac2ea173ec99cb57f20b73bf13471781c8ad0cf1faa43876"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/configure.ac",
+      "bytes": 12136,
+      "sha256": "76108d7dd57f08d663b976022097a63781fd65e0474e059b8374917d4411488e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/depcomp",
+      "bytes": 21022,
+      "sha256": "76ab8dfa5b7e3dcf91fee04b28a1313d705c91241e9e4f34708f232684a25d29"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/djpeg.1",
+      "bytes": 7834,
+      "sha256": "a61c8682c5d895ffbe8e97bd6deca0a86240350e0fba672bf1549ddb3aff18e7"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/djpeg.c",
+      "bytes": 19993,
+      "sha256": "43817168e8bf9343d71af2d05bb85b97ad5f19c6efc4c9e930780a680d32403e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/example.c",
+      "bytes": 17524,
+      "sha256": "389fd0c7f41f5bb45aebd87de4c83044f3c59bfc44202d3fa2461a9089d89e4b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/filelist.txt",
+      "bytes": 8780,
+      "sha256": "d0688d7f76f11225be9e829e817dc70914398e4faa388d78ac840518f3cbff4b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/install-sh",
+      "bytes": 14525,
+      "sha256": "8d553d620a8df84dc1e7a088a7688a5c42dd3d92fcd1087ccf61d9c0828a95c6"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/install.txt",
+      "bytes": 54545,
+      "sha256": "954541b6c8bff29463adc2d26f6876c9042be2914e28c28cd23221c401d4ed77"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jaricom.c",
+      "bytes": 5235,
+      "sha256": "7aa47c7dd88cc3f286fcd4413b984ff426a8cd393a21f86dbc246fdf479bedb6"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcapimin.c",
+      "bytes": 9672,
+      "sha256": "1b8ed4206aebe20c6a92ae5971a4b6c47ac8ebf51ec08119e0eab414d80d1d4e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcapistd.c",
+      "bytes": 6042,
+      "sha256": "b8243f0ef7b82ec37021230ff9ad084552201860da4ec836187125eaa2c000b8"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcarith.c",
+      "bytes": 29126,
+      "sha256": "84382f65060fa6461953a3696ee36e7365ff272fa4d1100a2e1e9d8af175d0b2"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jccoefct.c",
+      "bytes": 17104,
+      "sha256": "78854f79a6717ba92b45e1cdd8e3ca389a9b16e403e206aafd00d7b92dc0424e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jccolor.c",
+      "bytes": 16124,
+      "sha256": "8cbbfb2ba5eebc18de2a3941d3a3cb9473e49c448f7da376ddf6d9a0b449d291"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcdctmgr.c",
+      "bytes": 16255,
+      "sha256": "513fbe0a935dffc7546182ca0a66ff5cefdfb40e2c602d04a088ae24a73f0037"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jchuff.c",
+      "bytes": 49777,
+      "sha256": "17ac4ff4907f8ed425d75c1f84c086b1c1ee7612be1e1ddcd1e2079692df4087"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcinit.c",
+      "bytes": 2235,
+      "sha256": "1094a97a63b85b4e94e8ecdf8cfe12f52affe25d15be0b26ab2b40fcb6e9a5d9"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcmainct.c",
+      "bytes": 9626,
+      "sha256": "51449d0bb4cf1036e94ba941ae6445c3af73a50192c89a9f5bb69734937f08b2"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcmarker.c",
+      "bytes": 18408,
+      "sha256": "a334829c334e29c72d4b67d0797debfbcec502799e70130050eed155e04e47f7"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcmaster.c",
+      "bytes": 32234,
+      "sha256": "0c1ad09dc5a43b2484f3289a3ee68ac5e470cb152319a9dbedd72001c8dc60c3"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcomapi.c",
+      "bytes": 3216,
+      "sha256": "2653b0552a4ff16533eb4d981751e26600fa33ead5e6851e4a4b288aba9109c0"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.bcc",
+      "bytes": 1464,
+      "sha256": "31d17d5c61f9c4ef2dd5c50e5401db2ad15864330792b72bac241ba9d3485958"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.cfg",
+      "bytes": 1517,
+      "sha256": "35fbcb0d47048c299255902a8ea2467b788dbfebfb7129abad5bda2a6be34d86"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.dj",
+      "bytes": 1181,
+      "sha256": "4262034b2a7e69874fc337c0834a351324a84683b5c8c2cfa20f73c0d9b86320"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.h",
+      "bytes": 1378,
+      "sha256": "fc26c3f9519dacc08664d452e00b5ea84006818e9a9c76d1b935d832f199a954"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.mac",
+      "bytes": 1242,
+      "sha256": "ba61fd4c9a4d6f2e21683c94f4c038c96a4824ce04ce1823b7852665a7a302e4"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.manx",
+      "bytes": 1240,
+      "sha256": "41cacc51d4fe5095d1c96933936bf83e11131168de45e859649ab8e2006ad878"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.mc6",
+      "bytes": 1720,
+      "sha256": "53f057fa703c68ebc5390ea7b8725986fd637ff5cc05615c2cd560e16ef9d385"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.sas",
+      "bytes": 1213,
+      "sha256": "1f9aab0d867a5e57410c51b9a9acc73ae8281957dffa537fea289680d6a1313e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.st",
+      "bytes": 1350,
+      "sha256": "5f9fedfe7069132c1bb782e1f58cd580f831f6ede618f93ca54833d7350507d4"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.txt",
+      "bytes": 5801,
+      "sha256": "894fe56b20e15bb64d17eb23f347c16953e9148fd3c31e4e2c91a92d4ba29724"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.vc",
+      "bytes": 1378,
+      "sha256": "fc26c3f9519dacc08664d452e00b5ea84006818e9a9c76d1b935d832f199a954"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.vms",
+      "bytes": 1016,
+      "sha256": "13d616c1504c2a93b92432de32a12fd09107b7afadc3d0f736c6f3be21ed1076"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jconfig.wat",
+      "bytes": 1177,
+      "sha256": "a52d73389c97b09e44f420baf832be7152620d7296bd40e45bfce790941c9bc5"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcparam.c",
+      "bytes": 22641,
+      "sha256": "eabf19af1f8087f7d1b47fbefa8a6588363c73a47849a862d2a17fd287e3a541"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcprepct.c",
+      "bytes": 12574,
+      "sha256": "a3509284c55a28417566e46a05c909603b722d4760c015b3e09478e0446c8e35"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jcsample.c",
+      "bytes": 20468,
+      "sha256": "427e5377141468ef8f1fbaa37be681fbf6ad312e98716b0048191d012a8af630"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jctrans.c",
+      "bytes": 14273,
+      "sha256": "ffeb09dc26d9efb5774871b75002302fb100730c61a4489a68dd655b72c76020"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdapimin.c",
+      "bytes": 13103,
+      "sha256": "83a021073f7f32b2f13150340f6f7bce5d216ddfd48c6e6f0aaf7ca491a4d13f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdapistd.c",
+      "bytes": 9625,
+      "sha256": "4818433256a5fb71f2432147f27752c521e5351295de2abdc189a84b4da29dcd"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdarith.c",
+      "bytes": 24718,
+      "sha256": "3b0365af76a8257fcf9f1f45d179509686fed71e01bcd58cad2ec85e5b7e7056"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdatadst.c",
+      "bytes": 8804,
+      "sha256": "46a37d67b84e617f0258a81df1ee7c786a2d2f4dfcd014e21b1baa79e77f2823"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdatasrc.c",
+      "bytes": 9636,
+      "sha256": "fdb63b4ad100ff7f2773077a1a5d9f4fad7eb3e5e181f2c2d87716d6ceaaf552"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdcoefct.c",
+      "bytes": 26169,
+      "sha256": "f72bf0b16872995d0ecd227b2768aa12dd1dd06eb13b0bc2295143aaf6ef862f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdcolor.c",
+      "bytes": 16768,
+      "sha256": "c5a2c132e896a417d5c1023182c3babf3374255b288f7c9cf489f819b993f864"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdct.h",
+      "bytes": 17538,
+      "sha256": "4d17fad16985ba89c4dc7b529bc16c7cf48bca727201453bef54959051aea180"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jddctmgr.c",
+      "bytes": 12786,
+      "sha256": "c42eade8962cd9aca16a70e92422de73fb86111acfe2b0e7adf4aa70571c680f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdhuff.c",
+      "bytes": 49915,
+      "sha256": "5f6dc1ecc17ae1af7939cbc4925443d08d7dd8587665bf0a89fa0d4edfa4f792"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdinput.c",
+      "bytes": 25701,
+      "sha256": "6f686a7d56935f5dfeae8190206b8bd233ef0536a583ce78e64dde2dd366b374"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdmainct.c",
+      "bytes": 20920,
+      "sha256": "ad829543665b44c2693b8a5df0b626f91e49bc36a4564513b412fdca5c520b07"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdmarker.c",
+      "bytes": 43997,
+      "sha256": "249ef6ba2db315887374897d946988f40ef0f049b158125061d9279fe8608631"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdmaster.c",
+      "bytes": 19567,
+      "sha256": "28b3c3f7dfc1655c56f6272a95be802793fac03327530eb3a90a5a881aa1a12c"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdmerge.c",
+      "bytes": 14316,
+      "sha256": "a33a24061d74d352c485c2b83c1f1fbcde4f902d6d08ba5c2f5b504f38dc993e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdosaobj.txt",
+      "bytes": 724,
+      "sha256": "f985839ec2bc71dfe9bfc6ef67ea2477c7d1e4976c39c2d5c96c7edf07645e88"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdpostct.c",
+      "bytes": 10013,
+      "sha256": "06834f92807a257b2d4fdad562b58c338d960e2510c9ef6822e08c3e2edb6fb1"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdsample.c",
+      "bytes": 12329,
+      "sha256": "1446263613bd5b6d1246f0621a58c023e94bb6322cbe80ec4caac4eb5fc9c3bc"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jdtrans.c",
+      "bytes": 5193,
+      "sha256": "547048241b8d9ece32ce3ec3016f93cd3453ef7119ccf5d142bb9c7a9e746e4b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jerror.c",
+      "bytes": 8053,
+      "sha256": "bf0e15e8ee98963201e25c8c1828f6200659ffa5b8bcde66c8cfacb2074a9916"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jerror.h",
+      "bytes": 14885,
+      "sha256": "d05d4b0deb7d461b03808b3c6ad1568970cdd608187f6708a449caee93e529c3"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jfdctflt.c",
+      "bytes": 6182,
+      "sha256": "a51797880d2291741715a3c0febeed86f86b15577f5c3ac75b35cdcaab1716e9"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jfdctfst.c",
+      "bytes": 8210,
+      "sha256": "7d25ebf2785ccefe30b75d132d9d3d1322a3a45964ec412c112f5d05bfee6c24"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jfdctint.c",
+      "bytes": 163026,
+      "sha256": "1de7cdf02f000fcc1f961459436bddef65b86056285527f1c9d153b9e36f9b82"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jidctflt.c",
+      "bytes": 8554,
+      "sha256": "1c0557d00c6f3ceeb789fcae3318b0e627db8c7d896838732d822e0c78c8aa61"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jidctfst.c",
+      "bytes": 13538,
+      "sha256": "ca3f34e24164c7c4c26589ebde3574ccf80b1320b4c5e9bc9dd29ef00f627968"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jidctint.c",
+      "bytes": 187037,
+      "sha256": "a7df34ea30090797af2dc179206a822be4b8c1f7a6eace54fa26726ee97c9f61"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jinclude.h",
+      "bytes": 3341,
+      "sha256": "a41e645742864969b4cac5df68a0ebd54fa34e1988d7d889fb7ce1501cab7285"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemansi.c",
+      "bytes": 4777,
+      "sha256": "0d8ee2c61c8c3ef18e214ecaa8e4da0780783d28fd72260e335a9916704a8c64"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemdos.c",
+      "bytes": 19615,
+      "sha256": "cc92024ea6d1f315ae839958b577267477f5e9911725883bc779ba8c7733bebe"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemdosa.asm",
+      "bytes": 8693,
+      "sha256": "9b150cdbe432a2922a4a0e2d56bb352194d161e03cdfd528c19c030d401e6a41"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemmac.c",
+      "bytes": 9796,
+      "sha256": "c982e05b6736d7e126d236637561febf7780fd56e833e08882b8b980d02eb92b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemmgr.c",
+      "bytes": 42143,
+      "sha256": "e469552ac5c5728ad4c61fae3b55f4ca2bacab15b17dea78e26b341d7cdfe9b4"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemname.c",
+      "bytes": 8590,
+      "sha256": "a3cba5fca27ed348faa47e7ab4c15ceaee25c4c7c67db58912a8884b064e78a2"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemnobs.c",
+      "bytes": 2881,
+      "sha256": "2b7d9eca01c2befd986d33a81c844b569eefe4fcee91192a4970a3e8c00d84e5"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmemsys.h",
+      "bytes": 8428,
+      "sha256": "8bd96ad37e97ad83f5b5331fa2abd23ebb2d3c78da6935bb8343d212b7a3ad1f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jmorecfg.h",
+      "bytes": 12926,
+      "sha256": "f39b533c96de43db037fa9028109f45d2f791686935848845538a033cfafe67d"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jpegint.h",
+      "bytes": 17658,
+      "sha256": "9897bd0ab8dd797d8c6175ce3405620ff0e784ed555f474597bad1ed9386302e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jpeglib.h",
+      "bytes": 49729,
+      "sha256": "de5d8938de7ba2b731f92be5e7b7eed57d844910570f0e980d6adcd21cc2a3ab"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jpegtran.1",
+      "bytes": 9528,
+      "sha256": "fbf2ffa3421f7bf509db1f72efac6aacdbf3f78c1dfc281be4969575f2e54ef4"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jpegtran.c",
+      "bytes": 18887,
+      "sha256": "3488a272513831e8c417ea93e1a608238c8b0fa14e70390e607856c14bf73b12"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jquant1.c",
+      "bytes": 32184,
+      "sha256": "22262a5a22fca758eff3ab3149340ad20bf0844f6810a34fbe57847479979c1d"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jquant2.c",
+      "bytes": 49782,
+      "sha256": "2c73291aca9870ceee6c3c6679bec0c1110c2bbe3bd7bea07eca1827a442fa58"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jutils.c",
+      "bytes": 6962,
+      "sha256": "defd78383bac3c0c41985b8e5cd2a7a196a96f308130dc69a1451f42190d06f5"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/jversion.h",
+      "bytes": 410,
+      "sha256": "9f8daa0053a5266b418d04dffe41eba5708ee0807f169ac8077d65ff04210877"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/libjpeg.map",
+      "bytes": 38,
+      "sha256": "0c649e1b8e653188d073a74e7b8a25b39acd8cc2edf6b474fd224414f4df247b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/libjpeg.txt",
+      "bytes": 165891,
+      "sha256": "92adfda7f1599dd8faf6a154c997fcff566a2c640e429ad1b75d621270f4b470"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/ltmain.sh",
+      "bytes": 293129,
+      "sha256": "ced3a6827c4b868315fb663e2b34892b5961a89a0ccfd696cfe7bfc37b3d1348"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makcjpeg.st",
+      "bytes": 1710,
+      "sha256": "4b7bc9e3468a9e74af230beb7168e2248624ac111bc6bbbd5eacdd84c9e2f6ea"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makdjpeg.st",
+      "bytes": 1710,
+      "sha256": "5bf8b12caa2362fe5ae9240b13c5b3d462d238d0a16bdf669f89e75437a617e4"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makeadsw.vc6",
+      "bytes": 1329,
+      "sha256": "0f745d753134057f34685f523882051bd07ebd7e76c4b1b35d358735a06c7d1a"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makeasln.v10",
+      "bytes": 1892,
+      "sha256": "57d5f9f20c61dac279f1fa7ed95ce94b63026347c8c2ab3362d09272651c7870"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makecdep.vc6",
+      "bytes": 1221,
+      "sha256": "f2206ad304445eb7836eaae035284c7e61c8f10208512fbf9725210eb7ee7986"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makecdsp.vc6",
+      "bytes": 3479,
+      "sha256": "6aba7fde18f50d7dd7994805c3d9040d0a3919692280c3d75a2e0846fb8c66dc"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makecfil.v10",
+      "bytes": 2356,
+      "sha256": "5b68d989fe0c16757a4da6f27f64b76d59cff03245014ce2b485b51838d95d50"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makecmak.vc6",
+      "bytes": 3436,
+      "sha256": "8973d0177e477823bf9b96a25445c3b375666c5b60591e4c77ab19b7a318a379"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makecvcx.v10",
+      "bytes": 3670,
+      "sha256": "f7dbc74fda16e04c2e926f6740241448a21959cb913faa9d04f876556eb5f3f3"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makeddep.vc6",
+      "bytes": 1221,
+      "sha256": "2bddc16be254e56090ef53c2f9992e9cb77f31ba3bb70270285556cc3397fd3b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makeddsp.vc6",
+      "bytes": 3479,
+      "sha256": "818bfdfee2a8dea780f107b214601eeec97872a8b0dc5587a236a6fd290e5dc1"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makedfil.v10",
+      "bytes": 2356,
+      "sha256": "a3ebd38f95f26742751b8bb29b3a61c672905a6c164be5e2a1966ba64ac918e4"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makedmak.vc6",
+      "bytes": 3436,
+      "sha256": "3a8288d304ecff91f690b30a14911b287a731e53ed33e4d291345e9412a4e10a"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makedvcx.v10",
+      "bytes": 3670,
+      "sha256": "e462cc3069aeb880b448e88feac6c58d28b70bbff5ffb9eb6a258eb09ba9fabb"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.ansi",
+      "bytes": 12460,
+      "sha256": "2da6c156385301b379459eeaade44d9e13da22d95e33bf51874689ee41ea9b1a"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.bcc",
+      "bytes": 15133,
+      "sha256": "e62cd3b2d4e0aeb051cc20fe719791fd57f26cb2046067d8c5d9fa294aa531c3"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.dj",
+      "bytes": 12600,
+      "sha256": "943a9803c93af96619dee287713a50ea21a2b96bfb1bbdd3cc2f3d13dabc5840"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.manx",
+      "bytes": 12386,
+      "sha256": "e46003fd2fe5e9bcd96945a8638065f7bbd392cdcbd135dec39ad9b0a698209c"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.mc6",
+      "bytes": 14615,
+      "sha256": "bb5fed8f9ec34a4e3c9b1c8aa9c3466a22fd71b138c2e146fcd2d49ebe7bd495"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.mms",
+      "bytes": 13919,
+      "sha256": "991f4f32f954200b8251cbfe9b17737997bacdc53f4171bce9baa2ae58c8ea23"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.sas",
+      "bytes": 13287,
+      "sha256": "4e6aaea0d4ce8a3eb7f3de7f045b5aa442483db7b382eb2fc88574ce726b2f30"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.unix",
+      "bytes": 12848,
+      "sha256": "f21bdf29a00595868893a6f13bbbd79b3e19f02a16b61b575c0314f8b2527720"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.vc",
+      "bytes": 14716,
+      "sha256": "80193e566f31133fc97583749f4126c65e327c70498dc996ef0198e45bf8a847"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.vms",
+      "bytes": 4563,
+      "sha256": "e1ec53f59deb49675bff32d285b5ed8edc9d97697d548e4af70657ef76cbe116"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makefile.wat",
+      "bytes": 13103,
+      "sha256": "f5f9b966ac6f9eb2e46704bb24acf47da256931a4ad9d6f639a11659ba48202e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makejdep.vc6",
+      "bytes": 5969,
+      "sha256": "5c12ecd94925c48ffc71bfe4dc083a24a75e2e0a38e3a463dd0af1eeac8084d0"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makejdsp.vc6",
+      "bytes": 5457,
+      "sha256": "49b0f583758a9b275edb99933baf8ab02ce02d09bab246d85567e664a8f9fa13"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makejdsw.vc6",
+      "bytes": 561,
+      "sha256": "6f9cfca01588cb5bd78c1c36122bb898b9e78b0045a8d68d827deb870120c296"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makejfil.v10",
+      "bytes": 5974,
+      "sha256": "7af0948236e2425e1c5b90d7ee7a499322efad3fd44471bacb6f92adb38706ce"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makejmak.vc6",
+      "bytes": 8507,
+      "sha256": "c95b50901458da1481c2ee99ba14430f936415716452699860bfc4d6fca2a75f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makejsln.v10",
+      "bytes": 696,
+      "sha256": "0b2e812c7320f3953434a5c6188bc906c5a15c47c80ca570b2dfd66b334fb7f0"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makejvcx.v10",
+      "bytes": 4918,
+      "sha256": "fa991e607bc47e1a95af14bfd6dfcbdde7b8cc9860c7035ea6385c469e390038"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makeproj.mac",
+      "bytes": 10586,
+      "sha256": "bb01205a8551cef46da6ea1739d61ac935f3df11604872069801679da4561344"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makerdep.vc6",
+      "bytes": 146,
+      "sha256": "38335fa1139a153a02e7fb29cab4df6dc7c61f0c82118ea4618e17175991247f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makerdsp.vc6",
+      "bytes": 2723,
+      "sha256": "ed2f8ac1de5872738e46f120b6498a7ecd898789f87445bf1b75897f9d907165"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makerfil.v10",
+      "bytes": 1171,
+      "sha256": "edbafadbe09ea25a45aaee026eabc705fb80a6371e2f188e5f6d38fe7c248ad9"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makermak.vc6",
+      "bytes": 2584,
+      "sha256": "2200271b7df5d4fc24f3a0967a814105fb01060ab46e67e1b54b4b6aecf16d2e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makervcx.v10",
+      "bytes": 2937,
+      "sha256": "72a6fd625721b1f38e482b574970d6521add02060d20257e34cdb82153b55d85"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/maketdep.vc6",
+      "bytes": 692,
+      "sha256": "e6ad19828f6cc01a0479a480a65b0f22f2c78b7ddf796b6987e8bbdc48723f79"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/maketdsp.vc6",
+      "bytes": 3407,
+      "sha256": "d20b098f0834795ef4cc28af0bc19c62d057d017de95d3a979bb84b0290813cc"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/maketfil.v10",
+      "bytes": 2185,
+      "sha256": "b4dcb5be31908a6882cd0fe1d89621121be8da58754d329b0d227ee2d1757e49"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/maketmak.vc6",
+      "bytes": 2999,
+      "sha256": "40e3e50f3d91c2c85c9673a8d307c3ae89544bd22fc666299cf6795bd5777728"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/maketvcx.v10",
+      "bytes": 3608,
+      "sha256": "f9ec45dac6c60f96cec7f1425d72f29144c61e621fb9280862d84849d15c325b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makewdep.vc6",
+      "bytes": 146,
+      "sha256": "cca30c97beac3242584dc496028b612b5da6a536852347879decf56c0b7f4375"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makewdsp.vc6",
+      "bytes": 2723,
+      "sha256": "0f2800eb006095c7304f21112f3dddd2ee37c6730bf9dc89b6eb964ae0bc4532"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makewfil.v10",
+      "bytes": 1171,
+      "sha256": "9b2e0286d3d42fb96817ccd72f03707fd8b06c9fb35b4489ae384524c7122ce5"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makewmak.vc6",
+      "bytes": 2584,
+      "sha256": "17e05f2468e66fc12d6377c1599e5929a0022887819bed3cd434c8bb9c99ef14"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makewvcx.v10",
+      "bytes": 2937,
+      "sha256": "10183f2c6f4ba7a4eb23be91e1f5a3cba339d93c04965664cc079877dbe728f6"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makljpeg.st",
+      "bytes": 4252,
+      "sha256": "75949c312172d93b73de35a9ed52c06a039eefd813f138b2d4f8415460aac3ab"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/maktjpeg.st",
+      "bytes": 1282,
+      "sha256": "195d1bc3f13924f95c89dbe508488a30989223b18447f45b2428b894051b36dc"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/makvms.opt",
+      "bytes": 214,
+      "sha256": "eca8167227cf71474d41c64f080c3776ed6599944c2b52266967e9e099cfe55e"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/missing",
+      "bytes": 11795,
+      "sha256": "c873f2f66850ddc1247262236be9680590ac9918654346e511855fc36a1e1d6f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdbmp.c",
+      "bytes": 15489,
+      "sha256": "6399baba83a813869a9f46eed79bd721f625f60175c6655e1e7467d3a213fcaf"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdcolmap.c",
+      "bytes": 7102,
+      "sha256": "e8a73aa02331239ee97f05ef15ac8717a5e2e8c5c824403927fb53d3d941663f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdgif.c",
+      "bytes": 1310,
+      "sha256": "d2126569228b4ef208b8d5968852f6520e5a633f4a05d6c5f03b79aaf931a319"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdjpgcom.1",
+      "bytes": 1762,
+      "sha256": "c7dd76662e71aaae557a50042fa6900d497869b6518cfa07aba3ef3853b0fa4d"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdjpgcom.c",
+      "bytes": 14981,
+      "sha256": "4f873330caf6f894635d4de0137bb861c7ff0df324b9585b8bc2e268ba9c0356"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdppm.c",
+      "bytes": 14537,
+      "sha256": "bc6bc65e904634ee677ecf77a1e4a33bf837e8c500396116d4ae0a088e619c9f"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdrle.c",
+      "bytes": 12060,
+      "sha256": "a3e375f5d016b17f2619c9f189c126d063145adc1209a2599829a05307a9ed98"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdswitch.c",
+      "bytes": 11078,
+      "sha256": "bac96e3b59ef1a3d3493477e2d7bde928227342b8e6fab398cd311e2aed03c20"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/rdtarga.c",
+      "bytes": 15467,
+      "sha256": "7abceab6abb3724580ebf319e5ad35ef388124d66859990166a58411171acc89"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/readme.dos",
+      "bytes": 655,
+      "sha256": "9b0cf45a35a10a353cd1e81fe0547db8fdbeeacf5f531db42660a0b9af0106d0"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/structure.txt",
+      "bytes": 52468,
+      "sha256": "c67ed1970e69bb55b1f37d76c0e1999548a076c19f40c428d1c8bb1804b1b74a"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/testimg.bmp",
+      "bytes": 35050,
+      "sha256": "10045d4b47fead4957b6fdb4b0296e99d341caa89a57e4d8fca4d086c25da2d0"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/testimg.jpg",
+      "bytes": 5764,
+      "sha256": "92fa47ababd78244f17e2ac2146fb93b04c91d41bdfd56b97649b5962c4386c9"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/testimg.ppm",
+      "bytes": 101484,
+      "sha256": "79bc43b0b0c2651ab64acb5845b14dae7362230b990fd890953a2c0576d80706"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/testimgp.jpg",
+      "bytes": 5645,
+      "sha256": "b0ec0b23f543face179ec05a8460794c590214e3a19c766fc3f04a843478f2bb"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/testorig.jpg",
+      "bytes": 5770,
+      "sha256": "acc6ec555d41d15b368320edaa3b20958ee6fa97cb6e4a18d1213d5ae8bec73b"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/testprog.jpg",
+      "bytes": 5655,
+      "sha256": "24770f706b81b40a71944af3b39aad8a3f7ffb21c4f2725447022e518222d823"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/transupp.c",
+      "bytes": 58860,
+      "sha256": "f3fb024d65ca437d6db7ddaf99bc187f44e7f7b1acf09c0e5aa6907bb82de91c"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/transupp.h",
+      "bytes": 9482,
+      "sha256": "f5fc9c9aab4f48770002c2a1f5f54060d1d5bd18cadfe352ac07a2aca00a91fc"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/usage.txt",
+      "bytes": 31609,
+      "sha256": "25a9a0b113e2d90087170efb6974b83ef53264fd8724b41c60978e9160151ddb"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wizard.txt",
+      "bytes": 9970,
+      "sha256": "4769ab5639cfca41455112c8b2d104c0504ed881786b2f2872a4001e3ddd1053"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wrbmp.c",
+      "bytes": 14355,
+      "sha256": "ac3ccd004ceb2cc1ba3076a6b1e0f439fe5f10a21ec7d872e5a402ca4ec69560"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wrgif.c",
+      "bytes": 13287,
+      "sha256": "33f6c0225c88738ede77160e82abbcbd58141e1a8376a8bf12a64bd9bfc8b259"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wrjpgcom.1",
+      "bytes": 2730,
+      "sha256": "b49e4fd43e8e570bb34c6e89ee281a45d9463888187d2668a44573542cf8def6"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wrjpgcom.c",
+      "bytes": 17146,
+      "sha256": "b934438b12eea7ccfbd341a854997204c2930b1ef835e294917b2c6edb640162"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wrppm.c",
+      "bytes": 8638,
+      "sha256": "7b335737b60d30940d3d0424c3893c96c0968fde9e677501e75a1cc64d4de605"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wrrle.c",
+      "bytes": 9547,
+      "sha256": "83ee04e92bc2e6269a96fe30e8c4f93abd19995d3c787b3f99075d1445a391e2"
+    },
+    {
+      "path": "source/Irrlicht/jpeglib/wrtarga.c",
+      "bytes": 7777,
+      "sha256": "691216d8e5cf3b88bf7b2cc3c1c801718ff56db16f5e17d3765b0e70ac2e1d27"
+    },
+    {
+      "path": "source/Irrlicht/libpng/ANNOUNCE",
+      "bytes": 1443,
+      "sha256": "89daeefe4a99858de020364c1d5c34bb99637f1befc2b94e275dc56bcfeb300b"
+    },
+    {
+      "path": "source/Irrlicht/libpng/AUTHORS",
+      "bytes": 1143,
+      "sha256": "70199a39cdd6d4a4b58cdc701296cf8eb82e6a398f5d53c806c88cf572e3f7cf"
+    },
+    {
+      "path": "source/Irrlicht/libpng/CHANGES",
+      "bytes": 310523,
+      "sha256": "e522a9a85791d1f56abc40fe7d00a5c81518b55f2d5602b1c7093f89627c0cf2"
+    },
+    {
+      "path": "source/Irrlicht/libpng/CMakeLists.txt",
+      "bytes": 34756,
+      "sha256": "c9b3051938c4af13d967483ad2ebfbdbb3927c9278772072b8a292b4b7a8da3f"
+    },
+    {
+      "path": "source/Irrlicht/libpng/LICENSE",
+      "bytes": 5479,
+      "sha256": "0ad3bfee8be10e5519949e7af492e36bc349376b75fbeb412229a5967e3e9434"
+    },
+    {
+      "path": "source/Irrlicht/libpng/README",
+      "bytes": 9575,
+      "sha256": "80ae90d69507d5ead3b0b80cc411bc03e45c82c10d6ca3052dfd4b00885d0bb7"
+    },
+    {
+      "path": "source/Irrlicht/libpng/TODO",
+      "bytes": 1049,
+      "sha256": "697f39fedffd0ef4a1ac46511fbadfc9ea543e4d9eaadb6b820ca1aae7387d7d"
+    },
+    {
+      "path": "source/Irrlicht/libpng/TRADEMARK",
+      "bytes": 351,
+      "sha256": "ce9a7fe2dd5146f87d376e972424a60fad5c90ede383df9d94d22efe4c4c3667"
+    },
+    {
+      "path": "source/Irrlicht/libpng/example.c",
+      "bytes": 41439,
+      "sha256": "8a4216158f30c39b09dfcf34298a4558d5f0f70a2bb40d593cb6ff84cc6831a0"
+    },
+    {
+      "path": "source/Irrlicht/libpng/libpng-manual.txt",
+      "bytes": 233904,
+      "sha256": "57c61510711bd1d7f883f0827acd2733fa218460bfedf20cec833bafef15d3d8"
+    },
+    {
+      "path": "source/Irrlicht/libpng/libpng.3",
+      "bytes": 272214,
+      "sha256": "a6e35acbb869ffe3b239543d23d8ac8180e26301f9823d39e73ae4435685a72b"
+    },
+    {
+      "path": "source/Irrlicht/libpng/libpngpf.3",
+      "bytes": 825,
+      "sha256": "00313e51a76264a12e90c01d5d7b1ca5ffc2dda9094e345964dccb7f43f6d58c"
+    },
+    {
+      "path": "source/Irrlicht/libpng/png.5",
+      "bytes": 2577,
+      "sha256": "31d83d7967c1ee80057f6b1563f02386cf6ac9a9a2b8a4669f67e8ee18b4a54b"
+    },
+    {
+      "path": "source/Irrlicht/libpng/png.c",
+      "bytes": 162020,
+      "sha256": "50b5698a0fdc3c3fdf60323d4b2e0371f20e84a8a9d63b6c7ad841bc15d19663"
+    },
+    {
+      "path": "source/Irrlicht/libpng/png.h",
+      "bytes": 146107,
+      "sha256": "d67e0f28ee94170803e58d504b8b09a118e5ec84bfdd39e6d1272135e5e4407b"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngbar.jpg",
+      "bytes": 2498,
+      "sha256": "dac6b8aecef465935b9445b8f134ae0d66069f01d0b05fcdb42f6fdf45972f7b"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngbar.png",
+      "bytes": 2399,
+      "sha256": "a0d210e0261eb720677c61b59245b653eb3182cc0e089282971443397527f89a"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngconf.h",
+      "bytes": 23469,
+      "sha256": "2e24d93e35852b4f9fe4515cd96bb255ad6ce5553729442242e260ad2256e59c"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngdebug.h",
+      "bytes": 5472,
+      "sha256": "c065e1b0df7fde0ccd4f5131424e737acf6ff48a0652e4ee319012dcc199928b"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngerror.c",
+      "bytes": 30131,
+      "sha256": "e03eee845607dca10f4f2c9cc6eaaf0382475ecfbfd83f97f5d1676f8b574108"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngget.c",
+      "bytes": 35281,
+      "sha256": "739975721bbc40a9f9d59aac060f52e7bc17fd16fc0d9ca685e189cc60b33761"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pnginfo.h",
+      "bytes": 12781,
+      "sha256": "5b579c650df53e3192e566ca2507f4296b96c5c904301290de296f7389d4a516"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pnglibconf.h",
+      "bytes": 7830,
+      "sha256": "f6868db3625a3339eea2ca3e1ea40ddc33068bd79527f48810a6d7a2a5d1b4a0"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngmem.c",
+      "bytes": 8607,
+      "sha256": "747a0f1102ee7ccc12f9a915335991df37c774dfed07cda5661452d8ea3c00d3"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngnow.png",
+      "bytes": 2069,
+      "sha256": "3198a5d8f197d6b45a7124390c245a886be0be9b8e7891cfc7525ad65fbeb0a9"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngpread.c",
+      "bytes": 32802,
+      "sha256": "19c920b2570e9d5971af2193c645d79f6818ebee3a96cf41cb15f93cae41d0b8"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngpriv.h",
+      "bytes": 91920,
+      "sha256": "babba972d779332deb375feb3abf4c996520d869755ce77091f3fc6725327747"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngread.c",
+      "bytes": 146562,
+      "sha256": "dcdfcea529cd121f6c160427107485748ca762c6fd534d47d559e4453972d174"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngrio.c",
+      "bytes": 4018,
+      "sha256": "b5a7226d1c42e1c88149743537b2d522e8fbfecdb933107eae80529c0311c4e1"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngrtran.c",
+      "bytes": 172483,
+      "sha256": "7868f690819fe4865dc15469179f2ecfe643d95f803b7ae7ad760b5374abb4ec"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngrutil.c",
+      "bytes": 152146,
+      "sha256": "41143b343e4d5e47e67f5a4845bac2c707b8a4d4b76699c7954004fd5107ca65"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngset.c",
+      "bytes": 53175,
+      "sha256": "5edd5a4b9b52991d7486311991fc8dcde0ed88b6e4c33887c2ee9c2ce7cc90d3"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngstruct.h",
+      "bytes": 20687,
+      "sha256": "b79e5feba79072d88c792d5f9aa503924ffbfb5740164bd42571fcc9bd2f697d"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngtest.c",
+      "bytes": 64973,
+      "sha256": "d0f723b05a382101fb89774f9c87d3b26b840df89324cb4c3ec6adaa9c1441b9"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngtest.png",
+      "bytes": 8759,
+      "sha256": "546f711f1f5b493ad7a79a5ec0c37f30e35f59be97b92731a9ddb01a225df5d8"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngtrans.c",
+      "bytes": 26104,
+      "sha256": "643f32922e525928928f51b6b684ae59b564b6f53edfcee2bcafcd69d4aa7780"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngusr.dfa",
+      "bytes": 511,
+      "sha256": "67c5c1b55405b332ab5ab5c4eb25647634b5a39e47695312fd5e8599b6b6a215"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngwio.c",
+      "bytes": 5769,
+      "sha256": "730a2eeec2e899cfb36916e834e03d3f15f6e34652a17bfe88504b462c7160e7"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngwrite.c",
+      "bytes": 78823,
+      "sha256": "abfd0e75c654f309722f64208b9998e812ecb65a9699373274333a129c87faff"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngwtran.c",
+      "bytes": 15912,
+      "sha256": "0929208df8d3ae4b4d3de1f642906d761fc1bf55492b80e49c678e7989ac3925"
+    },
+    {
+      "path": "source/Irrlicht/libpng/pngwutil.c",
+      "bytes": 83131,
+      "sha256": "7f3569d8e4ff34f358074908e2ac2f2ddf44104848f42743bdf1a85942a58ff1"
+    },
+    {
+      "path": "source/Irrlicht/lzma/LzmaDec.c",
+      "bytes": 28164,
+      "sha256": "b63e1c33d273cf4460da8bb94b148dfdf067e6ad3c4dd1725e33c5ceb1aefe3d"
+    },
+    {
+      "path": "source/Irrlicht/lzma/LzmaDec.h",
+      "bytes": 7096,
+      "sha256": "f43966ab7858974a38f7a6c3c7dade35bcfb8763811e9cfa8690f416e7efb819"
+    },
+    {
+      "path": "source/Irrlicht/lzma/Types.h",
+      "bytes": 5677,
+      "sha256": "1e367ddb4e774cabcc8f44321215d6593fb02dd799a4c7cb2a83b7b456768154"
+    },
+    {
+      "path": "source/Irrlicht/os.cpp",
+      "bytes": 8369,
+      "sha256": "97b6541114632fb5f789ec150d563522b6b2a5c11c433d1c51a23afa2b835d3e"
+    },
+    {
+      "path": "source/Irrlicht/os.h",
+      "bytes": 3264,
+      "sha256": "feb4055c5fcaea7cf117a9533e8709cdc14aadef06a8eecbd614b7b12f24ae2c"
+    },
+    {
+      "path": "source/Irrlicht/resource.h",
+      "bytes": 405,
+      "sha256": "2f8a8de1191f661f9134c9d70bb70e1ca6128583db6699d7b1146bf805873690"
+    },
+    {
+      "path": "source/Irrlicht/source.txt",
+      "bytes": 1671,
+      "sha256": "ecfcc38562156ff302749e582d5fb9ae33fa3c4aacd0ef865ad50250fad3318a"
+    },
+    {
+      "path": "source/Irrlicht/wglext.h",
+      "bytes": 43998,
+      "sha256": "108b0f79d3bee62017a13a8dcb01368aa059920aa38da7632e15169720f1b9c0"
+    },
+    {
+      "path": "source/Irrlicht/zlib/CMakeLists.txt",
+      "bytes": 8098,
+      "sha256": "ff988cbc9cbb5692400b37df2b80eb25afa6d6bf0d840a6dff5673ee7c190718"
+    },
+    {
+      "path": "source/Irrlicht/zlib/ChangeLog",
+      "bytes": 76402,
+      "sha256": "1285914a14f28ad77c3eef8c34d219e49459989502237086a14ec3d6cca7a760"
+    },
+    {
+      "path": "source/Irrlicht/zlib/FAQ",
+      "bytes": 16573,
+      "sha256": "1e8a0078be0ff1b60d57561a9e4a8cad72892318a8831946cba1abd30d65521c"
+    },
+    {
+      "path": "source/Irrlicht/zlib/INDEX",
+      "bytes": 1988,
+      "sha256": "3b4e325d47ae66456d43fcf143ba21ab67a02a4f81be7ef2da480ba30d774266"
+    },
+    {
+      "path": "source/Irrlicht/zlib/Makefile",
+      "bytes": 100,
+      "sha256": "ef23b08ce01239843f1ded3f373bfc432627a477d62f945cbf63b2ac03db118a"
+    },
+    {
+      "path": "source/Irrlicht/zlib/Makefile.in",
+      "bytes": 8985,
+      "sha256": "edb322ca9ea5055eb1c5fd0b277e152986bb9135a86500039f6de19a68d6a5f7"
+    },
+    {
+      "path": "source/Irrlicht/zlib/README",
+      "bytes": 5185,
+      "sha256": "53a466b504371dcdda1504c90d8121d4823921f03554c3526995fb2bae7159f9"
+    },
+    {
+      "path": "source/Irrlicht/zlib/adler32.c",
+      "bytes": 5147,
+      "sha256": "b4e7b0220dd1c963b0587ee443c488814f6bba3d34860ad09ecac99bb325c6a2"
+    },
+    {
+      "path": "source/Irrlicht/zlib/compress.c",
+      "bytes": 2609,
+      "sha256": "663969692d00f41f441cb1a816836e04851f68d53ecaa9e8561c7663aae6904f"
+    },
+    {
+      "path": "source/Irrlicht/zlib/configure",
+      "bytes": 26082,
+      "sha256": "94159ff86133515dee243814d92238192d1f2c36c86fdc1472e0a0a797d1dd2f"
+    },
+    {
+      "path": "source/Irrlicht/zlib/crc32.c",
+      "bytes": 13599,
+      "sha256": "06a98b2af9ed5d0594c3c718f8d285122bf705d5f537dd983f4c30260e71dad8"
+    },
+    {
+      "path": "source/Irrlicht/zlib/crc32.h",
+      "bytes": 31003,
+      "sha256": "cb2e444abab6cb8672a11c33ca46dfd6c3f3d6106be11524225b3ab99542cbcc"
+    },
+    {
+      "path": "source/Irrlicht/zlib/deflate.c",
+      "bytes": 73443,
+      "sha256": "f11d8897bbb32af11e62189eb9faa9fd6189f84bc5d41357822cd7e4e2a5b15c"
+    },
+    {
+      "path": "source/Irrlicht/zlib/deflate.h",
+      "bytes": 13120,
+      "sha256": "bebfbbca6f4f533b38ebfd448ccee848aa2d9098fb59ec330ff3654499ed32cc"
+    },
+    {
+      "path": "source/Irrlicht/zlib/gzclose.c",
+      "bytes": 678,
+      "sha256": "94446cf8cde67c30e64d0a335b0c941fd3fbad2e77f30180d12e61f9c2a5a6b8"
+    },
+    {
+      "path": "source/Irrlicht/zlib/gzguts.h",
+      "bytes": 6552,
+      "sha256": "2d3c0154089061fd3a9a789903e54b2ca3cef241383599f37b63914330b9c358"
+    },
+    {
+      "path": "source/Irrlicht/zlib/gzlib.c",
+      "bytes": 16415,
+      "sha256": "90d43517bcff858312c0ed72dfa760be3a774939ba663952f0f9aa0e96f97f34"
+    },
+    {
+      "path": "source/Irrlicht/zlib/gzread.c",
+      "bytes": 18694,
+      "sha256": "b2bd8884fc467b47e425d1c34268f08e40dd54401682a49c56d2e441ee811d8c"
+    },
+    {
+      "path": "source/Irrlicht/zlib/gzwrite.c",
+      "bytes": 16199,
+      "sha256": "09d33648f5b3be2efd3ad176f6b966205d5f8abaf1d1139a196e0987b9319b7d"
+    },
+    {
+      "path": "source/Irrlicht/zlib/infback.c",
+      "bytes": 23349,
+      "sha256": "dcc5a27a5c948e90e4fb0f5acbfdc7d731d5e1c7e9f5bfbcbd01da3cf6de7019"
+    },
+    {
+      "path": "source/Irrlicht/zlib/inffast.c",
+      "bytes": 13795,
+      "sha256": "71375e469a6796d12c420e99bfc98006437348c14807e4741ee16a14f7997d1f"
+    },
+    {
+      "path": "source/Irrlicht/zlib/inffast.h",
+      "bytes": 438,
+      "sha256": "69826e9bcdf9ae6a774d8eca4ae2e7f9f7a3c6f77f5d1f30de24b96a2c818780"
+    },
+    {
+      "path": "source/Irrlicht/zlib/inffixed.h",
+      "bytes": 6426,
+      "sha256": "869a9f968e6b85ce2a2364db6325a35eb0f5b283727b40ac74d2cf053f364124"
+    },
+    {
+      "path": "source/Irrlicht/zlib/inflate.c",
+      "bytes": 55024,
+      "sha256": "3a8dd1a3f86bbf129ec8e3ead7d971ac6ab22d9c5a060b80125a327825946c1f"
+    },
+    {
+      "path": "source/Irrlicht/zlib/inflate.h",
+      "bytes": 6521,
+      "sha256": "10de38d8f047fa31fd832c29ad0ec1419a09e80abfda1b44ead49874ac022623"
+    },
+    {
+      "path": "source/Irrlicht/zlib/inftrees.c",
+      "bytes": 13334,
+      "sha256": "f259c4d26142b6ab322bd49cf5cb6d0e429093d6848764baa04ee3aa290681e4"
+    },
+    {
+      "path": "source/Irrlicht/zlib/inftrees.h",
+      "bytes": 2990,
+      "sha256": "d7066eba83ae46bd5e290e58ee2b39c692cc8c8466940c176665421420204e8c"
+    },
+    {
+      "path": "source/Irrlicht/zlib/treebuild.xml",
+      "bytes": 3135,
+      "sha256": "6ddcf7cd73f4f9194addf7b3c82aca350c912062ea0c8f0df13c49c614fd9968"
+    },
+    {
+      "path": "source/Irrlicht/zlib/trees.c",
+      "bytes": 45481,
+      "sha256": "09b3f7234e5b7241379853dac3fcf29d08b1714e9a68dd4f1880844e1930a140"
+    },
+    {
+      "path": "source/Irrlicht/zlib/trees.h",
+      "bytes": 8600,
+      "sha256": "ef4025453d5e62f39da4f7d0a04cd256e9091c8d2aff5aada59c31c22491e4dc"
+    },
+    {
+      "path": "source/Irrlicht/zlib/uncompr.c",
+      "bytes": 2062,
+      "sha256": "d936c9f9901e0267116b8b1f2486aa79e4c1022ca4c9869c42ebf210a920d108"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zconf.h",
+      "bytes": 16019,
+      "sha256": "5327366dd8be4bc12108997ad8bef658d54f32507b2ffcdf2613c07fd9b44507"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zconf.h.cmakein",
+      "bytes": 15559,
+      "sha256": "49c987659808d77f5250b2f64ee71e57cf32cf4b52955cea179d7ebd3c578e59"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zconf.h.in",
+      "bytes": 15508,
+      "sha256": "ec0d0a6e87b749ab5fc3f27c0e8292b7aed139ca0b6121ab27e6eb30e2e9b6ba"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zlib.3",
+      "bytes": 4236,
+      "sha256": "621d9c7afa32fac41b28219c0d38a4a7179fdc05358bd2f7bdf7116d25d0cecd"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zlib.3.pdf",
+      "bytes": 8734,
+      "sha256": "23f684d8e8ea133f5a4ee443c8dcfccfb8fed7e120d2735a315835d8c8289822"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zlib.h",
+      "bytes": 89651,
+      "sha256": "730562db847f07242943019760733ac65e01d2885143399f67f48c42a1730d65"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zlib.map",
+      "bytes": 1192,
+      "sha256": "2b133e742e41f08cc4e993ceddbd43ee9d2d1b76da60c53b8405e1f811274a85"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zlib.pc.cmakein",
+      "bytes": 294,
+      "sha256": "2f1d0b18ce37c2af415a469857f02aee2c41a58877aff21d29e9c6db32b55cb7"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zlib.pc.in",
+      "bytes": 254,
+      "sha256": "04c01cc2e1a0ed123518b5855f585c93a24526dd88982c414111ea1fc9f07997"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zlib2ansi",
+      "bytes": 3895,
+      "sha256": "d316e3e79054f5f9fe921d35f4bbf4bf0a37b859d29d2b34ae4d7d92afc3e55c"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zutil.c",
+      "bytes": 7738,
+      "sha256": "97e2ddaba8163386ea4e552e3c5d0da79060997dde589b3d26c406b13b58798b"
+    },
+    {
+      "path": "source/Irrlicht/zlib/zutil.h",
+      "bytes": 7019,
+      "sha256": "f3250880ecaebe1c4971527aff465a4ae5c6889a4f44437eb6f9b2015782cdf4"
+    },
+    {
+      "path": "source/source.txt",
+      "bytes": 2594,
+      "sha256": "1cc17efb52e2d7450646f55d6a7a196fb184349522a63d242e016f87473c57b7"
+    }
+  ]
+}

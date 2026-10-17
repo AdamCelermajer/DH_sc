@@ -74,7 +74,7 @@ extern "C" int dh2_nav_move_path(MoveResult* out,PathObject* p,const Graph* g){
  if(p->count){std::memmove(p->segments,p->segments+1,p->count*sizeof(PathSegment));smooth(*p,*g);calc(*p);std::memcpy(out->target,p->segments[0].target,12);}
  else{out->active=0;std::memcpy(out->target,p->target,12);}return 0;
 }
-static int find_path_source_v1(const FindRequest* r,const FindSourceServicesV1* source){
+extern "C" int dh2_nav_find_path(const FindRequest* r){
  if(!r||r->reserved||!valid(r->object)||!r->world||!r->world->graph||!r->world->graph->graph||!r->result||!r->workspace||r->pathfinding_enabled>1)return 1;
  auto& p=*r->object;auto& result=*r->result;const auto& graph=*r->world->graph->graph;
  if(!graph_valid(p,&graph)||result.search.reserved||result.search.path_count>result.search.path_capacity||(result.search.path_capacity&&!result.search.path))return 1;
@@ -90,10 +90,7 @@ static int find_path_source_v1(const FindRequest* r,const FindSourceServicesV1* 
  std::memcpy(request.source,p.position,12);std::memcpy(request.target,r->target,12);
  const int preflight=dh2_nav_route(&checked,&request,r->workspace);if(preflight)return preflight;
  drop(p);std::memcpy(p.target,r->target,12);result.search.path_count=0;request.pathfinding_enabled=r->pathfinding_enabled;
- if(source){std::uint32_t enabled{};if(!source->search_enabled||source->search_enabled(source->context,&enabled)||enabled>1)return 3;request.pathfinding_enabled=enabled;}
  const int status=dh2_nav_route(&result,&request,r->workspace);if(status)return status;
  for(unsigned i=0;i<result.search.path_count;++i)p.segments[p.count++]=segment(graph,result.search.path[i],p.route);
  if(result.found){smooth(p,graph);calc(p);}return 0;
 }
-extern "C" int dh2_nav_find_path(const FindRequest* r){return find_path_source_v1(r,nullptr);}
-extern "C" int dh2_nav_find_path_source_v1(const FindRequest* r,const FindSourceServicesV1* source){if(!source||!source->search_enabled)return 1;return find_path_source_v1(r,source);}

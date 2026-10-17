@@ -1,0 +1,141 @@
+{
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "new_complete_caller_bodies": 2,
+  "new_complete_dependency_bodies": 0,
+  "functions": [
+    {
+      "original_symbol": "_ZN13DebugSwitches13_saveSwitchesEP11IFileStream",
+      "elf_address": "0x337b4c",
+      "size": 520,
+      "sha256": "0da7ccbd9117dd3ee21f29d9acacedfa552a2f10485c1aa19bc49cc417c386f4",
+      "scope": "complete source caller"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4saveEv",
+      "elf_address": "0x337d54",
+      "size": 136,
+      "sha256": "bb52db94b17bd5240c3398df62ba12a9da4d67dc4b75dcf436c8994e2ba4b829",
+      "scope": "complete source caller"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader7writeAsIiEEvP11IStreamBaseT_",
+      "elf_address": "0x33665c",
+      "size": 188,
+      "sha256": "3b21fed5b8fd0bcf27b7f2d5f61a28f3115106114d881863051321feacc8d927",
+      "scope": "external dependency evidence"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader7writeAsIhEEvP11IStreamBaseT_",
+      "elf_address": "0x336718",
+      "size": 188,
+      "sha256": "ab2bff238634bdc6f485a6a2d0fa0e61bd091532ee64d0a8702e88c3ecf0db98",
+      "scope": "external dependency evidence"
+    },
+    {
+      "original_symbol": "_ZN12StreamReader11writeStringEP11IStreamBasePKcy",
+      "elf_address": "0x317490",
+      "size": 184,
+      "sha256": "2d50a9a9250385a8ab7e99d72b3ec2e853a47725d561518977b3d19d3c6d27c3",
+      "scope": "external dependency evidence"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches4loadEv",
+      "elf_address": "0x337888",
+      "size": 512,
+      "sha256": "3b864531f3f0c328b5c3b630bf90afa16b9ac232416fa49617dc09f8fb97f803",
+      "scope": "reused complete Runtime caller evidence"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9GetSwitchERKSs",
+      "elf_address": "0x337a88",
+      "size": 196,
+      "sha256": "34890bace08c03e9acab8957aea2ba00831d3359f3ef29dad001b010794e0487",
+      "scope": "reused complete Runtime caller evidence"
+    },
+    {
+      "original_symbol": "_ZN13DebugSwitches9SetSwitchERKSsb",
+      "elf_address": "0x337ddc",
+      "size": 236,
+      "sha256": "1653c8daee8e1628a83fb5836064799d57507147e05c372e831c39a8883bece3",
+      "scope": "reused complete Runtime caller evidence"
+    },
+    {
+      "original_symbol": "_ZNKSt4priv8_Rb_treeISsSt4lessISsESt4pairIKSsbENS_10_Select1stIS5_EENS_11_MapTraitsTIS5_EESaIS5_EE7_M_findISsEEPNS_18_Rb_tree_node_baseERKT_",
+      "elf_address": "0x3369a8",
+      "size": 212,
+      "sha256": "bc2278330e25b4404cf75f5815f0c209d76cf311d92d052da287278dacb2a843",
+      "scope": "external dependency evidence"
+    },
+    {
+      "original_symbol": "_ZNSt3mapISsbSt4lessISsESaISt4pairIKSsbEEEixISsEERbRKT_",
+      "elf_address": "0x337288",
+      "size": 380,
+      "sha256": "90ea65a18596ed16728959a59d0ef3b45ebbe440ed6640fae505dd1c89d7fe16",
+      "scope": "external dependency evidence"
+    },
+    {
+      "original_symbol": "_ZNSsC1EPKcRKSaIcE",
+      "elf_address": "0x3140ec",
+      "size": 52,
+      "sha256": "526c9b5915d5166cc3f2215547f69037d053058ce6efc3bc2caa4ec13a68446a",
+      "scope": "external dependency evidence"
+    },
+    {
+      "original_symbol": "_ZNSsD1Ev",
+      "elf_address": "0x318254",
+      "size": 68,
+      "sha256": "aa2048a8b7435fa54316f8d6cfea213071780f2291ee502451589acf5cfd89ef",
+      "scope": "external dependency evidence"
+    }
+  ],
+  "literals": [
+    {
+      "pc_add_address": "0x337c2c",
+      "literal_address": "0x337d50",
+      "elf_address": "0x8bfda0",
+      "text": "isTracingDebugSwitchesFile",
+      "sha256": "1abd888faa04efdc3f80320d9823d58a13d7f794e3c038444b8d4e2cc441f9dc"
+    },
+    {
+      "pc_add_address": "0x337d8c",
+      "literal_address": "0x337dd8",
+      "elf_address": "0x8bfe40",
+      "text": "DebugSwitches.savegame",
+      "sha256": "5ca1a68dc0aa1c58d1d11276597e6cb0785da445c7e766f59df4586f7fb984e0"
+    }
+  ],
+  "global_objects": [
+    {
+      "symbol": "_ZN13DebugSwitches6s_instE",
+      "slot": "0x99531c",
+      "target": "0x9a1d18",
+      "bytes": 48
+    },
+    {
+      "symbol": "_ZN13DebugSwitches8s_loadedE",
+      "slot": "0x9988e8",
+      "target": "0x9a1d48",
+      "bytes": 1
+    },
+    {
+      "symbol": "_ZN9SingletonI11ApplicationE6s_instE",
+      "slot": "0x99828c",
+      "target": "0x99f72c",
+      "bytes": 272
+    }
+  ],
+  "cache_debug_configuration_sha256": "51a3827f0109e16d1520e76d5b19736df3afe38375b91b955ac519f954234d6b",
+  "source_fields": {
+    "switch_tree": 0,
+    "switch_count": 16,
+    "module_tree": 24,
+    "module_count": 40,
+    "node_parent": 4,
+    "node_left": 8,
+    "node_right": 12,
+    "node_string_end": 32,
+    "node_string_start": 36,
+    "node_byte": 40
+  },
+  "native_wired": false
+}

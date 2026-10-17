@@ -1,0 +1,39 @@
+{
+  "new_complete_original_bodies": 0,
+  "source_sha256": {
+    "port/level-world/actor_scene_retention_v1.cpp": "65e0d722b36925fef958e2cf1bee99ef034558cf6929da178fe26a8c27f2fdf6",
+    "port/level-world/actor_scene_retention_v1.hpp": "5f7e6a09cae7b6e310e66117643a85417fc1a83420bf0ac21b701bbeb3ec9669",
+    "port/level-world/actor_blended_playback.hpp": "8854fd80106c89896964261d739870a8bae979c90cd0d6c481de7c8d832e761c",
+    "port/level-world/actor_blended_playback.cpp": "f4f84d16734eb0a9bd071a8234708fa2795b8b8b102bfd93502ab521452de567",
+    "port/level-world/visual_motion.cpp": "f2e5efbfcf4263c73b8a9cbeca9efb87340906966df41f7cdc41613e49d6464f",
+    "port/engine-animation/animation.cpp": "c1ffcca1fd140744e5587251a8fde8a6392da1d169c4879730ea78f35c2a6903",
+    "port/engine-animation/animation.hpp": "1f3316e168168c898a9786d931e1dfaec78f1f110f518aa28d2ab5121711ff83"
+  },
+  "existing_original_dependencies": {
+    "port/level-world/reference/visual-timeline/original-functions.json": {
+      "manifest_sha256": "52c9d8ddfcefebd5f997b916ad4adb09bfd3c99195439c7e8912451ab424b5b1",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+    },
+    "port/level-world/reference/visual-motion/original-functions.json": {
+      "manifest_sha256": "ac3a7dafbc9dfd058eff838bd58d7254bd84c280f09595874a9314947bda0d87",
+      "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80"
+    }
+  },
+  "retained_owners": {
+    "playback": "Same live BlendedPlayback address; all private/public source CPU state remains there.",
+    "bank": "Same immutable ClipBank address and resources, never erased/replaced/recompiled while retained.",
+    "scene_clock": "Caller-owned clock preserved across development recreation; Snapshot never owns or updates it.",
+    "pose": "Read-only copied actual local TRS/Root at paused phase/frame boundary; fresh graph materials/instances retained on restore."
+  },
+  "excluded_work": [
+    "sampling or cached contribution reblending",
+    "timeline/fade/key/event cursor changes",
+    "root displacement integration",
+    "selection or RNG",
+    "synthetic completion/final frame",
+    "GPU handles/views",
+    "single-clip SceneBinding history retention"
+  ],
+  "failure_semantics": "Capture preserves earlier snapshot. Restore stages identity-checked fresh binding/pose/world matrices and commits only after success.",
+  "scope": "Port development CPU recreation contract and ownership evidence. Existing source-tested dependency references are pinned; no new original source entry point, native Activity/GL execution or resource refcount/GPU body claim."
+}

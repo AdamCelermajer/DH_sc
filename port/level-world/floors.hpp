@@ -11,7 +11,10 @@ namespace dh2::floors {
 // Own all collision, octree, query and graph storage. Records have stable
 // addresses; neither APK assets nor original ABI service pointers are retained.
 struct Record {
- std::string name;unsigned room=0,geometry=0;
+ std::string name;std::string floor_type_tag;unsigned room=0,geometry=0;
+ // PFFloor+0x20 begins at 1 in PFRoom::_LoadFloor. Door::Opened/Closed
+ // toggles only bit 1 through PFWorld::FlagFloorAsDeadEnd.
+ std::uint32_t source_flags_20=1;
  selector::Matrix clone{};floor_source::Flags flags{};octree::Box local{},world{},bounds{};
  std::vector<collision::Triangle> triangles,retained,selected;
  std::vector<octree::Node> octants;std::vector<unsigned> indices,scratch,selected_ids;
@@ -38,8 +41,8 @@ struct World {
  navigation::Graph graph{};
  World()=default;World(const World&)=delete;World& operator=(const World&)=delete;
 };
-// Supports authored floor nodes with no floortypes override. Full
-// CStrProps decoding remains pending and explicitly rejects such overrides.
+// Parses `floortypes` from bounded source UserProperties. Other properties
+// are ignored; unrecognized floor tokens add no native type bits.
 bool append(const resources::BresView&,const scene::Scene&,const scene::Instance&,unsigned room,World&,std::string&);
 bool build_graph(World&,std::string&);
 bool post_load(World&,std::string&);
@@ -54,4 +57,11 @@ int find_path(World&,navigation::PathObject&,const float* target,unsigned limit,
 // graph/capability state; gameplay pursuit has not been attached to this API.
 void clear_route_cache(World&);
 bool height(const World&,const float* point,float&);
+// Returns the source `floortypes` tag of the first selected floor hit at this
+// world point. The returned string is owned by the retained floor record.
+const std::string* floor_type_at(const World&,const float* point) noexcept;
+// PFWorld::FlagFloorAsDeadEnd on the same selected Level floor record. A
+// point with no floor hit follows the source null-floor no-op path.
+bool flag_dead_end(World&,const float* point,bool dead_end,bool& hit,
+                   std::string& error);
 }

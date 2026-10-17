@@ -1,0 +1,200 @@
+{
+  "validation": "PASS",
+  "apk_path": "port/android-native/build/native-menu-crypt-r2/DH2-native-menu-crypt-2026-10-06.apk",
+  "apk_sha256": "1487a1e014eb3f78e9f75072b91ae7052250cf1401ee1fd576ad14790b787a6b",
+  "apk_bytes": 152827608,
+  "bundled_assets": 696,
+  "capture": {
+    "path": "port/android-native/build/native-menu-crypt-r2/DH2-native-menu-crypt-source-capture-2026-10-06.zip",
+    "sha256": "a520b6be610e91b4c182d646329530cb77815099d35139540f580614682e5e40",
+    "source_inputs": 1271,
+    "actual_compiler_inputs_per_ABI": {
+      "arm64-v8a": 1220,
+      "x86_64": 1220
+    },
+    "studio_parity_checked": false
+  },
+  "android_compile_ABIs": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "native_libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "a0843d41c8b73f81a5ffc3e4c0f9d6940eaf0b95485a9b59d566cbd27a3d6270",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_camera.so",
+      "sha256": "38f0decf9d679a370f034df340882ae366fa7cc4fec0387e49141746cd1c267f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "5c46b37a5d4bcfca9402233b1c52b7b04bcdb7a3c8d346914ea8ebcd592cd86d",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_inventory_text_v1.so",
+      "sha256": "c3f8d33059ae62a19489e51874efee514ea789033bb4cadd36befd909cc5cc1e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "a416cb1abd60a6bc7604684a8c48f8e8c39a02ce1ab1f6f6fbe8f0ca7b4d521f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "476752c2f404822bf0ebe429f3c7224e86b6b2e55322ddcb608fc75e42a5282a",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_camera.so",
+      "sha256": "106acfe3f7ddae0b2b89adda0024e8986ec412cefadac2f1026b76e026fb6a5b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "e1f44bd06a4944d216a8656c6b63b7cfd508eee72e6803aead078f49f0ba43d4",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_inventory_text_v1.so",
+      "sha256": "efff50ba140adaeb5c855a2f5456bc4aa3e89dabf0d5bfc52e391169912ce832",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "8d80c3f926e027d3a16ce5f892a155c19a994683142566b0405098b913bbc113",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_ui.so",
+      "sha256": "234bec4002b7f8749dc8863928684eccdb4cfc30a268c12f84af19bf534e9c4f",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_ui.so",
+      "sha256": "015d403ac4ca2e93dc50eb86fabfaa8091b6baa1a2ab887774af820de4da0fc0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "dc8a7c0388eae6f868dcc1f0bdf4d423442671848df78c607816913d6a9fd621",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "67ebef981a8d440235740d53c93c196476931806cba9f9ffa776b0d302df85ee",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "df87c8f57a97119b8f36384c359e1607247e9d86a013eb578b6daeed95589d3c",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "b79c1123d466f7df43ad37c91b7649fbcc0e346b48316866c37a7cc811b492b0",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "ae3d1c2562d8d3778a82bab31f501b6f80367511497cff2cb3ad1c16cb300821",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "5fcfca8b30f2ecfb5918401b4dfd9614f7f061930e6ca12059719e595b6ebde1",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "apk_16KiB_ZIP_alignment": true,
+  "APK_v2_signature_verified": true,
+  "live_runtime": {
+    "api": 37,
+    "page_size": 16384,
+    "abi": "x86_64",
+    "menu_classes": 3,
+    "creation_and_occupied_restart": true,
+    "original_HUD_properties": true,
+    "Back_and_Home_resume": true,
+    "player_death_pose_regression": true,
+    "player_skills_regression": true
+  },
+  "host_receipts": [
+    {
+      "path": "port/engine-ui/reports/menu-frontend-v69-selected-host.json",
+      "sha256": "cb31a3a8524a828f2ac027a4e49ef284ed3c406c3bc114db0d0ac53bde47ffb7",
+      "scope": "Actual selected frontend/text/data DSO gate with declared AS/service fixtures.\n\nNo candidate staging, original asset copying, ARM replay, APK or native live claim.\n"
+    },
+    {
+      "path": "port/game-data/reports/player-profile-create-v1-host-audit.json",
+      "sha256": "301c87da494aacf3e17f31684a4f61f092c577be5ca69615be3074c1dade70ba",
+      "scope": "NativeCreate two-string valid body, indexed metadata fields/SG_Load1 registration, full offline SG_Save order, seven metadata writer bodies and saveAll stream bytes. AS conversion, slot catalogue, real clocks/online/I/O/cache publication and destructor are explicit original leaves. Selected host uses actual native Transport with explicit new-file creation, flushed atomic file publication and distinct gameplay Save SG_Load1 readback; directory power-loss durability is not claimed. Full online save/volatile body, gameplay InitPost/property/VM/grants and registration remain external requirements."
+    },
+    {
+      "path": "port/level-world/reports/character-saved-class-v1-host-audit.json",
+      "sha256": "a25225a410b43fef245e704255246237537c243486cf60e4391982d24254a164",
+      "scope": "Whole source SafeGetCharPropsId valid table domains, source template lookup/RNG/cache and gameplay Save load/class writeback. Whole nonnull-Character PROP reader with real nested type/property getters and bounded failure prefixes. Same borrowed Save/property/profile/RNG controls; no metadata copy, new native slot/association, full InitPost, registration, VM/vitals or native gameplay startup claim."
+    },
+    {
+      "path": "port/level-world/reports/player-inventory-retained-lifetime-v1-freeze.json",
+      "sha256": "5b10a8b69d6371b2a6ab44cd54ff8703882b53e27094bd03463ad02acc4b3e7d",
+      "scope": "R10 source-cut replay after property class destination and canonical ordinary source-resolution fix. Eight actual selected world/game-data/shared-text gates; same four V4/saved-inventory production hashes and required fixture migrations remain frozen. No native SG4/InitPost, menu rendering, APK or live gameplay proof."
+    },
+    {
+      "path": "port/player-info-level/reports/player-local-selection-v1-selected-host.json",
+      "sha256": "dffbc1bb76e80b00421b42f699ce2b65ea4b2f997573149c767f687ed55176f9",
+      "scope": "Complete original _GetInternalIDByLocalID, GetLocalPlayer and AssignSaveSlotToPlayer callers execute, including the nested actual GetPlayerByInternalID body. Online/GameState/Matching.Get/IsInRoom/NetManager/initialized and _GetNetPlayerInfo callees are declared query fixtures. The compiled provider calls the existing actual selected host-level public selector over the sole canonical registry. No PlayerInfo construction, registration, Character creation, profile load or write is claimed. Mandatory borrowed SavegameManager and PlayerInfo fields preserve distinct roles and reached write prefixes. Native registration, controller lifecycle and full profile loading remain outside this host proof."
+    },
+    {
+      "path": "port/android-native/reports/player-profile-transport-v1-host.json",
+      "sha256": "69eafaa0d440cd3f37062820bab3d21d8d50693d22e2c3bddc41609ed930d8bb",
+      "scope": "Native I/O adapter + selected source Save index/mask1/class/PROP composition, distinct preview/gameplay owners, cached no-file fallback, strict missing/corrupt primary rejection, explicit unavailable gameplay providers. Does not establish source player registration, InitPost/mask2/mask4 completion or live gameplay."
+    },
+    {
+      "path": "port/level-world/reports/player-skill-property-class-scripts-v1-host.json",
+      "sha256": "c24f97b2706276128c2bea9502aa60fa79857fc56114c13e87501d6850bf87ee",
+      "scope": "Three actual Player property rows, genuine saved skill/faery constructors, same single Session/preparation/update/PropertyView/buff/Coordinator graph per Player; unchanged whole updates at saved level0 and original SetTempProps common helper at positive preview level2 across actual class rows, required Roundhouse failure prefix. Positive whole passive updates requiring target acquisition remain outside this fixture. No native activation, profile InitPost, animation/control, inventory or live gameplay completion claim."
+    },
+    {
+      "path": "port/android-native/reports/menu-class-bank-coverage.json",
+      "sha256": "cd5a360014b3b817fdb2703a564f670b45c579a8f624a65520ab12a7c30ce37f",
+      "scope": "Actual serialized37-field class tables and all reachable requested gameplay/stance/base roots against shared Knight PAB1 asset membership and byte hashes. Source constants count/mask used. Actual configured native graph includes each relevant TU once for both ABIs. No new Rogue/Mage original registration producer parity or live gameplay proof. Selected DSOs additionally execute actual class base/class recalc, cached property2, source-derived starting-loot projection,4 exact modules per preview/default body, original ordered Knight bank and84 class/stance root selections with1356 real pose samples. This is host composition; Android/live confirmation belongs to the separate root receipts."
+    }
+  ],
+  "physical_ARM64_tested": false,
+  "full_game_playable": false,
+  "goal_status": "active",
+  "upstream_Adam_commit": "791e961b12233100b303038c961666834f4beb9d",
+  "open": [
+    "Full source NativeStartGame/Application.LoadLevel",
+    "PlayerInfo registration and Character660 association",
+    "SG_Load2/4, InitPost, native inventory/text/Skin/grants",
+    "Menu preview weapons/complete original lighting",
+    "Potion/skill/inventory/quest HUD input",
+    "Campaign progression, full combat/rewards/loot and durable gameplay saves"
+  ]
+}

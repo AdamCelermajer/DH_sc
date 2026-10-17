@@ -40,6 +40,22 @@ void triggered(const animation::TriggeredEvent* input,void* context){
  const PlaybackEvent event{handoff,c.clip,c.timestamp,c.phase,0};
  if(c.observer.invoke)c.observer.invoke(c.observer.context,p,event);
 }
+struct CompletionContext {
+ Playback* playback;const data::AnimationTables* tables;data::AnimationRandom* random;
+ const ClipBank* bank;visual::SceneBinding* visual;scene::Scene* scene;
+ float speed;std::string* error;
+};
+}
+void Playback::scheduler_event(std::uint32_t id){
+ EventHandoff handoff{id,0,nullptr};
+ const auto phase=(id==0x24||id==0x26)?std::uint32_t(playback_selection_event):
+                  id==0x22?std::uint32_t(sequence_event):std::uint32_t(playback_animator_event);
+ if(id==0x22){
+  if(dh2_actor_sequence_close(&handoff,&sequence_closed)!=1)return;
+  handoff.payload=reinterpret_cast<const char*>(&sequence_closed);
+ }
+ const PlaybackEvent event{handoff,clip_id,root_timestamp,phase,0};
+ const auto callback=observer;if(callback.invoke)callback.invoke(callback.context,*this,event);
 }
 bool Playback::set_speed(float speed,std::string& error){
  if(!std::isfinite(speed)||speed<0){error="Animation global speed rejected";return false;}
@@ -57,6 +73,9 @@ bool Playback::apply_selection(const ClipBank& bank,visual::SceneBinding& visual
  if(previous!=mapped&&dh2_timeline_clip(&timeline,mapped,clip->second.start,clip->second.end)){
   error="Authored timeline clip rejected";return false;
  }
+ // CharAnimator::_SetAnimStep clears its finite-close byte after choosing a
+ // live controller clip. Keep the owner latch aligned when a sequence advances.
+ sequence_closed=0;
  clip_id=mapped;
  event_cursor={};const auto generation=++event_generation;
  const timeline::ReplayFacts facts{previous,mapped,completion.extra_ms,0,
@@ -76,9 +95,19 @@ bool Playback::start(const data::AnimationTables& tables,int sequence,data::Anim
   pending_sequence=sequence;pending_speed=speed;return true;
  }
  completion={};
- if(!scheduler.start(tables,sequence,random,error))return false;
  sequence_closed=0;pending_sequence=-1;
- return apply_selection(bank,visual,scene,speed,error);
+ CompletionContext context{this,&tables,&random,&bank,&visual,&scene,speed,&error};
+ const data::AnimationSelectionServices services{
+  &context,
+  [](void* raw,data::AnimationScheduler&,std::uint32_t id){
+   static_cast<CompletionContext*>(raw)->playback->scheduler_event(id);
+  },
+  [](void* raw,data::AnimationScheduler&){
+   auto& c=*static_cast<CompletionContext*>(raw);
+   return c.playback->apply_selection(*c.bank,*c.visual,*c.scene,c.speed,*c.error);
+  },nullptr
+ };
+ return scheduler.start_with_services(tables,sequence,random,error,services);
 }
 bool Playback::swap(const data::AnimationTables& tables,int desired,int old,data::AnimationRandom& random,
                     const ClipBank& bank,visual::SceneBinding& visual,scene::Scene& scene,
@@ -131,21 +160,39 @@ bool Playback::animator_phase(const data::AnimationTables& tables,data::Animatio
                               const ClipBank& bank,visual::SceneBinding& visual,scene::Scene& scene,
                               float speed,std::int32_t extra,std::string& error){
  if(!completion.pending)return set_speed(speed,error);
- completion.pending=0;completion.extra_ms=extra;++completions;
- if(!scheduler.complete(tables,random,error))return false;
- if(!scheduler.active()){
-  EventHandoff handoff{};
-  if(dh2_actor_sequence_close(&handoff,&sequence_closed)==1&&observer.invoke){
-   processing_completion=true;
-   const PlaybackEvent event{handoff,clip_id,root_timestamp,sequence_event,0};
-   try{const auto callback=observer;callback.invoke(callback.context,*this,event);}
-   catch(...){processing_completion=false;throw;}
-   processing_completion=false;
-  }
-  if(pending_sequence!=-1){const auto sequence=pending_sequence;const auto selected_speed=pending_speed;pending_sequence=-1;return start(tables,sequence,random,bank,visual,scene,selected_speed,error);}
-  return true;
- }
- return apply_selection(bank,visual,scene,speed,error);
+ completion.extra_ms=extra;++completions;
+ CompletionContext context{this,&tables,&random,&bank,&visual,&scene,speed,&error};
+ const data::AnimationSelectionServices selection{
+  &context,
+  [](void* raw,data::AnimationScheduler&,std::uint32_t id){
+   static_cast<CompletionContext*>(raw)->playback->scheduler_event(id);
+  },
+  [](void* raw,data::AnimationScheduler&){
+   auto& c=*static_cast<CompletionContext*>(raw);
+   return c.playback->apply_selection(*c.bank,*c.visual,*c.scene,c.speed,*c.error);
+  },nullptr
+ };
+ const data::AnimationCompletionServices services{
+  &context,selection.event,
+  [](void* raw){return static_cast<CompletionContext*>(raw)->playback->pending_sequence!=-1;},
+  selection.prepare,
+  [](void* raw,data::AnimationScheduler&){
+   auto& c=*static_cast<CompletionContext*>(raw);auto& p=*c.playback;
+   p.completion.pending=0;
+   if(p.pending_sequence==-1)return true;
+   const auto sequence=p.pending_sequence;const auto selected_speed=p.pending_speed;
+   p.pending_sequence=-1;
+   const bool was_processing=p.processing_completion;p.processing_completion=false;
+   const bool success=p.start(*c.tables,sequence,*c.random,*c.bank,*c.visual,
+                              *c.scene,selected_speed,*c.error);
+   p.processing_completion=was_processing;return success;
+  },nullptr,&selection
+ };
+ const bool was_processing=processing_completion;processing_completion=true;
+ bool success=false;
+ try{success=scheduler.complete_with_services(tables,random,error,services);}
+ catch(...){processing_completion=was_processing;throw;}
+ processing_completion=was_processing;return success;
 }
 }
 #endif

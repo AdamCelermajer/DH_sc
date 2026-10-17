@@ -20,12 +20,6 @@ struct FindRequest {
  RouteResult* result;RouteWorkspace* workspace;
  float target[3];std::uint32_t limit,pathfinding_enabled,reserved;
 };
-struct FindSourceServicesV1 {
- void* context{};
- // Source Debug/profile/module delivery AFTER DropPath and target store.
- // 0 delivered with actual module word0/1; nonzero reached required failure.
- int(*search_enabled)(void*,std::uint32_t*){};
-};
 struct MoveResult {std::uint32_t active,past;float target[3];std::uint32_t reserved;};
 static_assert(sizeof(LineIntersection)==24&&sizeof(PathSegment)==48&&sizeof(PathObject)==96&&sizeof(FindRequest)==64&&sizeof(MoveResult)==24);
 }
@@ -44,7 +38,4 @@ int dh2_nav_move_path(dh2::navigation::MoveResult*,dh2::navigation::PathObject*,
 // requires capacity for node_count+1 segments/edge IDs before dropping old path.
 // Returns 0 completed (result.found is original bool), 1 malformed, 2 capacity.
 int dh2_nav_find_path(const dh2::navigation::FindRequest*);
-// Additive source-live policy boundary; historical FindRequest behavior stays.
-// Returns3 on a reached policy failure, preserving DropPath/target prefix.
-int dh2_nav_find_path_source_v1(const dh2::navigation::FindRequest*,const dh2::navigation::FindSourceServicesV1*);
 }

@@ -1,0 +1,185 @@
+{
+  "validation": "PASS",
+  "scope": "Selected original saved-skill/check/property integration, Android compilation/packaging, live inner checks/cooldown/recreation and existing Crypt ambush foundations. Full game and source Ghost pursuit remain unfinished.",
+  "base_commit": "16174376623212998a5a11bbc490fe1622aab4d2",
+  "apk": {
+    "local_path": "port/android-native/build/native-player-skill-checks-2026-10-05/crypt-native-player-skill-checks.apk",
+    "sha256": "8fad77165f2c0a254794991c3300149fe5a4b02a250d4d053bc49b6c332b05b2",
+    "bytes": 28531136,
+    "released": false
+  },
+  "reused": [
+    "Adam PlayerSavegame saved-field owner/current-skill research",
+    "Adam callback choreography adapted to selected original callers and full-return same-VM protocol"
+  ],
+  "live": {
+    "API": 37,
+    "page_size": 16384,
+    "abi": "x86_64",
+    "saved_rows": 16,
+    "fresh_levels": 0,
+    "completed_Knight_updates": 8,
+    "next_required_provider": "GetCurrentSpellInfo",
+    "checks": "Bashdown [true,false], passive [false,true]; all source results collected once per call",
+    "cooldown_expiry_rearm_reload_rotation": "PASS",
+    "Crypt_touch_ambush_spawn_recreation": "PASS"
+  },
+  "compilation": [
+    "arm64-v8a",
+    "x86_64"
+  ],
+  "compiler_inputs": 548,
+  "git_source_review": {
+    "verified_compiler_inputs": 548,
+    "line_ending_conversion_only": 311,
+    "comparison": "Git index equals frozen compiler inputs byte-for-byte or after CRLF/LF normalization. Raw captured hashes refer to tested workspace bytes; this is not clean-checkout reproducibility evidence.",
+    "next_milestone_drafts_selected": false
+  },
+  "limits": [
+    "Fresh _InitSkills rows only; source starter grants and full profile lifecycle pending",
+    "Full Player AIS load-phase publication, CSSkill/input/animation activation pending",
+    "Faery spell info, buffs, target-list, UseMana and SkillCombatRoll providers pending",
+    "Source Ghost acquisition/pursuit fails the stronger optional gate; existing Crypt foundation gate passes",
+    "Inventory/UI/powered loot delivery remain disconnected; no complete-game or physical ARM64 gameplay claim"
+  ],
+  "host_context_snapshot_drift": [
+    {
+      "receipt": "selected-use",
+      "path": "port/level-world/character_skill_fsm_callbacks_v1.hpp",
+      "recorded_sha256": "d4f8d47d38a4edf1beea1c87a4803c93e6c27a9a27ed4702ed34dba7179581a8",
+      "current_sha256": "8aa4cac14b16bf539d35a960286b1d4685e48f1072e332e281ef1d953da84401",
+      "reason": "Unselected next-milestone header included by broad directory snapshot; absent from selected build and Android compiler dependencies."
+    },
+    {
+      "receipt": "selected-dispatch",
+      "path": "port/level-world/character_skill_fsm_callbacks_v1.hpp",
+      "recorded_sha256": "d4f8d47d38a4edf1beea1c87a4803c93e6c27a9a27ed4702ed34dba7179581a8",
+      "current_sha256": "8aa4cac14b16bf539d35a960286b1d4685e48f1072e332e281ef1d953da84401",
+      "reason": "Unselected next-milestone header included by broad directory snapshot; absent from selected build and Android compiler dependencies."
+    },
+    {
+      "receipt": "selected-dispatch",
+      "path": "port/level-world/reference/character-ai-skill-dispatch-v1/NOTES.md",
+      "recorded_sha256": "65bee13ed0a2dd0128c548ba29da2dd963f927b52a3128ea4c7318c0650380d6",
+      "current_sha256": "81cacc92250be4771a4ace6c62967be9184496e1ba14ffa90731c0e019449f58",
+      "reason": "Post-test metadata correction: original classification is IsMonster; Blur starts timer slot10. Production/test/manifest bytes remain frozen."
+    }
+  ],
+  "receipts": [
+    {
+      "path": "host/lua-full-returns.json",
+      "bytes": 30357,
+      "sha256": "f8819d1f588b5f91c3f5698f2e97d7bda7ad0994bad95de3b1862615062a4594"
+    },
+    {
+      "path": "host/selected-update-save-properties.json",
+      "bytes": 70930,
+      "sha256": "7605623a0ca836d0aa7e1c32d0c7042cd12844f70fc6d3936bdffd93d3a7560d"
+    },
+    {
+      "path": "host/selected-use.json",
+      "bytes": 486035,
+      "sha256": "0331600986a04220bca5ec807f3d4f74cf177b5582a5f0056635a3e77b6ebb4a"
+    },
+    {
+      "path": "host/selected-dispatch.json",
+      "bytes": 613377,
+      "sha256": "3cd3f1d899184aef9b561f05d9d7cb74682213bd438feedbaf56e21937673765"
+    },
+    {
+      "path": "host/saved-original-replay.json",
+      "bytes": 3005,
+      "sha256": "c8fa3fc0f82649d6307e3a32782c4284707fb65a60a5028842c42788615a851b"
+    },
+    {
+      "path": "host/property-source-pins.json",
+      "bytes": 12681,
+      "sha256": "7510fff821ca1ab942ada32573b567afddcb574ef0d5d3a8783bd3b621748071"
+    },
+    {
+      "path": "android-review.json",
+      "bytes": 8976,
+      "sha256": "c72d6965118fd9334e94b58b684b917818dc81aa09e70f7a7d364d6e52aba3ce"
+    },
+    {
+      "path": "compiler-inputs.json",
+      "bytes": 297392,
+      "sha256": "670fb764989b218cd2d3b496d5a9d83bf8b588f8bdaebba50494bbc5d260c538"
+    },
+    {
+      "path": "pre-build.json",
+      "bytes": 646315,
+      "sha256": "0eec933810eaa7c2afe2ee36ebf34aea13bbe31b3a0227041349767e33eacc20"
+    },
+    {
+      "path": "gradle-build.log",
+      "bytes": 11846,
+      "sha256": "740f5ed121a5c8bbecac4f1acfcb012a70ff00a3c72fe470468ef154b8a92e3b"
+    },
+    {
+      "path": "player-live/adb-transcript.json",
+      "bytes": 24560,
+      "sha256": "ce6dc09b8a35e2ff7c374547dbec433d7723476a1a4573157c7e3e75f69fe012"
+    },
+    {
+      "path": "player-live/player-skills-initial.png",
+      "bytes": 1605290,
+      "sha256": "4787a4136683fb66c350713b952664dab289a9985ff2436e810b316b871251dd"
+    },
+    {
+      "path": "player-live/player-skills-restored.png",
+      "bytes": 1376792,
+      "sha256": "0f0074aeab9b0616fd605a98a749f7e9065528fe3c874ac8adf9d0b568fb5b05"
+    },
+    {
+      "path": "player-live/player-skills-smoke.json",
+      "bytes": 6675,
+      "sha256": "1047c1a00c0f4d02cd2033389939d7070285c79d3aa1220103586fd44138ef06"
+    },
+    {
+      "path": "player-live/player-skills.log",
+      "bytes": 179617,
+      "sha256": "9801808a5e37d683a63f8c820df569eb23808a5ef7da94bba46d586d409c0ddd"
+    },
+    {
+      "path": "crypt-regression/adb-transcript.json",
+      "bytes": 36542,
+      "sha256": "2863edbaaf488e933bc02e70ef5852da2911e0c365942b463e1e946117ca086e"
+    },
+    {
+      "path": "crypt-regression/authored-ambush-restored.png",
+      "bytes": 1566889,
+      "sha256": "c9a58e522bf9c85ca5b949905cfd8bffd943f9f8c73abe7499802d43b2eb67bf"
+    },
+    {
+      "path": "crypt-regression/bundled-start.log",
+      "bytes": 54796,
+      "sha256": "49fe72a22e6adb0f67ebcb3f4fecbd6028de18d385e428635232e1e8a8d5c4b3"
+    },
+    {
+      "path": "crypt-regression/crypt-script-smoke.json",
+      "bytes": 14030,
+      "sha256": "ce224a1a38f1adbc4962743eb9002e9dcc5421853260da35af9b95809be3cf01"
+    },
+    {
+      "path": "crypt-regression/crypt-script.log",
+      "bytes": 375469,
+      "sha256": "74b0749e7e8c8a970460eb8077d2923f4e5e5be108adcf246abe70d40cfbaa53"
+    },
+    {
+      "path": "crypt-regression/outside-authored-trigger.png",
+      "bytes": 1724642,
+      "sha256": "dfd3102bfde7cb3bbcff13b5396db62fb3f2abc28014a8336afd1287a5fda4fa"
+    },
+    {
+      "path": "crypt-regression/source-ghost-pair-idle.png",
+      "bytes": 1994837,
+      "sha256": "9c99ce2a02ae2a803a91808aabb36513dea0ed657703b9d7daafa977bda7d08f"
+    },
+    {
+      "path": "disconnected-ghost-pursuit.json",
+      "bytes": 6149,
+      "sha256": "c71d012685d8f45eab83a8e92b07202305899873c45370259fa519a9890e41c8"
+    }
+  ]
+}

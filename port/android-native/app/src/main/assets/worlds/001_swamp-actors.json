@@ -1,0 +1,486 @@
+{
+  "source_layout": "data/scene/001_swamp.mlx",
+  "selected_characters": 5,
+  "source_character_records": 50,
+  "selection": "direct Monster; no activation/deactivation condition; auto_spawn != 0; initial ai_state absent or Idle",
+  "actors": [
+    {
+      "kind": 1,
+      "room": 2,
+      "name": "_prim_Monster_53_03_001",
+      "character": "Troll",
+      "model": "troll_swamp.bdae",
+      "model_path": "data/3d/characters/troll/troll_swamp.bdae",
+      "animation_table": 73,
+      "position": [
+        -4415.77,
+        6167.458,
+        256.625
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -20.6059
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/swamp/mgp/obj_1of4_brdwalk_nse_00.mgp",
+      "source_record": 1
+    },
+    {
+      "kind": 1,
+      "room": 3,
+      "name": "_prim_Monster_04_324",
+      "character": "Swamp_LizadMan_Type2",
+      "model": "lizardman_big.bdae",
+      "model_path": "data/3d/characters/lizardman/lizardman_big.bdae",
+      "animation_table": 7,
+      "position": [
+        -5217.339,
+        13038.71,
+        250.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        0.493263
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_record": 1
+    },
+    {
+      "kind": 1,
+      "room": 3,
+      "name": "_prim_Monster_08_329",
+      "character": "Swamp_LizadMan_Type1",
+      "model": "lizardman.bdae",
+      "model_path": "data/3d/characters/lizardman/lizardman.bdae",
+      "animation_table": 34,
+      "position": [
+        -6549.638,
+        11309.504,
+        378.909
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -94.0681
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/swamp/mgp/corner_ruin_ws_00.mgp",
+      "source_record": 3
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster_3_276",
+      "character": "Troll",
+      "model": "troll_swamp.bdae",
+      "model_path": "data/3d/characters/troll/troll_swamp.bdae",
+      "animation_table": 73,
+      "position": [
+        -12375.08,
+        17059.977,
+        250.0
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        141.44
+      ],
+      "scale": [
+        1.0,
+        1.0,
+        1.0
+      ],
+      "source_mgp": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_record": 0
+    },
+    {
+      "kind": 1,
+      "room": 5,
+      "name": "_prim_Monster_3",
+      "character": "Swamp_LizadMan_Type2",
+      "model": "lizardman_big.bdae",
+      "model_path": "data/3d/characters/lizardman/lizardman_big.bdae",
+      "animation_table": 7,
+      "position": [
+        -9421.27,
+        17976.1758,
+        262.853
+      ],
+      "rotation_degrees": [
+        0.0,
+        0.0,
+        -103.184
+      ],
+      "scale": [
+        1.5,
+        1.5,
+        1.5
+      ],
+      "source_mgp": "data/3d/modules/swamp/mgp/corner_brdwalk_se_00.mgp",
+      "source_record": 2
+    }
+  ],
+  "animation_states": [
+    {
+      "table": 7,
+      "character": "BigLizardMan",
+      "state": "Idle",
+      "sequence": 87
+    },
+    {
+      "table": 7,
+      "character": "BigLizardMan",
+      "state": "Walk",
+      "sequence": 93
+    },
+    {
+      "table": 7,
+      "character": "BigLizardMan",
+      "state": "Attack",
+      "sequence": 81
+    },
+    {
+      "table": 7,
+      "character": "BigLizardMan",
+      "state": "Died",
+      "sequence": 85
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Idle",
+      "sequence": 376
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Walk",
+      "sequence": 383
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Attack",
+      "sequence": 370
+    },
+    {
+      "table": 34,
+      "character": "LizardMan",
+      "state": "Died",
+      "sequence": 374
+    },
+    {
+      "table": 73,
+      "character": "Troll",
+      "state": "Idle",
+      "sequence": 713
+    },
+    {
+      "table": 73,
+      "character": "Troll",
+      "state": "Walk",
+      "sequence": 720
+    },
+    {
+      "table": 73,
+      "character": "Troll",
+      "state": "Attack",
+      "sequence": 707
+    },
+    {
+      "table": 73,
+      "character": "Troll",
+      "state": "Died",
+      "sequence": 711
+    }
+  ],
+  "clip_ids": [
+    23,
+    24,
+    26,
+    32,
+    33,
+    34,
+    36,
+    37,
+    43,
+    806,
+    811,
+    817,
+    818,
+    822,
+    832,
+    1357,
+    1358,
+    1359,
+    1363,
+    1370,
+    1371,
+    1372,
+    1373,
+    1375,
+    1376,
+    1377,
+    1383
+  ],
+  "dact": {
+    "bytes": 1296,
+    "sha256": "0cc5a7c69f45c2c795a1b47bff2a0111601782fc06b2026c1b51a456ee0b1eb3"
+  },
+  "assets": [
+    {
+      "asset": "actors/big_lizardman_attack_01.bdae",
+      "bytes": 8468,
+      "sha256": "363a7eb8810e1ab722623ae06ee44b785692dac1a1ef18b581030d0b20f36262",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_attack_01.bdae",
+      "source_file": "big_lizardman_attack_01.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_attack_02.bdae",
+      "bytes": 8784,
+      "sha256": "b7b4f013b6d80085938382be720ab048ce372a486361ef26e0d230d898645720",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_attack_02.bdae",
+      "source_file": "big_lizardman_attack_02.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_dying_01.bdae",
+      "bytes": 16376,
+      "sha256": "efe4b4ee53cd971dde2392078d7ff0e9db5ca83722f029c6cd6caacef070278f",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_dying_01.bdae",
+      "source_file": "big_lizardman_dying_01.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_idle_01.bdae",
+      "bytes": 35064,
+      "sha256": "4e0ff63a7bfaa187b02381660869409f7a9406ca2eabe6dba6f73a9479387e81",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_idle_01.bdae",
+      "source_file": "big_lizardman_idle_01.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_post_attack_01.bdae",
+      "bytes": 9548,
+      "sha256": "164d6f7f202cff4c377767d1ded21aad2e1ba7cefdf44992cfb01e802a7a3d89",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_post_attack_01.bdae",
+      "source_file": "big_lizardman_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_post_attack_02.bdae",
+      "bytes": 8880,
+      "sha256": "cb777adca9ccb2d63c834aa95b05f3d12ff4cfb5e751b7904a106ad12fa55e47",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_post_attack_02.bdae",
+      "source_file": "big_lizardman_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_pre_attack_01.bdae",
+      "bytes": 8280,
+      "sha256": "370385103ad1c1714c5ceb7f260cc7934c5f38cd3674147eda6194abd3a57ab7",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_pre_attack_01.bdae",
+      "source_file": "big_lizardman_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_pre_attack_02.bdae",
+      "bytes": 8848,
+      "sha256": "52ca9c638e27c4d1e46ea1b3c528657907945f824b20e5d9a3b5d52aa9c59e5e",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_pre_attack_02.bdae",
+      "source_file": "big_lizardman_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/big_lizardman_walk_01.bdae",
+      "bytes": 12624,
+      "sha256": "0dc81dd2dabc3fa0b6a25eb3456489442ad3a4736b87f57932a985812b35aa16",
+      "source": "data/3d/characters/lizardman/animations/big_lizardman_walk_01.bdae",
+      "source_file": "big_lizardman_walk_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman.bdae",
+      "bytes": 68540,
+      "sha256": "acd6ff9ce6f2bad967cbdd8f015536304980443333fb3b7f8c735a450911acde",
+      "source": "data/3d/characters/lizardman/lizardman.bdae",
+      "source_file": "lizardman.bdae"
+    },
+    {
+      "asset": "actors/lizardman_attack_01.bdae",
+      "bytes": 11520,
+      "sha256": "6013cf3fc40bedebd08bf1315ecdd78a0899acb04ea85af3157f6b7a27c23993",
+      "source": "data/3d/characters/lizardman/animations/lizardman_attack_01.bdae",
+      "source_file": "lizardman_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_big.bdae",
+      "bytes": 71668,
+      "sha256": "e107edc11ae1aa0d69dbbee19153dd4b5ae3925d9a0850eac3f3478f40804e7b",
+      "source": "data/3d/characters/lizardman/lizardman_big.bdae",
+      "source_file": "lizardman_big.bdae"
+    },
+    {
+      "asset": "actors/lizardman_dying_01.bdae",
+      "bytes": 12292,
+      "sha256": "d71cde5d2ce5e18bde7c3d5542c63016ccc2c9900d22f48e6ce048ffd06ea8a8",
+      "source": "data/3d/characters/lizardman/animations/lizardman_dying_01.bdae",
+      "source_file": "lizardman_dying_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_idle_01.bdae",
+      "bytes": 35556,
+      "sha256": "c9c64c805495459da201947f19eb4dbae598e1f8843d0054f8c09dbec5b407f6",
+      "source": "data/3d/characters/lizardman/animations/lizardman_idle_01.bdae",
+      "source_file": "lizardman_idle_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_post_attack_01.bdae",
+      "bytes": 8076,
+      "sha256": "7842a020af319c8d678153b1241322c652c1feb97be4c546bd61629a89f6a863",
+      "source": "data/3d/characters/lizardman/animations/lizardman_post_attack_01.bdae",
+      "source_file": "lizardman_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_pre_attack_01.bdae",
+      "bytes": 6696,
+      "sha256": "25b0cd37c2156298affcd337036ed987a60737b0de5b6a2e5cde1b3d0e9e61b1",
+      "source": "data/3d/characters/lizardman/animations/lizardman_pre_attack_01.bdae",
+      "source_file": "lizardman_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/lizardman_walk_01.bdae",
+      "bytes": 13536,
+      "sha256": "8d687c16a9424285f495aba63ee623af2d37b1c0d8629e9cc7cd22373528b896",
+      "source": "data/3d/characters/lizardman/animations/lizardman_walk_01.bdae",
+      "source_file": "lizardman_walk_01.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp.bdae",
+      "bytes": 70344,
+      "sha256": "fd5d995cc2ff52d21d87b2f28fd1cb10f054e4206db6811bf019502430091a98",
+      "source": "data/3d/characters/troll/troll_swamp.bdae",
+      "source_file": "troll_swamp.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_attack_01.bdae",
+      "bytes": 9048,
+      "sha256": "d1345421b868849cc4498b2617c03c8ec4d53de73e70ff7378df7ef9cc472687",
+      "source": "data/3d/characters/troll/animations/troll_swamp_attack_01.bdae",
+      "source_file": "troll_swamp_attack_01.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_attack_02.bdae",
+      "bytes": 8564,
+      "sha256": "54b0d19d01d127cf3f9a815212e04f57f92e5a68583cec65826b86dba0a50dce",
+      "source": "data/3d/characters/troll/animations/troll_swamp_attack_02.bdae",
+      "source_file": "troll_swamp_attack_02.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_attack_03.bdae",
+      "bytes": 7908,
+      "sha256": "44afc27fd8d02531295e1a533e974e890d7ae91137c60a65c4254a18b4758c96",
+      "source": "data/3d/characters/troll/animations/troll_swamp_attack_03.bdae",
+      "source_file": "troll_swamp_attack_03.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_dying.bdae",
+      "bytes": 16676,
+      "sha256": "80b16a1ae23980871e6395e70148e22699cae4a82e6c5668eb168e16a25b440f",
+      "source": "data/3d/characters/troll/animations/troll_swamp_dying.bdae",
+      "source_file": "troll_swamp_dying.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_idle.bdae",
+      "bytes": 15676,
+      "sha256": "aeb1e742afb36365b853a26154fbc9b778e0a30a95b1a452083db13db2e732ae",
+      "source": "data/3d/characters/troll/animations/troll_swamp_idle.bdae",
+      "source_file": "troll_swamp_idle.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_post_attack_01.bdae",
+      "bytes": 8500,
+      "sha256": "0cf117e758f3718f7bcf4d1374ffc2223fab0ec60fe4adcd58efe627e454d93b",
+      "source": "data/3d/characters/troll/animations/troll_swamp_post_attack_01.bdae",
+      "source_file": "troll_swamp_post_attack_01.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_post_attack_02.bdae",
+      "bytes": 9184,
+      "sha256": "49400018d974eb23e5fee6b8e19d9335d9249489a54804f3ee047c557cfe48aa",
+      "source": "data/3d/characters/troll/animations/troll_swamp_post_attack_02.bdae",
+      "source_file": "troll_swamp_post_attack_02.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_post_attack_03.bdae",
+      "bytes": 9720,
+      "sha256": "3bcda01f87f63c749108c8a2e44b0e99362c57455386043c0eed7709eb28cee1",
+      "source": "data/3d/characters/troll/animations/troll_swamp_post_attack_03.bdae",
+      "source_file": "troll_swamp_post_attack_03.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_pre_attack_01.bdae",
+      "bytes": 8164,
+      "sha256": "5fa8a2884d03ab9af4a568fd7e717cc47b49fa6f6ce397958b6f53c5e5275e97",
+      "source": "data/3d/characters/troll/animations/troll_swamp_pre_attack_01.bdae",
+      "source_file": "troll_swamp_pre_attack_01.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_pre_attack_02.bdae",
+      "bytes": 7928,
+      "sha256": "cd451b064e475a04009404f6ff804649354ae69ce93b39563d547db3c6d7c003",
+      "source": "data/3d/characters/troll/animations/troll_swamp_pre_attack_02.bdae",
+      "source_file": "troll_swamp_pre_attack_02.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_pre_attack_03.bdae",
+      "bytes": 7896,
+      "sha256": "f74bb845165e6234e43a88b0e7019484cdaa6340b49a3b611aea51f46ef0a2a2",
+      "source": "data/3d/characters/troll/animations/troll_swamp_pre_attack_03.bdae",
+      "source_file": "troll_swamp_pre_attack_03.bdae"
+    },
+    {
+      "asset": "actors/troll_swamp_walk.bdae",
+      "bytes": 11808,
+      "sha256": "2ccbad1d1de5b5c994475a7761b981791f58e8bd9e7699bee898df8a282fedcb",
+      "source": "data/3d/characters/troll/animations/troll_swamp_walk.bdae",
+      "source_file": "troll_swamp_walk.bdae"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001.tga",
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001.tga",
+      "source_file": "atlas_dh2_game_objects_001.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_alpha.tga",
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_alpha.tga",
+      "source_file": "atlas_dh2_game_objects_001_alpha.tga"
+    },
+    {
+      "asset": "textures/atlas_dh2_game_objects_001_specular.tga",
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398",
+      "source": "data/3d/textures/atlas_dh2_game_objects_001_specular.tga",
+      "source_file": "atlas_dh2_game_objects_001_specular.tga"
+    },
+    {
+      "asset": "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83",
+      "source": "data/3d/textures/atlas_skinned_characters_animdecor_gameobjects_001.tga",
+      "source_file": "atlas_skinned_characters_animdecor_gameobjects_001.tga"
+    }
+  ],
+  "runtime_gaps": "Module rotation/scale, conditional/template/NPC/container factories, source AI activation and LevelSavegame are not implied."
+}

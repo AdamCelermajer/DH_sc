@@ -1,0 +1,150 @@
+{
+  "validation": "PASS",
+  "scope": "Actual packaged 64-bit ABIs, selected source graph, raw frozen compiler inputs, exports and APK packaging. Live gameplay is a separate receipt; full skill activation/profile/faery/combat remain open.",
+  "apk": {
+    "sha256": "8fad77165f2c0a254794991c3300149fe5a4b02a250d4d053bc49b6c332b05b2",
+    "bytes": 28531136
+  },
+  "capture": {
+    "sha256": "26c1de1f607882a1549703f1302e0a8195a446fd41d8084c92e13b03d61d4696",
+    "compiler_inputs": 548,
+    "all_match_source_freeze_and_current": true
+  },
+  "per_abi_compilation": {
+    "arm64-v8a": {
+      "selected_required_sources": [
+        "port/adam-script-runtime/script_runtime.c",
+        "port/android-native/app/src/main/cpp/native_player_skills.cpp",
+        "port/game-data/player_savegame_v1.cpp",
+        "port/level-world/character_ai_skill_dispatch_v1.cpp",
+        "port/level-world/character_ai_skill_script_check.cpp",
+        "port/level-world/player_skill_property_services_v1.cpp",
+        "port/level-world/player_skill_session_v1.cpp",
+        "port/level-world/player_skill_update_session_v1.cpp",
+        "port/level-world/player_skill_use_session_v1.cpp",
+        "port/level-world/script_value_boolean_lua.cpp"
+      ],
+      "compile_commands": 260,
+      "single_selection": true
+    },
+    "x86_64": {
+      "selected_required_sources": [
+        "port/adam-script-runtime/script_runtime.c",
+        "port/android-native/app/src/main/cpp/native_player_skills.cpp",
+        "port/game-data/player_savegame_v1.cpp",
+        "port/level-world/character_ai_skill_dispatch_v1.cpp",
+        "port/level-world/character_ai_skill_script_check.cpp",
+        "port/level-world/player_skill_property_services_v1.cpp",
+        "port/level-world/player_skill_session_v1.cpp",
+        "port/level-world/player_skill_update_session_v1.cpp",
+        "port/level-world/player_skill_use_session_v1.cpp",
+        "port/level-world/script_value_boolean_lua.cpp"
+      ],
+      "compile_commands": 260,
+      "single_selection": true
+    }
+  },
+  "packaged_exports": {
+    "arm64-v8a": {
+      "libdh2_game_data.so": {
+        "sha256": "744c64e9731c990990e3ff803f1b7d71dbcffaf13cf4669491a2c3c3374f6bdd",
+        "matched_exports": {
+          "dh2::data::PlayerSavegameV1::initialize_skills(": [
+            "00000000000baf04 T dh2::data::PlayerSavegameV1::initialize_skills(dh2::data::SkillTables const&, int, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+          ],
+          "dh2::player_saved_skill_callbacks_v1::get_current_skill_info(": [
+            "00000000000bd930 T dh2::player_saved_skill_callbacks_v1::get_current_skill_info(dh2::data::PropertyView const*, dh2::data::SkillTables const*, dh2::data::PlayerSavegameV1 const*, unsigned long, int)"
+          ]
+        }
+      },
+      "libdh2_level_world.so": {
+        "sha256": "6e90bfdb49f1e8dd4c666d948696e3da17f05f96d277814cc8e3d7e3c8e2be67",
+        "matched_exports": {
+          "dh2::player_skill_session_v1::Session::call_all(": [
+            "000000000018363c T dh2::player_skill_session_v1::Session::call_all(char const*, dh2_script_value const*, unsigned int, int (*)(void*, dh2_script_first_return_v1 const*, unsigned int, char*, unsigned long), void*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+          ],
+          "dh2::player_skill_use_session_v1::Runtime::check(": [
+            "0000000000190ec8 T dh2::player_skill_use_session_v1::Runtime::check(dh2::character_ai_set_skills_and_spells::List, unsigned int, dh2::character_ai_skill_script_check::Check, dh2::player_skill_use_session_v1::Result&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+          ],
+          "dh2::player_skill_property_services_v1::invoke(": [
+            "00000000001989b4 T dh2::player_skill_property_services_v1::invoke(dh2::player_skill_property_services_v1::Bindings*, unsigned long, dh2::character_native_bindings::Function, dh2_script_value const*, unsigned int, dh2_script_value*, unsigned int, unsigned int*, char*, unsigned long)"
+          ],
+          "dh2::character_ai_skill_dispatch_v1::execute(": [
+            "000000000019a7a4 T dh2::character_ai_skill_dispatch_v1::execute(dh2::character_ai_skill_dispatch_v1::State*, dh2::character_ai_skill_dispatch_v1::Operation, unsigned int, dh2::character_ai_skill_dispatch_v1::Services const*, dh2::character_ai_skill_dispatch_v1::Result*)"
+          ]
+        }
+      },
+      "libdh2_script_runtime.so": {
+        "sha256": "99440344bba61917c21cad0be9af514bb153fee675c5151af55843840cf27a7a",
+        "matched_exports": {
+          "dh2_script_vm_call_all_source_v1": [
+            "0000000000035910 T dh2_script_vm_call_all_source_v1"
+          ]
+        }
+      },
+      "libdh2_native.so": {
+        "sha256": "045d6aa7a71a956bd16c6fbbb87b55be192e60df1d31f749731981ad4af903fb",
+        "matched_exports": {
+          "dh2::native::player_skills::Runtime::check_probe(": [
+            "0000000000175c24 T dh2::native::player_skills::Runtime::check_probe(unsigned int)"
+          ]
+        }
+      }
+    },
+    "x86_64": {
+      "libdh2_game_data.so": {
+        "sha256": "b0f1f78e68a6045b91360cc1ba88ba2bca3724fbe3213e91227120771ad3a0b0",
+        "matched_exports": {
+          "dh2::data::PlayerSavegameV1::initialize_skills(": [
+            "00000000000af6b0 T dh2::data::PlayerSavegameV1::initialize_skills(dh2::data::SkillTables const&, int, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+          ],
+          "dh2::player_saved_skill_callbacks_v1::get_current_skill_info(": [
+            "00000000000b1d30 T dh2::player_saved_skill_callbacks_v1::get_current_skill_info(dh2::data::PropertyView const*, dh2::data::SkillTables const*, dh2::data::PlayerSavegameV1 const*, unsigned long, int)"
+          ]
+        }
+      },
+      "libdh2_level_world.so": {
+        "sha256": "e376aad907f47803a1ba527f7d29584819a3e01e69e3db1d4cd87ecacf34bb11",
+        "matched_exports": {
+          "dh2::player_skill_session_v1::Session::call_all(": [
+            "000000000016e4f0 T dh2::player_skill_session_v1::Session::call_all(char const*, dh2_script_value const*, unsigned int, int (*)(void*, dh2_script_first_return_v1 const*, unsigned int, char*, unsigned long), void*, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+          ],
+          "dh2::player_skill_use_session_v1::Runtime::check(": [
+            "000000000017b4f0 T dh2::player_skill_use_session_v1::Runtime::check(dh2::character_ai_set_skills_and_spells::List, unsigned int, dh2::character_ai_skill_script_check::Check, dh2::player_skill_use_session_v1::Result&, std::__ndk1::basic_string<char, std::__ndk1::char_traits<char>, std::__ndk1::allocator<char>>&)"
+          ],
+          "dh2::player_skill_property_services_v1::invoke(": [
+            "0000000000182ad0 T dh2::player_skill_property_services_v1::invoke(dh2::player_skill_property_services_v1::Bindings*, unsigned long, dh2::character_native_bindings::Function, dh2_script_value const*, unsigned int, dh2_script_value*, unsigned int, unsigned int*, char*, unsigned long)"
+          ],
+          "dh2::character_ai_skill_dispatch_v1::execute(": [
+            "00000000001845d0 T dh2::character_ai_skill_dispatch_v1::execute(dh2::character_ai_skill_dispatch_v1::State*, dh2::character_ai_skill_dispatch_v1::Operation, unsigned int, dh2::character_ai_skill_dispatch_v1::Services const*, dh2::character_ai_skill_dispatch_v1::Result*)"
+          ]
+        }
+      },
+      "libdh2_script_runtime.so": {
+        "sha256": "adce77952699347212ef607fff3fbe35ad2931f76c8af6181566c9dcd835d9a6",
+        "matched_exports": {
+          "dh2_script_vm_call_all_source_v1": [
+            "0000000000032a60 T dh2_script_vm_call_all_source_v1"
+          ]
+        }
+      },
+      "libdh2_native.so": {
+        "sha256": "b776ac4593c61ff126fd507dc3ef5b1f4e92a7581647241ff5bc140d97d3327f",
+        "matched_exports": {
+          "dh2::native::player_skills::Runtime::check_probe(": [
+            "0000000000166420 T dh2::native::player_skills::Runtime::check_probe(unsigned int)"
+          ]
+        }
+      }
+    }
+  },
+  "packaging": [
+    {
+      "zipalign": ""
+    },
+    {
+      "apksigner": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v3.2 scheme (APK Signature Scheme v3.2): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1\n"
+    }
+  ],
+  "original_resources": 34
+}

@@ -1,0 +1,132 @@
+{
+  "validation": "PASS",
+  "branch": "reconstruction/android17-irrlicht-rebuild-2026-10-03",
+  "parent_source_commit": "d4a129a7449f684625d79c2e375fc57020c6bdad",
+  "adam_reference": "791e961b12233100b303038c961666834f4beb9d",
+  "apk_sha256": "2a93a0e2d9ad48310e123f1050f62d7f1d2384b4bf862667da0b431fab0605ec",
+  "apk_bytes": 30063961,
+  "actual_compiler_configure_inputs": 591,
+  "apk_path": "port/android-native/build/native-player-death-r1-2026-10-05/crypt-native-player-death.apk",
+  "Downloads_APK_identical": true,
+  "new_source_modules": [
+    "player_ai_death_v1",
+    "player_skill_cleanup_session_v1",
+    "character_dead_focus_services_v1"
+  ],
+  "scope": "Native Player CharAI::OnDied/AI_SetDead and same-Session cleanup, exact dead-focus providers for reached null FX/nonpositive Sneak, source UpdateAllSkills scheduling correction. Live controlled fatal-hit fixture is distinct from full Character::Kill continuation, rewards, combat, aggro producers and complete AI/campaign.",
+  "full_game_playable": false,
+  "physical_arm64_tested": false,
+  "host": {
+    "player-skill-cleanup-session-v1-host-audit.json": {
+      "sha256": "e5ec9dc2c24e61b45be676a074258127e760a9cc697bfaca14132125f04ea78a",
+      "host_report": {
+        "validation": "PASS",
+        "actual_class_cleanups": 3,
+        "protocol_cases": 6,
+        "failure_prefix_cases": 3,
+        "guard_cases": 11,
+        "same_vm": true,
+        "native_death": false
+      },
+      "host_to_actual_APK_matching_inputs": 545
+    },
+    "player-ai-death-v1-selected-host.json": {
+      "sha256": "720c552a7bc1b769619cb288032ef0e510ce5fb2dde57b307113a9dbaf4b511c",
+      "host_report": {
+        "validation": "PASS",
+        "original_route_cases": 18,
+        "failure_prefix_cases": 58,
+        "guard_cases": 9,
+        "actual_player_classes": 3,
+        "same_session": true,
+        "native_death": false
+      },
+      "host_to_actual_APK_matching_inputs": 545
+    },
+    "character-dead-focus-services-v1-selected-host.json": {
+      "sha256": "82c4b0f89a9df30c23f311121967084bfe88c97e16f9089834b9796e75db6728",
+      "host_report": {
+        "validation": "PASS",
+        "actual_class_debug_buff_cases": 18,
+        "failure_prefixes": 15,
+        "ownership_guards": 9,
+        "actual_skill_selection_cases": 3,
+        "live_gameplay": false,
+        "native_fx_activation": false,
+        "resolved_cache_resources": [
+          "data/scripts/ai/_commons.luac",
+          "data/scripts/skills/_commons.luac",
+          "data/scripts/skills/faerie_celest.luac",
+          "data/scripts/skills/faerie_hotty.luac",
+          "data/scripts/skills/faerie_rocky.luac",
+          "data/scripts/skills/faerie_wetty.luac",
+          "data/scripts/skills/faerie_windy.luac",
+          "data/scripts/skills/prince_mage_chain_lightning.luac",
+          "data/scripts/skills/prince_mage_coldray.luac",
+          "data/scripts/skills/prince_mage_cyclone.luac",
+          "data/scripts/skills/prince_mage_elemental_mastery.luac",
+          "data/scripts/skills/prince_mage_faeryblood.luac",
+          "data/scripts/skills/prince_mage_magi_shielding.luac",
+          "data/scripts/skills/prince_mage_staffmaster.luac",
+          "data/scripts/skills/prince_mage_stone_escape.luac",
+          "data/scripts/skills/prince_rogue_acrobat.luac",
+          "data/scripts/skills/prince_rogue_ambidextrous.luac",
+          "data/scripts/skills/prince_rogue_combomaster.luac",
+          "data/scripts/skills/prince_rogue_findweakness.luac",
+          "data/scripts/skills/prince_rogue_jump_kick.luac",
+          "data/scripts/skills/prince_rogue_quickness.luac",
+          "data/scripts/skills/prince_rogue_roundhouse.luac",
+          "data/scripts/skills/prince_rogue_vicious_strike.luac",
+          "data/scripts/skills/prince_warrior_bashdown.luac",
+          "data/scripts/skills/prince_warrior_charge.luac",
+          "data/scripts/skills/prince_warrior_combat_master.luac",
+          "data/scripts/skills/prince_warrior_fast_metabolism.luac",
+          "data/scripts/skills/prince_warrior_ground_slam.luac",
+          "data/scripts/skills/prince_warrior_hardiness.luac",
+          "data/scripts/skills/prince_warrior_leadership.luac",
+          "data/scripts/skills/prince_warrior_potion_addict.luac"
+        ]
+      },
+      "host_to_actual_APK_matching_inputs": 545
+    }
+  },
+  "runtime": {
+    "player-skills": {
+      "report": "player-skills/player-skills-smoke.json",
+      "report_sha256": "aa64e140060352aca9d61ebaddefa3cfeb5f991b1db4f9dc57e6150d8aebbc6c",
+      "apk_sha256": "2a93a0e2d9ad48310e123f1050f62d7f1d2384b4bf862667da0b431fab0605ec"
+    },
+    "crypt-foundations": {
+      "report": "crypt-foundations/crypt-script-smoke.json",
+      "report_sha256": "1a7bb42f8ea4443426401e2800e518b25c3b5cbf060bb40f4723ab96fcadba67",
+      "apk_sha256": "2a93a0e2d9ad48310e123f1050f62d7f1d2384b4bf862667da0b431fab0605ec"
+    },
+    "player-death": {
+      "report": "player-death/validation.json",
+      "report_sha256": "c3bd5923102f6fea0b972e2ff74e70afc063e3f477a41eb6398bf56f21b83e16",
+      "apk_sha256": "2a93a0e2d9ad48310e123f1050f62d7f1d2384b4bf862667da0b431fab0605ec"
+    }
+  },
+  "compiled_export_groups": {
+    "arm64-v8a": [
+      "dh2::player_ai_death_v1::Runtime::died",
+      "dh2::player_skill_cleanup_session_v1::Runtime::cleanup",
+      "dh2::character_dead_focus_services_v1::Adapter::deliver",
+      "dh2::character_dead_focus_services_v1::Adapter::focus_prelude"
+    ],
+    "x86_64": [
+      "dh2::player_ai_death_v1::Runtime::died",
+      "dh2::player_skill_cleanup_session_v1::Runtime::cleanup",
+      "dh2::character_dead_focus_services_v1::Adapter::deliver",
+      "dh2::character_dead_focus_services_v1::Adapter::focus_prelude"
+    ]
+  },
+  "capture": {
+    "path": "port/android-native/build/captures/native-player-death-r1-complete-2026-10-05.zip",
+    "sha256": "a479e1d3411acd7eebba5f7248c9fd4deea4ef6dbf027cec23295ba93d9c140c"
+  },
+  "ELF64_16KiB_libraries": 20,
+  "known_live_findings": [
+    "Development Activity recreation restarts the selected Player sequence; dead HP/VM/timers persist, but final dead-pose/cursor continuity remains required."
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "original_library": "libDungeonHunter2.so",
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "source_reconstruction_scope": "Complete52B AI_PauseUpdate caller over a concrete timer-start boundary; shares frame pause projection.",
+  "functions": [
+    {
+      "original_symbol": "_ZN6CharAI14AI_PauseUpdateEj",
+      "demangled": "CharAI::AI_PauseUpdate(unsigned int)",
+      "elf_address": "0x3cb748",
+      "size": 52,
+      "sha256": "de9ac712fac2b8969681f06b50d8efe78a6a5a7d972824050467d369a92d67c0",
+      "scope": "Complete pause caller; captured owner, pause store and five timer arguments."
+    },
+    {
+      "original_symbol": "_ZN10CharTimers9TMR_StartEjiiPv",
+      "demangled": "CharTimers::TMR_Start(unsigned int, int, int, void*)",
+      "elf_address": "0x3dbe24",
+      "size": 84,
+      "sha256": "7d6993ff7e409b6b319e972d1604b4ee49a1affa167f349a480aad2dd06b1cb6",
+      "scope": "Pinned concrete timer provider; separate existing source timer audit."
+    }
+  ]
+}

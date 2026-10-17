@@ -1,0 +1,85 @@
+{
+  "schema": "dh2-host-source-milestone/v1",
+  "validation": "PASS",
+  "scope": "Source-only host gates. Native Android wiring and gameplay are not tested by these reports. Existing APK/release identities are unchanged; original-body credit excludes adapters, audio framing and partial camera/manager slices.",
+  "reports": [
+    {
+      "unit": "native-character-stop",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/native-character-stop.json",
+      "sha256": "6d73ea4316fe4a195810613cfd532cb7f5dddd19c2373d88fe199f0ef7b44121",
+      "source_pins_checked": 94
+    },
+    {
+      "unit": "object-update-culling",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/object-update-culling.json",
+      "sha256": "19eb4775495cedd3679995e082851f6daee3b37be6db11bcbb552f6cff698e89",
+      "source_pins_checked": 8
+    },
+    {
+      "unit": "object-update-culling-sanitizer",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/object-update-culling-sanitizer.json",
+      "sha256": "fdc414db49030dcf9a8dea2781c895b8f7f1c265d9398432b0c713bc15df8083",
+      "source_pins_checked": 6
+    },
+    {
+      "unit": "game-object-zoning-visibility",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/game-object-zoning-visibility.json",
+      "sha256": "976f1504631d7cbfc94d56d56fdc522db040464d6533cf7c194d170d531c495d",
+      "source_pins_checked": 5
+    },
+    {
+      "unit": "game-object-set-visible",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/game-object-set-visible.json",
+      "sha256": "ed8311242284c0207870aabaa15cba0e1237f3a121802296138256ef55059b1c",
+      "source_pins_checked": 7
+    },
+    {
+      "unit": "vox-n-chunk-view",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/vox-n-chunk-view.json",
+      "sha256": "637a15072e96b8fb602e0f8d34503109961d6b03b6998972adb9edc2c0eb4620",
+      "source_pins_checked": 6
+    },
+    {
+      "unit": "frustum-plane-producer",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/frustum-plane-producer.json",
+      "sha256": "15db73b3fecc80d8bfe84b4332d1ea8bfd1f6bc57fa31e38edbcfc12b6232416",
+      "source_pins_checked": 5
+    },
+    {
+      "unit": "character-culling-composition",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/character-culling-composition.json",
+      "sha256": "079ff72c877fdb77dfc350fbebc097ad250f7e58b6a13481b45bfb7111ca06bb",
+      "source_pins_checked": 11
+    },
+    {
+      "unit": "character-culling-composition-sanitizer",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/character-culling-composition-sanitizer.json",
+      "sha256": "024329d7fd20c8b7e62cf0fec7e722a3dc7596935c9b3ad1b0a12fdee4c4fab0",
+      "source_pins_checked": 8
+    },
+    {
+      "unit": "object-update-dispatch",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/object-update-dispatch.json",
+      "sha256": "7c784aea00266521e46f53c548f233f60c83f83adcc0c1495aecd5560b4d1cd1",
+      "source_pins_checked": 7
+    },
+    {
+      "unit": "frustum-bounds",
+      "report": "reports/reconstruction-2026-10-05/source-culling-visibility/frustum-bounds.json",
+      "sha256": "a3e596fc932544572efa76f34965cfa46ff318ee95881583d6a1d9867076a68c",
+      "source_pins_checked": 5
+    }
+  ],
+  "fresh_adam_ui_reports": [
+    "reports/branch-audit-2026-10-05/adam-gfnt-host.json",
+    "reports/branch-audit-2026-10-05/adam-viewport-host.json"
+  ],
+  "independent_reviews": [
+    "Native Stop callback/prefix/alias fixes (14 real Box2D cases)",
+    "Culling composition graph/output/reentry fixes (126 nested original ARM cases,63 guards)",
+    "ObjectBase culling provider order reviewed; separate sanitizer gate frozen",
+    "ObjectManager per-object slice identity/reentry/alias fixes (30 ARM cases,101 guards); full manager/deletion/providers remain external",
+    "Frustum bounds service snapshot/context/reentry fixes (38 ARM cases,187 instructions,9 guards)"
+  ],
+  "source_publication": "reports/reconstruction-2026-10-05/source-culling-visibility/source-publication.json"
+}

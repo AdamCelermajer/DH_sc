@@ -1,0 +1,321 @@
+{
+  "validation": "PASS",
+  "host_cases": 22,
+  "original_arm_cases": 21,
+  "mismatches": 0,
+  "original_sha256": "36498eb8180ffb74759e6305e9596db999f18583d460f3b8534abcb6022f5e80",
+  "compiler_command": [
+    "C:/Users/noamc/.local/mingw/mingw64/bin/g++.exe",
+    "-std=c++17",
+    "-O2",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-pedantic",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\ais_external_init_callbacks.cpp",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\tests\\ais_external_init_callbacks.cpp",
+    "-o",
+    "C:\\Users\\noamc\\Documents\\Codex\\2026-10-02\\contineu-from-where-they-left-off\\work\\DH_sc\\port\\level-world\\build\\ais-external-init-callbacks\\host.exe"
+  ],
+  "results": [
+    {
+      "callback": 0,
+      "identity": 268439552,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 9,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "name": "OnInit",
+        "live_ais": 268439552,
+        "default_init": 1
+      }
+    },
+    {
+      "callback": 0,
+      "identity": 268439552,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 9,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "name": "OnInit",
+        "live_ais": 268443648,
+        "default_init": 1
+      }
+    },
+    {
+      "callback": 0,
+      "identity": 268442300,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 9,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268442300,
+        "name": "OnInit",
+        "live_ais": 268442300,
+        "default_init": 1
+      }
+    },
+    {
+      "callback": 0,
+      "identity": 268442300,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 9,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268442300,
+        "name": "OnInit",
+        "live_ais": 268443648,
+        "default_init": 1
+      }
+    },
+    {
+      "callback": 0,
+      "identity": 4275835444,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 9,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 4275835444,
+        "name": "OnInit",
+        "live_ais": 4275835444,
+        "default_init": 1
+      }
+    },
+    {
+      "callback": 0,
+      "identity": 4275835444,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 9,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 4275835444,
+        "name": "OnInit",
+        "live_ais": 268443648,
+        "default_init": 1
+      }
+    },
+    {
+      "callback": 1,
+      "identity": 268439552,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "name": "OnInitPost",
+        "live_ais": 268439552,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 1,
+      "identity": 268439552,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "name": "OnInitPost",
+        "live_ais": 268443648,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 1,
+      "identity": 268442300,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268442300,
+        "name": "OnInitPost",
+        "live_ais": 268442300,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 1,
+      "identity": 268442300,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268442300,
+        "name": "OnInitPost",
+        "live_ais": 268443648,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 1,
+      "identity": 4275835444,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 4275835444,
+        "name": "OnInitPost",
+        "live_ais": 4275835444,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 1,
+      "identity": 4275835444,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 4275835444,
+        "name": "OnInitPost",
+        "live_ais": 268443648,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 2,
+      "identity": 268439552,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "name": "OnInitFinal",
+        "live_ais": 268439552,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 2,
+      "identity": 268439552,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268439552,
+        "name": "OnInitFinal",
+        "live_ais": 268443648,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 2,
+      "identity": 268442300,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268442300,
+        "name": "OnInitFinal",
+        "live_ais": 268442300,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 2,
+      "identity": 268442300,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 268442300,
+        "name": "OnInitFinal",
+        "live_ais": 268443648,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 2,
+      "identity": 4275835444,
+      "mutation": 0,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 4275835444,
+        "name": "OnInitFinal",
+        "live_ais": 4275835444,
+        "default_init": 0
+      }
+    },
+    {
+      "callback": 2,
+      "identity": 4275835444,
+      "mutation": 1,
+      "matched": true,
+      "instructions": 3,
+      "result": {
+        "status": 0,
+        "calls": 1,
+        "ais": 4275835444,
+        "name": "OnInitFinal",
+        "live_ais": 268443648,
+        "default_init": 0
+      }
+    }
+  ],
+  "default_bodies": [
+    {
+      "address": "0x3dbe78",
+      "instructions": 1,
+      "source_empty_body_verified": true
+    },
+    {
+      "address": "0x3dbe7c",
+      "instructions": 1,
+      "source_empty_body_verified": true
+    },
+    {
+      "address": "0x3dbe80",
+      "instructions": 1,
+      "source_empty_body_verified": true
+    }
+  ],
+  "source_sha256": {
+    "port/level-world/ais_external_init_callbacks.cpp": "908856af34fa69bdc4fb0133ae416e1a38eb70a0a1038238c10d4ea5439ff5e4",
+    "port/level-world/tests/ais_external_init_callbacks.cpp": "29c5976c82a1356e75cf9883555e473f8c00aac215dfdb5689d764eb980e54c3",
+    "port/level-world/ais_external_init_callbacks.hpp": "b3eec4f44c006e4a390212b4d67f79784ffc923498349d26503032c3feb95885",
+    "port/level-world/tests/run_ais_external_init_callbacks_host.py": "8257863daad0d9c4722b5f7159af4038275e41e9625f1dad739446792c7400d6",
+    "port/level-world/reference/ais-external-init-callbacks/original-functions.json": "1dda8932f16037eb360a1494b6be582acf08c7c4d44b91173c149cdcba682923",
+    "port/level-world/reference/ais-external-init-callbacks/NOTES.md": "301d590100da6bd89692e30baee338ac7d3eb68e8079ec66d4a664f719f648b0"
+  },
+  "rebuilt_caller_bodies": 6,
+  "complete_dependency_bodies": 0,
+  "native_wired": false,
+  "scope": "Original AISExternal 36/16/16-byte initialization callers and actual AISDefault three 4-byte empty leaves execute. LuaScript::Call is intercepted with exact receiver and literal names. Native caller effects, failures and identity refresh are checked; full LuaScript/Binder/skills/InitScriptProcess are not implied."
+}

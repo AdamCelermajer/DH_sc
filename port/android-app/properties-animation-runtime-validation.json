@@ -1,0 +1,194 @@
+{
+  "complete_game": false,
+  "scope": "Same property-import APK: textured warrior, two animations, midpoint seek, paused 0/50/100% mix, Play at 100%, stable Pause. No gameplay or ARM64 hardware test.",
+  "visual_inspection_complete": true,
+  "visual_inspection_scope": "All six paused mixing screenshots across both Android 17 page sizes inspected.",
+  "runs": [
+    {
+      "serial": "emulator-5560",
+      "android_release": "17",
+      "sdk": "37",
+      "page_size": "4096",
+      "apk_sha256": "31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7",
+      "installed_apk_sha256": "31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7",
+      "fixture_sha256": {
+        "data/3d/characters/prince/prince_low_poly_warrior.bdae": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+        "data/3d/textures/prince-warrior.tga": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+        "data/3d/characters/prince/animations/prince_walk_dual.bdae": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+        "data/3d/characters/prince/animations/cs_darkqueen_scene03a_prince.bdae": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903"
+      },
+      "statuses": [
+        [
+          "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ],
+        [
+          "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ],
+        [
+          "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ],
+        [
+          "Second animation: 29 tracks. Motion mix: 50%. No gameplay.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ]
+      ],
+      "seek_status": [
+        "Animation preview: 400 / 799 ms. No gameplay.",
+        "IMPORT BRES SCENE",
+        "IMPORT PVRTC TEXTURE",
+        "IMPORT CHARACTER ANIMATION",
+        "IMPORT SECOND ANIMATION",
+        "PLAY ANIMATION",
+        "Scripts ready: 3 shared files. Game objects are not connected yet.",
+        "IMPORT SCRIPT SOURCE",
+        "IMPORT CHARACTER PROPERTIES"
+      ],
+      "play_and_pause": true,
+      "pid": "10783",
+      "fatal_in_run": false,
+      "log_start_emulator_gmt": "10-02 17:28:24.000",
+      "playing_positions_ms": [
+        37,
+        552,
+        353,
+        170
+      ],
+      "paused_positions_ms": [
+        176,
+        176
+      ],
+      "blend_percent_checks": [
+        0,
+        50,
+        100
+      ],
+      "ui_helper_sha256": "f7d4e58807733fb3f1a557b40133a8569be86adb87f0b89b6eba29e327d7306f",
+      "test_sha256": "30974742cdaa72eb459c5b2d7b24d664e25384bdc4077f2d356e03a4bbebb72f",
+      "screenshots": [
+        {
+          "file": "start.png",
+          "sha256": "986946057bdc0004988d5f4271ba1b938770ace86400c9f73cf871dd2d262ee5"
+        },
+        {
+          "file": "middle.png",
+          "sha256": "3f997ab00e28bf008e33c741db04d9dd7f921c2b40af1533bd84ff6edc5ae409"
+        },
+        {
+          "file": "mix-0.png",
+          "sha256": "a13690d7fd276c3988c9bf24a573ed95c5303558b51f399376f2a3f65bae8cf4"
+        },
+        {
+          "file": "mix-50.png",
+          "sha256": "980001794ee65e7f8e1721319f6e46261fe12770b3ae2d982d9f385494c38a96"
+        },
+        {
+          "file": "mix-100.png",
+          "sha256": "021d1883ae4e7e90868f26adb1145df0f51b12fffbb4659ec4665cd9f6aaa674"
+        },
+        {
+          "file": "playing.png",
+          "sha256": "0c14eea6dc63a643230aa245ff7347d1f146df02187e0986023eebfe1db791d5"
+        }
+      ],
+      "visual_inspection_required": true,
+      "complete_game": false,
+      "original_animator_equivalence": false
+    },
+    {
+      "serial": "emulator-5558",
+      "android_release": "17",
+      "sdk": "37",
+      "page_size": "16384",
+      "apk_sha256": "31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7",
+      "installed_apk_sha256": "31c8e586004ce0932cc9853ec6a03b3140c6752f9b29d4ebcc1c16cfc3e61be7",
+      "fixture_sha256": {
+        "data/3d/characters/prince/prince_low_poly_warrior.bdae": "9279963429e0ba55b3b0a74d2e428fac0933f1f23b0909543327d955def6dd98",
+        "data/3d/textures/prince-warrior.tga": "af5bfaae3745098b6d86627caa9f45ef3f28fccddd8cad06dda1fd1025f8d3eb",
+        "data/3d/characters/prince/animations/prince_walk_dual.bdae": "5ff1204ab096047f98e0858f653ada3eb009959bcb2c9329dc4f331bbfce52b2",
+        "data/3d/characters/prince/animations/cs_darkqueen_scene03a_prince.bdae": "f74d8ada40c3f5b4bb9408014ec809404f5f9983cbaa6b58ce81889ce046b903"
+      },
+      "statuses": [
+        [
+          "Character pose: 1 draws, 335 vertices, 1092 indices, 18 bones. First diffuse: prince-warrior.tga. Import that texture to render it.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ],
+        [
+          "PVRTC texture decoded: 256 x 256. Rendering imported BRES scene.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ],
+        [
+          "Animation preview: 25 tracks, 799 ms. Play or seek. Absolute-key preview; no gameplay.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ],
+        [
+          "Second animation: 29 tracks. Motion mix: 50%. No gameplay.",
+          "Scripts ready: 3 shared files. Game objects are not connected yet."
+        ]
+      ],
+      "seek_status": [
+        "Animation preview: 400 / 799 ms. No gameplay.",
+        "IMPORT BRES SCENE",
+        "IMPORT PVRTC TEXTURE",
+        "IMPORT CHARACTER ANIMATION",
+        "IMPORT SECOND ANIMATION",
+        "PLAY ANIMATION",
+        "Scripts ready: 3 shared files. Game objects are not connected yet.",
+        "IMPORT SCRIPT SOURCE",
+        "IMPORT CHARACTER PROPERTIES"
+      ],
+      "play_and_pause": true,
+      "pid": "18001",
+      "fatal_in_run": false,
+      "log_start_emulator_gmt": "10-02 17:29:01.000",
+      "playing_positions_ms": [
+        397,
+        331,
+        36,
+        670
+      ],
+      "paused_positions_ms": [
+        105,
+        105
+      ],
+      "blend_percent_checks": [
+        0,
+        50,
+        100
+      ],
+      "ui_helper_sha256": "f7d4e58807733fb3f1a557b40133a8569be86adb87f0b89b6eba29e327d7306f",
+      "test_sha256": "30974742cdaa72eb459c5b2d7b24d664e25384bdc4077f2d356e03a4bbebb72f",
+      "screenshots": [
+        {
+          "file": "start.png",
+          "sha256": "fbae1382a51d102606e18e447c33dd27dc6f4d1c564ad83ab200402f5209a088"
+        },
+        {
+          "file": "middle.png",
+          "sha256": "2462b40a96c28ad98a63319b48aa6cf205e747dcabf7c18bdd9bda8d59083474"
+        },
+        {
+          "file": "mix-0.png",
+          "sha256": "499e52a68166b68af975469224d95954ad43d639ebdde8229acb081533795178"
+        },
+        {
+          "file": "mix-50.png",
+          "sha256": "bcf864e8560798b53c03197b5294df9c971d5405d0824a0872daa8b252811403"
+        },
+        {
+          "file": "mix-100.png",
+          "sha256": "5a5f0eed4e66cdaeb8f426f9496fe4d69df051d669138751c4094370e5327fa0"
+        },
+        {
+          "file": "playing.png",
+          "sha256": "1e325d09fffc258b573bcb35a2162cbca90d7e33d2675beff38b7f128fc3d05c"
+        }
+      ],
+      "visual_inspection_required": true,
+      "complete_game": false,
+      "original_animator_equivalence": false
+    }
+  ]
+}

@@ -8,6 +8,9 @@ struct AnimationSelectionServices {
  void* context=nullptr;
  void(*event)(void*,AnimationScheduler&,std::uint32_t)=nullptr;
  bool(*prepare)(void*,AnimationScheduler&)=nullptr;
+ // Dedicated hook after the stored sequence step has selected/prepared the
+ // active playback slot. This is not a Character event.
+ bool(*frame_step)(void*,AnimationScheduler&,std::uint32_t,std::uint32_t)=nullptr;
 };
 // CharAnimator::Update's synchronous services. Event return values are ignored
 // in the original. prepare/finish return bool solely to propagate native backend
@@ -46,13 +49,13 @@ public:
  // may change live frames. Resources/tables remain immutable during callbacks.
  bool complete_with_services(const AnimationTables&,AnimationRandom&,std::string&,
                              const AnimationCompletionServices&,bool random_enabled=true);
+ // CharAnimator::ANIM_Stop resets nested animation depth to its root frame and
+ // stops progression while retaining the selected clip and sampled pose.
+ void stop(){if(stack.size()>1)stack.resize(1);playing=false;}
  // ANIM_Swap metadata branch does not select/replay a clip. A restart result
  // delegates ANIM_Set and restoration of the existing global speed to owner.
  AnimationSwap swap_sequences(const AnimationTables&,std::int32_t desired,std::int32_t old,std::string&);
  void stop_loop(){if(!stack.empty())stack.back().loops=0;}
- // CharAnimator::ANIM_Stop writes depth0 without selecting another frame.
- // Preserve frame0 metadata; do not run completion/selection callbacks.
- void reset_depth_v1(){if(stack.size()>1)stack.resize(1);}
  bool active()const{return playing;}
  const AnimationStep& clip()const{return current;}
  const std::vector<AnimationFrame>& frames()const{return stack;}

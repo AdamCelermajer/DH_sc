@@ -1,0 +1,23 @@
+{
+  "artifact": "Dungeon-Hunter-2-native-combat-ui-r3-2026-10-11.apk",
+  "sha256": "09e7712c39da05a9a830c8103df52863fc0f74143a6a4003f20f13b7eb8192b5",
+  "bytes": 254259628,
+  "source_base": "124e48c6",
+  "source_has_uncommitted_changes": true,
+  "android_build": {"arm64-v8a": "pass", "x86_64": "pass"},
+  "runtime": {
+    "android_api": 37,
+    "page_size_bytes": 16384,
+    "abi": "x86_64",
+    "cinematic": "audio track present, focus granted, output gain 1; audible playback unverified",
+    "menu": "real skip, class and Start flow reached",
+    "swamp": "world ready and connected HUD frame logs; gameplay screenshot missing",
+    "menu_harness": "failed on host text decoding; full log recovered",
+    "crypt": "load failed before combat: Native player equipment initialization: Localization ID lookup reentry unsupported",
+    "incoming_hits": "not tested",
+    "outgoing_hits": "not tested",
+    "enemy_hud_and_death": "not tested",
+    "original_saves_restored": true
+  },
+  "published": false
+}

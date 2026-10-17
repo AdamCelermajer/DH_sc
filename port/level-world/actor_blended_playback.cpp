@@ -29,6 +29,14 @@ struct ReplayContext {
  BlendedPlayback* playback;const ClipBank* bank;visual::SceneBinding* visual;
  scene::Scene* scene;std::string* error;bool success=true;
 };
+bool selected_frame_step(void* raw,data::AnimationScheduler& scheduler,
+                         std::uint32_t step,std::uint32_t count){
+ auto& c=*static_cast<ReplayContext*>(raw);auto& p=*c.playback;
+ if(!count||step>=count||scheduler.frames().empty()||
+    scheduler.frames().back().step!=step||p.blend.current>=p.slots.size())return false;
+ return !p.observer.frame_step||
+        p.observer.frame_step(p.observer.context,p,p.blend.current,step,count);
+}
 void replay(void* context,std::uint32_t event,timeline::State*,const timeline::ReplayResult* result){
  auto& c=*static_cast<ReplayContext*>(context);
  if(event!=timeline::new_animation)return;
@@ -203,13 +211,11 @@ bool BlendedPlayback::set_speed(float speed,std::string& error){
 }
 bool BlendedPlayback::apply_selection(const ClipBank& bank,visual::SceneBinding& visual,
                                      scene::Scene& scene,std::string& error){
-  if(!ready(bank,visual,scene,error))return false;
-  const auto selected=scheduler.clip(); // retained _SetAnimStep row across FX deliveries
-  if(selection_fx_v2.invoke&&!selection_fx_v2.invoke(selection_fx_v2.context,*this,selected,error))return false;
-  // Blend precedes resource lookup, including its failure side effect.
- if(dh2_blender_begin(&blend,selected.blend_out)){error="Blended slot transition rejected";return false;}
+ if(!ready(bank,visual,scene,error))return false;
+ // Blend precedes resource lookup, including its failure side effect.
+ if(dh2_blender_begin(&blend,scheduler.clip().blend_out)){error="Blended slot transition rejected";return false;}
  auto& slot=slots[blend.current];const auto previous=slot.compiled_clip;
- const auto mapped=selected.anim;const auto index=engine_index(mapped);
+ const auto mapped=scheduler.clip().anim;const auto index=engine_index(mapped);
  if(index<0){error="Authored blended clip is not compiled";return false;}
  const auto* clip=compiled.clip(index);
  if(!clip||dh2_timeline_clip(&slot.timeline,index,clip->start,clip->end)){
@@ -225,7 +231,7 @@ bool BlendedPlayback::apply_selection(const ClipBank& bank,visual::SceneBinding&
  // Keep the historical standalone replay helper intact, but bypass its old
  // same-ID/loop fixture gate after executing the source IsEnded branch here.
  const timeline::ReplayFacts facts{-1,mapped,applicator_completion.extra_ms,0,
-                                  unsigned(selected.move_go),1,root_timestamp,0};
+                                  unsigned(scheduler.clip().move_go),1,root_timestamp,0};
  ReplayContext context{this,&bank,&visual,&scene,&error};
  const timeline::ReplayServices services{&context,replay};timeline::ReplayResult result{};
  if(dh2_timeline_replay(&result,&slot.timeline,&facts,&services)!=1||!context.success)return false;
@@ -234,25 +240,14 @@ bool BlendedPlayback::apply_selection(const ClipBank& bank,visual::SceneBinding&
 }
 void BlendedPlayback::scheduler_event(std::uint32_t id){
  EventHandoff handoff{id,0,nullptr};
- if(id==0x22&&dh2_actor_sequence_close(&handoff,&sequence_closed)!=1)return;
+ if(id==0x22){
+  if(dh2_actor_sequence_close(&handoff,&sequence_closed)!=1)return;
+  handoff.payload=reinterpret_cast<const char*>(&sequence_closed);
+ }
  const auto phase=id==0x22?std::uint32_t(sequence_event):
                   (id==0x24||id==0x26)?std::uint32_t(selection_event):std::uint32_t(animator_event);
  const BlendedPlaybackEvent event{{handoff,current_clip(),root_timestamp,phase,0},blend.current};
  const auto callback=observer;if(callback.invoke)callback.invoke(callback.context,*this,event);
-}
-bool BlendedPlayback::stop_immediate_v1(bool visual_present,std::string& error){
- scheduler.reset_depth_v1();
- if(!visual_present)return true;
- if(blend.current>=slots.size()){error="Source StopClip current animator outside retained slots";return false;}
- // AnimatorBlender::SetScale3666d8 visits ALL retained child timelines.
- // This is not ANIM_SetSpeed: global_speed remains the authored speed.
- for(auto& slot:slots)if(dh2_timeline_scale(&slot.timeline,0)){error="Source StopClip timeline scale failed";return false;}
- auto& selected=slots[blend.current].timeline;
- if(dh2_timeline_jump(&selected,selected.end_ms)){error="Source StopClip end jump failed";return false;}
- // scheduler_event closes the real byte BEFORE invoking the retained observer;
- // reentrant AI can select another authored animation during this delivery.
- if(!sequence_closed)scheduler_event(0x22);
- return true;
 }
 bool BlendedPlayback::start(const data::AnimationTables& tables,int sequence,data::AnimationRandom& random,
                             const ClipBank& bank,visual::SceneBinding& visual,scene::Scene& scene,
@@ -268,7 +263,8 @@ bool BlendedPlayback::start(const data::AnimationTables& tables,int sequence,dat
  const data::AnimationSelectionServices services{
   &context,
   [](void* raw,data::AnimationScheduler&,std::uint32_t id){static_cast<ReplayContext*>(raw)->playback->scheduler_event(id);},
-  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<ReplayContext*>(raw);return c.playback->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);}
+  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<ReplayContext*>(raw);return c.playback->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);},
+  selected_frame_step
  };
  return scheduler.start_with_services(tables,sequence,random,error,services);
 }
@@ -401,7 +397,13 @@ bool BlendedPlayback::animator_phase(const data::AnimationTables& tables,data::A
  const data::AnimationSelectionServices selection{
   &context,
   [](void* raw,data::AnimationScheduler&,std::uint32_t id){static_cast<Context*>(raw)->p->scheduler_event(id);},
-  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<Context*>(raw);return c.p->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);}
+  [](void* raw,data::AnimationScheduler&){auto& c=*static_cast<Context*>(raw);return c.p->apply_selection(*c.bank,*c.visual,*c.scene,*c.error);},
+  [](void* raw,data::AnimationScheduler& scheduler,std::uint32_t step,std::uint32_t count){
+   auto& c=*static_cast<Context*>(raw);auto& p=*c.p;
+   if(!count||step>=count||scheduler.frames().empty()||scheduler.frames().back().step!=step||
+      p.blend.current>=p.slots.size())return false;
+   return !p.observer.frame_step||p.observer.frame_step(p.observer.context,p,p.blend.current,step,count);
+  }
  };
  const data::AnimationCompletionServices services{
   &context,

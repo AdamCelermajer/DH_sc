@@ -16,12 +16,15 @@ struct ControllerRequest {
  PathController* controller;PathObject* path;NavigationObject* object;
  const CollisionWorld* geometry;const Graph* graph;const AvoidanceScene* scene;
  const ControllerPolicy* policy;ControllerWorkspace* workspace;std::uint64_t key;
+ // Optional distinct typed projection of GameObject+0x1b4. The source byte
+ // is updated in UpdatePath order, independently of PathController storage.
+ std::uint8_t* source_game_object_moving=nullptr;
 };
 struct ControllerResult {
  MoveResult move;AvoidanceResult avoidance;
  std::uint32_t at_destination,stopped,boundary_checked,direction_valid,physical_stop_requested,reserved;
 };
-static_assert(sizeof(PathController)==56&&sizeof(ControllerPolicy)==16&&sizeof(ControllerWorkspace)==48&&sizeof(ControllerRequest)==72&&sizeof(ControllerResult)==80);
+static_assert(sizeof(PathController)==56&&sizeof(ControllerPolicy)==16&&sizeof(ControllerWorkspace)==48&&sizeof(ControllerRequest)==80&&sizeof(ControllerResult)==80);
 }
 extern "C" {
 // Recovered IsAtDestination: final path target if nonempty, otherwise the

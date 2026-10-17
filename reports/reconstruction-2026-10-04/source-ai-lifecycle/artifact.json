@@ -1,0 +1,1174 @@
+{
+  "validation": "PASS",
+  "apk_sha256": "8ed56e8f1cdbb4c8eed20702dfa97df99ad1a3058c8b646ce3e36b6bf3098d8b",
+  "apk_bytes": 24219159,
+  "runtime_report_sha256": "48f79ee1a34a7f86ed359816d9485fb4fcf3f1e8f66f2c15c1b2af40f31f6c20",
+  "native_libraries": [
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_animation.so",
+      "sha256": "bc0ce06e708a16b6f679cceb0567c8ac71299e5108cbc4602c0714875bfd2e04",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_skinning.so",
+      "sha256": "56f73d21fff8f36178a4d62e3bc61a1d75c90bad1d338891b961c040e9be0617",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_engine_textures.so",
+      "sha256": "8a8632c78853e4be7bf79ac5a167d1c312557430284c409a3e0aec269ce8ee19",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_game_data.so",
+      "sha256": "c6f3cb4b32ce690f8a9969dc0eca46cc8b84f31d0d8f7378ccc3df777ad56a8b",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_animation.so",
+      "sha256": "88ee9ef557035f9fbc31381823683cdac1de52fa494b80cf96a6cbf44705ec84",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_skinning.so",
+      "sha256": "713e30c4c9659269676d60bf9bad36865dfbca1fef797954864e714febd09942",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_engine_textures.so",
+      "sha256": "1a255ab5d86096f20cdc8aeb4212593118a60bd43ce5bf2e308f17e493197ea2",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_game_data.so",
+      "sha256": "63d282b7cd871248edda979a3b03d78cc6844ba37ce8631b0b8d320277bd3349",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_scene_materials.so",
+      "sha256": "9ed7a3cd513b8ae97b56c4c7e6ec74a42e1396f41a68118c5f5e8a45ac577374",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_scene_materials.so",
+      "sha256": "f84ba1c593e73e3dcb0d7df414b85b9187fc0548894cbdc6226d8c590dcabfe6",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_level_world.so",
+      "sha256": "dbc0d4b2538cd02a57a5978a2bfe0e5c30e9b576166942d38944870355c34e72",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_native.so",
+      "sha256": "f76ca9e3911f3784d4398ea07af27f28591fe4837b585946f6525218aa427f31",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/arm64-v8a/libdh2_script_runtime.so",
+      "sha256": "ee2c688978c97fb94395ef23e500220b001cea0268f414a01f5d43eb6de73d87",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_level_world.so",
+      "sha256": "50270196ea829c742f93b03ece939441af75e6ea964ef4a2adeb4d9e0dea8d83",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_native.so",
+      "sha256": "9682fd3a8491288dd96c1a2b3fb1659c95aaaff8c3304d8ecf0503e9bff7331e",
+      "minimum_load_alignment": 16384
+    },
+    {
+      "path": "lib/x86_64/libdh2_script_runtime.so",
+      "sha256": "d553b55120e31ac21ad71fa4da68bcb80b27c3d87b9c6d7471b23f739cc451ab",
+      "minimum_load_alignment": 16384
+    }
+  ],
+  "zip_16k_alignment_verified": true,
+  "signing_verification": "Verifies\nVerified using v1 scheme (JAR signing): false\nVerified using v2 scheme (APK Signature Scheme v2): true\nVerified using v3 scheme (APK Signature Scheme v3): false\nVerified using v3.1 scheme (APK Signature Scheme v3.1): false\nVerified using v3.2 scheme (APK Signature Scheme v3.2): false\nVerified using v4 scheme (APK Signature Scheme v4): false\nVerified for SourceStamp: false\nNumber of signers: 1",
+  "assets": {
+    "actors/crypt_candle1.bdae": {
+      "bytes": 24628,
+      "sha256": "d4ccf2aa24f9d6102ed0f7fad1a387a391536193dc422eec60ce4bcb0687e51d"
+    },
+    "actors/crypt_candle1_small.bdae": {
+      "bytes": 24772,
+      "sha256": "72455d1133489b8fb4c3c3f0365f02d3dee9c19df7f7ba231ef8a05099ead00e"
+    },
+    "actors/crypt_candle2.bdae": {
+      "bytes": 24532,
+      "sha256": "3cb10850b6acbafae8c296daa4bf466dcd95debd878cb0cf324a180eb8a9e502"
+    },
+    "actors/crypt_candle_big.bdae": {
+      "bytes": 24668,
+      "sha256": "eca0dc98fbdf0f77c4ce00877546c5c153cf93c78745778cbfbfe0b02666e190"
+    },
+    "actors/crypt_candles.bdae": {
+      "bytes": 31880,
+      "sha256": "0b0b0a5b001bc2fa5991207cf11eb3b03a84a73a6bbc1aa6e1b2e972b1bbb409"
+    },
+    "actors/crypt_candles2_small.bdae": {
+      "bytes": 28448,
+      "sha256": "7e79edbbdde7b36d71876bc7f1250928096cffb90ed24bee3cced946b0c30fe4"
+    },
+    "actors/crypt_candlestand.bdae": {
+      "bytes": 44268,
+      "sha256": "104c43a624272a223132b97808dc6c405d61ca94f97563fdefe33218d8af6bcf"
+    },
+    "actors/crypt_candlestand_big.bdae": {
+      "bytes": 33752,
+      "sha256": "89a313c943fb74445666ef373fea5bc091184ba849373daa84751b0ee1a44967"
+    },
+    "actors/ghost.bdae": {
+      "bytes": 67104,
+      "sha256": "bbd26136f6141d0d319d090e20b99f12d29cce18efad134724bcd5bb008a2183"
+    },
+    "actors/ghost_attack_01.bdae": {
+      "bytes": 8980,
+      "sha256": "3715fe78633e0c04a57e41a1b1d80943a35d1663aa82a13801713c938577436a"
+    },
+    "actors/ghost_dying_01.bdae": {
+      "bytes": 11416,
+      "sha256": "10d0454f550b1aa90de4f22a2ffba2af585feb84b23d90fd62040c292e917327"
+    },
+    "actors/ghost_idle_01.bdae": {
+      "bytes": 24052,
+      "sha256": "b21af05cfa1c767726b10d4f5b5a674ea2546d8fc7590215be132865afd75895"
+    },
+    "actors/ghost_post_attack_01.bdae": {
+      "bytes": 8036,
+      "sha256": "7c0639fcfa028b2fc2595da67c2dfaaeecbbcbb3993ec3916d3586010f59c994"
+    },
+    "actors/ghost_pre_attack_01.bdae": {
+      "bytes": 7476,
+      "sha256": "e9b9a4cb395672ad451b60b37cb4959812c5bf6ed9bcf1bd3e04f6418b9856c0"
+    },
+    "actors/ghost_walk_01.bdae": {
+      "bytes": 39896,
+      "sha256": "bd381b8bdcd2e948620fcd90ca8bf5f4e54c156285584e4e130cd369933c3ddc"
+    },
+    "actors/skeleton.bdae": {
+      "bytes": 70736,
+      "sha256": "2cf63468a00c934f9b3d7b15b1c846ce575b9c62fc3aff83c7cd2bfbefacfb36"
+    },
+    "actors/skeleton_attack_01.bdae": {
+      "bytes": 11604,
+      "sha256": "65162e55af222d0231fb25027f5406e47d4a1b9e4b89864680cbca3ed738461a"
+    },
+    "actors/skeleton_attack_01_to_idle.bdae": {
+      "bytes": 16960,
+      "sha256": "8df25c9d89c7e3c343329fa6694661fa1968645f6176919312b5b64824a7ac17"
+    },
+    "actors/skeleton_attack_02.bdae": {
+      "bytes": 9824,
+      "sha256": "83276482fa53b376495a791792fb381eaa6f7cf9ce493cf7d5f39095ac222cb2"
+    },
+    "actors/skeleton_attack_02_to_idle.bdae": {
+      "bytes": 17120,
+      "sha256": "53bf12257a1df6411cd6e95c492cf6c0fbb50f557a17407f0a28176e3148b082"
+    },
+    "actors/skeleton_dying.bdae": {
+      "bytes": 12700,
+      "sha256": "4a66caf03f98ee89c008fda99372f8c8bdbd76f932f38ec79032031d0bc8af90"
+    },
+    "actors/skeleton_idle_01.bdae": {
+      "bytes": 49520,
+      "sha256": "bea7b628675e9bebf64a4da6e90b9cc8ca9f7411e053d6ce354eff7c38f0982d"
+    },
+    "actors/skeleton_idle_02.bdae": {
+      "bytes": 28632,
+      "sha256": "b468b9db81c8534e7b43691dcad66d6f57b3dd94feee4c684aa1885a14429349"
+    },
+    "actors/skeleton_pre_attack_01.bdae": {
+      "bytes": 11004,
+      "sha256": "3c9c0f3f72c8ade5bca121ba172036f33b32bdc181a57ccc41cbff7012ca1d1e"
+    },
+    "actors/skeleton_pre_attack_02.bdae": {
+      "bytes": 11572,
+      "sha256": "97220c3139e1eee33616b4aee973d0272c156970a1c235ef41c608fe29608f0f"
+    },
+    "actors/skeleton_walk.bdae": {
+      "bytes": 18816,
+      "sha256": "0fcb603c72a725dbae62d4bc061ebf98ba9b0a504e40645f9ba09fe4fcc589b0"
+    },
+    "actors/slime_attack_01.bdae": {
+      "bytes": 3256,
+      "sha256": "21ea289f9b9d2d2128445c311cbdeabbf406e15e570763ed228fd6976362e0c0"
+    },
+    "actors/slime_attack_01_to_idle.bdae": {
+      "bytes": 4136,
+      "sha256": "19194ac919bcce58739a8df48b9448c251a09d0b598f7b597ee828361693843f"
+    },
+    "actors/slime_attack_02.bdae": {
+      "bytes": 3776,
+      "sha256": "bd906d1f0ef2086deb2617ea1451531a3a9c2cb549bbe776b22f5877c6b3bbe1"
+    },
+    "actors/slime_attack_02_to_idle.bdae": {
+      "bytes": 4452,
+      "sha256": "86f01551aa577f5c86beac627914c288f5c3cacb05a08ef7d03dd3511c6f5238"
+    },
+    "actors/slime_dying.bdae": {
+      "bytes": 6992,
+      "sha256": "60057288188a3c56f4690e66529c7663ca67f7f05e9ff15d7d26bb6fa43321fc"
+    },
+    "actors/slime_green_v2.bdae": {
+      "bytes": 27812,
+      "sha256": "6d54cdcbace41948f426a31bc8501fac78f26ae1c1f36b4553b916f54a5786a1"
+    },
+    "actors/slime_idle.bdae": {
+      "bytes": 5792,
+      "sha256": "f3135891294b0277a66f1bb08b7aec87efade7317a93ea2993d5df9e62591472"
+    },
+    "actors/slime_idle_02.bdae": {
+      "bytes": 5728,
+      "sha256": "fdf12aecf3b38dc20de496e2fcb2d90db88512b794b2ee05ad95842c9cd41baf"
+    },
+    "actors/slime_pre_attack_01.bdae": {
+      "bytes": 3168,
+      "sha256": "eb07914aadac438e79cd901a05f0f90b2b7e08a6822494b08be68047dc8293ae"
+    },
+    "actors/slime_pre_attack_02.bdae": {
+      "bytes": 3252,
+      "sha256": "315a2f52e8cbcabc3899dd8763d1bfa36696ca23911f36a26c40ca4a52480a19"
+    },
+    "actors/slime_walk.bdae": {
+      "bytes": 5212,
+      "sha256": "966d248d406756d06f028570f79208ac3f047d0bb0c537103405b60694b80f05"
+    },
+    "actors/swamp_caveentrance_effect.bdae": {
+      "bytes": 18208,
+      "sha256": "631dfe779d9933cf5c1ef7a45992cc71f646287c153103df7dee398ecbd129d1"
+    },
+    "ai-provenance.json": {
+      "bytes": 1857,
+      "sha256": "df4f7ee668495c48dc7c913614945b6c2ec9ddb71a2d627b526bd9b3af841159"
+    },
+    "animation-provenance.json": {
+      "bytes": 11572,
+      "sha256": "e76052e803f4b4326415e1fd0d47811beade71a89ac8b5ec54b1e3f54a2e9f8b"
+    },
+    "animations/prince_1hand_combo_01.bdae": {
+      "bytes": 8028,
+      "sha256": "3da34ef3978dbc1ae17927eb3834bc108ec54c1df84153fc69ea469a84f356fa"
+    },
+    "animations/prince_1hand_combo_01_moving.bdae": {
+      "bytes": 8164,
+      "sha256": "936b818f66704902a71a37841b25ac5f21847b95b3df075694bafb8499022238"
+    },
+    "animations/prince_1hand_combo_01_to_idle.bdae": {
+      "bytes": 8876,
+      "sha256": "3964cb9f45395379903af32c14735e0a37ed55f61d7159272534a7e74feca624"
+    },
+    "animations/prince_1hand_combo_02.bdae": {
+      "bytes": 8512,
+      "sha256": "b0108a9397fd5fafa83e96dd8b06c58e6fa1172a55e0e65950450b380174baf0"
+    },
+    "animations/prince_1hand_combo_02_moving.bdae": {
+      "bytes": 8056,
+      "sha256": "8c0003dab5b063cb815f98722b8dacc853fff3da84ebdca62250baed3f902f01"
+    },
+    "animations/prince_1hand_combo_02_to_idle.bdae": {
+      "bytes": 9912,
+      "sha256": "ebc42dea4adf9b833b0d469c8cb2fd4353abc44551251696a3fb67a3eb05a091"
+    },
+    "animations/prince_1hand_combo_03.bdae": {
+      "bytes": 8632,
+      "sha256": "ff029a8af563a4bab61ab5161c3070e5338cd98b334bc013f631b73d0b116003"
+    },
+    "animations/prince_1hand_combo_03_moving.bdae": {
+      "bytes": 8236,
+      "sha256": "a74ae9bb176ac62c0dba27950a689355542732ac084a1657eee78c4f0c1aecd1"
+    },
+    "animations/prince_1hand_combo_03_to_idle.bdae": {
+      "bytes": 9084,
+      "sha256": "c832d595ca3e213511e79f355cc0aeb251517c263dbe26115c8e55f9c9513260"
+    },
+    "animations/prince_1hand_post_combo_01_moving.bdae": {
+      "bytes": 8924,
+      "sha256": "4a96765cc4554f57d9905a7e3b58226793d473ae392186d0463f1d0a87f5f97e"
+    },
+    "animations/prince_1hand_post_combo_02_moving.bdae": {
+      "bytes": 8524,
+      "sha256": "7449a78d729709ce6a5f200e5176f3ca54cef9948111d15f924b317094a260af"
+    },
+    "animations/prince_1hand_post_combo_03_moving.bdae": {
+      "bytes": 9044,
+      "sha256": "192356eae935e5f9dc03b2c54a2a9979ef7bb1456ea4738d823aff0bba7351b8"
+    },
+    "animations/prince_1hand_pre_combo_01.bdae": {
+      "bytes": 7872,
+      "sha256": "e8798fd3f8408249af3a775b11aabea93e8578f926b56b829c06f275eb871e32"
+    },
+    "animations/prince_1hand_pre_combo_01_moving.bdae": {
+      "bytes": 6984,
+      "sha256": "afbf0803ec654d75867a59c7e2045c58c036abb4a385c592d850566f61414cf0"
+    },
+    "animations/prince_1hand_pre_combo_02.bdae": {
+      "bytes": 7148,
+      "sha256": "3ea30bc3e6c83324c8447e8ea108cc29526dd09a877a5965f085f2a695ef23a4"
+    },
+    "animations/prince_1hand_pre_combo_02_moving.bdae": {
+      "bytes": 7012,
+      "sha256": "840a144e1c64ae0f8f7d2421f3a4280879648af439942728f14376a9c3799548"
+    },
+    "animations/prince_1hand_pre_combo_03.bdae": {
+      "bytes": 7548,
+      "sha256": "cb9642516ef273fb9546cbb7b758427b452c9ab5b49c13e26c6afeebcd780058"
+    },
+    "animations/prince_1hand_pre_combo_03_moving.bdae": {
+      "bytes": 6808,
+      "sha256": "6312157e626c4750b8a5bb03d8a1506fe10069244739e33ab2ddc5347f7402fc"
+    },
+    "animations/prince_2hand_combo_01.bdae": {
+      "bytes": 8144,
+      "sha256": "ef877dee487c8c91ee9fd6c4a3a1e9b72db12e9d0288a837341b9a16ba276aa2"
+    },
+    "animations/prince_2hand_combo_01_moving.bdae": {
+      "bytes": 8816,
+      "sha256": "80da78bee82f732b326b2232dfe0dc30ef8fdc1a52df84a3ad46960dbc625d39"
+    },
+    "animations/prince_2hand_combo_01_to_idle.bdae": {
+      "bytes": 8808,
+      "sha256": "08271e2127bcc0baab19ba06bd15af824ad93c45c4319be63f4d0b236eda46bc"
+    },
+    "animations/prince_2hand_combo_01_to_idle_moving.bdae": {
+      "bytes": 10744,
+      "sha256": "fd0ee7b2f3cc16e5f09ec4b854b5bfa3bd37d5fbc559a722cefd706b46a5ba66"
+    },
+    "animations/prince_2hand_combo_02.bdae": {
+      "bytes": 7740,
+      "sha256": "910ea4514b097281bdc1fcab85e394687baae900838ae0b065c5f1bad28fe44f"
+    },
+    "animations/prince_2hand_combo_02_moving.bdae": {
+      "bytes": 8960,
+      "sha256": "926d4df45a4cf6290365d12019158a6160b57d68e56e8826eea29cbcbddeb063"
+    },
+    "animations/prince_2hand_combo_02_to_idle.bdae": {
+      "bytes": 10248,
+      "sha256": "84f919b98f461f8606c68e1da4b0ef7c7e827c4ee7616ed22b22a935b16bf9ea"
+    },
+    "animations/prince_2hand_combo_02_to_idle_moving.bdae": {
+      "bytes": 10576,
+      "sha256": "61571532605f9ae76acb0ed2972a098aba27d8d5db59a3f04f431e9f95078785"
+    },
+    "animations/prince_2hand_combo_03.bdae": {
+      "bytes": 8144,
+      "sha256": "8a8400e0f65e69c1e338008a2399fc74c05697a3853af9301733fbbf4dfcd3e9"
+    },
+    "animations/prince_2hand_combo_03_to_idle.bdae": {
+      "bytes": 8872,
+      "sha256": "611c1d1ce0da71fd01fda1866d9d4d4b979ab86c4d10b8c04143c74398aff005"
+    },
+    "animations/prince_2hand_combo_03_to_idle_moving.bdae": {
+      "bytes": 10980,
+      "sha256": "bdd6f89b8a37493a9360631a1c3ee62301414eaab5a0d4c92ebbccb26b43f1cb"
+    },
+    "animations/prince_2hand_pre_combo_01.bdae": {
+      "bytes": 7640,
+      "sha256": "7200dcc608afbb10af5ac3aae47042d11e94ffdf828a7a5c266fcfd561f0410d"
+    },
+    "animations/prince_2hand_pre_combo_01_moving.bdae": {
+      "bytes": 7940,
+      "sha256": "a4ffe99f3747c1458fcab74226fd1dcc8c272c9255f4d8685f0cf4ad0b5a9ab4"
+    },
+    "animations/prince_2hand_pre_combo_02.bdae": {
+      "bytes": 7992,
+      "sha256": "cb6e4349be2a3426b346cade5da15ad5a9dda63dfeb3405e4f24b73066c02d61"
+    },
+    "animations/prince_2hand_pre_combo_02_moving.bdae": {
+      "bytes": 7724,
+      "sha256": "c16ecacf1d5d3ac959dc59f0e353e608a0dc6828d857566171b9960e017d59eb"
+    },
+    "animations/prince_2hand_pre_combo_03.bdae": {
+      "bytes": 8160,
+      "sha256": "de13c3aa34ecb9ad952ba818f823f807593fd98e0c0334b23ac7ca0e5b86d072"
+    },
+    "animations/prince_2hand_pre_combo_03_moving.bdae": {
+      "bytes": 7724,
+      "sha256": "e5e6d8a6898b3cc0979672366f2f8d5c14708409a1a9a3bceb88039f00cb3517"
+    },
+    "animations/prince_block.bdae": {
+      "bytes": 10280,
+      "sha256": "f87f34e28201d67f33f0245caeeaf33fd024b3b826343a613c2b924df7efd51c"
+    },
+    "animations/prince_despawn_01.bdae": {
+      "bytes": 6312,
+      "sha256": "b6aa0d869acf57409e6a8bbdc755e5c24b0e16fa59adda85d87b2761d0411455"
+    },
+    "animations/prince_dialog.bdae": {
+      "bytes": 27972,
+      "sha256": "276249c74adfae2cf0c69feb18348751ae8dc6b76c4bccfd559996d201a0fb3a"
+    },
+    "animations/prince_dodge.bdae": {
+      "bytes": 11664,
+      "sha256": "b196c02e2270db944ae6f41d90965d741927fbf5fa37b19878fbf49f2e544af0"
+    },
+    "animations/prince_dual_combo_01.bdae": {
+      "bytes": 7292,
+      "sha256": "5b836271f1512867c798548b005f0c287c6f8616389ea42435e906113d247df2"
+    },
+    "animations/prince_dual_combo_01_moving.bdae": {
+      "bytes": 8064,
+      "sha256": "8b639941320b72e1a42deabeca29b29c889a11c1295d7b4029d4a8f13098983e"
+    },
+    "animations/prince_dual_combo_01_to_idle.bdae": {
+      "bytes": 9196,
+      "sha256": "ba0ce3649c5112419f83fe964421a83badda3322d5a85b19910cd26937ea98f1"
+    },
+    "animations/prince_dual_combo_02.bdae": {
+      "bytes": 7588,
+      "sha256": "daddcc6db2fd1d71d783039c3e2e02faae32fd7305543b48072d975df8744817"
+    },
+    "animations/prince_dual_combo_02_moving.bdae": {
+      "bytes": 8376,
+      "sha256": "17ceee4f1f72fba31fc632381478e5c5567fd8108d9da10bafaa018dad36d45d"
+    },
+    "animations/prince_dual_combo_02_to_idle.bdae": {
+      "bytes": 10556,
+      "sha256": "cfea77fc9d5c841fb4684eb817f79f973858f05ecfb2b37ca6c0ef0aee64a8c0"
+    },
+    "animations/prince_dual_combo_03.bdae": {
+      "bytes": 8136,
+      "sha256": "44b08982c3b21d6bfe9f4c95fc5209920e010dfced75890fe7081e9f5b01e018"
+    },
+    "animations/prince_dual_combo_03_moving.bdae": {
+      "bytes": 8112,
+      "sha256": "600a0a395c57fe4af957dc1e56e30c51a9f918a4ac009d044289be32f92233c8"
+    },
+    "animations/prince_dual_combo_03_to_idle.bdae": {
+      "bytes": 9224,
+      "sha256": "68964418ac71cc62246c47ef22a5c0b666d0d7291a841cb710a05e70aa68bac7"
+    },
+    "animations/prince_dual_combo_04.bdae": {
+      "bytes": 7324,
+      "sha256": "376639964124dad7d0ee5177e0eaced6b4f5a161a5b0069ccbba2adb25b30f98"
+    },
+    "animations/prince_dual_combo_04_moving.bdae": {
+      "bytes": 8396,
+      "sha256": "776389afecd2125085d2dbe792af07b51e39b1b3098c3df7142f418ccf93ae64"
+    },
+    "animations/prince_dual_combo_04_to_idle.bdae": {
+      "bytes": 9180,
+      "sha256": "ba92607da20e06bad4d606bf6e8170ae5030bbf26fd0cb6e1cb5d1275c555581"
+    },
+    "animations/prince_dual_post_combo_01_moving.bdae": {
+      "bytes": 9692,
+      "sha256": "8c4c1478be59b455b21d45c495ae90b7c96c39ead7276189150cd3ea5639a25a"
+    },
+    "animations/prince_dual_post_combo_02_moving.bdae": {
+      "bytes": 9556,
+      "sha256": "556989752468582c503dadccc757bff3fcdca0ac715dd896f125fa8dbe56f9ec"
+    },
+    "animations/prince_dual_post_combo_03_moving.bdae": {
+      "bytes": 9868,
+      "sha256": "6156454146d2ec9ea36ee2f3a372c1a97cb7c3e1e9d5624adbe91dd4b5ac895c"
+    },
+    "animations/prince_dual_post_combo_04_moving.bdae": {
+      "bytes": 9488,
+      "sha256": "d74637bc25d937bf15f4c5ce94af4acc3e888561d99be8e6e14f56d14c56012b"
+    },
+    "animations/prince_dual_pre_combo_01.bdae": {
+      "bytes": 7680,
+      "sha256": "2d4086709480be7a0b132175d95661f18f5aba723a4c67b1bf79db9641eab65f"
+    },
+    "animations/prince_dual_pre_combo_01_moving.bdae": {
+      "bytes": 6200,
+      "sha256": "6da1b197fd7014e94d286d1d041ea8cbf88b3603c6f7fbfa5685d0cef418ec4c"
+    },
+    "animations/prince_dual_pre_combo_02.bdae": {
+      "bytes": 7096,
+      "sha256": "245e8a74e81cea44afdfc646db77481101704ec10d6cf951e8be00ac36645921"
+    },
+    "animations/prince_dual_pre_combo_02_moving.bdae": {
+      "bytes": 6840,
+      "sha256": "ba34ee9edb5457dcf93a14a217831fb8b29cc02bf41b26739ec4b73b96da4356"
+    },
+    "animations/prince_dual_pre_combo_03.bdae": {
+      "bytes": 7456,
+      "sha256": "c50dd20b885e10e703d8e854cb6b71270060d536c5dee3ca3062aa4222e83086"
+    },
+    "animations/prince_dual_pre_combo_03_moving.bdae": {
+      "bytes": 8228,
+      "sha256": "ace53ab8c5b3318027663a7550c818ea58166cd2eb998ba68ce8c46cc8f48271"
+    },
+    "animations/prince_dual_pre_combo_04.bdae": {
+      "bytes": 7380,
+      "sha256": "a013e2d9c4df519279717b0bc4f354f03b3b021abcb2811956af5de63aff7370"
+    },
+    "animations/prince_dual_pre_combo_04_moving.bdae": {
+      "bytes": 8092,
+      "sha256": "34d4778b17a6888c0e77c8fe5e867f614eec558dc46eefb51a64c52f8366408a"
+    },
+    "animations/prince_dying_01.bdae": {
+      "bytes": 14992,
+      "sha256": "e428e68037ff7497da52394ac8e7a4e8833ad9e9bfdfb857201b6cdf882c108a"
+    },
+    "animations/prince_feared.bdae": {
+      "bytes": 10232,
+      "sha256": "ad14966e8ed054fb44e356b53592740c14b920992cfdc9a9462e9ce78be07262"
+    },
+    "animations/prince_great_pushback.bdae": {
+      "bytes": 13724,
+      "sha256": "bdff3bc5dd3f3a95227a29bb042b6c837b56c45f53ff715d0aacb9c3fe8b36b0"
+    },
+    "animations/prince_great_pushback_despawn.bdae": {
+      "bytes": 6940,
+      "sha256": "df027ddc1a680b116ae0330fb7c55bc45c3dca567540a6333a3d8fa969367fb0"
+    },
+    "animations/prince_great_pushback_dying.bdae": {
+      "bytes": 10480,
+      "sha256": "7ca5c9182f00bf5859599fb6f0f18a00fdbd089f9b42836b7fb7ccb99fd01b89"
+    },
+    "animations/prince_great_pushback_standup.bdae": {
+      "bytes": 15660,
+      "sha256": "3943f7a2cf93ff0061370a95bf29434bd70f3916779d9c1a81c8bd75d751b6a7"
+    },
+    "animations/prince_hurt_01.bdae": {
+      "bytes": 9492,
+      "sha256": "912d6df63b3088f8670d184b3acd5df133edd0791a24568379d206dfdabe7522"
+    },
+    "animations/prince_hurt_02.bdae": {
+      "bytes": 10428,
+      "sha256": "ddff33044857266b997546d418c4d2e4599831e57c19e67fd5b6e6397673e768"
+    },
+    "animations/prince_hurt_03.bdae": {
+      "bytes": 9732,
+      "sha256": "e0770baf2c5dd3a841c5b3d47660c1c956d56cdab57122f5a7955e9e0fc58682"
+    },
+    "animations/prince_idle_2hand.bdae": {
+      "bytes": 57112,
+      "sha256": "298c9f6f5af13970050a683640790453cf2fe0932d4e59ed6507377c81e2f181"
+    },
+    "animations/prince_idle_2hand_02.bdae": {
+      "bytes": 65132,
+      "sha256": "5a9e13430fca5c3ce8eea44e695e300b444b7916245f513bc3636588b25a2ab2"
+    },
+    "animations/prince_idle_dual.bdae": {
+      "bytes": 55036,
+      "sha256": "19a673316a0e9d8497ab32c7f9466094993eb78ba4e0bc099c40fa2636906d8c"
+    },
+    "animations/prince_idle_dual_02.bdae": {
+      "bytes": 65128,
+      "sha256": "58ec39b964f729c3ef18d7920bf28bde5bb05b02d5c674944e6c72368f51f77e"
+    },
+    "animations/prince_idle_ranged.bdae": {
+      "bytes": 9964,
+      "sha256": "d16c517b473d039cf47559229417f9fc6d862f57a98e1f866f71989225c9a14f"
+    },
+    "animations/prince_idle_shield.bdae": {
+      "bytes": 54600,
+      "sha256": "300847b1c34a4752bf51730df32db559bfc21e53ef8203a9e797426f3316bd92"
+    },
+    "animations/prince_idle_shield_02.bdae": {
+      "bytes": 14996,
+      "sha256": "936bef30f346576f16bf5025ad0e0289cc9197e1144c4bcbbf80aee286e00c13"
+    },
+    "animations/prince_interaction.bdae": {
+      "bytes": 11408,
+      "sha256": "988b7ad3e614e2ecc4fc29bdd6fef71d752476d94b432b8ce46b37759e9eba62"
+    },
+    "animations/prince_interaction_shrine.bdae": {
+      "bytes": 6072,
+      "sha256": "cec7e98e19b3e0621e3851932c7f0a54c9e668bd42ee47feb4b14651fcb7842a"
+    },
+    "animations/prince_menu_idle_knight.bdae": {
+      "bytes": 19400,
+      "sha256": "23c4268d68fa761221445ee45cb422aa9e777157b53481f6451876e3ac56915a"
+    },
+    "animations/prince_post_stunned.bdae": {
+      "bytes": 9244,
+      "sha256": "0d0930697d6de8e84aca96450d02dd1576c96fef1d17bf530f100fd4d7727403"
+    },
+    "animations/prince_pre_stunned.bdae": {
+      "bytes": 7084,
+      "sha256": "35eb3d125813c63a3a0aea5a3ce3810339e44dc7c8a13bf40ebb1a4061358532"
+    },
+    "animations/prince_pushback.bdae": {
+      "bytes": 10784,
+      "sha256": "98b725ebc5c5d5de24a10b01cc9936a08d5505adb62919db522a14c6ecd3481e"
+    },
+    "animations/prince_ranged_attack.bdae": {
+      "bytes": 11752,
+      "sha256": "f09a30b58cdf6aa2abf8e4f06b5a84eb438862fa605799c1f84f3f71f40523ed"
+    },
+    "animations/prince_ranged_attack_02.bdae": {
+      "bytes": 12088,
+      "sha256": "e1c3f234b5a2ba0b9c5accd9bea653c1acf600a5e485d0aa75b34502b9dd6cc6"
+    },
+    "animations/prince_ranged_attack_03.bdae": {
+      "bytes": 12400,
+      "sha256": "72aeb6c800d33e8b6890c0031a004eae47d65c68dad721a25a53b5e305900cf3"
+    },
+    "animations/prince_rogue_sneak_idle.bdae": {
+      "bytes": 16788,
+      "sha256": "ba16c7ae983f3afe7c0f7e95836e5412bc7ac3399ee502de9acf5a780f003f9e"
+    },
+    "animations/prince_rogue_sneak_walk.bdae": {
+      "bytes": 11392,
+      "sha256": "64ec13a0132bf52db4c430c64f2b138ca7cc5bd76140ee3ede21b1923a8bc9c1"
+    },
+    "animations/prince_spell_channeling.bdae": {
+      "bytes": 8048,
+      "sha256": "1350178e7a87b8868fb6e4d34acfce79e27a77674058aa09ddd8625bb6f596ec"
+    },
+    "animations/prince_spell_hotty.bdae": {
+      "bytes": 9444,
+      "sha256": "e80741db58a592071f0fe0f4683a2fb4cec3d5e6c0872a32251ef7266d742fda"
+    },
+    "animations/prince_spell_pre_hotty.bdae": {
+      "bytes": 8204,
+      "sha256": "20f24c13da52eeccd65e5c1d9e1622eae02eb17c8add83893c7470dd2e5ce59d"
+    },
+    "animations/prince_spell_pre_rocky.bdae": {
+      "bytes": 9256,
+      "sha256": "df611a7a2610a9bc952ff5bcd2d09c78858a1f03aa9d3e4d0b5f8ec25b54cc7a"
+    },
+    "animations/prince_spell_pre_wetty.bdae": {
+      "bytes": 8352,
+      "sha256": "0ab0b2420d0a61797e41f7176b9690d5f56d85d0daac3005e871e7f11b2889fc"
+    },
+    "animations/prince_spell_pre_windy.bdae": {
+      "bytes": 8648,
+      "sha256": "b291fd40c0eb231aa130312d59fb5a54d9113b8f4931bda477bb3f768caba43a"
+    },
+    "animations/prince_spell_rocky.bdae": {
+      "bytes": 9452,
+      "sha256": "6a98c5f8a6aacb745ae58f01e13e375bf8489e9c66864870f5d77d91d6b4183a"
+    },
+    "animations/prince_spell_wetty.bdae": {
+      "bytes": 9488,
+      "sha256": "e00550d886041df8af1add54e49a5a9c4047bce9b730ddf219f03d1ad4660cf0"
+    },
+    "animations/prince_spell_windy.bdae": {
+      "bytes": 10656,
+      "sha256": "ad9c13246bb75cb3f7bbc6c8cb2aa5100fdd8c23f25185b45f35acb10d0df36f"
+    },
+    "animations/prince_standup.bdae": {
+      "bytes": 12624,
+      "sha256": "14f67e0012fcbac97db179cf9304f55d22d537fed2a78c3070c5be758725042d"
+    },
+    "animations/prince_stunned.bdae": {
+      "bytes": 11636,
+      "sha256": "10a81195712d8a46498104c8e1647296ee7fdf0d4eb488425d1bd987cf3b0214"
+    },
+    "animations/prince_template_anim.bdae": {
+      "bytes": 19908,
+      "sha256": "23054c4f06f75cdb677541ca728f5f689f8e018b3f05f25008297172ff49a102"
+    },
+    "animations/prince_walk_1hand.bdae": {
+      "bytes": 10496,
+      "sha256": "161918610c49b9125c96cca9215117ac636e4e289ed82bc6982fb5cabab9a4a5"
+    },
+    "animations/prince_walk_slow.bdae": {
+      "bytes": 68492,
+      "sha256": "768fb52be0fe01ebf9a6cf2c791e989a19805ea2c23e3f86a75aede88c539967"
+    },
+    "animations/root_troll_attack_01.bdae": {
+      "bytes": 40516,
+      "sha256": "4be7041221376d6c0fe7ffbddbb348255cabb5c05f84dcdd3b9edb528e15d51e"
+    },
+    "animations/root_troll_dome_idle.bdae": {
+      "bytes": 11744,
+      "sha256": "8acac78bae233bc13c8b05d70799868f1904c8ee1669f42686e293d7820cba0a"
+    },
+    "animations/root_troll_dome_to_idle.bdae": {
+      "bytes": 19568,
+      "sha256": "07e553ae7f389fcdc1a28919e5616ae7b11de694e447835c859ad851ed7ce1e4"
+    },
+    "animations/root_troll_dome_warning.bdae": {
+      "bytes": 3524,
+      "sha256": "3fa1fc7554771a54ca0471ad5e10b8b4da6535b75907f21f2e88c5bcc588b95d"
+    },
+    "animations/root_troll_idle_to_dome.bdae": {
+      "bytes": 11020,
+      "sha256": "47782dc8b427074d9499e250f6391f66b43c37ee039f70b63b0038418e641786"
+    },
+    "animations/root_troll_post_attack_01.bdae": {
+      "bytes": 9100,
+      "sha256": "7a4ed88775687f30b71948d079f13864f8918d581217c26ca0b17fb797ba9dd0"
+    },
+    "animations/root_troll_pre_attack_01.bdae": {
+      "bytes": 12356,
+      "sha256": "dc4cfc8c853552c3d13d8bfcc598f34d3d4a2caa9b0bceb9e35083e4beab8d83"
+    },
+    "animations/skill_dh2_prince_mage_wand_attack.bdae": {
+      "bytes": 65060,
+      "sha256": "bfbdf36bcd38aec4411b71b134ec661b66e47ae649fdca09dd800cd2ad5b7762"
+    },
+    "animations/skill_dh2_prince_rogue_vicious_strike.bdae": {
+      "bytes": 15752,
+      "sha256": "f5bdab87e02875d343840377e580afdce3dbbf0db35938baa17d5910ebbdb6b6"
+    },
+    "animations/skill_dh2_prince_warrior_bash_down.bdae": {
+      "bytes": 15528,
+      "sha256": "087068efba8eb4626510292c4cf9257e119e209965e7ab591e5250ea2609be0b"
+    },
+    "animations/skill_dh2_prince_warrior_charge.bdae": {
+      "bytes": 11516,
+      "sha256": "f24d9a28854d0188e611b7ebb4bd120f3dd57957ae132c5d243f2dbb627fd373"
+    },
+    "animations/skill_dh2_prince_warrior_crushing_blow.bdae": {
+      "bytes": 14676,
+      "sha256": "5aa608edd801347e338505fb915f6e44033bf51ff98310170accd4dcb232dbfa"
+    },
+    "character-combat-provenance.json": {
+      "bytes": 40549,
+      "sha256": "4d08755abbb7f23af9b132b9ef561b536dacafdb625f73be578c17839ee39084"
+    },
+    "class-provenance.json": {
+      "bytes": 1450,
+      "sha256": "dbd16c0372d611a5ed6806da326415204e934081d0446a8ba12e88e0349af9ec"
+    },
+    "data/ai_factions_pyarray.bin": {
+      "bytes": 636,
+      "sha256": "d302382d9b8079e71f9915d6fed7c262b1f9f8bb8f1a0eb6f060859a1a992e3d"
+    },
+    "data/ai_factions_pyarraynames.bin": {
+      "bytes": 230,
+      "sha256": "ebf655de9419ee2138b9662e08275080ea7b5e421b0446b11e646baedb90e211"
+    },
+    "data/ai_factions_pystructnames.bin": {
+      "bytes": 35,
+      "sha256": "8ebbc7927e58b9dd93d03f1f76b366ecd88f3d9b3abcaee31196dd21a05bda15"
+    },
+    "data/ai_pyarray.bin": {
+      "bytes": 5071,
+      "sha256": "bfe56f4a07dbe49bb55543137ae343334082b6a340ca156f367ee51e3b2771bc"
+    },
+    "data/ai_pyarraynames.bin": {
+      "bytes": 1068,
+      "sha256": "3e70840c238f38e0e7db7945dfcc1d6aab14644d28f8e8b7c3a014878174b36a"
+    },
+    "data/ai_pystructnames.bin": {
+      "bytes": 209,
+      "sha256": "8e57ac44649466bd3f8fb164c3f7ab56a84c4d7c5d786e40239c9cc2e9f09d82"
+    },
+    "data/animations_dictionary_pyarray.bin": {
+      "bytes": 104357,
+      "sha256": "faee362a0cbf3fdcf3b09e2b957482c87f90ce25bc68048d1dfc7c742838fca7"
+    },
+    "data/animations_dictionary_pyarraynames.bin": {
+      "bytes": 42616,
+      "sha256": "e5276ddf59cea81681a64da89db78378248dddb10fc3dea1c21f49abb19f9fe3"
+    },
+    "data/animations_pyarray.bin": {
+      "bytes": 72812,
+      "sha256": "4c9af9a5cbbea556362226e240889f3f6a1456ecd6d24eb0c678be5ab3615469"
+    },
+    "data/animations_pyarraynames.bin": {
+      "bytes": 17971,
+      "sha256": "987e08269dfe8e89ebe6e08dfd65bcc7dcfd6d88806da6cb317de9f9306ea7c4"
+    },
+    "data/animations_pystructnames.bin": {
+      "bytes": 648,
+      "sha256": "d4e19b0e688c51b2d7bcdc2a80b8553b99789e94c825e1e1bacf052590e86134"
+    },
+    "data/character_classes_pyarray.bin": {
+      "bytes": 34224,
+      "sha256": "e6349ebb1622404586a286f46ddea26d08e68c2d8a5e3e56bd711159d4becc55"
+    },
+    "data/character_classes_pyarraynames.bin": {
+      "bytes": 6607,
+      "sha256": "f1f84258e8fd5dd1967abb1f4ca7320d7c192c176ca26f20773dec140e1fd6fe"
+    },
+    "data/character_classes_pycst.bin": {
+      "bytes": 251,
+      "sha256": "e4f42db282ab0f660647676e164d28280ea60db3079ae77a8752dc51cf2dcd84"
+    },
+    "data/character_classes_pystructnames.bin": {
+      "bytes": 750,
+      "sha256": "3347d6e0b30aec9af544eafeb1c0883cc284c1a0585fdc472f51f407d578d268"
+    },
+    "data/character_models_dictionary_pyarray.bin": {
+      "bytes": 5366,
+      "sha256": "682f7ee5935fea873a3c1e09a3590df2a8250f110966f4efce654f2d20367c51"
+    },
+    "data/character_models_dictionary_pyarraynames.bin": {
+      "bytes": 1755,
+      "sha256": "d731c154e9208b66b84476d97a08366ad1d3e1a074c1fc59889e03b847661fc9"
+    },
+    "data/character_properties_pyarray.bin": {
+      "bytes": 401608,
+      "sha256": "516ba82f631174d4c0a24708342549b5993c402f68c2c1dabd5ddc9eea138784"
+    },
+    "data/character_properties_pyarraynames.bin": {
+      "bytes": 8993,
+      "sha256": "ba0d987fe70d900dac7d8eb29dc28d87f48e48a15063b87c38e78bf5a2f83801"
+    },
+    "data/character_properties_pystructnames.bin": {
+      "bytes": 5032,
+      "sha256": "7c955f759840dc7808b17ddb54213ce886abd5cdf6607cacc9048a3626803cc2"
+    },
+    "data/prince-animation-bank.bin": {
+      "bytes": 31839,
+      "sha256": "c0cf8bfbb804256050e0d1ac326b8388b472c9b3034c8366c992f2056f477b0b"
+    },
+    "data/prince-animation-bank.json": {
+      "bytes": 54006,
+      "sha256": "76633bb4f0ab5f645f4516e407e1f926df61641ea66faa805f68da57f043eb81"
+    },
+    "models/candle_flame.bdae": {
+      "bytes": 16856,
+      "sha256": "7ece047e6cb253036d50260018fd7299ad9835e743ca0fcd4e2d3004ea0269a6"
+    },
+    "models/main_menu_charactere_swamp.bdae": {
+      "bytes": 158440,
+      "sha256": "8a3462863a3d6ca2255d96989d53a21cddfba821e42c8a13e676f10e51d1300b"
+    },
+    "models/prince_modular.bdae": {
+      "bytes": 3207072,
+      "sha256": "7e998e60bdfcbc9237c9867bd8de146f6d59bc9f8c9c028cd4d2391f460f0b3e"
+    },
+    "player-combat-provenance.json": {
+      "bytes": 3430,
+      "sha256": "c7ed749721614b39fd5da30446ba286b3908b7b21cf9f456b65ac57d06be4860"
+    },
+    "player-defender-provenance.json": {
+      "bytes": 687,
+      "sha256": "78de8298a548404cde57f7d72a5da8b625792a008661aaf6ddd78aeb5c162b1e"
+    },
+    "player-locomotion-provenance.json": {
+      "bytes": 21297,
+      "sha256": "913f9d2e6422c76cd998777f221ebc4d346b2772d0f6fd4efcbe6c6102966d52"
+    },
+    "texture-provenance.json": {
+      "bytes": 5381,
+      "sha256": "fa58aabe2acfc31f07bcc386cdc442948deb217ca75c9b88de97c32c8625b190"
+    },
+    "textures/atlas_dh2_game_objects_001.tga": {
+      "bytes": 524348,
+      "sha256": "12b326ab884126622721864edb49ab7e30bafb21a269d11db4f185515e4eca7c"
+    },
+    "textures/atlas_dh2_game_objects_001_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "4989829958943daff0d0b977ae98c52def30bb0c966dba21d19e949f9321fc79"
+    },
+    "textures/atlas_dh2_game_objects_001_specular.tga": {
+      "bytes": 131132,
+      "sha256": "49c66c6eab5b957acadcf1f8216eb4720ed69b60f86a2b8776505bf54a5d7398"
+    },
+    "textures/atlas_fx_particles_001.tga": {
+      "bytes": 131132,
+      "sha256": "2256f485a94b00e8a8e5cbf93f0ff2038eff8d289ad73386683459ce01767b1b"
+    },
+    "textures/atlas_fx_particles_002.tga": {
+      "bytes": 524348,
+      "sha256": "8a64e888f2d57f72143b07644ee29d91d5e4a1a46db26d4e482b5f2f7bfabe18"
+    },
+    "textures/atlas_modular_warrior.tga": {
+      "bytes": 524348,
+      "sha256": "b78abd158902679a467f4c86794c90554deca06a97bf3b4bdf8beba88ef10a5a"
+    },
+    "textures/atlas_skinned_characters_animdecor_gameobjects_001.tga": {
+      "bytes": 524348,
+      "sha256": "b481139257068aca633269161be908e66f839f241f7b42b035337c705e121e83"
+    },
+    "textures/env_crypt.tga": {
+      "bytes": 524348,
+      "sha256": "7073b19482ba1686e630fba1a0c0ee182194b5f02854f47c148502866f6bb9ad"
+    },
+    "textures/env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "textures/env_crypt_spec.tga": {
+      "bytes": 131132,
+      "sha256": "d74002ba771e1ba50fc421cf1066d1b0f977d5377dbd4971d92643f007f1b737"
+    },
+    "textures/env_darkwoods_alpha.tga": {
+      "bytes": 524348,
+      "sha256": "e904c2fc1534b5708689903a650693e1f52acbe8b59483553fe002eef5551832"
+    },
+    "textures/env_selectorcharactere_solide.tga": {
+      "bytes": 524348,
+      "sha256": "afced3f99c4d32d04a173066cbd10ce4cabe9c1d9a896fededa6d23b6d05f7ec"
+    },
+    "textures/fx_magic_lenz_flares_008.tga": {
+      "bytes": 8252,
+      "sha256": "3b3153829a922c4328099b031c57d09d823daad52775cc2901fe5f7c105e90cc"
+    },
+    "textures/fx_smoke_03.tga": {
+      "bytes": 2108,
+      "sha256": "4575579f951123fe869e875d4e76ce45a6bf02cdf78a99a976f54fe815fe35f0"
+    },
+    "textures/fx_spark_01.tga": {
+      "bytes": 2108,
+      "sha256": "bf4eccee918a7d440760b93b1f18666b5e3de62c147784bec7dbb3bca7a7d720"
+    },
+    "textures/godparticle_face.tga": {
+      "bytes": 2108,
+      "sha256": "8e15108e74b443ee6c11bc2cfb05af23c046a53e0dac37df24973e848b6117ea"
+    },
+    "textures/menugraphics03.tga": {
+      "bytes": 1048620,
+      "sha256": "0f0ec6784f20c469fc05becf9e82251fee19b4856ed15b14e3e01a695b92ca7b"
+    },
+    "textures/pvr2_env_crypt_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "79176905b00d8530612d3b2e3ff173d15258cf837e94369a7c0af37a47eb8d99"
+    },
+    "textures/pvr2_env_darktemple_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "5e75682c43e14c44baa0e2e79f86512dd6d45ab7a1df0749a88e8379914e0714"
+    },
+    "textures/pvr2_env_darkwoods_alpha_alpha.tga": {
+      "bytes": 262204,
+      "sha256": "087d110133be72b9a5f9e4339fbd6707ea3e6e834d1e6d8a97bbde4cc4ac1413"
+    },
+    "textures/skybox_selector.tga": {
+      "bytes": 131132,
+      "sha256": "d41ace06bf91f57b2bea7658414b4d6dfb04d0856f0575c8f2d250a8a6831594"
+    },
+    "textures/skybox_wind.tga": {
+      "bytes": 131132,
+      "sha256": "7e89b7ac4e2e8daea82e2f0f8397259af24b44c33e6cc88ef799eec15fa7074f"
+    },
+    "worlds/007_crypt_01.rule.xml": {
+      "bytes": 3684,
+      "sha256": "2970183f1be3b6a01470d45f0db124afb3bf6582e4ed166780e431ccdaff8b07"
+    },
+    "worlds/crypt.bdae": {
+      "bytes": 3922816,
+      "sha256": "886e1e275b4320e49de7affef1f127e4fa8606cf7b1e8c373dfb41b2fef4040b"
+    },
+    "worlds/crypt01-provenance.json": {
+      "bytes": 102896,
+      "sha256": "a38bbcfbde007bd328de9152ea1e5499a97903f472b36c9ccbac37f36de94126"
+    },
+    "worlds/crypt01.dwld": {
+      "bytes": 1048,
+      "sha256": "0041f14cef4acd5a438fa0f14a687529b4f3714526c0a4042ed7744a212e22da"
+    },
+    "worlds/crypt2_straight_ns_01.mvp": {
+      "bytes": 3135,
+      "sha256": "ee4cea2740331782278fd56f4bf7c064ca778a78d8c426696a0ce6bbabbe0007"
+    },
+    "worlds/crypt_cemetery_entrance_01.mgp": {
+      "bytes": 10841,
+      "sha256": "f827a7627268dbb807c538940cdf66e1b1b72aeecb34c1fd558b62cb03cb84c9"
+    },
+    "worlds/crypt_cemetery_entrance_01.mvp": {
+      "bytes": 8569,
+      "sha256": "3d85527d704c1b74869bfbb2f39be1585a905e66575a4cf251adac0cdeb80de7"
+    },
+    "worlds/crypt_corner_ne_01.mvp": {
+      "bytes": 5571,
+      "sha256": "2500af6ebb2d01126f739ae1ced635c6e46365cf3f13ed34cc1ae8e7fa885e78"
+    },
+    "worlds/crypt_corner_ne_02.mgp": {
+      "bytes": 3523,
+      "sha256": "095665bc7250b6700837f359d620adcdaed52647a0e61b83db499b64eb6efdfa"
+    },
+    "worlds/crypt_corner_nw_02.mgp": {
+      "bytes": 1355,
+      "sha256": "5652c6b5d64cf75e9b8c043cc61f6308ea6ca67784b2342c836b22469aa03179"
+    },
+    "worlds/crypt_corner_nw_02.mvp": {
+      "bytes": 4127,
+      "sha256": "c4d7109c9c4ec8a764cc65d808d82dbe1dc3540a5dca1d4f2fa88fc745d55134"
+    },
+    "worlds/crypt_corner_sw_01.mvp": {
+      "bytes": 4172,
+      "sha256": "7ccc9938cdf0e6ae58bb61d6c74e1908c6087874a161a4ac8b55fabc862873db"
+    },
+    "worlds/crypt_corner_sw_02.mgp": {
+      "bytes": 1897,
+      "sha256": "ff4defedde868b53eeb5d5c9ac39dc41fc6b85d55cd27891e3009d3ad3e04168"
+    },
+    "worlds/crypt_deadend_e_01.mgp": {
+      "bytes": 2260,
+      "sha256": "41604cc014bfeeef32b93432f49d2dc7643915f8112a123f1d0de9c3e6e47c8b"
+    },
+    "worlds/crypt_deadend_e_01.mvp": {
+      "bytes": 3410,
+      "sha256": "d3f69fe0ffba96b35414d8db0399e7e6acbda0fb658ec2ec3fb8abfb1dc72440"
+    },
+    "worlds/crypt_straight_c_ns_01.mgp": {
+      "bytes": 10307,
+      "sha256": "c88e2e8028fe8bdf18bb703f2f0db69c9a6df7b8060f282d4d5f20fb455f04a2"
+    },
+    "worlds/crypt_straight_c_ns_01.mvp": {
+      "bytes": 8594,
+      "sha256": "bd06bd5a12043c40f028f5faeb059d531f6ea628770c05166ade227cfbc778b8"
+    },
+    "worlds/crypt_straight_ns_01.mgp": {
+      "bytes": 3365,
+      "sha256": "0266b9548bb29c929b4c37b87708a2519371da3329e400e73ed3d2ada12b0e25"
+    },
+    "worlds/crypt_t_sew_01.mgp": {
+      "bytes": 1731,
+      "sha256": "a34d860d4b94cbcb936ecc9ab1ad2d8ee8450c15067a44298ac88d0a5c3c8189"
+    },
+    "worlds/crypt_t_sew_01.mvp": {
+      "bytes": 5057,
+      "sha256": "5bdb426a45eef5d9edb2abc4cc5e9281a35ad4df27076e16ca0c252e55a9345f"
+    },
+    "worlds/x07_crypt_backup.mlx": {
+      "bytes": 8124,
+      "sha256": "706b1e23ea7ca9c3c1695d6cf8679c177bdfb70e71d202e351a2b0c8564023c7"
+    },
+    "actor-provenance.json": {
+      "bytes": 77038,
+      "sha256": "dc96309262c857ca041d06f0dfeafb97f462c6699c6336dc715255019fee5800"
+    },
+    "actor-state-provenance.json": {
+      "bytes": 13160,
+      "sha256": "15d72f06279bfeddfe7f6dc8dc9eb47a6b8b4e52c7666c549605cba142a458eb"
+    },
+    "actors/ghost_spawn.bdae": {
+      "bytes": 12276,
+      "sha256": "b3a7aad646be75a1ba90d5ff4c8bd88bd9071bd392739c76676a94d8651fb763"
+    },
+    "worlds/crypt01.dact": {
+      "bytes": 24848,
+      "sha256": "b52ae04b37f1ef74db574a7d94fcb5d1de16ccf3b0c907ec41a2d84abeb7c824"
+    },
+    "scripts/007_crypt_01_pyscriptnames.bin": {
+      "bytes": 507,
+      "sha256": "0270ad4f4fb2d2fe9ed0b6cefe208f5431b38504937aff0ea1aafabffd6f8b13"
+    },
+    "scripts/007_crypt_01_pyscripts.bin": {
+      "bytes": 2129,
+      "sha256": "78666c2e163441f806f9fae017030b475613d849f74b833fa6ed58000c5ec3cc"
+    },
+    "scripts/crypt-ghost01.dctr": {
+      "bytes": 44,
+      "sha256": "e809b77179b827baeb8e3047e26f52bacf8dc0c855373db8e4e82d045a250299"
+    },
+    "scripts/crypt-script-provenance.json": {
+      "bytes": 2614,
+      "sha256": "20a415be45847b8110cc80f6220a733a0314132d0e972173e781ad62fa6b5a6b"
+    },
+    "scripts/scripts_pyscriptnames.bin": {
+      "bytes": 321,
+      "sha256": "96c9ba8b4cf6afef1318495f2fa18ca4e6e125b187f4bad086e109d22fcbf3bd"
+    },
+    "scripts/scripts_pyscripts.bin": {
+      "bytes": 1277,
+      "sha256": "39bd1a0c3c7b55c996688687b69504c0446175b3b3451bc1e7481ab18135551a"
+    },
+    "scripts/ai/_commons.luac": {
+      "bytes": 13535,
+      "sha256": "20d34968e9983e14c24223085ab40d55d47f9387dfdbbf3ff7e6b39aea91252c"
+    },
+    "scripts/ai/monster-ai-provenance.json": {
+      "bytes": 968,
+      "sha256": "64ecb74217ddbfdf019670c4617f4da11122e7554f2d035e6332d2c9cd8e4283"
+    },
+    "scripts/ai/monster.luac": {
+      "bytes": 7393,
+      "sha256": "84f07caaeb2c04f2024cc3e27d41f33806b2c53d6e8861bb3d8b371118fd0e1d"
+    }
+  },
+  "source_sha256": {
+    "port/android-native/app/src/main/cpp/model_renderer.cpp": "96f7f0089f4dda36720b50017479138cce76c93ed27e59d7abc8c0d7653f1887",
+    "port/android-native/app/src/main/java/com/example/dh2/MainActivity.java": "a30af787cae3df867a28991a5db05b5540f6779aba5f7e914a48f21cf6056d40",
+    "port/android-native/app/src/main/cpp/CMakeLists.txt": "a2fd27d887980e286dae14c9743d0d00f4739cabb458adb41fdac4fb4bd5a743",
+    "port/level-world/CMakeLists.txt": "7fa27082cc9e995d3f88edc56941a410de1e1f7d889850f3344fc0bd99c98248",
+    "port/level-world/crypt_spawn_script_session.cpp": "d9898c58fd89cc6be41ace89801bdb9d7f3480f0136de8729bd1442b928bcbba",
+    "port/level-world/crypt_spawn_script_session.hpp": "32cf96caa69727f7d4e7801b6de7f5ba54f451d1ab28257b0568803d2f958539",
+    "port/level-world/crypt_spawn_trigger.cpp": "49b4f1a03dae63cb3f75be7da466c90e59511598b8d0ffc35fdb1579448836dd",
+    "port/level-world/crypt_spawn_trigger.hpp": "e821aaa8459c0827053e39ca95dcfa65e5b232e1d61e0354bcb4d7f1f8b28cc3",
+    "port/level-world/character_factory.cpp": "28f86f3a3b87fdee1ecb476110a145a6935847229ac6e48ddaceccafa5a65168",
+    "port/level-world/character_state.cpp": "5a99617670f2de2b75af1534bbfb03ef29ea0607047bf131166b02615e560fb4",
+    "port/level-world/character_state.hpp": "22d512b11c0f20d00ea01c4344bbf0d3b072c4be74ad2a297e2b4519e2e9cdc9",
+    "port/script-runtime/script_runtime.cpp": "5acf91646b99d844e122052de7bf3af39a1c1b3381bdd3c4cf13f481de39ba42",
+    "port/script-runtime/script_runtime.hpp": "84fc1fdcd9761e1e0d45003dbb8993e74b54bc33a93ea2d08f1ce524de384570",
+    "port/trigger-contact/trigger_contact.cpp": "6cca865cf78b7305f921204eae9ae098266b197c54711eacfc6aa87b2f285426",
+    "port/trigger-contact/trigger_contact.hpp": "5c3f6e3ec1d9e91bbfab8dde8e88f58bc5cf8fb87b0544792f03c09454c54e78",
+    "port/zone-contact-runtime/zone_geometry.cpp": "309b5488892877ee0c8ebbcd4bfc8ea5874a82709e0856a10c87e8ef4a2fbd52",
+    "port/pydata-scripts/native/pydata_scripts.cpp": "a146a72dc96f20cd1610a2be18beb91d534174c717bed6a8c958a2d4504d5aa0",
+    "port/pydata-scripts/native/pydata_scripts.h": "f452a4e529a84a334a262f5bcd5e8a4e7987fb72644033ff64429835f872bf70",
+    "port/scene-materials/CMakeLists.txt": "6274830b9960800a3653cc0c1545aecc13a30fc678eb5a6dccc9a3888f778f6a",
+    "port/scene-materials/technique_selector.hpp": "efc0c2c81fb7181ea4aa7ab35276fa2d5b8e66d665cc9ee7946db38e4624c629",
+    "port/scene-materials/technique_selector.cpp": "7160bc64f7847d34ba21057baa9ae83428c53e1050e9ba68897126fb3c4e87fd",
+    "port/material-bindings/bindings.hpp": "7821ff4e8f585df4aadd31bc2f72ab0022094487e0c4efa700405395a892939f",
+    "port/material-bindings/bindings.cpp": "7ce25fc920a1493283aeeceb884748cc5837afa93a4ee2f78a2ff723f4e493fa",
+    "port/scene-materials/render_state_snapshot.hpp": "dcf812dc8aad61b55311406def972a3bdeec031c89b568e35f0e4183674541eb",
+    "port/scene-materials/render_state_snapshot.cpp": "8924ebbaaa675163509bd938706ded30604602832069e1820b5bcdfc7c4b6083",
+    "port/scene-materials/source_state_conversion.hpp": "54cd2904fdeb5f5f5426f00ed8c11d2624f1f1e48fd1efc1bc35b8bd35810eec",
+    "port/scene-materials/source_state_conversion.cpp": "c2ede9875060eb483387973f1f78f9c4782a4d3a83a4d9350df918b1a975ede2",
+    "port/adam-script-runtime/script_runtime.c": "25744c73b86a98766ba11b6512c90b3bb9d54b17e9f6975e75f3a2ae3dbcdebf",
+    "port/adam-script-runtime/script_runtime.h": "ea4910ad1e2e292625979e2a4380146fbfd71dc8bb217e93dc1507cb70729bfa",
+    "port/android-native/app/src/main/cpp/ghost_ai_owner.hpp": "24ca78a29b8570ea0606c71a71d7e14a1b210e9a880f9d79f1b737a41d2f5ae2",
+    "port/android-native/app/src/main/cpp/ghost_ai_owner.cpp": "9bb7110121cb0fd0c392a8eecd78dcda45474f216a3ecae45c72331f8eba5146",
+    "port/level-world/character_aggro_delay.hpp": "717050f1cd77de1287fef30e36e57f4a0257bf3458519ff5ca63ae6f080101a9",
+    "port/level-world/character_aggro_delay.cpp": "041e7e2eea050be466169ecddddd604f912a173233733c761a6010330b870a9e",
+    "port/level-world/character_ai_turn.hpp": "b623262c48e34d79ceafe6961c567f30f20237d1423cdf0063c37b8a00a97ad8",
+    "port/level-world/character_ai_turn.cpp": "e0eb5bf3bb58dd59798116d4c54e953321de4bfb0dca13bb7ccacaa7746d4cf7",
+    "port/level-world/character_aggro_target_search.hpp": "9cccdaf57db5d91bcde4a0a6a8da237f24a73689993b01b28fcb13899409aeb0",
+    "port/level-world/character_aggro_target_search.cpp": "f536932219b563816a96d1afcdb7c1ffc9682fe42891d6e5a88cff16de20fb70",
+    "port/level-world/character_aggro_candidate_events.hpp": "63cc22ed09f6eb1304edd8c482d5d81cc7d83c929052a831b5372f8f5410dd58",
+    "port/level-world/character_aggro_candidate_events.cpp": "dedf5be12e89fcd4b0d5b57652144505b8b2f277bf3fcf3844513664a91f8e5d",
+    "port/level-world/character_enemy_spotted.hpp": "5d20b123a81196e43f84b10a50467b3fe92cba98b91de707ea56fd455581fb60",
+    "port/level-world/character_enemy_spotted.cpp": "e9e5cb5d17f3621f69f3ffab31106f61cbedb3b3736044d9ce4c1ca9ee877c6b",
+    "port/level-world/monster_external_script_session.hpp": "cdd3947eed8ac84de766510d747f34ee46c4be650926f7d0aa4e88857b6d0656",
+    "port/level-world/monster_external_script_session.cpp": "e7b94890595e64b434f62582aa25349b7982e2b447f1cdb89207e69a1c0489d3",
+    "port/level-world/character_ai_set_target.hpp": "13e569adc9eec552333c6a265eb35bf4ff22175145691a011f0a0ecf6e56e184",
+    "port/level-world/character_ai_set_target.cpp": "27185727ef99d803d451b9168e90a32aa665202721d942b5056d048ea5e0487d",
+    "port/level-world/character_ai_relations.hpp": "d2555cde0441bdcccc2a9a2df69099b899c5121171b67a18ef7506cf4be62ebf",
+    "port/level-world/character_ai_relations.cpp": "b88021247e65d54a407e3f1e350e683ba6e4a6dbf1827b8e62c16f94977f5f42",
+    "port/level-world/character_ai_in_combat.hpp": "acb18dcd929681072e0eb0ea9f6cd771e397b156ee0f2351ffe0092082c7dd10",
+    "port/level-world/character_ai_in_combat.cpp": "b762ddde559413c8bc63b9081581b44bac2a447bf8d9e1f20633eeca148bcf58",
+    "port/level-world/character_aggro_acquisition_prefix.hpp": "1ce70f05d83d50e9652b201ba0647bbd64eec6115e79cb3f640071eeba375d8b",
+    "port/level-world/character_aggro_acquisition_prefix.cpp": "057f78dbcde4e2852f0c9a3e73858dcef94fe145d2ad14b040f8d60cbec9c0b2",
+    "port/level-world/character_ai_sight.hpp": "ae36f54ffd97cfb079905e3e03854fc354853304609135aba76591bfb07e9a81",
+    "port/level-world/character_ai_sight.cpp": "841b1b72e26de327434fd337ce8a0d50449805b5fef03e3a0030d82defd6298f",
+    "port/level-world/ghost_ai_session.hpp": "2349a9ebb0557d4fbe4edcd09f88a985266f7d5b8407c977338d7194438a0328",
+    "port/level-world/ghost_ai_session.cpp": "16d5adb5cf2c2e5896ae08e6f11ae0621a3f16fe752796acc320b3f5f843b4be",
+    "port/level-world/character_monster_retarget.hpp": "cde628b6f6445b5490f4f0b8c7af7bc36bc3e0807b77630469b5aacfd49ba6ac",
+    "port/level-world/character_monster_retarget.cpp": "a20a9aaeb2f34034bda22a33ee64c4735c237cc407e5f3a4ddf58213a61fa9b0",
+    "port/level-world/character_enemy_retention.hpp": "a8aedc3e9031ab1053931f7f9abd64378280fc9a01a1ba4837a08caa667cab95",
+    "port/level-world/character_enemy_retention.cpp": "5884f734bfe51b4137b129c99e85c7f0c2cd7d70df52a3c8acdda1df0d779037",
+    "port/level-world/character_ai_update_target.hpp": "53b8a94ef3d82b46a64c76ebdfc63e668e7089f724721b59373e2dbc97f8e3d2",
+    "port/level-world/character_ai_update_target.cpp": "6271d889d51a3044d45d2b4162810a0253640342904effd334e8d7c19d19dc8e",
+    "port/level-world/character_ai_master_update.hpp": "b7bd52f31a8dc6f130f13512190228f76c5e584bbcec0daf1b041a4a24706d8e",
+    "port/level-world/character_ai_master_update.cpp": "b9df80c86dec327a94f21e2074a6cab59cf7d3d6a42cd565566d0341fc5eab63",
+    "port/level-world/character_ai_melee_range.hpp": "94f493092f95d1ff91f64a5eac66f03563a939cb4e0185a19878ff14b4eb5f67",
+    "port/level-world/character_ai_melee_range.cpp": "5ece7ff32aa677db7e8b14b202e60ca37894fe4d4bfa066dae89a815d67f6fee",
+    "port/level-world/character_ai_interaction_range.hpp": "f2576cde0fb675ce3aa789caa5c5fb4993ae6d3fd1c29456174a45b2c3f9550a",
+    "port/level-world/character_ai_interaction_range.cpp": "e7adcccf6438bea3b778c6e25368be503015bb71c68c365635efcfc702a46d46",
+    "port/level-world/ais_external_update.hpp": "057327de28f0142448f10b484c526b2c94cf8ce1c2475b595c62a918691933f4",
+    "port/level-world/ais_external_update.cpp": "23f9267964858e163373626c5aa7a68b9ace75001be1a7a359167fe2f9a273b0",
+    "port/level-world/ais_state_callbacks.hpp": "5cf435a846197974552e36d53eb072d265c5b06e299613e82109ef08422adaeb",
+    "port/level-world/ais_state_callbacks.cpp": "b809836420fe255bbea75ad7db2529a3942ba0b6da007120747f4af3b106ffd8",
+    "port/level-world/character_ai_pause_update.hpp": "aca55bf8a231cec5b81375ec94d0e02299368ec76968d657c42e1681ee2a0db8",
+    "port/level-world/character_ai_pause_update.cpp": "9e26911f837c1a83e834cffea583279f81e9abb5a21668ed32623daca38525a6",
+    "port/level-world/ais_default_collision_persist.hpp": "835c383f95c11244d4a66be840b362ae36d9a301b293cac56be8b17c62648fc7",
+    "port/level-world/ais_default_collision_persist.cpp": "fccd18290a8d16f75122748d18837ba70b5d73d68a5b10386a6b9dddb3b135cf",
+    "port/level-world/character_ai_ranged_range.hpp": "4ff33987e8f0d97a2fc4ca0fd04cb675124d9c7bba540966a41236530a3333ab",
+    "port/level-world/character_ai_ranged_range.cpp": "e05996fedf0d19f470214c129fedbf351c57a71134f9dc1fdc4f44ee681db7be",
+    "port/level-world/character_range_capability.hpp": "9ed2dbeeb69409ae56501cc7942c5831e962421b53e8cbb5c2fc552b9e5b5a8f",
+    "port/level-world/character_range_capability.cpp": "e0adf14559191000747e05909760fe53303cf5ce03b96e70b8c0cb05fad38e87",
+    "port/level-world/character_ai_queue.hpp": "24051a580fdc81add0e29a245502f04cd8d55c50a17673a65edead4fa9a368d5",
+    "port/level-world/character_ai_queue.cpp": "91c9c43bb6ea1efdf4a895bfb836137a2b51044ffc288cd88170599de68b5141",
+    "port/level-world/character_interactive.hpp": "bb64936cd21596c59fe68a70c4fa9c7989b8cc537928d9faf4aecd72ebc9c7d6",
+    "port/level-world/character_interactive.cpp": "890d3300046c370c4b37d8607e50d7e93abc228bf0ebee6651b0d20c38cf9d3a",
+    "port/level-world/character_ai_initialization.hpp": "d16d4a5b2848a9a5e037fc03999cebc44b689543b114edb0d22a50865aac72bd",
+    "port/level-world/character_ai_initialization.cpp": "d08f7316b373e9d72b90b249650c693e406845c4716747f9be59778156ee7241",
+    "port/level-world/ais_external_init_vcb.hpp": "22baf75dabd5dcfa42769a33df22a4e6e09445c9d0497ed4251970d479a4d316",
+    "port/level-world/ais_external_init_vcb.cpp": "074f00fae47c19006b6ddc424a142a5148b7ec70be4150825d100988b2def86a",
+    "port/level-world/ais_external_initialization.hpp": "6f7524f1230e69e318cca7e873d32fd3ee4538ef5de9b39b23883a2e7bb692be",
+    "port/level-world/ais_external_initialization.cpp": "b1fd0aefb7f66ea70d3e2af7d715bab5fdab47b58efc179749110c6643a2f6f3",
+    "port/level-world/ais_native_bindings.hpp": "09a53e2655519e0ecdcad7b99b18c081f47eecc26a4812b56b77c623cd66b81d",
+    "port/level-world/ais_native_bindings.cpp": "7b02b2566eef6cb559d0dd372f560593c5e8085e7adb60de8252136ab5370771",
+    "port/level-world/character_ai_association.hpp": "3701763347ffede660e32e8c930bc0826d7935912e992dd587513ad0da60ac95",
+    "port/level-world/character_ai_association.cpp": "adbea7da6fb2d4fe5f063aa97377bfb43207678ebe9cca3430f49852fb625437",
+    "port/level-world/character_native_bindings.hpp": "3754dc6bbe1ea2bc2f8f50ffd2b1c482d69eb5ec766c1129a9324345f42e263a",
+    "port/level-world/character_native_bindings.cpp": "bf5002296a5ec3ff4f0d1d22a706ae4b5bb92c0385a9c32362f6a1c1a1701cff",
+    "port/level-world/room_zone_enrollment.hpp": "d4bd8777964b673191fa4ab74c81f55438007d8bb842aada802d107e18331e73",
+    "port/level-world/room_zone_enrollment.cpp": "992a33364b8f7c9307d0b06d684c2f18121a6ab5b868acbb25a6afbeb7d6c4dc",
+    "port/random/random.h": "a38942e5c7b039dab789e22771fe2a9f8b7f15acf8f7e30a7257c720192edff6",
+    "port/random/random.c": "4c9a18d24a9238f1c1e6ea2ddaa755dfbeb7b1c644862b532b956e1ce42242b8",
+    "port/lua-numeric/numeric.h": "03237985e1b5d0e10f61cacbbbc6320a75a052f9d8e08a9f94b8ba24a7467475",
+    "port/lua-numeric/numeric.c": "3f089b267266a19838121d9e6e2c933da6b2588b8188ccf0853cdcb34695fee8"
+  },
+  "host_only_source_not_claimed_live": [
+    "character_template_random",
+    "swamp_actor_floor_bridge"
+  ],
+  "full_game_playable": false,
+  "physical_arm64_phone_tested": false,
+  "scope": "Exact Crypt GhostAmbush01 artifact/source/assets and Android17/16KiB runtime evidence; no whole-function or full-game equivalence claim"
+}

@@ -1,0 +1,19 @@
+{
+  "validation": "PASS",
+  "scope": "42 host port guard/failure cases under Linux ASan/UBSan, not original ARM proof or native activation",
+  "source_sha256": {
+    "port/level-world/object_update_culling.hpp": "db2e00bff24c1d4f52fef7ce6dc22581dca4b91ae94054a6a90e494f76b6e386",
+    "port/level-world/object_update_culling.cpp": "f529960dd9bf3946a1b6846bf451eb05edd534d4d9b5b636fc9d927e5b6f84af",
+    "port/level-world/tests/object_update_culling.cpp": "9fb416db1dee21fb0dafa3c2beb2719ed0fa236dbc0fb3bbc6dedb764bde15cd",
+    "port/level-world/tests/run_object_update_culling_host.py": "ab439ed3baa8214010da9030abe0ed63407c3b740799d0aa3abea2d11d9f9a46",
+    "port/level-world/reference/object-update-culling/NOTES.md": "d460766a0092b1907595c64ebedaee49c9872bcf96554f5f83e319fec7412f9b",
+    "port/level-world/reference/object-update-culling/original-functions.json": "3151a68f3110f0251ba4e4f1ac2dc93eb6d84cde09ca245dba077bd0fc6593aa"
+  },
+  "executable_sha256": "e34250c5d4a26deb629ca3bcaf455508344ffae4b4a0ee566401ccc9a8cbfeb9",
+  "command": "g++ -std=c++17 -O1 -g -fno-fast-math -ffp-contract=off -fsanitize=address,undefined -fno-omit-frame-pointer -Wall -Wextra -Werror -pedantic port/level-world/object_update_culling.cpp port/level-world/tests/object_update_culling.cpp -o port/level-world/build/object-update-culling-sanitizer/host",
+  "run": "ASAN_OPTIONS=detect_leaks=1:halt_on_error=1 port/level-world/build/object-update-culling-sanitizer/host --guards",
+  "host_report": {
+    "guard_and_failure_cases": 42,
+    "mismatches": 0
+  }
+}

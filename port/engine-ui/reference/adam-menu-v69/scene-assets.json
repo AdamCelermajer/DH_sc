@@ -1,0 +1,50 @@
+[
+  {
+    "asset": "models/class_selection.bdae",
+    "cache_path": "data/3d/optimizedmaxfiles/class_selection.bdae",
+    "bytes": 162572,
+    "sha256": "87303c458be43bafca5b1d717136b679d4f70623545ca1fea20841aa57033de9"
+  },
+  {
+    "asset": "textures/atlas_modular_mage.tga",
+    "cache_path": "data/3d/textures/atlas_modular_mage.tga",
+    "bytes": 524348,
+    "sha256": "3a171eb9f83cc008fb577a4dd66fdbc98db65499eda85e6a5a7de62c064ce6b9"
+  },
+  {
+    "asset": "textures/atlas_modular_rogue.tga",
+    "cache_path": "data/3d/textures/atlas_modular_rogue.tga",
+    "bytes": 524348,
+    "sha256": "edbd02af477575a8f83f3a80933b44018e86c5f4300fa5c01b356759011c03fc"
+  },
+  {
+    "asset": "animations/prince_menu_idle_mage.bdae",
+    "cache_path": "data/3d/characters/prince/animations/prince_menu_idle_mage.bdae",
+    "bytes": 12884,
+    "sha256": "63f1673b3c8074079b8033514087f4f0a614f3d32c983fd2193bc48a14462058"
+  },
+  {
+    "asset": "animations/prince_menu_idle_rogue.bdae",
+    "cache_path": "data/3d/characters/prince/animations/prince_menu_idle_rogue.bdae",
+    "bytes": 14580,
+    "sha256": "17dee5ad32e29307c25a83b4db898d14091de5e198ed5e50a5928c61444bbfa0"
+  },
+  {
+    "asset": "data/loot_table_pyarray.bin",
+    "cache_path": "data/pydata/loot_table_pyarray.bin",
+    "bytes": 284104,
+    "sha256": "4dd85c8656d60c38a0c651e999fd18a1ed4d936f7cfdfcec52a1dfb4b568847f"
+  },
+  {
+    "asset": "data/loot_table_pyarraynames.bin",
+    "cache_path": "data/pydata/loot_table_pyarraynames.bin",
+    "bytes": 39604,
+    "sha256": "8ea5bc26e47d3b9aba1e1ab0fd3e96c4a989bbc2a6a647bf7c2b20071e8782ba"
+  },
+  {
+    "asset": "data/loot_table_pystructnames.bin",
+    "cache_path": "data/pydata/loot_table_pystructnames.bin",
+    "bytes": 8858,
+    "sha256": "ed6721327d6779e47e4def679ddeb796cf5da7ba0348d10996172e64d58bd323"
+  }
+]
