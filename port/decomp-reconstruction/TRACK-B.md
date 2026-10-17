@@ -186,6 +186,25 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     stays the original's stage positions. While customising, the HUD movie uses the plain fit box so every element is on the screen.
     Medallion touches are swallowed in `RenderFX::UpdateCursor` (`HudCustomizeOverlayHit`); the overlay is drawn by `MenuManager::Draw`
     after the HUD movie (`HudCustomizeOverlayDraw`, 2D driver path of the loading screens).
+    UI7 port option `enemybar` (default 1): the original shows the targeted enemy's bar (`HealthBars.enemy`) at a fixed HUD slot
+    (InfoHUDManager::FastUpdate only shows/hides it and sets name, level and HP frame; the ally bars are the ones placed from world
+    positions). With the option on, the bar's bottom centre is placed above the enemy's head (world position + 350, the ally offset)
+    through the HUD movie's box; when the head is off the rendered screen, or with the option off, the bar is back at its authored
+    slot, so the original look is one switch away ("!" dialog, `enemybar=0`).
+    UI8 (the user's rule: nothing renders in a box, no bars anywhere): `MenuPageLayoutUpdate` (game-ui/src/screen_fit_pages.cpp,
+    called by `MenuManager::Draw` for every movie after its camera update) lays each visible page out on the real screen: a top-level
+    clip covering 85% of the stage both ways (background art, dim layers, full-screen hit areas) is stretched to the surface about the
+    stage centre (the splash's picture is covered uniformly and cropped instead), every other top-level clip keeps its proportions
+    and moves toward the edge of the quadrant its bound centre lies in by the surface margin (+-10% centre band stays). The 16:9 clip
+    box and the black bars of UI3/UI4/UI5 are no longer applied while the fit is on. The HUD customise medallions are `.tgp` files (a
+    TGA with the 2.0 footer): `FileSystemBase::ApplyFilenameHacks` redirects every `.tga` name into data/3d/textures/.
+    UI9: (a) the activity is `sensorLandscape` and the game's own accelerometer flip (`nativeSetOrientation` from the Java sensor
+    listener, the original's answer to activities locked to one landscape) is no longer called: Android rotates the whole window,
+    the session bubble included. (b) The HUD customise page shows the play layout (anchored, sized); `HUDControls::OnEvent` calls
+    `HudLayoutRelease` before its drag/save maths so positions are edited and saved in the original's stage coordinates. (c) Page
+    layout refinements: a clip is grouped with the clips its bound touches and moves with the group's bound centre (origins are
+    arbitrary); containers far larger than the stage, and covering clips that are layouts themselves (two or more sprites inside),
+    are opened and their children laid out one by one, so parked dialogs stay parked and the loading bar keeps its text.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

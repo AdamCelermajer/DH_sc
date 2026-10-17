@@ -2,9 +2,9 @@
 """Port UI icons in the game's style (Track B, not in the original data): the +/- buttons of the HUD customise page
 (per-element size, HUDControls) drawn as bronze medallions with a gilt glyph, matching the HUD's round buttons.
 
-  py -3 tools/trackb/hud_icons.py            -> port/android-trackb/app/src/main/assets/dh2port/hud_scale_{plus,minus}.png
+  py -3 tools/trackb/hud_icons.py            -> port/android-trackb/app/src/main/assets/dh2port/hud_scale_{plus,minus}.tgp
 
-The game loads them through its own PNG loader (glitch CImageLoaderPng) from data/port/ in the files dir; DataSetup copies
+The game loads them through its own TGA loader (glitch CImageLoaderTGA, the splash path) from data/port/ in the files dir; DataSetup copies
 the dh2port assets there at start, the host runner takes them from the --data folder. 128x128 RGBA, drawn at 4x and
 downsampled so the rings are smooth on the Fold.
 """
@@ -83,8 +83,15 @@ def medallion(glyph):
 def main():
     os.makedirs(OUT, exist_ok=True)
     for name, glyph in (('hud_scale_plus', '+'), ('hud_scale_minus', '-')):
-        p = os.path.join(OUT, name + '.png')
-        medallion(glyph).save(p, optimize=True)
+        img = medallion(glyph)
+        # 32-bit uncompressed TGA: the engine's TGA loader is the one the splash screens exercise on every device; its PNG
+        # loader (libpng 1.2.32 via CImageLoaderPng) crashed in png_get_IHDR/png_error on the Fold (2026-10-17 report).
+        p = os.path.join(OUT, name + '.tgp')  # a TGA; the extension dodges the game's .tga name redirect
+        # Bottom-left origin (no descriptor flip bit) and the TGA 2.0 footer: the engine's loader accepts a file only when the
+        # 26-byte footer ends in "TRUEVISION-XFILE." (CImageLoaderTGA::isALoadableFileFormat).
+        img.transpose(Image.FLIP_TOP_BOTTOM).save(p, format='TGA', orientation=1)
+        with open(p, 'ab') as fh:
+            fh.write(bytes(8) + b'TRUEVISION-XFILE.' + bytes(1))
         print(p, os.path.getsize(p), 'bytes')
 
 

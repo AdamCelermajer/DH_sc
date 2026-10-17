@@ -186,6 +186,15 @@ public final class SessionUi {
                 }
             });
             row.addView(fit);
+            final android.widget.Switch enemyBar = new android.widget.Switch(a);
+            enemyBar.setText("Enemy health bar over the enemy (off: original HUD slot)");
+            enemyBar.setChecked(DungeonHunter2.nativeGetPortSetting("enemybar") != 0);
+            enemyBar.setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+                public void onCheckedChanged(android.widget.CompoundButton b, boolean on) {
+                    DungeonHunter2.nativeSetPortSetting("enemybar", on ? 1 : 0);
+                }
+            });
+            row.addView(enemyBar);
             TextView label = new TextView(a);
             label.setText("HUD size");
             label.setPadding(0, dp(a, 8), 0, 0);

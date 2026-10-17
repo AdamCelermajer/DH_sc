@@ -376,6 +376,13 @@ void MenuManager::Draw(bool /*hudOnly*/) {
             // clipped to that box.
             g_dh2FlashFit[0] = 0;
         }
+        // Port deviation (UI8): the pages of every movie are laid out on the real screen (backgrounds stretched, panels moved to the
+        // edges), so no movie is clipped to the 16:9 box and no bars are painted.
+        MenuPageLayoutUpdate(movie, index == 3);
+        if (ScreenUsesAspectFit()) {
+            g_dh2FlashFit[0] = 0;
+            g_dh2FlashFit[5] = 0;
+        }
         if (movie->GetCurrentState() != nullptr || index == 3) {
             movie->Render();
             if (index == 3) {

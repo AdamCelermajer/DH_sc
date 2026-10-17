@@ -254,8 +254,7 @@ void MenuFlash2DCamera::Update() {
     MenuManager* manager = MenuManager::GetInstance();
     const bool isHud = manager != nullptr && manager->m_multiMenuManager != nullptr && m_menu == manager->GetHUDRoot();  // (menu tests: a zeroed manager)
     std::int32_t boxX = fitX, boxY = fitY, boxW = fitW, boxH = fitH;
-    // On the HUD customise page the plain fit box is used (UI6): the layout is edited in stage space inside the screen, nothing hangs off it.
-    if (fitActive && isHud && !HudCustomizing()) {
+    if (fitActive && isHud) {
         const std::int32_t percent = HudScalePercent();
         boxW = fitW * percent / 100;
         boxH = fitH * percent / 100;

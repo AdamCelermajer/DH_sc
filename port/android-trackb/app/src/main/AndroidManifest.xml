@@ -71,7 +71,7 @@
             android:finishOnTaskLaunch="true"
             android:clearTaskOnLaunch="true"
             android:launchMode="singleInstance"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|uiMode|screenLayout|screenSize|smallestScreenSize|density|layoutDirection|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
         <activity
             android:name="com.gameloft.android.GAND.GloftD2SS.Zirconia_DRM"
@@ -82,7 +82,7 @@
             android:name="com.gameloft.android.GAND.GloftD2SS.DataSetup"
             android:clearTaskOnLaunch="true"
             android:exported="true"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="orientation|screenSize|keyboardHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -97,7 +97,7 @@
             android:multiprocess="false"
             android:finishOnTaskLaunch="true"
             android:clearTaskOnLaunch="true"
-            android:screenOrientation="landscape"
+            android:screenOrientation="sensorLandscape"
             android:configChanges="fontScale|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

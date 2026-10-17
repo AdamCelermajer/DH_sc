@@ -25,6 +25,7 @@
 //     The name is not in the Hex-Rays text: it is the literal of the gameswf::tu_string constructor clone that
 //     SlowUpdate and FastUpdate call (_ZN7gameswf9tu_stringC1EPKc.clone.1 holds "SlotId").
 
+#include "core-platform/port_settings.hpp"
 #include "dh2/global/screen_size.hpp"
 #include "dh2/InfoHUDManager.hpp"
 
@@ -222,6 +223,96 @@ void InfoHUDManager::SlowUpdate() {
     }
 }
 
+
+// Port option (UI7, TRACK-B.md decision 15; not in the original): the enemy bar follows the targeted enemy. The original keeps
+// "HUDelements.HealthBars.enemy" at its authored HUD slot and only shows/hides it; with the port setting enemybar = 1 (default) the
+// clip is moved every frame so that its bottom centre sits above the enemy's head (world position + 350, the offset the ally bars
+// use), in the HUD movie's stage units through the movie's box (FlashBoxOffsetX/Y, GameSWFUtils::GetInvPixelScale). When the head
+// is outside the rendered screen, or there is no enemy, or enemybar = 0, the clip is put back at its authored slot.
+namespace {
+
+gameswf::character* g_enemyBarChar = nullptr;
+float g_enemyBarHomeX = 0.0f, g_enemyBarHomeY = 0.0f;  // the authored local translation (twips)
+bool g_enemyBarMoved = false;
+
+void EnemyBarRestore(MenuFX* menu, gameswf::character* bar) {
+    if (bar != nullptr && g_enemyBarMoved && bar == g_enemyBarChar) {
+        gameswf::matrix m = bar->get_matrix();
+        m.m_[0][2] = g_enemyBarHomeX;
+        m.m_[1][2] = g_enemyBarHomeY;
+        bar->set_matrix(m);
+        g_enemyBarMoved = false;
+    }
+    (void)menu;
+}
+
+void EnemyBarFollow(MenuFX* menu, gameswf::character* bar, Character* enemy) {
+    if (bar == nullptr || menu == nullptr) {
+        return;
+    }
+    if (bar != g_enemyBarChar) {  // a new HUD movie: remember where the bar is authored
+        g_enemyBarChar = bar;
+        const gameswf::matrix home = bar->get_matrix();
+        g_enemyBarHomeX = home.m_[0][2];
+        g_enemyBarHomeY = home.m_[1][2];
+        g_enemyBarMoved = false;
+    }
+    if (dh2port::Get("enemybar", 1) == 0 || enemy == nullptr) {
+        EnemyBarRestore(menu, bar);
+        return;
+    }
+    glitch::core::vector3d<float> head{enemy->m_position.X, enemy->m_position.Y, enemy->m_position.Z + 350.0f};
+    glitch::core::position2d<int> screen{0, 0};
+    GetScreenPosFromWorldPos(head, screen);
+    if (screen.X < 0 || screen.Y < 0 || screen.X >= Width_Screen || screen.Y >= Height_Screen) {
+        EnemyBarRestore(menu, bar);  // head outside the rendered screen: the authored slot
+        return;
+    }
+    gameswf::root* root = menu->GetRoot();
+    if (root == nullptr) {
+        return;
+    }
+    const float invX = GameSWFUtils::GetInvPixelScaleX(root);
+    const float invY = GameSWFUtils::GetInvPixelScaleY(root);
+    // Put the bar's bottom centre 12 px above the head: offsets from the clip's translation to its bound, measured at the home position.
+    gameswf::matrix m = bar->get_matrix();
+    const float curX = m.m_[0][2], curY = m.m_[1][2];
+    m.m_[0][2] = g_enemyBarHomeX;
+    m.m_[1][2] = g_enemyBarHomeY;
+    bar->set_matrix(m);
+    gameswf::rect bound;
+    bar->get_bound(&bound);
+    const float dx = (static_cast<float>(bound.m_x_min) + static_cast<float>(bound.m_x_max)) * 0.5f - g_enemyBarHomeX;
+    const float dy = static_cast<float>(bound.m_y_max) - g_enemyBarHomeY;
+    // Keep the whole bar on the screen: clamp the anchor point in surface pixels by the bar's size (stage twips -> pixels).
+    const float barWpx = (static_cast<float>(bound.m_x_max) - static_cast<float>(bound.m_x_min)) / 20.0f / invX;
+    const float barHpx = (static_cast<float>(bound.m_y_max) - static_cast<float>(bound.m_y_min)) / 20.0f / invY + 12.0f;
+    float ax = static_cast<float>(screen.X), ay = static_cast<float>(screen.Y);
+    if (ax < barWpx * 0.5f) ax = barWpx * 0.5f;
+    if (ax > static_cast<float>(Width_Screen) - barWpx * 0.5f) ax = static_cast<float>(Width_Screen) - barWpx * 0.5f;
+    if (ay < barHpx) ay = barHpx;
+    if (ay > static_cast<float>(Height_Screen)) ay = static_cast<float>(Height_Screen);
+    // Stage position of the anchor in twips (the movie's own box, not the menu fit).
+    const float sx = invX * (ax - static_cast<float>(FlashBoxOffsetX(root))) * 20.0f;
+    const float sy = invY * (ay - static_cast<float>(FlashBoxOffsetY(root))) * 20.0f;
+    // The parent's scale (HealthBars is placed in HUDelements; both carry the authored scale): head in parent space.
+    gameswf::character* parent = bar->get_parent();
+    float px = sx, py = sy;
+    if (parent != nullptr) {
+        gameswf::point p;
+        parent->get_world_matrix()->transform_by_inverse(&p, gameswf::point(sx, sy));
+        px = p.m_x;
+        py = p.m_y;
+    }
+    m.m_[0][2] = px - dx;
+    m.m_[1][2] = py - dy - 12.0f * 20.0f;
+    (void)curX;
+    (void)curY;
+    bar->set_matrix(m);
+    g_enemyBarMoved = true;
+}
+
+}  // namespace
 // 0x41e064 _ZN14InfoHUDManager10FastUpdateEv
 // With a local character: the potion text, the HP, MP, XP, distress and hurt frames, the level-up icon, the skill cooldown frames
 // (HUDStyle <= 1 uses the skill buttons, otherwise the list buttons by SlotId), the spell cooldown, the online ally bars (death
@@ -410,12 +501,14 @@ void InfoHUDManager::FastUpdate() {
             enemyFrame = 100;
         }
         m_menu->GotoFrame(m_enemyHpBar.GetChar(), enemyFrame - 1, false);
+        EnemyBarFollow(m_menu, m_enemy.GetChar(), enemy);  // UI7 port option
         return;
     }
 
     // No enemy: hide the bar once.
     if (m_lastEnemy != nullptr) {
         m_lastEnemy = nullptr;
+        EnemyBarRestore(m_menu, m_enemy.GetChar());  // UI7
         m_enemy.GetChar()->m_visible = false;
         m_menu->GotoFrame(m_enemyHpBar.GetChar(), 0, false);
         m_menu->GotoFrame(m_enemy.GetChar(), "Hide", false);

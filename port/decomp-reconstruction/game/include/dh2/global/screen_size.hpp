@@ -78,6 +78,10 @@ gameswf::character* HudStickZoneTarget(const RenderFX* fx, float x, float y, gam
 // Port addition (UI6, not in the original; game-ui/.../HUDControls): per-element HUD size on the HUD customise page. A press on a layout
 // element selects it; two medallions (+ / -, port art under data/port/) beside it change its size in steps of 10% (50..200%), kept in the
 // port settings as hudelem.<HUDStyle>.<index>; Reset puts every element back to 100%. The sizes apply on every screen, fit or not.
+// Port deviation (UI8; game-ui/src/screen_fit_pages.cpp): menu pages fill the screen without bars. Called by MenuManager::Draw for every
+// movie after its camera update: covering clips of each visible page are stretched (the splash: covered) to the surface, the other
+// top-level clips move toward their screen edge by the surface margin. Inert when the fit is off or the surface is 16:9.
+void MenuPageLayoutUpdate(MenuFX* movie, bool hudMovie);
 bool HudCustomizing();                                                     // the HUD customise page is up (false before HUDControls exists)
 void HudCustomizeOverlayDraw();                                            // MenuManager::Draw, after the HUD movie, while customising
 bool HudCustomizeOverlayHit(const RenderFX* fx, float x, float y, bool justPressed);  // RenderFX::UpdateCursor: true = the pointer is on a medallion (swallowed)

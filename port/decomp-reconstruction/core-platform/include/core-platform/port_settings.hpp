@@ -9,6 +9,8 @@
 //              for the menus, HUD anchored to the real screen edges (default 1). Only matters on a surface that is not
 //              one of the original's sizes.
 //   hudscale   HUD size in percent of the fit (100..200); 0 = automatic (125 on a tablet-shaped surface, else 100).
+//   enemybar   1 = the targeted enemy's health bar follows the enemy (above its head, back to the HUD slot when off screen), 0 = the
+//              original's fixed HUD slot (default 1; InfoHUDManager::FastUpdate).
 //   hudelem.<HUDStyle>.<index>  size of one HUD layout element in percent (50..200, HUDControls customise page); any
 //              other key of the form [A-Za-z0-9._-]{1,63} is accepted as an int 0..400 and kept in the file.
 //
