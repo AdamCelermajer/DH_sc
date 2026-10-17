@@ -47,6 +47,9 @@
 #include "dh2/MenuManager.hpp"
 #include "dh2/v2Controller.hpp"
 #include "gameswf/gameswf_character.h"
+#include "gameswf/gameswf_root.h"
+#include "gameswf/gameswf_sprite.h"
+#include "dh2/global/screen_size.hpp"
 
 namespace {
 
@@ -466,6 +469,10 @@ void HUDControls::initCachedChars() {
     if (!menu) {
         return;
     }
+    // Port deviation (UI4; TRACK-B.md decision 15): the layout is read and captured below, so the HUD corner anchoring is taken off first.
+    if (ScreenUsesAspectFit()) {
+        HudAnchorUpdate(menu, true);
+    }
     const int hudStyle = Singleton<Application>::s_inst.GetSavedOption("HUDStyle");
     char hudName[20];
     std::snprintf(hudName, sizeof hudName, "_root.menu_HUD_%d", hudStyle);
@@ -669,4 +676,309 @@ HUDControls::HUDControls() {
 HUDControls* HUDControls::GetInstance() {
     static HUDControls s_singleton;
     return &s_singleton;
+}
+
+// ---------------------------------------------------------------------------------------------------------------------
+// Port deviation (UI4; TRACK-B.md decision 15, not in the original): HUD corner anchoring on a surface that is not 16:9.
+//
+// The centred 16:9 fit (MenuFlash2DCamera::Update) leaves bars on a non-16:9 surface, and the 3D world fills the whole surface. The
+// HUD movie (slot 3, "dqhud*.swf", root clip "menu_HUD_<HUDStyle>") must instead keep its elements at the REAL screen edges. The scale of
+// the fit is kept (nothing is stretched); each top-level HUD element is translated, in stage units, by the extra margin of the surface
+// toward the edge of the quadrant its stage-space reference point lies in: top half up, bottom half down, left half left, right half
+// right. A band of +-10% around the stage centre does not move on that axis (the middle-height spell button, a centred bar).
+// The binary never runs this (ScreenUsesAspectFit() is false for its own screen sizes; on a 16:9 surface the margins are 0).
+//
+// The elements are the children of HUDelements that carry the HUD (health bars, potion button, portrait, pause button, minimap, iTunes
+// controls, touch dead zones) and the clips under HUDelements.controls.controls (stick, attack, skills, spell, skill list). Positions are
+// translated in the character's local matrix; the translation applied last frame is remembered per character so that (a) a timeline
+// placement or SetHUDPos that rewrites the matrix is taken as the new base, and (b) the original code that reads the layout
+// (CaptureDefaults, SaveHUDPos in initCachedChars / customizing) sees the unshifted layout: initCachedChars releases the offsets first
+// and customizing keeps them at 0.
+namespace {
+
+enum HudAnchor : int { kAnchorNone = 0, kAnchorLeft = 1, kAnchorRight = 2, kAnchorTop = 4, kAnchorBottom = 8, kAnchorGeometry = 16 };
+
+struct HudAnchorState {
+    gameswf::character* character;  // identity only; entries not seen in a frame are dropped, never dereferenced
+    float appliedLocalX, appliedLocalY;  // translation (twips, local space) added last frame
+    float appliedWorldX, appliedWorldY;  // the same in stage twips
+    float lastX, lastY;                  // the local translation this code wrote last
+    bool seen;
+};
+
+constexpr int kMaxHudAnchored = 64;
+HudAnchorState g_hudAnchored[kMaxHudAnchored];
+int g_hudAnchoredCount = 0;
+gameswf::character* g_hudAnchorMovie = nullptr;  // the root movie the entries belong to
+
+HudAnchorState* FindHudAnchorState(gameswf::character* character) {
+    for (int i = 0; i < g_hudAnchoredCount; ++i) {
+        if (g_hudAnchored[i].character == character) {
+            return &g_hudAnchored[i];
+        }
+    }
+    if (g_hudAnchoredCount >= kMaxHudAnchored) {
+        return nullptr;
+    }
+    HudAnchorState& state = g_hudAnchored[g_hudAnchoredCount++];
+    state.character = character;
+    state.appliedLocalX = state.appliedLocalY = state.appliedWorldX = state.appliedWorldY = 0.0f;
+    state.lastX = state.lastY = 0.0f;
+    state.seen = false;
+    return &state;
+}
+
+gameswf::character* ChildNamed(gameswf::character* parent, const char* name) {
+    if (parent == nullptr || !parent->is(2)) {
+        return nullptr;
+    }
+    auto* sprite = static_cast<gameswf::sprite_instance*>(parent);
+    for (int i = 0; i < sprite->m_display_list.size(); ++i) {
+        gameswf::character* child = sprite->m_display_list.get_character(i);
+        if (child != nullptr && std::strcmp(child->get_name().c_str(), name) == 0) {
+            return child;
+        }
+    }
+    return nullptr;
+}
+
+struct HudAnchorFrame {
+    float marginX, marginY;  // extra margin of the surface in stage twips (each side)
+    float centreX, centreY, bandX, bandY;  // stage centre and the no-move band, twips
+};
+
+// Moves one element to (base + anchor offset). `anchor` is a HudAnchor mask; kAnchorGeometry derives it from the base position.
+void AnchorHudElement(gameswf::character* character, int anchor, const HudAnchorFrame& frame, bool release) {
+    if (character == nullptr) {
+        return;
+    }
+    HudAnchorState* state = FindHudAnchorState(character);
+    if (state == nullptr) {
+        return;
+    }
+    state->seen = true;
+    const gameswf::matrix local = character->get_matrix();
+    const float localX = local.m_[0][2];
+    const float localY = local.m_[1][2];
+    const bool untouched = state->lastX == localX && state->lastY == localY &&
+                           (state->appliedLocalX != 0.0f || state->appliedLocalY != 0.0f);
+    const float baseX = untouched ? localX - state->appliedLocalX : localX;
+    const float baseY = untouched ? localY - state->appliedLocalY : localY;
+
+    float worldDx = 0.0f;
+    float worldDy = 0.0f;
+    gameswf::character* parent = character->get_parent();
+    if (!release && parent != nullptr) {
+        if (anchor & kAnchorGeometry) {
+            // The reference point of the base position in stage space: the world translation without the offset applied last frame.
+            const gameswf::matrix* world = character->get_world_matrix();
+            const float refX = static_cast<float>(world->m_[0][2]) - (untouched ? state->appliedWorldX : 0.0f);
+            const float refY = static_cast<float>(world->m_[1][2]) - (untouched ? state->appliedWorldY : 0.0f);
+            anchor = kAnchorNone;
+            if (refX < frame.centreX - frame.bandX) {
+                anchor |= kAnchorLeft;
+            } else if (refX > frame.centreX + frame.bandX) {
+                anchor |= kAnchorRight;
+            }
+            if (refY < frame.centreY - frame.bandY) {
+                anchor |= kAnchorTop;
+            } else if (refY > frame.centreY + frame.bandY) {
+                anchor |= kAnchorBottom;
+            }
+        }
+        if (anchor & kAnchorLeft) {
+            worldDx = -frame.marginX;
+        } else if (anchor & kAnchorRight) {
+            worldDx = frame.marginX;
+        }
+        if (anchor & kAnchorTop) {
+            worldDy = -frame.marginY;
+        } else if (anchor & kAnchorBottom) {
+            worldDy = frame.marginY;
+        }
+    }
+    float localDx = 0.0f;
+    float localDy = 0.0f;
+    if (worldDx != 0.0f || worldDy != 0.0f) {
+        // The world delta in the character's parent space: the inverse of the parent's linear part.
+        const gameswf::matrix* p = parent->get_world_matrix();
+        const float a = p->m_[0][0], b = p->m_[0][1], c = p->m_[1][0], d = p->m_[1][1];
+        const float det = a * d - b * c;
+        if (det != 0.0f) {
+            localDx = (d * worldDx - b * worldDy) / det;
+            localDy = (a * worldDy - c * worldDx) / det;
+        } else {
+            worldDx = worldDy = 0.0f;
+        }
+    }
+    const float newX = baseX + localDx;
+    const float newY = baseY + localDy;
+    if (newX != localX || newY != localY) {
+        gameswf::matrix placed = local;
+        placed.m_[0][2] = newX;
+        placed.m_[1][2] = newY;
+        character->set_matrix(placed);
+    }
+    state->appliedLocalX = localDx;
+    state->appliedLocalY = localDy;
+    state->appliedWorldX = worldDx;
+    state->appliedWorldY = worldDy;
+    state->lastX = newX;
+    state->lastY = newY;
+}
+
+}  // namespace
+
+// Called by MenuManager::Draw for the HUD movie (slot 3) every frame before it is rendered, and with release = true by
+// HUDControls::initCachedChars before the layout is read. Returns true while the HUD movie is anchored to the real screen edges, so the
+// caller can lift the clip of the 16:9 box (the HUD may then draw outside it).
+bool HudAnchorUpdate(MenuFX* hud, bool release) {
+    if (hud == nullptr || !ScreenUsesAspectFit() || Singleton<Application>::s_inst.GetCurrentLevel() == nullptr) {
+        return false;  // (no level: HUDControls is not up yet)
+    }
+    gameswf::root* root = hud->m_root.get_ptr();
+    if (root == nullptr || root->m_def.get_ptr() == nullptr) {
+        return false;
+    }
+    gameswf::character* movie = root->m_movie.get_ptr();
+    if (movie != g_hudAnchorMovie) {  // another movie: no entry can be trusted
+        g_hudAnchorMovie = movie;
+        g_hudAnchoredCount = 0;
+    }
+    const int offX = ScreenFitOffsetX();
+    const int offY = ScreenFitOffsetY();
+    if (offX == 0 && offY == 0 && g_hudAnchoredCount == 0) {
+        return false;
+    }
+    const gameswf::rect& stage = root->m_def->m_frame_size;
+    const float stageW = static_cast<float>(stage.m_x_max) - static_cast<float>(stage.m_x_min);
+    const float stageH = static_cast<float>(stage.m_y_max) - static_cast<float>(stage.m_y_min);
+    if (stageW <= 0.0f || stageH <= 0.0f) {
+        return false;
+    }
+    // Pixels per twip of the fit box; the surface margin in twips is the offset of the box over that.
+    const float fitW = static_cast<float>(Width_Screen - 2 * offX);
+    const float fitH = static_cast<float>(Height_Screen - 2 * offY);
+    HudAnchorFrame frame;
+    frame.marginX = static_cast<float>(offX) * stageW / fitW;
+    frame.marginY = static_cast<float>(offY) * stageH / fitH;
+    frame.centreX = static_cast<float>(stage.m_x_min) + stageW * 0.5f;
+    frame.centreY = static_cast<float>(stage.m_y_min) + stageH * 0.5f;
+    frame.bandX = stageW * 0.10f;
+    frame.bandY = stageH * 0.10f;
+    // While the player customises the layout the HUD is shown in the 16:9 box and edited in stage space: no offsets.
+    if (HUDControls::GetInstance()->m_customizing) {
+        release = true;
+    }
+
+    for (int i = 0; i < g_hudAnchoredCount; ++i) {
+        g_hudAnchored[i].seen = false;
+    }
+    char hudName[20];
+    std::snprintf(hudName, sizeof hudName, "menu_HUD_%d", Singleton<Application>::s_inst.GetSavedOption("HUDStyle"));
+    gameswf::character* hudRoot = ChildNamed(movie, hudName);
+    gameswf::character* elements = ChildNamed(hudRoot, "HUDelements");
+    if (elements != nullptr && elements->is(2)) {
+        auto* sprite = static_cast<gameswf::sprite_instance*>(elements);
+        for (int i = 0; i < sprite->m_display_list.size(); ++i) {
+            gameswf::character* child = sprite->m_display_list.get_character(i);
+            if (child == nullptr) {
+                continue;
+            }
+            const char* name = child->get_name().c_str();
+            if (std::strcmp(name, "HealthBars") == 0) {
+                // The bars share one parent but sit in different corners: the player bars (top left), the potion button (top right)
+                // and the enemy bar move on their own. The ally bars are placed from world positions by InfoHUDManager::FastUpdate.
+                AnchorHudElement(ChildNamed(child, "player"), kAnchorGeometry, frame, release);
+                AnchorHudElement(ChildNamed(child, "btn_potion"), kAnchorGeometry, frame, release);
+                AnchorHudElement(ChildNamed(child, "enemy"), kAnchorGeometry, frame, release);
+            } else if (std::strcmp(name, "controls") == 0) {
+                gameswf::character* inner = ChildNamed(child, "controls");
+                static const char* const kControls[] = {"Joystick", "btn_interact", "btn_skill1", "btn_skill2",
+                                                        "btn_skill3", "btn_spell", "list"};
+                for (const char* control : kControls) {
+                    AnchorHudElement(ChildNamed(inner, control), kAnchorGeometry, frame, release);
+                }
+            } else if (std::strcmp(name, "btn_charactermenu") == 0 || std::strcmp(name, "btn_mainmenu") == 0 ||
+                       std::strcmp(name, "itunes_controls") == 0 || std::strncmp(name, "deadzone", 8) == 0) {
+                AnchorHudElement(child, kAnchorGeometry, frame, release);
+            } else if (std::strcmp(name, "menu_miniMap") == 0) {
+                // The clip's origin is not where the minimap is (its bounds hold the off-stage icon grid): top right by construction.
+                AnchorHudElement(child, kAnchorRight | kAnchorTop, frame, release);
+            } else if (std::strcmp(name, "itemname_text") == 0) {
+                AnchorHudElement(child, kAnchorBottom, frame, release);
+            }
+        }
+    }
+    // Entries that were not visited (the character is gone or no longer matches): forget them without touching the character.
+    int kept = 0;
+    for (int i = 0; i < g_hudAnchoredCount; ++i) {
+        if (g_hudAnchored[i].seen) {
+            g_hudAnchored[kept++] = g_hudAnchored[i];
+        }
+    }
+    g_hudAnchoredCount = kept;
+    return !release && (offX != 0 || offY != 0);
+}
+
+// Port deviation (UI4; TRACK-B.md decision 15, not in the original): the virtual stick can be grabbed from a wide zone. RenderFX::UpdateCursor
+// calls this for every pointer of every movie; when the HUD movie is in game view with no menu open and the pointer is in the bottom-left
+// quarter of the surface, and nothing but the stick pad or the full-screen zoom clip (or nothing at all) is under it (`hit`), the stick character is returned and UpdateCursor treats it as the
+// hit. The press, drag and release events then go to the stick exactly as if it had been touched: HUDControls::OnEvent measures the drag from the
+// press point, so the stick graphic stays where it is and the finger can be anywhere in the zone (it may leave the zone while held). Only where
+// ScreenUsesStickZone() (the 16:9 fit is on); the original's own screen sizes keep the original stick.
+gameswf::character* HudStickZoneTarget(const RenderFX* fx, float x, float y, gameswf::character* hit) {
+    if (!ScreenUsesStickZone() || Width_Screen <= 0 || Height_Screen <= 0) {
+        return nullptr;
+    }
+    MenuManager* manager = MenuManager::GetInstance();
+    if (manager == nullptr || manager->GetHUDRoot() == nullptr || fx != static_cast<const RenderFX*>(manager->GetHUDRoot())) {
+        return nullptr;
+    }
+    MenuFX* root = manager->GetRoot();
+    if (root != nullptr && root->m_stack.m_size != 0) {
+        return nullptr;  // a menu is open over the HUD
+    }
+    Level* level = Singleton<Application>::s_inst.GetCurrentLevel();
+    if (level == nullptr || !level->m_isInGameView) {
+        return nullptr;
+    }
+    HUDControls* hud = HUDControls::GetInstance();
+    if (!hud->m_cachesReady || hud->m_customizing) {
+        return nullptr;
+    }
+    if (!(x >= 0.0f && x < static_cast<float>(Width_Screen) * 0.5f && y > static_cast<float>(Height_Screen) * 0.5f &&
+          y < static_cast<float>(Height_Screen))) {
+        return nullptr;
+    }
+    DebugCachedCharacter& stick = hud->m_joystickStick;
+    if (stick.m_character == nullptr || !stick.m_characterProxy.get_proxy()->is_alive()) {
+        return nullptr;
+    }
+    if (hit != nullptr) {
+        // Something takes the touch: only the stick's own pad (the Joystick clip, a hit area that does nothing but the stick) and the
+        // full-screen "pinch" clip (the camera zoom gesture, under every world touch) may be overruled; a button keeps its touch.
+        bool overruled = false;
+        DebugCachedCharacter* const passive[] = {&hud->m_joystick, &hud->m_pinch};
+        for (DebugCachedCharacter* clip : passive) {
+            if (clip->m_character == nullptr || !clip->m_characterProxy.get_proxy()->is_alive()) {
+                continue;
+            }
+            for (gameswf::character* c = hit; c != nullptr; c = c->get_parent()) {
+                if (c == clip->m_character) {
+                    overruled = true;
+                    break;
+                }
+            }
+        }
+        if (!overruled) {
+            return nullptr;
+        }
+    }
+    for (gameswf::character* c = stick.m_character; c != nullptr; c = c->get_parent()) {
+        if (!c->get_visible()) {
+            return nullptr;
+        }
+    }
+    return stick.m_character;
 }

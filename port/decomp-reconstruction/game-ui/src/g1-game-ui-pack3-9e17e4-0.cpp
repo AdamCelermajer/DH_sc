@@ -24,6 +24,9 @@
 #include "glitch-video/render_target.hpp"
 #include "glitch-video/video_driver.hpp"
 #include "dh2/global/screen_size.hpp"
+#include <cstring>
+#include "gameswf/gameswf_root.h"
+#include "gameswf/gameswf_sprite.h"
 
 // ---------------------------------------------------------------------------------------------------------------------
 // MenuConfirm
@@ -122,7 +125,52 @@ MenuFlash2DCamera::~MenuFlash2DCamera() {}
 // delete does for this class.
 
 // Port addition (UI3): the centred 16:9 box of the movie being drawn: {active, x, y, width, height} in surface pixels. Read by gameswf's render handler.
-extern "C" int g_dh2FlashFit[5];  // defined in the gameswf render handler
+
+namespace {
+
+// Port deviation (UI4; TRACK-B.md decision 15, not in the original): the menu movies park a "preload_font" clip (six text fields holding the
+// word "Warrior", whose glyphs MenuManager preloads) just outside the top-left corner of the stage. A 16:9 screen never shows the outside of
+// the stage, but the 5% clip margin around the fit box (below) does, so the text appeared on the splash screen and the main menu. The clip is
+// parked far above the stage instead (once; it still exists and its glyphs are preloaded as before, it is only never inside any clip margin).
+void ParkPreloadFont(MenuFX* menu) {
+    gameswf::root* root = menu->m_root.get_ptr();
+    if (root == nullptr || root->m_movie.get_ptr() == nullptr || !root->m_movie->is(2)) {
+        return;
+    }
+    auto* movie = static_cast<gameswf::sprite_instance*>(root->m_movie.get_ptr());
+    for (int i = 0; i < movie->m_display_list.size(); ++i) {
+        gameswf::character* child = movie->m_display_list.get_character(i);
+        if (child != nullptr && std::strcmp(child->get_name().c_str(), "preload_font") == 0) {
+            constexpr float kParkedTwips = -20000.0f;  // 1000 stage pixels above the top edge
+            const gameswf::matrix local = child->get_matrix();
+            if (static_cast<float>(local.m_[1][2]) > kParkedTwips) {
+                gameswf::matrix placed = local;
+                placed.m_[1][2] = kParkedTwips;
+                child->set_matrix(placed);
+            }
+        }
+    }
+}
+
+// Port deviation (UI4; TRACK-B.md decision 15): the menu states that are opaque full-screen pages. A page of the menus movie shows the 3D
+// main-menu scene through its transparent parts (the main menu panel, the start-game panel, dialogs), but the splash ("Touch the screen to
+// continue") and the loading page are meant to cover the whole screen. The movie has no flag for it (the SWF background colour is the same
+// everywhere, the pages are plain sprites under the root), so the page is told by the name of the current state, as MenuManager already
+// tells pages apart. On such a page the bars outside the 16:9 box are painted black by the render handler (g_dh2FlashFit[5]).
+bool IsOpaqueFullScreenState(const MenuFX::State* state) {
+    if (state == nullptr || state->m_name == nullptr) {
+        return false;
+    }
+    static const char* const kOpaque[] = {"menu_splash", "menu_Loading", "menu_VerificationLoading"};
+    for (const char* name : kOpaque) {
+        if (std::strcmp(state->m_name, name) == 0) {
+            return true;
+        }
+    }
+    return false;
+}
+
+}  // namespace
 
 // 0x42cd84 _ZN17MenuFlash2DCamera6UpdateEv
 // The position m_x and m_y eases toward the targets (each step at least one unit, never past the target). With a limit clip the
@@ -200,6 +248,9 @@ void MenuFlash2DCamera::Update() {
     // The movies park elements outside their stage (dialogs, labels) that the original's stretch never showed on its 16:9 screens; the fit leaves
     // bars where they would bleed into, so the render handler clips the movie to this box (render_handler_glitch::begin_display).
     g_dh2FlashFit[0] = (fitW != width || fitH != height) ? 1 : 0;
+    if (g_dh2FlashFit[0] != 0) {
+        ParkPreloadFont(m_menu);
+    }
     // The stage art overflows its 16:9 frame by a few percent (corner ornaments, panel edges): clip 5% outside the frame, not at it.
     const std::int32_t padX = fitX > 0 ? fitW / 20 : 0;
     const std::int32_t padY = fitY > 0 ? fitH / 20 : 0;
@@ -207,6 +258,14 @@ void MenuFlash2DCamera::Update() {
     g_dh2FlashFit[2] = fitY - (padY < fitY ? padY : fitY);
     g_dh2FlashFit[3] = fitW + 2 * (padX < fitX ? padX : fitX);
     g_dh2FlashFit[4] = fitH + 2 * (padY < fitY ? padY : fitY);
+    // Black bars on an opaque full-screen page: the exact (unpadded) box and the surface, for render_handler_glitch::begin_display.
+    g_dh2FlashFit[5] = (g_dh2FlashFit[0] != 0 && IsOpaqueFullScreenState(m_menu->GetCurrentState())) ? 1 : 0;
+    g_dh2FlashFit[6] = fitX;
+    g_dh2FlashFit[7] = fitY;
+    g_dh2FlashFit[8] = fitW;
+    g_dh2FlashFit[9] = fitH;
+    g_dh2FlashFit[10] = width;
+    g_dh2FlashFit[11] = height;
 }
 
 // 0x42cf30 _ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE

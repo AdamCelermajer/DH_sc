@@ -145,6 +145,24 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     `dh2/global/screen_size.hpp`; touch uses the same `root::display_bounds`, so hit-testing follows the drawing); the 3D cameras multiply their
     aspect by `ScreenAspectScale()` (vertical FOV unchanged, more world at the sides). The original's own sizes (800/854/960 wide) and non-Android,
     non-host-runner builds are untouched (helpers return false / 1.0).
+    UI4 additions to the same deviation, all under `ScreenUsesAspectFit()`: (a) *HUD corner anchoring*: the HUD movie (slot 3, `dqhud*.swf`, root
+    `menu_HUD_<HUDStyle>`) is not left in the centred box; `HudAnchorUpdate` (game-ui `HUDControls` file, called by `MenuManager::Draw` for slot 3 every
+    frame before `Render`) keeps the fit's scale but translates each HUD element in its local matrix by the extra surface margin (margin in px /
+    px per stage unit, per axis) toward the edge of the quadrant its stage reference point lies in: top half up, bottom half down, left half left,
+    right half right, nothing inside a +-10% band around the centre. Elements: `HealthBars.{player,btn_potion,enemy}`, `btn_charactermenu`,
+    `btn_mainmenu`, `itunes_controls`, `menu_miniMap` (forced top right), `itemname_text` (bottom), the `deadzone_*` touch blockers and
+    `controls.controls.{Joystick,btn_interact,btn_skill1..3,btn_spell,list}`. The applied offset is remembered per character so a timeline or
+    `SetHUDPos` rewrite is taken as the new base, `initCachedChars` releases it before the layout is read and captured, and it is 0 while the
+    layout is being customised; touch hit-testing and the minimap viewport read the moved matrices, so they follow. The 16:9 clip of the
+    movie is lifted for the HUD (`g_dh2FlashFit[0] = 0`). World-anchored clips (FlashAnimManager, SWFAnim, ally bars) are not under these elements.
+    (b) *Stick touch zone*: in `RenderFX::UpdateCursor` a press in the bottom-left quarter of the surface that hits nothing, the stick's own
+    pad or the full-screen `pinch` clip takes the virtual stick as its hit (`HudStickZoneTarget`, switch `ScreenUsesStickZone()` = the fit is on,
+    so the original's own sizes keep the original stick); the drag is measured from the press point, the stick graphic stays in place.
+    (c) *Black bars*: on the opaque full-screen pages (`menu_splash`, `menu_Loading`, `menu_VerificationLoading`; told by the state name,
+    `IsOpaqueFullScreenState`, because the movies carry no flag) the render handler paints the bars outside the box black before the movie is
+    drawn (`g_dh2FlashFit[5..11]`); transparent pages (main menu, start game) and the HUD keep the 3D scene behind them. (d) The `preload_font`
+    clip (six "Warrior" text fields parked above the stage, whose glyphs `MenuManager` preloads) is parked 1000 px higher once, because the 5%
+    clip margin of the box revealed it on the splash and main menu.
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

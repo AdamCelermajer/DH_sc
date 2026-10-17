@@ -36,3 +36,20 @@ inline int ScreenFitOffsetY() {
 }
 // Rescales the active 3D camera after a surface resize (game-world/src/g1-game-world-CameraBase-b32e3c-0.cpp).
 void ScreenAspectRescaleActiveCamera(float oldScale);
+
+// Port addition (UI4, TRACK-B.md decision 15): HUD corner anchoring and the stick touch zone, both only where the 16:9 fit applies.
+// HudAnchorUpdate (game-ui/.../HUDControls) moves the HUD movie's elements toward the real screen edges by the surface margin of the fit;
+// it returns true while it does, and then MenuManager::Draw lifts the 16:9 clip box for that movie (g_dh2FlashFit[0] = 0).
+class MenuFX;
+bool HudAnchorUpdate(MenuFX* hud, bool release);
+// The Flash movie being drawn, written by MenuFlash2DCamera::Update and read by the gameswf render handler (defined there):
+//   [0] clip to the box (1/0), [1..4] clip box x, y, width, height (surface pixels, 5% larger than the fit box);
+//   [5] paint the bars outside the fit box black (opaque full-screen page), [6..9] the fit box x, y, width, height, [10..11] surface width, height.
+extern "C" int g_dh2FlashFit[12];
+// The virtual stick may be grabbed from the bottom-left quarter of the surface (RenderFX::UpdateCursor, HUD movie only). One switch for
+// the zone: it is on wherever the fit is, so the original's own screen sizes keep the original stick.
+inline bool ScreenUsesStickZone() { return ScreenUsesAspectFit(); }
+namespace gameswf { class character; }
+class RenderFX;
+// The stick character when a pointer at surface pixel (x, y) of movie `fx`, whose normal hit is `hit`, should grab the virtual stick (see HUDControls), else null.
+gameswf::character* HudStickZoneTarget(const RenderFX* fx, float x, float y, gameswf::character* hit);

@@ -21,6 +21,7 @@
 #include "dh2/MenuDebugHUD.hpp"
 #include "dh2/MenuFX.hpp"
 #include "dh2/MenuFlash2DCamera.hpp"
+#include "dh2/global/screen_size.hpp"
 #include "dh2/MenuManager.hpp"
 #include "dh2/MultiMenuManager.hpp"
 #include "dh2/SavegameManager.hpp"
@@ -369,6 +370,11 @@ void MenuManager::Draw(bool /*hudOnly*/) {
         MenuFlash2DCamera* camera = m_multiMenuManager->m_cameras[index];
         if (camera != nullptr) {
             camera->Update();
+        }
+        if (index == 3 && HudAnchorUpdate(movie, false)) {
+            // Port deviation (UI4; TRACK-B.md decision 15): the HUD sits at the real screen edges, outside the 16:9 box, so it is not
+            // clipped to that box.
+            g_dh2FlashFit[0] = 0;
         }
         if (movie->GetCurrentState() != nullptr || index == 3) {
             movie->Render();

@@ -4,6 +4,7 @@
 // reconstructed. The bodies that read gameswf character fields that are not declared (the enabled byte at +0xea, the
 // event record, the cursor and input state), the search index and the update loop are PARTIAL with the missing piece named.
 #include "dh2/RenderFX.hpp"
+#include "dh2/global/screen_size.hpp"
 
 #include "gameswf/gameswf.h"
 #include "gameswf/gameswf_character.h"
@@ -16,6 +17,7 @@
 #include "dh2/global/GetLocalPosition.hpp"
 
 #include <cmath>
+#include <cstdio>
 #include <cstring>
 
 int CanHandleMouseEvent(gameswf::character* character);  // 0x7a8c6c
@@ -382,6 +384,14 @@ void RenderFX::UpdateCursor(Cursor& cursor, int controller) {
     const float twipsX = localX * 20.0f;
     const float twipsY = localY * 20.0f;
     ::smart_ptr<gameswf::character> hit(searchRoot->get_topmost_mouse_entity(twipsX, twipsY));
+    if (ScreenUsesStickZone()) {
+        // Port deviation (UI4; TRACK-B.md decision 15): a touch in the bottom-left zone of the surface that hits nothing (or only the stick's pad)
+        // grabs the virtual stick.
+        gameswf::character* stick = HudStickZoneTarget(this, cursor.x, cursor.y, hit.get_ptr());
+        if (stick) {
+            hit = stick;
+        }
+    }
     ::smart_ptr<gameswf::character> oldFocus(record.m_characters[0].get_ptr());
     bool setFocus;
     if (record.m_characters[4].get_ptr() != nullptr) {
