@@ -25,6 +25,7 @@
 //     The name is not in the Hex-Rays text: it is the literal of the gameswf::tu_string constructor clone that
 //     SlowUpdate and FastUpdate call (_ZN7gameswf9tu_stringC1EPKc.clone.1 holds "SlotId").
 
+#include "dh2/global/screen_size.hpp"
 #include "dh2/InfoHUDManager.hpp"
 
 #include <cstdio>
@@ -339,8 +340,8 @@ void InfoHUDManager::FastUpdate() {
                         gameswf::root* swfRoot = m_menu->GetRoot();
                         const float invX = GameSWFUtils::GetInvPixelScaleX(swfRoot);
                         const float invY = GameSWFUtils::GetInvPixelScaleY(swfRoot);
-                        m_menu->SetPosition(allyChar, static_cast<int>(invX * static_cast<float>(screen.X)),
-                                            static_cast<int>(invY * static_cast<float>(screen.Y)));
+                        m_menu->SetPosition(allyChar, static_cast<int>(invX * static_cast<float>(screen.X - ScreenFitOffsetX())),
+                                            static_cast<int>(invY * static_cast<float>(screen.Y - ScreenFitOffsetY())));
                         present = true;
                     }
                 }

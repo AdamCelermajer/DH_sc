@@ -17,7 +17,7 @@
 //   * collada::CColladaDatabase::constructEffect(driver, const char* name, root) (0x61b10c) is the renderer factory.
 //     The seam records every name it is asked for, builds a CMaterialRenderer, puts it in the manager's collection
 //     (which is what the real factory does through the driver) and returns it carrying one reference, with the
-//     collection id in m_parameterCount exactly as createMaterialRenderer reads it (LDRH R3,[R3,#0xC]).
+//     collection id in m_id (+0x0c) exactly as createMaterialRenderer reads it (LDRH R3,[R3,#0xC]).
 // Everything the test then checks -- the 17-type walk, the TODO skip, the caching, the out-of-range bound, the
 // written-back slot and SProperties::materialType -- is the body under test, not the seams.
 #include "glitch-video/material_renderer_manager.hpp"
@@ -98,7 +98,7 @@ video::CMaterialRenderer* CColladaDatabase::constructEffect(video::IVideoDriver*
     }
     boost::intrusive_ptr<video::CMaterialRenderer> renderer(new video::CMaterialRenderer(), true);
     const std::uint16_t id = g_seam.manager->add(name, renderer);
-    renderer->m_parameterCount = id;  // +0x0e: the word createMaterialRenderer caches as the type's renderer id
+    renderer->m_id = id;  // +0x0c: the halfword createMaterialRenderer caches as the type's renderer id
     g_seam.created.emplace_back(name, id);
     g_seam.lastRenderer = renderer.get();
     return renderer.detach();  // hand over the one use the caller adopts
@@ -152,7 +152,7 @@ int main() {
     check(filledExceptTodo, "the walk fills all 16 non-TODO slots and leaves slot 5 at 0xffff");
     check(manager.m_materialTypeIds[3] == id3, "the requested type's slot holds the id that was returned");
 
-    // The created renderer is the collection entry of that id, its id word was read from m_parameterCount, and the
+    // The created renderer is the collection entry of that id, its id word was read from m_id, and the
     // type index was written into the renderer's SProperties record (STRH R4,[R3,#0x20], node +0x20 = +0x08).
     boost::intrusive_ptr<CMaterialRenderer> renderer = manager.getMaterialRenderer(id3);
     check(renderer.get() == g_seam.lastRenderer ||
@@ -161,12 +161,12 @@ int main() {
     auto* props = manager.getProperties(id3);
     check(props != nullptr && props->materialType == 3, "the renderer's record carries its E_MATERIAL_TYPE index (3)");
 
-    // The cached id of the type is what the seam put in m_parameterCount: the entry vector index.
+    // The cached id of the type is what the seam put in m_id: the entry vector index.
     bool idMatchesEntry = false;
     for (const auto& entry : g_seam.created) {
         if (entry.first == kTypeNames[3]) idMatchesEntry = entry.second == id3;
     }
-    check(idMatchesEntry, "the returned id is the id the renderer carried in m_parameterCount");
+    check(idMatchesEntry, "the returned id is the id the renderer carried in m_id");
 
     // ---- the hit path: a second call must not walk again ---------------------------------------------------------
     const int callsAfterMiss = g_seam.calls;

@@ -12,6 +12,9 @@
       Zirconia_DRM keeps its class but is no longer the launcher: its licence server is gone and the original ends in an error
       dialog offline; the game never needed the check to run (FIRST-BOOT.md starts .DungeonHunter2 directly).
     * DungeonHunter2 also handles screenSize|smallestScreenSize|density|layoutDirection (foldables: folding/unfolding must not recreate the activity and the native GL state)
+    * DungeonHunter2 theme Theme.Black.NoTitleBar.Fullscreen (black window background; the legacy theme's start/snapshot window was white when returning from multitasking)
+    * resizeableActivity=true + maxAspectRatio=4.0 (application and the two game activities): without them the system treats the 2011 app as a legacy one and
+      letterboxes it to its default maximum aspect ratio 1.86 (black bars left and right on 21:9 phones / foldable cover screens)
     * READ_EXTERNAL_STORAGE added for DataSetup (reads the archive from Download)
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -38,7 +41,10 @@
         android:theme="@android:style/Theme.NoTitleBar.Fullscreen"
         android:label="@string/icon_label"
         android:icon="@drawable/icon"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        android:resizeableActivity="true"
+        android:maxAspectRatio="4.0">
+        <meta-data android:name="android.max_aspect" android:value="4.0"/>
         <provider
             android:name="com.gameloft.android.GAND.GloftD2SS.SessionProvider"
             android:authorities="com.gameloft.android.GAND.GloftD2SS.reports"
@@ -50,6 +56,9 @@
         <activity
             android:label="@string/icon_label"
             android:name="com.gameloft.android.GAND.GloftD2SS.DungeonHunter2"
+            android:maxAspectRatio="4.0"
+            android:resizeableActivity="true"
+            android:theme="@android:style/Theme.Black.NoTitleBar.Fullscreen"
             android:exported="true"
             android:multiprocess="false"
             android:finishOnTaskLaunch="true"
@@ -75,6 +84,8 @@
         </activity>
         <activity
             android:name="com.gameloft.android.GAND.GloftD2SS.MyVideoView"
+            android:maxAspectRatio="4.0"
+            android:resizeableActivity="true"
             android:exported="true"
             android:multiprocess="false"
             android:finishOnTaskLaunch="true"

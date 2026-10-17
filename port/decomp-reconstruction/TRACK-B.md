@@ -138,6 +138,13 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     exclusive/atomic access or a vector store to such an address faults. Free-space accounting, merging and the dump format are the
     binary's; only block sizes grow (the dump prints the rounded size). `glitch-core-io/tests/process_buffer_heap_test.cpp` checks this
     layout.
+15. Centred 16:9 Flash fit and 3D aspect (2026-10-17, UI3, deviation from the binary): the original stretches every Flash movie over the whole
+    surface (`MenuFlash2DCamera::Update` -> `SetBounds(..., scale_mode 0)`) and builds its cameras for a 16:9 screen (Level camera aspect 1.66775,
+    avatar camera `kAvatarCameraAspectRatio`). On a surface of any other aspect (21:9 phone, square foldable) that distorts the UI. The port keeps
+    the viewport on the whole surface and fits the movies into the largest centred 16:9 rectangle (`ScreenUsesAspectFit()` in
+    `dh2/global/screen_size.hpp`; touch uses the same `root::display_bounds`, so hit-testing follows the drawing); the 3D cameras multiply their
+    aspect by `ScreenAspectScale()` (vertical FOV unchanged, more world at the sides). The original's own sizes (800/854/960 wide) and non-Android,
+    non-host-runner builds are untouched (helpers return false / 1.0).
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

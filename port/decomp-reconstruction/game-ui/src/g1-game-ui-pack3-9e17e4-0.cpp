@@ -121,6 +121,9 @@ MenuFlash2DCamera::~MenuFlash2DCamera() {}
 // Not written: compiler-generated. The original stores the vptr and then calls CustomFree on the object, which is what
 // delete does for this class.
 
+// Port addition (UI3): the centred 16:9 box of the movie being drawn: {active, x, y, width, height} in surface pixels. Read by gameswf's render handler.
+extern "C" int g_dh2FlashFit[5];  // defined in the gameswf render handler
+
 // 0x42cd84 _ZN17MenuFlash2DCamera6UpdateEv
 // The position m_x and m_y eases toward the targets (each step at least one unit, never past the target). With a limit clip the
 // position is clamped so the clip bounds cover the screen (left and top, then right and bottom, with the screen size read from the
@@ -180,7 +183,30 @@ void MenuFlash2DCamera::Update() {
         }
     }
     m_menu->SetViewport(0, 0, width, height);
-    m_menu->SetBounds(m_x, m_y, width, height, static_cast<gameswf::scale_mode>(0));
+    // Port deviation (UI2; TRACK-B.md decision 15, the original stretches): the binary stretches the movie over the whole surface (scale mode 0). The movies are authored for 16:9, so on a
+    // surface of another aspect (21:9 phone, square foldable) that distorts everything. Keep the viewport (clipping, input) on the whole
+    // surface and fit the movie into the largest centred 16:9 rectangle of it. Surfaces of the original's own sizes are left as they were.
+    std::int32_t fitX = 0, fitY = 0, fitW = width, fitH = height;
+    if (ScreenUsesAspectFit() && width > 0 && height > 0) {
+        if (static_cast<std::int64_t>(width) * 9 > static_cast<std::int64_t>(height) * 16) {
+            fitW = height * 16 / 9;
+            fitX = (width - fitW) / 2;
+        } else if (static_cast<std::int64_t>(width) * 9 < static_cast<std::int64_t>(height) * 16) {
+            fitH = width * 9 / 16;
+            fitY = (height - fitH) / 2;
+        }
+    }
+    m_menu->SetBounds(m_x + fitX, m_y + fitY, fitW, fitH, static_cast<gameswf::scale_mode>(0));
+    // The movies park elements outside their stage (dialogs, labels) that the original's stretch never showed on its 16:9 screens; the fit leaves
+    // bars where they would bleed into, so the render handler clips the movie to this box (render_handler_glitch::begin_display).
+    g_dh2FlashFit[0] = (fitW != width || fitH != height) ? 1 : 0;
+    // The stage art overflows its 16:9 frame by a few percent (corner ornaments, panel edges): clip 5% outside the frame, not at it.
+    const std::int32_t padX = fitX > 0 ? fitW / 20 : 0;
+    const std::int32_t padY = fitY > 0 ? fitH / 20 : 0;
+    g_dh2FlashFit[1] = fitX - (padX < fitX ? padX : fitX);
+    g_dh2FlashFit[2] = fitY - (padY < fitY ? padY : fitY);
+    g_dh2FlashFit[3] = fitW + 2 * (padX < fitX ? padX : fitX);
+    g_dh2FlashFit[4] = fitH + 2 * (padY < fitY ? padY : fitY);
 }
 
 // 0x42cf30 _ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE

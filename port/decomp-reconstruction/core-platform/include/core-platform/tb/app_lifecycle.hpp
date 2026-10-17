@@ -8,5 +8,7 @@ extern "C" {
 int appInit();
 int appUpdate();
 int appDestroy();
+// Track B (UI3, not in the original): the GL surface changed size after appInit (fold/unfold, split screen, rotation); resizes the screen framebuffer.
+void appResizeSurface(int width, int height);
 
 }  // extern "C"

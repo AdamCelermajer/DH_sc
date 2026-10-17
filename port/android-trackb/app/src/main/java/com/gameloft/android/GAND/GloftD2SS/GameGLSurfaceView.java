@@ -134,7 +134,7 @@ class GameGLSurfaceView extends GLSurfaceView {
     private final Runnable threeFingerHold = new Runnable() {
         public void run() {
             threeArmed = false;
-            SessionUi.showGameDialog(DungeonHunter2.w);
+            SessionUi.showGameDialog(DungeonHunter2.w, GameGLSurfaceView.this);
         }
     };
 
@@ -154,6 +154,52 @@ class GameGLSurfaceView extends GLSurfaceView {
             threeArmed = false;
             removeCallbacks(threeFingerHold);
         }
+    }
+
+    // Track B: active pointers (id -> last position), so the report dialog can release every held finger to the game before it pauses it.
+    private final int[] ptX = new int[16];
+    private final int[] ptY = new int[16];
+    private final boolean[] ptDown = new boolean[16];
+    private boolean swallow;
+
+    private void trackPointers(MotionEvent e) {
+        int act = e.getActionMasked();
+        if (act == MotionEvent.ACTION_DOWN) {
+            swallow = false;
+        }
+        for (int i = 0; i < e.getPointerCount(); i++) {
+            int id = e.getPointerId(i);
+            if (id >= 0 && id < 16) {
+                ptX[id] = (int) e.getX(i);
+                ptY[id] = (int) e.getY(i);
+                ptDown[id] = true;
+            }
+        }
+        if (act == MotionEvent.ACTION_POINTER_UP || act == MotionEvent.ACTION_UP) {
+            int id = e.getPointerId(e.getActionIndex());
+            if (id >= 0 && id < 16) {
+                ptDown[id] = false;
+            }
+        }
+        if (act == MotionEvent.ACTION_CANCEL) {
+            java.util.Arrays.fill(ptDown, false);
+        }
+    }
+
+    /** Sends a touch-up to the game for every finger currently down and ignores the rest of that gesture (called when the report dialog opens). */
+    void releaseTouches() {
+        for (int id = 0; id < 16; id++) {
+            if (ptDown[id]) {
+                ptDown[id] = false;
+                try {
+                    nativeOnTouch(0, ptX[id], ptY[id], id, 0, 0);
+                } catch (Throwable t) {
+                }
+            }
+        }
+        swallow = true;
+        threeArmed = false;
+        removeCallbacks(threeFingerHold);
     }
 
     public GameGLSurfaceView(Context context) {
@@ -197,6 +243,10 @@ class GameGLSurfaceView extends GLSurfaceView {
     @Override // android.view.View
     public boolean onTouchEvent(MotionEvent motionEvent) {
         checkThreeFingerHold(motionEvent);
+        if (swallow && motionEvent.getActionMasked() != MotionEvent.ACTION_DOWN) {
+            return true;
+        }
+        trackPointers(motionEvent);
         int action = motionEvent.getAction();
         int i = action & 255;
         int pointerCount = motionEvent.getPointerCount();
@@ -263,6 +313,7 @@ class GameGLSurfaceView extends GLSurfaceView {
                 return;
             }
             DungeonHunter2.nativeResume(1);
+            GameRenderer.holdUntilResume = false;
         }
     }
 }

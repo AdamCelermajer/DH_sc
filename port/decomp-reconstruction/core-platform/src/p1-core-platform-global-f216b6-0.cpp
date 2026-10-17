@@ -9,6 +9,7 @@
 // (slot 141, byte offset 0x234 on 32-bit ARM).
 
 #include "core-platform/tb/android_jni_bridge.hpp"
+#include "core-platform/tb/app_lifecycle.hpp"
 
 // Globals. Zero-initialised in the binary (.bss), except the window size (.data, 480 and 854).
 // mEnv has one definition in the library code, here. tinyxml-and-c-libs/include/tinyxml-and-c-libs/jni_globals.hpp
@@ -63,6 +64,7 @@ extern "C" JNIEXPORT void JNICALL Java_com_gameloft_android_GAND_GloftD2SS_GameR
                                                                                                       jint height) {
     s_windowWidth = width;
     s_windowHeight = height;
+    appResizeSurface(width, height);   // Track B (UI3): follow a surface resize after appInit (fold/unfold)
 }
 
 // 0x531190 Java_com_gameloft_android_GAND_GloftD2SS_GameRenderer_nativeOnSurfaceChanged

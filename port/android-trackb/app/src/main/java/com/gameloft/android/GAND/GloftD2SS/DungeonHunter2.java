@@ -447,11 +447,42 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
         String str14 = Build.USER;
         String str15 = Build.PRODUCT;
         requestWindowFeature(1);
-        DisplayMetrics displayMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        nativeSetPhone(displayMetrics.widthPixels, displayMetrics.heightPixels);
-        I = new GameGLSurfaceView(this);
-        setContentView(I);
+        // Track B (UI2): the game window covers the whole display (see ScreenFit), so the size handed to the native side is the real display
+        // size, not the size left by the system bars / cutout (appInit sizes the video device from it, the GL surface is the real size).
+        // ScreenFit.apply runs after setContentView (the decor view must exist: getInsetsController NPE'd before it)
+        int screenW;
+        int screenH;
+        if (Build.VERSION.SDK_INT >= 30) {
+            android.graphics.Rect bounds = getWindowManager().getMaximumWindowMetrics().getBounds();
+            screenW = bounds.width();
+            screenH = bounds.height();
+        } else {
+            DisplayMetrics displayMetrics = new DisplayMetrics();
+            getWindowManager().getDefaultDisplay().getRealMetrics(displayMetrics);
+            screenW = displayMetrics.widthPixels;
+            screenH = displayMetrics.heightPixels;
+        }
+        if (screenW < screenH) {   // the activity is landscape-locked; never hand over a portrait size before the first rotation
+            int t = screenW;
+            screenW = screenH;
+            screenH = t;
+        }
+        android.util.Log.i("DH2UI", "nativeSetPhone " + screenW + "x" + screenH);
+        nativeSetPhone(screenW, screenH);
+        GameGLSurfaceView gameView = new GameGLSurfaceView(this);
+        I = gameView;
+        android.widget.FrameLayout rootView = new android.widget.FrameLayout(this);
+        rootView.addView(gameView, new android.widget.FrameLayout.LayoutParams(-1, -1));
+        setContentView(rootView);
+        SessionUi.attachBubble(this, rootView, gameView);   // Track B: floating "report an issue" bubble
+        // Track B: black window background. A GLSurfaceView shows the window background until its new EGL surface has presented a frame
+        // (on resume the GL thread first relinks every shader, about a second or more on a phone); the legacy theme's default
+        // background is white on current Android, which showed as a white flash. The original (Android 2.x) never showed white here.
+        getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(0xFF000000));
+        ScreenFit.apply(this);   // Track B (UI2): again now that the decor view exists (hides the system bars)
+        if (Build.VERSION.SDK_INT >= 33) {
+            setRecentsScreenshotEnabled(false);   // the task snapshot of a GL surface is blank white; show the black start window instead
+        }
         o = this;
         w = this;
         t = (ConnectivityManager) getSystemService("connectivity");
@@ -531,6 +562,14 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
             GLMediaPlayer.ResumeMovie();
         }
         super.onRestart();
+    }
+
+    @Override // android.app.Activity
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            ScreenFit.apply(this);   // Track B (UI2): immersive again after a dialog / the keyboard / a swipe
+        }
     }
 
     @Override // android.app.Activity

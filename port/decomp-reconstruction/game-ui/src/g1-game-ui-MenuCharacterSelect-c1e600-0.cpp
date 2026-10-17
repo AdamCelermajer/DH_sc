@@ -7,6 +7,7 @@
 #include <cstdlib>
 #include <vector>
 
+#include "dh2/global/screen_size.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/ColladaFactory.hpp"
 #include "dh2/GameSWFUtils.hpp"
@@ -296,10 +297,10 @@ void MenuCharacterSelect::RenderClassSelectPane(gameswf::render_state& /*state*/
     const float invX = GameSWFUtils::GetInvPixelScaleX(root);
     const float invY = GameSWFUtils::GetInvPixelScaleY(root);
     glitch::core::rect<int> viewport;
-    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invX);
-    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invY);
-    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invX);
-    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invY);
+    viewport.UpperLeftCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[0] / invX);
+    viewport.UpperLeftCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[2] / invY);
+    viewport.LowerRightCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[1] / invX);
+    viewport.LowerRightCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[3] / invY);
     target->setViewport(viewport);
     DeviceSceneManager()->drawAll(static_cast<glitch::scene::ISceneNode*>(nullptr));
     target->setViewport(savedViewport);

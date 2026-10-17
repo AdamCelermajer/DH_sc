@@ -12,6 +12,7 @@
 #include <string>
 #include <vector>
 
+#include "dh2/global/screen_size.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/DebugSwitches.hpp"
 #include "dh2/FlashAnimManager.hpp"
@@ -198,8 +199,8 @@ FlashAnimContext* FlashAnimManager::PlayFlashAnim(int styleId, const glitch::cor
     gameswf::character* templateChar = m_swfDataInstances[styleId].m_clones[0].m_character;
     const float scaleX = GameSWFUtils::GetInvPixelScaleX(templateChar->get_root());
     const float scaleY = GameSWFUtils::GetInvPixelScaleY(templateChar->get_root());
-    return PlayFlashAnim(styleId, static_cast<int>(scaleX * static_cast<float>(screen.X)),
-                         static_cast<int>(scaleY * static_cast<float>(screen.Y)), frame, flags);
+    return PlayFlashAnim(styleId, static_cast<int>(scaleX * static_cast<float>(screen.X - ScreenFitOffsetX())),
+                         static_cast<int>(scaleY * static_cast<float>(screen.Y - ScreenFitOffsetY())), frame, flags);
 }
 
 // 0x413dc4 FlashAnimManager::PlayScrollingCombatText(int, glitch::core::vector3d<float> const&, char const*, int)

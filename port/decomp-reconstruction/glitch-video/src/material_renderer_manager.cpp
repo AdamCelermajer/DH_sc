@@ -138,10 +138,10 @@ uint16_t CMaterialRendererManager::createMaterialRenderer(E_MATERIAL_TYPE type) 
         boost::intrusive_ptr<CMaterialRenderer> renderer(
             effects.constructEffect(m_driver, kMaterialTypeNames[index], nullptr));
         if (!renderer) continue;
-        // The word constructEffect's renderer carries at +0x0c: LDRH R3,[R3,#0xC] takes its low half, i.e. the
-        // renderer's id, which is what the original caches in the table (the +0x0e name in the port's header
-        // covers the same word).
-        const uint16_t id = renderer->m_parameterCount;
+        // The halfword at +0x0c of the renderer (LDRH R3,[R3,#0xC]; Hex-Rays *((_WORD *)renderer + 6)) is its id in the manager's
+        // collection: m_id. (Reading the parameter count at +0x0e here cached the count as the id, so several types shared one
+        // wrong renderer and the 2D textured materials ended up without a texture parameter: the interrupt splash drew white.)
+        const uint16_t id = renderer->m_id;
         m_materialTypeIds[index] = id;
         // SProperties +0x08 of the renderer record, the layout the note in material_renderer_manager_layout.hpp
         // fixes. The original dereferences the node iterator without a check; the port skips the store when the

@@ -52,6 +52,15 @@ CPrimitiveStream immediateStream(uint32_t count, uint16_t primitiveType) {
 // margins. Its viewport becomes the whole framebuffer when it covered the old one entirely, otherwise it is set again unchanged.
 void IVideoDriver::onResize(const core::dimension2d<int32_t>& size) {
     IFramebuffer* framebuffer = static_cast<IFramebuffer*>(m_renderTargets.front().get());  // +0xc8
+    // Track B addition (nothing in the original called onResize, the surface never changed size): the device keeps the size it was
+    // created with at +0x60/+0x64 and ReinitDriver (after a lost GL context) sets glViewport and the driver size from it, so a later
+    // resume would bring the old viewport back. The device follows the new size.
+    if (m_device != nullptr) {
+        const int32_t width = size.Width;
+        const int32_t height = size.Height;
+        std::memcpy(m_device->creationParameters.bytes + 4, &width, sizeof width);
+        std::memcpy(m_device->creationParameters.bytes + 8, &height, sizeof height);
+    }
     int32_t deviceWidth;
     int32_t deviceHeight;
     if ((m_orientation & 1) != 0) {  // +0x13c

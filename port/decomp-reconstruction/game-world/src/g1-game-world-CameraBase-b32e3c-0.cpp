@@ -7,6 +7,7 @@
 
 #include "dh2/Application.hpp"                 // ApplicationGetInstance(), the device at Application +0x10
 #include "dh2/CameraBase.hpp"
+#include "dh2/global/screen_size.hpp"
 #include "dh2/global/DeviceSceneManager.hpp"   // DeviceSceneManager(): the scene manager at device +0x1c
 #include "dh2/global/Vec3f_K.hpp"              // Vec3f_K (0x99f878), the (0, 0, 1) up vector
 #include "dh2/global/Vec3f_Origin.hpp"  // Vec3f_Origin (0x99f854), the zero Point3D<float> global
@@ -234,3 +235,20 @@ void CameraBase::GetScreenCoord(const Point3D<float>& world, Point2D<float>& scr
 
 // 0x40f6f8 CameraBase::~CameraBase()   (deleting destructor, D0): not defined here. The compiler emits it for
 // `delete` on a CameraBase*; its body is D1 followed by CustomFree(this).
+
+// Port addition (UI3, TRACK-B.md decision 15): the surface changed size after the cameras were set up (fold/unfold). The 3D cameras take their
+// aspect from the screen once, at creation (Level::_LoadCamera, the menu avatar camera), so the active one is rescaled by the ratio of the new
+// aspect scale to the old one; the others get a correct aspect when they are next created.
+void ScreenAspectRescaleActiveCamera(float oldScale) {
+    if (oldScale <= 0.0f) {
+        return;
+    }
+    glitch::IDevice* device = ApplicationGetInstance().m_device;
+    if (device == nullptr || device->sceneManager == nullptr) {
+        return;
+    }
+    glitch::scene::ICameraSceneNode* camera = reinterpret_cast<glitch::scene::CSceneManager*>(device->sceneManager)->activeCamera;
+    if (camera != nullptr) {
+        camera->setAspectRatio(camera->getAspectRatio() * ScreenAspectScale() / oldScale);
+    }
+}

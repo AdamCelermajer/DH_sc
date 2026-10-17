@@ -34,8 +34,11 @@ namespace {
 const char* const kCatNames[kCatCount] = {"ioOpen", "ioRead", "glCompile", "glLink", "texUpload", "texDecode", "log", "batch", "other"};
 constexpr std::uint64_t kLongNs = 50ull * 1000000ull;         // log threshold
 constexpr std::uint64_t kSampleAfterNs = 28ull * 1000000ull;  // the watchdog starts sampling this long after the frame began
+// The gap between samples grows (6 ms + 1.5 ms per sample taken) so 28 samples span about 0.7 s: the 400 ms level-load stalls
+// were only covered for their first 110 ms by 14 samples at a fixed 6 ms.
 constexpr std::uint64_t kSampleEveryNs = 6ull * 1000000ull;
-constexpr int kMaxSamples = 14;
+constexpr std::uint64_t kSampleGrowNs = 1500000ull;
+constexpr int kMaxSamples = 28;
 constexpr int kMaxFrames = 24;
 
 // Every line goes to logcat (tag DH2PROF) and to <files>/dh2_prof.txt (bounded: at 1 MB it is renamed dh2_prof.old), so a play session on
@@ -140,7 +143,7 @@ void* watchdog(void*) {
         const std::uint64_t age = now - start;
         if (age < kSampleAfterNs || age > 3000000000ull) continue;
         if (g_nSamples.load(std::memory_order_acquire) >= kMaxSamples) continue;
-        if (now - lastSample < kSampleEveryNs) continue;
+        if (now - lastSample < kSampleEveryNs + kSampleGrowNs * static_cast<std::uint64_t>(g_nSamples.load(std::memory_order_relaxed))) continue;
         lastSample = now;
         syscall(SYS_tgkill, getpid(), g_gameTid, SIGPROF);
     }
@@ -153,7 +156,7 @@ void logSymbol(char* out, size_t cap, std::uintptr_t pc) {
         const char* base = std::strrchr(info.dli_fname, '/');
         base = base ? base + 1 : info.dli_fname;
         if (info.dli_sname) {
-            std::snprintf(out, cap, "%s!%s+0x%lx", base, info.dli_sname, static_cast<unsigned long>(pc - reinterpret_cast<std::uintptr_t>(info.dli_saddr)));
+            std::snprintf(out, cap, "%s%s%s+0x%lx", std::strcmp(base, "libDungeonHunter2.so") == 0 ? "" : base, std::strcmp(base, "libDungeonHunter2.so") == 0 ? "" : "!", info.dli_sname, static_cast<unsigned long>(pc - reinterpret_cast<std::uintptr_t>(info.dli_saddr)));
         } else {
             std::snprintf(out, cap, "%s+0x%lx", base, static_cast<unsigned long>(pc - reinterpret_cast<std::uintptr_t>(info.dli_fbase)));
         }
@@ -163,7 +166,7 @@ void logSymbol(char* out, size_t cap, std::uintptr_t pc) {
 }
 
 void reportLong(std::uint64_t periodNs, std::uint64_t updateNs) {
-    char line[1500];
+    char line[2600];
     int p = std::snprintf(line, sizeof line, "long period=%.1fms update=%.1fms cats:", periodNs / 1e6, updateNs / 1e6);
     for (int c = 0; c < kCatCount; ++c) {
         const std::uint64_t ns = g_catNs[c].load(std::memory_order_relaxed);
@@ -180,7 +183,7 @@ void reportLong(std::uint64_t periodNs, std::uint64_t updateNs) {
             char sym[160];
             logSymbol(sym, sizeof sym, s.pc[k]);
             q += std::snprintf(line + q, sizeof line - q, " %s%s", k ? "< " : "", sym);
-            if (q > 1300) break;
+            if (q > 2300) break;
         }
         emit(line);
     }

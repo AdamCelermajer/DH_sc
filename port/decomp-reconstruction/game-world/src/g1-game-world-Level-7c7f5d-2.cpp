@@ -284,7 +284,7 @@ void Level::_LoadCamera() {
                                                     static_cast<int>(Arrays::CamAnimSetTable::size),
                                                     config->m_cameraAnimset.c_str());  // the +0x278 data word
     m_camera->Load(config->m_cameraFile.c_str(), camTableIndex, config->m_cameraName.c_str());  // +0x260, +0x290
-    m_camera->SetData(0.42963f, 1.66775239f, static_cast<float>(config->m_cameraZnear),
+    m_camera->SetData(0.42963f, 1.66775239f * ScreenAspectScale() /* port: undistorted 3D on non-16:9 surfaces */, static_cast<float>(config->m_cameraZnear),
                       static_cast<float>(config->m_cameraZfar), false);  // +0x294, +0x298
     m_camera->SetActive();
     // Clip id of the row CameraLevel::Load found (row +0x10; stride 28 in the original).

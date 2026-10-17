@@ -11,6 +11,8 @@
 #include <cstdint>
 #include <cstdlib>
 #include <cstring>
+#include <thread>
+#include <vector>
 
 #include <jni.h>
 #include "core-platform/touch_screen_base.hpp"
@@ -392,42 +394,26 @@ std::uint32_t TwiddleUV(std::uint32_t a1, std::uint32_t a2, std::uint32_t a3, st
     return bits | ArmLogicalShiftLeft(ArmLogicalShiftRight(a2, steps), spread);
 }
 
-// 0x69f768 PVRTCDecompress(void const*, int, int, int, unsigned char*)
-// Decodes a PVRTC image of xDim by yDim pixels (2 bits per pixel when do2bitMode, else 4) into RGBA bytes. Blocks are 8 bytes: word 0 the
-// modulation data, word 1 the two colours (bits 0..15 colour A, with bit 0 the modulation mode flag, and bits 16..31 colour B). The block
-// width is 8 or 4 pixels, the block row count yDim / 4 (2 when yDim is below 8), the blocks per row xDim / blockWidth (at least 2); a row
-// count of zero returns the blocks per row. For each pixel row y: the top block row is ((y - 2) & (yDim - 1)) / 4 and the bottom one the next
-// (wrapping); for each pixel x the left block column is ((xDim - 1) & (x - blockWidth / 2)) / blockWidth and the right one the next. The four
-// blocks (found with TwiddleUV) are decoded into the colour pairs, the modulation values and the modulation modes of an 8-row, 16-column scratch
-// grid, unless the same four blocks were decoded for the previous pixel. The colours are interpolated bilinearly (InterpolateColours) and the
-// modulation factor comes from the row and column of the pixel in the grid: a pixel whose parity requires it (2 bits per pixel, modes 1 to 3)
-// averages its neighbours' factors (RepVals0 = 0, 3, 5, 8); 4 bits per pixel with the flag set uses RepVals1 = 0, 4, 4, 8, and a value 2 there
-// is the punch-through (alpha 0). Each pixel is (8 * A + (B - A) * factor) >> 3. The return value is yDim.
-int PVRTCDecompress(const void* compressed, int do2bitMode, int xDim, int yDim, std::uint8_t* result) {
-    static const int kRepVals[8] = {0, 3, 5, 8, 0, 4, 4, 8};  // GetModulationValue's RepVals0 (ELF 0x8eaf00) and RepVals1 (0x8eaf10)
-    const char* data = static_cast<const char*>(compressed);
-    const int blockWidth = do2bitMode ? 8 : 4;
-    int blocksPerRow = xDim / blockWidth;
-    if (blocksPerRow < 2) {
-        blocksPerRow = 2;
-    }
-    int blockRows;
-    if (yDim > 7) {
-        blockRows = yDim >> 2;
-    } else if (yDim > 0) {
-        blockRows = 2;
-    } else {
-        return blocksPerRow;
-    }
+namespace {
 
+// Decodes the pixel rows [yBegin, yEnd) of the image (the body of the original's row loop). The grid scratch (values, modes, colours) is a pure
+// function of the four blocks around a pixel and every cell read is rewritten with them, so a band starts from an empty cache and gives the same
+// bytes as one pass over all rows. The four block addresses (four TwiddleUV calls) are only recomputed when the block row or the left block
+// column changes (it is a function of those two), which the original did for every pixel.
+void PVRTCDecompressRows(const char* data, int do2bitMode, int xDim, int yDim, std::uint8_t* result, int blockWidth, int blocksPerRow,
+                         int blockRows, int yBegin, int yEnd) {
+    static const int kRepVals[8] = {0, 3, 5, 8, 0, 4, 4, 8};  // GetModulationValue's RepVals0 (ELF 0x8eaf00) and RepVals1 (0x8eaf10)
     const bool twoBit = do2bitMode != 0;
     const char* previousBlocks[4] = {nullptr, nullptr, nullptr, nullptr};
     int values[144] = {};  // the modulation values, 16 per grid row (eight rows); neighbour reads run past a row as in the original
     int modes[144] = {};   // the modulation modes, same layout
     int colours[32] = {};  // eight colours of four components: block (row r, column c) colour A at 16 * r + 8 * c, colour B 4 further
 
-    int rowOffset = 0;
-    for (int y = 0; y != yDim; ++y, rowOffset += xDim) {
+    int rowOffset = yBegin * xDim;
+    int cachedTop = -1;
+    int cachedLeft = -1;
+    const char* blocks[4] = {nullptr, nullptr, nullptr, nullptr};
+    for (int y = yBegin; y != yEnd; ++y, rowOffset += xDim) {
         if (xDim <= 0) {
             continue;
         }
@@ -439,13 +425,15 @@ int PVRTCDecompress(const void* compressed, int do2bitMode, int xDim, int yDim, 
         const int rowBase = 16 * gridRow;
         for (int x = 0; x != xDim; ++x) {
             const int leftColumn = ((xDim - 1) & (x - (blockWidth >> 1))) / blockWidth;
-            const int rightColumn = (leftColumn + 1) & (blocksPerRow - 1);
-            const char* blocks[4] = {
-                data + 8 * TwiddleUV(blockRows, blocksPerRow, topBlockRow, leftColumn),
-                data + 8 * TwiddleUV(blockRows, blocksPerRow, topBlockRow, rightColumn),
-                data + 8 * TwiddleUV(blockRows, blocksPerRow, bottomBlockRow, leftColumn),
-                data + 8 * TwiddleUV(blockRows, blocksPerRow, bottomBlockRow, rightColumn),
-            };
+            if (topBlockRow != cachedTop || leftColumn != cachedLeft) {
+                const int rightColumn = (leftColumn + 1) & (blocksPerRow - 1);
+                blocks[0] = data + 8 * TwiddleUV(blockRows, blocksPerRow, topBlockRow, leftColumn);
+                blocks[1] = data + 8 * TwiddleUV(blockRows, blocksPerRow, topBlockRow, rightColumn);
+                blocks[2] = data + 8 * TwiddleUV(blockRows, blocksPerRow, bottomBlockRow, leftColumn);
+                blocks[3] = data + 8 * TwiddleUV(blockRows, blocksPerRow, bottomBlockRow, rightColumn);
+                cachedTop = topBlockRow;
+                cachedLeft = leftColumn;
+            }
             if (std::memcmp(previousBlocks, blocks, sizeof(blocks)) != 0) {
                 for (int blockRow = 0; blockRow != 2; ++blockRow) {
                     int columnOffset = 0;  // the block's first column in the grid
@@ -569,6 +557,69 @@ int PVRTCDecompress(const void* compressed, int do2bitMode, int xDim, int yDim, 
             destination[3] = mode == 0 ? static_cast<std::uint8_t>(pixel[3]) : static_cast<std::uint8_t>(0);
         }
     }
-    return yDim;
 }
 
+}  // namespace
+
+// 0x69f768 PVRTCDecompress(void const*, int, int, int, unsigned char*)
+// Decodes a PVRTC image of xDim by yDim pixels (2 bits per pixel when do2bitMode, else 4) into RGBA bytes. Blocks are 8 bytes: word 0 the
+// modulation data, word 1 the two colours (bits 0..15 colour A, with bit 0 the modulation mode flag, and bits 16..31 colour B). The block
+// width is 8 or 4 pixels, the block row count yDim / 4 (2 when yDim is below 8), the blocks per row xDim / blockWidth (at least 2); a row
+// count of zero returns the blocks per row. For each pixel row y: the top block row is ((y - 2) & (yDim - 1)) / 4 and the bottom one the next
+// (wrapping); for each pixel x the left block column is ((xDim - 1) & (x - blockWidth / 2)) / blockWidth and the right one the next. The four
+// blocks (found with TwiddleUV) are decoded into the colour pairs, the modulation values and the modulation modes of an 8-row, 16-column scratch
+// grid, unless the same four blocks were decoded for the previous pixel. The colours are interpolated bilinearly (InterpolateColours) and the
+// modulation factor comes from the row and column of the pixel in the grid: a pixel whose parity requires it (2 bits per pixel, modes 1 to 3)
+// averages its neighbours' factors (RepVals0 = 0, 3, 5, 8); 4 bits per pixel with the flag set uses RepVals1 = 0, 4, 4, 8, and a value 2 there
+// is the punch-through (alpha 0). Each pixel is (8 * A + (B - A) * factor) >> 3. The return value is yDim.
+// Track B: the rows are independent (see PVRTCDecompressRows), so a large image is decoded in horizontal bands on up to four threads (the calling
+// thread decodes the last one); the bytes are identical to the single pass. The Galaxy Z Fold 7 spent up to 114 ms of a frame on two textures here.
+int PVRTCDecompress(const void* compressed, int do2bitMode, int xDim, int yDim, std::uint8_t* result) {
+    const char* data = static_cast<const char*>(compressed);
+    const int blockWidth = do2bitMode ? 8 : 4;
+    int blocksPerRow = xDim / blockWidth;
+    if (blocksPerRow < 2) {
+        blocksPerRow = 2;
+    }
+    int blockRows;
+    if (yDim > 7) {
+        blockRows = yDim >> 2;
+    } else if (yDim > 0) {
+        blockRows = 2;
+    } else {
+        return blocksPerRow;
+    }
+
+    int bands = 1;
+    if (xDim > 0 && static_cast<long long>(xDim) * yDim >= 256 * 256 && yDim >= 64) {
+        const unsigned hw = std::thread::hardware_concurrency();
+        bands = static_cast<int>(hw == 0 ? 2u : (hw < 4u ? hw : 4u));
+        if (bands > yDim / 32) {
+            bands = yDim / 32;
+        }
+        if (bands < 1) {
+            bands = 1;
+        }
+    }
+    if (bands == 1) {
+        PVRTCDecompressRows(data, do2bitMode, xDim, yDim, result, blockWidth, blocksPerRow, blockRows, 0, yDim);
+        return yDim;
+    }
+    std::vector<std::thread> workers;
+    workers.reserve(static_cast<size_t>(bands - 1));
+    for (int b = 0; b < bands - 1; ++b) {
+        const int begin = static_cast<int>(static_cast<long long>(yDim) * b / bands);
+        const int end = static_cast<int>(static_cast<long long>(yDim) * (b + 1) / bands);
+        try {
+            workers.emplace_back([=] { PVRTCDecompressRows(data, do2bitMode, xDim, yDim, result, blockWidth, blocksPerRow, blockRows, begin, end); });
+        } catch (...) {  // no thread available: decode the band here
+            PVRTCDecompressRows(data, do2bitMode, xDim, yDim, result, blockWidth, blocksPerRow, blockRows, begin, end);
+        }
+    }
+    PVRTCDecompressRows(data, do2bitMode, xDim, yDim, result, blockWidth, blocksPerRow, blockRows,
+                        static_cast<int>(static_cast<long long>(yDim) * (bands - 1) / bands), yDim);
+    for (std::thread& w : workers) {
+        w.join();
+    }
+    return yDim;
+}

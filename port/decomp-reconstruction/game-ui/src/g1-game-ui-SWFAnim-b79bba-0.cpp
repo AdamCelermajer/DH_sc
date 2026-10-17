@@ -13,6 +13,7 @@
 // The byte at +0x9b of gameswf::character (Hex-Rays +155) is character::m_visible (the InfoHUDManager precedent).
 // The weak parent of a character (+0x3c proxy, +0x40 cached pointer) is character::m_parent.
 
+#include "dh2/global/screen_size.hpp"
 #include "dh2/SWFAnim.hpp"
 
 #include "dh2/GameSWFUtils.hpp"
@@ -72,8 +73,8 @@ void SWFAnim::SetPosition3D(const Point3D<float>& position) {
     // read once per axis as in the original. The float product is truncated to int.
     float invScaleX = GameSWFUtils::GetInvPixelScaleX(m_anim.GetChar()->get_root());
     float invScaleY = GameSWFUtils::GetInvPixelScaleY(m_anim.GetChar()->get_root());
-    SetPosition(static_cast<int>(invScaleX * static_cast<float>(screenPos.X)),
-                static_cast<int>(invScaleY * static_cast<float>(screenPos.Y)));
+    SetPosition(static_cast<int>(invScaleX * static_cast<float>(screenPos.X - ScreenFitOffsetX())),
+                static_cast<int>(invScaleY * static_cast<float>(screenPos.Y - ScreenFitOffsetY())));
 }
 
 // 0x496e68 _ZN7SWFAnimD1Ev SWFAnim::~SWFAnim()  (D1)

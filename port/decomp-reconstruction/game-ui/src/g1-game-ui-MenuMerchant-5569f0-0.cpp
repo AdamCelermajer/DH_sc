@@ -16,6 +16,7 @@
 
 #include <array>
 
+#include "dh2/global/screen_size.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/AnchorBase.hpp"
 #include "dh2/CameraLevel.hpp"
@@ -80,10 +81,10 @@ void MenuMerchant::RenderCharacterPane(gameswf::render_state& state, void* user)
     root = fx->GetRoot();
     const float invScaleY = GameSWFUtils::GetInvPixelScaleY(root);
     glitch::core::rect<int> viewport;
-    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invScaleX);
-    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invScaleY);
-    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invScaleX);
-    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invScaleY);
+    viewport.UpperLeftCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[0] / invScaleX);
+    viewport.UpperLeftCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[2] / invScaleY);
+    viewport.LowerRightCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[1] / invScaleX);
+    viewport.LowerRightCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[3] / invScaleY);
     target->setViewport(viewport);
     m_inventoryPaneCam->setAspectRatio(static_cast<float>(viewport.LowerRightCorner.X - viewport.UpperLeftCorner.X) /
                                        static_cast<float>(viewport.LowerRightCorner.Y - viewport.UpperLeftCorner.Y));  // vtable +0x138

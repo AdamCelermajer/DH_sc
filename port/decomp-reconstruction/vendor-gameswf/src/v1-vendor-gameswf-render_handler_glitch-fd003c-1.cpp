@@ -277,6 +277,10 @@ void render_handler_glitch::flush() {
     m_buffered.flush();
 }
 
+// Port addition (UI3): clip box of the movie being drawn, written by game-ui (MenuFlash2DCamera::Update). A file static, so the binary layout of the class is kept.
+extern "C" { int g_dh2FlashFit[5] = {0, 0, 0, 0, 0}; }
+static bool s_fit_clip = false;
+
 // 0x7d6de4 render_handler_glitch::end_display(void)
 // Flushes the batch, then restores the driver state that begin_display saved, in the original's order:
 // setTransform(2, m_saved_state.projection), setTransform(0, m_saved_state.view), setTransform(1, m_saved_state.world)
@@ -292,6 +296,10 @@ void render_handler_glitch::end_display() {
     m_driver->m_renderTargets.back()->setViewport(m_saved_state.viewport);
     m_driver->setOption(256, m_saved_option_256);
     m_driver->setRenderState(m_saved_render_state);  // vtable +0x1e4
+    if (s_fit_clip) {
+        m_driver->setScissorEnable(false);   // Port addition (UI3): the clip box of begin_display
+        s_fit_clip = false;
+    }
 }
 
 // 0x7d71bc render_handler_glitch::render_mask_intersection(void)
@@ -436,6 +444,18 @@ void render_handler_glitch::begin_display(gameswf::rgba background_color, int vi
     // State 1 (world): glitch::core::IdentityMatrix, copied with its 0x41 bytes.
     m_state.world = glitch::core::CMatrix4<float>(glitch::core::CMatrix4<float>::EM4CONST_IDENTITY);
     m_driver->setTransform(1, m_state.world);
+
+    // Port addition (UI3, TRACK-B.md decision 15): clip the movie to its centred 16:9 box (set by MenuFlash2DCamera::Update).
+    s_fit_clip = g_dh2FlashFit[0] != 0;
+    if (s_fit_clip) {
+        glitch::core::rect<int32_t> box;
+        box.UpperLeftCorner.X = g_dh2FlashFit[1];
+        box.UpperLeftCorner.Y = g_dh2FlashFit[2];
+        box.LowerRightCorner.X = g_dh2FlashFit[1] + g_dh2FlashFit[3];
+        box.LowerRightCorner.Y = g_dh2FlashFit[2] + g_dh2FlashFit[4];
+        m_driver->setScissor(box);
+        m_driver->setScissorEnable(true);
+    }
 }
 
 // 0x7d77b0 render_handler_glitch::draw_line_strip(void const*, int)

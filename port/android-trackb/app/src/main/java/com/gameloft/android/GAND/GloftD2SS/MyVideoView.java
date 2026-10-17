@@ -160,6 +160,7 @@ public class MyVideoView extends Activity {
         getWindow().setFlags(1152, 1152);
         requestWindowFeature(1);
         setContentView(bs.videoview);
+        ScreenFit.apply(this);   // Track B: full display (cutout + system bars)
         this.g = (ImageButton) findViewById(bq.backward);
         this.h = (ImageButton) findViewById(bq.play);
         this.i = (ImageButton) findViewById(bq.pause);

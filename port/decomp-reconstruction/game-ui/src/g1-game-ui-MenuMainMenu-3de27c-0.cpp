@@ -53,6 +53,7 @@
 #include "dh2/StringManager.hpp"
 #include "dh2/global/Globals.hpp"
 #include "dh2/global/menu_main_menu.hpp"
+#include "dh2/global/screen_size.hpp"
 #include "dh2/global/native_app_hud_level.hpp"
 #include "glitch-core-io/core/reference_counted.hpp"
 #include "glitch-scene-collada-gui/scene/CCameraSceneNode.hpp"
@@ -188,7 +189,7 @@ void MenuMainMenu::CreateAvatarCamera() {
     static_cast<glitch::IReferenceCounted*>(m_mainmenuPaneCam)->drop();
     DeviceSceneManager()->setActiveCamera(m_mainmenuPaneCam);
     m_mainmenuPaneCam->setUpVector(glitch::core::vector3d<float>{0.0f, 0.0f, 1.0f});  // vtable +0x114
-    m_mainmenuPaneCam->setAspectRatio(kAvatarCameraAspectRatio);                      // vtable +0x138
+    m_mainmenuPaneCam->setAspectRatio(kAvatarCameraAspectRatio * ScreenAspectScale());                      // vtable +0x138
     m_mainmenuPaneCam->setFOV(kAvatarCameraFov);                                      // vtable +0x13c
     ++static_cast<glitch::IReferenceCounted*>(m_mainmenuPaneCam)->referenceCounter;   // one extra reference
     m_mainmenuPaneCam->setNearValue(kAvatarCameraNear);                               // vtable +0x130

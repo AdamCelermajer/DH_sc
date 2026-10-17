@@ -13,6 +13,7 @@
 
 #include "gameswf/gameswf.h"            // gameswf::rect (complete type; MenuBase.hpp forward-declares it)
 #include "gameswf/gameswf_character.h"  // gameswf::character and as_object (complete types for the icon casts)
+#include "dh2/global/screen_size.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/ObjectManager.hpp"
 #include "dh2/RoomZone.hpp"
@@ -207,10 +208,10 @@ void HUDMinimap::RenderMap(gameswf::render_state& /*render*/, void* menu) {
     const float invX = GameSWFUtils::GetInvPixelScaleX(swfRoot);
     const float invY = GameSWFUtils::GetInvPixelScaleY(swfRoot);
     glitch::core::rect<int> viewport;
-    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invX);
-    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invY);
-    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invX);
-    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invY);
+    viewport.UpperLeftCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[0] / invX);
+    viewport.UpperLeftCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[2] / invY);
+    viewport.LowerRightCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[1] / invX);
+    viewport.LowerRightCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[3] / invY);
     target->setViewport(viewport);
     DeviceSceneManager()->cullingEnabled = false;  // +0x250
     map->SetRoomVisibility(root);                  // +0x64

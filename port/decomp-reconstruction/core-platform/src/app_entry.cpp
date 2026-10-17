@@ -144,6 +144,26 @@ extern "C" int appInit() {
     return 0;
 }
 
+// Track B (UI3, port addition; TRACK-B.md decision 15): the original sized the video device once in appInit and never followed the surface. A foldable
+// changes the surface size at run time (fold/unfold, no activity recreation), so the screen framebuffer, Width_Screen and Height_Screen follow it
+// (IVideoDriver::onResize 0x5a8cd0 is in the binary but nothing called it). Flash UI and menu cameras re-read the size every frame / on creation;
+// the level camera aspect is rebuilt at the next level load. Runs on the GL thread (GameRenderer.onSurfaceChanged), the same thread as appUpdate.
+extern "C" void appResizeSurface(int width, int height) {
+    if (device == nullptr || driver == nullptr || width <= 0 || height <= 0) {
+        return;
+    }
+    const glitch::video::IRenderTarget* screen = driver->m_renderTargets.front().get();
+    if (screen != nullptr && screen->m_width == width && screen->m_height == height) {
+        return;
+    }
+    const float oldAspectScale = ScreenAspectScale();
+    Width_Screen = width;
+    Height_Screen = height;
+    ScreenAspectRescaleActiveCamera(oldAspectScale);
+    glitch::core::dimension2d<int> size = {width, height};
+    driver->onResize(size);
+}
+
 // 0x530fc8 appUpdate. One frame: when the device loop runs, Application::Update with mTimeCallbackFinished cleared, then
 // the debug switches are reloaded and, when "isDisplayingFPS" is set, the FPS and draw-call counters are sampled
 // (the originals only store them: the overlay text is gone from the shipped binary). Always returns 1.

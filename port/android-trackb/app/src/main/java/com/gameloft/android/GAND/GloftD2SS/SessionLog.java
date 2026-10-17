@@ -66,6 +66,12 @@ public final class SessionLog {
                     cur.renameTo(prev);
                 }
                 new File(d, "dh2_session_part1.txt").delete();
+                File mk = new File(d, "marks");
+                File mkPrev = new File(d, "marks_prev");
+                deleteTree(mkPrev);
+                if (mk.exists()) {
+                    mk.renameTo(mkPrev);
+                }
                 out = new PrintWriter(new FileWriter(cur, false));
                 written = 0;
                 String h = header(c);
@@ -202,15 +208,93 @@ public final class SessionLog {
         }
     }
 
+    static void deleteTree(File f) {
+        File[] k = f.listFiles();
+        if (k != null) {
+            for (File x : k) {
+                deleteTree(x);
+            }
+        }
+        f.delete();
+    }
+
     /** Writes a timestamped marker the developer can search for; returns its number. */
     public static int mark() {
+        return mark("", null);
+    }
+
+    /**
+     * User issue report: appends "USER MARK #n time: text" to dh2_session.txt and, when a screenshot is given, writes it to marks/mark_n.png.
+     * Returns the mark number.
+     */
+    public static int mark(String text, android.graphics.Bitmap shot) {
         int n;
         synchronized (LOCK) {
             n = ++marks;
         }
-        append("USER MARK #" + n + " at " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US).format(new Date()));
+        String shotNote = "(no screenshot)";
+        if (shot != null && dir != null) {
+            try {
+                File md = new File(dir, "marks");
+                md.mkdirs();
+                FileOutputStream fo = new FileOutputStream(new File(md, "mark_" + n + ".png"));
+                shot.compress(android.graphics.Bitmap.CompressFormat.PNG, 100, fo);
+                fo.close();
+                shotNote = "[screenshot marks/mark_" + n + ".png " + shot.getWidth() + "x" + shot.getHeight() + "]";
+            } catch (Throwable t) {
+                shotNote = "(screenshot failed: " + t + ")";
+            }
+        }
+        String t = text == null ? "" : text.replace('\r', ' ').replace('\n', ' ').trim();
+        append("USER MARK #" + n + " " + new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.SSS", Locale.US).format(new Date()) + ": " + (t.length() == 0 ? "(no text)" : t) + " " + shotNote);
         flush();
         return n;
+    }
+
+    private static void addTree(ZipOutputStream z, File f, String name) {
+        if (f.isDirectory()) {
+            File[] k = f.listFiles();
+            if (k != null) {
+                for (File x : k) {
+                    addTree(z, x, name + "/" + x.getName());
+                }
+            }
+        } else {
+            addFile(z, f, name);
+        }
+    }
+
+    private static void marksFrom(File f, String label, StringBuilder sb) {
+        if (!f.exists()) {
+            return;
+        }
+        try {
+            BufferedReader r = new BufferedReader(new InputStreamReader(new FileInputStream(f), "UTF-8"));
+            String l;
+            while ((l = r.readLine()) != null) {
+                if (l.startsWith("USER MARK #")) {
+                    sb.append("  [").append(label).append("] ").append(l).append('\n');
+                }
+            }
+            r.close();
+        } catch (Throwable t) {
+            // ignore
+        }
+    }
+
+    /** README.txt text: the marks (user issue reports) of the current and previous session first, then what the zip holds. */
+    static String readme(File d) {
+        StringBuilder m = new StringBuilder();
+        marksFrom(new File(d, "dh2_session_part1.txt"), "this session, earlier part", m);
+        marksFrom(new File(d, "dh2_session.txt"), "this session", m);
+        marksFrom(new File(d, "dh2_session_prev.txt"), "previous session", m);
+        StringBuilder sb = new StringBuilder();
+        sb.append("Dungeon Hunter 2 (Track B) report\n\nUSER MARKS (issues reported by the player; screenshot of each in marks/ for this session, marks_prev/ for the previous one,\n");
+        sb.append("file mark_<n>.png = USER MARK #n of that session):\n");
+        sb.append(m.length() == 0 ? "  (none)\n" : m.toString());
+        sb.append("\nFiles: dh2_header.txt (device), dh2_session.txt (current session; search 'USER MARK'), dh2_session_part1.txt (earlier part of a long session),\n");
+        sb.append("dh2_session_prev.txt (previous session), dh2_crash/term/prof/native_crash/java_crash files when present, marks/ and marks_prev/ (screenshots).\n");
+        return sb.toString();
     }
 
     private static void addFile(ZipOutputStream z, File f, String name) {
@@ -242,6 +326,9 @@ public final class SessionLog {
         File zip = new File(d, "dh2_report.zip");
         try {
             ZipOutputStream z = new ZipOutputStream(new FileOutputStream(zip));
+            z.putNextEntry(new ZipEntry("README.txt"));
+            z.write(readme(d).getBytes("UTF-8"));
+            z.closeEntry();
             z.putNextEntry(new ZipEntry("dh2_header.txt"));
             z.write(header(c).getBytes("UTF-8"));
             z.closeEntry();
@@ -250,6 +337,8 @@ public final class SessionLog {
             for (String n : names) {
                 addFile(z, new File(d, n), n);
             }
+            addTree(z, new File(d, "marks"), "marks");
+            addTree(z, new File(d, "marks_prev"), "marks_prev");
             z.close();
         } catch (Throwable t) {
             return null;

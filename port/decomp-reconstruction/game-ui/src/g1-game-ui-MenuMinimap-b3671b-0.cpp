@@ -15,6 +15,7 @@
 #include <cstdlib>
 #include <string>
 
+#include "dh2/global/screen_size.hpp"
 #include "dh2/Application.hpp"
 #include "dh2/CameraBase.hpp"
 #include "dh2/CameraLevel.hpp"
@@ -177,10 +178,10 @@ void MenuMinimap::RenderMap(gameswf::render_state& /*render*/, void* menu) {
     const float invScaleX = GameSWFUtils::GetInvPixelScaleX(root);
     const float invScaleY = GameSWFUtils::GetInvPixelScaleY(root);
     glitch::core::rect<int> viewport;
-    viewport.UpperLeftCorner.X = static_cast<int>(bounds[0] / invScaleX);
-    viewport.UpperLeftCorner.Y = static_cast<int>(bounds[2] / invScaleY);
-    viewport.LowerRightCorner.X = static_cast<int>(bounds[1] / invScaleX);
-    viewport.LowerRightCorner.Y = static_cast<int>(bounds[3] / invScaleY);
+    viewport.UpperLeftCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[0] / invScaleX);
+    viewport.UpperLeftCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[2] / invScaleY);
+    viewport.LowerRightCorner.X = ScreenFitOffsetX() + static_cast<int>(bounds[1] / invScaleX);
+    viewport.LowerRightCorner.Y = ScreenFitOffsetY() + static_cast<int>(bounds[3] / invScaleY);
     target->setViewport(viewport);
     DeviceSceneManager()->cullingEnabled = false;  // +0x250
     map->SetRoomVisibility(node);                  // (h) vtable +0x64
