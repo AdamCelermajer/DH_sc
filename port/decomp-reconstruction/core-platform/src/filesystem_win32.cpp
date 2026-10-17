@@ -1,4 +1,5 @@
 #include "core-platform/filesystem_win32.hpp"
+#include "core-platform/frame_prof.hpp"
 
 #include "core-platform/deps/debug_switches.hpp"
 #include "core-platform/deps/io_stream.hpp"
@@ -170,6 +171,7 @@ std::uint64_t FileSystemWin32::_FileHandle::read(void* buf, std::uint64_t n) {
     if (!canRead_) {
         return 0;
     }
+    dh2prof::Scope prof(dh2prof::kIoRead);  // Track B frame profiler
     long pos = std::ftell(file_);
     std::size_t got = std::fread(buf, 1, n, file_);
     if (cfile_->obfuscated && pos <= 3) {
@@ -230,6 +232,7 @@ FileSystemWin32::_FileHandle* FileSystemWin32::_createHandle(const char* dir, co
     if (dir[0] == '.' && (dir[1] == '/' || dir[1] == '\\')) {
         dir += 2;
     }
+    dh2prof::Scope prof(dh2prof::kIoOpen);  // Track B frame profiler
     auto* h = new _FileHandle(dir, name, writable, readwrite);
     if (h->file_ == nullptr) {
         delete h;

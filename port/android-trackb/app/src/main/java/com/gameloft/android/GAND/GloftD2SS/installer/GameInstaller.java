@@ -1262,7 +1262,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
     }
 
     private static boolean isKoreanOperator() {
-        return mDeviceInfo.getNetworkOperatorName().toLowerCase().equals("SKTelecom") || mDeviceInfo.getNetworkOperatorName().toLowerCase().equals("olleh") || mDeviceInfo.getNetworkOperatorName().toLowerCase().equals("AT&T") || mDeviceInfo.getNetworkOperatorName().toLowerCase().equals("LG U+");
+        return com.gameloft.android.GAND.GloftD2SS.Phone.networkOperatorName(mDeviceInfo).toLowerCase().equals("SKTelecom") || com.gameloft.android.GAND.GloftD2SS.Phone.networkOperatorName(mDeviceInfo).toLowerCase().equals("olleh") || com.gameloft.android.GAND.GloftD2SS.Phone.networkOperatorName(mDeviceInfo).toLowerCase().equals("AT&T") || com.gameloft.android.GAND.GloftD2SS.Phone.networkOperatorName(mDeviceInfo).toLowerCase().equals("LG U+");
     }
 
     private void j() {
@@ -1979,8 +1979,8 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
             }
         }
         // Not a CDMA phone and no usable SIM (SIM_STATE_ABSENT = 1 or SIM_STATE_UNKNOWN = 0): Wi-Fi only.
-        if (mDeviceInfo.getPhoneType() != 2) {
-            if (mDeviceInfo.getSimState() == 1 || mDeviceInfo.getSimState() == 0) {
+        if (com.gameloft.android.GAND.GloftD2SS.Phone.phoneType(mDeviceInfo) != 2) {
+            if (com.gameloft.android.GAND.GloftD2SS.Phone.simState(mDeviceInfo) == 1 || com.gameloft.android.GAND.GloftD2SS.Phone.simState(mDeviceInfo) == 0) {
                 return 1;
             }
         }

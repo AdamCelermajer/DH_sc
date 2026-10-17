@@ -12,6 +12,8 @@
 #include <string.h>
 #include <ucontext.h>
 #include <unistd.h>
+#include <fcntl.h>
+#include <stdarg.h>
 
 static uintptr_t g_base, g_end;
 
@@ -28,13 +30,30 @@ static int phdr_cb(struct dl_phdr_info* info, size_t sz, void* data) {
     return 0;
 }
 
-#define LOGE(...) __android_log_print(ANDROID_LOG_ERROR, "DH2CRASH", __VA_ARGS__)
+/* Always-on crash record: the same lines also go to <external files dir>/dh2_native_crash.txt (the app's own directory, writable under scoped
+ * storage), which DataSetup picks up on the next launch and shows / copies into dh2_crash.txt. Opened lazily inside the handler. */
+static int g_cfd = -2;
+static void crash_open(void) {
+    if (g_cfd != -2) return;
+    char cmd[256] = {0}, path[512];
+    int f = open("/proc/self/cmdline", O_RDONLY);
+    if (f >= 0) { read(f, cmd, sizeof cmd - 1); close(f); }
+    snprintf(path, sizeof path, "/sdcard/Android/data/%s/files/dh2_native_crash.txt", cmd);
+    g_cfd = open(path, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+}
+static void LOGE(const char* fmt, ...) {
+    char line[700];
+    va_list ap; va_start(ap, fmt); vsnprintf(line, sizeof line - 1, fmt, ap); va_end(ap);
+    __android_log_write(ANDROID_LOG_ERROR, "DH2CRASH", line);
+    if (g_cfd >= 0) { size_t n = strlen(line); line[n] = 10; write(g_cfd, line, n + 1); }
+}
 
 static void handler(int sig, siginfo_t* si, void* ctx) {
     static volatile int busy;
     signal(sig, SIG_DFL);
     if (busy++) return;
     ucontext_t* uc = (ucontext_t*)ctx;
+    crash_open();
     uintptr_t pc = uc->uc_mcontext.pc, lr = uc->uc_mcontext.regs[30], sp = uc->uc_mcontext.sp, fp = uc->uc_mcontext.regs[29];
     dl_iterate_phdr(phdr_cb, 0);
     LOGE("signal %d code %d addr %p  base %p", sig, si->si_code, si->si_addr, (void*)g_base);

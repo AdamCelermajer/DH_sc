@@ -1,3 +1,4 @@
+#include "net-transport/net_trace.hpp"
 // Batch g1-game-world-ObjectManager-5017c7-1 (part 2 of 4): ObjectManager's list, room and no-room membership, orphan
 // render objects, network packet bookkeeping and the packet writers. Declarations come from dh2/ObjectManager.hpp.
 //
@@ -385,6 +386,15 @@ void ObjectManager::SerializeGameObjectNetData(int memberId, int packetId, NetBi
     const int resendCount = static_cast<int>(unk_17c[key].size());
 
     bool hosting = false;  // v113: this member has a record in unk_128 while this player hosts
+#ifdef DH2_HOST_RUNNER
+    {
+        static int tracedSerialize = 0;
+        if (tracedSerialize < 40 && dword_99F76C->IsLocalPlayerHosting()) {
+            ++tracedSerialize;
+            DH2_NET_TRACE_LOG("[net] SerializeGameObjectNetData member %d packet %d queued %zu\n", memberId, packetId, unk_128.size());
+        }
+    }
+#endif
     if (dword_99F76C->IsLocalPlayerHosting() &&
         std::find(unk_128.begin(), unk_128.end(), memberId) != unk_128.end()) {
         hosting = true;

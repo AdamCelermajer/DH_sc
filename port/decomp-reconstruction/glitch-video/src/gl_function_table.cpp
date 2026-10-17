@@ -2,9 +2,11 @@
 
 #ifdef __ANDROID__
 #include <GLES2/gl2.h>
-#ifdef DH2_BOOT_DEBUG
+#include "core-platform/frame_prof.hpp"
 #include <android/log.h>
-#endif
+#include <cstring>
+#include <utility>
+#include <vector>
 #endif
 
 namespace glitch::video::deps {
@@ -17,6 +19,40 @@ namespace {
 // floats or pointers, which the AArch64 calling convention passes identically, so the function pointers are reinterpreted. The two entries
 // whose size parameters are pointer-sized in GLES2 (glBufferData, glBufferSubData) go through wrappers.
 #define BIND(field, function) t.field = reinterpret_cast<decltype(t.field)>(function)
+
+// Real-device diagnostics (always on, logged once at the first texture upload, when a context is current): GL identity, limits and
+// extensions end up in logcat tag DH2GLINFO. Also reports whether GL_EXT_texture_format_BGRA8888 exists: the emulator's host GL always has it,
+// real Adreno/Mali/PowerVR parts mostly do, but a driver without it would reject the BGRA uploads of the TGA textures.
+bool s_haveBgra = true;
+void logGlInfoOnce() {
+    static bool done = false;
+    if (done) return;
+    done = true;
+    auto s = [](GLenum n) { const GLubyte* v = glGetString(n); return v ? reinterpret_cast<const char*>(v) : "(null)"; };
+    GLint tex = 0, units = 0, vunits = 0, vu = 0, fu = 0, attribs = 0, rb = 0;
+    glGetIntegerv(GL_MAX_TEXTURE_SIZE, &tex);
+    glGetIntegerv(GL_MAX_TEXTURE_IMAGE_UNITS, &units);
+    glGetIntegerv(GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS, &vunits);
+    glGetIntegerv(GL_MAX_VERTEX_UNIFORM_VECTORS, &vu);
+    glGetIntegerv(GL_MAX_FRAGMENT_UNIFORM_VECTORS, &fu);
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &attribs);
+    glGetIntegerv(GL_MAX_RENDERBUFFER_SIZE, &rb);
+    const char* ext = s(GL_EXTENSIONS);
+    s_haveBgra = std::strstr(ext, "GL_EXT_texture_format_BGRA8888") != nullptr || std::strstr(ext, "GL_APPLE_texture_format_BGRA8888") != nullptr;
+    __android_log_print(ANDROID_LOG_INFO, "DH2GLINFO", "vendor=%s renderer=%s version=%s glsl=%s", s(GL_VENDOR), s(GL_RENDERER), s(GL_VERSION), s(GL_SHADING_LANGUAGE_VERSION));
+    __android_log_print(ANDROID_LOG_INFO, "DH2GLINFO", "maxTex=%d texUnits=%d vtxTexUnits=%d vtxUniVec=%d fragUniVec=%d attribs=%d rb=%d bgra=%d", tex, units, vunits, vu, fu, attribs, rb, (int)s_haveBgra);
+    for (size_t i = 0, n = std::strlen(ext); i < n; i += 900) {   // logcat lines are limited to ~1000 bytes
+        char chunk[901]; std::strncpy(chunk, ext + i, 900); chunk[900] = 0;
+        __android_log_print(ANDROID_LOG_INFO, "DH2GLINFO", "ext: %s", chunk);
+    }
+}
+
+// BGRA bytes -> RGBA bytes (only used when the driver lacks the BGRA extension).
+std::vector<unsigned char> swizzleBgra(const void* pixels, int w, int h) {
+    std::vector<unsigned char> v(static_cast<const unsigned char*>(pixels), static_cast<const unsigned char*>(pixels) + static_cast<size_t>(w) * h * 4);
+    for (size_t i = 0; i + 3 < v.size(); i += 4) std::swap(v[i], v[i + 2]);
+    return v;
+}
 
 void bindGLES2(GLFunctionTable& t) {
     BIND(enable, glEnable);
@@ -87,7 +123,15 @@ void bindGLES2(GLFunctionTable& t) {
     BIND(texParameteri, glTexParameteri);
     BIND(texParameterf, glTexParameterf);
     BIND(texImage2D, glTexImage2D);
-    BIND(texSubImage2D, glTexSubImage2D);
+    t.texSubImage2D = [](uint32_t target, int32_t level, int32_t x, int32_t y, int32_t width, int32_t height, uint32_t format, uint32_t type, const void* pixels) {
+        dh2prof::Scope prof(dh2prof::kTexUpload);
+        if (format == 0x80E1 && !s_haveBgra && pixels && type == GL_UNSIGNED_BYTE) {
+            std::vector<unsigned char> rgba = swizzleBgra(pixels, width, height);
+            glTexSubImage2D(target, level, x, y, width, height, GL_RGBA, type, rgba.data());
+            return;
+        }
+        glTexSubImage2D(target, level, x, y, width, height, format, type, pixels);
+    };
     BIND(compressedTexImage2D, glCompressedTexImage2D);
     BIND(compressedTexSubImage2D, glCompressedTexSubImage2D);
     BIND(generateMipmap, glGenerateMipmap);
@@ -112,6 +156,13 @@ void bindGLES2(GLFunctionTable& t) {
     // GLES2 wants internalformat == format; the BGRA upload of the original (GL_RGBA internal, GL_BGRA_EXT data, accepted by its drivers) is
     // given the extension format as its internal format.
     t.texImage2D = [](uint32_t target, int32_t level, int32_t internalFormat, int32_t width, int32_t height, int32_t border, uint32_t format, uint32_t type, const void* pixels) {
+        dh2prof::Scope prof(dh2prof::kTexUpload);
+        logGlInfoOnce();
+        if (format == 0x80E1 && !s_haveBgra && pixels && type == GL_UNSIGNED_BYTE) {   // no BGRA extension: swap on the CPU
+            std::vector<unsigned char> rgba = swizzleBgra(pixels, width, height);
+            glTexImage2D(target, level, GL_RGBA, width, height, border, GL_RGBA, type, rgba.data());
+            return;
+        }
         if (format == 0x80E1 && internalFormat == 0x1908) internalFormat = 0x80E1;
         glTexImage2D(target, level, internalFormat, width, height, border, format, type, pixels);
     };
@@ -119,6 +170,18 @@ void bindGLES2(GLFunctionTable& t) {
     t.bufferSubData = [](uint32_t target, int32_t offset, int32_t size, const void* data) {
         glBufferSubData(target, static_cast<GLintptr>(offset), static_cast<GLsizeiptr>(size), data);
     };
+    // Frame-time profiler scopes (core-platform/frame_prof.hpp): the GL calls that can stall the game thread.
+    t.compileShader = [](uint32_t s) { dh2prof::Scope prof(dh2prof::kGlCompile); glCompileShader(s); };
+    t.linkProgram = [](uint32_t p) { dh2prof::Scope prof(dh2prof::kGlLink); glLinkProgram(p); };
+    t.getShaderiv = [](uint32_t s, uint32_t n, int32_t* v) { dh2prof::Scope prof(dh2prof::kGlCompile); glGetShaderiv(s, n, v); };
+    t.getProgramiv = [](uint32_t p, uint32_t n, int32_t* v) { dh2prof::Scope prof(dh2prof::kGlLink); glGetProgramiv(p, n, v); };
+    t.compressedTexImage2D = [](uint32_t tg, int32_t lv, uint32_t f, int32_t w, int32_t h, int32_t b, int32_t sz, const void* d) {
+        dh2prof::Scope prof(dh2prof::kTexUpload);
+        glCompressedTexImage2D(tg, lv, f, w, h, b, sz, d);
+    };
+    t.generateMipmap = [](uint32_t tg) { dh2prof::Scope prof(dh2prof::kTexUpload); glGenerateMipmap(tg); };
+    t.readPixels = [](int32_t x, int32_t y, int32_t w, int32_t h, uint32_t f, uint32_t ty, void* d) { dh2prof::Scope prof(dh2prof::kOther); glReadPixels(x, y, w, h, f, ty, d); };
+    t.finish = []() { dh2prof::Scope prof(dh2prof::kOther); glFinish(); };
 #ifdef DH2_BOOT_DEBUG
     // Boot diagnostic: counts of the calls that decide whether a frame is drawn, logged for the first calls and then every 500th.
     static GLFunctionTable real;

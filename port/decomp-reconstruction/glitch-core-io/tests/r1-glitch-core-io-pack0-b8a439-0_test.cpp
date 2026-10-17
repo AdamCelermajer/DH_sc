@@ -141,15 +141,16 @@ static void testCFileBaseName() {
         CHECK(!f.obfuscated);
     }
     {
-        // A name that ends in a separator leaves no base name: the original throws out_of_range.
+        // A name that ends in a separator has the empty base name (STLport's substr(pos) throws only for pos > size,
+        // never for pos == size): a directory that fopen opened on Android reaches this and must not throw.
         bool threw = false;
         try {
             glitch::io::CFile f(nullptr, "trailing\\", false);
-            (void)f;
+            CHECK(f.baseNameOffset == 9);
         } catch (const std::out_of_range&) {
             threw = true;
         }
-        CHECK(threw);
+        CHECK(!threw);
     }
 }
 

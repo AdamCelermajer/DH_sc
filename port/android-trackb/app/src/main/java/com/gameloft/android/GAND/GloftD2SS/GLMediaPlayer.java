@@ -117,6 +117,7 @@ class GLMediaPlayer {
     }
 
     public static String getSDFolder() {
+        // Must stay "/sdcard/..." : the native FileSystemBase::createAndOpenFile treats a name as already rooted only when it starts with "/sdcard/".
         return "/sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/";
     }
 

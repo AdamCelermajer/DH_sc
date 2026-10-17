@@ -13,6 +13,7 @@
 //   copy               0x5ee40c  the same-format transfer
 //   LUT tables         0x8e3694 (1-bit), 0x8e3698 (2-bit), 0x8e36a0 (4-bit)
 #include "glitch-video/pixel_format_convert.hpp"
+#include "core-platform/frame_prof.hpp"
 
 #include <cstddef>
 #include <cstdint>
@@ -475,6 +476,7 @@ int decompress(E_PIXEL_FORMAT srcFormat, const void* src, uint32_t srcPitch, E_P
     }
     const uint32_t naturalPitch = computePitch(dstFormat, width);
     const int twoBit = static_cast<unsigned>(srcFormat - 24) <= 1u;
+    dh2prof::Scope prof(dh2prof::kTexDecode);  // Track B frame profiler
     if (dstFormat == 14 && naturalPitch == dstPitch) {
         PVRTCDecompress(src, twoBit, static_cast<int>(width), static_cast<int>(height), static_cast<uint8_t*>(dst));
         if (flip) return convert(14, dst, naturalPitch, dstFormat, dst, dstPitch, width, height, flip);

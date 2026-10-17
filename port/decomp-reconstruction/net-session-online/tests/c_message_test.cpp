@@ -31,6 +31,7 @@ public:
 
     void SetHeader(std::uint32_t type, std::uint32_t mask, std::int32_t sender) {
         header_.type = type;
+        header_.reserved = type;  // +0x10, the byte Serialize writes as the wire type id (header_.type is the serial)
         header_.destMask = mask;
         header_.sender = sender;
     }

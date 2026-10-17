@@ -65,3 +65,23 @@ Install: `adb install -r -g dh2-trackb-bundled.apk` or sideload the file; first 
 - libStormGLOFT is a stub (no glsl-optimizer, no Mali identity, no CPU texture decode); Billing, Samsung/KDDI DRM and Gameloft Live are not functional.
 - Open-world bugs of the reconstruction still apply (see `reports/decomp-reconstruction/FIRST-BOOT.md` and `CHAOS-BUGS.md`).
 - The source APK has been booted only on API 37; the closed-SDK classes (billing, Plasma, ALML) are reproduced but unexercised.
+
+## Capturing a crash on a real phone (always-on diagnostics)
+
+The app records crashes itself: a Java uncaught-exception handler (`dh2_java_crash.txt`), the native signal handler in libStormGLOFT (`dh2_native_crash.txt`), and on the next
+launch `DataSetup` merges them with the exit reasons / tombstone (`dh2_tombstone.bin`) and the app's logcat into `dh2_crash.txt` and shows a dialog with the first line
+(buttons: Play anyway, Copy report). All files are in `/sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/`.
+
+```
+adb devices                                   # USB debugging, or: adb pair <ip:port> then adb connect <ip:port> (wireless debugging)
+adb logcat -c                                 # clear, then start the game and let it crash
+adb logcat -b all -d -v threadtime > dh2_logcat.txt
+adb logcat -d -s DH2CRASH DH2GL DH2GLINFO DH2STDOUT AndroidRuntime DEBUG libc   # the interesting tags only
+adb pull /sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/dh2_crash.txt
+adb pull /sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/dh2_native_crash.old
+adb bugreport dh2_bugreport.zip               # contains the system tombstones (needs no root)
+adb shell dumpsys activity exit-info com.gameloft.android.GAND.GloftD2SS     # why the last processes died
+```
+Native offsets (`pc (off 0x...)`, `stack ...: off 0x...`) map to source with `llvm-addr2line -e libdh2-unstripped.so 0x<off>` (the .so next to the APK).
+`DH2GLINFO` lines give the GPU, limits and extension list; `DH2GL` lines are shader-compile and texture-upload errors. Phone identity (IMEI, number, SIM operator)
+is never requested: all TelephonyManager reads go through `Phone.java`, which returns the no-SIM values when Android refuses.

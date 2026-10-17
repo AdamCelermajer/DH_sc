@@ -1,3 +1,8 @@
+#include "net-transport/net_trace.hpp"
+#include <cstdlib>
+#ifdef GetObject
+#undef GetObject  // windows.h (via socket_platform.hpp) renames ObjectHandle::GetObject to GetObjectA
+#endif
 // ObjectManager, part 3 of 4 (batch g1-game-world-ObjectManager-5017c7-2).
 // Reconstructed from the Hex-Rays pseudocode of libDungeonHunter2.so. Offsets in comments are the original
 // 32-bit ones. The object id map is std::map<int, ObjectListItem> m_objectMap (dh2/ObjectListItem.hpp): an entry holds the
@@ -145,8 +150,17 @@ const ObjectCreationEntry objectCreationMap[33] = {
 // byte outside 1..4 with no object found) is skipped; the original dereferences it.
 void ObjectManager::LoadGameObjectNetData(int objectId, int member, NetBitStream& stream) {
     Level* currentLevel = ApplicationGetInstance().GetCurrentLevel();
-    if (currentLevel == nullptr ||
-        static_cast<int>(stream.ReadByte(8)) != currentLevel->m_levelListIndex) {
+    const int streamLevel = currentLevel == nullptr ? -1 : static_cast<int>(stream.ReadByte(8));
+#ifdef DH2_HOST_RUNNER
+    if (std::getenv("DH2_NET_TRACE") != nullptr) {
+        static int traced = 0;
+        if (traced++ < 60) {
+            DH2_NET_TRACE_LOG("[net] LoadGameObjectNetData object %d member %d level %p stream level %d current %d\n", objectId, member, static_cast<void*>(currentLevel), streamLevel,
+                        currentLevel == nullptr ? -1 : currentLevel->m_levelListIndex);
+        }
+    }
+#endif
+    if (currentLevel == nullptr || streamLevel != currentLevel->m_levelListIndex) {
         return;
     }
 
@@ -272,6 +286,14 @@ void ObjectManager::LoadGameObjectNetData(int objectId, int member, NetBitStream
         if (stream.ReadBit() != 0) {
             unk_c8[objectId] = static_cast<std::int16_t>(stream.ReadByte(8));
         }
+#ifdef DH2_HOST_RUNNER
+        if (std::getenv("DH2_NET_TRACE") != nullptr) {
+            static int traced2 = 0;
+            if (traced2++ < 60) {
+                DH2_NET_TRACE_LOG("[net]   entries %u header %d valid %d c8 %d e0 %d b0 %d\n", entryCount, headerPresent ? headerByte : -2, isPacketValid ? 1 : 0, unk_c8[objectId], unk_e0[objectId], unk_b0[objectId]);
+            }
+        }
+#endif
         if (headerPresent) {
             if (unk_c8[objectId] >= 0 &&
                 static_cast<std::uint16_t>(unk_e0[objectId]) == static_cast<std::uint16_t>(unk_c8[objectId])) {
@@ -347,14 +369,13 @@ void ObjectManager::ForceFullUpdate() {
     if (!unk_108.empty()) {
         unk_108.clear();
     }
-    if (mode - 3 > 1) {
-        return;
-    }
-
-    // The key-1 entries are written only when they are absent, which the guarded insert_unique blocks make
-    // happen on the first pass after a clear; the std::map operator[] the port would use here always creates.
+    // Only the key-1 injection (LABEL_82) is behind the mode test (modes 3 and 4, the GL Live ones); the member loop (LABEL_4) runs in every mode.
+    // WHAT THE OLD BODY GOT WRONG: it returned here for modes 1 and 2, so a LAN/Bluetooth host never queued its clients in unk_128, never wrote the
+    // header of the first object packet, the client's unk_160 stayed 0 and it never became ready to roll (load step 36 for ever).
     static bool entryInjected = false;
-    if (!entryInjected) {
+    if (mode - 3 <= 1 && !entryInjected) {
+        // The key-1 entries are written only when they are absent, which the guarded insert_unique blocks make
+        // happen on the first pass after a clear; the std::map operator[] the port would use here always creates.
         entryInjected = true;
         unk_120.push_back(1);  // the node the original allocates and links at 0x3483e8
         if (unk_b0.count(1) == 0) {
@@ -373,6 +394,9 @@ void ObjectManager::ForceFullUpdate() {
         }
         unk_128.push_back(memberId);
     }
+#ifdef DH2_HOST_RUNNER
+    DH2_NET_TRACE_LOG("[net] ForceFullUpdate mode %u connected %zu hostMatching %d queued %zu\n", mode, members.size(), localMatchingId, unk_128.size());
+#endif
 }
 
 // 0x348644 ObjectManager::ProcessLostPacket(int,int)

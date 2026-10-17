@@ -1,4 +1,4 @@
-#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#if defined(__ANDROID__)
 #include <android/log.h>
 #endif
 #include "glitch-video/ccommon_gl_driver.hpp"
@@ -1671,7 +1671,9 @@ int32_t CCommonGLDriver::CTexture::updateData(bool full) const {
                 if (gl().getError) {
                     const uint32_t glErr = gl().getError();
                     if (glErr != 0) {
-#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#if defined(__ANDROID__)
+                        static int s_uploadErrorsLogged = 0;   // always on, capped: real drivers reject formats the emulator accepts
+                        if (s_uploadErrorsLogged++ < 60)
                         __android_log_print(ANDROID_LOG_ERROR, "DH2GL", "texture %s upload error %x: internal=%x format=%x type=%x %dx%d level=%d compressed=%d", m_name.c_str(), glErr, (unsigned)row.m_internalFormat, (unsigned)row.m_format, (unsigned)row.m_type, (int)width, (int)height, (int)level, (int)isCompressed(format));
 #endif
                         m_flags3f = static_cast<uint8_t>(m_flags3f | kFlagBindFailed);

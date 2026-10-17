@@ -1,6 +1,7 @@
 #include "glitch-core-io/io/read_file.hpp"
 
 #include "glitch-core-io/io/file_system.hpp"
+#include "core-platform/frame_prof.hpp"
 
 #include <cstdint>
 
@@ -67,6 +68,7 @@ long CReadFile::getPos() const {
 std::int32_t CReadFile::read(void* buffer, std::uint32_t count) {
     if (!isOpen()) return 0;
     const std::uint32_t pos = static_cast<std::uint32_t>(getPos());
+    dh2prof::Scope prof(dh2prof::kIoRead);  // Track B frame profiler
     const std::size_t got = std::fread(buffer, 1, count, file->file);
     if (obfuscated && static_cast<std::int32_t>(pos) < 4) {
         std::uint32_t n = 4 - pos;

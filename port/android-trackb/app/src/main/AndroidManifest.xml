@@ -11,6 +11,7 @@
     * launcher: DataSetup (Track B addition, unpacks the user's data archive on first start, then starts DungeonHunter2).
       Zirconia_DRM keeps its class but is no longer the launcher: its licence server is gone and the original ends in an error
       dialog offline; the game never needed the check to run (FIRST-BOOT.md starts .DungeonHunter2 directly).
+    * DungeonHunter2 also handles screenSize|smallestScreenSize|density|layoutDirection (foldables: folding/unfolding must not recreate the activity and the native GL state)
     * READ_EXTERNAL_STORAGE added for DataSetup (reads the archive from Download)
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,7 +51,7 @@
             android:clearTaskOnLaunch="true"
             android:launchMode="singleInstance"
             android:screenOrientation="landscape"
-            android:configChanges="fontScale|uiMode|screenLayout|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
+            android:configChanges="fontScale|uiMode|screenLayout|screenSize|smallestScreenSize|density|layoutDirection|orientation|navigation|keyboardHidden|keyboard|touchscreen|locale|mnc|mcc"/>
         <activity
             android:name="com.gameloft.android.GAND.GloftD2SS.Zirconia_DRM"
             android:exported="true"

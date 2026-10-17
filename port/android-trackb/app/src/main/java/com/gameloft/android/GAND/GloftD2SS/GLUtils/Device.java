@@ -75,7 +75,7 @@ public class Device {
             j = (ConnectivityManager) SUtils.getContext().getSystemService("connectivity");
         }
         TelephonyManager telephonyManager = (TelephonyManager) SUtils.getContext().getSystemService("phone");
-        switch (telephonyManager.getSimState()) {
+        switch (com.gameloft.android.GAND.GloftD2SS.Phone.simState(telephonyManager)) {
             case 1:
                 str = "SIM_ABSENT";
                 break;
@@ -93,42 +93,42 @@ public class Device {
             l = getDeviceId();
         }
         if (n == null) {
-            n = telephonyManager.getNetworkOperator();
+            n = com.gameloft.android.GAND.GloftD2SS.Phone.networkOperator(telephonyManager);
         }
         if (n.trim().length() == 0) {
             n = str;
         }
         if (o == null) {
-            o = ValidateStringforURL(telephonyManager.getNetworkOperatorName());
+            o = ValidateStringforURL(com.gameloft.android.GAND.GloftD2SS.Phone.networkOperatorName(telephonyManager));
         }
         if (o.trim().length() == 0) {
             o = str;
         }
         if (p == null) {
-            p = telephonyManager.getSimOperator();
+            p = com.gameloft.android.GAND.GloftD2SS.Phone.simOperator(telephonyManager);
         }
         if (p.trim().length() == 0) {
             p = str;
         }
         if (q == null) {
-            q = ValidateStringforURL(telephonyManager.getSimOperatorName());
+            q = ValidateStringforURL(com.gameloft.android.GAND.GloftD2SS.Phone.simOperatorName(telephonyManager));
         }
         if (q.trim().length() == 0) {
             q = str;
         }
         if (r == null || r.equals("00")) {
-            r = telephonyManager.getLine1Number();
+            r = com.gameloft.android.GAND.GloftD2SS.Phone.line1(telephonyManager);
         }
         if (r == null) {
             r = "00";
         }
         if (s == null) {
-            s = telephonyManager.getNetworkCountryIso();
+            s = com.gameloft.android.GAND.GloftD2SS.Phone.networkCountryIso(telephonyManager);
         }
         if (t == null) {
-            t = telephonyManager.getSimCountryIso();
+            t = com.gameloft.android.GAND.GloftD2SS.Phone.simCountryIso(telephonyManager);
         }
-        u = telephonyManager.isNetworkRoaming();
+        u = com.gameloft.android.GAND.GloftD2SS.Phone.isNetworkRoaming(telephonyManager);
         C = createUniqueCode();
         B = getLanguage(Locale.getDefault().getISO3Language());
         try {
@@ -200,7 +200,7 @@ public class Device {
         } else {
             try {
                 deviceId = ((TelephonyManager) SUtils.getContext().getSystemService("phone")).getDeviceId();
-            } catch (SecurityException e) {
+            } catch (Exception e) {
                 deviceId = null;   // Android 10+: falls through to the serial / android_id chain below
             }
             if (deviceId == null && (Build.VERSION.SDK_INT < 9 || (deviceId = Build.SERIAL) == null || deviceId == "unknown")) {

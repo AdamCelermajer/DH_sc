@@ -17,6 +17,7 @@
 #include "host_runner.hpp"
 
 namespace dh2host {
+unsigned long long g_drawCalls = 0, g_drawIndices = 0;
 namespace {
 
 using glitch::video::deps::GLFunctionTable;
@@ -490,8 +491,9 @@ void installNullGL() {
     t.bindFramebuffer = [](uint32_t, uint32_t) {};
     t.enableVertexAttribArray = [](uint32_t) {};
     t.disableVertexAttribArray = [](uint32_t) {};
-    t.drawElements = [](uint32_t, int32_t, uint32_t, const void*) {};
-    t.drawArrays = [](uint32_t, int32_t, int32_t) {};
+    // Draw calls and indices are counted for the runner's levelstat (batching regressions show as count changes).
+    t.drawElements = [](uint32_t, int32_t count, uint32_t, const void*) { ++g_drawCalls; g_drawIndices += static_cast<unsigned long long>(count); };
+    t.drawArrays = [](uint32_t, int32_t, int32_t count) { ++g_drawCalls; g_drawIndices += static_cast<unsigned long long>(count); };
     t.genRenderbuffers = [](int32_t n, uint32_t* names) {
         for (int32_t i = 0; i < n; ++i) names[i] = g_next++;
     };

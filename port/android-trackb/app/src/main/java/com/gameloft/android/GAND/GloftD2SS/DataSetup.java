@@ -67,7 +67,49 @@ public class DataSetup extends Activity {
         root.addView(text);
         root.addView(bar, new LinearLayout.LayoutParams(600, LinearLayout.LayoutParams.WRAP_CONTENT));
         setContentView(root);
-        proceed();
+        File fd = filesDir();
+        CrashReport.install(fd);
+        String crash = null;
+        try {
+            crash = CrashReport.collect(this, fd);
+        } catch (Throwable t) {
+            // diagnostics must never stop the launcher
+        }
+        if (crash != null) {
+            showCrash(crash, fd);   // the user sends dh2_crash.txt; "Play anyway" continues with the normal flow
+        } else {
+            proceed();
+        }
+    }
+
+    private void showCrash(String first, final File fd) {
+        final String path = new File(fd, CrashReport.REPORT).getPath();
+        android.widget.Toast.makeText(this, "Last run crashed: " + first, android.widget.Toast.LENGTH_LONG).show();
+        new android.app.AlertDialog.Builder(this)
+                .setTitle("The game crashed last time")
+                .setMessage(first + "\n\nA full report was saved to\n" + path + "\n(adb pull it, or use Copy and paste it into a message).")
+                .setCancelable(false)
+                .setPositiveButton("Play anyway", new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(android.content.DialogInterface d, int w) {
+                        proceed();
+                    }
+                })
+                .setNeutralButton("Copy report", new android.content.DialogInterface.OnClickListener() {
+                    public void onClick(android.content.DialogInterface d, int w) {
+                        try {
+                            String r = CrashReport.readReport(fd);
+                            if (r != null && r.length() > 90000) {
+                                r = r.substring(0, 90000);
+                            }
+                            ((android.content.ClipboardManager) getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(android.content.ClipData.newPlainText("dh2 crash", r));
+                            android.widget.Toast.makeText(DataSetup.this, "Copied", android.widget.Toast.LENGTH_SHORT).show();
+                        } catch (Throwable t) {
+                            // ignore
+                        }
+                        proceed();
+                    }
+                })
+                .show();
     }
 
     @Override
@@ -147,6 +189,15 @@ public class DataSetup extends Activity {
                     extractStream(src, man, filesDir());
                 } catch (Throwable t) {
                     err = t.toString();
+                    try {
+                        java.io.StringWriter sw = new java.io.StringWriter();
+                        t.printStackTrace(new java.io.PrintWriter(sw));
+                        FileOutputStream o = new FileOutputStream(new File(filesDir(), "dh2_java_crash.txt"));
+                        o.write(("DataSetup extraction failed\n" + sw).getBytes("UTF-8"));
+                        o.close();
+                    } catch (Throwable x) {
+                        // ignore
+                    }
                 }
                 final String e = err;
                 runOnUiThread(new Runnable() {

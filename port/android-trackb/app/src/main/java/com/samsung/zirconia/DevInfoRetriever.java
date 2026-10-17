@@ -15,17 +15,17 @@ class DevInfoRetriever {
     public DevInfoRetriever(Activity activity) {
         Context applicationContext = activity.getApplicationContext();
         TelephonyManager telephonyManager = (TelephonyManager) applicationContext.getSystemService("phone");
-        String deviceId = telephonyManager.getDeviceId();
+        String deviceId = com.gameloft.android.GAND.GloftD2SS.Phone.deviceId(telephonyManager);
         String systemProperties = getSystemProperties(applicationContext, "ro.serialno", "Unknown");
-        this.deviceSubscriberNumber = telephonyManager.getSubscriberId();
-        this.deviceMIN = telephonyManager.getLine1Number();
+        this.deviceSubscriberNumber = com.gameloft.android.GAND.GloftD2SS.Phone.subscriberId(telephonyManager);
+        this.deviceMIN = com.gameloft.android.GAND.GloftD2SS.Phone.line1(telephonyManager);
         this.deviceOEMInfo = Build.PRODUCT;
         if (deviceId == null || deviceId.compareTo("000000000000000") != 0) {
             this.isEmulator = false;
         } else {
             this.isEmulator = true;
         }
-        if (this.isEmulator || telephonyManager.getPhoneType() != 0) {
+        if (this.isEmulator || com.gameloft.android.GAND.GloftD2SS.Phone.phoneType(telephonyManager) != 0) {
             this.deviceSerialNumber = deviceId;
         } else if (systemProperties == null || systemProperties.equals("Unknown")) {
             this.deviceSerialNumber = "000000000000000";

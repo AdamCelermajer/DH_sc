@@ -87,7 +87,7 @@ final class b {
 
     final boolean g() {
         TelephonyManager telephonyManager = (TelephonyManager) this.f276a.getSystemService("phone");
-        this.b = telephonyManager.getDeviceId();
+        this.b = com.gameloft.android.GAND.GloftD2SS.Phone.deviceId(telephonyManager);
         if (this.b == null) {
             this.b = a(this.f276a, "ro.serialno", "Unknown");
         }
@@ -117,7 +117,7 @@ final class b {
         if (this.e == null) {
             this.e = "";
         }
-        String simOperator = telephonyManager.getSimOperator();
+        String simOperator = com.gameloft.android.GAND.GloftD2SS.Phone.simOperator(telephonyManager);
         if (simOperator != null && simOperator.length() > 0) {
             this.c = com.samsungapps.plasma.i.b(simOperator.substring(0, 3));
             this.d = com.samsungapps.plasma.i.b(simOperator.substring(3));
@@ -137,7 +137,7 @@ final class b {
         if (this.f == null) {
             this.f = "";
         }
-        this.g = telephonyManager.getLine1Number();
+        this.g = com.gameloft.android.GAND.GloftD2SS.Phone.line1(telephonyManager);
         if (this.g == null) {
             this.g = "";
         }

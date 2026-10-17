@@ -20,7 +20,10 @@ CFile::CFile(std::FILE* handle, const char* fileName, bool obfuscatedFlag)
     obfuscated = obfuscatedFlag;
     std::size_t sep = name.find_last_of("/\\");
     if (sep != std::string::npos) {
-        if (name.size() <= sep + 1) throw std::out_of_range("basic_string");
+        // STLport's substr(pos) throws only for pos > size(); pos == size() (a name that ends with the separator, e.g. a
+        // directory that fopen opened on Linux/Android) yields the empty base name. The earlier `<=` test threw there and
+        // aborted the Android boot at the main menu (CMesh opening a database source name that reduced to the data root).
+        if (sep + 1 > name.size()) throw std::out_of_range("basic_string");
         baseNameOffset = sep + 1;
     }
 }

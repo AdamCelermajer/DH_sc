@@ -1,4 +1,5 @@
 #include "glitch-core-io/io/file_system.hpp"
+#include "core-platform/frame_prof.hpp"
 #include "glitch-core-io/io/memory_read_file.hpp"
 #include "glitch-core-io/io/pak_reader.hpp"
 #include "glitch-core-io/io/unzip_reader.hpp"
@@ -248,7 +249,8 @@ IReadFile* CFileSystem::createAndOpenFile(const char* name) {
                 next = slash + 1;
             }
         }
-        rest = rest.substr(start, slash - start);
+        if (start > rest.size()) start = rest.size();   // port guard: substr past the end would throw std::out_of_range
+        rest = rest.substr(start, slash == std::string::npos ? std::string::npos : slash - start);
         prefix->drop();
         IReadFile* inner = reader.openFile(rest.c_str());
         prefix = inner;
@@ -396,7 +398,11 @@ boost::intrusive_ptr<CFile> CFileSystem::open(const char* name, const char* mode
         if (last != '\\' && last != '/') directory += '/';
         fileName = directory + fileName;
     }
-    std::FILE* handle = std::fopen(fileName.c_str(), mode);
+    std::FILE* handle;
+    {
+        dh2prof::Scope prof(dh2prof::kIoOpen);  // Track B frame profiler
+        handle = std::fopen(fileName.c_str(), mode);
+    }
     if (handle == nullptr) return {};
     return boost::intrusive_ptr<CFile>(new CFile(handle, fileName.c_str(), obfuscated), true);
 }

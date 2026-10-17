@@ -92,13 +92,16 @@ static void testCFile() {
     CHECK(dir.obfuscated);
     glitch::io::CFile plain(nullptr, "plain.txt", false);
     CHECK(plain.baseNameOffset == 0 && !plain.obfuscated);
+    // A name that ends with the separator (a directory fopen opened on Linux/Android) has the empty base name: STLport's
+    // substr(pos) throws only for pos > size, and the original never reaches that (sep < size). It must not throw.
     bool threw = false;
     try {
-        glitch::io::CFile bad(nullptr, "trailing/", false);
+        glitch::io::CFile trailing(nullptr, "trailing/", false);
+        CHECK(trailing.baseNameOffset == 9);
     } catch (const std::out_of_range&) {
         threw = true;
     }
-    CHECK(threw);
+    CHECK(!threw);
 }
 
 static void testFileFactories() {

@@ -1,4 +1,5 @@
 #include "core-platform/debug_out.hpp"
+#include "core-platform/frame_prof.hpp"
 
 #include <cstdarg>
 #include <cstdio>
@@ -11,6 +12,7 @@
 // The original calls vsprintf into a 1024-byte stack buffer; vsnprintf keeps the
 // same buffer size without overrunning it.
 void _DEBUG_OUT(const char* format, ...) {
+    dh2prof::Scope prof(dh2prof::kLog);  // Track B frame profiler
     char buffer[1024];
     va_list args;
     va_start(args, format);

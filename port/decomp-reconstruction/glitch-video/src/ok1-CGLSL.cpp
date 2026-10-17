@@ -1,4 +1,4 @@
-#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
+#if defined(__ANDROID__)
 #include <android/log.h>
 #endif
 // Owner K1: the GLSL shader classes: CGLSLShaderCode (source copy, GL create / compile), CGLSLShader (deleteInfo, compileAndLink,
@@ -141,10 +141,10 @@ bool CGLSLShaderCode::compileShader() const {
         if (t.getShaderInfoLog) t.getShaderInfoLog(m_glShader, logLength, &length, log);
         int32_t shaderType = 0;
         if (t.getShaderiv) t.getShaderiv(m_glShader, kGlShaderType, &shaderType);
-#if defined(__ANDROID__) && defined(DH2_BOOT_DEBUG)
-        // Port diagnostic (the original's logger is null at this point, so the message is lost there): the compile log reaches logcat.
-        __android_log_print(ANDROID_LOG_ERROR, "DH2GL", "GLSL shader type %d failed to compile: %s\n--- source[0]:\n%s", shaderType,
-                            log != nullptr ? log : "(no log)", (m_sourceLines != nullptr && m_sourceLineCount > 0) ? m_sourceLines[0] : "");
+#if defined(__ANDROID__)
+        // Port diagnostic, always on (real drivers are stricter than the emulator translator): compile log + head of the source reach logcat.
+        __android_log_print(ANDROID_LOG_ERROR, "DH2GL", "GLSL shader type %d failed to compile: %s", shaderType, log != nullptr ? log : "(no log)");
+        if (m_sourceLines != nullptr && m_sourceLineCount > 0) __android_log_print(ANDROID_LOG_ERROR, "DH2GL", "--- source[0] head: %.800s", m_sourceLines[0]);
 #endif
         os::Printer::logf(glitch::ELL_ERROR, "GLSL %s shader failed to compile\n%s",
                           static_cast<uint32_t>(shaderType) == kGlVertexShader ? "vertex" : "fargment", log);

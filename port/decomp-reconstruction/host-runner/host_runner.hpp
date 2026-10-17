@@ -78,6 +78,7 @@ extern void (*g_screenshotHook)(const char* path);   // set by the window runner
 
 // ---- headless GL (host_gl_null.cpp): a function table that accepts every call and answers the start-up queries ----
 void installNullGL();
+extern unsigned long long g_drawCalls, g_drawIndices;   // headless draw counters (host_gl_null.cpp)
 
 // ---- state log (host_state_log.cpp) ----
 void logState(int frame);

@@ -21,4 +21,5 @@
 3100 levelstat mp
 3100 mp status
 3500 mp status
+4500 levelstat mp
 4500 mp status

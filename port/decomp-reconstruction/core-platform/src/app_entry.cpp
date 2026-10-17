@@ -6,6 +6,7 @@
 #include <string>
 
 #include "core-platform/debug_out.hpp"
+#include "core-platform/frame_prof.hpp"
 #include "core-platform/tb/android_jni_app_events.hpp"
 #include "core-platform/tb/android_jni_platform.hpp"
 #include "core-platform/tb/app_lifecycle.hpp"
@@ -149,9 +150,11 @@ extern "C" int appInit() {
 extern "C" int appUpdate() {
     if (!IsExit) {
         if (device->run()) {
+            dh2prof::frameBegin();  // Track B diagnostic (core-platform/frame_prof.hpp), not in the original
             mTimeCallbackFinished = 0;
             app->Update();
             mTimeCallbackFinished = 1;
+            dh2prof::frameEnd();
             DebugSwitches::s_inst.load();
             if (DebugSwitches::s_inst.GetSwitch(std::string("isDisplayingFPS"))) {
                 const int fps = static_cast<int>(driver->getFPS());

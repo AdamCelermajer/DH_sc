@@ -55,3 +55,22 @@ int PacketTransportType(int packet_type) {
     return static_cast<int>(manager->GetPacketTransportType(static_cast<tPACKET_TYPE>(packet_type)));
 }
 }  // namespace connection_manager_calls
+
+#ifdef DH2_HOST_RUNNER
+#include <cstdarg>
+#include <cstdio>
+
+#include "net-transport/socket_platform.hpp"
+
+void Dh2NetTrace(const char* format, ...) {
+    std::FILE* file = net_platform::TraceFile();
+    if (file == nullptr) {
+        return;
+    }
+    va_list args;
+    va_start(args, format);
+    std::vfprintf(file, format, args);
+    va_end(args);
+    std::fflush(file);
+}
+#endif

@@ -42,7 +42,7 @@ public class Tracking {
         f = locale.getCountry();
         g = Build.MANUFACTURER + "_" + Build.MODEL;
         h = Build.VERSION.RELEASE;
-        String line1Number = telephonyManager.getLine1Number();
+        String line1Number = com.gameloft.android.GAND.GloftD2SS.Phone.line1(telephonyManager);
         i = line1Number;
         if (line1Number == null) {
             i = "00";

@@ -1,4 +1,5 @@
 #include "core-platform/sys_print.hpp"
+#include "core-platform/frame_prof.hpp"
 
 #include <cstdarg>
 #include <cstdio>
@@ -26,7 +27,10 @@ namespace sys {
 // The listing is a bare tail call, `b printf`: the text is the format string and the
 // result is printf's count. Forwarded as-is (a thunk is never reimplemented; Track B
 // decision 4), so a '%' in the text is read as a conversion, as in the original.
-int printNoFormat(const char* text) { return std::printf(text); }
+int printNoFormat(const char* text) {
+    dh2prof::Scope prof(dh2prof::kLog);  // Track B frame profiler
+    return std::printf(text);
+}
 
 // 0x31784c _ZN3sys5printEPKcz
 // Formats into a 1 KiB buffer, writes the "[HH:MM:SS] " prefix, then the message through
