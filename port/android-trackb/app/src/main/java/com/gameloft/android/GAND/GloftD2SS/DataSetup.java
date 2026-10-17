@@ -153,7 +153,7 @@ public class DataSetup extends Activity {
             return;
         }
         final boolean bundled = hasAsset("dh2data.zip");
-        if (!bundled && Build.VERSION.SDK_INT >= 23 && checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED
+        if (!bundled && Build.VERSION.SDK_INT >= 23 && Build.VERSION.SDK_INT < 30 /* Port (SDK1): READ_EXTERNAL_STORAGE no longer exposes the Download folder at targetSdk 30+ */ && checkSelfPermission("android.permission.READ_EXTERNAL_STORAGE") != PackageManager.PERMISSION_GRANTED
                 && getSharedPreferences("dh2setup", 0).getInt("asked", 0) == 0) {
             getSharedPreferences("dh2setup", 0).edit().putInt("asked", 1).commit();
             requestPermissions(new String[]{"android.permission.READ_EXTERNAL_STORAGE"}, REQ_STORAGE);
@@ -162,7 +162,7 @@ public class DataSetup extends Activity {
         final File src = bundled ? null : findArchive();
         if (!bundled && src == null) {
             text.setText("Dungeon Hunter 2 data not found.\n\nCopy Dungeon-Hunter-2-HD-v1-0-2-cache.zip to\n"
-                    + getObbDir().getPath() + "/ (as main." + versionCode() + "." + getPackageName() + ".obb)\nor to the Download folder, then come back to this screen.");
+                    + getObbDir().getPath() + "/ (as main." + versionCode() + "." + getPackageName() + ".obb)\nor to " + (Build.VERSION.SDK_INT >= 30 ? String.valueOf(getExternalFilesDir(null)) + "/ (Android 11+ hides Download from apps; Port (SDK1))" : "the Download folder") + ", then come back to this screen.");
             return;
         }
         final Map<String, String> man = readManifest();

@@ -498,7 +498,7 @@ public class GLBluetoothService {
         this.Y = false;
         this.I.startDiscovery();
         if (!this.Q) {
-            GLBluetooth.f5a.registerReceiver(this.X, new IntentFilter("android.bluetooth.device.action.FOUND"));
+            PortCompat.registerReceiver(GLBluetooth.f5a, this.X, new IntentFilter("android.bluetooth.device.action.FOUND"));   // Port (SDK1): API 34 receiver flag
         }
         this.Q = true;
         return true;

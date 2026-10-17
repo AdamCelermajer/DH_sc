@@ -11,8 +11,10 @@ android {
     defaultConfig {
         applicationId = "com.gameloft.android.GAND.GloftD2SS"
         minSdk = 26
-        // 28 keeps the 2011 permission / device-id / cleartext semantics the game code relies on (see README).
-        targetSdk = 28
+        // Port (SDK1): 35 (was 28). The Java was audited for the 28 -> 35 behaviour changes (PortCompat.java: receiver flags, Bluetooth runtime
+        // permissions, PendingIntent mutability; ScreenFit.java: edge-to-edge/cutout; telephony in Phone.java). The data root stays the app-specific
+        // external dir. tools/trackb/android/build_release.py builds the origdex variant (unpatched original dex) at 28.
+        targetSdk = 35
         versionCode = 102
         versionName = "1.0.2"
         ndk { abiFilters += listOf("arm64-v8a") }

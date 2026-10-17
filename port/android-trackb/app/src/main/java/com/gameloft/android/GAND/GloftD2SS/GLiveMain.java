@@ -1952,7 +1952,7 @@ public class GLiveMain extends Activity {
             cj = true;
             TelephonyManager telephonyManager = (TelephonyManager) getSystemService("phone");
             cV = telephonyManager;
-            telephonyManager.listen(this.dh, 32);
+            PortCompat.listen(telephonyManager, this.dh, 32);   // Port (SDK1): SecurityException at targetSdk 31+
         } catch (RuntimeException e2) {
             cf = false;
             new Intent(this, (Class<?>) DungeonHunter2.class);

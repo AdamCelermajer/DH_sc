@@ -39,6 +39,9 @@ public class GLBluetooth {
             h.c();
             h = null;
         }
+        if (c == null) {
+            return false;   // Port (SDK1): no adapter / no Bluetooth permission
+        }
         h = new GLBluetoothService(g, str);
         if (i2 == 1) {
             return h.a();
@@ -79,10 +82,24 @@ public class GLBluetooth {
         Log.d(f, "init()");
         f5a = context;
         if (c == null) {
-            Looper.prepare();
-            BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();
+            // Port (SDK1): targetSdk 31+ needs the BLUETOOTH_CONNECT / BLUETOOTH_SCAN runtime permissions (getName, discovery, sockets throw
+            // SecurityException without them). Without them the adapter stays null: isSupported() is false, create() fails, the game degrades
+            // to "no Bluetooth" instead of crashing. The permission is requested once; a later init() after the grant finds the adapter.
+            if (!PortCompat.hasBluetoothPermissions(context)) {
+                PortCompat.requestBluetoothPermissions(context);
+                nativeInit();
+                return;
+            }
+            if (Looper.myLooper() == null) {
+                Looper.prepare();
+            }
+            BluetoothAdapter defaultAdapter = BluetoothAdapter.getDefaultAdapter();   // null on a device without Bluetooth (the original NPE'd)
             c = defaultAdapter;
-            j = defaultAdapter.getName();
+            try {
+                j = defaultAdapter != null ? defaultAdapter.getName() : null;
+            } catch (SecurityException e) {
+                c = null;
+            }
         }
         nativeInit();
     }

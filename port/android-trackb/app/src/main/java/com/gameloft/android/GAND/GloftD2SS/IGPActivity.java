@@ -192,7 +192,7 @@ public class IGPActivity extends Activity {
         getWindow().clearFlags(2048);
         TelephonyManager telephonyManager = (TelephonyManager) getSystemService("phone");
         e = telephonyManager;
-        telephonyManager.listen(this.t, 32);
+        PortCompat.listen(telephonyManager, this.t, 32);   // Port (SDK1): SecurityException at targetSdk 31+
         this.s = ((WindowManager) getSystemService("window")).getDefaultDisplay();
         g = this.s.getHeight();
         f = this.s.getWidth();

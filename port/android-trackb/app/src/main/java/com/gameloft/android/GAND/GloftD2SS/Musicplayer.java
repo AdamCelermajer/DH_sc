@@ -91,7 +91,16 @@ public class Musicplayer {
     }
 
     public static void initMediaList() {
-        Cursor cursorManagedQuery = DungeonHunter2.o.managedQuery(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, new String[]{"*"}, null, null, null);
+        // Port (SDK1): at targetSdk 30+ MediaStore rejects the "*" projection (IllegalArgumentException: Invalid column *) and from 33 needs
+        // READ_MEDIA_AUDIO (SecurityException). The user's playlists are optional, so fall back to an empty list - what the old query
+        // returned on a device without any playlist (count 0: nothing is read from the cursor).
+        Cursor cursorManagedQuery;
+        try {
+            cursorManagedQuery = DungeonHunter2.o.managedQuery(MediaStore.Audio.Playlists.EXTERNAL_CONTENT_URI, new String[]{"_id", "name"}, null, null, null);
+        } catch (RuntimeException e) {
+            android.util.Log.w("DH2", "playlist query: " + e);
+            cursorManagedQuery = new android.database.MatrixCursor(new String[]{"_id", "name"});
+        }
         f30a = new MediaPlayList(cursorManagedQuery);
         b = MediaPlayList.GetPlayListName();
         if (cursorManagedQuery != null) {
@@ -115,7 +124,13 @@ public class Musicplayer {
         if (listID == -1) {
             return;
         }
-        Cursor cursorManagedQuery = DungeonHunter2.o.managedQuery(MediaStore.Audio.Playlists.Members.getContentUri("external", listID), d, null, null, null);
+        Cursor cursorManagedQuery;
+        try {
+            cursorManagedQuery = DungeonHunter2.o.managedQuery(MediaStore.Audio.Playlists.Members.getContentUri("external", listID), d, null, null, null);
+        } catch (RuntimeException e) {   // Port (SDK1): targetSdk 30+/33+ MediaStore restrictions
+            android.util.Log.w("DH2", "playlist members query: " + e);
+            cursorManagedQuery = null;
+        }
         if (cursorManagedQuery != null) {
             MediaPlayList mediaPlayList2 = f30a;
             MediaPlayList.playAList(cursorManagedQuery, i2);

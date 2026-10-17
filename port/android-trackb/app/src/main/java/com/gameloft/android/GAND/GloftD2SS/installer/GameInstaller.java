@@ -2,6 +2,7 @@ package com.gameloft.android.GAND.GloftD2SS.installer;
 
 import android.R;
 import android.app.Activity;
+import com.gameloft.android.GAND.GloftD2SS.PortCompat;
 import android.app.AlertDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -381,7 +382,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
             this.bf = new l(this);
             IntentFilter intentFilter = new IntentFilter();
             intentFilter.addAction("android.net.wifi.STATE_CHANGE");
-            registerReceiver(this.bf, intentFilter);
+            PortCompat.registerReceiver(this, this.bf, intentFilter);   // Port (SDK1): API 34 receiver flag
         }
     }
 
@@ -557,7 +558,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
         if (this.b == null) {
             this.b = (NotificationManager) getSystemService("notification");
         }
-        this.bl = PendingIntent.getActivity(this, 0, new Intent(this, (Class<?>) GameInstaller.class), 0);
+        this.bl = PendingIntent.getActivity(this, 0, new Intent(this, (Class<?>) GameInstaller.class), PendingIntent.FLAG_IMMUTABLE);   // Port (SDK1): API 31 mutability flag
         this.bk = new Notification();
         this.bk.icon = com.gameloft.android.GAND.GloftD2SS.bp.icon;
         this.bk.when = System.currentTimeMillis();
@@ -626,7 +627,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
             if (this.b == null) {
                 this.b = (NotificationManager) getSystemService("notification");
             }
-            this.bl = PendingIntent.getActivity(this, 0, new Intent(this, (Class<?>) GameInstaller.class), 0);
+            this.bl = PendingIntent.getActivity(this, 0, new Intent(this, (Class<?>) GameInstaller.class), PendingIntent.FLAG_IMMUTABLE);   // Port (SDK1): API 31 mutability flag
             this.bk = new Notification();
             this.bk.icon = com.gameloft.android.GAND.GloftD2SS.bp.icon;
             this.bk.when = System.currentTimeMillis();
@@ -684,7 +685,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
         this.bf = new l(this);
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction("android.net.wifi.STATE_CHANGE");
-        context.registerReceiver(this.bf, intentFilter);
+        PortCompat.registerReceiver(context, this.bf, intentFilter);   // Port (SDK1): API 34 receiver flag
     }
 
     private void a(String str, String str2) {
@@ -972,7 +973,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
                         this.bf = new l(this);
                         IntentFilter intentFilter = new IntentFilter();
                         intentFilter.addAction("android.net.wifi.STATE_CHANGE");
-                        registerReceiver(this.bf, intentFilter);
+                        PortCompat.registerReceiver(this, this.bf, intentFilter);   // Port (SDK1): API 34 receiver flag
                     }
                     this.bQ = System.currentTimeMillis();
                     b(com.gameloft.android.GAND.GloftD2SS.bs.data_downloader_buttons_layout, 23);
@@ -2483,7 +2484,7 @@ public class GameInstaller extends Activity implements com.gameloft.android.GAND
         Tracking.init(mDeviceInfo);
         IntentFilter intentFilter = new IntentFilter("android.intent.action.AIRPLANE_MODE");
         this.be = new k(this);
-        registerReceiver(this.be, intentFilter);
+        PortCompat.registerReceiver(this, this.be, intentFilter);   // Port (SDK1): API 34 receiver flag
         m_sInstance = this;
     }
 

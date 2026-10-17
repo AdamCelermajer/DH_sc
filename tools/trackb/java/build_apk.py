@@ -5,7 +5,7 @@ Same pipeline AGP runs: aapt2 compile/link -> javac -> d8 -> zip -> zipalign (16
 Use this when Gradle cannot run (e.g. a sandbox without Selector/loopback support); `./gradlew assembleDebug` in
 port/android-trackb builds the same sources and is the canonical build.
 
-usage: py -3 tools/trackb/java/build_apk.py [--out build/own-j/apk-out] [--min-sdk 26] [--target-sdk 28]
+usage: py -3 tools/trackb/java/build_apk.py [--out build/own-j/apk-out] [--min-sdk 26] [--target-sdk 35]
 Prerequisite: py -3 tools/trackb/java/import_resources.py   (res/, assets, resources, jniLibs; none of it is tracked)
 Output (untracked): <out>/dh2-java-debug.apk
 """
@@ -29,7 +29,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--out", default=os.path.join(ROOT, "build", "own-j", "apk-out"))
     ap.add_argument("--min-sdk", type=int, default=26)
-    ap.add_argument("--target-sdk", type=int, default=28)
+    ap.add_argument("--target-sdk", type=int, default=35)
     ap.add_argument("--version-code", type=int, default=102)
     ap.add_argument("--version-name", default="1.0.2")
     a = ap.parse_args()

@@ -45,7 +45,7 @@ Then tap the Dungeon Hunter 2 icon. (Copying the zip to the phone with a file ma
 root-only way to push extracted files directly; it is not needed any more. Uninstalling the app deletes the unpacked data (the zip stays).
 
 Start-up differences from the original, on purpose: the launcher is `DataSetup`, not the Samsung DRM activity `Zirconia_DRM` (its licence server is gone;
-offline it ends in an error dialog). `targetSdk` is 28 (no "built for an older version of Android" dialog on Android 14 to 17).
+offline it ends in an error dialog). `targetSdk` is 35 for the source/bundled APKs (28 for the origdex one); no "built for an older version of Android" dialog on Android 14 to 17.
 
 ## Bundled APK (one file, no data copy)
 

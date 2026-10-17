@@ -72,7 +72,10 @@ def run(*a, **k):
 
 
 def keystore():
-    for ks in (os.path.join(OUTROOT, "debug.keystore"), os.path.join(os.path.expanduser("~"), ".android", "debug.keystore")):
+    # The user's ~/.android/debug.keystore first: every published release (DH2-trackb-builds) is signed with it, and an APK
+    # signed with another key cannot update an installed one (testers would have to uninstall and lose their saves). A
+    # per-out-root keystore is only a fallback for machines without one.
+    for ks in (os.path.join(os.path.expanduser("~"), ".android", "debug.keystore"), os.path.join(OUTROOT, "debug.keystore")):
         if os.path.exists(ks):
             return ks
     ks = os.path.join(OUTROOT, "debug.keystore")
@@ -113,7 +116,9 @@ def main():
     ap.add_argument("--out-root", help="output root instead of build/own-ab")
     ap.add_argument("--build-dir", help="native build dir instead of build/own-ab-arm64")
     ap.add_argument("--min-sdk", type=int, default=26)
-    ap.add_argument("--target-sdk", type=int, default=28)
+    ap.add_argument("--target-sdk", type=int, default=35, help="targetSdk of the source-built / bundled APK (Port SDK1: 35)")
+    ap.add_argument("--orig-target-sdk", type=int, default=28, help="targetSdk of the origdex variant: the original, unpatched 2011 dex does registerReceiver without flags, "
+                    "unguarded Bluetooth/PendingIntent(0) calls etc., which throw from targetSdk 31/34 on, so it stays at 28")
     a = ap.parse_args()
     global OUTROOT, OUT, BUILD
     if a.out_root:
@@ -168,7 +173,14 @@ def main():
         ds_classes = [os.path.join(ds, f) for f in os.listdir(ds) if f == "DataSetup.class" or f.startswith("DataSetup$")]
         run(BT + "/d8" + BAT, "--min-api", a.min_sdk, "--lib", PLAT + "/android.jar", "--classpath", os.path.join(jout, "classes.jar"),
             "--output", d8dir, *ds_classes)
-        manifest = zipfile.ZipFile(os.path.join(jout, "base.apk")).read("AndroidManifest.xml")
+        # Port (SDK1): the origdex manifest is compiled from the same source manifest with its own (lower) targetSdk; the resource ids stay pinned
+        if a.orig_target_sdk != a.target_sdk:
+            ojout = os.path.join(OUTROOT, "java-out-orig")
+            run(sys.executable, os.path.join(ROOT, "tools", "trackb", "java", "build_apk.py"), "--out", ojout,
+                "--min-sdk", a.min_sdk, "--target-sdk", a.orig_target_sdk)
+        else:
+            ojout = jout
+        manifest = zipfile.ZipFile(os.path.join(ojout, "base.apk")).read("AndroidManifest.xml")
         raw = os.path.join(OUTROOT, "dh2-origdex-raw.apk")
         zi = zipfile.ZipFile(a.apk)
         with zipfile.ZipFile(raw, "w", zipfile.ZIP_DEFLATED) as zo:
