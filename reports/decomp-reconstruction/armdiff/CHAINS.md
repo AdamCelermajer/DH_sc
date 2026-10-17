@@ -111,3 +111,49 @@ differences (pool allocator), and a few return values that are void/leftover reg
   objects) are not covered; `ObjectManager` and real Characters are in place for a follow-up.
 - Heap blocks of classes with STL members are compared outside the containers only; allocation order is not compared (STLport pool).
 - Full-file savegame load/save (`Savegame::load`, jobs thread) needs the file-system write seam; sections are covered.
+
+## Extension 3: swamp-king ranged cycle, "the boss never burrows at range" (owner C2, 2026-10-17)
+
+Question: where does the reconstruction's state timeline of `_prim_Boss_SwampKing_01` (intimidate -> 0.5 s -> spit, 15 s dive tick) leave the original's?
+Result: **no divergence found**; every function on the path was compared against the listing and is equal. Details below so the next owner does not repeat them.
+
+**Why no Unicorn chain for the cycle.** The cycle is driven by animation events (`CharAnimator::__Callback` from the glitch timeline -> `Update` -> events 35/34/37/39 -> `CSAnim::OnEvent`
+/ `CSSkill` -> `OnEndOfAnim` in Lua). The harness Characters have no visual object (no loaded `.bdae`, no `AnimSetController`), so `_SetAnimStep` takes its `ANIM_Stop` path and no clip ever ends.
+Loading the original's collada database + animation set in Unicorn was not attempted (hours; would need the whole glitch scene stack in the chain image). The timers/AI/Lua part is runnable but
+adds nothing: it is the same code (below).
+
+**Listing vs port, instruction-level reads (IDA), all equal:** `CharTimers::Update` (0x3db640: `m_active` cleared *before* `RaiseEvent` for a one-shot, slot pointer re-derived from the vector begin, count fixed on entry),
+`_findTimerSlot` (0x3dbd70, lowest inactive slot), `TMR_Start` (0x3dbe24), `Character::_StartTimer` (0x3b7590, repeat -1 only for a true `args[1]`), `_StopTimer`, `Value::getBool` (0x31bc80),
+`AISDefault::OnScriptTimer` (0x3dcc80, integer id), `Character::RaiseEvent` (0x3a4d5c), `CharAI::OnInit/AI_ScriptInit` (0x3d12b0/0x3cfde4: stop old, start new, same slots 0/1),
+`Character::_PlayAnim` (0x3ba388: rows 15..20/21..25 patched, loop = bool arg 3), `_GetState` (0x3b6d78) / `SM_GetState`, `CSAnim::OnInit/OnEvent/OnUpdate`, `CSSkill::OnInit/OnFocus`, `CSIdle`,
+`CharAnimator::Update` (0x3caf3c), `_SetAnimStep` (0x3ca79c, incl. PlayClip/SetScale arguments and the swoosh/sound logic), `ANIM_AddSetToRenderObject`, `AnimApplicator::CheckCallback`,
+`BlendedAnimSetController::PlayClip`, `AnimatorBlender::Blend`, `CharAI::_UpdateTarget` + `AI_IsInRange/AI_IsInCloseRange/AI_IsInSight`, `Character::CanRangeAttack` (both overloads),
+`AISDefault::OnUpdate`. `CharAnimator::CalculateExtraTime` (0x3c90f8) has no caller in the binary either (only a dynsym entry), so `m_extraTime` stays 0 in both.
+
+**Data checked (animations_pyarray.bin parsed by hand, .bdae clip ranges):** AnimTable rows 15..19 = {step0 anim -1 (patched by `PlayAnim`), step1 `Redir` to rows 20..24}; rows 20..24 = {loop -1, type 0, step0 anim -1 (patched with the
+2nd Lua argument, nil -> -1 -> `ANIM_Stop` -> event 34)}. Spit skill row 667 = pre_attack_03 (clip 0..1200 ms) + attack_03 (1200..1600) + post_attack_03 (1600..2333) = 1.3 / 0.46 / 0.77 s as measured
+(`attack_spit.bdae`, 2133 ms, is not on this path). `swampking_intimidate` clip 0..2400 ms (+100 ms blend = the 2.5 s seen); `swampking_idle` 5333 ms in 3 segments.
+
+**Lua/timer finding (agrees with Q3, and the original does the same).** A one-shot retry started from inside its own one-shot callback gets the firing slot back (it was cleared before the event), so `_commons.OnTimer`'s
+`TimerEvents[id] = nil` after the callback removes the new callback; the retry chain has two attempts per 15 s tick (tick + first retry) in the binary too. Q3's looping-retry override (build/own-q3-run/instr_ovr.py, not in
+port/lua-scripts) hides this, it is not an engine fix.
+
+**Timeline arithmetic (unmodified script, ours).** Timers 2 (1.5 s attack-ready) and 3 (15 s dive tick) start together, so the tick always coincides with attack-ready grid 10. The cycle is 4 grid steps (6.0 s: intimidate 2.5 + gap 0.5 +
+spit 2.47, spit ends 0.44 s before the next grid). With the hero in range at grid 1 the ticks fall alternately 1.5 s (intimidate) and 4.5 s (spit) into a cycle, and the first retry (+0.5 s) is in the same state: never Idle.
+Anything that moves a tick by more than ~0.4 s relative to the cycle (a different activation phase, a cycle longer than 6.0 s, an Idle gap) dives at the first tick. Runs (host runner, `timers SwampKing` every 15 frames; a dive shows
+as the 500/1000/3000 ms slots 4..6): 4 arrival phases x 6 ticks, dt 16/22/41/50 ms x 6..20 ticks, gap timer 0.7 s and 1.0 s: no dive. With Q3's looping retry: dive at the first tick.
+
+**Open (needs the original's timeline, which only an emulator or the glitch-in-Unicorn chain can give):** whether the original's cycle is longer than 6.0 s or its boss starts timers at another phase. Candidates not ruled out by listing reads because they live in the
+reconstructed glitch timeline (`CTimelineController` end-of-range callback timing, segment handling: idle has 3 segments, intimidate 2, the port raises one end event per clip), or in the encounter script (when the boss first reports Idle / when the cut scene releases it).
+
+### Extension 3b: attempt to run the original's swamp-king cycle with a real visual object (owner C2, same day)
+
+Probe chain `swk_probe` (`tools/trackb/armdiff/chains/swk.py`, run `py -3 tools/trackb/armdiff/chain.py swk_probe -v`; ~25 s; a probe, not a MATCH test, it is not in the ctest list). It builds the boss (CharacterTable row 358 "SwampKing") with the original `Character` constructor and then asks the original `GameObject::SetVisualObject(model, null, true)` for its visual. Hops cleared so far, each an environment piece the original normally gets from `createDeviceEx` / `CAndroidOSDevice`:
+1. `CResFileManager::Inst` was null -> `CResFileManager(IDevice*)` on a fake device block (+0x34 = glitch file system from `glitch::io::createFileSystem`, +0x10 = video driver; the same fake device is the `Application::m_device`).
+2. `fopen/fread/fseek/ftell/rewind` models over the real data folder (the glitch `CReadFile` is stdio): `data/3D/characters/swampking/swampking.bdae` is found and opened by the original loader.
+3. `SharedStringHeap` null -> call `glitch::core::detail::(anon)::initSharedStringHeap(true)`.
+4. `glitch::video::createNullDriver(device)` then runs to the end (driver, `CNullShaderManager`, `CMaterialRendererManager` all constructed; `CNullShaderManager::createShader` returns a shader when called alone).
+5. The original now loads the swamp king model and starts building its materials (`GL_Diffuse_L1_VC_iPhone.bdae` is opened).
+**Blocked at:** `createMaterialRendererForProfile<SProfileNullTraits>` (0x6357a0) calls `IShader::getParameterID` on a null shader from a technique's render-pass table (read@0x4 at +0x814 of that function), i.e. `CMaterialRendererManager::addRenderPass`/`endTechnique` state that I could not reproduce with the pieces above; I stopped there because the remaining road is long and each hop is an unmodelled engine service, not game logic: material/technique state, textures through the null driver, the skeleton/skin (`VisualObject`), `AnimSetManager` + `CharAnimator::_CompileAnimSet` (anim set from ~40 bdae), `ScriptManager`/`LuaManager` with the boss script and `PlayerManager`/hero for the target, then 600 frames of `Character::Update` with a per-frame log. None of it is a conceptual obstacle (nested emulation is not needed; the Lua VM is the original's own and `ai_update` already runs it), the cost is engineering time: I estimate another day for the visual and one more for the cycle.
+Side finding of the probe: on the reconstruction side `CharProperties::RecalcProperties` faults for the boss row in the chain (`null_access read@0xffffffff` in `RecalcProperty+0x47c`; the original side runs it). The host runner builds the same boss without a fault, so this is probably a chain-environment difference (an index of -1 into a table the chain has not filled), but it is unexplained and should be looked at before a recon-side cycle is attempted.
+Alternative for the native-timeline comparison without a visual: drive `CharAnimator` with fake clip-end events (set `m_animFinished` and call `Update` at the clip lengths read from the .bdae files: intimidate 2400 ms, pre/attack/post_03 1200/400/733 ms) on both sides. That compares the transition logic but, by construction, not the clip timing that is the open question.
