@@ -33,6 +33,15 @@ function open(wsUrl) {
                     if (r.exceptionDetails) throw new Error(r.exceptionDetails.exception ? r.exceptionDetails.exception.description : r.exceptionDetails.text);
                     return r.result.value;
                 },
+                waitFor: async (expr, ms) => {
+                    const end = Date.now() + (ms || 15000);
+                    for (;;) {
+                        const r = await send("Runtime.evaluate", { expression: "!!(" + expr + ")", returnByValue: true });
+                        if (r.result && r.result.value) return;
+                        if (Date.now() > end) throw new Error("timeout waiting for " + expr);
+                        await new Promise((res) => setTimeout(res, 200));
+                    }
+                },
                 shot: async (file) => { const r = await send("Page.captureScreenshot", { format: "png", captureBeyondViewport: false }); fs.writeFileSync(file, Buffer.from(r.data, "base64")); },
                 size: (w, h, mobile) => send("Emulation.setDeviceMetricsOverride", { width: w, height: h, deviceScaleFactor: 1, mobile: !!mobile }),
                 close: () => ws.close(),

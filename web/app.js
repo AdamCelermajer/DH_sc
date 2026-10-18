@@ -128,10 +128,9 @@
         r("Requirements", text(d.reqs));
         r("Difficulty row", esc(d.difficulty));
         if (d.set) r("Armour set", esc(d.set.name) + ' <span class="muted">(all five pieces: trophy ' + esc(d.set.trophy) + ")</span>");
-        r("Value", String(d.value));
+        r("Item value", d.value + ' <span class="muted">(the base of all prices; the game&#39;s Transmute box shows the gold for this hero)</span>');
         r("Sell price", d.prices.sellMin === d.prices.sellMax ? String(d.prices.sellMin) : d.prices.sellMin + " - " + d.prices.sellMax +
             ' <span class="muted">(merchants buy at ' + d.prices.buyPctMin + "-" + d.prices.buyPctMax + "% of value)</span>");
-        r("Reforge gold", d.prices.transmute + ' <span class="muted">(base; the game adds the hero's transmute bonus)</span>');
         if (it) {
             if (it.slot0 >= 0 || it.slot1 >= 0) r("Equipped", [it.slot0 >= 0 ? "set 1: " + slotLabel(it.slot0) : "", it.slot1 >= 0 ? "set 2: " + slotLabel(it.slot1) : ""].filter(Boolean).join(", "));
             r("Quantity", String(it.qty));

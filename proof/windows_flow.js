@@ -16,9 +16,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     const shot = async (n) => { await sleep(400); await c.shot(path.join(shots, n)); console.log("shot " + n); };
     await shot("win-01-start.png");
     // folder location: type the path and press "Open folder"
+    await c.waitFor("document.querySelector('#sources input')");
     await c.eval(`(() => { const inp = document.querySelector('#sources input'); inp.value = ${JSON.stringify(folder)}; document.querySelector('#sources button').click(); })()`);
     await sleep(1200);
     await shot("win-02-list.png");
+    await c.waitFor("document.querySelector('#savelist .item')");
     await c.eval(`document.querySelector('#savelist .item').click()`);
     await sleep(1000);
     await shot("win-03-opened.png");

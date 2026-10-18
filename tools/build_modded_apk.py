@@ -57,6 +57,13 @@ def main():
     ap.add_argument("--version-code", type=int, default=102)
     ap.add_argument("--version-name", default="1.0.2")
     a = ap.parse_args()
+    # JDK: JAVA_HOME, else Android Studio's bundled one (d8/apksigner need it too)
+    if not os.environ.get("JAVA_HOME"):
+        for cand in (r"C:/Program Files/Android/Android Studio/jbr",):
+            if os.path.isdir(cand):
+                os.environ["JAVA_HOME"] = cand
+    if os.environ.get("JAVA_HOME"):
+        os.environ["PATH"] = os.path.join(os.environ["JAVA_HOME"], "bin") + os.pathsep + os.environ["PATH"]
     dh = os.path.abspath(a.dh_noam)
     sdk = a.sdk or os.path.join(dh, "build", "sdk")
     bt, plat = sdk + "/build-tools/37.0.0", sdk + "/platforms/android-37.0"
@@ -87,7 +94,7 @@ def main():
     cls = os.path.join(work, "classes")
     os.makedirs(cls)
     srcs = [os.path.join(dp, f) for dp, _, fs in os.walk(os.path.join(REPO, "android", "src")) for f in fs if f.endswith(".java")]
-    run("javac", "-nowarn", "-encoding", "UTF-8", "--release", "17", "-cp", plat + "/android.jar", "-d", cls, *srcs)
+    run(shutil.which("javac") or "javac", "-nowarn", "-encoding", "UTF-8", "--release", "17", "-cp", plat + "/android.jar", "-d", cls, *srcs)
     dexdir = os.path.join(work, "dex")
     os.makedirs(dexdir)
     classes = [os.path.join(dp, f) for dp, _, fs in os.walk(cls) for f in fs if f.endswith(".class")]
