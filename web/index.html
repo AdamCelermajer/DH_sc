@@ -34,13 +34,16 @@
       </div>
       <div class="box">
         <label for="potions">Potions</label>
-        <div class="row"><input id="potions" type="number" min="0" step="1" inputmode="numeric"></div>
+        <div class="row"><input id="potions" type="number" min="0" step="1" inputmode="numeric" class="wide"></div>
         <div class="muted" id="potionnote"></div>
       </div>
     </div>
     <div class="row tabs">
       <button id="tab-inv" class="tab on">Inventory</button>
       <button id="tab-add" class="tab">Add item</button>
+      <select id="group" title="How the inventory and the item catalog are organised">
+        <option value="set">Group by set</option><option value="type">Group by slot / type</option><option value="none">No groups</option>
+      </select>
     </div>
     <div id="inv"></div>
     <div id="add" class="hidden">
@@ -51,6 +54,7 @@
         <input id="fmin" type="number" placeholder="min lvl" min="0">
         <input id="fmax" type="number" placeholder="max lvl" min="0">
         <select id="fdiff"><option value="">all difficulties</option><option>Normal</option><option>Hard</option><option>Very Hard</option></select>
+        <label class="chk"><input id="fuse" type="checkbox"> only items the hero can use</label>
       </div>
       <div id="catalog"></div>
     </div>
@@ -65,6 +69,7 @@
 
 <!-- item details / item builder -->
 <div id="sheet" class="sheet hidden"><div class="sheetbody" id="sheetbody"></div></div>
+<div id="dlg" class="sheet dlgwrap hidden"><div class="sheetbody dlg" id="dlgbody"></div></div>
 <div id="toast" class="toast hidden"></div>
 
 <script src="itemdata.js"></script>

@@ -37,7 +37,8 @@ import java.util.regex.Pattern;
  * same files as the Windows app). This class is only the file bridge (window.AndroidHost):
  *  - it lists the player saves (dh2_NNN.savegame) and their checkpoint copies;
  *  - it refuses every write while the game process (the package's main process) exists: the game keeps the hero in
- *    memory and would write it back over the edit. The UI offers to stop it;
+ *    memory and would write it back over the edit. The UI asks the user first ("The game is running. Unsaved progress in
+ *    the game will be lost. Stop the game and save?") and only then calls stopGame; it never stops the game silently;
  *  - before a write it copies the file to files/editor-backups/<name>.<date> and to <name>.bak (the game's own backup
  *    name, Savegame::UpdateJobs), then writes the new bytes to a temporary file and renames it over the save.
  */
@@ -169,7 +170,7 @@ public class SaveEditorActivity extends Activity {
         @JavascriptInterface
         public String write(String name, String b64) {
             if (gamePid() != 0) {
-                return err("The game is still running (also in the background). Use \"Stop the game\" or swipe it away from recent apps, then save again.");
+                return err("The game is still running (also in the background). Nothing was written. Close it from the recent apps, then press Save again.");
             }
             try {
                 File f = named(name);
@@ -200,7 +201,8 @@ public class SaveEditorActivity extends Activity {
             return "{\"running\":" + (gamePid() != 0) + "}";
         }
 
-        /** Ends the game's process (same app, same user id) so that a save can be written safely. */
+        /** Ends the game's process (same app, same user id) so that a save can be written safely. Only called by the UI after
+         *  the user confirmed the "The game is running ... Stop the game and save?" dialog. */
         @JavascriptInterface
         public String stopGame() {
             int pid = gamePid();

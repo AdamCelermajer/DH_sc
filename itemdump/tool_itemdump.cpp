@@ -226,8 +226,11 @@ void Dump(std::FILE* f) {
         const Structs::CharacterProperties* row = TableRow<Structs::CharacterProperties>(Arrays::CharacterTable::members, i);
         const std::int32_t* words = &row->AIFaction;
         if (std::strstr(name, "PlayerBase") == nullptr && words[194] == 0) continue;
-        std::fprintf(f, "%s{\"row\":%d,\"key\":%s,\"maxPotions\":%d,\"transmuteBonus\":%d,\"classString\":%d}", firstClass ? "" : ",", i, J(name).c_str(), words[194], words[197],
-                     row->ClassString);
+        // words 19 (Level) and 149..156 (Stat_Strength/Dexterity/Endurance/Energy, Prereq_*): the class's starting sheet; the
+        // save's PROP section holds the hero's changes to it (PlayerSavegame::__SaveProperties), IsEquippableBy compares the sum.
+        std::fprintf(f, "%s{\"row\":%d,\"key\":%s,\"maxPotions\":%d,\"transmuteBonus\":%d,\"classString\":%d,\"level\":%d,\"stats\":[%d,%d,%d,%d,%d,%d,%d,%d]}",
+                     firstClass ? "" : ",", i, J(name).c_str(), words[194], words[197], row->ClassString, words[19], words[149], words[150], words[151],
+                     words[152], words[153], words[154], words[155], words[156]);
         firstClass = false;
     }
     std::fprintf(f, "],\n");

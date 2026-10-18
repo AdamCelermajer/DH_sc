@@ -10,12 +10,13 @@ const DH2 = require(path.join(__dirname, "..", "web", "dh2save.js"));
 const data = new DH2.ItemData(fs.readFileSync(process.argv[2], "utf8"));
 let fails = 0;
 const fail = (m) => { console.log("FAIL " + m); fails++; };
+const same = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
 
 for (const f of process.argv.slice(3)) {
     const bytes = new Uint8Array(fs.readFileSync(f));
     let c;
     try { c = DH2.parseContainer(bytes); } catch (e) { console.log("not a section file (" + e.message + "): " + path.basename(f)); continue; }
-    const same = (a, b) => a.length === b.length && a.every((x, i) => x === b[i]);
+
     if (!same(DH2.writeContainer(c), bytes)) fail(f + ": container round trip differs");
     let save;
     try { save = new DH2.Save(bytes); } catch (e) { console.log("container only (" + e.message.split(":")[0] + "): " + path.basename(f) + " ok, " + c.sections.map((s) => s.name).join(",")); continue; }
@@ -56,6 +57,38 @@ if (first) {
     if (back.gear.items.length !== save.gear.items.length) fail("item count");
     console.log("edit ok: gold " + back.gear.gold + ", potions " + back.gear.items[DH2.potionIndex(back, data)].qty + ", added " + JSON.stringify(back.gear.items[back.gear.items.length - 1]));
     if (data.checkPowers(data.itemByKey.Longsword01, [0, 1, 2, 3, 4]) === null) fail("an impossible 5-power sword was accepted");
+
+    // potions: any non-negative int32 (no 0..5 cap), round trip through the bytes
+    for (const n of [6, 250, 99999, DH2.MAX_POTIONS, 0, 7]) {
+        const s2 = new DH2.Save(new Uint8Array(fs.readFileSync(first)));
+        DH2.setPotions(s2, data, n);
+        const b2 = new DH2.Save(s2.toBytes());
+        const pi = DH2.potionIndex(b2, data);
+        const got = pi >= 0 ? b2.gear.items[pi].qty : 0;
+        if (got !== n) fail("potions " + n + " read back as " + got); else console.log("potions " + n + " round trip ok");
+        if (n === 7 && !same(new DH2.Save(b2.toBytes()).toBytes(), b2.toBytes())) fail("potions re-save not identical");
+    }
+    for (const bad of [-1, DH2.MAX_POTIONS + 1, NaN]) {
+        let threw = false; try { DH2.setPotions(save, data, bad); } catch (e) { threw = true; }
+        if (!threw) fail("potions " + bad + " accepted");
+    }
+
+    // hero attributes and equip rules (compare with the game's Stats screen when the save is the owner's Warrior)
+    const h = data.hero(save);
+    console.log("hero " + data.heroClassLabel(h.cls) + " level " + h.level + " str/dex/end/ene " + h.attrs.join("/"));
+    for (const it of save.gear.items) {
+        const id = data.itemByKey[it.key];
+        if ((it.slot0 >= 0 || it.slot1 >= 0) && data.cannotUse(id, h).length) fail("equipped " + it.key + " marked unusable: " + data.cannotUse(id, h));
+    }
+    if (h.cls === "KnightPlayerBase" && !data.cannotUse(data.itemByKey.Archer_LeatherArmor01, h).some((r) => /^class/.test(r))) fail("archer armour usable by a warrior");
+
+    // sets and bonus categories
+    const fam = data.setOf(data.itemByKey.PlateArmor02), mar = data.setOf(data.itemByKey.PlateBoots03), mk = data.setOf(data.itemByKey.Archer_LeatherArmor01);
+    if (!fam || fam.name !== "Soldier" || !mar || mar.name !== "Marauder" || !mk || mk.name !== "Marksman" || !mk.game) fail("set names " + JSON.stringify([fam, mar, mk]));
+    const other = data.powers.filter((p) => p.id > 0 && data.powerInfo(p.id).category === "Other").map((p) => p.key);
+    if (other.length) fail("powers without a category: " + other.slice(0, 5));
+    const pi = data.powerInfo(data.powerByKey.Strength_03_Hard);
+    if (pi.category !== "Attributes" || pi.tier !== 3 || pi.difficulty !== "Hard") fail("powerInfo " + JSON.stringify(pi));
 }
 console.log(fails ? fails + " failure(s)" : "all checks passed");
 process.exit(fails ? 1 : 0);

@@ -106,6 +106,11 @@ def main():
         "merchants": [{"key": m["key"], "buy": m["buy"], "sell": m["sell"]} for m in raw["merchants"]],
         "constants": raw["constants"],
         "powerColors": raw["powerColors"],
+        # player class rows of CharacterTable: starting Level and Stat_*/Prereq_* words (x256), and where those words sit in
+        # the save's PROP section (PlayerSavegame::__SaveProperties writes property i as word i after the count)
+        "playerClasses": [{"key": c["key"], "level": c.get("level"), "stats": c.get("stats")} for c in raw["playerClasses"] if "PlayerBase" in c["key"]],
+        "propIndex": {k: raw["characterPropertyNames"].index(k) for k in ("Level", "Stat_Strength", "Stat_Dexterity", "Stat_Endurance", "Stat_Energy",
+                                                                       "Prereq_Strength", "Prereq_Dexterity", "Prereq_Endurance", "Prereq_Energy")},
         "languages": [{"pack": L["pack"], "key": L["key"], "file": L["file"], "items": L["items"], "powers": L["powers"]}
                       for L in raw["languages"]],
     }

@@ -14,10 +14,13 @@ What is in this folder
 PHONE
   1. Install the APK over your Track B game (same signature, it installs as an update; your saves stay):
      adb install -r dh2-trackb-v0.3.0-saveeditor.apk   (or open the APK file on the phone)
-  2. Close the game: swipe it away from the recent apps. The editor refuses to save while the game process lives,
-     because the game keeps the hero in memory and would write over the edit. It offers a "Stop the game" button.
+  2. Best: close the game first (swipe it away from the recent apps). The game keeps the hero in memory and would
+     write over the edit, so the editor never writes while the game process lives. If the game is still running when
+     you tap Save, the editor asks: "The game is running. Unsaved progress in the game will be lost. Stop the game and
+     save?" - Cancel leaves everything as it is; "Stop the game and save" ends the game (like swiping it away) and saves.
+     It never stops the game without asking.
   3. Open "DH2 Save Editor" from the app list, tap dh2_000.savegame (your hero), edit, tap Save.
-  4. Tap "Start the game".
+  4. After saving the editor offers "Start the game".
   Backups: before every save the editor copies the file to files/editor-backups/<name>.<date> and to <name>.bak
   (the game's own backup name) in the game folder /sdcard/Android/data/com.gameloft.android.GAND.GloftD2SS/files/.
   To undo: copy a file from editor-backups back over dh2_000.savegame (adb push, or a file manager that can open
@@ -34,10 +37,24 @@ WINDOWS
     %LOCALAPPDATA%\Android\Sdk\platform-tools), from PATH, or from an adb folder next to the exe. With more than one
     device connected, type the serial (adb devices) in the box.
 
+ORGANISED LISTS
+  * Inventory and "Add item" can be grouped by set (the game's armour sets such as Marksman or Lordly, and the
+    same-name armour families such as Soldier, Marauder, Captain: names from the game's text), by slot / type, or not.
+  * Every row shows the game's own stats and requirements texts (damage min-max, armour, block, level, str/dex/end/ene,
+    class). Items the hero cannot equip are greyed with the reason, using the game's rule (ItemInstance::IsEquippableBy:
+    level, the four attributes, class). Hero attributes = the class's starting values + points spent (from the save) +
+    bonuses of the items equipped in the active set; they match the game's Stats screen. Skill/potion buffs are not
+    in the save and not counted. "only items the hero can use" filters the catalog.
+  * Bonus picker: the bonuses of the chosen bonus pool, grouped by category (attributes, life and mana, elemental
+    damage, attack, defence, resistances, spells, loot), each kind with its versions and values side by side, and a
+    search box. Pools named "... power level 01 .. 08" hold weaker .. stronger versions of the same bonuses (L01 weakest).
+    Only combinations the game can drop can be picked (same loot-rule checks as before).
+
 EDITING RULES (from the original code)
   * Gold: 0 .. 999,999,999 (ItemInventory::m_maxGold of a player).
-  * Potions: one kind (Potion0). Up to 5 (a new hero's stack) or the count the save already has, whichever is higher.
-    The real cap (property Special_Loot_Max_Potions) is computed at run time by skill scripts and is not stored.
+  * Potions: one kind (Potion0). Any whole number 0 .. 2,147,483,647: the save stores the count as a 32-bit number. A
+    new hero starts with 5; the game's own pick-up cap (Special_Loot_Max_Potions) comes from skills at run time. Big
+    stacks are the user's choice.
   * Rarity: the game colours an item by its number of bonuses: 0 White, 1 Green, 2 Blue, 3 Purple, 4 Gold
     (ItemInstance::GetColor, FontPalette). There are no rarity names in the game's text.
   * New items: only rows some loot table can drop (not gold, potions, quest items). Bonuses come from that loot

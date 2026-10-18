@@ -28,7 +28,8 @@
     "use strict";
 
     const MAX_GOLD = 999999999;            // ItemInventory::m_maxGold of a player
-    const DEFAULT_POTION_CAP = 5;          // a new hero's starting stack (BasePlayerInventory); see potionCap()
+    const DEFAULT_POTION_CAP = 5;          // a new hero's starting stack (BasePlayerInventory), shown as information only
+    const MAX_POTIONS = 2147483647;        // the stack count is an int32 in GEAR (__SaveInventory); the editor allows 0..2^31-1
 
     // ---------------------------------------------------------------- bytes
     function Reader(bytes, pos, end) {
@@ -133,6 +134,19 @@
         try { const s = section(c, "PCLS"); if (s) info.cls = new Reader(s.data).str(); } catch (e) { }
         try { const s = section(c, "LNAM"); if (s) info.levelName = new Reader(s.data).str(); } catch (e) { }
         return info;
+    }
+
+    // PROP (PlayerSavegame::__SaveProperties 0x4689d8): int32 count (224), then property i as int32 word i (x256 fixed point
+    // for numbers), then one byte. These are the hero's changes to the class row's sheet (CharProperties::m_savedProps).
+    function parseProps(c) {
+        const s = section(c, "PROP");
+        if (!s || s.data.length < 4) return null;
+        const r = new Reader(s.data);
+        const n = r.i32();
+        if (n <= 0 || n > 4096 || 4 + 4 * n > s.data.length) return null;
+        const w = new Int32Array(n);
+        for (let i = 0; i < n; i++) w[i] = r.i32();
+        return w;
     }
 
     // ---------------------------------------------------------------- the save object
@@ -243,6 +257,133 @@
         };
     };
 
+    // ---------------------------------------------------------------- the hero and what he can use
+    // ItemInstance::IsEquippableBy (0x3fa330): Level >= LevelRequirement, Prereq_X + Stat_X >= XRequirement for the four
+    // attributes (all x256), and the class requirement 1..9 names one CharacterTable row that must be the hero's class.
+    const CLASS_ROWS = [null, "KnightPlayerBase", "KnightPlayerBase_Berserker", "KnightPlayerBase_Paladin", "RoguePlayerBase",
+        "RoguePlayerBase_Assassin", "RoguePlayerBase_Archer", "MagePlayerBase", "MagePlayerBase_Necromancer", "MagePlayerBase_Illusionist"];
+    const ATTRS = ["str", "dex", "end", "ene"];
+    // Starting Strength/Dexterity/Endurance/Energy of each class. They are in no table (the CharacterTable player rows hold
+    // 0; the class setup scripts put them on the base sheet), so they were read off the game's own Stats screen: the
+    // reconstructed game (host runner) showing a real level 6 and level 12 Warrior save, and the same save with only its
+    // PCLS class changed, minus the save's spent points and the equipped item bonuses. Subclasses keep their class's values.
+    const CLASS_START = { Knight: [10, 5, 8, 3], Rogue: [5, 10, 6, 5], Mage: [4, 6, 6, 10] };
+    function classStart(cls) { const m = /^(Knight|Rogue|Mage)PlayerBase/.exec(cls || ""); return m ? CLASS_START[m[1]] : null; }
+    // "KnightPlayerBase_Berserker" -> "Knight / Berserker"; the game calls the Knight class "Warrior".
+    ItemData.prototype.heroClassLabel = function (cls) {
+        const m = /^(Knight|Rogue|Mage)PlayerBase(?:_(\w+))?$/.exec(cls || "");
+        if (!m) return cls || "?";
+        return (m[1] === "Knight" ? "Warrior" : m[1]) + (m[2] ? " / " + m[2] : "");
+    };
+    // The hero's sheet as far as the files tell it: the class row (CharacterTable) + the save's PROP changes + the bonuses
+    // of the items equipped in the active set (AllStats counts for all four). Skill and buff bonuses are not in any file.
+    ItemData.prototype.hero = function (save) {
+        const info = save.info, props = parseProps(save.container), P = this.d.propIndex || {};
+        const row = (this.d.playerClasses || []).find(function (c) { return c.key === info.cls; }) || null;
+        const start = classStart(info.cls);
+        const base = start ? start.slice() : [0, 0, 0, 0], spent = [0, 0, 0, 0], items = [0, 0, 0, 0];
+        const names = ["Strength", "Dexterity", "Endurance", "Energy"];
+        names.forEach(function (n, i) {
+            if (row && row.stats) base[i] += (row.stats[i] + row.stats[i + 4]) / 256;
+            if (props && P["Stat_" + n] !== undefined) spent[i] = (props[P["Stat_" + n]] + props[P["Prereq_" + n]]) / 256;
+        });
+        const set = save.gear.equipSet;
+        for (const it of save.gear.items) {
+            if ((set === 1 ? it.slot1 : it.slot0) < 0) continue;
+            for (const pk of it.powers) {
+                const p = this.powers[this.powerByKey[pk]];
+                if (!p) continue;
+                for (const a of p.attrBonus) {
+                    if (a[0] === 0) for (let i = 0; i < 4; i++) items[i] += a[1] / 256;
+                    else if (a[0] >= 1 && a[0] <= 4) items[a[0] - 1] += a[1] / 256;
+                }
+            }
+        }
+        const total = base.map(function (b, i) { return Math.floor(b + spent[i] + items[i]); });
+        const level = info.level !== undefined ? info.level : (row && props ? (row.level + props[P.Level]) >> 8 : 0);
+        return { level: level, cls: info.cls || "", classKnown: !!row, startKnown: !!start, attrs: total, base: base, spent: spent, items: items, fromSave: !!props };
+    };
+    // Reasons why this hero cannot equip the row (empty array = he can). hero = ItemData.hero(save).
+    ItemData.prototype.cannotUse = function (itemId, hero) {
+        const it = this.items[itemId], out = [];
+        if (!hero || it.type > 12 || it.type < 0) return out;
+        if (it.levelReq > hero.level) out.push("level " + it.levelReq + " (hero " + hero.level + ")");
+        const req = [it.strReq, it.dexReq, it.endReq, it.eneReq];
+        for (let i = 0; i < 4; i++) if (req[i] > hero.attrs[i]) out.push(req[i] + " " + ATTRS[i] + " (hero " + hero.attrs[i] + ")");
+        if (it.classReq >= 1 && it.classReq <= 9 && CLASS_ROWS[it.classReq] !== hero.cls) {
+            const parts = String(this.text(itemId)[2] || "").split(/[,，、]\s*/);
+            out.push("class: " + (it.classReq && parts.length > 1 ? parts[parts.length - 1].trim() : (this.className[it.classReq] || "")));
+        }
+        return out;
+    };
+
+    // ---------------------------------------------------------------- sets and groups
+    // Armour sets: the game's own sets (it.set: the trophy sets of ItemInventory::TrophyCheckArmorSet), else the armour
+    // family the item rows share (<Class_>Plate|Leather|Cloth<Piece>NN, one name per family in the game's text, e.g.
+    // "Soldier Armor/Belt/Boots/..."), which has no set bonus.
+    const FAMILY = /^(?:([A-Za-z]+)_)?(Plate|Leather|Cloth)(Armor|Belt|Boots|Gloves|Helm)(\d+)(?:_Hard|_VeryHard)?$/;
+    ItemData.prototype.setOf = function (itemId) {
+        const it = this.items[itemId];
+        if (it.set) return { key: "set:" + it.set[0], name: it.set[0], trophy: it.set[1], game: true };
+        const m = FAMILY.exec(it.key);
+        if (!m) return null;
+        const key = "fam:" + (m[1] || "") + m[2] + m[4];
+        return { key: key, name: this.familyName(key), material: m[2], game: false };
+    };
+    // The family's name in the current language: the words all its pieces' names share (Soldier Armor + Soldier Belt ->
+    // "Soldier"); the internal name when they share none.
+    ItemData.prototype.familyName = function (key) {
+        this._fam = this._fam || {};
+        const ck = this.lang + key;
+        if (ck in this._fam) return this._fam[ck];
+        let common = null;
+        for (const it of this.items) {
+            const m = FAMILY.exec(it.key);
+            if (!m || it.set || "fam:" + (m[1] || "") + m[2] + m[4] !== key || /_(Very)?Hard$/.test(it.key)) continue;
+            const w = String(this.text(it.id)[0] || "").split(/\s+/);
+            if (common === null) common = w;
+            else { let k = 0; while (k < common.length && k < w.length && common[k] === w[k]) k++; common = common.slice(0, k); }
+        }
+        const name = common && common.join(" ") ? common.join(" ") : key.slice(4);
+        this._fam[ck] = name;
+        return name;
+    };
+    ItemData.prototype.pieceOrder = function (itemId) { return [10, 7, 8, 12, 9, 6, 0, 1, 2, 3, 4, 5, 11].indexOf(this.items[itemId].type); };
+    const TYPE_LABEL = { 0: "One-hand weapons", 1: "Off-hand weapons", 2: "Two-hand weapons", 3: "Daggers and claws (either hand)", 4: "Bows",
+        5: "Staffs and wands", 6: "Shields", 7: "Body armour", 8: "Gloves and bracers", 9: "Boots", 10: "Helms", 11: "Rings", 12: "Belts",
+        13: "Gold", 14: "Potions", 15: "Valuables", 16: "Quest items" };
+    ItemData.prototype.typeLabel = function (type) { return TYPE_LABEL[type] || this.typeName[type] || String(type); };
+
+    // ---------------------------------------------------------------- bonus categories and tiers
+    // From the ItemBonusAttr ids of a power's first attribute bonus (ItemPowerRef.AttrBonusList).
+    const CATEGORIES = [
+        ["Attributes", [0, 1, 2, 3, 4]],
+        ["Life and mana", [5, 6, 20, 21, 22, 23, 37, 38]],
+        ["Elemental damage", [7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 49, 50, 51]],
+        ["Attack: damage, critical, attack rating", [24, 28, 29, 52, 53, 54, 55, 56, 57, 58]],
+        ["Defence: armour, block, dodge, defence rating", [25, 26, 27, 30]],
+        ["Resistances", [31, 32, 33, 34, 35, 36]],
+        ["Spells", [39, 40, 41, 42, 43, 44, 45, 46]],
+        ["Loot: gold and treasure find", [47, 48]],
+    ];
+    const FAMILY_LABEL = { AR: "Attack rating", DR: "Defence rating", HP: "Life (HP)", MP: "Mana (MP)", HPRegen: "Life regeneration",
+        MPRegen: "Mana regeneration", ItemPowerSpellCritical: "Spell critical", ItemPowerSpellToHit: "Spell hit chance", ElectricalDamage: "Lightning damage",
+        ResistElectrical: "Resist lightning", AllStats: "All attributes", LootGoldBonus: "Gold find", LootTreasureBonus: "Treasure find", Critical: "Critical chance",
+        Damage: "Damage %" };
+    ItemData.prototype.categories = function () { return CATEGORIES.map(function (c) { return c[0]; }).concat(["Other"]); };
+    // {category, family, label, tier (1..8 or 0), difficulty ("" | "Hard" | "Very Hard")}
+    ItemData.prototype.powerInfo = function (powerId) {
+        const p = this.powers[powerId];
+        const m = /^(.*?)(?:_(\d+))?(?:_(Hard|VeryHard))?$/.exec(p.key);
+        const fam = m[1];
+        const a = p.attrBonus.length ? p.attrBonus[0][0] : -1;
+        const cat = CATEGORIES.find(function (c) { return c[1].indexOf(a) >= 0; });
+        const label = FAMILY_LABEL[fam] || fam.replace(/^SpellBonusDamage(\w+)$/, "$1 spell damage").replace(/^Resist(\w+)$/, "Resist $1")
+            .replace(/([a-z])([A-Z])/g, "$1 $2").replace(/^(\w)/, function (x) { return x.toUpperCase(); });
+        return { category: cat ? cat[0] : "Other", family: fam, label: label, tier: m[2] ? +m[2] : 0,
+                 difficulty: m[3] === "VeryHard" ? "Very Hard" : (m[3] || "") };
+    };
+
     // ---------------------------------------------------------------- rules for new items
     // Item rows the editor may add: loot can create them (sources), and they are not gold (type 13: _AddItemInstance turns
     // a gold item into gold on load), not quest items (16, quest state) and not the potion (edited as a count).
@@ -341,15 +482,13 @@
     function potionIndex(save, data) {
         return save.gear.items.findIndex(function (it) { const id = data.itemByKey[it.key]; return id !== undefined && data.items[id].type === 14; });
     }
-    // Highest potion count the editor writes: a fresh hero's stack (5) or the count the save already has, whichever is
-    // larger. The real cap is Special_Loot_Max_Potions (property 194), computed at run time from skills by Lua scripts.
-    function potionCap(save, data) {
-        const i = potionIndex(save, data);
-        return Math.max(DEFAULT_POTION_CAP, i >= 0 ? save.gear.items[i].qty : 0);
-    }
+    // Highest potion count the editor writes: whatever the save's int32 quantity field holds (the owner's choice: no game
+    // cap). The game's own pick-up cap is Special_Loot_Max_Potions (property 194), computed at run time from skills.
+    function potionCap() { return MAX_POTIONS; }
     function setPotions(save, data, n, cap) {
-        n = Math.trunc(n);
-        if (!(n >= 0 && n <= cap)) throw new Error("potions must be 0.." + cap);
+        if (cap === undefined) cap = MAX_POTIONS;
+        n = Math.trunc(Number(n));
+        if (!(n >= 0 && n <= cap)) throw new Error("potions must be a whole number 0.." + cap);
         const i = potionIndex(save, data);
         if (i >= 0) {
             if (n === 0) save.gear.items.splice(i, 1);   // SetPotionQty(0) deletes the stack
@@ -366,7 +505,7 @@
     }
 
     return {
-        MAX_GOLD: MAX_GOLD, DEFAULT_POTION_CAP: DEFAULT_POTION_CAP, MAX_ITEMS: 100,
+        MAX_GOLD: MAX_GOLD, DEFAULT_POTION_CAP: DEFAULT_POTION_CAP, MAX_POTIONS: MAX_POTIONS, MAX_ITEMS: 100, parseProps: parseProps,
         parseContainer: parseContainer, writeContainer: writeContainer, parseGear: parseGear, writeGear: writeGear, replaceGear: replaceGear,
         Save: Save, ItemData: ItemData, potionIndex: potionIndex, potionCap: potionCap, setPotions: setPotions, setGold: setGold,
     };
