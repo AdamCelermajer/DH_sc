@@ -49,6 +49,7 @@
 //     pydata-accessors (array_strides.hpp, member_names.hpp).
 
 #include "dh2/global/native_gameswf_menus.hpp"
+#include "net-transport/net_trace.hpp"  // DH2_NET_TRACE_LOG (host runner only)
 
 #include <cstdio>
 #include <cstring>
@@ -682,6 +683,8 @@ void NativeGetMultiplayerGameRooms(const gameswf::fn_call& call) {
     gameswf::as_array* array = call.arg(0).is_object() ? gameswf::cast_to<gameswf::as_array>(call.arg(0).to_object()) : nullptr;
     if (array != nullptr) {
         std::vector<tRoomInfo> rooms = CMatching::Get()->GetRoomList();
+        DH2_NET_TRACE_LOG("[mp] NativeGetMultiplayerGameRooms: %zu rooms%s%s\n", rooms.size(), rooms.empty() ? "" : ", first id ",
+                          rooms.empty() ? "" : std::to_string(rooms[0].roomId).c_str());
         if (OnlineSingleton<OnlineGameState>::GetInstance()->mode_ != 2) {
             const_cast<std::vector<tRoomInfo>&>(OnlineSingleton<OnlineGameState>::GetInstance()->RoomInfos()) = rooms;  // +0x50
         }

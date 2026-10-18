@@ -1,4 +1,5 @@
 #include "net-session-online/c_matching_local.hpp"
+#include "net-transport/net_trace.hpp"  // DH2_NET_TRACE_LOG (host runner only)
 #include "net-session-online/deps/matching_queue.hpp"
 #include "net-transport/socket_platform.hpp"
 #include "net-transport/transport_manager.hpp"  // GetTransportMgr (the listen id in CreateJoinRoomInternal)
@@ -124,6 +125,7 @@ std::int32_t CMatchingLocal::SearchRoomInternal(CRoomSearchFilter& filter, bool 
     if (!initialized_) {
         return -1;
     }
+    DH2_NET_TRACE_LOG("[mp] SearchRoomInternal: Reset clears %zu servers (next key %d)\n", servers_.size(), nextPeerKey_);
     Reset();
     roomSearchFilter_ = filter;
     roomOperationPending_ = true;

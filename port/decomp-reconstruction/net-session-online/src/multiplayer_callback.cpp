@@ -1,4 +1,5 @@
 #include "net-session-online/multiplayer_callback.hpp"
+#include "net-transport/net_trace.hpp"  // DH2_NET_TRACE_LOG (host runner only)
 
 #include <cstdio>
 #include "net-transport/socket_platform.hpp"
@@ -563,7 +564,7 @@ std::int32_t MultiplayerCallback::HandleStartGameMessage(void* /*message*/) {
 // (COnline) and reached through GetOnlineGameFlag() in this port the same way other net-session bodies reach it.
 // Order, from the listing: CMatching::Get()->GetRoomAttributes() (vtable +0xA4: the base declares this slot at
 // +0xA4, so no offset workaround is needed) and GetAttributeInt(7) (asm 0x49b3d0..0x49b3e4); GetOnline()->+0x05
-// and the attribute must both be zero, else the function returns 100 (asm 0x49b3ec..0x49b408);
+// must be set and the attribute zero, else the function returns 100 (asm 0x49b3ec..0x49b408);
 // OnlineSingleton<OnlineGameState>::GetInstance()->flag28_ (+0x28) must be clear (asm 0x49b410..0x49b41c);
 // MenuManager::GetInstance()->GetMenuByName("menu_MultiplayerJoin") (asm 0x49b420..0x49b42c) gives a MenuBase
 // whose m_character (+0x4C, after the weak_ptr proxy at +0x48 is checked) is the movie character; then
@@ -572,7 +573,10 @@ std::int32_t MultiplayerCallback::HandleStartGameMessage(void* /*message*/) {
 std::int32_t MultiplayerCallback::roomLobbyUpdate(void* /*context*/) {
     CRoomAttributes* attributes = CMatching::Get()->GetRoomAttributes();  // vtable +0xa4
     const std::int32_t attributeValue = attributes->GetAttributeInt(ROOM_INT_ATTRIBUTE_7);
-    if (!GetOnlineGameFlag() || attributeValue == 0) {
+    // The binary goes on only when COnline's flag is set AND attribute 7 is zero (asm: `if (online+5) { if (!attr) {...} }`).
+    // WHAT THE OLD BODY GOT WRONG: it returned for attribute 0, the value a LAN room has, so "RefreshServers" never ran: a joiner's
+    // server list stayed as it was on entering the page (empty) and the host lobby never listed the joiner.
+    if (!GetOnlineGameFlag() || attributeValue != 0) {
         return 100;
     }
     if (OnlineSingleton<OnlineGameState>::GetInstance()->flag28_) {  // +0x28
@@ -597,7 +601,7 @@ std::int32_t MultiplayerCallback::roomLobbyUpdate(void* /*context*/) {
 // PlayerManager::GetLocalPlayer's list: the listing reads the local player's ingame flag instead, which is the
 // NetStructBool PlayerInfo::m_ingame (block +0x4c8, value at +0x4e5; PlayerInfo.hpp:83).
 // Order: CMatching::Get()->GetRoomAttributes() (vtable +0xA4) -> GetAttributeInt(7) (asm 0x49b484..0x49b498);
-// with COnline's +0x05 set the attribute must be zero, else return 200 (asm 0x49b4a0..0x49b4c8); flag28_ (+0x28)
+// COnline's +0x05 must be set and the attribute zero, else return 200 (asm 0x49b4a0..0x49b4c8); flag28_ (+0x28)
 // must be clear (asm 0x49b4cc..0x49b4d8); CMatching::Get()'s IsInRoom() -- binary vtable +0x64, must be
 // true (asm 0x49b4dc..0x49b4f0); the local player's m_ingame must be clear (asm 0x49b4f4..0x49b514); then
 // MenuManager::GetMenuByName("menu_MultiplayerLobby") with its m_character (+0x4C, after the +0x48 proxy check)
@@ -606,7 +610,10 @@ std::int32_t MultiplayerCallback::roomLobbyUpdate(void* /*context*/) {
 std::int32_t MultiplayerCallback::lobbyUpdate(void* /*context*/) {
     CRoomAttributes* attributes = CMatching::Get()->GetRoomAttributes();  // vtable +0xa4
     const std::int32_t attributeValue = attributes->GetAttributeInt(ROOM_INT_ATTRIBUTE_7);
-    if (!GetOnlineGameFlag() || attributeValue == 0) {
+    // The binary goes on only when COnline's flag is set AND attribute 7 is zero (asm: `if (online+5) { if (!attr) {...} }`).
+    // WHAT THE OLD BODY GOT WRONG: it returned for attribute 0, the value a LAN room has, so "updatePlayerList" never ran: a joiner's
+    // server list stayed as it was on entering the page (empty) and the host lobby never listed the joiner.
+    if (!GetOnlineGameFlag() || attributeValue != 0) {
         return 200;
     }
     if (OnlineSingleton<OnlineGameState>::GetInstance()->flag28_) {  // +0x28
@@ -857,6 +864,7 @@ std::int32_t MultiplayerCallback::joinRoom(void* /*context*/) {
     if (roomIndex >= 0 && static_cast<std::size_t>(roomIndex) < rooms.size()) {
         roomId = static_cast<std::uint64_t>(rooms[static_cast<std::size_t>(roomIndex)].roomId);
     }
+    DH2_NET_TRACE_LOG("[mp] joinRoom index %d of %zu -> room id %llu\n", roomIndex, rooms.size(), static_cast<unsigned long long>(roomId));
     CMatching::Get()->JoinRoom(roomId);
     return 0xC8;
 }

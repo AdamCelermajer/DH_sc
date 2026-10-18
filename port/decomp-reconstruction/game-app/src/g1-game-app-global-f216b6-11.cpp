@@ -22,6 +22,7 @@
 //     menuName30_ at +0x30, mode_ at +0x34, RoomInfos() at +0x50).
 
 #include <cstdint>
+#include "net-transport/net_trace.hpp"  // DH2_NET_TRACE_LOG (host runner only)
 #include <cstdlib>
 #include <cstring>
 #include <new>
@@ -283,6 +284,7 @@ void NativeConnectToServer(const gameswf::fn_call& call) {
     } else {
         rooms = OnlineSingleton<OnlineGameState>::GetInstance()->RoomInfos();
     }
+    DH2_NET_TRACE_LOG("[mp] NativeConnectToServer index %d of %zu rooms\n", index, rooms.size());
     if (index >= 0 && static_cast<std::size_t>(index) < rooms.size()) {
         OnlineSingleton<OnlineGameState>::GetInstance()->menuName30_ = reinterpret_cast<const char*>(static_cast<std::uintptr_t>(index));  // +0x30
         OnlineSingleton<OnlineGameState>::GetInstance()->SetState(103);                                                                  // +0x14
