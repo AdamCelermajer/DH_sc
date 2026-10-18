@@ -117,7 +117,8 @@ def main():
     text = json.dumps(out, ensure_ascii=False, separators=(",", ":"))
     with open(sys.argv[2], "w", encoding="utf-8", newline="\n") as f:
         # .js: loaded with a <script> tag (the Android WebView cannot fetch file:// assets); .json: for node and tools
-        f.write("window.DH2_ITEMDATA=" + text + ";\n" if sys.argv[2].endswith(".js") else text)
+        # the .js hands the data to JSON.parse as one string literal: V8 parses JSON much faster than a 1 MB object literal
+        f.write("window.DH2_ITEMDATA=JSON.parse(" + json.dumps(text, ensure_ascii=False) + ");\n" if sys.argv[2].endswith(".js") else text)
     with_src = sum(1 for r in out_items if r[-3])
     print("items %d (%d with loot sources), powers %d, languages %d -> %s" % (len(out_items), with_src, len(powers), len(out["languages"]), sys.argv[2]))
 

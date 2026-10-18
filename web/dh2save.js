@@ -403,7 +403,14 @@
 
     // One "source" of a row = one way the loot code makes it: (ItemPowerList, NumProbArray row, difficulty).
     // Returns {counts: [...], powers: [ids after the difficulty variant], all: bool}.
+    // Memoised per (list, numProb, difficulty): the result is shared, callers must not change it.
     ItemData.prototype.sourceOptions = function (src) {
+        const ck = src[0] + "," + src[1] + "," + src[2];
+        this._so = this._so || {};
+        if (!(ck in this._so)) this._so[ck] = this._sourceOptions(src);
+        return this._so[ck];
+    };
+    ItemData.prototype._sourceOptions = function (src) {
         const list = src[0], numProb = src[1], diff = src[2];
         if (list < 0 || list >= this.d.powerLists.length) return { counts: [0], powers: [], difficulty: diff, list: list };
         const entries = this.d.powerLists[list];

@@ -57,7 +57,9 @@ public class SaveEditorActivity extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         web = new WebView(this);
-        web.setBackgroundColor(Color.rgb(0x15, 0x12, 0x0f));
+        // chrome://inspect over adb (USB debugging on and authorised) can profile the editor page; it loads local files only
+        WebView.setWebContentsDebuggingEnabled(true);
+        web.setBackgroundColor(Color.rgb(0x12, 0x10, 0x16));
         WebSettings s = web.getSettings();
         s.setJavaScriptEnabled(true);
         s.setDomStorageEnabled(true);

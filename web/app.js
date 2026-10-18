@@ -1,4 +1,7 @@
 // Save editor UI (shared by Android and Windows). Rules and formats live in dh2save.js; this file only shows and edits.
+// Rendering, so that a phone's WebView stays fast: a list is one HTML string set once per group (no per-row DOM building, no
+// per-row listeners: clicks and group toggles are delegated), the rows of a group are built when the group opens, item
+// descriptions / can-use checks / catalog rows are cached per language and hero, the catalog search is debounced.
 (function () {
     "use strict";
     const $ = (id) => document.getElementById(id);
@@ -9,13 +12,17 @@
     const host = window.DH2Host;
     const data = new DH2.ItemData(window.DH2_ITEMDATA);
     const st = { save: null, path: null, name: null, dirty: false, hero: null, open: {} };
+    // caches: cat = catalog rows (per language), cant = can-use reasons (per hero + language), desc = inventory entry
+    // descriptions (per entry object), grp = group of a row (per mode + language), pc = bonus category class per power
+    const memo = { lang: -1, cat: null, cant: new Map(), heroKey: "", desc: new WeakMap(), grp: new Map(), pc: new Map() };
+    function langChanged() { memo.cant.clear(); memo.grp.clear(); }
 
     // ------------------------------------------------------------ language
     const langSel = $("lang");
     data.languages().forEach((l) => { const o = document.createElement("option"); o.value = l.index; o.textContent = l.key + " - " + l.sample; langSel.appendChild(o); });
     langSel.value = localStorage.getItem("dh2lang") || "0";
     data.lang = +langSel.value;
-    langSel.onchange = () => { data.lang = +langSel.value; localStorage.setItem("dh2lang", langSel.value); render(); };
+    langSel.onchange = () => { data.lang = +langSel.value; localStorage.setItem("dh2lang", langSel.value); langChanged(); render(); };
 
     // ms = 0: stays until tapped
     function toast(msg, ms) {
@@ -103,11 +110,13 @@
         const g = st.save.gear, info = st.save.info;
         st.hero = data.hero(st.save);
         const h = st.hero;
-        $("hero").innerHTML = "Hero <b>" + esc(info.name || "?") + "</b> &middot; " + esc(data.heroClassLabel(h.cls)) + " &middot; level " + esc(h.level) +
-            " &middot; " + ATTR.map((a, i) => a + " <b>" + h.attrs[i] + "</b>").join(" ") + " &middot; " + g.items.length + " items (the game holds 100)" +
+        const hk = h.cls + "|" + h.level + "|" + h.attrs.join(",");
+        if (hk !== memo.heroKey) { memo.heroKey = hk; memo.cant.clear(); }
+        $("hero").innerHTML = '<div class="hname"><b>' + esc(info.name || "?") + '</b><span class="hcls">' + esc(data.heroClassLabel(h.cls)) + '</span><span class="tag lvl">Level ' + esc(h.level) + "</span></div>" +
+            '<div class="hstats">' + ATTR.map((a, i) => '<span class="chip st">' + a + " <b>" + h.attrs[i] + "</b></span>").join("") +
+            '<span class="chip bag">' + g.items.length + " / " + DH2.MAX_ITEMS + " items</span></div>" +
             '<div class="muted">Attributes = ' + (h.startKnown ? "the class's starting values" : "<span class=err>class starting values unknown (counted as 0)</span>") +
-            " + points spent (from the save) + bonuses of the items equipped in set " + (g.equipSet + 1) +
-            ". Skill and potion buffs are not in the save. Items the hero cannot equip are greyed with the reason.</div>";
+            " + points spent + bonuses of the items equipped in set " + (g.equipSet + 1) + " (as the game's Stats screen; skill and potion buffs are not in the save).</div>";
         $("gold").value = g.gold;
         $("goldnote").textContent = "0 .. " + DH2.MAX_GOLD.toLocaleString() + " (the game's gold limit)";
         const pi = DH2.potionIndex(st.save, data);
@@ -119,99 +128,165 @@
         setDirty(st.dirty);
     }
 
-    function rarityDot(r) { return '<span class="dot" style="background:' + r.rgb + '" title="' + esc(r.name) + '"></span>'; }
-    // One list row: name, the game's stats and requirements texts, and why the hero cannot use it.
-    function itemRow(d, opt) {
-        opt = opt || {};
-        const why = data.cannotUse(d.id, st.hero);
-        let h = rarityDot(d.rarity) + '<div class="grow"><div class="nm" style="color:' + d.rarity.rgb + '">' + esc(d.name || d.key) + "</div>";
-        if (d.stats) h += '<div class="stat">' + oneLine(d.stats) + "</div>";
-        h += '<div class="sub">' + (d.reqs ? '<span class="' + (why.length ? "err" : "req") + '">' + oneLine(d.reqs) + "</span> &middot; " : "") + esc(d.type) +
-            " &middot; " + esc(d.rarity.name) + (d.powers.length ? " &middot; " + d.powers.length + " bonus" + (d.powers.length > 1 ? "es" : "") : "") + (opt.extra || "") + "</div>";
-        if (opt.powers && d.powers.length) h += '<div class="pws" style="color:' + d.rarity.rgb + '">' + d.powers.map((p) => oneLine(p.text)).join(" &middot; ") + "</div>";
-        if (why.length) h += '<div class="why">Hero cannot use: ' + esc(why.join(", ")) + "</div>";
-        h += "</div>" + (opt.badges || "");
-        return { html: h, cant: why.length > 0 };
+    // ------------------------------------------------------------ rows
+    const SLOT_LABEL = { 0: "Torso", 1: "Right hand", 2: "Left hand", 3: "Feet", 4: "Hands", 5: "Right ring", 6: "Left ring", 7: "Waist", 8: "Head" };
+    const SLOT_ORDER = [8, 0, 4, 7, 3, 1, 2, 5, 6];
+    const TYPE_SHORT = { 0: "1H weapon", 1: "Off-hand", 2: "2H weapon", 3: "Dagger / claw", 4: "Bow", 5: "Staff / wand", 6: "Shield", 7: "Armour", 8: "Gloves", 9: "Boots",
+        10: "Helm", 11: "Ring", 12: "Belt", 13: "Gold", 14: "Potion", 15: "Valuable", 16: "Quest item" };
+    const CAT_CLASS = { "Attributes": "attr", "Life and mana": "life", "Elemental damage": "elem", "Attack: damage, critical, attack rating": "atk",
+        "Defence: armour, block, dodge, defence rating": "def", "Resistances": "res", "Spells": "spell", "Loot: gold and treasure find": "loot" };
+    function slotLabel(s) { return s < 0 ? "" : (SLOT_LABEL[s] || data.slotName[s] || ("slot " + s)); }
+    function typeShort(id) { const t = data.items[id].type; return TYPE_SHORT[t] || data.typeName[t] || String(t); }
+    function powerClass(pid) {
+        let c = memo.pc.get(pid);
+        if (c === undefined) { c = "pc pc-" + (CAT_CLASS[data.powerInfo(pid).category] || "other"); memo.pc.set(pid, c); }
+        return c;
     }
-    function slotLabel(s) { return s < 0 ? "" : (data.slotName[s] || ("slot " + s)); }
+    function cannotUse(id) {
+        let v = memo.cant.get(id);
+        if (v === undefined) { v = data.cannotUse(id, st.hero); memo.cant.set(id, v); }
+        return v;
+    }
     function entryDesc(it) {
+        const c = memo.desc.get(it);
+        if (c && c.lang === data.lang && c.powers === it.powers && c.value === it.value) return c.d;
         const id = data.itemByKey[it.key];
-        if (id === undefined) return null;
-        return data.describe(id, it.powers.map((p) => data.powerByKey[p]), it.value);
+        const d = id === undefined ? null : data.describe(id, it.powers.map((p) => data.powerByKey[p]), it.value);
+        memo.desc.set(it, { lang: data.lang, powers: it.powers, value: it.value, d: d });
+        return d;
+    }
+    const chip = (cls, inner) => '<span class="chip ' + cls + '">' + inner + "</span>";
+    // the item's own numbers (the same values as the game's ItemStatsDesc text) as coloured chips
+    function statChips(d) {
+        let h = "";
+        if (d.damage) h += chip("dmg", "Damage " + d.damage[0] + "&ndash;" + d.damage[1]);
+        if (d.armor != null) h += chip("arm", "Armour " + d.armor);
+        if (d.block != null) h += chip("blk", "Block " + d.block + "%");
+        return h;
+    }
+    function reqChips(d, bad) {
+        const cls = bad ? "req bad" : "req";
+        let h = d.level ? chip(cls, "Lv " + d.level) : "";
+        const r = String(d.reqs || "").replace(/^\s*Req:\s*/i, "").trim();
+        if (r) h += chip(cls, oneLine(r));
+        return h;
+    }
+    const powerChips = (d) => d.powers.map((p) => '<span class="' + powerClass(p.id) + '">' + oneLine(p.text) + "</span>").join("");
+    // One list row as HTML. d = describe(); opt.attr = extra attributes (data-i / data-id for the delegated click), opt.tags.
+    function rowHtml(d, opt) {
+        opt = opt || {};
+        const why = cannotUse(d.id), bad = why.length > 0;
+        let h = '<div class="item' + (bad ? " cant" : "") + '"' + (opt.attr || "") + ' style="--rc:' + d.rarity.rgb + '"><div class="main"><div class="l1"><span class="nm">' +
+            esc(d.name || d.key) + "</span>" + (opt.tags || "") + "</div>";
+        const chips = statChips(d) + reqChips(d, bad);
+        if (chips) h += '<div class="chips">' + chips + "</div>";
+        if (d.powers.length) h += '<div class="pws">' + powerChips(d) + "</div>";
+        if (bad) h += '<div class="why">Hero cannot use: ' + esc(why.join(", ")) + "</div>";
+        return h + '</div><div class="side"><span class="rar">' + esc(d.rarity.name) + '</span><span class="ty">' + esc(typeShort(d.id)) + "</span></div></div>";
     }
 
     // ------------------------------------------------------------ groups (sets / slot)
     // The group of an item row: its armour set (the game's sets, or the family of same-name pieces) or its slot type.
     function groupOf(id, mode) {
+        const ck = mode + "|" + data.lang + "|" + id;
+        let g = memo.grp.get(ck);
+        if (g) return g;
         const it = data.items[id];
         if (mode === "set") {
             const s = data.setOf(id);
-            if (s) return { key: s.key, label: s.name + " set", order: 0,
+            if (s) g = { key: s.key, label: s.name + " set", order: 0, cls: s.game ? "gset" : "",
                 sub: s.game ? "game armour set: all five pieces give the trophy &laquo;" + esc(s.trophy) + "&raquo;" : "same-name " + s.material.toLowerCase() + " armour, no set bonus" };
         }
-        if (mode === "none") return { key: "all", label: "All items", order: 0, sub: "" };
-        return { key: "type:" + it.type, label: data.typeLabel(it.type), order: 1 + data.pieceOrder(id), sub: esc(data.typeName[it.type] || "") };
+        if (!g) g = mode === "none" ? { key: "all", label: "All items", order: 0, sub: "" } :
+            { key: "type:" + it.type, label: data.typeLabel(it.type), order: 1 + data.pieceOrder(id), sub: esc(data.typeName[it.type] || "") };
+        memo.grp.set(ck, g);
+        return g;
     }
-    // entries: [{id, html builder, el}] -> grouped <details> blocks; contents are built when a group opens.
+    function groupHtml(G, k, open) {
+        let cant = 0;
+        for (const e of G.items) if (cannotUse(e.id).length) cant++;
+        return '<details class="grp' + (G.cls ? " " + G.cls : "") + '" data-k="' + esc(k) + '" data-o="' + (open ? 1 : 0) + '"' + (open ? " open" : "") + '><summary><span class="gl">' + esc(G.label) +
+            '</span><span class="cnt">' + G.items.length + "</span>" + (cant ? '<span class="bad">' + cant + " not usable</span>" : "") + (G.sub ? '<span class="sub">' + G.sub + "</span>" : "") +
+            '</summary><div class="list">' + (open ? G.items.map((e) => e.html()).join("") : "") + "</div></details>";
+    }
+    // entries: [{id, html: () => row html, group?: fixed group}] -> <details> blocks appended to box; the rows of a group are
+    // built when it is open (now, or later in the delegated toggle handler).
     function renderGroups(box, entries, mode, scope, openAll) {
         const groups = new Map();
         for (const e of entries) {
-            const g = groupOf(e.id, mode);
-            if (!groups.has(g.key)) groups.set(g.key, Object.assign({ items: [], req: 1e9 }, g));
-            const G = groups.get(g.key), it = data.items[e.id];
+            const g = e.group || groupOf(e.id, mode);
+            let G = groups.get(g.key);
+            if (!G) { G = Object.assign({ items: [], req: 1e9 }, g); groups.set(g.key, G); }
+            const it = data.items[e.id];
             G.items.push(e);
             G.req = Math.min(G.req, it.levelReq * 1000 + it.strReq + it.dexReq + it.endReq + it.eneReq);
         }
         const list = [...groups.values()].sort((a, b) => a.order - b.order || a.req - b.req || a.label.localeCompare(b.label));
+        let h = "";
         for (const G of list) {
-            G.items.sort((a, b) => data.pieceOrder(a.id) - data.pieceOrder(b.id) || a.id - b.id);
-            const det = document.createElement("details"); det.className = "grp";
-            const cant = G.items.filter((e) => data.cannotUse(e.id, st.hero).length).length;
-            det.innerHTML = "<summary><b>" + esc(G.label) + '</b> <span class="muted">' + G.items.length + (cant ? ", " + cant + " not usable" : "") +
-                (G.sub ? " &middot; " + G.sub : "") + "</span></summary>";
-            const inner = document.createElement("div"); inner.className = "list"; det.appendChild(inner);
-            const fill = () => { if (!inner.childElementCount) G.items.forEach((e) => inner.appendChild(e.make())); };
+            if (!G.sorted) G.items.sort((a, b) => data.pieceOrder(a.id) - data.pieceOrder(b.id) || a.id - b.id);
             const k = scope + mode + G.key;
-            det.ontoggle = () => { st.open[k] = det.open; if (det.open) fill(); };
-            if (openAll || st.open[k]) { det.open = true; fill(); }
-            box.appendChild(det);
+            const open = st.open[k] !== undefined ? st.open[k] : (openAll || !!G.openDefault);
+            box._groups[k] = G;
+            h += groupHtml(G, k, open);
         }
+        box.insertAdjacentHTML("beforeend", h);
+    }
+    function fillGroup(det) {
+        const box = det.parentNode, G = box._groups && box._groups[det.dataset.k], list = det.lastElementChild;
+        if (G && !list.firstElementChild) list.innerHTML = G.items.map((e) => e.html()).join("");
+    }
+    function groupsBox(box, onRow) {
+        box._groups = {};
+        box.addEventListener("toggle", (ev) => {   // toggle does not bubble: capture
+            const det = ev.target;
+            if (!det.classList || !det.classList.contains("grp")) return;
+            if (det.open !== (det.dataset.o === "1")) { st.open[det.dataset.k] = det.open; det.dataset.o = det.open ? "1" : "0"; }
+            if (det.open) fillGroup(det);
+        }, true);
+        box.addEventListener("click", (ev) => {
+            const row = ev.target.closest(".item");
+            if (row && box.contains(row)) onRow(row, ev);
+        });
     }
     const groupSel = $("group");
     groupSel.value = localStorage.getItem("dh2group") || "set";
     groupSel.onchange = () => { localStorage.setItem("dh2group", groupSel.value); render(); };
 
+    // ------------------------------------------------------------ inventory: equipped first, then the bag
     function renderInventory() {
-        const box = $("inv"); box.innerHTML = "";
-        const entries = [];
-        st.save.gear.items.forEach((it, idx) => {
+        const box = $("inv"); box.innerHTML = ""; box._groups = {};
+        const g = st.save.gear, set = g.equipSet;
+        const bag = [], eq = [];
+        let unknown = "";
+        g.items.forEach((it, idx) => {
             const d = entryDesc(it);
-            const id = d ? d.id : -1;
-            const make = () => {
-                const el = document.createElement("div"); el.className = "item";
-                if (!d) { el.innerHTML = '<div class="grow err">unknown item ' + esc(it.key) + "</div>"; return el; }
-                let badges = "";
-                if (it.slot0 >= 0) badges += '<span class="badge eq">set 1: ' + esc(slotLabel(it.slot0)) + "</span>";
-                if (it.slot1 >= 0) badges += '<span class="badge eq">set 2: ' + esc(slotLabel(it.slot1)) + "</span>";
-                if (d.stackable || it.qty !== 1) badges += '<span class="badge">x' + it.qty + "</span>";
-                const r = itemRow(d, { badges: badges, powers: true });
-                el.innerHTML = r.html; if (r.cant) el.classList.add("cant");
-                el.onclick = () => showItem(idx);
-                return el;
-            };
-            if (id < 0) { box.appendChild(make()); return; }
-            entries.push({ id: id, make: make });
+            if (!d) { unknown += '<div class="item unk" data-i="' + idx + '"><div class="main err">unknown item ' + esc(it.key) + "</div></div>"; return; }
+            const slot = set === 1 ? it.slot1 : it.slot0, other = set === 1 ? it.slot0 : it.slot1;
+            const tags = (slot >= 0 ? '<span class="tag eq">' + esc(slotLabel(slot)) + "</span>" : "") +
+                (other >= 0 ? '<span class="tag eq2">set ' + (set === 1 ? 1 : 2) + ": " + esc(slotLabel(other)) + "</span>" : "") +
+                (d.stackable || it.qty !== 1 ? '<span class="tag qty">&times;' + it.qty + "</span>" : "");
+            const e = { id: d.id, slot: slot >= 0 ? slot : other, html: () => rowHtml(d, { attr: ' data-i="' + idx + '"', tags: tags }) };
+            (e.slot >= 0 ? eq : bag).push(e);
         });
-        if (groupSel.value === "none") { const l = document.createElement("div"); l.className = "list"; entries.forEach((e) => l.appendChild(e.make())); box.appendChild(l); }
-        else renderGroups(box, entries, groupSel.value, "inv", entries.length <= 40);
+        eq.sort((a, b) => SLOT_ORDER.indexOf(a.slot) - SLOT_ORDER.indexOf(b.slot) || a.id - b.id);
+        const EQ = { key: "equipped", label: "Equipped", order: -1, cls: "eq", sorted: true, openDefault: true, sub: "set " + (set + 1) + " &middot; what the hero wears" };
+        const entries = eq.map((e) => Object.assign(e, { group: EQ }));
+        const mode = groupSel.value;
+        if (mode === "none") { const BAG = { key: "bag", label: "Bag", order: 0, sorted: true, openDefault: true, sub: "in the order of the save" }; for (const e of bag) { e.group = BAG; entries.push(e); } }
+        else for (const e of bag) entries.push(e);
+        if (!eq.length) box.innerHTML = '<div class="count">Nothing equipped.</div>';
+        renderGroups(box, entries, mode, "inv", bag.length <= 40);
+        if (unknown) box.insertAdjacentHTML("beforeend", '<div class="list">' + unknown + "</div>");
     }
+    groupsBox($("inv"), (row) => { if (row.dataset.i !== undefined) showItem(+row.dataset.i); });
 
     function detailTable(d, it) {
         const rows = [];
         const r = (k, v) => { if (v !== "" && v != null) rows.push("<tr><td>" + esc(k) + "</td><td>" + v + "</td></tr>"); };
-        const why = data.cannotUse(d.id, st.hero);
-        r("Type", esc(d.type) + (d.slotting && d.slotting !== "none" ? " (" + esc(d.slotting) + ")" : ""));
-        r("Rarity", rarityDot(d.rarity) + " " + esc(d.rarity.name) + ' <span class="muted">(the game colours names by the number of bonuses: ' + d.rarity.powers + ")</span>");
+        const why = cannotUse(d.id);
+        r("Type", esc(typeShort(d.id)) + ' <span class="muted">' + esc(d.type) + (d.slotting && d.slotting !== "none" ? " (" + esc(d.slotting) + ")" : "") + "</span>");
+        r("Rarity", '<span class="rar" style="--rc:' + d.rarity.rgb + '">' + esc(d.rarity.name) + '</span> <span class="muted">(the game colours names by the number of bonuses: ' + d.rarity.powers + ")</span>");
         if (d.level) r("Level requirement", String(d.level));
         r("Stats", text(d.stats));
         r("Requirements", text(d.reqs));
@@ -232,13 +307,14 @@
     }
     function powersHtml(d) {
         if (!d.powers.length) return '<div class="muted">No bonuses.</div>';
-        return d.powers.map((p) => '<div class="power" style="color:' + d.rarity.rgb + '">' + text(p.text) +
+        return d.powers.map((p) => '<div class="power"><span class="' + powerClass(p.id) + '">' + oneLine(p.text) + "</span>" +
             ' <div class="k">' + esc(p.key) + (p.attrs.length ? " &middot; " + p.attrs.map((a) => esc(a.attr) + " " + a.bonus).join(", ") : "") + "</div></div>").join("");
     }
 
     function showItem(idx) {
         const it = st.save.gear.items[idx]; const d = entryDesc(it);
-        let h = '<div class="detail"><div class="nm" style="color:' + d.rarity.rgb + '">' + esc(d.name) + "</div>" + detailTable(d, it) + "<h2>Bonuses</h2>" + powersHtml(d);
+        if (!d) return;
+        let h = '<div class="detail"><div class="nm" style="--rc:' + d.rarity.rgb + '">' + esc(d.name) + "</div>" + detailTable(d, it) + "<h2>Bonuses</h2>" + powersHtml(d);
         if (d.stackable && data.items[d.id].type !== 14) {
             h += '<div class="box"><label>Quantity</label><div class="row"><input id="qty" type="number" min="1" max="' + data.maxQty + '" value="' + it.qty + '"><button id="setqty">Set</button></div></div>';
         }
@@ -280,52 +356,62 @@
     const types = {}; data.items.forEach((it) => { if (data.canAdd(it.id)) types[it.type] = data.typeLabel(it.type); });
     Object.keys(types).sort((a, b) => a - b).forEach((t) => { const o = document.createElement("option"); o.value = t; o.textContent = types[t]; $("ftype").appendChild(o); });
     data.d.powerColors.slice(0, 5).forEach((c) => { const r = data.rarity(c.powers); const o = document.createElement("option"); o.value = c.powers; o.textContent = r.name + " (" + c.powers + " bonus" + (c.powers === 1 ? "" : "es") + ")"; $("frar").appendChild(o); });
-    function maxCount(it) { let m = 0; it.sources.forEach((s) => { const o = data.sourceOptions(s); o.counts.forEach((c) => { m = Math.max(m, Math.min(c, o.powers.length)); }); }); return m; }
-    function canHave(it, n) { return it.sources.some((s) => { const o = data.sourceOptions(s); return o.counts.some((c) => Math.min(c, o.powers.length) === n || (c >= o.powers.length && o.powers.length === n)) || (n === 0 && o.counts.indexOf(0) >= 0); }); }
+    // every row the game can drop, described once per language: description, search text, the bonus counts its loot sources roll
+    function catalogRows() {
+        if (memo.cat && memo.lang === data.lang) return memo.cat;
+        const rows = [];
+        for (const it of data.items) {
+            if (!data.canAdd(it.id)) continue;
+            const d = data.describe(it.id, [], data.lootValue(it.id, []));
+            const s = data.setOf(it.id);
+            const counts = new Set(); let max = 0;
+            for (const src of it.sources) { const o = data.sourceOptions(src); for (const c of o.counts) { const n = Math.min(c, o.powers.length); counts.add(n); if (n > max) max = n; } }
+            rows.push({ id: it.id, d: d, text: ((d.name || "") + "\n" + it.key + "\n" + (s ? s.name : "")).toLowerCase(), counts: counts, max: max, lvl: it.levelReq, type: String(it.type), diff: d.difficulty });
+        }
+        memo.cat = rows; memo.lang = data.lang;
+        return rows;
+    }
     let catLimit = 60;
     function renderCatalog() {
         const q = $("q").value.trim().toLowerCase(), ft = $("ftype").value, fr = $("frar").value, fmin = $("fmin").value, fmax = $("fmax").value, fd = $("fdiff").value, fu = $("fuse").checked;
         const out = [];
-        for (const it of data.items) {
-            if (!data.canAdd(it.id)) continue;
-            if (ft !== "" && String(it.type) !== ft) continue;
-            if (fmin !== "" && it.levelReq < +fmin) continue;
-            if (fmax !== "" && it.levelReq > +fmax) continue;
-            const d = data.describe(it.id, [], data.lootValue(it.id, []));
-            if (fd && d.difficulty !== fd) continue;
-            const s = data.setOf(it.id);
-            if (q && (d.name || "").toLowerCase().indexOf(q) < 0 && it.key.toLowerCase().indexOf(q) < 0 && !(s && s.name.toLowerCase().indexOf(q) >= 0)) continue;
-            if (fr !== "" && !canHave(it, +fr)) continue;
-            if (fu && data.cannotUse(it.id, st.hero).length) continue;
-            out.push(d);
+        for (const r of catalogRows()) {
+            if (ft !== "" && r.type !== ft) continue;
+            if (fmin !== "" && r.lvl < +fmin) continue;
+            if (fmax !== "" && r.lvl > +fmax) continue;
+            if (fd && r.diff !== fd) continue;
+            if (q && r.text.indexOf(q) < 0) continue;
+            if (fr !== "" && !r.counts.has(+fr)) continue;
+            if (fu && cannotUse(r.id).length) continue;
+            out.push(r);
         }
-        const box = $("catalog"); box.innerHTML = '<div class="muted">' + out.length + " items the game can drop" + (fu ? " that the hero can use" : "") + "</div>";
-        const make = (d) => () => {
-            const el = document.createElement("div"); el.className = "item";
-            const r = itemRow(d, { extra: " &middot; up to " + maxCount(data.items[d.id]) + " bonuses &middot; " + esc(d.difficulty) });
-            el.innerHTML = r.html; if (r.cant) el.classList.add("cant");
-            el.onclick = () => builder(d.id);
-            return el;
-        };
-        if (groupSel.value !== "none") {
-            renderGroups(box, out.map((d) => ({ id: d.id, make: make(d) })), groupSel.value, "cat", out.length <= 30);
-            return;
-        }
-        const list = document.createElement("div"); list.className = "list";
-        out.slice(0, catLimit).forEach((d) => list.appendChild(make(d)()));
-        box.appendChild(list);
-        if (out.length > catLimit) { const m = document.createElement("div"); m.className = "more"; m.innerHTML = "<button>Show more</button>"; m.onclick = () => { catLimit += 100; renderCatalog(); }; box.appendChild(m); }
+        const box = $("catalog"); box._groups = {};
+        box.innerHTML = '<div class="count">' + out.length + " items the game can drop" + (fu ? " that the hero can use" : "") + "</div>";
+        const mk = (r) => () => rowHtml(r.d, { attr: ' data-id="' + r.id + '"', tags: '<span class="tag">up to ' + r.max + " bonus" + (r.max === 1 ? "" : "es") + "</span>" +
+            (r.diff !== "Normal" ? '<span class="tag d' + (r.diff === "Hard" ? 1 : 2) + '">' + r.diff + "</span>" : "") });
+        if (groupSel.value !== "none") { renderGroups(box, out.map((r) => ({ id: r.id, html: mk(r) })), groupSel.value, "cat", out.length <= 30); return; }
+        let h = '<div class="list">';
+        for (const r of out.slice(0, catLimit)) h += mk(r)();
+        h += "</div>";
+        if (out.length > catLimit) h += '<div class="more"><button data-more>Show more (' + (out.length - catLimit) + " left)</button></div>";
+        box.insertAdjacentHTML("beforeend", h);
     }
-    ["q", "ftype", "frar", "fmin", "fmax", "fdiff", "fuse"].forEach((id) => { $(id).oninput = $(id).onchange = () => { catLimit = 60; renderCatalog(); }; });
+    groupsBox($("catalog"), (row) => { if (row.dataset.id !== undefined) builder(+row.dataset.id); });
+    $("catalog").addEventListener("click", (ev) => { if (ev.target.hasAttribute("data-more")) { catLimit += 100; renderCatalog(); } });
+    let qTimer = 0;
+    const refilter = () => { clearTimeout(qTimer); qTimer = 0; catLimit = 60; renderCatalog(); };
+    const refilterSoon = () => { clearTimeout(qTimer); qTimer = setTimeout(refilter, 120); };   // typing stays smooth
+    ["q", "fmin", "fmax"].forEach((id) => { $(id).oninput = refilterSoon; $(id).onchange = refilter; });
+    ["ftype", "frar", "fdiff", "fuse"].forEach((id) => { $(id).onchange = refilter; });
     $("tab-inv").onclick = () => { $("tab-inv").classList.add("on"); $("tab-add").classList.remove("on"); $("inv").classList.remove("hidden"); $("add").classList.add("hidden"); };
     $("tab-add").onclick = () => { $("tab-add").classList.add("on"); $("tab-inv").classList.remove("on"); $("add").classList.remove("hidden"); $("inv").classList.add("hidden"); renderCatalog(); };
 
     // Before / after table of an edited item (what the game will show and store).
     function compareHtml(a, z, entry) {
-        const pw = (d) => d.powers.length ? d.powers.map((p) => oneLine(p.text)).join("<br>") : '<span class="muted">none</span>';
+        const pw = (d) => d.powers.length ? d.powers.map((p) => '<span class="' + powerClass(p.id) + '">' + oneLine(p.text) + "</span>").join(" ") : '<span class="muted">none</span>';
         const price = (d) => d.prices.sellMin === d.prices.sellMax ? String(d.prices.sellMin) : d.prices.sellMin + " - " + d.prices.sellMax;
         const row = (k, x, y) => "<tr><td>" + esc(k) + "</td><td>" + x + "</td><td" + (x !== y ? ' class="chg"' : "") + ">" + y + "</td></tr>";
-        const nm = (d) => '<span style="color:' + d.rarity.rgb + '">' + esc(d.rarity.name) + "</span>";
+        const nm = (d) => '<span class="rar" style="--rc:' + d.rarity.rgb + '">' + esc(d.rarity.name) + "</span>";
         return '<table class="cmp"><tr><th></th><th>Before</th><th>After</th></tr>' + row("Rarity", nm(a), nm(z)) + row("Bonuses", pw(a), pw(z)) +
             row("Stats", oneLine(a.stats), oneLine(z.stats)) + row("Item value", String(a.value), String(z.value)) + row("Sell price", price(a), price(z)) +
             row("Equipped", entry.slot0 >= 0 || entry.slot1 >= 0 ? "yes" : "no", entry.slot0 >= 0 || entry.slot1 >= 0 ? "yes" : "no") +
@@ -364,7 +450,7 @@
             let h = "";
             for (const cat of data.categories()) {
                 if (!cats[cat]) continue;
-                h += '<div class="pcat"><h3>' + esc(cat) + "</h3>";
+                h += '<div class="pcat pc-' + (CAT_CLASS[cat] || "other") + '"><h3>' + esc(cat) + "</h3>";
                 for (const label of Object.keys(cats[cat])) {
                     const rows = cats[cat][label].sort((x, y) => x.pi.tier - y.pi.tier);
                     const all = (label + " " + rows.map((r) => data.powerText(r.p) + " " + data.powers[r.p].key).join(" ")).toLowerCase();
@@ -374,7 +460,7 @@
                         const clash = b.picked.find((q) => q !== p && data.clashes(p, q));
                         const blocked = !on && (clash !== undefined || !fitting(b.picked.concat([p])).length);
                         const why = !blocked ? "" : clash !== undefined ? "cannot be combined with " + data.powerText(clash) : "no bonus pool of this item gives this together with your picks";
-                        h += '<label class="chip' + (on ? " on" : "") + (blocked ? " off" : "") + '" title="' + esc(why || data.powers[p].key) + '"><input type="checkbox" data-p="' + p + '"' +
+                        h += '<label class="pick' + (on ? " on" : "") + (blocked ? " off" : "") + '" title="' + esc(why || data.powers[p].key) + '"><input type="checkbox" data-p="' + p + '"' +
                             (on ? " checked" : "") + (blocked ? " disabled" : "") + ">" + (r.pi.tier ? '<span class="tier">L' + String(r.pi.tier).padStart(2, "0") + (r.pi.difficulty ? " " + esc(r.pi.difficulty) : "") + "</span>" : "") +
                             esc(data.powerText(p)) + "</label>";
                     }
@@ -395,8 +481,7 @@
             const value = data.lootValue(itemId, b.picked);
             const d = data.describe(itemId, data.orderPowers(b.picked), value);
             const err = data.checkPowers(itemId, b.picked);
-            const r = itemRow(d, {});
-            let h = '<div class="detail">' + (editing ? '<h2>Edit bonuses</h2>' : "") + '<div class="item' + (r.cant ? " cant" : "") + '" style="cursor:default">' + r.html + "</div>";
+            let h = '<div class="detail">' + (editing ? '<h2>Edit bonuses</h2>' : "") + '<div class="preview">' + rowHtml(d, {}) + "</div>";
             h += '<div class="explain"><b>Bonus pool</b> = the list the game draws this item\'s bonuses from (one pool per drop). ' +
                 "Pools called <i>... power level 01 .. 08</i> hold weaker .. stronger versions of the same bonuses (L01 = weakest, L08 = strongest). " +
                 "Hard / Very Hard item rows get the Hard / Very Hard versions with bigger numbers. Greyed bonuses cannot go together with what you picked (the game never combines them).</div>";
@@ -420,11 +505,13 @@
             if ($("srcsel")) $("srcsel").onchange = () => { b.src = +$("srcsel").value; b.picked = []; draw(); };
             $("psearch").oninput = () => { b.q = $("psearch").value; applySearch(); };
             applySearch();
-            document.querySelectorAll("[data-p]").forEach((c) => c.onchange = () => {
+            $("picker").onchange = (ev) => {
+                const c = ev.target;
+                if (!c.dataset || c.dataset.p === undefined) return;
                 const p = +c.dataset.p;
                 if (c.checked) b.picked.push(p); else b.picked = b.picked.filter((x) => x !== p);
                 const top = $("sheetbody").scrollTop; draw(); $("sheetbody").scrollTop = top;
-            });
+            };
             $("addit").onclick = () => {
                 if (editing) {
                     try { st.save.gear.items[editIdx] = data.editEntry(editing, b.picked); } catch (e) { return fail(e); }
@@ -489,6 +576,8 @@
         ask("<h2>Discard the changes?</h2><p>The unsaved changes of this save are lost.</p>", [["Keep editing", ""], ["Discard", "go", "danger"]]).then((v) => { if (v) go(); });
     };
 
-    window.DH2App = { state: st, data: data, open: open, render: render, builder: builder };   // used by the automated proof scripts
+    // used by the automated proof scripts
+    window.DH2App = { state: st, data: data, open: open, render: render, builder: builder, showItem: showItem, renderCatalog: renderCatalog,
+        openGroup: (det) => { det.open = true; fillGroup(det); } };
     showFiles();
 })();
