@@ -103,11 +103,9 @@ def main():
                     for chunk in iter(lambda: fh.read(1 << 20), b""):
                         h.update(chunk)
                 sums.append(h.hexdigest() + "  " + os.path.relpath(fp, rel).replace(os.sep, "/"))
-        with open(os.path.join(rel, "SHA256SUMS"), "w", newline="
-") as fh:
-            fh.write("
-".join(sorted(sums, key=lambda x: x.split("  ", 1)[1])) + "
-")
+        nl = chr(10)
+        with open(os.path.join(rel, "SHA256SUMS"), "w", newline=nl) as fh:
+            fh.write(nl.join(sorted(sums, key=lambda x: x.split("  ", 1)[1])) + nl)
         print("release:", rel)
     print("done:", out)
 
