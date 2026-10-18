@@ -46,6 +46,12 @@ public class SaveEditorActivity extends Activity {
     private static final Pattern SAVE = Pattern.compile("dh2_\\d{3}\\.savegame");
     private static final Pattern CHECKPOINT = Pattern.compile("dh2_\\d{3}_(single|multi)\\.checkpoint");
     private WebView web;
+    // Set when this editor stopped the game. The Track B launcher (DataSetup / CrashReport.collect) reports "The game
+    // crashed last time" when the newest exit of the package's processes is REASON_SIGNALED, which a stop by
+    // Process.killProcess is. So after such a stop the editor makes its own clean exit (REASON_EXIT_SELF) the newest one
+    // before the game starts again: when it starts the game, and when the user leaves it with nothing unsaved.
+    private volatile boolean stoppedGame;
+    private volatile boolean dirty;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,15 @@ public class SaveEditorActivity extends Activity {
         });
         setContentView(frame);
         web.loadUrl("file:///android_asset/dh2editor/index.html");
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (stoppedGame && !dirty && !isChangingConfigurations()) {
+            finishAndRemoveTask();
+            System.exit(0);   // clean exit of the editor process, see stoppedGame
+        }
     }
 
     @Override
@@ -196,6 +211,12 @@ public class SaveEditorActivity extends Activity {
             }
         }
 
+        /** The page reports whether it has unsaved changes (an exit after a game stop happens only without them). */
+        @JavascriptInterface
+        public void setDirty(boolean d) {
+            dirty = d;
+        }
+
         @JavascriptInterface
         public String gameRunning() {
             return "{\"running\":" + (gamePid() != 0) + "}";
@@ -206,7 +227,10 @@ public class SaveEditorActivity extends Activity {
         @JavascriptInterface
         public String stopGame() {
             int pid = gamePid();
-            if (pid != 0) Process.killProcess(pid);
+            if (pid != 0) {
+                Process.killProcess(pid);
+                stoppedGame = true;
+            }
             return "{\"ok\":true,\"stopped\":" + (pid != 0) + "}";
         }
 
@@ -218,6 +242,7 @@ public class SaveEditorActivity extends Activity {
                 i.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(i);
                 finish();
+                if (stoppedGame) System.exit(0);   // the editor's clean exit becomes the newest one, see stoppedGame
             });
             return "{\"ok\":true}";
         }

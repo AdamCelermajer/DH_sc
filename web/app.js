@@ -96,7 +96,7 @@
     }
 
     // ------------------------------------------------------------ editor
-    function setDirty(v) { st.dirty = v; $("dirty").textContent = v ? "unsaved changes" : "no changes"; $("save").disabled = !v; $("revert").disabled = !v; }
+    function setDirty(v) { st.dirty = v; if (window.AndroidHost && window.AndroidHost.setDirty) window.AndroidHost.setDirty(!!v); $("dirty").textContent = v ? "unsaved changes" : "no changes"; $("save").disabled = !v; $("revert").disabled = !v; }
     const ATTR = ["Str", "Dex", "End", "Ene"];
     function render() {
         if (!st.save) return;

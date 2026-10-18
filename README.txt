@@ -18,7 +18,9 @@ PHONE
      write over the edit, so the editor never writes while the game process lives. If the game is still running when
      you tap Save, the editor asks: "The game is running. Unsaved progress in the game will be lost. Stop the game and
      save?" - Cancel leaves everything as it is; "Stop the game and save" ends the game (like swiping it away) and saves.
-     It never stops the game without asking.
+     It never stops the game without asking. (Stopping a process looks like a crash to Track B's "The game crashed last
+     time" check; after a stop the editor ends its own process cleanly when it starts the game or when you leave it with
+     nothing unsaved, so the game starts normally.)
   3. Open "DH2 Save Editor" from the app list, tap dh2_000.savegame (your hero), edit, tap Save.
   4. After saving the editor offers "Start the game".
   Backups: before every save the editor copies the file to files/editor-backups/<name>.<date> and to <name>.bak
