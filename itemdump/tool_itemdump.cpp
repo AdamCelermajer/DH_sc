@@ -1,4 +1,4 @@
-// dh2_itemdump: the item data of the save editor (tools/save-editor), produced by the game's own code. Not part of the game.
+// dh2_itemdump: the item data of the DH2 save editor (save_editor_dh2), produced by the game's own code. Not part of the game.
 //
 //   dh2_itemdump --data <game files dir> --dump <out.json> [--out <log dir>]
 //
@@ -98,7 +98,7 @@ void Dump(std::FILE* f) {
     StringManager* strings = ApplicationGetStringManager();
     const int itemCount = static_cast<int>(Arrays::ItemTable::size);
     const int powerCount = static_cast<int>(Arrays::ItemPowerTable::size);
-    std::fprintf(f, "{\"source\":\"dh2_itemdump (port/decomp-reconstruction/host-runner/tool_itemdump.cpp): original pydata readers + ItemInstance text code\",\n");
+    std::fprintf(f, "{\"source\":\"dh2_itemdump (save_editor_dh2 itemdump/tool_itemdump.cpp): original pydata readers + ItemInstance text code\",\n");
 
     // ---- constants ----
     std::fprintf(f, "\"constants\":{");

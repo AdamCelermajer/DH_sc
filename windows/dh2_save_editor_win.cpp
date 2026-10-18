@@ -364,6 +364,7 @@ Reply ApiWrite(const std::string& path, const std::string& body) {
         if (RunAdb("-s " + serial + " pull \"" + PhoneDir() + name + "\" \"" + U(check) + "\"", out) != 0 || !ReadFileAll(check, back) || back != bytes)
             return Err("the file on the phone does not match after the push (backup: " + U(dated) + ")");
         DeleteFileW(check.c_str());
+        DeleteFileW(tmp.c_str());
         WriteFileAll(local + L"\\" + W(name), bytes);
         Reply r; r.body = "{\"ok\":true,\"note\":" + Json("written to the phone (" + serial + ")") + ",\"backup\":" + Json(U(dated)) + "}"; return r;
     }

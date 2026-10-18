@@ -54,6 +54,6 @@ button.ghost { background: transparent; }
 .pw.off { opacity: .4; }
 .err { color: #ff8a70; }
 .ok { color: #9be38a; }
-.toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: 70px; background: #3a2d20; border: 1px solid #d39a35; padding: 10px 16px; border-radius: 8px; z-index: 20; max-width: 90vw; }
+.toast { overflow-wrap: anywhere; position: fixed; left: 50%; transform: translateX(-50%); bottom: 70px; background: #3a2d20; border: 1px solid #d39a35; padding: 10px 16px; border-radius: 8px; z-index: 20; max-width: 90vw; }
 .savefile { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
 .more { text-align: center; padding: 8px; }

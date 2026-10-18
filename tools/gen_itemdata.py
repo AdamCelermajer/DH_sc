@@ -1,9 +1,9 @@
 #!/usr/bin/env python3
 """Build-time generator of the save editor's item data (itemdata.json) from the dump the game itself writes.
 
-usage: py -3 -I tools/save-editor/gen_itemdata.py <itemdata-raw.json from dh2_itemdump> <out itemdata.json | itemdata.js>
+usage: py -3 -I tools/gen_itemdata.py <itemdata-raw.json from dh2_itemdump> <out itemdata.json | itemdata.js>
 
-The raw dump comes from port/decomp-reconstruction/host-runner/tool_itemdump.cpp (dh2_itemdump), which runs the original
+The raw dump comes from itemdump/tool_itemdump.cpp (dh2_itemdump, linked against the dh_noam host runner), which runs the original
 pydata readers and the original ItemInstance text code. This script only reshapes it and precomputes, per item row, the
 ways the original loot code can create that row with powers ("sources"), following these functions of the reconstruction
 (port/decomp-reconstruction/game-items-save/src):

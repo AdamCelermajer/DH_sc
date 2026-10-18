@@ -15,8 +15,14 @@
     data.lang = +langSel.value;
     langSel.onchange = () => { data.lang = +langSel.value; localStorage.setItem("dh2lang", langSel.value); render(); };
 
-    function toast(msg, ms) { const t = $("toast"); t.innerHTML = msg; t.classList.remove("hidden"); clearTimeout(toast.t); toast.t = setTimeout(() => t.classList.add("hidden"), ms || 3500); }
-    function fail(e) { console.error(e); toast('<span class="err">' + esc(e.message || e) + "</span>", 6000); }
+    // ms = 0: stays until tapped
+    function toast(msg, ms) {
+        const t = $("toast"); t.innerHTML = msg; t.classList.remove("hidden"); clearTimeout(toast.t);
+        if (ms !== 0) toast.t = setTimeout(() => t.classList.add("hidden"), ms || 3500);
+    }
+    $("toast").onclick = (e) => { if (e.target.tagName !== "BUTTON") $("toast").classList.add("hidden"); };
+    if (host.launchGame) { $("play").classList.remove("hidden"); $("play").onclick = () => { if (!st.dirty || confirm("Start the game without saving the changes?")) host.launchGame().catch(fail); }; }
+    function fail(e) { console.error(e); toast('<span class="err">' + esc(e.message || e) + "</span>", 0); }
 
     // ------------------------------------------------------------ open
     function showFiles() {
@@ -279,7 +285,7 @@
             return st.checkpoints.reduce((p, cp) => p.then(() => host.read(cp).then((cb) => host.write(cp, DH2.replaceGear(cb, gear))).then(() => { synced++; })), Promise.resolve()).then(() => r);
         }).then((r) => {
             st.save = back; setDirty(false); render();
-            toast('<span class="ok">Saved.</span> ' + esc(r.note || "") + (synced ? " (+ " + synced + " checkpoint copy)" : "") + (r.backup ? "<br>Backup: " + esc(r.backup) : ""), 7000);
+            toast('<span class="ok">Saved.</span> ' + esc(r.note || "") + (synced ? " (+ " + synced + " checkpoint copy)" : "") + (r.backup ? "<br>Backup: " + esc(String(r.backup).split(/[\\/]/).slice(-2).join("/")) : ""), host.launchGame ? 0 : 7000);
             if (host.launchGame) {
                 const b2 = document.createElement("button"); b2.textContent = "Start the game"; b2.style.marginLeft = "8px";
                 b2.onclick = () => host.launchGame().catch(fail);

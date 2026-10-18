@@ -56,8 +56,18 @@ public class SaveEditorActivity extends Activity {
         s.setDomStorageEnabled(true);
         s.setAllowFileAccess(true);   // file:///android_asset only; no network content is loaded
         web.setWebViewClient(new WebViewClient());
+        web.setWebChromeClient(new android.webkit.WebChromeClient());   // shows the page's confirm() dialogs
         web.addJavascriptInterface(new Bridge(), "AndroidHost");
-        setContentView(web);
+        // targetSdk 35 draws edge to edge: a padded frame keeps the page clear of the status and navigation bars
+        android.widget.FrameLayout frame = new android.widget.FrameLayout(this);
+        frame.setBackgroundColor(Color.rgb(0x2a, 0x21, 0x18));
+        frame.addView(web);
+        if (android.os.Build.VERSION.SDK_INT >= 30) frame.setOnApplyWindowInsetsListener((v, insets) -> {
+            android.graphics.Insets bars = insets.getInsets(android.view.WindowInsets.Type.systemBars() | android.view.WindowInsets.Type.ime());
+            v.setPadding(bars.left, bars.top, bars.right, bars.bottom);
+            return insets;
+        });
+        setContentView(frame);
         web.loadUrl("file:///android_asset/dh2editor/index.html");
     }
 

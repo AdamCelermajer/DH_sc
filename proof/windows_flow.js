@@ -17,8 +17,11 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await shot("win-01-start.png");
     // folder location: type the path and press "Open folder"
     await c.waitFor("document.querySelector('#sources input')");
-    await c.eval(`(() => { const inp = document.querySelector('#sources input'); inp.value = ${JSON.stringify(folder)}; document.querySelector('#sources button').click(); })()`);
+    // "<folder>" opens a folder, "adb:<serial>" the phone/emulator over adb (second location row)
+    const adb = folder.startsWith("adb:");
+    await c.eval(`(() => { const row = document.querySelectorAll('#sources .row')[${adb ? 1 : 0}]; row.querySelector('input').value = ${JSON.stringify(adb ? folder.slice(4) : folder)}; row.querySelector('button').click(); })()`);
     await sleep(1200);
+    await c.waitFor("document.querySelector('#savelist .item')", 60000);
     await shot("win-02-list.png");
     await c.waitFor("document.querySelector('#savelist .item')");
     await c.eval(`document.querySelector('#savelist .item').click()`);
@@ -32,7 +35,7 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await c.eval(`document.getElementById('close').click()`);
     // gold +5000 with the button, potions to 3
     await c.eval(`document.querySelector('[data-add]').click()`);
-    await c.eval(`(() => { const p = document.getElementById('potions'); p.value = 3; p.onchange(); })()`);
+    await c.eval(`(() => { const p = document.getElementById('potions'); p.value = ${+(process.env.POTIONS || 3)}; p.onchange(); })()`);
     // add an item through the catalog + builder
     await c.eval(`document.getElementById('tab-add').click()`);
     if (itemKey) {
