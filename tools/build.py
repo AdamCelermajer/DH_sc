@@ -86,12 +86,28 @@ def main():
         os.makedirs(rel)
         if apk:
             base = os.path.splitext(os.path.basename(a.apk_base))[0]
-            shutil.copyfile(apk, os.path.join(rel, base + "-saveeditor.apk"))
+            tag = a.release.rsplit("-", 1)[-1]   # save-editor-<hash> -> <hash>
+            shutil.copyfile(apk, os.path.join(rel, base + "-saveeditor-" + tag + ".apk"))
         appdir = os.path.join(rel, "DH2-Save-Editor-Windows")
         os.makedirs(appdir)
         shutil.copyfile(os.path.join(win, "dh2-save-editor.exe"), os.path.join(appdir, "dh2-save-editor.exe"))
         shutil.copytree(web, os.path.join(appdir, "web"))
         shutil.copyfile(os.path.join(REPO, "README.txt"), os.path.join(rel, "README.txt"))
+        import hashlib
+        sums = []
+        for root, _, files in os.walk(rel):
+            for f in sorted(files):
+                fp = os.path.join(root, f)
+                h = hashlib.sha256()
+                with open(fp, "rb") as fh:
+                    for chunk in iter(lambda: fh.read(1 << 20), b""):
+                        h.update(chunk)
+                sums.append(h.hexdigest() + "  " + os.path.relpath(fp, rel).replace(os.sep, "/"))
+        with open(os.path.join(rel, "SHA256SUMS"), "w", newline="
+") as fh:
+            fh.write("
+".join(sorted(sums, key=lambda x: x.split("  ", 1)[1])) + "
+")
         print("release:", rel)
     print("done:", out)
 

@@ -7,13 +7,13 @@ phone and on Windows. The rules come from the reconstructed original game code, 
 game's own data, so edited saves only contain what the original game can produce.
 
 What is in this folder
-  dh2-trackb-v0.3.0-saveeditor.apk  Track B v0.3.0 with the editor added: a second app icon "DH2 Save Editor".
+  dh2-trackb-test-de49e9e51-saveeditor-<hash>.apk  the Track B test build de49e9e51 with the editor added: a second app icon "DH2 Save Editor".
   DH2-Save-Editor-Windows\          the Windows app (keep the folder together): dh2-save-editor.exe + web\
   proof\                            screenshots of the checks (game and editor)
 
 PHONE
   1. Install the APK over your Track B game (same signature, it installs as an update; your saves stay):
-     adb install -r dh2-trackb-v0.3.0-saveeditor.apk   (or open the APK file on the phone)
+     adb install -r dh2-trackb-test-de49e9e51-saveeditor-<hash>.apk   (or open the APK file on the phone)
   2. Best: close the game first (swipe it away from the recent apps). The game keeps the hero in memory and would
      write over the edit, so the editor never writes while the game process lives. If the game is still running when
      you tap Save, the editor asks: "The game is running. Unsaved progress in the game will be lost. Stop the game and
