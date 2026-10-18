@@ -16,6 +16,7 @@
 //     leftover r0 of the last call.
 
 #include <cstring>
+#include "net-transport/net_trace.hpp"  // DH2_NET_TRACE_LOG (host runner only)
 
 #include "core-platform/debug_out.hpp"
 #include "core-platform/device.hpp"
@@ -54,6 +55,7 @@ void NativeIsGLLiveMultiplayer(const gameswf::fn_call& call) {
 
 // 0x43a0cc NativeSendRoomSearchRequest(gameswf::fn_call const&): the online state machine is set to state 102 (room search).
 void NativeSendRoomSearchRequest(const gameswf::fn_call& /*call*/) {
+    DH2_NET_TRACE_LOG("[mp] NativeSendRoomSearchRequest\n");
     OnlineSingleton<OnlineGameState>::GetInstance()->SetState(102);
 }
 

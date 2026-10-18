@@ -13,6 +13,7 @@
 // (library, tests, host runner, Android) has exactly one definition.
 int g_dh2ScreenFitMode = 1;
 int g_dh2HudScalePercent = 0;
+int g_dh2EnemyBarFollow = 1;
 
 namespace dh2port {
 namespace {
@@ -29,6 +30,7 @@ std::vector<Entry>& Entries() {
     static std::vector<Entry> e = {
         {"screenfit", &g_dh2ScreenFitMode, 1, 0, 1},
         {"hudscale", &g_dh2HudScalePercent, 0, 0, 200},
+        {"enemybar", &g_dh2EnemyBarFollow, 1, 0, 1},
     };
     return e;
 }

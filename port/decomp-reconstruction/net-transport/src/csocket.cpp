@@ -2,6 +2,9 @@
 
 #include <cstdlib>
 #include <cstring>
+#ifdef __ANDROID__
+#include <android/log.h>
+#endif
 
 #ifndef _WIN32
 #include <net/if.h>
@@ -375,8 +378,12 @@ int CSocket::OpenTCP(std::uint16_t port, unsigned int options) {
 }
 
 // 0x827da0 _ZN7CSocket15GetLocalAddressEv
-// Walks the SIOCGIFCONF list and returns the first up, non-loopback IPv4 address. Winsock has no
-// SIOCGIFCONF; its equivalent is WSAIoctl(SIO_GET_INTERFACE_LIST) over a datagram socket, which gives the same
+// Walks the SIOCGIFCONF list and returns the first up, non-loopback IPv4 address.
+// Port deviation (MP2, reports/decomp-reconstruction/MULTIPLAYER.md fix 10): on POSIX a Wi-Fi / LAN interface (wlan*, swlan*, ap*, eth*, en*) is preferred over
+// the first up one. A 2012 phone had only Wi-Fi up during a LAN game; a current phone keeps mobile data up next to it, and on some
+// (Galaxy S942B: rmnet1 before wlan0) the cellular interface comes first, so the room advertised the cellular address and the
+// joiner could see the room (the broadcast arrives over Wi-Fi) but never connect. Without such an interface the original rule applies.
+// Winsock has no SIOCGIFCONF; its equivalent is WSAIoctl(SIO_GET_INTERFACE_LIST) over a datagram socket, which gives the same
 // per-interface address and IFF_UP flag (the Windows build reads the list in the same order and applies the same tests).
 // The original leaks its probe socket on the ioctl-failure and found paths; the port closes it on every path
 // (a leaked descriptor is not behaviour anything reads).
@@ -394,14 +401,19 @@ std::uint32_t CSocket::GetLocalAddress() {
         ::close(fd);
         return 0;
     }
-    std::uint32_t found = 0;
+    std::uint32_t found = 0;      // the original's answer: the first up, non-loopback address
+    std::uint32_t foundLan = 0;   // the port's preference: the first up Wi-Fi / LAN interface
+#ifdef __ANDROID__
+    char lanName[IFNAMSIZ + 1] = {};
+#endif
     for (char* p = buffer; p < buffer + conf.ifc_len; p += sizeof(ifreq)) {
         ifreq entry{};
         std::memcpy(&entry, p, sizeof(entry));
         if (entry.ifr_addr.sa_family != AF_INET) {
             continue;
         }
-        const sockaddr_in* addr = reinterpret_cast<const sockaddr_in*>(&entry.ifr_addr);
+        // ifr_addr and ifr_flags share a union: keep the address before SIOCGIFFLAGS overwrites it
+        const std::uint32_t address = static_cast<std::uint32_t>(reinterpret_cast<const sockaddr_in*>(&entry.ifr_addr)->sin_addr.s_addr);
         char* colon = std::strchr(entry.ifr_name, ':');
         if (colon != nullptr) {
             *colon = '\0';
@@ -409,13 +421,38 @@ std::uint32_t CSocket::GetLocalAddress() {
         if (::ioctl(fd, SIOCGIFFLAGS, &entry) < 0) {
             continue;
         }
-        if ((entry.ifr_flags & IFF_UP) != 0 && addr->sin_addr.s_addr != htonl(INADDR_LOOPBACK)) {
-            found = static_cast<std::uint32_t>(addr->sin_addr.s_addr);
+        if ((entry.ifr_flags & IFF_UP) == 0 || address == htonl(INADDR_LOOPBACK)) {
+            continue;
+        }
+        if (found == 0) {
+            found = address;
+        }
+        const char* name = entry.ifr_name;
+        if (std::strncmp(name, "wlan", 4) == 0 || std::strncmp(name, "swlan", 5) == 0 || std::strncmp(name, "ap", 2) == 0 ||
+            std::strncmp(name, "eth", 3) == 0 || std::strncmp(name, "en", 2) == 0) {
+            foundLan = address;
+#ifdef __ANDROID__
+            std::strncpy(lanName, name, sizeof(lanName) - 1);
+#endif
             break;
         }
     }
     ::close(fd);
-    return found;
+#ifdef __ANDROID__
+    {
+        // one logcat line whenever the answer changes (session reports keep tag DH2NET): which interface a LAN game advertises
+        static std::uint32_t lastLogged = 0;
+        const std::uint32_t chosen = foundLan != 0 ? foundLan : found;
+        if (chosen != lastLogged) {
+            lastLogged = chosen;
+            in_addr a{};
+            a.s_addr = chosen;
+            __android_log_print(ANDROID_LOG_INFO, "DH2NET", "local address %s (%s; first up %s)", ::inet_ntoa(a), foundLan != 0 ? lanName : "no Wi-Fi/LAN interface",
+                                found == chosen ? "same" : "other");
+        }
+    }
+#endif
+    return foundLan != 0 ? foundLan : found;
 #else
     SOCKET probe = ::socket(AF_INET, SOCK_DGRAM, 0);
     if (probe == INVALID_SOCKET) {

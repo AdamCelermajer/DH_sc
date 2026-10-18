@@ -69,6 +69,7 @@ int g_hudSelectedElement = -1;  // layout index selected on the customise page, 
 void HudScaleRelease();
 void HudScaleReset();
 void HudScaleApply(MenuFX* hud);
+void HudLayoutRelease(MenuFX* hud);
 namespace {
 
 // The layout element with the given index, in the order of m_classicPos / m_stylePos and of the default words:
@@ -311,6 +312,9 @@ float HUDControls::OnEvent(RenderFX::Event& event) {
     gameswf::character* target = event.target;
 
     if (m_customizing) {
+        if (eventType == 4 || eventType == 5 || eventType == 6) {
+            HudLayoutRelease(m_menu);  // UI9: drag and save in base (unanchored, unsized) coordinates; the next Draw re-applies them
+        }
         if (std::getenv("DH2_FIT_DEBUG") != nullptr) {
             std::fprintf(stderr, "FITDBG custom event type=%d target=%s x=%g y=%g sel=%d%c", eventType,
                          target != nullptr ? target->get_name().c_str() : "(null)", event.x, event.y, g_hudSelectedElement, 10);
@@ -924,6 +928,17 @@ void CoverHudOverlay(gameswf::character* character, const HudAnchorFrame& frame,
 // HUDControls::initCachedChars before the layout is read. Returns true while the HUD movie is anchored to the real screen edges, so the
 // caller can lift the clip of the 16:9 box (the HUD may then draw outside it).
 static bool HudAnchorPass(MenuFX* hud, bool release);
+void HudLayoutRelease(MenuFX* hud);
+
+void HudLayoutRelease(MenuFX* hud) {
+    if (hud == nullptr || Singleton<Application>::s_inst.GetCurrentLevel() == nullptr) {
+        return;
+    }
+    HudScaleRelease();
+    if (ScreenUsesAspectFit()) {
+        HudAnchorPass(hud, true);
+    }
+}
 
 bool HudAnchorUpdate(MenuFX* hud, bool release) {
     if (hud == nullptr || Singleton<Application>::s_inst.GetCurrentLevel() == nullptr) {
@@ -974,12 +989,10 @@ static bool HudAnchorPass(MenuFX* hud, bool release) {
     frame.centreY = static_cast<float>(stage.m_y_min) + stageH * 0.5f;
     frame.bandX = stageW * 0.10f;
     frame.bandY = stageH * 0.10f;
-    // While the player customises the layout the HUD is shown in the 16:9 box and edited in stage space: no offsets.
-    if (HUDControls::GetInstance()->m_customizing) {
-        release = true;
-    }
-    // UI5: while a menu page covers the HUD (charmenu / menus page up, or the HUD movie's own pause page) the HUD stays in its box, where
-    // the page covers it as on the original's stretched screen; the bars beside the box are painted black by the render handler.
+    // UI9: the customise page shows the play layout (anchored, sized). The drag/save code works on the base layout: HUDControls::OnEvent
+    // calls HudLayoutRelease() before it reads or writes positions, and the next Draw puts the offsets back.
+    // UI12: while a menu page covers the HUD (charmenu / menus page up, or the HUD movie's own pause page) the anchoring is released and
+    // the HUD sits under the stretched page as on the original's screen.
     if (HudCoveredByPage()) {
         release = true;
     }
@@ -1009,7 +1022,9 @@ static bool HudAnchorPass(MenuFX* hud, bool release) {
                 // and the enemy bar move on their own. The ally bars are placed from world positions by InfoHUDManager::FastUpdate.
                 AnchorHudElement(ChildNamed(child, "player"), kAnchorGeometry, frame, release);
                 AnchorHudElement(ChildNamed(child, "btn_potion"), kAnchorGeometry, frame, release);
-                AnchorHudElement(ChildNamed(child, "enemy"), kAnchorGeometry, frame, release);
+                if (dh2port::Get("enemybar", 1) == 0) {  // UI7: with the bar following the enemy, InfoHUDManager owns its position
+                    AnchorHudElement(ChildNamed(child, "enemy"), kAnchorGeometry, frame, release);
+                }
             } else if (std::strcmp(name, "controls") == 0) {
                 gameswf::character* inner = ChildNamed(child, "controls");
                 static const char* const kControls[] = {"Joystick", "btn_interact", "btn_skill1", "btn_skill2",
@@ -1217,8 +1232,8 @@ void HudLoadOverlayTextures() {
     }
     g_hudTexTried = true;
     glitch::video::CTextureManager* textures = ApplicationGetInstance().m_device->videoDriver->m_textureManager;
-    g_hudPlusTex = textures->getTexture("data/port/hud_scale_plus.png", nullptr);
-    g_hudMinusTex = textures->getTexture("data/port/hud_scale_minus.png", nullptr);
+    g_hudPlusTex = textures->getTexture("data/port/hud_scale_plus.tgp", nullptr);
+    g_hudMinusTex = textures->getTexture("data/port/hud_scale_minus.tgp", nullptr);
 }
 
 }  // namespace

@@ -138,7 +138,7 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     exclusive/atomic access or a vector store to such an address faults. Free-space accounting, merging and the dump format are the
     binary's; only block sizes grow (the dump prints the rounded size). `glitch-core-io/tests/process_buffer_heap_test.cpp` checks this
     layout.
-15. Centred 16:9 Flash fit and 3D aspect (2026-10-17, UI3, deviation from the binary): the original stretches every Flash movie over the whole
+15. Screen aspect: 3D aspect, HUD box, tailored menu layouts (2026-10-17, UI3..UI12, deviation from the binary; the centred menu box of UI3 and the black bars of UI4 (c) / UI5 are gone since UI12, see the end): the original stretches every Flash movie over the whole
     surface (`MenuFlash2DCamera::Update` -> `SetBounds(..., scale_mode 0)`) and builds its cameras for a 16:9 screen (Level camera aspect 1.66775,
     avatar camera `kAvatarCameraAspectRatio`). On a surface of any other aspect (21:9 phone, square foldable) that distorts the UI. The port keeps
     the viewport on the whole surface and fits the movies into the largest centred 16:9 rectangle (`ScreenUsesAspectFit()` in
@@ -186,6 +186,38 @@ the one link group. Game code may include `lua.h`, `Box2D.h` and `gameswf/gamesw
     stays the original's stage positions. While customising, the HUD movie uses the plain fit box so every element is on the screen.
     Medallion touches are swallowed in `RenderFX::UpdateCursor` (`HudCustomizeOverlayHit`); the overlay is drawn by `MenuManager::Draw`
     after the HUD movie (`HudCustomizeOverlayDraw`, 2D driver path of the loading screens).
+    UI7 port option `enemybar` (default 1): the original shows the targeted enemy's bar (`HealthBars.enemy`) at a fixed HUD slot
+    (InfoHUDManager::FastUpdate only shows/hides it and sets name, level and HP frame; the ally bars are the ones placed from world
+    positions). With the option on, the bar's bottom centre is placed above the enemy's head (world position + 350, the ally offset)
+    through the HUD movie's box; when the head is off the rendered screen, or with the option off, the bar is back at its authored
+    slot, so the original look is one switch away ("!" dialog, `enemybar=0`).
+    UI8..UI11 (2026-10-17/18, superseded by UI12): automatic per-clip layouts (spread toward the edges, grouping, stretch then
+    shape restore by size class, sticky classes). Each round fixed one page and broke another, because the classes came from clip
+    bounds that animations, selection glows and hit areas change. Kept from that time: UI9 (a) the activity is `sensorLandscape`
+    and the game's own accelerometer flip (`nativeSetOrientation`) is no longer called, Android rotates the window; UI9 (b) the HUD
+    customise page shows the play layout and `HUDControls::OnEvent` calls `HudLayoutRelease` before its drag/save maths; the HUD
+    customise medallions are `.tgp` files (TGA 2.0 footer; `FileSystemBase::ApplyFilenameHacks` sends every `.tga` name to
+    data/3d/textures/); `dumpui=1` (the "!" dialog's Save mark) logs every clip path of the visible pages under logcat tag DH2FIT.
+    UI12 (2026-10-18, the user's rule: hand-tailored layouts for the common phone ratios, the plain stretch for any other, no
+    automatic rules, no boxes, no bars): (a) the menu movies (slots 0-2) are stretched over the whole surface exactly as the binary
+    does (`SetBounds(..., scale_mode 0)`), so every position is the original's and edges reach the screen edges; the HUD movie keeps
+    its UI5 box and anchoring, except while it shows its own pause page (`HudMoviePageUp`), when it is stretched like the menus.
+    (b) `data/port/ui_layouts.txt` (shipped as `assets/dh2port/ui_layouts.txt`, copied by DataSetup; written once in
+    `tools/trackb/ui_layouts.body.txt` and composed per ratio section by `py -3 tools/trackb/ui_walk.py layouts`) lists, per
+    screen-ratio section, the clips whose 16:9 shape is restored: `shape` scales the clip back against the stretch (x by 1/r on a
+    wide screen, y by r on a tall one, r = (W/H)/(16/9)) about a pivot: a point of its own bound (`anchor=`), a point of the stage
+    (`edge=`, e.g. a column pinned to the right edge) or a sibling's bound (`pivot=`); `cover` scales the other axis up instead
+    (pictures; `amount=0.5` = half cropped, half stretched, used for the splash art); `grow` lets a clip take the section's
+    `scale=` (the Fold inner screen section has 1.25: main menu, start game, loading, pause and splash buttons get bigger, dense
+    pages keep the 16:9 size). Sections: 1.95-2.50 (18:9 to 21:9 phones, Fold cover 2520x1080), 1.00-1.45 (Fold inner 2184x1968,
+    4:3 tablets), 1.45-1.70 (16:10, 3:2). 16:9 and any unlisted ratio get the pure original stretch. Every rule works from the
+    clip's timeline matrix each frame (animations stay right) and runs again before the hit test (`MenuPageLayoutForCursor`), so
+    taps land on what is drawn. A matrix that keeps the scale written by the rule and changes only the translation is a move by
+    the game (`MenuFX::SetPosition` while a skill icon is dragged, `Dragable::ResetPosition`): the move is added to the
+    remembered timeline matrix instead of replacing it (otherwise the shape was restored again on every move and the dragged
+    icon shrank away; the user's Fold report of 2026-10-18). (c) Regression walk: `py -3 tools/trackb/ui_walk.py run` drives the host runner through 19 shots
+    (splash to the HUD customise page, a skill dropped on no slot, menu taps by clip name with the runner's `tapclip <path>`) at 1920x1080, 2520x1080 and
+    2184x1968, and `ui_walk.py sheet` writes one contact sheet per size (16:9 reference next to each page).
 
 ## Worker protocol (one batch = one owner class, up to about 20 functions)
 

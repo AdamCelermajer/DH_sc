@@ -127,54 +127,6 @@ MenuFlash2DCamera::~MenuFlash2DCamera() {}
 // Not written: compiler-generated. The original stores the vptr and then calls CustomFree on the object, which is what
 // delete does for this class.
 
-// Port addition (UI3): the centred 16:9 box of the movie being drawn: {active, x, y, width, height} in surface pixels. Read by gameswf's render handler.
-
-namespace {
-
-// Port deviation (UI4; TRACK-B.md decision 15, not in the original): the menu movies park a "preload_font" clip (six text fields holding the
-// word "Warrior", whose glyphs MenuManager preloads) just outside the top-left corner of the stage. A 16:9 screen never shows the outside of
-// the stage, but the 5% clip margin around the fit box (below) does, so the text appeared on the splash screen and the main menu. The clip is
-// parked far above the stage instead (once; it still exists and its glyphs are preloaded as before, it is only never inside any clip margin).
-void ParkPreloadFont(MenuFX* menu) {
-    gameswf::root* root = menu->m_root.get_ptr();
-    if (root == nullptr || root->m_movie.get_ptr() == nullptr || !root->m_movie->is(2)) {
-        return;
-    }
-    auto* movie = static_cast<gameswf::sprite_instance*>(root->m_movie.get_ptr());
-    for (int i = 0; i < movie->m_display_list.size(); ++i) {
-        gameswf::character* child = movie->m_display_list.get_character(i);
-        if (child != nullptr && std::strcmp(child->get_name().c_str(), "preload_font") == 0) {
-            constexpr float kParkedTwips = -20000.0f;  // 1000 stage pixels above the top edge
-            const gameswf::matrix local = child->get_matrix();
-            if (static_cast<float>(local.m_[1][2]) > kParkedTwips) {
-                gameswf::matrix placed = local;
-                placed.m_[1][2] = kParkedTwips;
-                child->set_matrix(placed);
-            }
-        }
-    }
-}
-
-// Port deviation (UI4; TRACK-B.md decision 15): the menu states that are opaque full-screen pages. A page of the menus movie shows the 3D
-// main-menu scene through its transparent parts (the main menu panel, the start-game panel, dialogs), but the splash ("Touch the screen to
-// continue") and the loading page are meant to cover the whole screen. The movie has no flag for it (the SWF background colour is the same
-// everywhere, the pages are plain sprites under the root), so the page is told by the name of the current state, as MenuManager already
-// tells pages apart. On such a page the bars outside the 16:9 box are painted black by the render handler (g_dh2FlashFit[5]).
-bool IsOpaqueFullScreenState(const MenuFX::State* state) {
-    if (state == nullptr || state->m_name == nullptr) {
-        return false;
-    }
-    static const char* const kOpaque[] = {"menu_splash", "menu_Loading", "menu_VerificationLoading"};
-    for (const char* name : kOpaque) {
-        if (std::strcmp(state->m_name, name) == 0) {
-            return true;
-        }
-    }
-    return false;
-}
-
-}  // namespace
-
 // 0x42cd84 _ZN17MenuFlash2DCamera6UpdateEv
 // The position m_x and m_y eases toward the targets (each step at least one unit, never past the target). With a limit clip the
 // position is clamped so the clip bounds cover the screen (left and top, then right and bottom, with the screen size read from the
@@ -234,28 +186,20 @@ void MenuFlash2DCamera::Update() {
         }
     }
     m_menu->SetViewport(0, 0, width, height);
-    // Port deviation (UI2; TRACK-B.md decision 15, the original stretches): the binary stretches the movie over the whole surface (scale mode 0). The movies are authored for 16:9, so on a
-    // surface of another aspect (21:9 phone, square foldable) that distorts everything. Keep the viewport (clipping, input) on the whole
-    // surface and fit the movie into the largest centred 16:9 rectangle of it. Surfaces of the original's own sizes are left as they were.
-    std::int32_t fitX = 0, fitY = 0, fitW = width, fitH = height;
-    if (ScreenUsesAspectFit() && width > 0 && height > 0) {
-        if (static_cast<std::int64_t>(width) * 9 > static_cast<std::int64_t>(height) * 16) {
-            fitW = height * 16 / 9;
-            fitX = (width - fitW) / 2;
-        } else if (static_cast<std::int64_t>(width) * 9 < static_cast<std::int64_t>(height) * 16) {
-            fitH = width * 9 / 16;
-            fitY = (height - fitH) / 2;
-        }
-    }
-    // Port deviation (UI5; TRACK-B.md decision 15): the HUD movie gets its own box, the fit scaled by HudScalePercent() about the surface
-    // centre (bigger controls on a tablet-shaped screen; HudAnchorUpdate pulls the corners back to the real edges). Every movie's box is
-    // recorded (SetFlashBoxForRoot) for the code that maps surface pixels into a movie's stage.
-    const bool fitActive = ScreenUsesAspectFit() && (fitW != width || fitH != height);
+    // Port deviation (UI12; TRACK-B.md decision 15): the menu movies are stretched over the whole surface exactly as in the original
+    // (scale mode 0); on a known screen ratio the hand-written rules of ui_layouts.txt restore the shape of named elements
+    // (MenuPageLayoutUpdate, game-ui/src/screen_fit_pages.cpp). Only the HUD movie gets its own box: the 16:9 fit scaled by
+    // HudScalePercent() about the surface centre, its corners re-anchored to the real edges by HudAnchorUpdate.
+    std::int32_t boxX = 0, boxY = 0, boxW = width, boxH = height;
     MenuManager* manager = MenuManager::GetInstance();
     const bool isHud = manager != nullptr && manager->m_multiMenuManager != nullptr && m_menu == manager->GetHUDRoot();  // (menu tests: a zeroed manager)
-    std::int32_t boxX = fitX, boxY = fitY, boxW = fitW, boxH = fitH;
-    // On the HUD customise page the plain fit box is used (UI6): the layout is edited in stage space inside the screen, nothing hangs off it.
-    if (fitActive && isHud && !HudCustomizing()) {
+    if (isHud && ScreenUsesAspectFit() && width > 0 && height > 0 && !HudMoviePageUp()) {  // (the pause page: stretched like the menus)
+        std::int32_t fitW = width, fitH = height;
+        if (static_cast<std::int64_t>(width) * 9 > static_cast<std::int64_t>(height) * 16) {
+            fitW = height * 16 / 9;
+        } else if (static_cast<std::int64_t>(width) * 9 < static_cast<std::int64_t>(height) * 16) {
+            fitH = width * 9 / 16;
+        }
         const std::int32_t percent = HudScalePercent();
         boxW = fitW * percent / 100;
         boxH = fitH * percent / 100;
@@ -264,43 +208,6 @@ void MenuFlash2DCamera::Update() {
     }
     m_menu->SetBounds(m_x + boxX, m_y + boxY, boxW, boxH, static_cast<gameswf::scale_mode>(0));
     SetFlashBoxForRoot(m_menu->GetRoot(), boxX, boxY, boxW, boxH);
-    // The movies park elements outside their stage (dialogs, labels) that the original's stretch never showed on its 16:9 screens; the fit leaves
-    // bars where they would bleed into, so the render handler clips the movie to this box (render_handler_glitch::begin_display).
-    g_dh2FlashFit[0] = fitActive ? 1 : 0;
-    if (g_dh2FlashFit[0] != 0) {
-        ParkPreloadFont(m_menu);
-    }
-    // The stage art overflows its 16:9 frame by a few percent (corner ornaments, panel edges): clip 5% outside the frame, not at it.
-    const std::int32_t padX = boxX > 0 ? boxW / 20 : 0;
-    const std::int32_t padY = boxY > 0 ? boxH / 20 : 0;
-    g_dh2FlashFit[1] = boxX - (padX < boxX ? padX : boxX);
-    g_dh2FlashFit[2] = boxY - (padY < boxY ? padY : boxY);
-    g_dh2FlashFit[3] = boxW + 2 * (padX < boxX ? padX : boxX);
-    g_dh2FlashFit[4] = boxH + 2 * (padY < boxY ? padY : boxY);
-    // Black bars outside the box (render_handler_glitch::begin_display): on an opaque full-screen page (splash, loading), and in a level
-    // whenever a page covers the HUD (UI5): the charmenu / menus movies' pages, and the HUD movie itself while its pause page is up. The
-    // original's pages cover the whole stretched screen, so neither the HUD nor the world shows beside them.
-    const bool levelRunning = ApplicationGetInstance().GetCurrentLevel() != nullptr;
-    const bool covered = levelRunning && HudCoveredByPage();
-    // An opaque page counts only while it is really shown: the menus root keeps menu_Loading as its current state all through the level.
-    const bool opaquePage = IsOpaqueFullScreenState(m_menu->GetCurrentState()) && (!levelRunning || HudCoveredByPage());
-    g_dh2FlashFit[5] = (fitActive && (opaquePage || covered)) ? 1 : 0;
-    if (std::getenv("DH2_FIT_DEBUG") != nullptr && fitActive && levelRunning) {
-        static int lastBars[8] = {-1, -1, -1, -1, -1, -1, -1, -1};
-        const int key = isHud ? 0 : (reinterpret_cast<std::uintptr_t>(m_menu) >> 4) % 7 + 1;
-        if (lastBars[key] != g_dh2FlashFit[5]) {
-            lastBars[key] = g_dh2FlashFit[5];
-            const MenuFX::State* st = m_menu->GetCurrentState();
-            std::fprintf(stderr, "FITDBG menu=%p hud=%d state=%s bars=%d\n", static_cast<void*>(m_menu), isHud ? 1 : 0,
-                         st != nullptr ? st->m_name : "(none)", g_dh2FlashFit[5]);
-        }
-    }
-    g_dh2FlashFit[6] = boxX > 0 ? boxX : 0;
-    g_dh2FlashFit[7] = boxY > 0 ? boxY : 0;
-    g_dh2FlashFit[8] = boxX > 0 ? boxW : width;
-    g_dh2FlashFit[9] = boxY > 0 ? boxH : height;
-    g_dh2FlashFit[10] = width;
-    g_dh2FlashFit[11] = height;
 }
 
 // 0x42cf30 _ZN17MenuFlash2DCamera12SetLimitClipEPN7gameswf9characterE

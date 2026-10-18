@@ -1,4 +1,5 @@
 #include "net-session-online/c_matching_local.hpp"
+#include "net-transport/net_trace.hpp"  // DH2_NET_TRACE_LOG (host runner only)
 #include "net-session-online/deps/matching_queue.hpp"
 #include "net-session-online/c_room_attributes.hpp"  // CRoomAttributes (real)
 #include "net-session-online/c_room_search_filter.hpp"  // CRoomSearchFilter (real)
@@ -20,11 +21,18 @@ std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, CNetworkId& addres
         if (entry.second.address.IsEqual(address)) {
             entry.second.lastSeenMs = OnlineNowMs();
             entry.second.rank = rank;
+            DH2_NET_TRACE_LOG("[mp] AddServer refresh key %llu member %d rank %d\n", static_cast<unsigned long long>(entry.first), memberId, rank);
             serversMutex_.Unlock();
             return 0;
         }
     }
-    if (roomSearchFilter_.TestRoomAttributes(attributes)) {
+    const bool accepted = roomSearchFilter_.TestRoomAttributes(attributes);
+    if (!accepted) {
+        DH2_NET_TRACE_LOG("[mp] AddServer filter rejected member %d (attr1 %d attr2 %d attr4 %d attr5 %d)\n", memberId, attributes.GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(1)),
+                          attributes.GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(2)), attributes.GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(4)),
+                          attributes.GetAttributeInt(static_cast<tROOM_ATTRIBUTES_INT>(5)));
+    }
+    if (accepted) {
         tMatchingPeer peer;
         peer.memberId = memberId;
         peer.address = address;
@@ -37,6 +45,7 @@ std::int32_t CMatchingLocal::AddServer(std::int32_t memberId, CNetworkId& addres
         const std::uint64_t key = static_cast<std::uint64_t>(static_cast<std::int64_t>(nextPeerKey_));
         ++nextPeerKey_;
         servers_[key] = peer;
+        DH2_NET_TRACE_LOG("[mp] AddServer new key %llu member %d rank %d\n", static_cast<unsigned long long>(key), memberId, rank);
         if (roomOperationPending_) {
             MatchingInternalEventQueue().AddEvent(8388622, nullptr, 0);  // 0x80000e
         }

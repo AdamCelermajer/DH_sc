@@ -600,14 +600,19 @@ public class DungeonHunter2 extends Activity implements SensorEventListener {
             if (sensorEvent.sensor.getType() == 1) {
                 nativeAccelerometer(sensorEvent.values[0], sensorEvent.values[1], sensorEvent.values[2]);
             }
-            if (this.O) {
-                if (sensorEvent.values[0] > 8.0f) {
-                    nativeSetOrientation(1);
-                    this.O = false;
+            // Port (UI9): the original flipped its own rendering 180 degrees from the accelerometer because its activity was locked to
+            // one landscape. This port's activity is sensorLandscape: Android rotates the whole window (game, session bubble, dialogs),
+            // so the game's own flip stays off. (nativeSetOrientation is still there; nothing calls it.)
+            if (false) {
+                if (this.O) {
+                    if (sensorEvent.values[0] > 8.0f) {
+                        nativeSetOrientation(1);
+                        this.O = false;
+                    }
+                } else if (sensorEvent.values[0] < -8.0f) {
+                    nativeSetOrientation(-1);
+                    this.O = true;
                 }
-            } else if (sensorEvent.values[0] < -8.0f) {
-                nativeSetOrientation(-1);
-                this.O = true;
             }
         }
     }

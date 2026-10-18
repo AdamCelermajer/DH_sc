@@ -1,4 +1,5 @@
 #include "net-session-online/multiplayer_state_machine.hpp"
+#include "net-transport/net_trace.hpp"  // DH2_NET_TRACE_LOG (host runner only)
 
 
 // 0x4a00d8 _ZN23MultiplayerStateMachine16initStateMachineEv
@@ -39,6 +40,7 @@ void MultiplayerStateMachine::runStateMachine() {
     for (Entry* e = head_; e != nullptr; e = e->next) {
         if (state_ == e->stateId && !e->skip) {
             const std::int32_t next = e->callback(nullptr);
+            DH2_NET_TRACE_LOG("[mp] state %d callback -> %d\n", e->stateId, next);
             if (next >= 0) {
                 state_ = next;
             }

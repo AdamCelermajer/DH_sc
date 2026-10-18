@@ -113,7 +113,15 @@ bool HudCoveredByPage() {
             return true;
         }
     }
-    MenuFX* hud = mm->m_menuFX[3];
+    return HudMoviePageUp();
+}
+
+bool HudMoviePageUp() {
+    MenuManager* manager = MenuManager::GetInstance();
+    if (manager == nullptr || manager->m_multiMenuManager == nullptr) {
+        return false;
+    }
+    MenuFX* hud = manager->m_multiMenuManager->m_menuFX[3];
     if (hud != nullptr) {
         // The HUD movie's own pages: the in-game pause menu ("menu_Ingame") and the HUD customise page cover the stage with a dim
         // background; the HUD states ("menu_HUD_<style>") and the overlays (dialogs, tutorials, cut-scene bars) show the world.
