@@ -7,7 +7,7 @@
 // Every write keeps backups: the previous file becomes "<name>.bak" next to it (what the game itself does before it saves,
 // Savegame::UpdateJobs backup job) and a dated copy goes to "editor-backups". A phone write is refused while the game runs.
 //
-// Build (llvm-mingw): see tools/save-editor/build_save_editor.py.
+// Build (llvm-mingw): see tools/build.py.
 #define WIN32_LEAN_AND_MEAN
 #include <winsock2.h>
 #include <ws2tcpip.h>
