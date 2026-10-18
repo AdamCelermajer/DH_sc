@@ -53,13 +53,27 @@ const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
     await c.eval(`(() => { const s = document.getElementById('psearch'); s.value = 'fire'; s.oninput(); document.getElementById('sheetbody').scrollTop = 0; })()`);
     await shot("08-picker-search-fire");
     await c.eval(`document.getElementById('close').click()`);
+    // edit the bonuses of the equipped Soldier Helm: drop the first bonus, pick another, show before / after
+    await c.eval(`(() => { document.getElementById('tab-inv').click(); const el = [...document.querySelectorAll('#inv .item')].find((x) => /Soldier Helm/.test(x.textContent)); el.click(); })()`);
+    await sleep(400);
+    await shot("10-item-sheet-edit-button");
+    await c.eval(`document.getElementById('editp').click()`);
+    await sleep(400);
+    await c.eval(`document.querySelector('[data-p]:checked').click()`);
+    await sleep(300);
+    await c.eval(`(() => { const x = [...document.querySelectorAll('[data-p]')].find((i) => !i.checked && !i.disabled && /HP/.test(i.parentNode.textContent)); x.click(); })()`);
+    await sleep(300);
+    await c.eval(`document.querySelector('table.cmp').scrollIntoView()`);
+    await shot("11-edit-before-after");
+    await c.eval(`document.getElementById('addit').click()`);
+    await sleep(400);
     // potions above 5
     await c.eval(`(() => { const p = document.getElementById('potions'); p.value = '250'; p.onchange(); document.getElementById('tab-inv').click(); window.scrollTo(0, 0); })()`);
     await shot("09-potions-250");
     if (folder === "android") {
         await c.eval(`document.getElementById('save').click()`);
         await sleep(1200);
-        await shot("10-save-dialog");
+        await shot("12-save-dialog");
     }
     c.close();
 })().catch((e) => { console.error(e); process.exit(1); });

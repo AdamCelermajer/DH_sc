@@ -244,12 +244,14 @@
         }
         if (data.items[d.id].type === 14) h += '<div class="muted">Potions are changed with the Potions box above.</div>';
         h += '<div class="row" style="margin-top:12px"><button id="close">Close</button>';
+        if (data.canAdd(d.id)) h += '<button id="editp" class="primary">Edit bonuses</button>';
         if (data.items[d.id].type !== 14) h += '<button id="remove" class="danger">Remove from inventory</button>';
         h += "</div>";
         if (it.slot0 >= 0 || it.slot1 >= 0) h += '<div class="muted">This item is equipped. Removing it leaves the slot empty.</div>';
         h += "</div>";
         openSheet(h);
         $("close").onclick = closeSheet;
+        if ($("editp")) $("editp").onclick = () => builder(d.id, idx);
         if ($("remove")) $("remove").onclick = () => { st.save.gear.items.splice(idx, 1); closeSheet(); setDirty(true); render(); };
         if ($("setqty")) $("setqty").onclick = () => {
             const n = Math.trunc(+$("qty").value);
@@ -318,6 +320,18 @@
     $("tab-inv").onclick = () => { $("tab-inv").classList.add("on"); $("tab-add").classList.remove("on"); $("inv").classList.remove("hidden"); $("add").classList.add("hidden"); };
     $("tab-add").onclick = () => { $("tab-add").classList.add("on"); $("tab-inv").classList.remove("on"); $("add").classList.remove("hidden"); $("inv").classList.add("hidden"); renderCatalog(); };
 
+    // Before / after table of an edited item (what the game will show and store).
+    function compareHtml(a, z, entry) {
+        const pw = (d) => d.powers.length ? d.powers.map((p) => oneLine(p.text)).join("<br>") : '<span class="muted">none</span>';
+        const price = (d) => d.prices.sellMin === d.prices.sellMax ? String(d.prices.sellMin) : d.prices.sellMin + " - " + d.prices.sellMax;
+        const row = (k, x, y) => "<tr><td>" + esc(k) + "</td><td>" + x + "</td><td" + (x !== y ? ' class="chg"' : "") + ">" + y + "</td></tr>";
+        const nm = (d) => '<span style="color:' + d.rarity.rgb + '">' + esc(d.rarity.name) + "</span>";
+        return '<table class="cmp"><tr><th></th><th>Before</th><th>After</th></tr>' + row("Rarity", nm(a), nm(z)) + row("Bonuses", pw(a), pw(z)) +
+            row("Stats", oneLine(a.stats), oneLine(z.stats)) + row("Item value", String(a.value), String(z.value)) + row("Sell price", price(a), price(z)) +
+            row("Equipped", entry.slot0 >= 0 || entry.slot1 >= 0 ? "yes" : "no", entry.slot0 >= 0 || entry.slot1 >= 0 ? "yes" : "no") +
+            row("Quantity", String(entry.qty), String(entry.qty)) + "</table>";
+    }
+
     // ------------------------------------------------------------ item builder
     // "ArmorPowerLevel_03" -> "Armor bonuses, power level 03"; other pool names are the game's special lists.
     function poolLabel(name) {
@@ -326,7 +340,9 @@
         return name ? name.replace(/_/g, " ") + " (special list)" : "no bonuses";
     }
     // Pick one loot source (bonus pool + number table + difficulty), then the bonuses, grouped by category and kind.
-    function builder(itemId) {
+    // editIdx: index of an inventory entry whose bonuses are edited (same row, slots, quantity; new powers and value).
+    function builder(itemId, editIdx) {
+        const editing = editIdx !== undefined ? st.save.gear.items[editIdx] : null;
         const it = data.items[itemId];
         const opts = it.sources.map((s) => data.sourceOptions(s));
         const seen = {}; const choices = [];
@@ -335,7 +351,7 @@
         const maxOf = (c) => Math.max.apply(null, c.counts.map((n) => Math.min(n, c.powers.length)));
         // pools that can hold all of these bonuses (src -1 = every pool of the item, picked side by side by power level)
         const fitting = (set) => choices.filter((c, i) => (b.src < 0 || b.src === i) && set.length <= maxOf(c) && set.every((p) => c.powers.indexOf(p) >= 0));
-        const b = { src: -1, picked: [], q: "" };
+        const b = { src: -1, picked: editing ? editing.powers.map((k) => data.powerByKey[k]).filter((p) => p !== undefined) : [], q: "" };
         function pickerHtml() {
             const cats = {}, seenP = {};
             const pool = b.src < 0 ? [].concat.apply([], choices.map((c) => c.powers)) : choices[b.src].powers;
@@ -380,7 +396,7 @@
             const d = data.describe(itemId, data.orderPowers(b.picked), value);
             const err = data.checkPowers(itemId, b.picked);
             const r = itemRow(d, {});
-            let h = '<div class="detail"><div class="item' + (r.cant ? " cant" : "") + '" style="cursor:default">' + r.html + "</div>";
+            let h = '<div class="detail">' + (editing ? '<h2>Edit bonuses</h2>' : "") + '<div class="item' + (r.cant ? " cant" : "") + '" style="cursor:default">' + r.html + "</div>";
             h += '<div class="explain"><b>Bonus pool</b> = the list the game draws this item\'s bonuses from (one pool per drop). ' +
                 "Pools called <i>... power level 01 .. 08</i> hold weaker .. stronger versions of the same bonuses (L01 = weakest, L08 = strongest). " +
                 "Hard / Very Hard item rows get the Hard / Very Hard versions with bigger numbers. Greyed bonuses cannot go together with what you picked (the game never combines them).</div>";
@@ -393,11 +409,12 @@
             h += '<div class="row" style="margin:8px 0"><input id="psearch" type="search" placeholder="search bonuses (e.g. strength, fire, crit)" style="flex:1" value="' + esc(b.q) + '">' +
                 '<span class="muted">allowed: ' + [...new Set(o.counts.map((c) => Math.min(c, o.powers.length)))].join(", ") + " bonuses &middot; picked " + b.picked.length + "</span></div>";
             h += '<div id="picker">' + pickerHtml() + "</div>";
-            h += "<h2>Result</h2>" + detailTable(d, null) + "<h2>Bonuses</h2>" + powersHtml(d);
+            if (editing) h += "<h2>Before and after</h2>" + compareHtml(entryDesc(editing), d, editing);
+            else h += "<h2>Result</h2>" + detailTable(d, null) + "<h2>Bonuses</h2>" + powersHtml(d);
             h += '<div class="' + (err ? "err" : "ok") + '">' + (err ? esc(err) : "The original game can drop exactly this item.") + "</div>";
-            const full = st.save.gear.items.length >= DH2.MAX_ITEMS;
+            const full = !editing && st.save.gear.items.length >= DH2.MAX_ITEMS;
             if (full) h += '<div class="err">The inventory is full (100 items).</div>';
-            h += '<div class="row sticky"><button id="close">Cancel</button><button id="addit" class="primary"' + (err || full ? " disabled" : "") + ">Add to inventory</button></div></div>";
+            h += '<div class="row sticky"><button id="close">Cancel</button><button id="addit" class="primary"' + (err || full ? " disabled" : "") + ">" + (editing ? "Apply changes" : "Add to inventory") + "</button></div></div>";
             openSheet(h);
             $("close").onclick = closeSheet;
             if ($("srcsel")) $("srcsel").onchange = () => { b.src = +$("srcsel").value; b.picked = []; draw(); };
@@ -409,6 +426,11 @@
                 const top = $("sheetbody").scrollTop; draw(); $("sheetbody").scrollTop = top;
             });
             $("addit").onclick = () => {
+                if (editing) {
+                    try { st.save.gear.items[editIdx] = data.editEntry(editing, b.picked); } catch (e) { return fail(e); }
+                    closeSheet(); setDirty(true); render();
+                    return toast("Changed " + esc(d.name) + ". Press Save to write the file.");
+                }
                 st.save.gear.items.push(data.newEntry(itemId, b.picked, 1));
                 closeSheet(); setDirty(true); render();
                 toast("Added " + esc(d.name) + ". Press Save to write the file.");

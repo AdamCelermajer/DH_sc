@@ -73,6 +73,37 @@ if (first) {
         if (!threw) fail("potions " + bad + " accepted");
     }
 
+    // edit the bonuses of an existing (equipped when possible) item: same key/slots/qty/flag, new powers + value, round trip
+    {
+        const s3 = new DH2.Save(new Uint8Array(fs.readFileSync(first)));
+        const idx = s3.gear.items.findIndex((e) => (e.slot0 >= 0 || e.slot1 >= 0) && data.canAdd(data.itemByKey[e.key]) && e.powers.length > 0);
+        const old = s3.gear.items[idx], id = data.itemByKey[old.key];
+        let pick = null;
+        for (const src of data.items[id].sources) {
+            const o = data.sourceOptions(src);
+            for (const n of o.counts.filter((c) => c > 0 && c < o.powers.length).sort((a, b) => b - a)) {
+                const p = [];
+                for (const q of o.powers.slice().reverse()) { if (p.every((x) => !data.clashes(x, q))) p.push(q); if (p.length === n) break; }
+                if (p.length === n && data.checkPowers(id, p) === null && p.join() !== old.powers.map((k) => data.powerByKey[k]).join()) { pick = p; break; }
+            }
+            if (pick) break;
+        }
+        if (!pick) fail("no other valid bonus set for " + old.key);
+        else {
+            const ne = data.editEntry(old, pick);
+            s3.gear.items[idx] = ne;
+            const b3 = new DH2.Save(s3.toBytes());
+            const got = b3.gear.items[idx];
+            if (JSON.stringify(got) !== JSON.stringify(ne)) fail("edited item read back differently");
+            if (got.slot0 !== old.slot0 || got.slot1 !== old.slot1 || got.qty !== old.qty || got.key !== old.key || got.flag !== old.flag) fail("edit changed identity/slots");
+            if (got.value !== data.lootValue(id, data.orderPowers(pick))) fail("edited value");
+            if (!same(new DH2.Save(b3.toBytes()).toBytes(), b3.toBytes())) fail("edited save re-save not identical");
+            console.log("edited " + old.key + " (slot " + old.slot0 + "/" + old.slot1 + "): " + old.powers.join(",") + " value " + old.value + " -> " + got.powers.join(",") + " value " + got.value + ", " + data.rarity(got.powers.length).name);
+            let threw = false; try { data.editEntry(old, data.powers.slice(1, 6).map((p) => p.id)); } catch (e) { threw = true; }
+            if (!threw) fail("impossible edit accepted");
+        }
+    }
+
     // hero attributes and equip rules (compare with the game's Stats screen when the save is the owner's Warrior)
     const h = data.hero(save);
     console.log("hero " + data.heroClassLabel(h.cls) + " level " + h.level + " str/dex/end/ene " + h.attrs.join("/"));

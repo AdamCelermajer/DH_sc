@@ -49,6 +49,9 @@ ORGANISED LISTS
     damage, attack, defence, resistances, spells, loot), each kind with its versions and values side by side, and a
     search box. Pools named "... power level 01 .. 08" hold weaker .. stronger versions of the same bonuses (L01 weakest).
     Only combinations the game can drop can be picked (same loot-rule checks as before).
+  * Edit an item you have (also equipped ones): tap it, "Edit bonuses". Same picker and checks; the item keeps its row,
+    equipment slot and quantity, the value is recomputed like a new drop, and a Before / After table shows the change.
+    Checked in the reconstructed game: an edited equipped helm shows its new bonuses and the Stats screen changes.
 
 EDITING RULES (from the original code)
   * Gold: 0 .. 999,999,999 (ItemInventory::m_maxGold of a player).

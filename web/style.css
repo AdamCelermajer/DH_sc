@@ -84,3 +84,8 @@ label.chk { display: flex; gap: 6px; align-items: center; font-size: 13px; }
 .dlg { border-radius: 12px; max-width: 460px; margin: 0 14px; }
 .dlg p { margin: 8px 0; }
 .dlgbtns { justify-content: flex-end; margin-top: 14px; }
+table.cmp { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 13px; }
+table.cmp th { text-align: left; color: #f0c060; padding: 3px 6px; }
+table.cmp td { padding: 4px 6px; border-bottom: 1px solid #2e251b; vertical-align: top; }
+table.cmp td:first-child { color: #a8987e; width: 22%; }
+table.cmp td.chg { background: #2c2a14; }

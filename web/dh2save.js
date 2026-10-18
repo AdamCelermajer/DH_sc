@@ -477,6 +477,21 @@
                  powers: ordered.map((p) => this.powers[p].key) };
     };
 
+    // An existing inventory entry with new bonuses: the same item row, slots (equipped state), quantity and pick-up flag;
+    // the powers in AddPower order and the value the loot code would store for that row + powers (CalcLootItemValue).
+    // Throws when the combination is not one the game's loot code can make on this row.
+    ItemData.prototype.editEntry = function (entry, powerIds) {
+        const id = this.itemByKey[entry.key];
+        if (id === undefined) throw new Error("unknown item " + entry.key);
+        const err = this.checkPowers(id, powerIds);
+        if (err) throw new Error(err);
+        // an unchanged bonus set keeps the order the game stored (AddPower's order depends on the drop's insertion order)
+        const same = powerIds.length === entry.powers.length && powerIds.every((p) => entry.powers.indexOf(this.powers[p].key) >= 0);
+        const ordered = same ? entry.powers.map((k) => this.powerByKey[k]) : this.orderPowers(powerIds);
+        return { key: entry.key, slot0: entry.slot0, slot1: entry.slot1, qty: entry.qty, value: this.lootValue(id, ordered), flag: entry.flag,
+                 powers: ordered.map((p) => this.powers[p].key) };
+    };
+
     // ---------------------------------------------------------------- edits on a Save
     // The potion stack: the first item of type 14 (ItemInventory::_AddItemInstance keeps it as m_potion).
     function potionIndex(save, data) {
