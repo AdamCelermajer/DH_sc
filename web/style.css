@@ -161,3 +161,4 @@ table.cmp th { text-align: left; color: var(--gold); padding: 3px 6px; }
 table.cmp td { padding: 4px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
 table.cmp td:first-child { color: var(--muted); width: 22%; }
 table.cmp td.chg { background: #2c2a14; }
+.alltiers { margin: 2px 0 8px; } .alltiers summary { cursor: pointer; font-size: 12px; } .alltiers label { display: block; padding: 6px 0; }

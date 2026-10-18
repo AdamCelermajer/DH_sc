@@ -121,5 +121,35 @@ if (first) {
     const pi = data.powerInfo(data.powerByKey.Strength_03_Hard);
     if (pi.category !== "Attributes" || pi.tier !== 3 || pi.difficulty !== "Hard") fail("powerInfo " + JSON.stringify(pi));
 }
+// strongest source / tiers (simple bonus picker)
+{
+    const lvl = (o) => +(/PowerLevel_(d+)$/.exec(o.listName || "") || [0, 0])[1];
+    let checked = 0;
+    for (const it of data.items) {
+        if (!data.canAdd(it.id)) continue;
+        const b = data.bestOf(it.id), all = it.sources.map((s) => data.sourceOptions(s));
+        if (!b.choices.length) continue;
+        const top = b.choices[0];
+        if (all.some((o) => lvl(o) > lvl(top))) fail("best source of " + it.key + " is not the highest power level");
+        if (all.some((o) => lvl(o) === lvl(top) && Math.max.apply(null, o.counts.map((n) => Math.min(n, o.powers.length))) > top.rank[1])) fail("best source of " + it.key + " has fewer bonuses than a same-level one");
+        const seen = {};
+        for (const p of b.strongest) { const i = data.powerInfo(p), k = i.family + "|" + i.difficulty; if (seen[k]) fail("two tiers of " + k + " on " + it.key); seen[k] = 1;
+            for (const o of all) for (const q of o.powers) { const j = data.powerInfo(q); if (j.family === i.family && j.difficulty === i.difficulty && j.tier > i.tier) fail(it.key + " " + k + " not the strongest tier"); } }
+        // the largest bonus set of the strongest source (greedy over the strongest tiers) is one the game can drop
+        const n = top.rank[1], set = [];
+        for (const p of top.powers) { if (set.length < n && set.every((q) => !data.clashes(p, q))) set.push(p); }
+        if (n > 0 && set.length === n && n < top.powers.length && data.checkPowers(it.id, set) !== null) fail("max bonus set of " + it.key + " rejected");
+        checked++;
+    }
+    console.log("strongest source/tier checked on " + checked + " items");
+    const pe = (key) => data.bestOf(data.itemByKey[key]);
+    for (const [key, want] of [["BattleAxe04", "WeaponPowerLevel_03"], ["Claw08", "WeaponOffHandsPowerLevel_05"]]) {
+        const t = pe(key).choices[0];
+        if (t.listName !== want) fail(key + " strongest source " + t.listName + " expected " + want); else console.log(key + ": " + t.listName + ", up to " + t.rank[1] + " bonuses");
+    }
+    const sw = data.bestOf(data.itemByKey.BattleAxe04).strongest.map((p) => data.powers[p].key);
+    if (sw.indexOf("Strength_03") < 0 || sw.some((k) => /^Strength_0[12]$/.test(k))) fail("BattleAxe04 strength tier " + sw.filter((k) => /^Strength/.test(k)));
+    if (data.strongestOf(data.itemByKey.BattleAxe04, data.powerByKey.Strength_02) !== data.powerByKey.Strength_03) fail("strongestOf");
+}
 console.log(fails ? fails + " failure(s)" : "all checks passed");
 process.exit(fails ? 1 : 0);

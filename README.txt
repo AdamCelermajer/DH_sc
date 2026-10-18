@@ -54,9 +54,11 @@ ORGANISED LISTS
     level, the four attributes, class). Hero attributes = the class's starting values + points spent (from the save) +
     bonuses of the items equipped in the active set; they match the game's Stats screen. Skill/potion buffs are not
     in the save and not counted. "only items the hero can use" filters the catalog.
-  * Bonus picker: the bonuses of the chosen bonus pool, grouped by category (attributes, life and mana, elemental
-    damage, attack, defence, resistances, spells, loot), each kind with its versions and values side by side, and a
-    search box. Pools named "... power level 01 .. 08" hold weaker .. stronger versions of the same bonuses (L01 weakest).
+  * Bonus picker (simple): no pool or power-level choice. The editor uses the strongest loot source the game has for the
+    item (highest "power level 0X" pool, then the largest bonus count, then the biggest values) and shows each bonus type
+    only in its strongest tier (e.g. only "+8 to strength"), grouped by category, with a search box. "Advanced > Show all
+    tiers" (off by default) lists the weaker versions too. Editing an item raises its bonuses to the strongest tier when
+    the game can drop that combination (a line says so), else keeps them.
     Only combinations the game can drop can be picked (same loot-rule checks as before).
   * Edit an item you have (also equipped ones): tap it, "Edit bonuses". Same picker and checks; the item keeps its row,
     equipment slot and quantity, the value is recomputed like a new drop, and a Before / After table shows the change.

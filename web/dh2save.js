@@ -427,6 +427,44 @@
                  listName: this.d.powerListNames[list], numProbName: this.d.numProbNames[numProb] };
     };
 
+    // Simple mode of the editor: the strongest loot source of a row and the strongest tier of every bonus type.
+    // Rank of a source = [power level of its pool (ArmorPowerLevel_08 -> 8, class lists 0), largest bonus count it rolls,
+    // sum of the values of its bonuses]; higher wins in that order. Memoised per row; callers must not change the result.
+    ItemData.prototype.powerValue = function (powerId) {
+        return this.powers[powerId].attrBonus.reduce(function (s, a) { return s + Math.abs(a[1]); }, 0);
+    };
+    ItemData.prototype.sourceRank = function (o) {
+        const m = /PowerLevel_(\d+)$/.exec(o.listName || "");
+        const self = this;
+        return [m ? +m[1] : 0, o.counts.reduce(function (mx, c) { return Math.max(mx, Math.min(c, o.powers.length)); }, 0),
+                o.powers.reduce(function (s, p) { return s + self.powerValue(p); }, 0)];
+    };
+    // {choices: distinct sources, strongest first (each with .rank), strongest: power ids = best tier of every bonus type}
+    ItemData.prototype.bestOf = function (itemId) {
+        this._bo = this._bo || {};
+        if (this._bo[itemId]) return this._bo[itemId];
+        const seen = {}, choices = [];
+        for (const src of this.items[itemId].sources) {
+            const o = this.sourceOptions(src);
+            const k = o.powers.join(",") + "|" + o.counts.join(",");
+            if (seen[k]) continue;
+            seen[k] = 1; choices.push(Object.assign({ rank: this.sourceRank(o) }, o));
+        }
+        choices.sort(function (a, b) { for (let i = 0; i < 3; i++) if (a.rank[i] !== b.rank[i]) return b.rank[i] - a.rank[i]; return 0; });
+        const best = {};
+        for (const c of choices) for (const p of c.powers) {
+            const i = this.powerInfo(p), k = i.family + "|" + i.difficulty, cur = best[k];
+            if (!cur || i.tier > cur.tier || (i.tier === cur.tier && this.powerValue(p) > this.powerValue(cur.p))) best[k] = { p: p, tier: i.tier };
+        }
+        return (this._bo[itemId] = { choices: choices, strongest: Object.keys(best).map(function (k) { return best[k].p; }) });
+    };
+    // The strongest tier of the same bonus type as this power on this row (the power itself when it already is).
+    ItemData.prototype.strongestOf = function (itemId, powerId) {
+        const i = this.powerInfo(powerId);
+        for (const p of this.bestOf(itemId).strongest) { const j = this.powerInfo(p); if (j.family === i.family && j.difficulty === i.difficulty) return p; }
+        return powerId;
+    };
+
     // Monopoly test of _AddLootItemPowers: a power clashes when one of its ItemBonusAttrMonopoly ids is an attribute of a
     // power added before it. Checked in both directions, so any insertion order of an accepted set is one the game makes.
     ItemData.prototype.clashes = function (a, b) {

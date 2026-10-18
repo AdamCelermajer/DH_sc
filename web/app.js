@@ -419,49 +419,56 @@
     }
 
     // ------------------------------------------------------------ item builder
-    // "ArmorPowerLevel_03" -> "Armor bonuses, power level 03"; other pool names are the game's special lists.
-    function poolLabel(name) {
-        const m = /^(\w*?)PowerLevel_(\d+)$/.exec(name || "");
-        if (m) return (m[1] ? m[1].replace(/([a-z])([A-Z])/g, "$1 $2") : "All") + " bonuses, power level " + m[2];
-        return name ? name.replace(/_/g, " ") + " (special list)" : "no bonuses";
-    }
-    // Pick one loot source (bonus pool + number table + difficulty), then the bonuses, grouped by category and kind.
+    // The strongest loot source of the row is used automatically; the picker shows the strongest tier of every bonus type, grouped by category.
     // editIdx: index of an inventory entry whose bonuses are edited (same row, slots, quantity; new powers and value).
     function builder(itemId, editIdx) {
         const editing = editIdx !== undefined ? st.save.gear.items[editIdx] : null;
-        const it = data.items[itemId];
-        const opts = it.sources.map((s) => data.sourceOptions(s));
-        const seen = {}; const choices = [];
-        opts.forEach((o) => { const k = o.powers.join(",") + "|" + o.counts.join(","); if (!seen[k]) { seen[k] = 1; choices.push(o); } });
-        choices.sort((a, b) => (a.listName || "").localeCompare(b.listName || "") || Math.max.apply(null, b.counts) - Math.max.apply(null, a.counts));
+        const best = data.bestOf(itemId);
+        const choices = best.choices;   // strongest source first (power level, bonus count, values)
         const maxOf = (c) => Math.max.apply(null, c.counts.map((n) => Math.min(n, c.powers.length)));
-        // pools that can hold all of these bonuses (src -1 = every pool of the item, picked side by side by power level)
-        const fitting = (set) => choices.filter((c, i) => (b.src < 0 || b.src === i) && set.length <= maxOf(c) && set.every((p) => c.powers.indexOf(p) >= 0));
-        const b = { src: -1, picked: editing ? editing.powers.map((k) => data.powerByKey[k]).filter((p) => p !== undefined) : [], q: "" };
-        function pickerHtml() {
+        // sources that can hold all of these bonuses, strongest first
+        const fitting = (set) => choices.filter((c) => set.length <= maxOf(c) && set.every((p) => c.powers.indexOf(p) >= 0));
+        const orig = editing ? editing.powers.map((k) => data.powerByKey[k]).filter((p) => p !== undefined) : [];
+        const b = { picked: orig, q: "", all: false, note: "", extra: [] };
+        if (editing && orig.length) {
+            const up = orig.map((p) => data.strongestOf(itemId, p));
+            if (up.some((p, i) => p !== orig[i])) {
+                if (new Set(up).size === up.length && data.checkPowers(itemId, up) === null) { b.picked = up; b.note = "Bonuses raised to their strongest tier."; }
+                else { b.extra = orig.filter((p) => best.strongest.indexOf(p) < 0); b.note = "Kept your current bonuses: their strongest tiers cannot drop together on this item."; }
+            }
+        }
+        const groupsMemo = {};
+        function groupsFor(all, extra) {
+            const key = all ? "all" : "top" + extra.join(",");
+            if (groupsMemo[key]) return groupsMemo[key];
+            const pool = all ? [].concat.apply([], choices.map((c) => c.powers)) : best.strongest.concat(extra);
             const cats = {}, seenP = {};
-            const pool = b.src < 0 ? [].concat.apply([], choices.map((c) => c.powers)) : choices[b.src].powers;
             for (const p of pool) {
                 if (seenP[p]) continue; seenP[p] = 1;
                 const pi = data.powerInfo(p);
                 const c = cats[pi.category] = cats[pi.category] || {};
                 (c[pi.label] = c[pi.label] || []).push({ p: p, pi: pi });
             }
+            for (const cat in cats) for (const l in cats[cat]) cats[cat][l].sort((x, y) => x.pi.tier - y.pi.tier);
+            return (groupsMemo[key] = cats);
+        }
+        function pickerHtml() {
+            const cats = groupsFor(b.all, b.extra);
             let h = "";
             for (const cat of data.categories()) {
                 if (!cats[cat]) continue;
                 h += '<div class="pcat pc-' + (CAT_CLASS[cat] || "other") + '"><h3>' + esc(cat) + "</h3>";
                 for (const label of Object.keys(cats[cat])) {
-                    const rows = cats[cat][label].sort((x, y) => x.pi.tier - y.pi.tier);
+                    const rows = cats[cat][label];
                     const all = (label + " " + rows.map((r) => data.powerText(r.p) + " " + data.powers[r.p].key).join(" ")).toLowerCase();
                     h += '<div class="pfam" data-text="' + esc(all) + '"><div class="plabel">' + esc(label) + "</div><div class=\"chips\">";
                     for (const r of rows) {
                         const p = r.p, on = b.picked.indexOf(p) >= 0;
                         const clash = b.picked.find((q) => q !== p && data.clashes(p, q));
                         const blocked = !on && (clash !== undefined || !fitting(b.picked.concat([p])).length);
-                        const why = !blocked ? "" : clash !== undefined ? "cannot be combined with " + data.powerText(clash) : "no bonus pool of this item gives this together with your picks";
+                        const why = !blocked ? "" : clash !== undefined ? "cannot be combined with " + data.powerText(clash) : "the game never gives this together with your picks";
                         h += '<label class="pick' + (on ? " on" : "") + (blocked ? " off" : "") + '" title="' + esc(why || data.powers[p].key) + '"><input type="checkbox" data-p="' + p + '"' +
-                            (on ? " checked" : "") + (blocked ? " disabled" : "") + ">" + (r.pi.tier ? '<span class="tier">L' + String(r.pi.tier).padStart(2, "0") + (r.pi.difficulty ? " " + esc(r.pi.difficulty) : "") + "</span>" : "") +
+                            (on ? " checked" : "") + (blocked ? " disabled" : "") + ">" + (b.all && r.pi.tier ? '<span class="tier">L' + String(r.pi.tier).padStart(2, "0") + (r.pi.difficulty ? " " + esc(r.pi.difficulty) : "") + "</span>" : "") +
                             esc(data.powerText(p)) + "</label>";
                     }
                     h += "</div></div>";
@@ -477,22 +484,15 @@
         }
         function draw() {
             const fit = fitting(b.picked);
-            const o = fit.length ? fit.sort((x, y) => maxOf(y) - maxOf(x))[0] : choices[Math.max(0, b.src)];
+            const o = fit.length ? fit[0] : choices[0];
             const value = data.lootValue(itemId, b.picked);
             const d = data.describe(itemId, data.orderPowers(b.picked), value);
             const err = data.checkPowers(itemId, b.picked);
             let h = '<div class="detail">' + (editing ? '<h2>Edit bonuses</h2>' : "") + '<div class="preview">' + rowHtml(d, {}) + "</div>";
-            h += '<div class="explain"><b>Bonus pool</b> = the list the game draws this item\'s bonuses from (one pool per drop). ' +
-                "Pools called <i>... power level 01 .. 08</i> hold weaker .. stronger versions of the same bonuses (L01 = weakest, L08 = strongest). " +
-                "Hard / Very Hard item rows get the Hard / Very Hard versions with bigger numbers. Greyed bonuses cannot go together with what you picked (the game never combines them).</div>";
-            if (choices.length > 1) {
-                h += '<label class="muted">Bonus pool (and how many bonuses it gives)</label><select id="srcsel" style="width:100%">' +
-                    '<option value="-1"' + (b.src < 0 ? " selected" : "") + ">All bonus pools of this item (power levels side by side)</option>" + choices.map((c, i) => '<option value="' + i + '"' + (i === b.src ? " selected" : "") + ">" + esc(poolLabel(c.listName)) + " : " +
-                        [...new Set(c.counts.map((n) => Math.min(n, c.powers.length)))].join(", ") + " of " + c.powers.length + " bonuses" + "</option>").join("") + "</select>";
-            } else h += '<div class="muted">Bonus pool: ' + esc(poolLabel(o.listName)) + "</div>";
-            if (b.src < 0 && b.picked.length) h += '<div class="muted">Your picks drop from: ' + esc(poolLabel(o.listName)) + "</div>";
+            h += '<div class="muted">Strongest bonuses of this item, up to ' + maxOf(o) + " at once. Greyed ones cannot go with what you picked." + (b.note ? " " + esc(b.note) : "") + "</div>";
             h += '<div class="row" style="margin:8px 0"><input id="psearch" type="search" placeholder="search bonuses (e.g. strength, fire, crit)" style="flex:1" value="' + esc(b.q) + '">' +
-                '<span class="muted">allowed: ' + [...new Set(o.counts.map((c) => Math.min(c, o.powers.length)))].join(", ") + " bonuses &middot; picked " + b.picked.length + "</span></div>";
+                '<span class="muted">picked ' + b.picked.length + "</span></div>";
+            h += '<details class="alltiers"><summary class="muted">Advanced</summary><label class="muted"><input type="checkbox" id="alltiers"' + (b.all ? " checked" : "") + "> Show all tiers (weaker versions too)</label></details>";
             h += '<div id="picker">' + pickerHtml() + "</div>";
             if (editing) h += "<h2>Before and after</h2>" + compareHtml(entryDesc(editing), d, editing);
             else h += "<h2>Result</h2>" + detailTable(d, null) + "<h2>Bonuses</h2>" + powersHtml(d);
@@ -502,7 +502,7 @@
             h += '<div class="row sticky"><button id="close">Cancel</button><button id="addit" class="primary"' + (err || full ? " disabled" : "") + ">" + (editing ? "Apply changes" : "Add to inventory") + "</button></div></div>";
             openSheet(h);
             $("close").onclick = closeSheet;
-            if ($("srcsel")) $("srcsel").onchange = () => { b.src = +$("srcsel").value; b.picked = []; draw(); };
+            $("alltiers").onchange = () => { b.all = $("alltiers").checked; const top = $("sheetbody").scrollTop; draw(); $("alltiers").closest("details").open = true; $("sheetbody").scrollTop = top; };
             $("psearch").oninput = () => { b.q = $("psearch").value; applySearch(); };
             applySearch();
             $("picker").onchange = (ev) => {
