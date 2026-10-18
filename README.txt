@@ -7,13 +7,13 @@ phone and on Windows. The rules come from the reconstructed original game code, 
 game's own data, so edited saves only contain what the original game can produce.
 
 What is in this folder
-  dh2-trackb-test-de49e9e51-saveeditor-<hash>.apk  the Track B test build de49e9e51 with the editor added: a second app icon "DH2 Save Editor".
+  dh2-trackb-0f84a5b63-saveeditor-<hash>.apk  the Track B build 0f84a5b63 with the editor added: a second app icon "DH2 Save Editor".
   DH2-Save-Editor-Windows\          the Windows app (keep the folder together): dh2-save-editor.exe + web\
   proof\                            screenshots of the checks (game and editor)
 
 PHONE
   1. Install the APK over your Track B game (same signature, it installs as an update; your saves stay):
-     adb install -r dh2-trackb-test-de49e9e51-saveeditor-<hash>.apk   (or open the APK file on the phone)
+     adb install -r dh2-trackb-0f84a5b63-saveeditor-<hash>.apk   (or open the APK file on the phone)
   2. Best: close the game first (swipe it away from the recent apps). The game keeps the hero in memory and would
      write over the edit, so the editor never writes while the game process lives. If the game is still running when
      you tap Save, the editor asks: "The game is running. Unsaved progress in the game will be lost. Stop the game and
@@ -40,6 +40,13 @@ WINDOWS
     device connected, type the serial (adb devices) in the box.
 
 ORGANISED LISTS
+  * Inventory: the "Equipped" section comes first (the items the hero wears in the active set, each with its slot:
+    Head, Torso, Hands, Waist, Feet, Right hand, Left hand, rings), then the bag, in every grouping mode.
+  * Rows: the item's name and row edge in the game's rarity colour (White / Green / Blue / Purple / Gold = 0..4
+    bonuses), chips for damage, armour, block and requirements (red when the hero fails them), the bonuses as chips
+    coloured by category (attributes, life and mana, elemental, attack, defence, resistances, spells, loot).
+  * Speed: group contents are built when a group opens, descriptions and checks are cached, the search is debounced;
+    the lists stay fast on a phone with the full catalog (1170 rows) and 100 inventory items.
   * Inventory and "Add item" can be grouped by set (the game's armour sets such as Marksman or Lordly, and the
     same-name armour families such as Soldier, Marauder, Captain: names from the game's text), by slot / type, or not.
   * Every row shows the game's own stats and requirements texts (damage min-max, armour, block, level, str/dex/end/ene,

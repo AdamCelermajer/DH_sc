@@ -12,7 +12,7 @@ Steps (everything goes to build/, the release to release/<version>/; dh_noam is 
   4. tools/gen_itemdata.py -> build/out/web/itemdata.js (+ build/out/itemdata.json for the tests);
   5. Windows app: windows/dh2_save_editor_win.cpp (llvm-mingw clang++) + build/out/web -> build/out/windows/;
   6. --apk-base: tools/build_modded_apk.py -> build/out/dh2-trackb-saveeditor.apk;
-  7. --release: release/<version>/ with the APK, the Windows app folder and README.txt.
+  7. --release: release/<version>/ with the APK, the Windows app folder, README.txt (and --proof <dir> as proof/), SHA256SUMS.
 Tools: llvm-mingw (clang++ on PATH or --toolchain), cmake + ninja on PATH, ANDROID_HOME (or dh_noam/source_code/build/sdk), JDK.
 """
 import argparse, os, shutil, subprocess, sys
@@ -35,6 +35,7 @@ def main():
     ap.add_argument("--raw", help="reuse an item dump (skips steps 1-3)")
     ap.add_argument("--apk-base", help="Track B APK to inject the editor into")
     ap.add_argument("--release", help="version name of release/<version>")
+    ap.add_argument("--proof", help="folder of proof screenshots / timing files copied to release/<version>/proof")
     a = ap.parse_args()
     dh = os.path.abspath(a.dh_noam)
     build = os.path.join(REPO, "build")
@@ -93,6 +94,8 @@ def main():
         shutil.copyfile(os.path.join(win, "dh2-save-editor.exe"), os.path.join(appdir, "dh2-save-editor.exe"))
         shutil.copytree(web, os.path.join(appdir, "web"))
         shutil.copyfile(os.path.join(REPO, "README.txt"), os.path.join(rel, "README.txt"))
+        if a.proof:
+            shutil.copytree(a.proof, os.path.join(rel, "proof"))
         import hashlib
         sums = []
         for root, _, files in os.walk(rel):
