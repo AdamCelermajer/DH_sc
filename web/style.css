@@ -137,7 +137,6 @@ label.chk { display: flex; gap: 6px; align-items: center; font-size: 13px; min-h
 .toast { overflow-wrap: anywhere; position: fixed; left: 50%; transform: translateX(-50%); bottom: 74px; background: #2e2839; border: 1px solid var(--gold); padding: 10px 16px; border-radius: 10px; z-index: 20; max-width: 90vw; }
 .savefile { display: flex; justify-content: space-between; align-items: center; gap: 10px; --rc: var(--gold); }
 .savefile .nm { color: var(--text); }
-.explain { font-size: 12.5px; color: #cdc4d6; background: #221e2b; border: 1px solid var(--line); border-radius: 8px; padding: 8px; margin: 8px 0; }
 
 /* bonus picker */
 .pcat h3 { font-size: 14px; color: var(--c, var(--gold)); margin: 12px 0 4px; border-bottom: 1px solid var(--line); padding-bottom: 3px; }
@@ -161,4 +160,96 @@ table.cmp th { text-align: left; color: var(--gold); padding: 3px 6px; }
 table.cmp td { padding: 4px 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
 table.cmp td:first-child { color: var(--muted); width: 22%; }
 table.cmp td.chg { background: #2c2a14; }
-.alltiers { margin: 2px 0 8px; } .alltiers summary { cursor: pointer; font-size: 12px; } .alltiers label { display: block; padding: 6px 0; }
+
+/* ---- calmer, bigger layout (phone first; scaled up for Windows) ---- */
+:root { --tap: 52px; }
+html, body { font-size: 17px; line-height: 1.45; }
+header { padding: 12px 16px; gap: 12px; }
+header .title { font-size: 19px; }
+main { padding: 16px 16px 130px; }
+h2 { font-size: 20px; margin: 14px 0 12px; }
+.muted { font-size: 15px; }
+.grid2 { gap: 14px; margin: 16px 0; }
+.box { padding: 14px 16px; border-radius: 14px; }
+.box label { font-size: 17px; margin-bottom: 8px; }
+input, select { font-size: 17px; padding: 12px 14px; min-height: var(--tap); border-radius: 12px; }
+input[type=number] { width: 170px; }
+button { font-size: 17px; padding: 12px 18px; min-height: var(--tap); border-radius: 12px; }
+button.small { font-size: 15px; padding: 8px 14px; min-height: 42px; }
+.tabs { margin: 16px 0 12px; gap: 10px; }
+.tab { font-size: 18px; padding: 12px 22px; }
+.hero { padding: 16px; border-radius: 16px; }
+.hero .hname { font-size: 19px; gap: 10px; }
+.hero .hname b { font-size: 23px; }
+.hero .hstats { gap: 10px; margin: 12px 0 2px; }
+.hero .hstats .chip { font-size: 16px; padding: 6px 13px; }
+.chip { font-size: 15px; padding: 4px 11px; }
+.tag { font-size: 13px; padding: 3px 9px; }
+.pc { font-size: 15.5px; padding: 3px 10px; margin: 0; }
+.list { gap: 12px; }
+.item { padding: 14px 14px 14px 16px; gap: 14px; border-radius: 14px; }
+.item .nm { font-size: 19px; }
+.item .chips { gap: 8px; margin-top: 8px; }
+.item .pws { margin-top: 10px; display: flex; flex-wrap: wrap; gap: 6px; }
+.item .why { font-size: 15px; margin-top: 8px; }
+.item .side { font-size: 14px; gap: 6px; }
+.grp { margin: 14px 0; border-radius: 14px; }
+.grp > summary { padding: 14px 16px 14px 14px; gap: 12px; font-size: 18px; }
+.grp > summary .cnt { font-size: 15px; padding: 2px 11px; }
+.grp > summary .bad { font-size: 15px; }
+.grp > .list { padding: 4px 12px 14px; }
+.count { font-size: 15px; margin: 8px 2px 12px; }
+.filters { gap: 12px; margin: 10px 0 14px; align-items: center; }
+.filters input[type=search] { flex: 1; min-width: 180px; }
+.filters input[type=number] { width: 120px; }
+label.chk { font-size: 16px; gap: 10px; }
+label.chk input, .pick input { width: 22px; height: 22px; }
+.morefilters { flex-basis: 100%; }
+.morefilters > summary { cursor: pointer; font-size: 16px; color: var(--muted); min-height: var(--tap); display: flex; align-items: center; }
+.morefilters .filters { margin-top: 4px; }
+.sheetbody { padding: 18px; }
+.detail .nm { font-size: 24px; }
+.detail td { padding: 8px 8px; font-size: 16px; }
+.pcat h3 { font-size: 17px; margin: 20px 0 8px; padding-bottom: 6px; }
+.pfam { flex-direction: column; gap: 6px; padding: 8px 0; }
+.pfam .plabel { width: auto; font-size: 15px; padding-top: 0; }
+.pick { min-height: 48px; font-size: 16.5px; padding: 8px 14px; gap: 10px; border-radius: 24px; }
+.sticky { bottom: -18px; padding: 14px 0; gap: 12px; }
+.sticky button { flex: 1; }
+.toast { bottom: 100px; font-size: 17px; padding: 14px 18px; border-radius: 14px; display: flex; gap: 14px; align-items: center; justify-content: center; flex-wrap: wrap; }
+.dlg p { font-size: 17px; }
+.dlgbtns { gap: 12px; }
+
+/* bottom bar: big Save, secondary Start the game, small Revert */
+.savebar { padding: 12px 16px; gap: 12px; justify-content: stretch; }
+.savebar button { min-height: 58px; }
+.savebar #save { flex: 2; font-size: 20px; }
+.savebar #play { flex: 1.2; font-size: 17px; }
+.savebar #revert { flex: 0 0 auto; min-height: 44px; font-size: 14px; padding: 8px 12px; border-color: transparent; color: var(--muted); }
+@media (min-width: 700px) {
+  .savebar { justify-content: center; }
+  .savebar #save { flex: 0 1 260px; } .savebar #play { flex: 0 1 200px; }
+}
+
+/* phone width: at most 2 chips per row */
+@media (max-width: 600px) {
+  .item .chips, .item .pws { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .item .chips .chip, .item .pws .pc { white-space: normal; min-width: 0; }
+  .item .pws .pc { border-radius: 6px; padding: 5px 10px; }
+  .item { flex-wrap: wrap; }
+  .item .side { flex-direction: row; width: 100%; justify-content: space-between; }
+  .item .side:empty { display: none; }
+  .hero .hstats { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+/* Windows / wide: the same design scaled up */
+@media (min-width: 900px) {
+  html, body { font-size: 19px; }
+  main { max-width: 1000px; }
+  .item .nm { font-size: 20px; }
+  .sheetbody { max-width: 760px; }
+}
+.pgrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+.pgrid .pick { border-radius: 14px; }
+@media (min-width: 700px) { .pgrid { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+.toast { width: max-content; max-width: min(560px, calc(100vw - 32px)); }
+.savebar #play { white-space: nowrap; padding: 12px 8px; font-size: 16px; }

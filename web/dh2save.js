@@ -496,6 +496,38 @@
         return "this combination of " + n + " bonus(es) cannot drop on this item in the original game";
     };
 
+    // Class preferences for the bonuses pre-ticked when an item is added (a suggestion the owner can change).
+    // Bonus families (power key without tier/difficulty), most wanted first; every other family follows by its value.
+    const CLASS_PREFS = {
+        Knight: ["Strength", "Endurance", "HP", "Damage", "Armor", "DR", "AllStats", "Block", "ResistAll", "LifeLeech"],
+        Rogue: ["Dexterity", "Critical", "Damage", "AR", "FireDamage", "AirDamage", "ElectricalDamage", "WaterDamage", "EarthDamage", "Dodge", "AllStats"],
+        Mage: ["Energy", "MP", "MPRegen", "FireDamage", "AirDamage", "ElectricalDamage", "WaterDamage", "EarthDamage", "Critical", "SpellBonusDamageAll", "ItemPowerSpellCritical"],
+    };
+    ItemData.CLASS_PREFS = CLASS_PREFS;
+    ItemData.prototype.classKind = function (cls) { const m = /^(Knight|Rogue|Mage)PlayerBase/.exec(cls || ""); return m ? m[1] : null; };
+    // Bonuses for a new item of this hero class: the strongest tier of each bonus, as many as the item's loot rules allow
+    // (largest valid count over the loot sources), taken in the class's preference order, then by value. Always a set that
+    // checkPowers accepts (or [] when the item has no bonuses).
+    ItemData.prototype.classPick = function (itemId, cls) {
+        const prefs = CLASS_PREFS[this.classKind(cls)] || [];
+        const self = this, best = this.bestOf(itemId);
+        const rank = (p) => { const i = prefs.indexOf(self.powerInfo(p).family); return i < 0 ? prefs.length : i; };
+        const order = best.strongest.slice().sort((a, b) => rank(a) - rank(b) || self.powerValue(b) - self.powerValue(a) || a - b);
+        let out = [];
+        for (const c of best.choices) {
+            const max = Math.max.apply(null, c.counts.map((n) => Math.min(n, c.powers.length)));
+            if (max <= out.length) continue;
+            const cand = order.filter((p) => c.powers.indexOf(p) >= 0);
+            const pick = [];
+            for (const p of cand) if (pick.length < max && pick.every((q) => !self.clashes(p, q))) pick.push(p);
+            for (let n = pick.length; n > out.length; n--) {
+                const set = pick.slice(0, n);
+                if (this.checkPowers(itemId, set) === null) { out = set; break; }
+            }
+        }
+        return out;
+    };
+
     // ItemInstance::AddPower insertion order (ids swap, the SortingOrder values stay where they were pushed).
     ItemData.prototype.orderPowers = function (powerIds) {
         const ids = [], vals = [];

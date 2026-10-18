@@ -54,12 +54,14 @@ ORGANISED LISTS
     level, the four attributes, class). Hero attributes = the class's starting values + points spent (from the save) +
     bonuses of the items equipped in the active set; they match the game's Stats screen. Skill/potion buffs are not
     in the save and not counted. "only items the hero can use" filters the catalog.
-  * Bonus picker (simple): no pool or power-level choice. The editor uses the strongest loot source the game has for the
-    item (highest "power level 0X" pool, then the largest bonus count, then the biggest values) and shows each bonus type
-    only in its strongest tier (e.g. only "+8 to strength"), grouped by category, with a search box. "Advanced > Show all
-    tiers" (off by default) lists the weaker versions too. Editing an item raises its bonuses to the strongest tier when
-    the game can drop that combination (a line says so), else keeps them.
-    Only combinations the game can drop can be picked (same loot-rule checks as before).
+  * Add item in 2 taps: search (or open a set / slot group) and tap an item. It is added at once to the bag with bonuses
+    pre-ticked for the hero's class: the strongest tier of each bonus, as many as the item's loot rules allow, only
+    combinations the game can drop. Class preferences (web/dh2save.js, CLASS_PREFS), then the biggest values:
+      Warrior (Knight, Berserker, Paladin): Strength, Endurance, Life (HP), Damage %, Armour, Defence rating, All attributes, Block
+      Rogue (Assassin, Archer): Dexterity, Critical, Damage %, Attack rating, Fire/Air/Lightning/Water/Earth damage, Dodge
+      Mage (Necromancer, Illusionist): Energy, Mana (MP), Mana regeneration, elemental damage, Critical, spell damage
+    A toast "Added <name> - Edit bonuses" opens the edit screen to change the picks. Only the strongest tier of each bonus
+    is ever shown (no weaker tiers).
   * Edit an item you have (also equipped ones): tap it, "Edit bonuses". Same picker and checks; the item keeps its row,
     equipment slot and quantity, the value is recomputed like a new drop, and a Before / After table shows the change.
     Checked in the reconstructed game: an edited equipped helm shows its new bonuses and the Stats screen changes.

@@ -151,5 +151,34 @@ if (first) {
     if (sw.indexOf("Strength_03") < 0 || sw.some((k) => /^Strength_0[12]$/.test(k))) fail("BattleAxe04 strength tier " + sw.filter((k) => /^Strength/.test(k)));
     if (data.strongestOf(data.itemByKey.BattleAxe04, data.powerByKey.Strength_02) !== data.powerByKey.Strength_03) fail("strongestOf");
 }
+// class pre-tick of a new item (Added item: bonuses suited to the hero's class)
+{
+    const CL = { Warrior: "KnightPlayerBase_Berserker", Rogue: "RoguePlayerBase_Assassin", Mage: "MagePlayerBase" };
+    let n = 0;
+    for (const it of data.items) {
+        if (!data.canAdd(it.id)) continue;
+        const b = data.bestOf(it.id);
+        const maxAll = b.choices.length ? Math.max.apply(null, b.choices.map((c) => Math.max.apply(null, c.counts.map((k) => Math.min(k, c.powers.length))))) : 0;
+        for (const cls of Object.values(CL)) {
+            const pick = data.classPick(it.id, cls);
+            if (pick.length && data.checkPowers(it.id, pick) !== null) fail("classPick invalid on " + it.key);
+            if (pick.some((p) => b.strongest.indexOf(p) < 0)) fail("classPick has a weaker tier on " + it.key);
+            if (pick.length > maxAll) fail("classPick too many on " + it.key);
+            if (maxAll >= 4 && pick.length < 3) fail("classPick too few on " + it.key + ": " + pick.length + "/" + maxAll);
+        }
+        n++;
+    }
+    const keys = (id, cls) => data.classPick(data.itemByKey[id], cls).map((p) => data.powerInfo(p).family);
+    const has = (a, f) => f.some((x) => a.indexOf(x) >= 0);
+    for (const id of ["BattleAxe04", "PlateArmor03", "Ring01", "Staff01", "Claw08"]) {
+        const w = keys(id, CL.Warrior), r = keys(id, CL.Rogue), m = keys(id, CL.Mage);
+        if (!has(w, ["Strength", "Endurance", "HP"])) fail("Warrior pick of " + id + ": " + w);
+        if (!has(r, ["Dexterity", "Critical"])) fail("Rogue pick of " + id + ": " + r);
+        if (!has(m, ["Energy", "MP", "MPRegen"])) fail("Mage pick of " + id + ": " + m);
+        if (has(w, ["Energy", "MPRegen"]) || has(m, ["Strength", "Dexterity"])) fail("class mixup on " + id);
+        console.log(id + ": Warrior " + w + " | Rogue " + r + " | Mage " + m);
+    }
+    console.log("class pre-tick checked on " + n + " items");
+}
 console.log(fails ? fails + " failure(s)" : "all checks passed");
 process.exit(fails ? 1 : 0);

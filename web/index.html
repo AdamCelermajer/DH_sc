@@ -17,7 +17,7 @@
   <!-- open a save -->
   <section id="files" class="panel">
     <h2>Open a save</h2>
-    <div id="hostnote" class="muted"></div>
+    <div id="hostnote"></div>
     <div id="sources"></div>
     <div id="savelist"></div>
   </section>
@@ -30,12 +30,10 @@
         <label for="gold">Gold</label>
         <div class="row"><input id="gold" type="number" min="0" step="1" inputmode="numeric">
           <button data-add="5000" class="small">+5000</button></div>
-        <div class="muted" id="goldnote"></div>
       </div>
       <div class="box">
         <label for="potions">Potions</label>
         <div class="row"><input id="potions" type="number" min="0" step="1" inputmode="numeric" class="wide"></div>
-        <div class="muted" id="potionnote"></div>
       </div>
     </div>
     <div class="row tabs">
@@ -49,19 +47,22 @@
     <div id="add" class="hidden">
       <div class="filters">
         <input id="q" type="search" placeholder="search name">
-        <select id="ftype"><option value="">all types</option></select>
-        <select id="frar"><option value="">any rarity</option></select>
-        <input id="fmin" type="number" placeholder="min lvl" min="0">
-        <input id="fmax" type="number" placeholder="max lvl" min="0">
-        <select id="fdiff"><option value="">all difficulties</option><option>Normal</option><option>Hard</option><option>Very Hard</option></select>
-        <label class="chk"><input id="fuse" type="checkbox"> only items the hero can use</label>
+        <label class="chk"><input id="fuse" type="checkbox"> only usable by the hero</label>
+        <details class="morefilters"><summary>Filters</summary>
+          <div class="filters">
+            <select id="ftype"><option value="">all types</option></select>
+            <select id="frar"><option value="">any rarity</option></select>
+            <input id="fmin" type="number" placeholder="min lvl" min="0">
+            <input id="fmax" type="number" placeholder="max lvl" min="0">
+            <select id="fdiff"><option value="">all difficulties</option><option>Normal</option><option>Hard</option><option>Very Hard</option></select>
+          </div>
+        </details>
       </div>
       <div id="catalog"></div>
     </div>
     <div class="savebar">
-      <span id="dirty" class="muted"></span>
-      <button id="play" class="hidden">Start the game</button>
       <button id="revert" class="ghost">Revert</button>
+      <button id="play" class="hidden">Start the game</button>
       <button id="save" class="primary">Save</button>
     </div>
   </section>

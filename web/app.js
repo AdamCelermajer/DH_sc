@@ -52,7 +52,7 @@
     // ------------------------------------------------------------ open
     function showFiles() {
         $("files").classList.remove("hidden"); $("editor").classList.add("hidden");
-        $("hostnote").textContent = host.note;
+        $("hostnote").textContent = "";
         host.locations().then((locs) => {
             const box = $("sources"); box.innerHTML = "";
             locs.forEach((l) => {
@@ -76,7 +76,7 @@
             if (host.kind === "android") {
                 host.listSaves("game").then(listSaves).catch(fail);
                 host.gameRunning().then((on) => {
-                    if (on) $("hostnote").innerHTML = '<span class="err">The game is running.</span> You can look at and change the save; when you press Save the editor asks you before it stops the game.';
+                    if (on) $("hostnote").innerHTML = '<span class="err">The game is running.</span>';
                 }).catch(() => {});
             }
         }).catch(fail);
@@ -103,7 +103,7 @@
     }
 
     // ------------------------------------------------------------ editor
-    function setDirty(v) { st.dirty = v; if (window.AndroidHost && window.AndroidHost.setDirty) window.AndroidHost.setDirty(!!v); $("dirty").textContent = v ? "unsaved changes" : "no changes"; $("save").disabled = !v; $("revert").disabled = !v; }
+    function setDirty(v) { st.dirty = v; if (window.AndroidHost && window.AndroidHost.setDirty) window.AndroidHost.setDirty(!!v); $("save").disabled = !v; $("revert").disabled = !v; }
     const ATTR = ["Str", "Dex", "End", "Ene"];
     function render() {
         if (!st.save) return;
@@ -114,15 +114,10 @@
         if (hk !== memo.heroKey) { memo.heroKey = hk; memo.cant.clear(); }
         $("hero").innerHTML = '<div class="hname"><b>' + esc(info.name || "?") + '</b><span class="hcls">' + esc(data.heroClassLabel(h.cls)) + '</span><span class="tag lvl">Level ' + esc(h.level) + "</span></div>" +
             '<div class="hstats">' + ATTR.map((a, i) => '<span class="chip st">' + a + " <b>" + h.attrs[i] + "</b></span>").join("") +
-            '<span class="chip bag">' + g.items.length + " / " + DH2.MAX_ITEMS + " items</span></div>" +
-            '<div class="muted">Attributes = ' + (h.startKnown ? "the class's starting values" : "<span class=err>class starting values unknown (counted as 0)</span>") +
-            " + points spent + bonuses of the items equipped in set " + (g.equipSet + 1) + " (as the game's Stats screen; skill and potion buffs are not in the save).</div>";
+            '<span class="chip bag">' + g.items.length + " / " + DH2.MAX_ITEMS + " items</span></div>" + (h.startKnown ? "" : '<div class="err">class values unknown</div>');
         $("gold").value = g.gold;
-        $("goldnote").textContent = "0 .. " + DH2.MAX_GOLD.toLocaleString() + " (the game's gold limit)";
         const pi = DH2.potionIndex(st.save, data);
         $("potions").value = pi >= 0 ? g.items[pi].qty : 0;
-        $("potionnote").textContent = "Any whole number 0 .. " + DH2.MAX_POTIONS.toLocaleString() + " (the save keeps the count as a 32-bit number). " +
-            data.text(data.itemByKey.Potion0)[0] + "; a new hero starts with " + DH2.DEFAULT_POTION_CAP + ".";
         renderInventory();
         if (!$("add").classList.contains("hidden")) renderCatalog();
         setDirty(st.dirty);
@@ -181,7 +176,7 @@
         const chips = statChips(d) + reqChips(d, bad);
         if (chips) h += '<div class="chips">' + chips + "</div>";
         if (d.powers.length) h += '<div class="pws">' + powerChips(d) + "</div>";
-        if (bad) h += '<div class="why">Hero cannot use: ' + esc(why.join(", ")) + "</div>";
+        if (bad) h += '<div class="why">cannot use: ' + esc(why.join(", ")) + "</div>";
         return h + '</div><div class="side"><span class="rar">' + esc(d.rarity.name) + '</span><span class="ty">' + esc(typeShort(d.id)) + "</span></div></div>";
     }
 
@@ -194,11 +189,10 @@
         const it = data.items[id];
         if (mode === "set") {
             const s = data.setOf(id);
-            if (s) g = { key: s.key, label: s.name + " set", order: 0, cls: s.game ? "gset" : "",
-                sub: s.game ? "game armour set: all five pieces give the trophy &laquo;" + esc(s.trophy) + "&raquo;" : "same-name " + s.material.toLowerCase() + " armour, no set bonus" };
+            if (s) g = { key: s.key, label: s.name + " set", order: 0, cls: s.game ? "gset" : "", sub: "" };
         }
         if (!g) g = mode === "none" ? { key: "all", label: "All items", order: 0, sub: "" } :
-            { key: "type:" + it.type, label: data.typeLabel(it.type), order: 1 + data.pieceOrder(id), sub: esc(data.typeName[it.type] || "") };
+            { key: "type:" + it.type, label: data.typeLabel(it.type), order: 1 + data.pieceOrder(id), sub: "" };
         memo.grp.set(ck, g);
         return g;
     }
@@ -270,10 +264,10 @@
             (e.slot >= 0 ? eq : bag).push(e);
         });
         eq.sort((a, b) => SLOT_ORDER.indexOf(a.slot) - SLOT_ORDER.indexOf(b.slot) || a.id - b.id);
-        const EQ = { key: "equipped", label: "Equipped", order: -1, cls: "eq", sorted: true, openDefault: true, sub: "set " + (set + 1) + " &middot; what the hero wears" };
+        const EQ = { key: "equipped", label: "Equipped", order: -1, cls: "eq", sorted: true, openDefault: true, sub: "" };
         const entries = eq.map((e) => Object.assign(e, { group: EQ }));
         const mode = groupSel.value;
-        if (mode === "none") { const BAG = { key: "bag", label: "Bag", order: 0, sorted: true, openDefault: true, sub: "in the order of the save" }; for (const e of bag) { e.group = BAG; entries.push(e); } }
+        if (mode === "none") { const BAG = { key: "bag", label: "Bag", order: 0, sorted: true, openDefault: true, sub: "" }; for (const e of bag) { e.group = BAG; entries.push(e); } }
         else for (const e of bag) entries.push(e);
         if (!eq.length) box.innerHTML = '<div class="count">Nothing equipped.</div>';
         renderGroups(box, entries, mode, "inv", bag.length <= 40);
@@ -286,18 +280,16 @@
         const r = (k, v) => { if (v !== "" && v != null) rows.push("<tr><td>" + esc(k) + "</td><td>" + v + "</td></tr>"); };
         const why = cannotUse(d.id);
         r("Type", esc(typeShort(d.id)) + ' <span class="muted">' + esc(d.type) + (d.slotting && d.slotting !== "none" ? " (" + esc(d.slotting) + ")" : "") + "</span>");
-        r("Rarity", '<span class="rar" style="--rc:' + d.rarity.rgb + '">' + esc(d.rarity.name) + '</span> <span class="muted">(the game colours names by the number of bonuses: ' + d.rarity.powers + ")</span>");
+        r("Rarity", '<span class="rar" style="--rc:' + d.rarity.rgb + '">' + esc(d.rarity.name) + "</span>");
         if (d.level) r("Level requirement", String(d.level));
         r("Stats", text(d.stats));
         r("Requirements", text(d.reqs));
-        if (why.length) r("Hero", '<span class="err">cannot use it: ' + esc(why.join(", ")) + "</span>");
-        else if (d.reqs) r("Hero", '<span class="ok">meets the requirements</span>');
+        if (why.length) r("Hero", '<span class="err">cannot use: ' + esc(why.join(", ")) + "</span>");
         r("Difficulty row", esc(d.difficulty));
         const s = data.setOf(d.id);
-        if (s) r(s.game ? "Armour set" : "Armour family", esc(s.name) + ' <span class="muted">(' + (s.game ? "all five pieces: trophy " + esc(s.trophy) : "same-name pieces, no set bonus") + ")</span>");
-        r("Item value", d.value + ' <span class="muted">(the base of all prices; the game&#39;s Transmute box shows the gold for this hero)</span>');
-        r("Sell price", d.prices.sellMin === d.prices.sellMax ? String(d.prices.sellMin) : d.prices.sellMin + " - " + d.prices.sellMax +
-            ' <span class="muted">(merchants buy at ' + d.prices.buyPctMin + "-" + d.prices.buyPctMax + "% of value)</span>");
+        if (s) r(s.game ? "Armour set" : "Armour family", esc(s.name));
+        r("Item value", String(d.value));
+        r("Sell price", d.prices.sellMin === d.prices.sellMax ? String(d.prices.sellMin) : d.prices.sellMin + " - " + d.prices.sellMax);
         if (it) {
             if (it.slot0 >= 0 || it.slot1 >= 0) r("Equipped", [it.slot0 >= 0 ? "set 1: " + slotLabel(it.slot0) : "", it.slot1 >= 0 ? "set 2: " + slotLabel(it.slot1) : ""].filter(Boolean).join(", "));
             r("Quantity", String(it.qty));
@@ -318,12 +310,10 @@
         if (d.stackable && data.items[d.id].type !== 14) {
             h += '<div class="box"><label>Quantity</label><div class="row"><input id="qty" type="number" min="1" max="' + data.maxQty + '" value="' + it.qty + '"><button id="setqty">Set</button></div></div>';
         }
-        if (data.items[d.id].type === 14) h += '<div class="muted">Potions are changed with the Potions box above.</div>';
         h += '<div class="row" style="margin-top:12px"><button id="close">Close</button>';
         if (data.canAdd(d.id)) h += '<button id="editp" class="primary">Edit bonuses</button>';
         if (data.items[d.id].type !== 14) h += '<button id="remove" class="danger">Remove from inventory</button>';
         h += "</div>";
-        if (it.slot0 >= 0 || it.slot1 >= 0) h += '<div class="muted">This item is equipped. Removing it leaves the slot empty.</div>';
         h += "</div>";
         openSheet(h);
         $("close").onclick = closeSheet;
@@ -386,7 +376,7 @@
             out.push(r);
         }
         const box = $("catalog"); box._groups = {};
-        box.innerHTML = '<div class="count">' + out.length + " items the game can drop" + (fu ? " that the hero can use" : "") + "</div>";
+        box.innerHTML = '<div class="count">' + out.length + " items</div>";
         const mk = (r) => () => rowHtml(r.d, { attr: ' data-id="' + r.id + '"', tags: '<span class="tag">up to ' + r.max + " bonus" + (r.max === 1 ? "" : "es") + "</span>" +
             (r.diff !== "Normal" ? '<span class="tag d' + (r.diff === "Hard" ? 1 : 2) + '">' + r.diff + "</span>" : "") });
         if (groupSel.value !== "none") { renderGroups(box, out.map((r) => ({ id: r.id, html: mk(r) })), groupSel.value, "cat", out.length <= 30); return; }
@@ -396,7 +386,7 @@
         if (out.length > catLimit) h += '<div class="more"><button data-more>Show more (' + (out.length - catLimit) + " left)</button></div>";
         box.insertAdjacentHTML("beforeend", h);
     }
-    groupsBox($("catalog"), (row) => { if (row.dataset.id !== undefined) builder(+row.dataset.id); });
+    groupsBox($("catalog"), (row) => { if (row.dataset.id !== undefined) addItem(+row.dataset.id); });
     $("catalog").addEventListener("click", (ev) => { if (ev.target.hasAttribute("data-more")) { catLimit += 100; renderCatalog(); } });
     let qTimer = 0;
     const refilter = () => { clearTimeout(qTimer); qTimer = 0; catLimit = 60; renderCatalog(); };
@@ -406,21 +396,23 @@
     $("tab-inv").onclick = () => { $("tab-inv").classList.add("on"); $("tab-add").classList.remove("on"); $("inv").classList.remove("hidden"); $("add").classList.add("hidden"); };
     $("tab-add").onclick = () => { $("tab-add").classList.add("on"); $("tab-inv").classList.remove("on"); $("add").classList.remove("hidden"); $("inv").classList.add("hidden"); renderCatalog(); };
 
-    // Before / after table of an edited item (what the game will show and store).
-    function compareHtml(a, z, entry) {
-        const pw = (d) => d.powers.length ? d.powers.map((p) => '<span class="' + powerClass(p.id) + '">' + oneLine(p.text) + "</span>").join(" ") : '<span class="muted">none</span>';
-        const price = (d) => d.prices.sellMin === d.prices.sellMax ? String(d.prices.sellMin) : d.prices.sellMin + " - " + d.prices.sellMax;
-        const row = (k, x, y) => "<tr><td>" + esc(k) + "</td><td>" + x + "</td><td" + (x !== y ? ' class="chg"' : "") + ">" + y + "</td></tr>";
-        const nm = (d) => '<span class="rar" style="--rc:' + d.rarity.rgb + '">' + esc(d.rarity.name) + "</span>";
-        return '<table class="cmp"><tr><th></th><th>Before</th><th>After</th></tr>' + row("Rarity", nm(a), nm(z)) + row("Bonuses", pw(a), pw(z)) +
-            row("Stats", oneLine(a.stats), oneLine(z.stats)) + row("Item value", String(a.value), String(z.value)) + row("Sell price", price(a), price(z)) +
-            row("Equipped", entry.slot0 >= 0 || entry.slot1 >= 0 ? "yes" : "no", entry.slot0 >= 0 || entry.slot1 >= 0 ? "yes" : "no") +
-            row("Quantity", String(entry.qty), String(entry.qty)) + "</table>";
+    // ------------------------------------------------------------ add (2 taps) and edit bonuses
+    // Tapping an item in "Add item" adds it at once with bonuses pre-ticked for the hero's class (DH2.ItemData.classPick:
+    // strongest tier, as many as the loot rules allow). The toast then offers "Edit bonuses" = the builder below on that entry.
+    function addItem(itemId) {
+        if (st.save.gear.items.length >= DH2.MAX_ITEMS) return fail(new Error("Inventory full (" + DH2.MAX_ITEMS + ")"));
+        const powers = data.classPick(itemId, st.hero.cls);
+        st.save.gear.items.push(data.newEntry(itemId, powers, 1));
+        const idx = st.save.gear.items.length - 1;
+        setDirty(true); renderInventory();
+        const bag = document.querySelector("#hero .chip.bag"); if (bag) bag.textContent = st.save.gear.items.length + " / " + DH2.MAX_ITEMS + " items";
+        const name = esc(data.describe(itemId, [], 0).name || data.items[itemId].key);
+        toast("Added " + name + ' - <button id="toastedit" class="small">Edit bonuses</button>', 8000);
+        $("toastedit").onclick = () => { $("toast").classList.add("hidden"); builder(itemId, idx); };
     }
 
-    // ------------------------------------------------------------ item builder
-    // The strongest loot source of the row is used automatically; the picker shows the strongest tier of every bonus type, grouped by category.
-    // editIdx: index of an inventory entry whose bonuses are edited (same row, slots, quantity; new powers and value).
+    // Edit the bonuses of an inventory entry (same row, slots, quantity; new powers and value). The picker shows the strongest
+    // tier of every bonus type of the item's strongest loot source, grouped by category.
     function builder(itemId, editIdx) {
         const editing = editIdx !== undefined ? st.save.gear.items[editIdx] : null;
         const best = data.bestOf(itemId);
@@ -429,80 +421,67 @@
         // sources that can hold all of these bonuses, strongest first
         const fitting = (set) => choices.filter((c) => set.length <= maxOf(c) && set.every((p) => c.powers.indexOf(p) >= 0));
         const orig = editing ? editing.powers.map((k) => data.powerByKey[k]).filter((p) => p !== undefined) : [];
-        const b = { picked: orig, q: "", all: false, note: "", extra: [] };
+        const b = { picked: orig, q: "", extra: [] };
         if (editing && orig.length) {
             const up = orig.map((p) => data.strongestOf(itemId, p));
             if (up.some((p, i) => p !== orig[i])) {
-                if (new Set(up).size === up.length && data.checkPowers(itemId, up) === null) { b.picked = up; b.note = "Bonuses raised to their strongest tier."; }
-                else { b.extra = orig.filter((p) => best.strongest.indexOf(p) < 0); b.note = "Kept your current bonuses: their strongest tiers cannot drop together on this item."; }
+                if (new Set(up).size === up.length && data.checkPowers(itemId, up) === null) b.picked = up;
+                else b.extra = orig.filter((p) => best.strongest.indexOf(p) < 0);
             }
         }
         const groupsMemo = {};
-        function groupsFor(all, extra) {
-            const key = all ? "all" : "top" + extra.join(",");
+        function groupsFor(extra) {
+            const key = extra.join(",");
             if (groupsMemo[key]) return groupsMemo[key];
-            const pool = all ? [].concat.apply([], choices.map((c) => c.powers)) : best.strongest.concat(extra);
             const cats = {}, seenP = {};
-            for (const p of pool) {
+            for (const p of best.strongest.concat(extra)) {
                 if (seenP[p]) continue; seenP[p] = 1;
                 const pi = data.powerInfo(p);
                 const c = cats[pi.category] = cats[pi.category] || {};
                 (c[pi.label] = c[pi.label] || []).push({ p: p, pi: pi });
             }
-            for (const cat in cats) for (const l in cats[cat]) cats[cat][l].sort((x, y) => x.pi.tier - y.pi.tier);
             return (groupsMemo[key] = cats);
         }
         function pickerHtml() {
-            const cats = groupsFor(b.all, b.extra);
+            const cats = groupsFor(b.extra);
             let h = "";
             for (const cat of data.categories()) {
                 if (!cats[cat]) continue;
                 h += '<div class="pcat pc-' + (CAT_CLASS[cat] || "other") + '"><h3>' + esc(cat) + "</h3>";
+                h += '<div class="pgrid">';
                 for (const label of Object.keys(cats[cat])) {
-                    const rows = cats[cat][label];
-                    const all = (label + " " + rows.map((r) => data.powerText(r.p) + " " + data.powers[r.p].key).join(" ")).toLowerCase();
-                    h += '<div class="pfam" data-text="' + esc(all) + '"><div class="plabel">' + esc(label) + "</div><div class=\"chips\">";
-                    for (const r of rows) {
+                    for (const r of cats[cat][label]) {
                         const p = r.p, on = b.picked.indexOf(p) >= 0;
                         const clash = b.picked.find((q) => q !== p && data.clashes(p, q));
                         const blocked = !on && (clash !== undefined || !fitting(b.picked.concat([p])).length);
-                        const why = !blocked ? "" : clash !== undefined ? "cannot be combined with " + data.powerText(clash) : "the game never gives this together with your picks";
-                        h += '<label class="pick' + (on ? " on" : "") + (blocked ? " off" : "") + '" title="' + esc(why || data.powers[p].key) + '"><input type="checkbox" data-p="' + p + '"' +
-                            (on ? " checked" : "") + (blocked ? " disabled" : "") + ">" + (b.all && r.pi.tier ? '<span class="tier">L' + String(r.pi.tier).padStart(2, "0") + (r.pi.difficulty ? " " + esc(r.pi.difficulty) : "") + "</span>" : "") +
-                            esc(data.powerText(p)) + "</label>";
+                        h += '<label class="pick' + (on ? " on" : "") + (blocked ? " off" : "") + '" data-text="' + esc((label + " " + data.powerText(p) + " " + data.powers[p].key).toLowerCase()) +
+                            '"><input type="checkbox" data-p="' + p + '"' + (on ? " checked" : "") + (blocked ? " disabled" : "") + ">" + esc(data.powerText(p)) + "</label>";
                     }
-                    h += "</div></div>";
                 }
+                h += "</div>";
                 h += "</div>";
             }
             return h;
         }
         function applySearch() {
             const q = b.q.trim().toLowerCase();
-            document.querySelectorAll(".pfam").forEach((el) => { el.style.display = !q || el.dataset.text.indexOf(q) >= 0 ? "" : "none"; });
-            document.querySelectorAll(".pcat").forEach((el) => { el.style.display = [...el.querySelectorAll(".pfam")].some((f) => f.style.display !== "none") ? "" : "none"; });
+            document.querySelectorAll(".pick").forEach((el) => { el.style.display = !q || el.dataset.text.indexOf(q) >= 0 ? "" : "none"; });
+            document.querySelectorAll(".pcat").forEach((el) => { el.style.display = [...el.querySelectorAll(".pick")].some((f) => f.style.display !== "none") ? "" : "none"; });
         }
         function draw() {
-            const fit = fitting(b.picked);
-            const o = fit.length ? fit[0] : choices[0];
             const value = data.lootValue(itemId, b.picked);
             const d = data.describe(itemId, data.orderPowers(b.picked), value);
             const err = data.checkPowers(itemId, b.picked);
             let h = '<div class="detail">' + (editing ? '<h2>Edit bonuses</h2>' : "") + '<div class="preview">' + rowHtml(d, {}) + "</div>";
-            h += '<div class="muted">Strongest bonuses of this item, up to ' + maxOf(o) + " at once. Greyed ones cannot go with what you picked." + (b.note ? " " + esc(b.note) : "") + "</div>";
-            h += '<div class="row" style="margin:8px 0"><input id="psearch" type="search" placeholder="search bonuses (e.g. strength, fire, crit)" style="flex:1" value="' + esc(b.q) + '">' +
-                '<span class="muted">picked ' + b.picked.length + "</span></div>";
-            h += '<details class="alltiers"><summary class="muted">Advanced</summary><label class="muted"><input type="checkbox" id="alltiers"' + (b.all ? " checked" : "") + "> Show all tiers (weaker versions too)</label></details>";
+            h += '<div class="row" style="margin:10px 0"><input id="psearch" type="search" placeholder="search bonuses" style="flex:1" value="' + esc(b.q) + '">' +
+                '<span class="muted">' + b.picked.length + "</span></div>";
             h += '<div id="picker">' + pickerHtml() + "</div>";
-            if (editing) h += "<h2>Before and after</h2>" + compareHtml(entryDesc(editing), d, editing);
-            else h += "<h2>Result</h2>" + detailTable(d, null) + "<h2>Bonuses</h2>" + powersHtml(d);
-            h += '<div class="' + (err ? "err" : "ok") + '">' + (err ? esc(err) : "The original game can drop exactly this item.") + "</div>";
+            if (err) h += '<div class="err">' + esc(err) + "</div>";
             const full = !editing && st.save.gear.items.length >= DH2.MAX_ITEMS;
-            if (full) h += '<div class="err">The inventory is full (100 items).</div>';
-            h += '<div class="row sticky"><button id="close">Cancel</button><button id="addit" class="primary"' + (err || full ? " disabled" : "") + ">" + (editing ? "Apply changes" : "Add to inventory") + "</button></div></div>";
+            if (full) h += '<div class="err">Inventory full (' + DH2.MAX_ITEMS + ")</div>";
+            h += '<div class="row sticky"><button id="close">Cancel</button><button id="addit" class="primary"' + (err || full ? " disabled" : "") + ">" + (editing ? "Apply" : "Add") + "</button></div></div>";
             openSheet(h);
             $("close").onclick = closeSheet;
-            $("alltiers").onchange = () => { b.all = $("alltiers").checked; const top = $("sheetbody").scrollTop; draw(); $("alltiers").closest("details").open = true; $("sheetbody").scrollTop = top; };
             $("psearch").oninput = () => { b.q = $("psearch").value; applySearch(); };
             applySearch();
             $("picker").onchange = (ev) => {
@@ -516,11 +495,11 @@
                 if (editing) {
                     try { st.save.gear.items[editIdx] = data.editEntry(editing, b.picked); } catch (e) { return fail(e); }
                     closeSheet(); setDirty(true); render();
-                    return toast("Changed " + esc(d.name) + ". Press Save to write the file.");
+                    return toast("Changed " + esc(d.name));
                 }
                 st.save.gear.items.push(data.newEntry(itemId, b.picked, 1));
                 closeSheet(); setDirty(true); render();
-                toast("Added " + esc(d.name) + ". Press Save to write the file.");
+                toast("Added " + esc(d.name));
             };
         }
         draw();
@@ -534,9 +513,7 @@
         let running = false;
         try { running = await host.gameRunning(); } catch (e) { running = false; }
         if (!running) return true;
-        const v = await ask("<h2>The game is running</h2><p>The game is running. Unsaved progress in the game will be lost. Stop the game and save?</p>" +
-            '<p class="muted">The game keeps your hero in memory and would write over the edited save. Stopping it is the same as swiping it away from the recent apps: ' +
-            "what you did since the game last saved is lost. After saving you can start the game again.</p>",
+        const v = await ask("<h2>The game is running</h2><p>The game is running. Unsaved progress in the game will be lost. Stop the game and save?</p>",
             [["Cancel", ""], ["Stop the game and save", "stop", "danger"]]);
         if (v !== "stop") return false;
         await host.stopGame();
@@ -577,7 +554,7 @@
     };
 
     // used by the automated proof scripts
-    window.DH2App = { state: st, data: data, open: open, render: render, builder: builder, showItem: showItem, renderCatalog: renderCatalog,
+    window.DH2App = { state: st, data: data, open: open, render: render, builder: builder, addItem: addItem, showItem: showItem, renderCatalog: renderCatalog,
         openGroup: (det) => { det.open = true; fillGroup(det); } };
     showFiles();
 })();
