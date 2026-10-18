@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>DH2 Save Editor</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="title">DH2 Save Editor</div>
+  <div id="fileinfo" class="muted">no save open</div>
+  <select id="lang" title="Text language (the game's own text packs)"></select>
+</header>
+
+<main>
+  <!-- open a save -->
+  <section id="files" class="panel">
+    <h2>Open a save</h2>
+    <div id="hostnote" class="muted"></div>
+    <div id="sources"></div>
+    <div id="savelist"></div>
+  </section>
+
+  <!-- editor -->
+  <section id="editor" class="panel hidden">
+    <div class="row hero" id="hero"></div>
+    <div class="grid2">
+      <div class="box">
+        <label for="gold">Gold</label>
+        <div class="row"><input id="gold" type="number" min="0" step="1" inputmode="numeric">
+          <button data-add="5000" class="small">+5000</button></div>
+        <div class="muted" id="goldnote"></div>
+      </div>
+      <div class="box">
+        <label for="potions">Potions</label>
+        <div class="row"><input id="potions" type="number" min="0" step="1" inputmode="numeric"></div>
+        <div class="muted" id="potionnote"></div>
+      </div>
+    </div>
+    <div class="row tabs">
+      <button id="tab-inv" class="tab on">Inventory</button>
+      <button id="tab-add" class="tab">Add item</button>
+    </div>
+    <div id="inv"></div>
+    <div id="add" class="hidden">
+      <div class="filters">
+        <input id="q" type="search" placeholder="search name">
+        <select id="ftype"><option value="">all types</option></select>
+        <select id="frar"><option value="">any rarity</option></select>
+        <input id="fmin" type="number" placeholder="min lvl" min="0">
+        <input id="fmax" type="number" placeholder="max lvl" min="0">
+        <select id="fdiff"><option value="">all difficulties</option><option>Normal</option><option>Hard</option><option>Very Hard</option></select>
+      </div>
+      <div id="catalog"></div>
+    </div>
+    <div class="savebar">
+      <span id="dirty" class="muted"></span>
+      <button id="revert" class="ghost">Revert</button>
+      <button id="save" class="primary">Save</button>
+    </div>
+  </section>
+</main>
+
+<!-- item details / item builder -->
+<div id="sheet" class="sheet hidden"><div class="sheetbody" id="sheetbody"></div></div>
+<div id="toast" class="toast hidden"></div>
+
+<script src="itemdata.js"></script>
+<script src="dh2save.js"></script>
+<script src="host.js"></script>
+<script src="app.js"></script>
+</body>
+</html>

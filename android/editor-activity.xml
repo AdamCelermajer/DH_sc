@@ -1,0 +1,15 @@
+        <!-- DH2 Save Editor (save_editor_dh2): second launcher entry, in its own process of the game's package so it can use
+             the game's files folder and see whether the game process runs. Inserted by tools/build_modded_apk.py. -->
+        <activity
+            android:label="DH2 Save Editor"
+            android:name="com.dh2saveeditor.SaveEditorActivity"
+            android:process=":editor"
+            android:taskAffinity="com.dh2saveeditor"
+            android:theme="@android:style/Theme.Material.NoActionBar"
+            android:exported="true"
+            android:configChanges="orientation|screenSize|smallestScreenSize|screenLayout|keyboardHidden">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
